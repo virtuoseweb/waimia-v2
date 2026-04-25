@@ -1,11 +1,251 @@
 ---
-// Header · wrapper Astro · injecte la nav + lang dans l'island React
-import HeaderIsland from './Header.tsx';
-import { PRIMARY_NAV } from '../../data/sitemap';
-import { langFromPath, alternateHref } from '../../lib/i18n';
+// Header · pure Astro + <script> interne pour state
+// Refonte v3 (refactor/clean-architecture) :
+//   — Tout le HTML (nav, mega-panels, mobile sheet) est rendu par Astro côté serveur
+//   — Indexable LLM : tous les liens et labels sont dans le HTML servi
+//   — Le <script> en bas (~50 LoC) gère l'état : openKey, scrolled, mobileOpen
+//   — Plus de React island = ~6 KB JS économisés vs Header.tsx legacy
+//
+// Cf docs/07-component-patterns.md · Pattern 2 (Astro + <script> interne)
+
+import { PRIMARY_NAV, type MegaMenu, type SimpleNav } from '../../data/sitemap';
+import { langFromPath, alternateHref, t } from '../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
 const altHref = alternateHref(Astro.url.pathname, lang);
 const ctaHref = lang === 'fr' ? '/contact' : '/en/contact';
+
+// Cast utilitaire pour différencier mega-menus (cols) et simple links
+const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
 ---
-<HeaderIsland client:load nav={PRIMARY_NAV} lang={lang} alternateHref={altHref} ctaHref={ctaHref} />
+<header class="hdr" data-open="" id="hdr">
+  <div class="hdr-inner">
+    {/* Logo */}
+    <a href={lang === 'fr' ? '/' : '/en'} class="wm" aria-label="Waimia">
+      Waim<i>i</i>a
+    </a>
+
+    {/* Nav · 5 boutons (4 mega + 1 simple) */}
+    <nav class="hdr-nav" aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'}>
+      {PRIMARY_NAV.map((item) => isMega(item) ? (
+        <div class="hdr-nav-item">
+          <button
+            class="hdr-nav-trigger"
+            data-mega-trigger={item.key}
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls={`mega-${item.key}`}
+          >
+            <span>{t(item.label, lang)}</span>
+            <span class="caret" aria-hidden>▾</span>
+          </button>
+        </div>
+      ) : (
+        <div class="hdr-nav-item">
+          <a class="hdr-nav-trigger" href={item.href}>
+            <span>{t(item.label, lang)}</span>
+          </a>
+        </div>
+      ))}
+    </nav>
+
+    {/* Lang toggle + CTA + burger (mobile) */}
+    <div class="hdr-end">
+      <a href={altHref} class="lang-toggle" aria-label={lang === 'fr' ? 'Switch to English' : 'Passer en français'}>
+        <span class={lang === 'fr' ? 'on' : ''}>FR</span>
+        <span class="sep">/</span>
+        <span class={lang === 'en' ? 'on' : ''}>EN</span>
+      </a>
+      <a href={ctaHref} class="cta" data-mag="0.18">
+        {lang === 'fr' ? 'Réserver un audit' : 'Book an audit'}
+        <span aria-hidden>→</span>
+      </a>
+      <button class="burger" data-burger aria-label={lang === 'fr' ? 'Ouvrir le menu' : 'Open menu'} aria-expanded="false" aria-controls="m-sheet">
+        <i></i><i></i><i></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+{/* Mega panels · un par mega-menu · cachés par défaut, révélés par data-open du header */}
+{PRIMARY_NAV.filter(isMega).map((item) => {
+  const cols = item.cols.length === 2 ? '2' : item.cols.length === 4 ? '4' : '3';
+  return (
+    <div class="mega" data-mega-panel={item.key} id={`mega-${item.key}`} aria-hidden="true">
+      <div class="mega-inner" data-cols={cols}>
+        {item.cols.map((col) => (
+          <div class="mega-col">
+            <div class="mega-col-hd">
+              <div class="k">{t(col.kicker, lang)}</div>
+              <div class="t">{t(col.label, lang)}</div>
+            </div>
+            <ul>
+              {col.items.map((sub) => (
+                <li>
+                  <a class="mega-link" href={sub.href}>
+                    <span class="t">{t(sub.label, lang)}</span>
+                    {sub.lead && <span class="sub">{t(sub.lead, lang)}</span>}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        {item.featured && (
+          <div class="mega-featured">
+            <div class="badge">{t(item.featured.kicker, lang)}</div>
+            <div class="ttl">{t(item.featured.label, lang)}</div>
+            <div class="bd">{t(item.featured.body, lang)}</div>
+            <a class="img lift" href={item.featured.href} aria-hidden></a>
+            <a class="cta" href={item.featured.href}>
+              {t(item.featured.cta, lang)}
+            </a>
+          </div>
+        )}
+      </div>
+      <div class="mega-bottom">
+        <span>{t(item.lead, lang)}</span>
+        <a href={item.href}>
+          {lang === 'fr' ? `Voir le hub ${t(item.label, lang)} →` : `See the ${t(item.label, lang)} hub →`}
+        </a>
+      </div>
+    </div>
+  );
+})}
+
+{/* Scrim overlay derrière les mega panels */}
+<div class="mega-scrim" data-mega-scrim aria-hidden="true"></div>
+
+{/* Mobile sheet · accordéon des mega-menus */}
+<div class="m-sheet" id="m-sheet" data-mobile-sheet aria-hidden="true">
+  <div class="m-sheet-top">
+    <span class="wm">Waim<i>i</i>a</span>
+    <button class="m-sheet-close" data-mobile-close aria-label={lang === 'fr' ? 'Fermer' : 'Close'}>×</button>
+  </div>
+  <div class="m-sheet-body">
+    {PRIMARY_NAV.map((item, idx) => isMega(item) ? (
+      <div class="m-sheet-acc" data-acc={item.key}>
+        <button class="m-sheet-acc-head" data-acc-trigger={item.key} aria-expanded="false">
+          <span class="num">0{idx + 1}</span>
+          <span class="ttl">{t(item.label, lang)}</span>
+          <span class="plus" aria-hidden>+</span>
+        </button>
+        <div class="m-sheet-acc-body">
+          <div class="m-sheet-acc-inner">
+            {item.cols.map((col) => (
+              <div class="m-sheet-acc-col">
+                <div class="k">{t(col.kicker, lang)}</div>
+                <div class="t">{t(col.label, lang)}</div>
+                {col.items.map((sub) => (
+                  <a href={sub.href}>{t(sub.label, lang)}</a>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    ) : (
+      <a class="m-sheet-simple" href={item.href}>{t(item.label, lang)}</a>
+    ))}
+  </div>
+  <div class="m-sheet-end">
+    <a href={altHref} class="btn btn-ghost">
+      {lang === 'fr' ? 'English →' : 'Français →'}
+    </a>
+    <a href={ctaHref} class="btn btn-primary">
+      {lang === 'fr' ? 'Réserver un audit →' : 'Book an audit →'}
+    </a>
+  </div>
+</div>
+
+{/* Logique state · pas de React, un module ESM bundlé par Astro · ~1 KB */}
+<script>
+  // Refs
+  const hdr = document.getElementById('hdr');
+  if (hdr) {
+    const triggers = document.querySelectorAll<HTMLElement>('[data-mega-trigger]');
+    const panels = document.querySelectorAll<HTMLElement>('[data-mega-panel]');
+    const scrim = document.querySelector<HTMLElement>('[data-mega-scrim]');
+    const burger = document.querySelector<HTMLElement>('[data-burger]');
+    const sheet = document.querySelector<HTMLElement>('[data-mobile-sheet]');
+    const closeSheet = document.querySelector<HTMLElement>('[data-mobile-close]');
+
+    let closeTimer: number | null = null;
+    let openKey = '';
+
+    // Set/clear open mega panel
+    function setOpen(key: string) {
+      if (closeTimer) { window.clearTimeout(closeTimer); closeTimer = null; }
+      openKey = key;
+      hdr!.setAttribute('data-open', key);
+      // ARIA states
+      triggers.forEach((t) => t.setAttribute('aria-expanded', t.getAttribute('data-mega-trigger') === key ? 'true' : 'false'));
+      panels.forEach((p) => p.setAttribute('aria-hidden', p.getAttribute('data-mega-panel') === key ? 'false' : 'true'));
+      panels.forEach((p) => p.classList.toggle('is-open', p.getAttribute('data-mega-panel') === key));
+      scrim?.classList.toggle('is-open', !!key);
+      // Add is-open on the trigger's parent .hdr-nav-item for caret rotation
+      triggers.forEach((t) => t.parentElement?.classList.toggle('is-open', t.getAttribute('data-mega-trigger') === key));
+    }
+
+    function scheduleClose() {
+      if (closeTimer) window.clearTimeout(closeTimer);
+      closeTimer = window.setTimeout(() => setOpen(''), 180);
+    }
+
+    // Hover open
+    triggers.forEach((t) => {
+      const key = t.getAttribute('data-mega-trigger')!;
+      const item = t.parentElement!;
+      item.addEventListener('mouseenter', () => setOpen(key));
+      item.addEventListener('focusin', () => setOpen(key));
+      t.addEventListener('click', (e) => {
+        e.preventDefault();
+        setOpen(openKey === key ? '' : key);
+      });
+    });
+    document.querySelector('.hdr-nav')?.addEventListener('mouseleave', scheduleClose);
+    panels.forEach((p) => {
+      p.addEventListener('mouseenter', () => setOpen(p.getAttribute('data-mega-panel')!));
+      p.addEventListener('mouseleave', scheduleClose);
+    });
+
+    // Click scrim or Esc closes
+    scrim?.addEventListener('click', () => setOpen(''));
+    window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(''); });
+
+    // Scroll-state for shrink
+    const onScroll = () => hdr!.classList.toggle('is-scrolled', window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Mobile sheet toggle
+    function setSheetOpen(open: boolean) {
+      sheet?.classList.toggle('is-open', open);
+      sheet?.setAttribute('aria-hidden', open ? 'false' : 'true');
+      burger?.classList.toggle('is-open', open);
+      burger?.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    burger?.addEventListener('click', () => {
+      setSheetOpen(!sheet?.classList.contains('is-open'));
+    });
+    closeSheet?.addEventListener('click', () => setSheetOpen(false));
+
+    // Mobile accordions
+    document.querySelectorAll<HTMLElement>('[data-acc-trigger]').forEach((tr) => {
+      tr.addEventListener('click', () => {
+        const key = tr.getAttribute('data-acc-trigger')!;
+        const acc = document.querySelector(`[data-acc="${key}"]`);
+        const open = acc?.classList.toggle('is-open');
+        tr.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    });
+
+    // Close mobile sheet on link click (improves UX)
+    sheet?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setSheetOpen(false)));
+  }
+</script>
+
+{/* Styles `.mega` et `.mega.is-open` sont déjà dans src/styles/global.css.
+   Pas de <style> ici pour éviter le bug de scoping Astro qui ferait perdre
+   l'override sur la classe React-added au runtime. */}
