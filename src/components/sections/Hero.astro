@@ -1,0 +1,161 @@
+---
+// Section · Hero · Direction 1 · refonte sans kinetic morph
+// Variant : Apparatus statique · masthead newspaper + headline ancré + lede + shipments compact
+// Motion : reveal-fade au mount, parallax léger sur la masthead row uniquement
+// Mémorable : « Une couverture de revue qui clive — Revenue ops sans le théâtre. »
+
+import { langFromPath, t, localizeHref } from '../../lib/i18n';
+import { HERO_METRICS, FIELD_NOTES } from '../../data/sitemap';
+
+const lang = langFromPath(Astro.url.pathname);
+const ctaHref = localizeHref('/contact', lang);
+const platformHref = localizeHref('/technologies/claude-surfaces', lang);
+
+// Latest shipments compact — 3 derniers
+const shipmentsHead = FIELD_NOTES.slice(0, 3);
+---
+<section class="hero-a" aria-labelledby="hero-heading">
+  <div class="signature-grid"></div>
+
+  <div class="wrap-wide">
+    {/* Masthead newspaper · meta row */}
+    <div class="hero-masthead par" data-par="-0.04">
+      <span>Vol. 03 · № 01</span>
+      <span>Paris / Genève</span>
+      <span>{lang === 'fr' ? 'Bilingue FR · EN' : 'Bilingual EN · FR'}</span>
+      <span class="hero-masthead-end">
+        <span style="color:var(--accent)">◉</span>
+        {lang === 'fr' ? 'Booking T3 2026' : 'Booking Q3 2026'}
+      </span>
+    </div>
+
+    {/* Headline · ancré, statique, manifesto */}
+    <h1 id="hero-heading" class="hero-headline">
+      {lang === 'fr' ? (
+        <>
+          Les <i>opérations</i> revenue,<br />
+          refondues avec l'IA —<br />
+          sans le <i>théâtre</i>.
+        </>
+      ) : (
+        <>
+          Revenue <i>operations</i>,<br />
+          rebuilt with AI —<br />
+          without the <i>theatre</i>.
+        </>
+      )}
+    </h1>
+
+    {/* Sub-block · 2 colonnes · lede + shipments */}
+    <div class="hero-sub">
+      <div>
+        <div class="fig" style="margin-bottom:16px">§ 01 · {lang === 'fr' ? 'Lede' : 'Lede'}</div>
+        <p class="hero-lede">
+          {lang === 'fr' ? (
+            <>
+              Waimia est une <i>agence IA experte Claude</i> pour les entreprises dont le moteur revenue ne peut pas se permettre une refonte. On déploie stratégie, opérations et notre plateforme — <i>VirtuoseOS</i> — comme une seule couche continue.
+            </>
+          ) : (
+            <>
+              Waimia is a <i>Claude-native AI agency</i> for companies whose revenue engine cannot afford a rewrite. We deploy strategy, operations, and our own platform — <i>VirtuoseOS</i> — as one continuous layer.
+            </>
+          )}
+        </p>
+        <div class="hero-ctas">
+          <a href={ctaHref} class="btn btn-primary btn-lg" data-mag="0.18">
+            {lang === 'fr' ? 'Réserver 45 min →' : 'Book 45 min →'}
+          </a>
+          <a href={platformHref} class="btn btn-ghost btn-lg">
+            {lang === 'fr' ? 'Voir VirtuoseOS' : 'Meet VirtuoseOS'}
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <div class="fig" style="margin-bottom:16px">§ 02 · {lang === 'fr' ? 'Dernières livraisons' : 'Latest shipments'}</div>
+        <div class="hero-ships">
+          {shipmentsHead.map((s) => (
+            <a href={localizeHref('/ressources/blog', lang)} class="hero-ship">
+              <span class="hero-ship-date">{s.date}</span>
+              <span class="hero-ship-tag">{t(s.tag, lang)}</span>
+              <span class="hero-ship-text">{t(s.text, lang)}</span>
+              <span class="hero-ship-arr">↗</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    {/* Footnotes · texture éditoriale */}
+    <div class="hero-foot">
+      <span><span class="fn-num">¹</span> {lang === 'fr'
+        ? 'Tous les chiffres sont re-mesurables sous NDA.'
+        : 'All figures are re-measurable under NDA.'}</span>
+      <span><span class="fn-num">²</span> Claude Opus 4.7 · Sonnet 4.6 · Haiku 4.5 · {lang === 'fr' ? 'fallback open-source.' : 'open-source fallback.'}</span>
+      <span><span class="fn-num">³</span> {lang === 'fr'
+        ? 'Règles typographiques françaises observées : espaces insécables et guillemets « ».'
+        : 'French typographic rules observed: espaces insécables and « guillemets ».'}</span>
+    </div>
+  </div>
+</section>
+
+{/* Metrics strip · 4 chiffres · ligne sous le hero */}
+<section class="metrics row-lines" aria-label={lang === 'fr' ? 'Chiffres clés' : 'Key metrics'}>
+  {HERO_METRICS.map((m) => (
+    <div>
+      <span class="k">№ {m.k}</span>
+      <div class="n">{m.n}</div>
+      <div class="l">{t(m.label, lang)}</div>
+    </div>
+  ))}
+</section>
+
+<style>
+  .hero-a{position:relative;padding:calc(140px + var(--gut)) 0 0;border-bottom:1px solid var(--hairline);overflow:hidden;display:flex;flex-direction:column}
+  .hero-a > *:not(.signature-grid){position:relative;z-index:1}
+  .hero-a .signature-grid{z-index:0}
+
+  .hero-masthead{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;border-bottom:1px solid var(--hairline);padding-bottom:18px;margin-bottom:42px;font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+  .hero-masthead-end{text-align:right}
+
+  .hero-headline{font-family:var(--font-display);font-size:clamp(48px,9vw,148px);line-height:.96;letter-spacing:-0.025em;font-weight:400;margin:0 0 32px}
+  .hero-headline i{font-style:italic}
+
+  .hero-sub{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(40px,5vw,80px);margin-top:clamp(40px,4vw,56px);padding-top:clamp(28px,3vw,40px);border-top:1px solid var(--hairline);align-items:start}
+  .hero-lede{font-family:var(--font-display);font-size:clamp(18px,1.6vw,21px);line-height:1.42;color:var(--ink-2);max-width:520px;text-wrap:pretty}
+  .hero-lede i{font-style:italic;color:var(--accent)}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:clamp(24px,2.5vw,36px)}
+
+  .hero-ships{display:flex;flex-direction:column}
+  .hero-ship{display:grid;grid-template-columns:88px 110px 1fr 24px;gap:18px;padding:14px 0;border-top:1px solid var(--hairline);align-items:baseline;transition:color 220ms var(--ease),padding-left 320ms var(--ease)}
+  .hero-ship:first-child{border-top:none}
+  .hero-ship:hover{color:var(--accent);padding-left:6px}
+  .hero-ship-date{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.08em}
+  .hero-ship-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .hero-ship-text{font-family:var(--font-display);font-size:19px;line-height:1.25}
+  .hero-ship-arr{font-family:var(--font-mono);font-size:13px;color:var(--muted);text-align:right}
+
+  .hero-foot{margin-top:clamp(48px,5vw,72px);padding:18px 0 clamp(48px,5vw,80px);border-top:1px solid var(--hairline);display:flex;gap:48px;flex-wrap:wrap;font-family:var(--font-mono);font-size:10.5px;color:var(--muted);letter-spacing:.06em}
+  .fn-num{color:var(--ink);margin-right:4px}
+
+  .metrics{border-top:1px solid var(--hairline-strong);display:grid;grid-template-columns:repeat(4,1fr)}
+  .metrics > div{padding:clamp(22px,2.8vw,36px) clamp(16px,2vw,28px);border-right:1px solid var(--hairline)}
+  .metrics > div:last-child{border-right:none}
+  .metrics .k{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase}
+  .metrics .n{font-family:var(--font-display);font-size:clamp(36px,5vw,72px);line-height:.9;letter-spacing:-0.025em;margin-top:8px}
+  .metrics .l{font-size:clamp(11px,1.2vw,13px);color:var(--muted);margin-top:8px;line-height:1.4}
+
+  @media (max-width:900px){
+    .hero-masthead{grid-template-columns:repeat(2,1fr);gap:14px}
+    .hero-masthead-end{text-align:left}
+    .hero-sub{grid-template-columns:1fr;gap:48px}
+    .metrics{grid-template-columns:repeat(2,1fr)}
+    .metrics > div:nth-child(2){border-right:none}
+  }
+  @media (max-width:600px){
+    .metrics{grid-template-columns:1fr}
+    .metrics > div{border-right:none;border-bottom:1px solid var(--hairline)}
+    .hero-ship{grid-template-columns:1fr;gap:6px;padding:18px 0}
+    .hero-ship-arr{display:none}
+  }
+</style>

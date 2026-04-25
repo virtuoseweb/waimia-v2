@@ -1,0 +1,54 @@
+---
+// Section · Acte V — Book a working session / Une séance de travail
+// Variant : centered, scale-in border-radius morph + magnetic CTA · 45 min framing
+// Motion : .scale-in + magnetic + border-radius morph
+// Mémorable : « Le CTA est honnête : 45 min, un problème diagnostiqué — sinon on ne relance pas. »
+
+import { langFromPath, localizeHref } from '../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+const ctaHref = localizeHref('/contact', lang);
+const email = lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr';
+---
+<section id="act-5" class="book-session scale-in" aria-labelledby="book-h2">
+  <div class="wrap-wide" style="text-align:center;position:relative;z-index:1">
+    <div class="chapter-label" style="justify-content:center">
+      <span class="dot"></span>
+      <span>FIG V · 5.0</span>
+      <span style="color:var(--muted)">·</span>
+      <span>{lang === 'fr' ? "Acte V — Passer à l'action" : 'Act V — Act'}</span>
+    </div>
+
+    <h2 id="book-h2" class="book-h2">
+      {lang === 'fr' ? (
+        <>Une <i>séance de travail</i>.<br />Pas un pitch.</>
+      ) : (
+        <>Book a <i>working session</i>.<br />Not a pitch.</>
+      )}
+    </h2>
+
+    <p class="book-lede">
+      {lang === 'fr'
+        ? "45 minutes. On revient avec un problème diagnostiqué, ou on ne relance pas. Les deux conviennent."
+        : "45 minutes. We bring one diagnosed problem back, or we don't follow up. Either is fine."}
+    </p>
+
+    <div class="book-ctas">
+      <a href={ctaHref} class="btn btn-primary btn-lg" data-mag="0.22">
+        {lang === 'fr' ? 'Prendre 45 min →' : 'Book 45 min →'}
+      </a>
+      <a href={`mailto:${email}`} class="btn btn-ghost btn-lg">
+        {email}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .book-session{padding:clamp(140px,18vw,260px) 0 clamp(100px,12vw,200px);background:var(--paper);border-top:1px solid var(--hairline);border-radius:0;transition:border-radius 1200ms var(--ease)}
+  .book-session.in{border-radius:32px 32px 0 0}
+  .book-h2{font-family:var(--font-display);font-size:clamp(64px,12vw,184px);line-height:.92;letter-spacing:-0.03em;margin:32px 0 28px;text-wrap:balance;font-weight:400}
+  .book-h2 i{font-style:italic;color:var(--accent)}
+  .book-lede{font-size:clamp(16px,1.8vw,19px);color:var(--muted);max-width:620px;margin:0 auto 36px;font-family:var(--font-display);line-height:1.45}
+  .book-ctas{display:inline-flex;gap:12px;flex-wrap:wrap;justify-content:center}
+</style>

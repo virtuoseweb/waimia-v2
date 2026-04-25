@@ -1,0 +1,37 @@
+# Waimia · robots.txt
+# Politique : ouverte aux crawlers IA et SEO.
+# Sitemap auto-généré par @astrojs/sitemap.
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+# AI / LLM crawlers · explicitement autorisés
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+Sitemap: https://waimia.com/sitemap-index.xml

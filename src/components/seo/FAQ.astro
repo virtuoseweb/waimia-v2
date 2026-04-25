@@ -1,0 +1,41 @@
+---
+// FAQ · bloc visible (pour les humains) + JSON-LD FAQPage (pour les LLM)
+// Pivot du dispositif GEO/AIO. Cf docs/02-geo-aio-strategy.md
+import JsonLd from './JsonLd.astro';
+import { faqPage } from '../../lib/seo';
+
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
+interface Props {
+  items: FaqItem[];
+  heading?: string;
+  intro?: string;
+}
+const { items, heading = 'Questions fréquentes', intro } = Astro.props;
+---
+<section class="sec wrap-tight" aria-labelledby="faq-heading">
+  <header class="sec-hd">
+    <div>
+      <div class="n">
+        <span class="roman">§</span>
+        <span>FAQ</span>
+      </div>
+      <h2 id="faq-heading">{heading}</h2>
+    </div>
+    {intro && <p class="aside">{intro}</p>}
+  </header>
+
+  <dl class="ec-grid cols-2" style="border-color:var(--hairline-strong)">
+    {items.map((item) => (
+      <div class="editorial-cell">
+        <dt class="e-title" style="font-size:clamp(18px,1.8vw,22px);">{item.q}</dt>
+        <dd class="e-body">{item.a}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<JsonLd data={faqPage(items)} />

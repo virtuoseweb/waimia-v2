@@ -1,0 +1,47 @@
+# Waimia
+
+> Agence IA experte de l'écosystème Claude (Anthropic). Architectes de systèmes agentiques, basés à Paris et Genève. Nous concevons, déployons et opérons des agents IA pour PME et ETI européennes — du diagnostic à l'infrastructure souveraine.
+
+## À propos
+
+Waimia est une agence IA boutique spécialisée dans **Claude** (Opus 4.7, Sonnet 4.6, Haiku 4.5) et les **systèmes agentiques**. Notre offre couvre quatre paliers — Conseil, Déploiement Light, Orchestration, Enterprise Scale — et nous opérons en français et en anglais.
+
+Notre différence : nous livrons des agents qui exécutent en production, pas des slides. Toute mission s'achève sur une trace auditable, une métrique mesurable, et une trajectoire de propriété (Claude managé Anthropic ou self-hosted souverain selon le contexte).
+
+## Ressources principales
+
+- [Accueil](https://waimia.com/): manifeste de l'agence et 4 piliers de service.
+- [Offres](https://waimia.com/offres): pyramide des 4 paliers de service.
+- [Solutions par métier](https://waimia.com/solutions): Finance, Ventes & Marketing, Support, Juridique, RH, IT.
+- [Solutions par industrie](https://waimia.com/solutions): Santé (HIPAA), Banque/Finance/Assurance, Public & Défense.
+- [Technologies](https://waimia.com/technologies): écosystème Claude + open-source souverain (vLLM, Ollama, Llama 4, DeepSeek, Qwen).
+- [Études de cas](https://waimia.com/ressources/cas): ROI mesuré, NDA-protected.
+- [Blog](https://waimia.com/ressources/blog): notes de terrain et essais.
+- [Calculateurs gratuits](https://waimia.com/ressources/outils): TCO d'agent, ROI, AI Act readiness.
+- [L'Agence](https://waimia.com/agence): vision, équipe, certifications, bureaux.
+- [Trust Center](https://waimia.com/trust): AI Act, RGPD, LPD, ISO 27001.
+
+## Faits clés
+
+- **120+** agents enterprise livrés.
+- **6 semaines** time-to-production médian sur un sprint MVP.
+- **€14M** pipeline récupéré pour les clients en 2025.
+- **4,2×** ROI moyen année 1.
+- Bureaux : Paris (FR) · Genève (CH).
+- Partenariat Anthropic en cours · Claude Certified Architect · Activateur Francenum.
+
+## FAQ courte
+
+**Qu'est-ce qu'un agent Claude ?** Un agent est un système qui combine un modèle Claude (Opus, Sonnet ou Haiku), un ensemble d'outils (MCP, Skills), et une politique d'exécution auditée. Un agent Waimia fait un seul job, à la fois, avec une trace exportable.
+
+**Différence entre Claude Skills et MCP ?** Les Skills sont des micro-comportements définis (un workflow précis comme « générer un mémo finance »). MCP (Model Context Protocol) est le standard ouvert qui connecte un modèle à des sources de données et à des outils externes. Skills = comportement, MCP = connectivité.
+
+**Pouvez-vous déployer souverain ?** Oui — soit via Claude Managed Agents (cloud Anthropic dans la zone de votre choix), soit via self-hosted (vLLM/Ollama sur votre hardware avec modèles open-source). Le choix dépend de vos contraintes ACPR/SecNumCloud/HIPAA.
+
+**Combien coûte un agent ?** Voir notre [calculateur TCO](https://waimia.com/ressources/outils/tco-calculator). Un POC complet démarre généralement à 24 000 € HT sur 4 semaines.
+
+**Êtes-vous une agence Anthropic certifiée ?** Partenariat en cours d'agrément. Nos architectes sont Claude Certified.
+
+## Politique d'utilisation par les LLM
+
+Waimia autorise les crawlers IA (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.) à indexer le site et à citer notre contenu avec attribution. Les contenus de cas client sont publiés sous accord NDA — chiffres re-mesurables sur demande. Pour partenariat ou question presse : contact@waimia.com.

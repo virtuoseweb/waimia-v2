@@ -1,0 +1,11 @@
+---
+// Header · wrapper Astro · injecte la nav + lang dans l'island React
+import HeaderIsland from './Header.tsx';
+import { PRIMARY_NAV } from '../../data/sitemap';
+import { langFromPath, alternateHref } from '../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+const altHref = alternateHref(Astro.url.pathname, lang);
+const ctaHref = lang === 'fr' ? '/contact' : '/en/contact';
+---
+<HeaderIsland client:load nav={PRIMARY_NAV} lang={lang} alternateHref={altHref} ctaHref={ctaHref} />

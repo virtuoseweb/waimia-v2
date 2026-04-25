@@ -1,0 +1,83 @@
+---
+// Homepage · Direction 1 · 5 acts + 4 intercalary sections · EN
+// Pacing mirror of pages/index.astro · cf docs/04-motion-system.md
+
+import Base from '../../layouts/Base.astro';
+import BootSplash from '../../components/motion/BootSplash.tsx';
+
+import Hero            from '../../components/sections/Hero.astro';
+import TrustMarquee    from '../../components/sections/TrustMarquee.astro';
+import WhyAIStalls     from '../../components/sections/WhyAIStalls.astro';
+import HowWeShip       from '../../components/sections/HowWeShip.astro';
+import SixServices     from '../../components/sections/SixServices.astro';
+import Pyramid         from '../../components/sections/Pyramid.astro';
+import Manifesto       from '../../components/sections/Manifesto.astro';
+import OperatingLayer  from '../../components/sections/OperatingLayer.astro';
+import Departments     from '../../components/sections/Departments.astro';
+import Cases           from '../../components/sections/Cases.astro';
+import WritingNotes    from '../../components/sections/WritingNotes.astro';
+import Offices         from '../../components/sections/Offices.astro';
+import FAQ             from '../../components/seo/FAQ.astro';
+import BookSession     from '../../components/sections/BookSession.astro';
+import SigBand         from '../../components/sections/SigBand.astro';
+
+import { faqPage } from '../../lib/seo';
+
+const faqItems = [
+  {
+    q: "What is a 'Claude-native AI agency' and how is it different from a generalist AI agency?",
+    a: "We focus 100% of our R&D on Anthropic's ecosystem — Opus 4.7, Sonnet 4.6, Haiku 4.5, Skills, MCP, Managed Agents — and on compatible open-source frameworks. It shows in time-to-production: 6 weeks median for an agent in prod, vs 14+ for generalist teams. We write French, read Stripe docs, ship code on Tuesdays, and measure pipeline on Fridays.",
+  },
+  {
+    q: "What is the difference between Claude Skills and MCP?",
+    a: "A Claude Skill is a defined behaviour — a precise workflow (e.g. 'generate a finance memo') with its steps, constraints, output formats. MCP (Model Context Protocol) is the open standard connecting a model to data sources and external tools (Notion, Drive, Slack, HubSpot). Skills = reusable behaviour. MCP = standardised connectivity. They complement each other in every Waimia agent.",
+  },
+  {
+    q: "Can you deploy self-hosted, with no Anthropic dependency?",
+    a: "Yes. We deploy open-source models (Llama 4, DeepSeek V3.2, Qwen 3.5, GLM-5) on customer infrastructure via vLLM or Ollama, orchestrated with LangGraph or CrewAI. This path is recommended when GDPR, ACPR, SecNumCloud or HIPAA constraints require data to never leave your perimeter. We always document total cost and the migration path back to Claude managed if relevant.",
+  },
+  {
+    q: "How much does a first engagement cost?",
+    a: "A Process Intelligence Audit starts at €12,000 over 5 days. A 4-week MVP Sprint (1 agent in production, full audit trail, before/after metrics) starts at €24,000. For a precise quote, use our TCO calculator or book a 45-minute call — we come back with one diagnosed problem, or we don't follow up.",
+  },
+  {
+    q: "Are you a certified Anthropic partner?",
+    a: "Our Anthropic partnership application is under review (Q3 2026). Our architects are Claude Certified and we are Francenum activators (AI experts recognised by the French government). All numbers and certifications are public on our Trust Center.",
+  },
+  {
+    q: "How do you ensure AI Act and GDPR compliance?",
+    a: "Every agent we ship includes by default: signed logs of all actions (AI Act Art. 12), CSV/JSON export, rollback capability, automatic risk-level classification. For GDPR/LPD compliance, we run a PIA (Privacy Impact Assessment) before the MVP sprint. Our Trust Center details the full list of controls.",
+  },
+  {
+    q: "What is VirtuoseOS and do I have to buy it to work with you?",
+    a: "VirtuoseOS is our internal platform — the multi-workspace kernel under every Waimia engagement. You don't have to buy it to work with us. For Enterprise engagements, we offer it self-hosted on your infrastructure or as managed SaaS with French parity.",
+  },
+];
+---
+<Base
+  title="Waimia · Architects of agentic systems · Claude-native · Paris · Geneva"
+  description="A Claude-specialised AI agency (Opus, Sonnet, Haiku) for revenue operations. We ship strategy, operations, and VirtuoseOS as one continuous layer. Without the theatre."
+  jsonLd={faqPage(faqItems)}
+>
+  <BootSplash client:only="react" lang="en" />
+
+  <Hero />
+  <TrustMarquee />
+  <WhyAIStalls />
+  <HowWeShip />          {/* 3.5 — how we tackle the problem · sticky pin signature */}
+  <SixServices />
+  <Pyramid />            {/* 4.5 — the 4-tier architecture beneath the 6 services */}
+  <Manifesto />
+  <OperatingLayer />
+  <Departments />        {/* 6.5 — for which department · 6 cells */}
+  <Cases />
+  <WritingNotes />
+  <Offices />            {/* 8.5 — geographical anchor Paris-Geneva */}
+  <FAQ
+    items={faqItems}
+    heading="Questions we get asked"
+    intro="Seven honest answers — the ones we send by email before the first call."
+  />
+  <BookSession />
+  <SigBand />
+</Base>

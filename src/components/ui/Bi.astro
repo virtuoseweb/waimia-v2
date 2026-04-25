@@ -1,0 +1,13 @@
+---
+// Bi · primitive bilingue côté serveur
+// Choisit la chaîne EN/FR selon la langue de la page Astro courante.
+import { langFromPath } from '../../lib/i18n';
+
+interface Props {
+  en: string;
+  fr: string;
+}
+const { en, fr } = Astro.props;
+const lang = langFromPath(Astro.url.pathname);
+---
+{lang === 'en' ? en : fr}

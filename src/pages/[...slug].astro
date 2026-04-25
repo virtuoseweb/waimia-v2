@@ -1,0 +1,139 @@
+---
+// Catch-all · attrape toutes les routes non encore construites
+// (listées dans la nav/CTAs). Affiche un stub éditorial — pas de 404 jaloux.
+// À mesure que les pages se construisent (via Pages CMS), elles ajoutent
+// des fichiers spécifiques qui prennent priorité sur ce catch-all.
+
+import Base from '../layouts/Base.astro';
+import Stub from '../components/sections/Stub.astro';
+import { langFromPath } from '../lib/i18n';
+
+export function getStaticPaths() {
+  // Liste des routes connues qu'on souhaite voir vivre comme stubs.
+  // Ajoute ici quand tu introduis une nouvelle référence dans la nav.
+  const routes = [
+    'offres', 'solutions', 'technologies', 'ressources',
+    'agence', 'contact', 'trust', 'careers',
+    // Détail offres
+    'offres/audit-process-intelligence', 'offres/conformite-ai-act', 'offres/architecture-hybride', 'offres/diagnostic-maturite',
+    'offres/claude-cowork', 'offres/claude-skills', 'offres/mcp-connectors', 'offres/routines-plugins',
+    'offres/agents-metiers', 'offres/multi-agents', 'offres/tiered-routing', 'offres/poc-mvp-sprint',
+    'offres/managed-agents', 'offres/self-hosted', 'offres/open-source', 'offres/maintenance-sre',
+    // Solutions
+    'solutions/finance', 'solutions/ventes-marketing', 'solutions/support', 'solutions/juridique',
+    'solutions/rh', 'solutions/it-engineering', 'solutions/sante', 'solutions/finance-industrie',
+    'solutions/secteur-public', 'solutions/industrie', 'solutions/retail',
+    // Technologies
+    'technologies/claude-models', 'technologies/claude-code', 'technologies/claude-surfaces',
+    'technologies/integrations-office', 'technologies/inference', 'technologies/open-source-models',
+    'technologies/rag-prive', 'technologies/fine-tuning', 'technologies/frameworks',
+    'technologies/no-code', 'technologies/observability',
+    // Ressources
+    'ressources/cas', 'ressources/temoignages', 'ressources/blog', 'ressources/cookbooks',
+    'ressources/webinaires', 'ressources/newsletter',
+    'ressources/outils/tco-calculator', 'ressources/outils/roi-calculator', 'ressources/outils/ai-act-checklist',
+    'ressources/cas/plateau', 'ressources/cas/halcyon', 'ressources/cas/northbound', 'ressources/cas/caserne', 'ressources/cas/virtuoseos',
+  ];
+  // Génère les versions FR et EN
+  return routes.flatMap((r) => [
+    { params: { slug: r } },
+    { params: { slug: `en/${r}` } },
+  ]);
+}
+
+const { slug } = Astro.params;
+const lang = langFromPath(Astro.url.pathname);
+const path = (slug ?? '').replace(/^en\//, '');
+
+// Mapping page → titre court selon la racine
+const root = path.split('/')[0];
+const TITLES: Record<string, { kicker: { fr: string; en: string }; title: { fr: string; en: string }; body: { fr: string; en: string } }> = {
+  offres: {
+    kicker: { fr: '§ Hub — Offres', en: '§ Hub — Services' },
+    title: { fr: "Quatre paliers, une couche continue.", en: 'Four tiers, one continuous layer.' },
+    body: {
+      fr: "De l'audit process à l'infrastructure souveraine. Cette page sera la pyramide complète, avec grille tarifaire et trajectoire de chaque palier.",
+      en: 'From process audit to sovereign infrastructure. This page will host the full pyramid with pricing grid and trajectory per tier.',
+    },
+  },
+  solutions: {
+    kicker: { fr: '§ Hub — Solutions', en: '§ Hub — Solutions' },
+    title: { fr: "IA agentique pour chaque métier.", en: 'Agentic AI for every department.' },
+    body: {
+      fr: "Six métiers, cinq industries. Cette page croisera les départements et leurs contraintes réglementaires (HIPAA, ACPR, SecNumCloud).",
+      en: 'Six departments, five industries. This page will cross-reference departments with their regulatory constraints (HIPAA, ACPR, SecNumCloud).',
+    },
+  },
+  technologies: {
+    kicker: { fr: '§ Hub — Technologies', en: '§ Hub — Technologies' },
+    title: { fr: "Anthropic d'abord. Open-source quand il faut.", en: 'Anthropic first. Open-source when needed.' },
+    body: {
+      fr: "Claude Opus 4.7 · Sonnet 4.6 · Haiku 4.5 · Skills · MCP · Managed Agents. Et la voie open-source : vLLM, Ollama, Llama 4, DeepSeek, Qwen, GLM-5.",
+      en: 'Claude Opus 4.7 · Sonnet 4.6 · Haiku 4.5 · Skills · MCP · Managed Agents. And the open-source route: vLLM, Ollama, Llama 4, DeepSeek, Qwen, GLM-5.',
+    },
+  },
+  ressources: {
+    kicker: { fr: '§ Hub — Ressources', en: '§ Hub — Resources' },
+    title: { fr: "Notes de terrain. Preuves. Outils gratuits.", en: 'Field notes. Proofs. Free tools.' },
+    body: {
+      fr: "Pensé pour le GEO/AIO autant que pour les humains. Calculateur TCO, calculateur ROI, checklist AI Act, blog, cookbooks.",
+      en: 'Built for GEO/AIO as much as for humans. TCO calculator, ROI calculator, AI Act checklist, blog, cookbooks.',
+    },
+  },
+  agence: {
+    kicker: { fr: "§ L'Agence", en: '§ The Agency' },
+    title: { fr: "Une agence boutique. Deux bureaux. Une posture.", en: 'A boutique agency. Two offices. One posture.' },
+    body: {
+      fr: "Vision Process Intelligence, équipe, partenariats Anthropic, certifications, bureaux Paris-Genève.",
+      en: 'Process Intelligence vision, team, Anthropic partnerships, certifications, Paris-Geneva offices.',
+    },
+  },
+  contact: {
+    kicker: { fr: '§ Réserver un audit', en: '§ Book an audit' },
+    title: { fr: "Parlons concret.", en: "Let's get concrete." },
+    body: {
+      fr: "Audit IA en 5 jours. Premier agent en production en 4 semaines. Réponse sous 4 h en jours ouvrés.",
+      en: 'AI audit in 5 days. First agent in production in 4 weeks. Reply under 4 h on business days.',
+    },
+  },
+  trust: {
+    kicker: { fr: '§ Trust Center', en: '§ Trust Center' },
+    title: { fr: "Conformité par défaut. Souveraineté à la carte.", en: 'Compliance by default. Sovereignty on demand.' },
+    body: {
+      fr: "AI Act · RGPD · LPD · ISO 27001 aligné. Liste complète des contrôles, mentions légales, gestion cookies.",
+      en: 'AI Act · GDPR · LPD · ISO 27001 aligned. Full controls list, terms, cookie management.',
+    },
+  },
+  careers: {
+    kicker: { fr: '§ Carrières', en: '§ Careers' },
+    title: { fr: "Pour les opérateurs d'agents.", en: 'For agent operators.' },
+    body: {
+      fr: "Pas pour les vendeurs de slides. On cherche des architectes Claude, des SRE, des PMs orienter livrable.",
+      en: 'Not for slide sellers. We hire Claude architects, SREs, delivery-oriented PMs.',
+    },
+  },
+};
+
+// Détecte la racine du path pour choisir le bon stub
+const meta = TITLES[root] ?? TITLES.contact;
+const isDeepRoute = path.includes('/');
+const slugTail = path.split('/').slice(-1)[0]?.replace(/-/g, ' ');
+
+const finalTitle = isDeepRoute
+  ? { fr: slugTail, en: slugTail }
+  : meta.title;
+---
+<Base
+  title={`Waimia · ${lang === 'fr' ? meta.title.fr : meta.title.en}`}
+  description={lang === 'fr' ? meta.body.fr : meta.body.en}
+  noindex={isDeepRoute}
+>
+  <Stub
+    kicker_fr={meta.kicker.fr}
+    kicker_en={meta.kicker.en}
+    title_fr={finalTitle.fr}
+    title_en={finalTitle.en}
+    body_fr={meta.body.fr}
+    body_en={meta.body.en}
+  />
+</Base>

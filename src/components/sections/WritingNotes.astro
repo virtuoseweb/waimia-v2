@@ -1,0 +1,75 @@
+---
+// Section · Writing — Slow notes from the floor / Notes lentes du terrain
+// Variant : sticky chapter label gauche + feed shipments droite
+// Motion : .reveal sur shipments
+// Mémorable : « Le blog ne se vend pas. Il prend des notes du terrain. »
+
+import { langFromPath, t, localizeHref } from '../../lib/i18n';
+import { FIELD_NOTES } from '../../data/sitemap';
+
+const lang = langFromPath(Astro.url.pathname);
+---
+<section id="writing" class="sec sec-paper" aria-labelledby="writing-h2">
+  <div class="wrap-wide">
+    <div class="writing-grid">
+      <aside class="writing-aside">
+        <div class="chapter-label">
+          <span class="dot"></span>
+          <span>§ Éditorial</span>
+        </div>
+        <h2 id="writing-h2" class="writing-h2">
+          {lang === 'fr' ? (
+            <>Notes <i>lentes</i> du terrain.</>
+          ) : (
+            <>Slow <i>notes</i> from the floor.</>
+          )}
+        </h2>
+        <p class="writing-aside-lead">
+          {lang === 'fr'
+            ? "Pas de pensum SEO. Notes courtes, cas concrets, recettes pratiques. Un essai mensuel, jamais de promotion."
+            : 'No SEO bloat. Short notes, real cases, practical recipes. One monthly essay, never a promotion.'}
+        </p>
+        <a class="writing-all" href={localizeHref('/ressources/blog', lang)}>
+          {lang === 'fr' ? 'Tout le journal →' : 'See the full journal →'}
+        </a>
+      </aside>
+
+      <div class="writing-feed reveal">
+        {FIELD_NOTES.map((note) => (
+          <a class="writing-row" href={localizeHref('/ressources/blog', lang)}>
+            <span class="writing-row-date">{note.date}</span>
+            <span class="writing-row-tag">{t(note.tag, lang)}</span>
+            <span class="writing-row-text">{t(note.text, lang)}</span>
+            <span class="writing-row-arr">↗</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #writing{padding:clamp(100px,12vw,160px) 0;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+  .writing-grid{display:grid;grid-template-columns:300px 1fr;gap:clamp(40px,6vw,80px)}
+  .writing-aside{position:sticky;top:120px;align-self:start}
+  .writing-h2{font-family:var(--font-display);font-size:clamp(36px,4vw,56px);line-height:1;letter-spacing:-0.02em;font-weight:400;margin-top:22px}
+  .writing-h2 i{font-style:italic;color:var(--accent)}
+  .writing-aside-lead{margin-top:18px;font-size:13px;color:var(--muted);max-width:260px;line-height:1.5}
+  .writing-all{display:inline-block;margin-top:24px;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border-bottom:1px solid var(--accent);padding-bottom:2px}
+
+  .writing-feed{display:flex;flex-direction:column}
+  .writing-row{display:grid;grid-template-columns:90px 110px 1fr 24px;gap:20px;padding:18px 0;border-top:1px solid var(--hairline);align-items:baseline;color:inherit;transition:color 220ms var(--ease),padding-left 320ms var(--ease)}
+  .writing-row:first-child{border-top:1px solid var(--ink)}
+  .writing-row:hover{color:var(--accent);padding-left:6px}
+  .writing-row-date{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.08em}
+  .writing-row-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .writing-row-text{font-family:var(--font-display);font-size:clamp(18px,1.8vw,22px);line-height:1.25;text-wrap:pretty}
+  .writing-row-arr{font-family:var(--font-mono);font-size:13px;color:var(--muted);text-align:right}
+
+  @media (max-width:900px){
+    .writing-grid{grid-template-columns:1fr;gap:48px}
+    .writing-aside{position:static}
+    .writing-row{grid-template-columns:1fr;gap:6px;padding:18px 0}
+    .writing-row-arr{display:none}
+  }
+</style>

@@ -1,0 +1,32 @@
+---
+// Section · Manifeste · intercalary anti-théâtre
+// Variant : grand bloc display italic, sans box · respiration éditoriale
+// Motion : .reveal (fade + up 1400ms)
+// Mémorable : « Le seul endroit où l'agence dit ce qu'elle déteste. »
+
+import { langFromPath } from '../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+---
+<section class="manifesto" aria-labelledby="manifesto-anchor">
+  <div class="wrap-wide">
+    <div class="fig" style="margin-bottom:24px">§ Manifeste · FIG 0.0</div>
+    <p id="manifesto-anchor" class="manifesto-text reveal">
+      {lang === 'fr' ? (
+        <>
+          Nous nous méfions du <span class="acc">théâtre IA</span>. Nous nous méfions de l'esthétique purple-glass, de l'illustration cerveau-circuit, du bento-grid d'affordances vides. Nous écrivons en français, nous lisons la documentation Stripe, nous livrons du code le mardi et nous mesurons le pipeline le vendredi.
+        </>
+      ) : (
+        <>
+          We are suspicious of <span class="acc">AI theatre</span>. We distrust the purple-glass aesthetic, the brain-circuit illustration, the bento grid of empty affordances. We write French, we read Stripe docs, we ship code on Tuesdays, and we measure pipeline on Fridays.
+        </>
+      )}
+    </p>
+  </div>
+</section>
+
+<style>
+  .manifesto{padding:clamp(140px,18vw,260px) 0;background:var(--paper);position:relative;overflow:hidden}
+  .manifesto-text{font-family:var(--font-display);font-size:clamp(36px,6.2vw,96px);line-height:1.04;letter-spacing:-0.02em;max-width:1300px;font-weight:400;text-wrap:balance}
+  .manifesto-text .acc{color:var(--accent)}
+</style>

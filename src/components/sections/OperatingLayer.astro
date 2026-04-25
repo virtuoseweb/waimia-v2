@@ -1,0 +1,135 @@
+---
+// Section · Acte III — The operating layer / La couche opérationnelle
+// Variant : section dark + console mockup VirtuoseOS + 4 attribute strip
+// Motion : .reveal sur h2 + .blur-in sur la console
+// Mémorable : « La preuve qu'on construit notre propre kernel — VirtuoseOS visible. »
+
+import { langFromPath, localizeHref } from '../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+const tourHref = localizeHref('/technologies/claude-surfaces', lang);
+const changelogHref = localizeHref('/ressources/blog', lang);
+
+const consoleLines = [
+  ['[kernel]', '   ', 'multi-workspace/init ok'],
+  ['[agent:revops]', '   ', '14 handoffs routed · 0 dropped'],
+  ['[hubspot]', '   ', '482 contacts synced ◉'],
+  ['[audit]', '   ', 'trail open · last 12 min'],
+  ['[locale]', '   ', 'fr-FR · typographic rules on'],
+];
+
+const attrs = [
+  { k: 'Kernel',  v_fr: 'Multi-workspace',           v_en: 'Multi-workspace' },
+  { k: 'Agents',  v_fr: 'Audités, réversibles',      v_en: 'Audited, reversible' },
+  { k: 'Data',    v_fr: 'CRM-natif + entrepôt',      v_en: 'CRM-native + warehouse' },
+  { k: 'Locale',  v_fr: 'FR-first · parité EN',      v_en: 'FR-first · EN parity' },
+];
+---
+<section id="act-3" class="op-layer on-dark" aria-labelledby="op-h2">
+  <div class="signature-grid on-dark"></div>
+  <div class="wrap-wide" style="position:relative;z-index:1">
+    <header class="op-hd">
+      <div class="chapter-label" style="color:rgba(246,241,232,.55)">
+        <span class="dot"></span>
+        <span>FIG III · 3.0</span>
+        <span style="color:rgba(246,241,232,.35)">·</span>
+        <span>{lang === 'fr' ? "Acte III — La plateforme" : 'Act III — The platform'}</span>
+      </div>
+      <span class="op-spec">VIRTUOSEOS · v2.4</span>
+    </header>
+
+    <div class="op-grid">
+      {/* Left — message */}
+      <div>
+        <h2 id="op-h2" class="op-h2 reveal">
+          {lang === 'fr' ? (
+            <>La <i>couche opérationnelle</i> sous-jacente.</>
+          ) : (
+            <>The <i>operating layer</i> we ship under.</>
+          )}
+        </h2>
+        <p class="op-lede">
+          {lang === 'fr'
+            ? "VirtuoseOS est le kernel qui se trouve sous chaque intervention Waimia — workspaces, agents, trace auditable des commandes, UI française d'abord."
+            : 'VirtuoseOS is the kernel that sits under every Waimia engagement — workspaces, agents, auditable command trails, a French-first UI.'}
+        </p>
+        <div class="op-ctas">
+          <a href={tourHref} class="btn btn-accent btn-lg" data-mag="0.18">
+            {lang === 'fr' ? 'Visite produit →' : 'See product tour →'}
+          </a>
+          <a href={changelogHref} class="btn btn-ghost btn-lg">
+            {lang === 'fr' ? 'Voir le changelog' : 'Read changelog'}
+          </a>
+        </div>
+      </div>
+
+      {/* Right — console mockup */}
+      <div class="op-console blur-in">
+        <div class="op-console-chrome">
+          {[0,1,2].map(() => <span class="op-console-dot"></span>)}
+          <span class="op-console-ttl">virtuoseos · workspace/plateau</span>
+        </div>
+        <div class="op-console-body">
+          {consoleLines.map(([k, _, v]) => (
+            <div class="op-console-row">
+              <span class="op-console-k">{k}</span>
+              <span class="op-console-v" set:html={v.replace('◉', '<span style="color:var(--accent)">◉</span>')}></span>
+            </div>
+          ))}
+        </div>
+        <div class="op-console-cmd">
+          $ virtuose ship pipeline.agent --workspace=plateau
+        </div>
+      </div>
+    </div>
+
+    {/* 4 attribute strip */}
+    <div class="op-attrs">
+      {attrs.map((a) => (
+        <div>
+          <div class="op-attr-k">{a.k}</div>
+          <div class="op-attr-v">{lang === 'fr' ? a.v_fr : a.v_en}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .op-layer{padding:clamp(120px,15vw,200px) 0;background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
+  .op-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:clamp(40px,5vw,56px);padding-bottom:20px;border-bottom:1px solid rgba(246,241,232,.12);flex-wrap:wrap;gap:14px}
+  .op-spec{font-family:var(--font-mono);font-size:11px;color:rgba(246,241,232,.55);letter-spacing:.1em}
+
+  .op-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,6vw,80px);align-items:start}
+  .op-h2{font-family:var(--font-display);font-size:clamp(40px,8vw,128px);line-height:.94;letter-spacing:-0.025em;font-weight:400;text-wrap:balance}
+  .op-h2 i{font-style:italic;color:var(--accent)}
+  .op-lede{margin-top:30px;font-size:clamp(15px,1.5vw,18px);line-height:1.55;color:rgba(246,241,232,.68);max-width:520px;font-family:var(--font-display)}
+  .op-ctas{margin-top:40px;display:flex;gap:12px;flex-wrap:wrap}
+
+  .op-console{background:#17140F;border:1px solid rgba(246,241,232,.12);border-radius:12px;padding:14px;box-shadow:0 40px 120px rgba(0,0,0,.5);font-family:var(--font-mono);font-size:12px}
+  .op-console-chrome{display:flex;gap:6px;margin-bottom:12px;align-items:center}
+  .op-console-dot{width:10px;height:10px;border-radius:50%;background:rgba(246,241,232,.22)}
+  .op-console-ttl{margin-left:12px;color:rgba(246,241,232,.5);font-size:11px}
+  .op-console-body{display:grid;grid-template-columns:140px 1fr;gap:10px;padding:14px;border-radius:8px;background:rgba(246,241,232,.03)}
+  .op-console-row{display:contents}
+  .op-console-k{color:rgba(246,241,232,.4)}
+  .op-console-v{color:rgba(246,241,232,.85)}
+  .op-console-cmd{margin-top:12px;padding:12px 0;border-top:1px dashed rgba(246,241,232,.15);color:rgba(246,241,232,.5);font-size:11px}
+
+  .op-attrs{margin-top:clamp(60px,7vw,96px);display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(246,241,232,.15);border-bottom:1px solid rgba(246,241,232,.15)}
+  .op-attrs > div{padding:clamp(20px,2.5vw,32px) clamp(16px,2vw,28px);border-right:1px solid rgba(246,241,232,.12)}
+  .op-attrs > div:last-child{border-right:none}
+  .op-attr-k{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;color:rgba(246,241,232,.5);text-transform:uppercase}
+  .op-attr-v{font-family:var(--font-display);font-size:clamp(20px,2.4vw,30px);margin-top:8px}
+
+  @media (max-width:900px){
+    .op-grid{grid-template-columns:1fr;gap:48px}
+    .op-attrs{grid-template-columns:repeat(2,1fr)}
+    .op-attrs > div:nth-child(2){border-right:none}
+    .op-attrs > div:nth-child(-n+2){border-bottom:1px solid rgba(246,241,232,.12)}
+  }
+  @media (max-width:600px){
+    .op-attrs{grid-template-columns:1fr}
+    .op-attrs > div{border-right:none!important;border-bottom:1px solid rgba(246,241,232,.12)}
+  }
+</style>

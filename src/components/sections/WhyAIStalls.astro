@@ -1,0 +1,67 @@
+---
+// Section · Acte I — Why AI stalls / Pourquoi l'IA cale
+// Variant : sticky chapter label gauche + 4 FIG rows row-lines droite
+// Motion : .row-lines (border bottom scale-x scrub) + sticky position
+// Mémorable : « Quatre figures qui posent le problème avant qu'on parle solutions. »
+
+import { langFromPath, t } from '../../lib/i18n';
+import { WHY_AI_STALLS } from '../../data/sitemap';
+
+const lang = langFromPath(Astro.url.pathname);
+---
+<section id="act-1" class="sec" aria-labelledby="why-h2">
+  <div class="wrap-wide">
+    <div class="why-grid">
+      {/* Sticky chapter — left */}
+      <aside class="why-aside">
+        <div class="chapter-label">
+          <span class="dot"></span>
+          <span>FIG I · 1.0</span>
+          <span style="color:var(--muted)">·</span>
+          <span>{lang === 'fr' ? "Acte I — Le constat" : 'Act I — The reckoning'}</span>
+        </div>
+        <h2 id="why-h2" class="why-h2">
+          {lang === 'fr' ? (
+            <><span>Pourquoi l'IA</span><br /><i>cale</i>.</>
+          ) : (
+            <><span>Why AI</span><br /><i>stalls</i>.</>
+          )}
+        </h2>
+        <p class="why-aside-lead">
+          {lang === 'fr'
+            ? "Pas faute de modèles. Faute de la couche sans relief qui se trouve dessous."
+            : 'Not for lack of models. For lack of the unglamorous layer underneath.'}
+        </p>
+      </aside>
+
+      {/* FIG rows — right */}
+      <div class="why-rows row-lines">
+        {WHY_AI_STALLS.map((r, i) => (
+          <article class="why-row" data-first={i === 0 ? 'true' : 'false'}>
+            <span class="fig" style="color:var(--ink);padding-top:6px">{r.fig}</span>
+            <p class="why-row-text">{t(r.text, lang)}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #act-1{padding:clamp(120px,16vw,200px) 0 clamp(80px,10vw,140px);border-bottom:none}
+  .why-grid{display:grid;grid-template-columns:280px 1fr;gap:clamp(40px,6vw,80px)}
+  .why-aside{position:sticky;top:120px;align-self:start}
+  .why-h2{font-family:var(--font-display);font-size:clamp(36px,4vw,56px);line-height:1;letter-spacing:-0.02em;font-weight:400;margin-top:22px}
+  .why-h2 i{font-style:italic;color:var(--accent)}
+  .why-aside-lead{margin-top:20px;font-size:13px;color:var(--muted);max-width:240px;line-height:1.5}
+
+  .why-row{display:grid;grid-template-columns:90px 1fr;gap:clamp(24px,3vw,40px);padding:clamp(28px,3vw,40px) 0}
+  .why-row[data-first="true"]{border-top:1px solid var(--ink)}
+  .why-row-text{font-family:var(--font-display);font-size:clamp(22px,2.4vw,30px);line-height:1.18;letter-spacing:-0.01em;text-wrap:balance}
+
+  @media (max-width:900px){
+    .why-grid{grid-template-columns:1fr;gap:48px}
+    .why-aside{position:static}
+    .why-row{grid-template-columns:1fr;gap:8px;padding:24px 0}
+  }
+</style>

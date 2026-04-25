@@ -1,0 +1,53 @@
+---
+// Section · CTA band · le moment fort de la fin
+// Variant : Full-bleed XL avec scale-in + magnetic CTA principal
+// Motion : Zoom Reveal (scale-in border-radius morph) + magnetic
+// Mémorable : « Le call-to-action devient une scène — magnétique, fixe, irrésistible. »
+
+import { langFromPath, localizeHref } from '../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+---
+<section class="cta-band scale-in" aria-labelledby="cta-h2">
+  <div class="signature-grid"></div>
+  <div class="frame">
+    <div class="kicker" style="margin-bottom:24px">
+      {lang === 'fr' ? '§ Acte VIII — Pour ceux qui livrent' : '§ Act VIII — For those who ship'}
+    </div>
+    <h2 id="cta-h2">
+      {lang === 'fr' ? (
+        <>Prêt à livrer un <em>agent</em>,<br />pas un slide deck ?</>
+      ) : (
+        <>Ready to ship an <em>agent</em>,<br />not a slide deck?</>
+      )}
+    </h2>
+    <p class="sub">
+      {lang === 'fr'
+        ? 'Audit IA en 5 jours. Premier agent en production en 4 semaines. ROI mesuré, jamais estimé.'
+        : 'AI audit in 5 days. First agent in production in 4 weeks. Measured ROI, never estimated.'}
+    </p>
+    <div class="row">
+      <a href={localizeHref('/contact', lang)} class="btn btn-primary btn-lg" data-mag="0.22">
+        {lang === 'fr' ? 'Réserver un audit' : 'Book an audit'}
+        <span aria-hidden>→</span>
+      </a>
+      <a href={localizeHref('/offres', lang)} class="btn btn-ghost btn-lg">
+        {lang === 'fr' ? 'Voir la pyramide' : 'See the pyramid'}
+      </a>
+      <span class="avail">
+        {lang === 'fr' ? '◉ Booking T3 2026 · 4 places' : '◉ Booking Q3 2026 · 4 slots'}
+      </span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band{padding:clamp(140px,18vw,280px) var(--gut) clamp(100px,12vw,220px);background:var(--paper);border-top:1px solid var(--hairline);overflow:hidden;position:relative;border-radius:0;transition:border-radius 1200ms var(--ease)}
+  .cta-band.in{border-radius:32px 32px 0 0}
+  .cta-band .frame{max-width:var(--wrap-wide);margin:0 auto;position:relative;z-index:1}
+  .cta-band h2{font-family:var(--font-display);font-size:clamp(56px,12vw,220px);line-height:.92;letter-spacing:-0.033em;text-wrap:balance;font-weight:400}
+  .cta-band h2 em{font-style:italic;color:var(--accent)}
+  .cta-band .sub{font-family:var(--font-display);font-size:clamp(18px,2vw,30px);color:var(--muted);margin-top:clamp(24px,2.8vw,40px);max-width:680px;line-height:1.4}
+  .cta-band .row{margin-top:clamp(40px,5vw,72px);display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .cta-band .avail{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.14em;margin-left:auto}
+</style>

@@ -1,0 +1,127 @@
+---
+// Section · Atlas grid 2×2 · 4 piliers Waimia
+// Variant : Grid 2×2 monumentale + tilt 3D au hover (signature Atlas)
+// Motion : .reveal-stagger + tilt 3D inline JS
+// Mémorable : « Une cartographie en quatre quadrants — chaque case est une porte. »
+
+import { langFromPath, localizeHref } from '../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+
+const pillars = [
+  {
+    n: 'I',
+    label_fr: 'Audit',
+    label_en: 'Audit',
+    lead_fr: 'Cartographier les processus avant de toucher à un modèle.',
+    lead_en: 'Map the processes before touching any model.',
+    items: ['Process Intelligence', 'AI Act readiness', 'Hybrid architecture'],
+    href: '/offres#tier-1',
+  },
+  {
+    n: 'II',
+    label_fr: 'Adoption',
+    label_en: 'Adoption',
+    lead_fr: 'Claude sur chaque poste. Skills, MCP, Cowork — adoption avant déploiement.',
+    lead_en: 'Claude at every desk. Skills, MCP, Cowork — adoption before deployment.',
+    items: ['Cowork rollout', 'Custom Skills', 'MCP connectors'],
+    href: '/offres#tier-2',
+  },
+  {
+    n: 'III',
+    label_fr: 'Orchestration',
+    label_en: 'Orchestration',
+    lead_fr: 'Agents autonomes, multi-agents, tiered routing. Un job, un agent, un audit.',
+    lead_en: 'Autonomous agents, multi-agent systems, tiered routing. One job, one agent, one audit.',
+    items: ['Business agents', 'LangGraph / CrewAI', '4-week MVP sprint'],
+    href: '/offres#tier-3',
+  },
+  {
+    n: 'IV',
+    label_fr: 'Souveraineté',
+    label_en: 'Sovereignty',
+    lead_fr: 'Claude managé, self-hosted, modèles open-source. Le scale qui respecte la donnée.',
+    lead_en: 'Managed Claude, self-hosted, open-source models. Scale that respects your data.',
+    items: ['Managed Agents', 'Self-hosted (vLLM, Ollama)', 'SRE 24/7'],
+    href: '/offres#tier-4',
+  },
+];
+---
+<section class="sec" aria-labelledby="atlas-h2">
+  <div class="wrap-wide">
+    <header class="sec-hd">
+      <div>
+        <div class="n">
+          <span class="roman">§</span>
+          <span>{lang === 'fr' ? 'Atlas — quatre portes' : 'Atlas — four doors'}</span>
+        </div>
+        <h2 id="atlas-h2">
+          {lang === 'fr' ? (
+            <>Choisis ta <i>porte</i>. Chaque pilier est une trajectoire.</>
+          ) : (
+            <>Pick your <i>door</i>. Each pillar is a trajectory.</>
+          )}
+        </h2>
+      </div>
+      <p class="aside">
+        {lang === 'fr'
+          ? "Cette page est un test de la Direction 3 (Atlas). À comparer avec la homepage Direction 1 — même contenu, autre rythme."
+          : 'This page tests Direction 3 (Atlas). Compare with Direction 1 home — same content, different cadence.'}
+      </p>
+    </header>
+
+    <div class="atlas-grid reveal-stagger">
+      {pillars.map((p) => (
+        <a class="atlas-card" href={localizeHref(p.href, lang)} data-tilt>
+          <div class="atlas-num">{p.n}</div>
+          <h3 class="atlas-label">{lang === 'fr' ? p.label_fr : p.label_en}</h3>
+          <p class="atlas-lead">{lang === 'fr' ? p.lead_fr : p.lead_en}</p>
+          <ul class="atlas-list">
+            {p.items.map((it) => <li>{it}</li>)}
+          </ul>
+          <span class="atlas-go">{lang === 'fr' ? "Ouvrir cette porte →" : 'Open this door →'}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    if (!matchMedia('(pointer:fine)').matches) return;
+    if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    document.querySelectorAll('[data-tilt]').forEach((el) => {
+      const STR = 6;
+      el.addEventListener('mousemove', (e) => {
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top) / r.height;
+        const rx = (0.5 - y) * STR;
+        const ry = (x - 0.5) * STR;
+        el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+    });
+  })();
+</script>
+
+<style>
+  .atlas-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--hairline-strong)}
+  .atlas-card{padding:clamp(40px,5vw,72px) clamp(28px,3.5vw,52px);border-right:1px solid var(--hairline);border-bottom:1px solid var(--hairline);display:flex;flex-direction:column;gap:18px;color:inherit;transition:background 320ms var(--ease),transform 380ms var(--ease-out);min-height:clamp(360px,38vw,520px);transform-style:preserve-3d;position:relative;overflow:hidden}
+  .atlas-card:hover{background:var(--paper-2)}
+  .atlas-card:nth-child(2),.atlas-card:nth-child(4){border-right:none}
+  .atlas-card:nth-child(3),.atlas-card:nth-child(4){border-bottom:none}
+  .atlas-num{font-family:var(--font-display);font-style:italic;font-size:clamp(56px,7vw,108px);line-height:1;color:var(--accent);letter-spacing:-0.03em}
+  .atlas-label{font-family:var(--font-display);font-size:clamp(36px,4.5vw,64px);line-height:1;letter-spacing:-0.02em;font-weight:400}
+  .atlas-lead{font-size:clamp(13px,1.4vw,17px);line-height:1.5;color:var(--muted);max-width:480px}
+  .atlas-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:24px;border-top:1px solid var(--hairline)}
+  .atlas-list li{font-size:13px;color:var(--ink-2);font-family:var(--font-mono);letter-spacing:.04em}
+  .atlas-list li::before{content:"§ ";color:var(--accent);font-family:var(--font-display);font-style:italic}
+  .atlas-go{margin-top:14px;font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}
+
+  @media (max-width:900px){
+    .atlas-grid{grid-template-columns:1fr}
+    .atlas-card{border-right:none!important;border-bottom:1px solid var(--hairline)!important}
+    .atlas-card:last-child{border-bottom:none!important}
+  }
+</style>

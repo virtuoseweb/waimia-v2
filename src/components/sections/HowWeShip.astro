@@ -1,0 +1,143 @@
+---
+// Section · How we ship · 4 étapes en sticky pin scrub
+// Variant : Sticky pin (signature motion de la page)
+// Motion : sticky position + step opacity scrub via JS minimal
+// Mémorable : « Quatre étapes qu'on parcourt sans bouger — le scroll fait le travail. »
+
+import { langFromPath } from '../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+
+const steps = [
+  {
+    n: 'i',
+    label_fr: 'Diagnostic',
+    label_en: 'Diagnostic',
+    body_fr: "On cartographie vos SOPs, on identifie les workflows répétitifs, on chiffre le potentiel d'impact. Sortie : une carte de processus + une priorité.",
+    body_en: 'We map your SOPs, identify repetitive workflows, quantify impact potential. Output: a process map + a priority.',
+  },
+  {
+    n: 'ii',
+    label_fr: 'Sprint MVP · 4 semaines',
+    label_en: 'MVP Sprint · 4 weeks',
+    body_fr: "Un agent, un job. On livre un POC fonctionnel en quatre semaines avec audit trail complet et métriques avant/après.",
+    body_en: 'One agent, one job. We ship a working POC in four weeks with full audit trail and before/after metrics.',
+  },
+  {
+    n: 'iii',
+    label_fr: 'Mise en production',
+    label_en: 'Production rollout',
+    body_fr: "Adoption équipe, scripts d'onboarding, observabilité, gouvernance. L'agent rejoint le runtime — Claude managé ou self-hosted selon vos contraintes.",
+    body_en: 'Team adoption, onboarding scripts, observability, governance. The agent joins the runtime — managed Claude or self-hosted based on your constraints.',
+  },
+  {
+    n: 'iv',
+    label_fr: 'Maintenance & extension',
+    label_en: 'Maintenance & extension',
+    body_fr: 'SRE 24/7, mises à jour modèles (Opus 4.7 → 4.8…), nouveaux cas d\'usage, conformité AI Act continue. Le système apprend, vous gardez le contrôle.',
+    body_en: 'SRE 24/7, model upgrades (Opus 4.7 → 4.8…), new use cases, ongoing AI Act compliance. The system learns; you keep control.',
+  },
+];
+---
+<section class="sec" id="how" aria-labelledby="how-h2">
+  <div class="wrap-wide">
+    <header class="sec-hd">
+      <div>
+        <div class="n">
+          <span class="roman">IV</span>
+          <span>{lang === 'fr' ? 'Acte IV — Comment on livre' : 'Act IV — How we ship'}</span>
+        </div>
+        <h2 id="how-h2">
+          {lang === 'fr' ? (
+            <>Quatre <i>étapes</i>. Pas de slide deck intermédiaire.</>
+          ) : (
+            <>Four <i>steps</i>. No intermediate slide deck.</>
+          )}
+        </h2>
+      </div>
+      <p class="aside">
+        {lang === 'fr'
+          ? 'Chaque étape produit un livrable concret. Vous ne payez la suivante que si la précédente a passé son audit.'
+          : 'Each step delivers something concrete. You only pay the next one if the previous one passed its audit.'}
+      </p>
+    </header>
+
+    {/* Sticky pin · scrub */}
+    <div class="how-wrap" id="how-wrap">
+      <div class="how-sticky">
+        <div class="how-numline" aria-hidden>
+          {steps.map((s, i) => (
+            <span class="how-num-pip" data-step={i}>
+              {s.n}
+            </span>
+          ))}
+        </div>
+        <div class="how-stage">
+          {steps.map((s, i) => (
+            <article class="how-stage-card" data-step={i}>
+              <div class="how-roman">{s.n.toUpperCase()}</div>
+              <h3 class="how-title">{lang === 'fr' ? s.label_fr : s.label_en}</h3>
+              <p class="how-body">{lang === 'fr' ? s.body_fr : s.body_en}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+      <div class="how-tracks">
+        {steps.map(() => <div class="how-track-segment"></div>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    const wrap = document.getElementById('how-wrap');
+    if (!wrap) return;
+    const segments = wrap.querySelectorAll('.how-track-segment');
+    const cards = wrap.querySelectorAll('.how-stage-card');
+    const pips = wrap.querySelectorAll('.how-num-pip');
+    const total = segments.length;
+
+    function update() {
+      const r = wrap.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Progresse 0 → 1 sur la durée du scroll de la zone (hauteur - vh)
+      const p = Math.max(0, Math.min(1, -r.top / (r.height - vh)));
+      const idx = Math.min(total - 1, Math.floor(p * total));
+      cards.forEach((c, i) => c.classList.toggle('is-active', i === idx));
+      pips.forEach((p, i) => p.classList.toggle('is-active', i === idx));
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+</script>
+
+<style>
+  .how-wrap{position:relative;height:380vh}
+  .how-sticky{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:120px 1fr;gap:clamp(20px,3vw,48px);align-items:center;padding:clamp(60px,8vh,120px) 0}
+  .how-numline{display:flex;flex-direction:column;gap:clamp(28px,4vw,56px);align-items:flex-start;border-left:1px solid var(--hairline-strong);padding-left:18px}
+  .how-num-pip{font-family:var(--font-display);font-style:italic;font-size:clamp(22px,2.4vw,36px);color:var(--muted);transition:color 600ms var(--ease)}
+  .how-num-pip.is-active{color:var(--accent)}
+  .how-stage{position:relative;min-height:clamp(280px,40vh,420px)}
+  .how-stage-card{position:absolute;inset:0;opacity:0;transform:translateY(20px);transition:opacity 720ms var(--ease),transform 720ms var(--ease);pointer-events:none}
+  .how-stage-card.is-active{opacity:1;transform:none;pointer-events:auto}
+  .how-roman{font-family:var(--font-display);font-style:italic;font-size:clamp(72px,10vw,180px);line-height:.9;letter-spacing:-0.03em;color:var(--accent);text-transform:uppercase}
+  .how-title{font-family:var(--font-display);font-size:clamp(32px,4.5vw,68px);line-height:1;letter-spacing:-0.02em;font-weight:400;margin-top:18px;text-wrap:balance}
+  .how-body{font-size:clamp(14px,1.4vw,18px);color:var(--muted);line-height:1.55;margin-top:18px;max-width:640px;text-wrap:pretty}
+  .how-tracks{display:none}
+
+  @media (max-width:900px){
+    /* Sur mobile : on dégrade en stack vertical, pas de sticky */
+    .how-wrap{height:auto}
+    .how-sticky{position:static;height:auto;grid-template-columns:1fr;padding:0}
+    .how-stage{position:static;min-height:0}
+    .how-stage-card{position:static;opacity:1;transform:none;padding-bottom:48px;border-bottom:1px solid var(--hairline)}
+    .how-stage-card:last-child{border-bottom:none}
+    .how-numline{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .how-stage-card{opacity:1;transform:none;position:static;padding-bottom:48px;border-bottom:1px solid var(--hairline)}
+    .how-wrap{height:auto}
+    .how-sticky{position:static;height:auto}
+  }
+</style>

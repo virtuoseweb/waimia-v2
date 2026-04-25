@@ -1,0 +1,56 @@
+---
+// Page · /en/atlas · Direction 3 EN
+// Mêmes composants — la langue est dérivée de Astro.url.pathname automatiquement.
+
+import Base from '../../layouts/Base.astro';
+import AtlasGrid       from '../../components/sections/AtlasGrid.astro';
+import PersonaSwitcher from '../../components/sections/PersonaSwitcher.astro';
+import Cases           from '../../components/sections/Cases.astro';
+import FieldNotes      from '../../components/sections/FieldNotes.astro';
+import CtaBand         from '../../components/sections/CtaBand.astro';
+
+import { localizeHref } from '../../lib/i18n';
+const lang = 'en';
+---
+<Base
+  title="Waimia · Atlas — four entry doors"
+  description="Waimia Atlas: four pillars (Audit, Adoption, Orchestration, Sovereignty) and three entry doors per persona (CEO, CIO, CTO). Direction 3 test vs home."
+>
+  <section class="hero-atlas">
+    <div class="signature-grid"></div>
+    <div class="wrap-wide">
+      <div class="kick">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent)"></span>
+        <span>Vol. 03 — Atlas (direction 3 test)</span>
+      </div>
+      <h1 class="hero-atlas-title">A <i>map</i><br/>for the time-pressed.</h1>
+      <p class="hero-atlas-lead">
+        Four pillars, three doors per persona, one engagement behind. Click where it speaks to you.
+      </p>
+      <div style="display:flex;gap:12px;margin-top:36px;flex-wrap:wrap;align-items:center">
+        <a href={localizeHref('/contact', lang)} class="btn btn-primary btn-lg" data-mag="0.18">
+          Book an audit <span aria-hidden>→</span>
+        </a>
+        <a href={localizeHref('/', lang)} class="btn btn-ghost btn-lg">
+          ← See the home (direction 1)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <AtlasGrid />
+  <PersonaSwitcher />
+  <Cases />
+  <FieldNotes />
+  <CtaBand />
+</Base>
+
+<style>
+  .hero-atlas{position:relative;padding:calc(140px + var(--gut)) var(--gut) clamp(80px,10vw,160px);overflow:hidden;border-bottom:1px solid var(--hairline)}
+  .hero-atlas .signature-grid{z-index:0}
+  .hero-atlas > *:not(.signature-grid){position:relative;z-index:1}
+  .hero-atlas .kick{display:flex;align-items:center;gap:12px;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:32px}
+  .hero-atlas-title{font-family:var(--font-display);font-size:clamp(56px,11vw,180px);line-height:.92;letter-spacing:-0.03em;font-weight:400;text-wrap:balance}
+  .hero-atlas-title i{font-style:italic;color:var(--accent)}
+  .hero-atlas-lead{font-family:var(--font-display);font-style:italic;font-size:clamp(20px,2.2vw,32px);color:var(--ink-2);margin-top:32px;max-width:760px;line-height:1.4;text-wrap:pretty}
+</style>

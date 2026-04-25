@@ -1,0 +1,98 @@
+---
+// Section · Acte IV — Four files / Quatre dossiers
+// Variant : table éditoriale 6 colonnes (idx · client · sector · stack · impact · arrow)
+// Motion : .row-lines · hover background terracotta tint · arrow color shift
+// Mémorable : « Quatre lignes lues comme un compte rendu d'audit. »
+
+import { CASE_FEED } from '../../data/sitemap';
+import { langFromPath, t, localizeHref } from '../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+// On limite à 4 dossiers en home pour le format « Four files »
+const cases = CASE_FEED.slice(0, 4);
+---
+<section id="act-4" class="sec" aria-labelledby="cases-h2">
+  <div class="wrap-wide">
+    <header class="cases-hd">
+      <div class="chapter-label">
+        <span class="dot"></span>
+        <span>FIG IV · 4.0</span>
+        <span style="color:var(--muted)">·</span>
+        <span>{lang === 'fr' ? "Acte IV — Les preuves" : 'Act IV — The proof'}</span>
+      </div>
+      <span class="cases-spec">
+        {lang === 'fr' ? '4 DOSSIERS · BLOCS DE DONNÉES' : '4 CASE FILES · DATA BLOCKS'}
+      </span>
+    </header>
+
+    <h2 id="cases-h2" class="cases-h2 reveal">
+      {lang === 'fr' ? (
+        <>Quatre dossiers. <i>Secteur</i> · durée · stack · impact.</>
+      ) : (
+        <>Four files. <i>Sector</i> · duration · stack · impact.</>
+      )}
+    </h2>
+
+    <div class="cases-tbl row-lines">
+      {cases.map((c, i) => (
+        <a class="cases-row" href={localizeHref(`/ressources/cas/${c.slug}`, lang)}>
+          <span class="cases-idx">CASE 0{i + 1}</span>
+          <span class="cases-client">{c.client}</span>
+          <span class="cases-col">
+            <span class="cases-col-k">{lang === 'fr' ? 'Secteur' : 'Sector'}</span>
+            <span class="cases-col-v">{t(c.sector, lang)}</span>
+          </span>
+          <span class="cases-col">
+            <span class="cases-col-k">Stack</span>
+            <span class="cases-col-v">{c.stack}</span>
+          </span>
+          <span class="cases-col">
+            <span class="cases-col-k">{lang === 'fr' ? 'Impact · ' + c.duration : 'Impact · ' + c.duration}</span>
+            <span class="cases-col-v cases-impact">{t(c.impact, lang)}</span>
+          </span>
+          <span class="cases-arr" aria-hidden>↗</span>
+        </a>
+      ))}
+    </div>
+
+    <div class="cases-foot">
+      <a href={localizeHref('/ressources/cas', lang)}>
+        {lang === 'fr' ? 'Tous les dossiers →' : 'All case files →'}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  #act-4{padding:clamp(120px,14vw,180px) 0}
+  .cases-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:clamp(36px,4vw,52px);padding-bottom:20px;border-bottom:1px solid var(--hairline);flex-wrap:wrap;gap:14px}
+  .cases-spec{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.1em}
+  .cases-h2{font-family:var(--font-display);font-size:clamp(38px,6vw,96px);line-height:.98;letter-spacing:-0.025em;max-width:1200px;margin-bottom:clamp(40px,5vw,60px);font-weight:400;text-wrap:balance}
+  .cases-h2 i{font-style:italic;color:var(--accent)}
+
+  .cases-tbl{}
+  .cases-row{display:grid;grid-template-columns:90px 2fr 1.1fr 1.5fr 1.4fr 32px;gap:24px;padding:clamp(28px,3vw,40px) 0;border-top:1px solid var(--hairline);align-items:baseline;color:inherit;transition:background 220ms var(--ease),padding-left 320ms var(--ease)}
+  .cases-row:hover{background:rgba(201,79,46,0.04);padding-left:14px;padding-right:14px}
+  .cases-row:hover .cases-arr{color:var(--accent);transform:translateX(4px) translateY(-2px)}
+
+  .cases-idx{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
+  .cases-client{font-family:var(--font-display);font-size:clamp(28px,3vw,42px);line-height:.98;letter-spacing:-0.02em;font-weight:400}
+  .cases-col{display:flex;flex-direction:column;gap:4px}
+  .cases-col-k{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .cases-col-v{font-size:13px;color:var(--muted);line-height:1.4}
+  .cases-impact{color:var(--ink);font-weight:500;font-size:15px}
+  .cases-arr{font-family:var(--font-mono);font-size:18px;color:var(--muted);text-align:right;transition:color 240ms var(--ease),transform 320ms var(--ease)}
+
+  .cases-foot{margin-top:clamp(40px,4vw,56px);text-align:right}
+  .cases-foot a{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border-bottom:1px solid var(--accent);padding-bottom:2px}
+
+  @media (max-width:1100px){
+    .cases-row{grid-template-columns:1fr 1fr;row-gap:6px;padding:24px 0}
+    .cases-idx{grid-column:1/-1}
+    .cases-client{grid-column:1/-1;font-size:32px}
+    .cases-arr{display:none}
+  }
+  @media (max-width:600px){
+    .cases-row{grid-template-columns:1fr}
+  }
+</style>

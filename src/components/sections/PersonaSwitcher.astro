@@ -1,0 +1,145 @@
+---
+// Section · PersonaSwitcher · 3 personas pour entrée auto-sélectionnée
+// Variant : Sélecteur de chemin (CEO PME · DSI · CTO scale-up) — switch fade
+// Motion : fade clip-path sur changement persona
+// Mémorable : « Une page qui te demande qui tu es avant de te montrer ce qu'elle a. »
+
+import { langFromPath, localizeHref } from '../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+
+const personas = [
+  {
+    k: 'ceo',
+    label_fr: 'CEO PME',
+    label_en: 'SMB CEO',
+    pitch_fr: "Vous voulez un ROI mesuré en 6 semaines, pas une roadmap de 18 mois.",
+    pitch_en: 'You want a measured ROI in 6 weeks, not an 18-month roadmap.',
+    paths: [
+      { fr: 'Audit Process Intelligence · 5 jours', en: 'Process Intelligence Audit · 5 days', href: '/offres/audit-process-intelligence' },
+      { fr: "Sprint MVP · 4 semaines · 1 agent en prod", en: 'MVP Sprint · 4 weeks · 1 agent live', href: '/offres/poc-mvp-sprint' },
+      { fr: 'Calculateur ROI agents', en: 'Agent ROI calculator', href: '/ressources/outils/roi-calculator' },
+    ],
+  },
+  {
+    k: 'dsi',
+    label_fr: 'DSI / RSSI',
+    label_en: 'CIO / CISO',
+    pitch_fr: "Vous voulez la trace, la souveraineté, la conformité — avant le sprint MVP.",
+    pitch_en: 'You want the audit trail, sovereignty, compliance — before the MVP sprint.',
+    paths: [
+      { fr: 'Conformité AI Act · RGPD · LPD', en: 'AI Act · GDPR · LPD compliance', href: '/offres/conformite-ai-act' },
+      { fr: 'Self-hosted · vLLM · Ollama', en: 'Self-hosted · vLLM · Ollama', href: '/offres/self-hosted' },
+      { fr: 'Trust Center · contrôles', en: 'Trust Center · controls', href: '/trust' },
+    ],
+  },
+  {
+    k: 'cto',
+    label_fr: 'CTO / Tech lead',
+    label_en: 'CTO / Tech lead',
+    pitch_fr: "Vous voulez le code, les skills, les MCP, l'orchestration multi-agents.",
+    pitch_en: 'You want the code, the skills, the MCPs, the multi-agent orchestration.',
+    paths: [
+      { fr: "Claude Skills sur-mesure", en: 'Custom Claude Skills', href: '/offres/claude-skills' },
+      { fr: 'Multi-agents · LangGraph · CrewAI', en: 'Multi-agent · LangGraph · CrewAI', href: '/offres/multi-agents' },
+      { fr: 'Cookbooks & tutoriels', en: 'Cookbooks & tutorials', href: '/ressources/cookbooks' },
+    ],
+  },
+];
+---
+<section class="sec sec-paper" aria-labelledby="persona-h2">
+  <div class="wrap-wide">
+    <header class="sec-hd">
+      <div>
+        <div class="n">
+          <span class="roman">§</span>
+          <span>{lang === 'fr' ? 'Sélecteur — où commences-tu ?' : 'Selector — where do you start?'}</span>
+        </div>
+        <h2 id="persona-h2">
+          {lang === 'fr' ? (
+            <>Trois <i>portes d'entrée</i>. La même équipe derrière.</>
+          ) : (
+            <>Three <i>entry doors</i>. Same team behind.</>
+          )}
+        </h2>
+      </div>
+      <p class="aside">
+        {lang === 'fr'
+          ? 'Cliquez sur la porte qui vous correspond. La page filtre les chemins, mais l\'engagement reste cousu main.'
+          : 'Click the door that matches you. The page filters paths, but engagement stays bespoke.'}
+      </p>
+    </header>
+
+    <div class="persona-tabs" role="tablist">
+      {personas.map((p, i) => (
+        <button class={'persona-tab' + (i === 0 ? ' is-active' : '')} role="tab" data-persona={p.k} aria-selected={i === 0 ? 'true' : 'false'}>
+          <span class="k">{String(i + 1).padStart(2, '0')}</span>
+          <span class="t">{lang === 'fr' ? p.label_fr : p.label_en}</span>
+        </button>
+      ))}
+    </div>
+
+    <div class="persona-stage">
+      {personas.map((p, i) => (
+        <article class={'persona-panel' + (i === 0 ? ' is-active' : '')} data-panel={p.k}>
+          <p class="persona-pitch">{lang === 'fr' ? p.pitch_fr : p.pitch_en}</p>
+          <ul class="persona-paths">
+            {p.paths.map((path, idx) => (
+              <li>
+                <a href={localizeHref(path.href, lang)}>
+                  <span class="i">§ {String(idx + 1).padStart(2, '0')}</span>
+                  <span class="t">{lang === 'fr' ? path.fr : path.en}</span>
+                  <span class="g">→</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    const tabs = document.querySelectorAll('.persona-tab');
+    const panels = document.querySelectorAll('.persona-panel');
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const k = tab.getAttribute('data-persona');
+        tabs.forEach((t) => {
+          const active = t.getAttribute('data-persona') === k;
+          t.classList.toggle('is-active', active);
+          t.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        panels.forEach((p) => p.classList.toggle('is-active', p.getAttribute('data-panel') === k));
+      });
+    });
+  })();
+</script>
+
+<style>
+  .persona-tabs{display:flex;gap:4px;margin-bottom:clamp(40px,5vw,72px);border-bottom:1px solid var(--hairline-strong);padding-bottom:0}
+  .persona-tab{padding:18px 28px;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);transition:color 280ms var(--ease),border-color 280ms var(--ease);border-bottom:2px solid transparent;display:flex;gap:10px;align-items:baseline;cursor:pointer}
+  .persona-tab:hover{color:var(--ink)}
+  .persona-tab.is-active{color:var(--accent);border-bottom-color:var(--accent)}
+  .persona-tab .k{opacity:.5}
+  .persona-stage{position:relative;min-height:300px}
+  .persona-panel{position:absolute;inset:0;opacity:0;transform:translateY(8px);transition:opacity 540ms var(--ease),transform 540ms var(--ease);pointer-events:none;clip-path:inset(0 0 100% 0)}
+  .persona-panel.is-active{opacity:1;transform:none;pointer-events:auto;clip-path:inset(0 0 0 0);transition:opacity 720ms var(--ease),transform 720ms var(--ease),clip-path 800ms var(--ease)}
+  .persona-pitch{font-family:var(--font-display);font-style:italic;font-size:clamp(22px,2.6vw,40px);line-height:1.25;color:var(--ink-2);max-width:900px;margin-bottom:clamp(32px,4vw,56px);text-wrap:balance}
+  .persona-paths{list-style:none;display:flex;flex-direction:column;gap:0;border-top:1px solid var(--hairline)}
+  .persona-paths li{border-bottom:1px solid var(--hairline)}
+  .persona-paths a{display:grid;grid-template-columns:80px 1fr 40px;align-items:baseline;gap:24px;padding:24px 0;color:inherit;transition:padding 360ms var(--ease),background 280ms var(--ease)}
+  .persona-paths a:hover{padding-left:16px;padding-right:16px;background:var(--paper)}
+  .persona-paths .i{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.12em}
+  .persona-paths .t{font-family:var(--font-display);font-size:clamp(20px,2.2vw,32px);letter-spacing:-0.015em;line-height:1.1}
+  .persona-paths .g{color:var(--accent);font-family:var(--font-mono);font-size:18px;justify-self:end}
+
+  @media (max-width:700px){
+    .persona-tabs{flex-wrap:wrap}
+    .persona-tab{padding:14px 18px;font-size:10.5px}
+    .persona-paths a{grid-template-columns:1fr;gap:6px}
+    .persona-paths .g{display:none}
+  }
+</style>

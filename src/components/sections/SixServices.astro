@@ -1,0 +1,73 @@
+---
+// Section · Acte II — Six services taught by doing / Six services appris en faisant
+// Variant : grille 3×2 sur fond paper-2 + hover terracotta tint
+// Motion : .reveal-stagger sur cells + .lift hover
+// Mémorable : « Six services nommés par l'acte de livrer, pas par le buzzword. »
+
+import { langFromPath, t } from '../../lib/i18n';
+import { SIX_SERVICES } from '../../data/sitemap';
+
+const lang = langFromPath(Astro.url.pathname);
+---
+<section id="act-2" class="sec sec-paper" aria-labelledby="six-h2">
+  <div class="wrap-wide">
+    <header class="six-hd">
+      <div class="chapter-label">
+        <span class="dot"></span>
+        <span>FIG II · 2.0</span>
+        <span style="color:var(--muted)">·</span>
+        <span>{lang === 'fr' ? "Acte II — La méthode" : 'Act II — The method'}</span>
+      </div>
+      <span class="six-spec">
+        {lang === 'fr' ? '6 SERVICES · UNE COUCHE CONTINUE' : '6 SERVICES · ONE CONTINUOUS LAYER'}
+      </span>
+    </header>
+
+    <h2 id="six-h2" class="six-h2 reveal">
+      {lang === 'fr' ? (
+        <>Six services, appris en <i>faisant</i> — pas en PowerPoint.</>
+      ) : (
+        <>Six services, taught by <i>doing</i> — not by slides.</>
+      )}
+    </h2>
+
+    <div class="six-grid reveal-stagger">
+      {SIX_SERVICES.map((s) => (
+        <article class="six-cell">
+          <span class="fig" style="color:var(--ink)">FIG 2.{s.k}</span>
+          <h3 class="six-cell-title">{t(s.label, lang)}</h3>
+          <p class="six-cell-body">{t(s.body, lang)}</p>
+          <span class="six-cell-arr" aria-hidden>→</span>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  #act-2{padding:clamp(100px,12vw,160px) 0;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+  .six-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:clamp(40px,4vw,56px);padding-bottom:20px;border-bottom:1px solid var(--hairline);flex-wrap:wrap;gap:14px}
+  .six-spec{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.1em}
+  .six-h2{font-family:var(--font-display);font-size:clamp(40px,7vw,104px);line-height:.98;letter-spacing:-0.025em;max-width:1100px;margin-bottom:clamp(56px,6vw,80px);font-weight:400;text-wrap:balance}
+  .six-h2 i{font-style:italic;color:var(--accent)}
+
+  .six-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--hairline-strong)}
+  .six-cell{padding:clamp(28px,3vw,40px) clamp(22px,2.6vw,32px) clamp(36px,4vw,44px);border-right:1px solid var(--hairline);border-bottom:1px solid var(--hairline);min-height:280px;position:relative;transition:background 320ms var(--ease)}
+  .six-cell:hover{background:rgba(201,79,46,0.04)}
+  .six-cell:nth-child(3n){border-right:none}
+  .six-cell:nth-child(n+4){border-bottom:none}
+  .six-cell-title{font-family:var(--font-display);font-size:clamp(28px,3vw,40px);line-height:1;letter-spacing:-0.02em;margin-top:16px;font-weight:400;text-wrap:balance}
+  .six-cell-body{margin-top:14px;font-size:14px;line-height:1.55;color:var(--muted);max-width:380px;text-wrap:pretty}
+  .six-cell-arr{position:absolute;bottom:18px;right:22px;font-family:var(--font-mono);font-size:13px;color:var(--accent)}
+
+  @media (max-width:900px){
+    .six-grid{grid-template-columns:repeat(2,1fr)}
+    .six-cell{border-right:none;border-bottom:1px solid var(--hairline)!important}
+    .six-cell:nth-child(2n){border-right:none}
+    .six-cell:nth-child(odd){border-right:1px solid var(--hairline)}
+  }
+  @media (max-width:600px){
+    .six-grid{grid-template-columns:1fr}
+    .six-cell{border-right:none!important}
+  }
+</style>

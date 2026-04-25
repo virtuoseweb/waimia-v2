@@ -1,0 +1,55 @@
+---
+title_fr: "Plateau · 2,4 M€ pipeline récupéré"
+title_en: "Plateau · €2.4M pipeline recovered"
+description_fr: "Refonte RevOps d'un SaaS B2B sous Plateau Inc. Multi-agent finance + agents triage + nettoyage CRM en 10 semaines. ROI mesuré, NDA-friendly."
+description_en: "RevOps rebuild for a B2B SaaS under Plateau Inc. Multi-agent finance + triage agents + CRM cleanup in 10 weeks. Measured ROI, NDA-friendly."
+slug: "plateau"
+client: "Plateau"
+sector_fr: "SaaS B2B"
+sector_en: "SaaS B2B"
+duration: "10 wk"
+stack: ["Claude Opus 4.7", "Claude Sonnet 4.6", "HubSpot", "dbt", "Segment"]
+impact_fr: "+2,4 M€ pipeline récupéré · 22 h/sem économisées"
+impact_en: "+€2.4M pipeline recovered · 22 h/wk saved"
+metrics:
+  - { label_fr: "Pipeline récupéré", label_en: "Pipeline recovered", value: "€2.4M" }
+  - { label_fr: "Heures économisées/semaine", label_en: "Hours saved per week", value: "22 h" }
+  - { label_fr: "Time-to-prod", label_en: "Time-to-production", value: "10 wk" }
+ndaProtected: false
+featured: true
+publishedAt: 2026-03-15
+updatedAt: 2026-04-10
+faq_fr:
+  - q: "Combien d'agents ont été déployés ?"
+    a: "Trois agents principaux : un agent finance pour la réconciliation des paiements, un agent triage pour la qualification leads, et un agent dunning pour le suivi des relances. Plus deux agents utilitaires (sync HubSpot, génération de mémos hebdomadaires)."
+  - q: "Comment l'impact a-t-il été mesuré ?"
+    a: "Avant/après sur 8 semaines, instrumentation côté HubSpot + Stripe + dbt. Pipeline = somme des deals 'stage 3+' attribuables aux séquences automatisées. Heures = temps déclaratif des équipes RevOps avant/après, validé par leur Head of RevOps."
+faq_en:
+  - q: "How many agents were deployed?"
+    a: "Three primary agents: a finance agent for payment reconciliation, a triage agent for lead qualification, a dunning agent for follow-ups. Plus two utility agents (HubSpot sync, weekly memo generation)."
+  - q: "How was impact measured?"
+    a: "Before/after over 8 weeks, instrumented through HubSpot + Stripe + dbt. Pipeline = sum of 'stage 3+' deals attributable to automated sequences. Hours = declared team time before/after, validated by their Head of RevOps."
+---
+
+import Bi from '../../components/ui/Bi.astro';
+
+## <Bi en="The shipment" fr="Le chantier" />
+
+<Bi
+  en="Plateau Inc. runs a B2B SaaS with €18M ARR. Their RevOps team was drowning in manual handoffs between marketing, sales, and finance. Three primary breakdowns were costing money: payment reconciliation took 6 hours/week of manual matching, lead triage queued 127 inbound/month with 48h response delay, and the dunning sequence was fully manual."
+  fr="Plateau Inc. opère un SaaS B2B à 18 M€ d'ARR. Son équipe RevOps suffoquait sous les handoffs manuels entre marketing, ventes, finance. Trois plaies coûtaient de l'argent : réconciliation des paiements à 6 h/semaine en matching manuel, triage de leads avec 127 entrées/mois et 48 h de délai, séquence de dunning entièrement manuelle."
+/>
+
+## <Bi en="What we shipped" fr="Ce qu'on a livré" />
+
+- <Bi en="**Finance reconciliation agent** · Claude Sonnet 4.6 + Stripe MCP + dbt models" fr="**Agent réconciliation finance** · Claude Sonnet 4.6 + MCP Stripe + modèles dbt" />
+- <Bi en="**Triage agent** · Claude Opus 4.7 routing inbound to N1/N2/escalate based on intent + ICP scoring" fr="**Agent triage** · Claude Opus 4.7 routant les inbound N1/N2/escalation sur intent + scoring ICP" />
+- <Bi en="**Dunning agent** · Sonnet 4.6 with HubSpot MCP, generates personalized chase sequences in 4 stages" fr="**Agent dunning** · Sonnet 4.6 avec MCP HubSpot, séquences de relance personnalisées en 4 étapes" />
+- <Bi en="**Audit trail** · all agent actions signed, exportable CSV/JSON, AI Act Art. 12 compliant" fr="**Trace auditable** · toutes les actions agent signées, export CSV/JSON, conforme AI Act Art. 12" />
+
+## <Bi en="Trajectory" fr="Trajectoire" />
+
+<Bi
+  en="Audit week 1, MVP sprint weeks 2–5, hardening + adoption weeks 6–10. Plateau is now running 14 active agents, with 92% of weekly RevOps tasks fully automated. They moved from Claude Pro to Anthropic API + managed agents in week 8, and are now exploring open-source fallback for finance data residency."
+  fr="Audit semaine 1, sprint MVP semaines 2-5, hardening + adoption semaines 6-10. Plateau exécute aujourd'hui 14 agents actifs, avec 92 % des tâches hebdomadaires RevOps automatisées. Migration de Claude Pro vers API Anthropic + managed agents en semaine 8, exploration en cours d'un fallback open-source pour la résidence des données finance."
+/>

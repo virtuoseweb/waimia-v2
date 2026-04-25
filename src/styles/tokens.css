@@ -1,0 +1,127 @@
+/* Waimia · tokens.css
+   Source de vérité des tokens DS · @theme expose à Tailwind v4
+   Ne pas inventer de token ici — toujours synchroniser avec docs/00-design-system-mapping.md */
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+/* ─── BASE TOKENS ─── */
+:root {
+  /* Paper / Background scale (warm parchment) */
+  --paper:   #F6F1E8;
+  --paper-2: #EFE9DD;
+  --paper-3: #E6E0D0;
+
+  /* Ink / Foreground scale */
+  --ink:   #0C0B09;
+  --ink-2: #1A1814;
+  --ink-3: #2B2620;
+
+  /* Muted / Secondary text */
+  --muted:   #6B6560;
+  --muted-2: #9A948D;
+
+  /* Hairlines */
+  --hairline:             rgba(12,11,9, 0.09);
+  --hairline-strong:      rgba(12,11,9, 0.18);
+  --hairline-dark:        rgba(246,241,232, 0.12);
+  --hairline-dark-strong: rgba(246,241,232, 0.22);
+
+  /* Accent · terracotta */
+  --accent:     #C94F2E;
+  --accent-2:   #A83D20;
+  --accent-ink: #F6F1E8;
+
+  /* Typography stacks */
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans:    "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  /* Easing */
+  --ease:       cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out:   cubic-bezier(0.16, 1, 0.30, 1);
+  --ease-sharp: cubic-bezier(0.20, 0, 0.00, 1);
+
+  /* Layout */
+  --wrap:       1440px;
+  --wrap-wide:  1560px;
+  --wrap-tight: 1120px;
+  --gut:        32px;
+
+  /* Reveals (contemplative tempo) */
+  --reveal-slow: 1400ms;
+  --reveal-med:  1100ms;
+  --signature-angle: -28deg;
+}
+
+@media (max-width: 900px) { :root { --gut: 20px; } }
+@media (max-width: 600px) { :root { --gut: 16px; } }
+
+/* ─── SEMANTIC ALIASES ─── */
+:root {
+  --bg:           var(--paper);
+  --bg-subtle:    var(--paper-2);
+  --bg-raised:    var(--paper-3);
+  --bg-inverted:  var(--ink);
+  --fg:           var(--ink);
+  --fg-secondary: var(--muted);
+  --fg-tertiary:  var(--muted-2);
+  --fg-inverted:  var(--paper);
+  --brand:        var(--accent);
+  --brand-hover:  var(--accent-2);
+  --brand-fg:     var(--accent-ink);
+  --border:       var(--hairline);
+  --border-strong:var(--hairline-strong);
+}
+
+/* ─── TYPE SCALE ─── */
+:root {
+  /* Display · Instrument Serif */
+  --text-display-xl: clamp(72px, 14vw, 240px);
+  --text-display-lg: clamp(56px, 9vw, 148px);
+  --text-display-md: clamp(44px, 6vw, 96px);
+  --text-display-sm: clamp(36px, 5vw, 64px);
+  --text-display-xs: clamp(28px, 3vw, 44px);
+
+  /* Body · Inter Tight */
+  --text-body-lg: 21px;
+  --text-body-md: 17px;
+  --text-body-sm: 14px;
+  --text-body-xs: 13px;
+
+  /* Mono · JetBrains Mono */
+  --text-mono-lg: 13px;
+  --text-mono-md: 11px;
+  --text-mono-sm: 10.5px;
+  --text-mono-xs: 10px;
+
+  /* Leading & tracking */
+  --leading-display: 0.94;
+  --leading-body:    1.5;
+  --leading-loose:   1.55;
+  --tracking-display: -0.025em;
+  --tracking-body:    -0.005em;
+  --tracking-mono:    0.12em;
+  --tracking-label:   0.14em;
+}
+
+/* ─── @theme · expose les tokens à Tailwind v4 ─── */
+@theme {
+  --color-paper:    #F6F1E8;
+  --color-paper-2:  #EFE9DD;
+  --color-paper-3:  #E6E0D0;
+  --color-ink:      #0C0B09;
+  --color-ink-2:    #1A1814;
+  --color-ink-3:    #2B2620;
+  --color-muted:    #6B6560;
+  --color-muted-2:  #9A948D;
+  --color-accent:   #C94F2E;
+  --color-accent-2: #A83D20;
+
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans:    "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --ease-default: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out:     cubic-bezier(0.16, 1, 0.30, 1);
+  --ease-sharp:   cubic-bezier(0.20, 0, 0.00, 1);
+}

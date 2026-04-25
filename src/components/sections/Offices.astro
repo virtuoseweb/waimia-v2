@@ -1,0 +1,75 @@
+---
+// Section · Offices · 2 villes split
+// Variant : Split 50/50 monumental (Instrument Serif énorme)
+// Motion : .reveal-fade
+// Mémorable : « Deux bureaux, un fuseau, deux langues. »
+
+import { langFromPath } from '../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+
+const offices = [
+  {
+    city: 'Paris',
+    addr_fr: '15 rue de la Paix\n75002 Paris\nFrance',
+    addr_en: '15 rue de la Paix\n75002 Paris\nFrance',
+    mono_fr: 'Quartier général · création',
+    mono_en: 'Headquarters · creative',
+  },
+  {
+    city: 'Genève',
+    addr_fr: '8 rue du Rhône\n1204 Genève\nSuisse',
+    addr_en: '8 rue du Rhône\n1204 Geneva\nSwitzerland',
+    mono_fr: 'Souveraineté · finance · pharma',
+    mono_en: 'Sovereignty · finance · pharma',
+  },
+];
+---
+<section class="sec reveal-fade" aria-labelledby="offices-h2">
+  <div class="wrap-wide">
+    <header class="sec-hd">
+      <div>
+        <div class="n">
+          <span class="roman">VII</span>
+          <span>{lang === 'fr' ? 'Acte VII — Bureaux' : 'Act VII — Offices'}</span>
+        </div>
+        <h2 id="offices-h2">
+          {lang === 'fr' ? (
+            <>Deux <i>villes</i>. Un fuseau. Deux langues.</>
+          ) : (
+            <>Two <i>cities</i>. One time zone. Two languages.</>
+          )}
+        </h2>
+      </div>
+      <p class="aside">
+        {lang === 'fr'
+          ? "Présence francophone Paris-Genève — la même équipe, une logique de souveraineté quand la donnée doit rester en Suisse."
+          : 'Francophone presence Paris–Geneva — same team, sovereignty logic when data must stay in Switzerland.'}
+      </p>
+    </header>
+
+    <div class="offices">
+      {offices.map((o) => (
+        <div class="office">
+          <div class="city">{o.city}</div>
+          <div class="mono">{lang === 'fr' ? o.mono_fr : o.mono_en}</div>
+          <div class="addr" set:text={lang === 'fr' ? o.addr_fr : o.addr_en} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .offices{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--hairline-strong)}
+  .office{padding:clamp(32px,4vw,56px) clamp(24px,2.8vw,40px);border-right:1px solid var(--hairline);display:flex;flex-direction:column;gap:14px;min-height:clamp(240px,24vw,320px);justify-content:space-between;color:inherit;transition:background 320ms var(--ease)}
+  .office:hover{background:var(--paper-2)}
+  .office:last-child{border-right:none}
+  .office .city{font-family:var(--font-display);font-size:clamp(48px,8vw,96px);line-height:.95;letter-spacing:-0.022em;font-weight:400}
+  .office .addr{font-family:var(--font-mono);font-size:clamp(10px,1.2vw,12.5px);color:var(--muted);line-height:1.7;white-space:pre-line}
+  .office .mono{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+  @media (max-width:700px){
+    .offices{grid-template-columns:1fr}
+    .office{border-right:none;border-bottom:1px solid var(--hairline)}
+  }
+</style>

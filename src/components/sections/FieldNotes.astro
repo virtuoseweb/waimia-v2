@@ -1,0 +1,54 @@
+---
+// Section · Field notes · feed éditorial 5 notes
+// Variant : ec-grid cols-3 mais 1 col = 1 note (5 cells, dernier full-width)
+// Motion : reveal-stagger
+// Mémorable : « Un feed éditorial qui parle terrain, pas marketing. »
+
+import { FIELD_NOTES } from '../../data/sitemap';
+import { langFromPath, t, localizeHref } from '../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+---
+<section class="sec" aria-labelledby="notes-h2">
+  <div class="wrap-wide">
+    <header class="sec-hd">
+      <div>
+        <div class="n">
+          <span class="roman">VI</span>
+          <span>{lang === 'fr' ? 'Acte VI — Notes de terrain' : 'Act VI — Field notes'}</span>
+        </div>
+        <h2 id="notes-h2">
+          {lang === 'fr' ? (
+            <>Le <i>blog</i> qu'on aurait voulu lire avant de commencer.</>
+          ) : (
+            <>The <i>blog</i> we wish we'd read before starting.</>
+          )}
+        </h2>
+      </div>
+      <p class="aside">
+        {lang === 'fr'
+          ? 'Pas de pensum SEO. Notes courtes, cas concrets, recettes pratiques. Une newsletter mensuelle, jamais de promotion.'
+          : 'No SEO bloat. Short notes, real cases, practical recipes. One monthly newsletter, never a promotion.'}
+      </p>
+    </header>
+
+    <div class="ec-grid cols-3 reveal-stagger">
+      {FIELD_NOTES.map((note) => (
+        <a class="editorial-cell lift" href={localizeHref('/ressources/blog', lang)}>
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <span class="e-tag">{t(note.tag, lang)}</span>
+            <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.1em">{note.date}</span>
+          </div>
+          <h3 class="e-title">{t(note.text, lang)}</h3>
+          <span class="e-go">{lang === 'fr' ? 'Lire la note →' : 'Read the note →'}</span>
+        </a>
+      ))}
+    </div>
+
+    <div style="margin-top:clamp(36px,4vw,56px);text-align:right">
+      <a href={localizeHref('/ressources/blog', lang)} class="btn-link" style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border-color:var(--accent)">
+        {lang === 'fr' ? 'Tout le blog →' : 'See the full blog →'}
+      </a>
+    </div>
+  </div>
+</section>

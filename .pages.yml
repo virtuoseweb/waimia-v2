@@ -1,0 +1,107 @@
+# Pages CMS · git-based headless CMS
+# https://pagescms.org/docs
+# Permet à Simon (ou un éditeur) de créer/éditer une étude de cas, un article,
+# une note de terrain depuis app.pagescms.org/virtuoseweb/waimia/main
+# sans toucher au code. Validation Zod garde le contrôle qualité côté Astro.
+
+content:
+  - name: cases
+    label: "Études de cas"
+    type: collection
+    path: src/content/cases
+    view:
+      fields: [title_fr, client, sector_fr, duration, featured]
+      primary: title_fr
+    fields:
+      - { name: title_fr, label: "Titre (FR)", type: string, required: true }
+      - { name: title_en, label: "Title (EN)", type: string, required: true }
+      - { name: description_fr, label: "Description (FR)", type: string, required: true }
+      - { name: description_en, label: "Description (EN)", type: string, required: true }
+      - { name: slug, label: "Slug (kebab-case)", type: string, required: true }
+      - { name: client, label: "Client", type: string, required: true }
+      - { name: sector_fr, label: "Secteur (FR)", type: string, required: true }
+      - { name: sector_en, label: "Sector (EN)", type: string, required: true }
+      - { name: duration, label: "Durée (ex: 10 wk)", type: string, required: true }
+      - { name: stack, label: "Stack technique", type: string, list: true }
+      - { name: impact_fr, label: "Impact (FR)", type: string, required: true }
+      - { name: impact_en, label: "Impact (EN)", type: string, required: true }
+      - { name: featured, label: "Mis en avant ?", type: boolean, default: false }
+      - { name: ndaProtected, label: "Protégé NDA ?", type: boolean, default: false }
+      - { name: heroImage, label: "Image hero", type: image }
+      - { name: publishedAt, label: "Publié le", type: date, required: true }
+      - { name: updatedAt, label: "Mis à jour le", type: date }
+      - { name: body, label: "Contenu", type: rich-text, required: true }
+
+  - name: blog
+    label: "Blog"
+    type: collection
+    path: src/content/blog
+    view:
+      fields: [title_fr, category, "author.name"]
+      primary: title_fr
+    fields:
+      - { name: title_fr, label: "Titre (FR)", type: string, required: true }
+      - { name: title_en, label: "Title (EN)", type: string, required: true }
+      - { name: description_fr, label: "Description (FR)", type: string, required: true }
+      - { name: description_en, label: "Description (EN)", type: string, required: true }
+      - { name: slug, label: "Slug", type: string, required: true }
+      - { name: category, label: "Catégorie", type: select, options: { values: ["Field Note", "Case", "Essay", "Cookbook", "Tutorial"] } }
+      - name: author
+        label: "Auteur"
+        type: object
+        fields:
+          - { name: name, label: "Nom", type: string, required: true }
+          - { name: url, label: "URL profil", type: string }
+          - { name: bio_fr, label: "Bio (FR)", type: string }
+          - { name: bio_en, label: "Bio (EN)", type: string }
+      - { name: heroImage, label: "Image hero", type: image }
+      - { name: tags, label: "Tags", type: string, list: true }
+      - { name: readingTime, label: "Temps de lecture (min)", type: number }
+      - { name: publishedAt, label: "Publié le", type: date, required: true }
+      - { name: body, label: "Contenu", type: rich-text, required: true }
+
+  - name: field-notes
+    label: "Notes de terrain"
+    type: collection
+    path: src/content/field-notes
+    view:
+      fields: [title_fr, tag_fr, date]
+      primary: title_fr
+    fields:
+      - { name: title_fr, label: "Titre (FR)", type: string, required: true }
+      - { name: title_en, label: "Title (EN)", type: string, required: true }
+      - { name: description_fr, label: "Description (FR)", type: string, required: true }
+      - { name: description_en, label: "Description (EN)", type: string, required: true }
+      - { name: slug, label: "Slug", type: string, required: true }
+      - { name: tag_fr, label: "Tag (FR)", type: select, options: { values: ["NOTE", "CAS", "ESSAI", "RECETTE"] } }
+      - { name: tag_en, label: "Tag (EN)", type: select, options: { values: ["FIELD NOTE", "CASE", "ESSAY", "COOKBOOK"] } }
+      - { name: date, label: "Date", type: date, required: true }
+      - { name: publishedAt, label: "Publié le", type: date, required: true }
+      - { name: body, label: "Contenu", type: rich-text, required: true }
+
+  - name: offres
+    label: "Offres"
+    type: collection
+    path: src/content/offres
+    fields:
+      - { name: title_fr, label: "Titre (FR)", type: string, required: true }
+      - { name: title_en, label: "Title (EN)", type: string, required: true }
+      - { name: description_fr, label: "Description (FR)", type: string, required: true }
+      - { name: description_en, label: "Description (EN)", type: string, required: true }
+      - { name: slug, label: "Slug", type: string, required: true }
+      - { name: tier, label: "Palier (1-4)", type: number, required: true }
+      - { name: category_fr, label: "Catégorie (FR)", type: string, required: true }
+      - { name: category_en, label: "Category (EN)", type: string, required: true }
+      - { name: priceFrom, label: "À partir de", type: string }
+      - { name: duration, label: "Durée", type: string, required: true }
+      - { name: deliverables_fr, label: "Livrables (FR)", type: string, list: true }
+      - { name: deliverables_en, label: "Deliverables (EN)", type: string, list: true }
+      - { name: publishedAt, label: "Publié le", type: date, required: true }
+      - { name: body, label: "Contenu", type: rich-text, required: true }
+
+settings:
+  content:
+    primary: title_fr
+  merge:
+    direct: false
+    pull-request: true
