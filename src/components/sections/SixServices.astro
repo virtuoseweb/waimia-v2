@@ -3,7 +3,10 @@
 // Variant : grille 3×2 sur fond paper-2 + hover terracotta tint
 // Motion : .reveal-stagger sur cells + .lift hover
 // Mémorable : « Six services nommés par l'acte de livrer, pas par le buzzword. »
+//
+// Composé de · ChapterLabel (refactor atomic-components)
 
+import ChapterLabel from '../ui/atoms/ChapterLabel.astro';
 import { langFromPath, t } from '../../lib/i18n';
 import { SIX_SERVICES } from '../../data/sitemap';
 
@@ -12,12 +15,10 @@ const lang = langFromPath(Astro.url.pathname);
 <section id="act-2" class="sec sec-paper" aria-labelledby="six-h2">
   <div class="wrap-wide">
     <header class="six-hd">
-      <div class="chapter-label">
-        <span class="dot"></span>
-        <span>FIG II · 2.0</span>
-        <span style="color:var(--muted)">·</span>
-        <span>{lang === 'fr' ? "Acte II — La méthode" : 'Act II — The method'}</span>
-      </div>
+      <ChapterLabel
+        num="FIG II · 2.0"
+        title={lang === 'fr' ? "Acte II — La méthode" : 'Act II — The method'}
+      />
       <span class="six-spec">
         {lang === 'fr' ? '6 SERVICES · UNE COUCHE CONTINUE' : '6 SERVICES · ONE CONTINUOUS LAYER'}
       </span>

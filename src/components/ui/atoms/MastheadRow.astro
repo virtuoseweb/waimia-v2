@@ -1,0 +1,60 @@
+---
+// Atome · MastheadRow · « Vol. 03 · № 01 · Paris/Genève · Bilingue · ◉ Booking »
+// Pattern « couverture de revue » · présent sur Hero (/), /manifesto, /atlas
+// 3-4 colonnes mono uppercase séparées par des hairlines fins
+//
+// Usage :
+//   <MastheadRow tone="paper" />              (defaults)
+//   <MastheadRow tone="ink" volume="02" status="Q3 2026" />
+
+import { langFromPath } from '../../../lib/i18n';
+
+interface Props {
+  /** Volume éditorial · ex: "Vol. 03 · № 01" */
+  volume?: string;
+  /** Lieux · ex: "Paris / Genève" */
+  locations?: string;
+  /** Status booking · texte après le ◉ */
+  status?: string;
+  /** Fond · `paper` (clair) ou `ink` (dark) */
+  tone?: 'paper' | 'ink';
+}
+
+const lang = langFromPath(Astro.url.pathname);
+
+const {
+  volume = 'Vol. 03 · № 01',
+  locations = 'Paris / Genève',
+  status = lang === 'fr' ? 'Booking T3 2026' : 'Booking Q3 2026',
+  tone = 'paper',
+} = Astro.props;
+
+const isInk = tone === 'ink';
+const color = isInk ? 'rgba(246,241,232,.55)' : 'var(--muted)';
+const borderColor = isInk ? 'rgba(246,241,232,.12)' : 'var(--hairline)';
+const lang_label = lang === 'fr' ? 'Bilingue FR · EN' : 'Bilingual EN · FR';
+---
+<div
+  class="u-masthead-row"
+  style={`display:grid;grid-template-columns:repeat(4,1fr);gap:32px;border-bottom:1px solid ${borderColor};padding-bottom:18px;font-family:var(--font-mono);font-size:11px;color:${color};letter-spacing:.08em;text-transform:uppercase`}
+>
+  <span>{volume}</span>
+  <span>{locations}</span>
+  <span>{lang_label}</span>
+  <span style="text-align:right">
+    <span style="color:var(--accent)">◉</span> {status}
+  </span>
+</div>
+
+<style>
+  /* Mobile · stack en 2 col pour rester lisible */
+  @media (max-width: 900px) {
+    .u-masthead-row {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 14px !important;
+    }
+    .u-masthead-row > :last-child {
+      text-align: left !important;
+    }
+  }
+</style>

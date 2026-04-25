@@ -3,7 +3,10 @@
 // Variant : table éditoriale 6 colonnes (idx · client · sector · stack · impact · arrow)
 // Motion : .row-lines · hover background terracotta tint · arrow color shift
 // Mémorable : « Quatre lignes lues comme un compte rendu d'audit. »
+//
+// Composé de · ChapterLabel (refactor atomic-components)
 
+import ChapterLabel from '../ui/atoms/ChapterLabel.astro';
 import { CASE_FEED } from '../../data/sitemap';
 import { langFromPath, t, localizeHref } from '../../lib/i18n';
 
@@ -14,12 +17,10 @@ const cases = CASE_FEED.slice(0, 4);
 <section id="act-4" class="sec" aria-labelledby="cases-h2">
   <div class="wrap-wide">
     <header class="cases-hd">
-      <div class="chapter-label">
-        <span class="dot"></span>
-        <span>FIG IV · 4.0</span>
-        <span style="color:var(--muted)">·</span>
-        <span>{lang === 'fr' ? "Acte IV — Les preuves" : 'Act IV — The proof'}</span>
-      </div>
+      <ChapterLabel
+        num="FIG IV · 4.0"
+        title={lang === 'fr' ? "Acte IV — Les preuves" : 'Act IV — The proof'}
+      />
       <span class="cases-spec">
         {lang === 'fr' ? '4 DOSSIERS · BLOCS DE DONNÉES' : '4 CASE FILES · DATA BLOCKS'}
       </span>

@@ -3,7 +3,10 @@
 // Variant : ec-grid cols-3 + .reveal-stagger
 // Motion : stagger fade-up + .lift hover
 // Mémorable : « La grille des métiers comme un index notarié. »
+//
+// Composé de · SectionHeader (refactor atomic-components)
 
+import SectionHeader from '../ui/molecules/SectionHeader.astro';
 import { DEPARTMENTS_GRID } from '../../data/sitemap';
 import { langFromPath, t, localizeHref } from '../../lib/i18n';
 
@@ -11,26 +14,20 @@ const lang = langFromPath(Astro.url.pathname);
 ---
 <section class="sec" aria-labelledby="dept-h2">
   <div class="wrap-wide">
-    <header class="sec-hd">
-      <div>
-        <div class="n">
-          <span class="roman">III</span>
-          <span>{lang === 'fr' ? 'Acte III — Solutions par métier' : 'Act III — Department solutions'}</span>
-        </div>
-        <h2 id="dept-h2">
-          {lang === 'fr' ? (
-            <>Six métiers. Six <i>terrains</i>. Une méthode.</>
-          ) : (
-            <>Six departments. Six <i>fields</i>. One method.</>
-          )}
-        </h2>
-      </div>
-      <p class="aside">
+    <SectionHeader
+      roman="III"
+      label={lang === 'fr' ? 'Acte III — Solutions par métier' : 'Act III — Department solutions'}
+      id="dept-h2"
+    >
+      <Fragment slot="heading">
+        {lang === 'fr' ? (<>Six métiers. Six <i>terrains</i>. Une méthode.</>) : (<>Six departments. Six <i>fields</i>. One method.</>)}
+      </Fragment>
+      <Fragment slot="aside">
         {lang === 'fr'
           ? "Chaque département a ses contraintes — réglementation, données, culture interne. Notre méthode reste la même : process, agent, audit, mesure."
           : 'Each department has its own constraints — regulation, data, internal culture. Our method stays the same: process, agent, audit, measure.'}
-      </p>
-    </header>
+      </Fragment>
+    </SectionHeader>
 
     <div class="ec-grid cols-3 reveal-stagger">
       {DEPARTMENTS_GRID.map((d) => (

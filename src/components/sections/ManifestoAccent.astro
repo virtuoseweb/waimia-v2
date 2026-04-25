@@ -5,7 +5,10 @@
 // Mémorable : « Le moment où la page hurle ce qu'elle déteste — terracotta sang sur paper. »
 //
 // Source: virtuoseweb/waimia DirectionB.tsx · lines 199-210 (Manifesto accent · Viewport 01)
+//
+// Composé de · Kicker (refactor atomic-components)
 
+import Kicker from '../ui/atoms/Kicker.astro';
 import { langFromPath } from '../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
@@ -15,9 +18,9 @@ const lang = langFromPath(Astro.url.pathname);
   <div class="manifesto-accent-grid" aria-hidden></div>
 
   <div class="wrap-wide" style="position:relative;z-index:1">
-    <div class="manifesto-accent-kicker">
+    <Kicker class="manifesto-accent-kicker">
       § {lang === 'fr' ? 'Manifeste · Viewport 02' : 'Manifesto · Viewport 02'}
-    </div>
+    </Kicker>
 
     <p id="manifesto-accent-anchor" class="manifesto-accent-text reveal">
       {lang === 'fr' ? (
@@ -51,12 +54,10 @@ const lang = langFromPath(Astro.url.pathname);
     mask-image:radial-gradient(ellipse at 30% 70%, black 0%, transparent 80%);
     -webkit-mask-image:radial-gradient(ellipse at 30% 70%, black 0%, transparent 80%);
   }
-  .manifesto-accent-kicker{
-    font-family:var(--font-mono);
-    font-size:11px;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:rgba(246,241,232,.78);
+  /* Override Kicker atom · couleur cream sur fond terracotta (cas marginal · 1 occurrence)
+     Le `!important` est nécessaire car Kicker pose un style inline pour color. */
+  :global(.manifesto-accent-kicker){
+    color:rgba(246,241,232,.78) !important;
     margin-bottom:clamp(28px,3.5vw,48px);
   }
   .manifesto-accent-text{

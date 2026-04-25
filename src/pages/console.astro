@@ -14,6 +14,8 @@
 
 import Base from '../layouts/Base.astro';
 import ProductReel from '../components/motion/ProductReel.tsx';
+import Kicker from '../components/ui/atoms/Kicker.astro';
+import TerminalMockup from '../components/ui/molecules/TerminalMockup.astro';
 import { CASE_FEED, FIELD_NOTES, SIX_SERVICES } from '../data/sitemap';
 import { langFromPath, t as ft, localizeHref as flh } from '../lib/i18n';
 
@@ -77,24 +79,25 @@ const METRICS = [
           </div>
         </div>
 
-        {/* right · terminal mockup */}
-        <div style="background:var(--ink);border-radius:14px;padding:18px;box-shadow:0 40px 120px rgba(12,11,9,.2);font-family:var(--font-mono);font-size:12px;color:rgba(246,241,232,.8)">
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
-            <span style="width:9px;height:9px;border-radius:9px;background:rgba(246,241,232,.25)"></span>
-            <span style="width:9px;height:9px;border-radius:9px;background:rgba(246,241,232,.25)"></span>
-            <span style="width:9px;height:9px;border-radius:9px;background:rgba(246,241,232,.25)"></span>
-            <span style="margin-left:12px;color:rgba(246,241,232,.55);font-size:11px">waimia@virtuose ~ / plateau-saas</span>
-            <span style="margin-left:auto;font-size:11px;color:var(--accent)">◉ 14:22 UTC+1</span>
+        {/* right · terminal mockup · molécule TerminalMockup */}
+        <TerminalMockup
+          label="waimia@virtuose ~ / plateau-saas"
+          status="◉ 14:22 UTC+1"
+          tone="ink"
+          bodyPadding={18}
+          class="c-hero-term"
+        >
+          <div style="color:rgba(246,241,232,.8)">
+            <div style="padding:8px 0"><span style="color:var(--accent)">$ </span>virtuose --version</div>
+            <div style="color:rgba(246,241,232,.55)">VirtuoseOS 2.4.1 · locale fr-FR · kernel ok</div>
+            <div style="padding:8px 0"><span style="color:var(--accent)">$ </span>virtuose ship pipeline.agent</div>
+            <div style="color:rgba(246,241,232,.55)">  → hubspot.sync ok · 482 contacts</div>
+            <div style="color:rgba(246,241,232,.55)">  → claude.triage ok · 14 handoffs</div>
+            <div style="color:rgba(246,241,232,.55)">  → audit.trail open</div>
+            <div style="padding:8px 0;color:var(--accent)">  ✓ pipeline shipped · +€ 19 540 pipeline</div>
+            <div style="padding:8px 0"><span style="color:var(--accent)">$ </span><span class="c-cursor"></span></div>
           </div>
-          <div style="padding:8px 0"><span style="color:var(--accent)">$ </span>virtuose --version</div>
-          <div style="color:rgba(246,241,232,.55)">VirtuoseOS 2.4.1 · locale fr-FR · kernel ok</div>
-          <div style="padding:8px 0"><span style="color:var(--accent)">$ </span>virtuose ship pipeline.agent</div>
-          <div style="color:rgba(246,241,232,.55)">  → hubspot.sync ok · 482 contacts</div>
-          <div style="color:rgba(246,241,232,.55)">  → claude.triage ok · 14 handoffs</div>
-          <div style="color:rgba(246,241,232,.55)">  → audit.trail open</div>
-          <div style="padding:8px 0;color:var(--accent)">  ✓ pipeline shipped · +€ 19 540 pipeline</div>
-          <div style="padding:8px 0"><span style="color:var(--accent)">$ </span><span class="c-cursor"></span></div>
-        </div>
+        </TerminalMockup>
       </div>
 
       {/* 5 metrics strip */}
@@ -113,10 +116,8 @@ const METRICS = [
   <section id="act-1" style="padding:clamp(120px,14vw,160px) clamp(20px,4vw,48px);background:var(--paper-2);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)">
     <div style="max-width:1500px;margin:0 auto;display:grid;grid-template-columns:280px 1fr;gap:clamp(32px,5vw,64px)">
       <div style="position:sticky;top:120px;align-self:start">
-        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)">[act.01]</div>
-        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px">
-          {lang === 'fr' ? 'Le constat' : 'The reckoning'}
-        </div>
+        <Kicker tone="accent">[act.01]</Kicker>
+        <Kicker class="c-acte-sub">{lang === 'fr' ? 'Le constat' : 'The reckoning'}</Kicker>
       </div>
       <div>
         <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(36px,5.5vw,88px);line-height:1;letter-spacing:-0.02em;margin-bottom:48px;font-weight:400;text-wrap:balance">
@@ -144,10 +145,10 @@ const METRICS = [
   <section id="act-2" style="padding:clamp(120px,14vw,160px) clamp(20px,4vw,48px)">
     <div style="max-width:1500px;margin:0 auto">
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:60px;padding-bottom:20px;border-bottom:1px solid var(--hairline);flex-wrap:wrap;gap:10px">
-        <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase">
+        <Kicker tone="accent">
           [act.02] · <span style="color:var(--muted)">{lang === 'fr' ? 'la méthode' : 'the method'}</span>
-        </div>
-        <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.1em">6 services · in-house</div>
+        </Kicker>
+        <Kicker>6 services · in-house</Kicker>
       </div>
       <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(40px,7vw,112px);line-height:.96;letter-spacing:-0.025em;max-width:1300px;margin-bottom:60px;font-weight:400;text-wrap:balance">
         {lang === 'fr' ? (<>Six services. Une <i>seule</i> couche.</>) : (<>Six services. One <i>continuous</i> layer.</>)}
@@ -174,7 +175,7 @@ const METRICS = [
   {/* MANIFESTO interlude dark */}
   <section style="padding:clamp(140px,18vw,200px) clamp(20px,4vw,48px);background:var(--ink);color:var(--paper)">
     <div style="max-width:1400px;margin:0 auto">
-      <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:40px">[manifesto]</div>
+      <Kicker tone="accent" class="c-manifesto-tag">[manifesto]</Kicker>
       <p class="reveal" style="font-family:var(--font-display);font-size:clamp(32px,5.8vw,88px);line-height:1.05;letter-spacing:-0.02em;color:var(--paper);font-weight:400">
         {lang === 'fr' ? (
           <>On écrit en <span style="color:var(--accent)">français</span>, on lit la documentation Stripe, on livre du code le mardi, on mesure le pipeline le vendredi. Pas de cerveau-circuit. Pas de verre. Pas de <i>théâtre</i>.</>
@@ -189,10 +190,10 @@ const METRICS = [
   <section id="act-3" style="background:var(--paper)">
     <div style="padding:120px clamp(20px,4vw,48px) 60px;max-width:1500px;margin:0 auto">
       <div style="display:flex;justify-content:space-between;align-items:baseline;padding-bottom:20px;border-bottom:1px solid var(--hairline);flex-wrap:wrap;gap:10px">
-        <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase">
+        <Kicker tone="accent">
           [act.03] · <span style="color:var(--muted)">{lang === 'fr' ? 'la plateforme' : 'the platform'}</span>
-        </div>
-        <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.1em">virtuoseos · live scroll · 4 steps</div>
+        </Kicker>
+        <Kicker>virtuoseos · live scroll · 4 steps</Kicker>
       </div>
       <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(40px,7vw,120px);line-height:.96;letter-spacing:-0.025em;max-width:1400px;margin-top:40px;margin-bottom:10px;font-weight:400">
         {lang === 'fr' ? (<>Faites défiler la <i>console</i>.</>) : (<>Scroll the <i>console</i>.</>)}
@@ -204,9 +205,9 @@ const METRICS = [
   {/* ACTE IV · table cases */}
   <section id="act-4" style="padding:clamp(120px,14vw,160px) clamp(20px,4vw,48px);background:var(--paper-2)">
     <div style="max-width:1500px;margin:0 auto">
-      <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:30px">
+      <Kicker tone="accent" class="c-act-04">
         [act.04] · <span style="color:var(--muted)">{lang === 'fr' ? 'preuves' : 'proof'}</span>
-      </div>
+      </Kicker>
       <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(40px,7vw,112px);line-height:.96;letter-spacing:-0.025em;max-width:1300px;margin-bottom:60px;font-weight:400">
         {lang === 'fr' ? (<>Cas clients, en <i>table</i>.</>) : (<>Cases, as a <i>table</i>.</>)}
       </h2>
@@ -239,10 +240,10 @@ const METRICS = [
   <section id="writing" style="padding:clamp(100px,12vw,140px) clamp(20px,4vw,48px);border-top:1px solid var(--hairline)">
     <div style="max-width:1500px;margin:0 auto">
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:40px;padding-bottom:16px;border-bottom:1px solid var(--hairline);flex-wrap:wrap;gap:10px">
-        <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase">
+        <Kicker tone="accent">
           [writing] · <span style="color:var(--muted)">{lang === 'fr' ? 'notes & changelog' : 'field notes & changelog'}</span>
-        </div>
-        <a href={flh('/ressources/blog', lang)} style="font-family:var(--font-mono);font-size:11px;color:var(--muted)">/feed.xml</a>
+        </Kicker>
+        <Kicker as="span"><a href={flh('/ressources/blog', lang)} style="color:var(--muted)">/feed.xml</a></Kicker>
       </div>
       <div>
         {FIELD_NOTES.map((s) => (
@@ -260,9 +261,9 @@ const METRICS = [
   {/* ACTE V · session terminal split */}
   <section id="act-5" style="padding:clamp(140px,18vw,200px) clamp(20px,4vw,48px);background:var(--ink);color:var(--paper)">
     <div style="max-width:1500px;margin:0 auto">
-      <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:30px">
+      <Kicker tone="accent" class="c-act-05">
         [act.05] · <span style="color:rgba(246,241,232,.5)">{lang === 'fr' ? "passer à l'action" : 'act'}</span>
-      </div>
+      </Kicker>
       <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(40px,6vw,80px);align-items:end">
         <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(56px,10vw,172px);line-height:.9;letter-spacing:-0.03em;color:var(--paper);text-wrap:balance;font-weight:400;margin:0">
           {lang === 'fr' ? (
@@ -290,6 +291,12 @@ const METRICS = [
 </Base>
 
 <style>
+  /* Spacing pour les Kicker atom rendus par les sous-composants */
+  :global(.c-acte-sub){margin-top:4px}
+  :global(.c-manifesto-tag){margin-bottom:40px}
+  :global(.c-act-04){margin-bottom:30px}
+  :global(.c-act-05){margin-bottom:30px}
+
   /* Curseur clignotant terminal */
   .c-cursor{display:inline-block;width:8px;height:14px;background:var(--accent);animation:c-blink 1s infinite}
   @keyframes c-blink{50%{opacity:0}}

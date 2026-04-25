@@ -1,0 +1,38 @@
+---
+// Atome · Kicker
+// Bande mono uppercase color-muted · usage massif (≥ 30 occurrences sur le site)
+// Cf docs/06-coding-standards.md §4 (nommage atomes/molécules)
+//
+// Usage :
+//   <Kicker>§ 01 · LEDE</Kicker>
+//   <Kicker tone="accent">§ FIG II</Kicker>
+//   <Kicker tone="dim">/feed.xml</Kicker>
+//   <Kicker as="span" class="extra-class">…</Kicker>
+
+interface Props {
+  /** Élément HTML rendu (`div` par défaut). */
+  as?: 'div' | 'span' | 'p';
+  /** Couleur du texte ·
+   *   `muted` (défaut) — gris standard
+   *   `accent` — terracotta (pour les kickers d'acte) ·
+   *   `dim` — encore plus discret (footnote-like) */
+  tone?: 'muted' | 'accent' | 'dim';
+  /** Taille (px) ·  défaut 11 */
+  size?: number;
+  /** Classes additionnelles · concaténées proprement */
+  class?: string;
+}
+
+const { as: Tag = 'div', tone = 'muted', size = 11, class: extraClass = '' } = Astro.props;
+
+// Couleurs · centralisées ici une fois pour toutes
+const color = tone === 'accent' ? 'var(--accent)'
+            : tone === 'dim'    ? 'rgba(246,241,232,.5)'  // dim · pour usage on-dark
+            : 'var(--muted)';
+
+// Le style inline est minimal et stable · pas de scope Astro pour simplifier la composition
+const style = `font-family:var(--font-mono);font-size:${size}px;letter-spacing:.14em;text-transform:uppercase;color:${color}`;
+---
+<Tag class={`u-kicker ${extraClass}`.trim()} style={style}>
+  <slot />
+</Tag>

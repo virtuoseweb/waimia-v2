@@ -3,7 +3,10 @@
 // Variant : Split 50/50 monumental (Instrument Serif énorme)
 // Motion : .reveal-fade
 // Mémorable : « Deux bureaux, un fuseau, deux langues. »
+//
+// Composé de · SectionHeader (refactor atomic-components)
 
+import SectionHeader from '../ui/molecules/SectionHeader.astro';
 import { langFromPath } from '../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
@@ -27,26 +30,20 @@ const offices = [
 ---
 <section class="sec reveal-fade" aria-labelledby="offices-h2">
   <div class="wrap-wide">
-    <header class="sec-hd">
-      <div>
-        <div class="n">
-          <span class="roman">VII</span>
-          <span>{lang === 'fr' ? 'Acte VII — Bureaux' : 'Act VII — Offices'}</span>
-        </div>
-        <h2 id="offices-h2">
-          {lang === 'fr' ? (
-            <>Deux <i>villes</i>. Un fuseau. Deux langues.</>
-          ) : (
-            <>Two <i>cities</i>. One time zone. Two languages.</>
-          )}
-        </h2>
-      </div>
-      <p class="aside">
+    <SectionHeader
+      roman="VII"
+      label={lang === 'fr' ? 'Acte VII — Bureaux' : 'Act VII — Offices'}
+      id="offices-h2"
+    >
+      <Fragment slot="heading">
+        {lang === 'fr' ? (<>Deux <i>villes</i>. Un fuseau. Deux langues.</>) : (<>Two <i>cities</i>. One time zone. Two languages.</>)}
+      </Fragment>
+      <Fragment slot="aside">
         {lang === 'fr'
           ? "Présence francophone Paris-Genève — la même équipe, une logique de souveraineté quand la donnée doit rester en Suisse."
           : 'Francophone presence Paris–Geneva — same team, sovereignty logic when data must stay in Switzerland.'}
-      </p>
-    </header>
+      </Fragment>
+    </SectionHeader>
 
     <div class="offices">
       {offices.map((o) => (

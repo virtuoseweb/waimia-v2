@@ -14,6 +14,8 @@
 import Base from '../../layouts/Base.astro';
 import LiquidHero from '../../components/motion/LiquidHero.tsx';
 import ManifestoAccent from '../../components/sections/ManifestoAccent.astro';
+import Button from '../../components/ui/atoms/Button.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
 import { CLIENT_LOGOS, SIX_SERVICES, CASE_FEED, FIELD_NOTES } from '../../data/sitemap';
 import { langFromPath, t as ft, localizeHref as flh } from '../../lib/i18n';
 
@@ -130,10 +132,10 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
   <section style="padding:clamp(140px,16vw,200px) clamp(20px,4vw,48px);background:var(--paper);color:var(--ink)">
     <div style="max-width:1600px;margin:0 auto">
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:clamp(60px,8vw,100px);flex-wrap:wrap;gap:14px">
-        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">
+        <Kicker>
           <span style="color:var(--accent)">II.</span> {lang === 'fr' ? 'La méthode' : 'The method'}
-        </div>
-        <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.1em">6 · ALL IN HOUSE</div>
+        </Kicker>
+        <Kicker>6 · ALL IN HOUSE</Kicker>
       </div>
       <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(48px,8vw,148px);line-height:.94;letter-spacing:-0.03em;max-width:1400px;margin-bottom:clamp(80px,10vw,120px);text-wrap:balance;font-weight:400">
         {lang === 'fr' ? (
@@ -196,9 +198,9 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
   {/* ACTE IV · cards décalées */}
   <section style="padding:clamp(140px,16vw,200px) clamp(20px,4vw,48px);background:var(--paper);color:var(--ink)">
     <div style="max-width:1600px;margin:0 auto">
-      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:32px">
+      <Kicker class="manifesto-acte-iv">
         <span style="color:var(--accent)">IV.</span> {lang === 'fr' ? 'Les preuves' : 'The proof'}
-      </div>
+      </Kicker>
       <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(48px,8vw,148px);line-height:.92;letter-spacing:-0.03em;max-width:1400px;margin-bottom:clamp(60px,8vw,100px);text-wrap:balance;font-weight:400">
         {lang === 'fr' ? (<>Pas des démos. Des <i style="color:var(--accent)">résultats</i>.</>) : (<>Not demos. <i style="color:var(--accent)">Results</i>.</>)}
       </h2>
@@ -253,25 +255,29 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
   {/* ACTE V · Stop rehearsing */}
   <section style="padding:clamp(160px,20vw,240px) clamp(20px,4vw,48px);background:var(--paper);text-align:center">
     <div style="max-width:1600px;margin:0 auto">
-      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:40px">
+      <Kicker class="manifesto-acte-v">
         <span style="color:var(--accent)">V.</span> {lang === 'fr' ? "Passer à l'action" : 'Act'}
-      </div>
+      </Kicker>
       <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(72px,14vw,260px);line-height:.86;letter-spacing:-0.04em;text-wrap:balance;font-weight:400">
         {lang === 'fr' ? (<>Arrêtez de <i style="color:var(--accent)">répéter</i>.<br />Livrez.</>) : (<>Stop <i style="color:var(--accent)">rehearsing</i>.<br />Ship.</>)}
       </h2>
       <div style="display:inline-flex;gap:14px;margin-top:60px;flex-wrap:wrap;justify-content:center">
-        <a href={flh('/contact', lang)} class="btn btn-accent btn-lg" data-mag="0.22">
+        <Button href={flh('/contact', lang)} variant="accent" size="lg" mag={0.22}>
           {lang === 'fr' ? 'Prendre 45 min →' : 'Book 45 min →'}
-        </a>
-        <a href={`mailto:${lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr'}`} class="btn btn-ghost btn-lg">
+        </Button>
+        <Button href={`mailto:${lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr'}`} variant="ghost" size="lg">
           {lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr'}
-        </a>
+        </Button>
       </div>
     </div>
   </section>
 </Base>
 
 <style>
+  /* Margins pour les Kicker atom rendus par les sous-composants */
+  :global(.manifesto-acte-iv){margin-bottom:32px}
+  :global(.manifesto-acte-v){margin-bottom:40px}
+
   /* Marquee local · plus rapide que le marquee paper du / */
   .b-marquee-track{display:inline-flex;animation:b-slide 80s linear infinite}
   @keyframes b-slide{to{transform:translateX(-33.333%)}}
