@@ -8,7 +8,7 @@
  * exécution JS. React n'enrobe que les classes `is-visible` / `is-near-bottom`.
  *
  * Coût bundle : ~600 B après tree-shaking React partagé. */
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from "react";
 
 interface Props {
   /** Contenu rendu côté Astro (HTML statique, indexable). */
@@ -27,20 +27,31 @@ export default function PagePillIsland({
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
+    // Throttle via requestAnimationFrame · au plus 1 update par frame (60fps)
+    // Évite un setState par event scroll, négligeable mais propre sur low-end mobile.
+    let raf = 0;
+    const compute = () => {
+      raf = 0;
       const y = window.scrollY;
       const distBottom =
         document.documentElement.scrollHeight - (y + window.innerHeight);
       setVisible(y > showAfter && distBottom > hideBeforeBottom);
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(compute);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    compute(); // initial state sans attendre un scroll
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, [showAfter, hideBeforeBottom]);
 
   return (
     <div
-      className={'page-pill' + (visible ? ' is-visible' : '')}
+      className={"page-pill" + (visible ? " is-visible" : "")}
       role="complementary"
       aria-hidden={!visible}
     >

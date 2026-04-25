@@ -9,7 +9,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:prod": "PLAYWRIGHT_BASE_URL=https://waimia-v2.vercel.app playwright test"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.4",
@@ -23,6 +27,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/vite": "^4.2.4",
     "tailwindcss": "^4.2.4",
     "typescript": "^6.0.3"
