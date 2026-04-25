@@ -1,0 +1,73 @@
+---
+// Section · Manifeste Accent · full-bleed terracotta · viscéral
+// Variant : fond terracotta + Instrument Serif italic XL · « On refuse / We refuse »
+// Motion : .reveal (fade-up 1400ms) + signature grid translucide
+// Mémorable : « Le moment où la page hurle ce qu'elle déteste — terracotta sang sur paper. »
+//
+// Source: virtuoseweb/waimia DirectionB.tsx · lines 199-210 (Manifesto accent · Viewport 01)
+
+import { langFromPath } from '../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+---
+<section class="manifesto-accent" aria-labelledby="manifesto-accent-anchor">
+  {/* Signature grid en plus saturée pour rester lisible sur fond terracotta */}
+  <div class="manifesto-accent-grid" aria-hidden></div>
+
+  <div class="wrap-wide" style="position:relative;z-index:1">
+    <div class="manifesto-accent-kicker">
+      § {lang === 'fr' ? 'Manifeste · Viewport 02' : 'Manifesto · Viewport 02'}
+    </div>
+
+    <p id="manifesto-accent-anchor" class="manifesto-accent-text reveal">
+      {lang === 'fr' ? (
+        <>
+          On refuse l'uniforme <i>purple-glass</i>. On refuse le cerveau-circuits. On refuse la voix AI-startup. On garde le métier, les reçus, et les <i>règles typographiques françaises</i>.
+        </>
+      ) : (
+        <>
+          We refuse the <i>purple-glass</i> uniform. We refuse the brain-on-circuits. We refuse the AI-startup voice. We keep the craft, the receipts, and the <i>French typographic rules</i>.
+        </>
+      )}
+    </p>
+  </div>
+</section>
+
+<style>
+  .manifesto-accent{
+    padding:clamp(160px,22vw,300px) 0;
+    background:var(--accent);color:var(--paper);
+    position:relative;overflow:hidden;
+    border-top:1px solid rgba(246,241,232,.18);
+    border-bottom:1px solid rgba(246,241,232,.18);
+  }
+  /* Grid translucide cream qui rappelle le signature-grid mais lisible sur terracotta */
+  .manifesto-accent-grid{
+    position:absolute;inset:0;pointer-events:none;
+    background-image:
+      linear-gradient(to right, rgba(246,241,232,0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(246,241,232,0.08) 1px, transparent 1px);
+    background-size:48px 48px;
+    mask-image:radial-gradient(ellipse at 30% 70%, black 0%, transparent 80%);
+    -webkit-mask-image:radial-gradient(ellipse at 30% 70%, black 0%, transparent 80%);
+  }
+  .manifesto-accent-kicker{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:rgba(246,241,232,.78);
+    margin-bottom:clamp(28px,3.5vw,48px);
+  }
+  .manifesto-accent-text{
+    font-family:var(--font-display);
+    font-size:clamp(40px,7.5vw,128px);
+    line-height:.98;
+    letter-spacing:-0.03em;
+    color:var(--paper);
+    max-width:1500px;
+    text-wrap:balance;
+    font-weight:400;
+  }
+  .manifesto-accent-text i{font-style:italic}
+</style>

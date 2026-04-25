@@ -10,7 +10,7 @@ const lang = langFromPath(Astro.url.pathname);
 ---
 <section class="manifesto" aria-labelledby="manifesto-anchor">
   <div class="wrap-wide">
-    <div class="fig" style="margin-bottom:24px">§ Manifeste · FIG 0.0</div>
+    <div class="fig" style="margin-bottom:24px">§ {lang === 'fr' ? 'Manifeste · Viewport 01' : 'Manifesto · Viewport 01'}</div>
     <p id="manifesto-anchor" class="manifesto-text reveal">
       {lang === 'fr' ? (
         <>
