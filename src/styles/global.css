@@ -307,26 +307,42 @@ code,pre{font-family:var(--font-mono);font-size:var(--text-mono-lg)}
 .how-row .ttl{font-family:var(--font-display);font-size:clamp(22px,2.5vw,38px);line-height:1.1;letter-spacing:-0.018em;font-weight:400;text-wrap:balance}
 .how-row .desc{font-size:clamp(12px,1.2vw,14.5px);color:var(--muted);line-height:1.6;text-wrap:pretty}
 
-/* ─── PAGE PILL · floating breadcrumb · pattern Slots Astro ─── */
-/* Le contenu est rendu par Astro côté serveur (lien /atlas indexable LLM) */
-/* Les états .is-visible / non-visible sont pilotés par PagePillIsland (React island) */
+/* ─── DIRECTION SWITCHER · floating bottom-left · pattern Slots Astro ─── */
+/* Astro rend les 4 boutons + état actif en HTML pur (indexable LLM, fonctionne sans JS) */
+/* PagePillIsland (React island) ne gère que .is-visible (apparition au scroll) */
 .page-pill{
   position:fixed;bottom:20px;left:20px;z-index:50;
-  padding:9px 18px;
-  background:rgba(246,241,232,0.88);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  padding:4px;
+  background:rgba(246,241,232,0.92);
+  backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);
   border:1px solid var(--hairline-strong);border-radius:999px;
-  font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
-  display:inline-flex;gap:8px;align-items:center;
+  display:inline-flex;gap:2px;align-items:center;
+  box-shadow:0 12px 40px rgba(12,11,9,.08);
   /* États initiaux · invisibles tant que React n'a pas dit ouvrir */
   opacity:0;transform:translateY(8px);pointer-events:none;
   transition:opacity 540ms var(--ease),transform 540ms var(--ease);
 }
 .page-pill.is-visible{opacity:1;transform:none;pointer-events:auto}
-.page-pill a{color:var(--ink);transition:color 260ms var(--ease)}
-.page-pill a:hover{color:var(--accent)}
-@media (max-width:600px){
-  .page-pill{font-size:9.5px;padding:7px 14px;left:12px;bottom:12px;gap:6px}
+
+.page-pill-btn{
+  display:inline-flex;gap:7px;align-items:baseline;
+  padding:7px 14px;border-radius:999px;
+  font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+  transition:background 220ms var(--ease),color 220ms var(--ease);
+  white-space:nowrap;
+}
+.page-pill-btn:hover{color:var(--ink)}
+.page-pill-btn.is-active{background:var(--ink);color:var(--paper)}
+.page-pill-btn .page-pill-k{font-weight:500;color:inherit;opacity:.7}
+.page-pill-btn.is-active .page-pill-k{opacity:1;color:var(--accent)}
+.page-pill-btn .page-pill-l{color:inherit}
+
+@media (max-width:780px){
+  .page-pill{padding:3px;left:12px;bottom:12px}
+  .page-pill-btn{padding:6px 10px;font-size:9.5px;gap:5px}
+  .page-pill-btn .page-pill-l{display:none}    /* mobile : juste les lettres A · B · C · ✦ */
+  .page-pill-btn{padding:8px 11px}
 }
 
 /* ─── REDUCED MOTION ─── */

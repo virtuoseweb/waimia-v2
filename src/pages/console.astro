@@ -1,0 +1,324 @@
+---
+// Page · /console · Direction C · port DirectionC.tsx
+// Pacing :
+//   1. Hero terminal · split (titre + console mockup blink)
+//   2. 5 metrics strip
+//   3. Marquee
+//   4. Acte I paper-2 · 4 OBS rows (43 / 9 / ×4 / replatforming)
+//   5. Acte II terminal-table · 6 services en grille [id|service|description|status]
+//   6. Manifesto interlude dark
+//   7. Acte III · ProductReel sticky scroll (signature)
+//   8. Acte IV · cases en table [id|client|sector|duration|stack|impact]
+//   9. Writing
+//   10. Acte V dark · "Open a session. Not a pitch."
+
+import Base from '../layouts/Base.astro';
+import ProductReel from '../components/motion/ProductReel.tsx';
+import { CASE_FEED, FIELD_NOTES, SIX_SERVICES } from '../data/sitemap';
+import { langFromPath, t as ft, localizeHref as flh } from '../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+
+const OBS = [
+  { tag: '[obs.1]', text: { en: '43 tools. 9 touch the same record.',     fr: '43 outils. 9 touchent le même enregistrement.' } },
+  { tag: '[obs.2]', text: { en: 'LLM without warehouse = expensive guess.', fr: 'LLM sans entrepôt = conjecture chère.' } },
+  { tag: '[obs.3]', text: { en: '6-week agents beat 6-month agents ×4.',  fr: 'Agent 6 sem > agent 6 mois ×4.' } },
+  { tag: '[obs.4]', text: { en: 'Replatforming almost always wrong.',     fr: 'Refonte presque toujours à tort.' } },
+];
+
+const METRICS = [
+  ['uptime',    '99.98%'],
+  ['workspaces','4 active'],
+  ['agents',    '14 live'],
+  ['locale',    'fr-FR / en-US'],
+  ['release',   '2.4.1 · 04.2026'],
+];
+---
+<Base
+  title={lang === 'fr' ? "Waimia · Console · Un OS pour les opérations revenue" : 'Waimia · Console · An operating system for revenue ops'}
+  description={lang === 'fr'
+    ? "Direction C · Variante Console. Hero terminal + ProductReel sticky scroll · faire défiler la console pour voir VirtuoseOS opérer."
+    : 'Direction C · Console variant. Terminal hero + sticky ProductReel · scroll the console to see VirtuoseOS in action.'}
+>
+  {/* HERO terminal split */}
+  <section style="padding:140px clamp(20px,4vw,48px) 80px;background:var(--paper)">
+    <div style="max-width:1500px;margin:0 auto">
+      {/* meta bar */}
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding-bottom:20px;border-bottom:1px solid var(--hairline);margin-bottom:50px;font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;flex-wrap:wrap;gap:10px">
+        <span><span style="color:var(--accent)">◉</span> virtuoseos · v2.4.1 · {lang === 'fr' ? 'sortie 04.2026' : 'released 04.2026'}</span>
+        <span>Waimia · Paris · {lang === 'fr' ? 'bilingue FR · EN' : 'bilingual EN · FR'}</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,56px);align-items:end">
+        {/* left · headline */}
+        <div>
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;color:var(--accent);margin-bottom:24px">
+            [platform] · {lang === 'fr' ? "la couche opérationnelle sous chaque intervention" : 'the operating layer under every engagement'}
+          </div>
+          <h1 style="font-family:var(--font-display);font-size:clamp(48px,9vw,156px);line-height:.92;letter-spacing:-0.028em;text-wrap:balance;font-weight:400;margin:0">
+            {lang === 'fr' ? (
+              <>Un <i>système d'exploitation</i><br />pour les opérations revenue.</>
+            ) : (
+              <>An <i>operating system</i><br />for revenue ops.</>
+            )}
+          </h1>
+          <p style="margin-top:32px;font-size:clamp(15px,1.4vw,17px);line-height:1.55;color:var(--muted);max-width:540px;font-family:var(--font-display)">
+            {lang === 'fr'
+              ? "Waimia livre VirtuoseOS comme substrat sous ses interventions — kernel, agents, audit. Vous gardez la plateforme quand on part."
+              : 'Waimia ships VirtuoseOS as the substrate under its engagements — kernel, agents, audit. You keep the platform when we leave.'}
+          </p>
+          <div style="display:flex;gap:10px;margin-top:36px;flex-wrap:wrap">
+            <a href="#act-3" style="background:var(--ink);color:var(--paper);padding:14px 22px;border-radius:8px;font-size:13.5px;font-family:var(--font-mono)" data-mag="0.18">
+              ▸ {lang === 'fr' ? 'ouvrir la console' : 'open the console'}
+            </a>
+            <a href={flh('/contact', lang)} style="border:1px solid var(--ink);padding:14px 22px;border-radius:8px;font-size:13.5px;font-family:var(--font-mono)">
+              {lang === 'fr' ? 'prendre une séance →' : 'book a working session →'}
+            </a>
+          </div>
+        </div>
+
+        {/* right · terminal mockup */}
+        <div style="background:var(--ink);border-radius:14px;padding:18px;box-shadow:0 40px 120px rgba(12,11,9,.2);font-family:var(--font-mono);font-size:12px;color:rgba(246,241,232,.8)">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
+            <span style="width:9px;height:9px;border-radius:9px;background:rgba(246,241,232,.25)"></span>
+            <span style="width:9px;height:9px;border-radius:9px;background:rgba(246,241,232,.25)"></span>
+            <span style="width:9px;height:9px;border-radius:9px;background:rgba(246,241,232,.25)"></span>
+            <span style="margin-left:12px;color:rgba(246,241,232,.55);font-size:11px">waimia@virtuose ~ / plateau-saas</span>
+            <span style="margin-left:auto;font-size:11px;color:var(--accent)">◉ 14:22 UTC+1</span>
+          </div>
+          <div style="padding:8px 0"><span style="color:var(--accent)">$ </span>virtuose --version</div>
+          <div style="color:rgba(246,241,232,.55)">VirtuoseOS 2.4.1 · locale fr-FR · kernel ok</div>
+          <div style="padding:8px 0"><span style="color:var(--accent)">$ </span>virtuose ship pipeline.agent</div>
+          <div style="color:rgba(246,241,232,.55)">  → hubspot.sync ok · 482 contacts</div>
+          <div style="color:rgba(246,241,232,.55)">  → claude.triage ok · 14 handoffs</div>
+          <div style="color:rgba(246,241,232,.55)">  → audit.trail open</div>
+          <div style="padding:8px 0;color:var(--accent)">  ✓ pipeline shipped · +€ 19 540 pipeline</div>
+          <div style="padding:8px 0"><span style="color:var(--accent)">$ </span><span class="c-cursor"></span></div>
+        </div>
+      </div>
+
+      {/* 5 metrics strip */}
+      <div style="margin-top:80px;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)">
+        {METRICS.map(([k, v], i) => (
+          <div style={`padding:20px;border-right:${i < 4 ? '1px solid var(--hairline)' : 'none'}`}>
+            <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">{k}</div>
+            <div style="font-family:var(--font-mono);font-size:15px;margin-top:6px;color:var(--ink)">{v}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ACTE I · paper-2 · 4 obs */}
+  <section id="act-1" style="padding:clamp(120px,14vw,160px) clamp(20px,4vw,48px);background:var(--paper-2);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)">
+    <div style="max-width:1500px;margin:0 auto;display:grid;grid-template-columns:280px 1fr;gap:clamp(32px,5vw,64px)">
+      <div style="position:sticky;top:120px;align-self:start">
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)">[act.01]</div>
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px">
+          {lang === 'fr' ? 'Le constat' : 'The reckoning'}
+        </div>
+      </div>
+      <div>
+        <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(36px,5.5vw,88px);line-height:1;letter-spacing:-0.02em;margin-bottom:48px;font-weight:400;text-wrap:balance">
+          {lang === 'fr' ? (
+            <>La plupart des projets IA livrent une <i style="color:var(--accent)">démo</i>. Pas un produit.</>
+          ) : (
+            <>Most AI projects ship a <i style="color:var(--accent)">demo</i>. Not a product.</>
+          )}
+        </h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--hairline);border-radius:10px;overflow:hidden;background:var(--paper)">
+          {OBS.map((r, i) => (
+            <div class="reveal" style={`padding:28px 24px;border-right:${i % 2 === 0 ? '1px solid var(--hairline)' : 'none'};border-bottom:${i < 2 ? '1px solid var(--hairline)' : 'none'}`}>
+              <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.1em">{r.tag}</div>
+              <div style="font-family:var(--font-display);font-size:clamp(20px,2vw,26px);line-height:1.18;margin-top:10px;letter-spacing:-0.01em">
+                {ft(r.text, lang)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ACTE II · services terminal-table */}
+  <section id="act-2" style="padding:clamp(120px,14vw,160px) clamp(20px,4vw,48px)">
+    <div style="max-width:1500px;margin:0 auto">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:60px;padding-bottom:20px;border-bottom:1px solid var(--hairline);flex-wrap:wrap;gap:10px">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase">
+          [act.02] · <span style="color:var(--muted)">{lang === 'fr' ? 'la méthode' : 'the method'}</span>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.1em">6 services · in-house</div>
+      </div>
+      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(40px,7vw,112px);line-height:.96;letter-spacing:-0.025em;max-width:1300px;margin-bottom:60px;font-weight:400;text-wrap:balance">
+        {lang === 'fr' ? (<>Six services. Une <i>seule</i> couche.</>) : (<>Six services. One <i>continuous</i> layer.</>)}
+      </h2>
+      <div class="c-services-tbl">
+        <div class="c-services-head">
+          <span>id</span>
+          <span>service</span>
+          <span>description</span>
+          <span style="text-align:right">status</span>
+        </div>
+        {SIX_SERVICES.map((s, i) => (
+          <a href={flh('/contact', lang)} class="c-service-row" data-last={i === SIX_SERVICES.length - 1 ? 'true' : 'false'}>
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">{s.k}</span>
+            <span style="font-family:var(--font-display);font-size:clamp(20px,2vw,24px);line-height:1;letter-spacing:-0.01em">{ft(s.label, lang)}</span>
+            <span style="font-size:13.5px;color:var(--muted);line-height:1.45;padding-right:20px">{ft(s.body, lang)}</span>
+            <span style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.1em;text-align:right">◉ active</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* MANIFESTO interlude dark */}
+  <section style="padding:clamp(140px,18vw,200px) clamp(20px,4vw,48px);background:var(--ink);color:var(--paper)">
+    <div style="max-width:1400px;margin:0 auto">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:40px">[manifesto]</div>
+      <p class="reveal" style="font-family:var(--font-display);font-size:clamp(32px,5.8vw,88px);line-height:1.05;letter-spacing:-0.02em;color:var(--paper);font-weight:400">
+        {lang === 'fr' ? (
+          <>On écrit en <span style="color:var(--accent)">français</span>, on lit la documentation Stripe, on livre du code le mardi, on mesure le pipeline le vendredi. Pas de cerveau-circuit. Pas de verre. Pas de <i>théâtre</i>.</>
+        ) : (
+          <>We write <span style="color:var(--accent)">French</span>, we read Stripe docs, we ship code on Tuesdays, we measure pipeline on Fridays. No cerebral circuits. No glass. No <i>theatre</i>.</>
+        )}
+      </p>
+    </div>
+  </section>
+
+  {/* ACTE III · ProductReel sticky · SIGNATURE */}
+  <section id="act-3" style="background:var(--paper)">
+    <div style="padding:120px clamp(20px,4vw,48px) 60px;max-width:1500px;margin:0 auto">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding-bottom:20px;border-bottom:1px solid var(--hairline);flex-wrap:wrap;gap:10px">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase">
+          [act.03] · <span style="color:var(--muted)">{lang === 'fr' ? 'la plateforme' : 'the platform'}</span>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.1em">virtuoseos · live scroll · 4 steps</div>
+      </div>
+      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(40px,7vw,120px);line-height:.96;letter-spacing:-0.025em;max-width:1400px;margin-top:40px;margin-bottom:10px;font-weight:400">
+        {lang === 'fr' ? (<>Faites défiler la <i>console</i>.</>) : (<>Scroll the <i>console</i>.</>)}
+      </h2>
+    </div>
+    <ProductReel client:visible lang={lang} />
+  </section>
+
+  {/* ACTE IV · table cases */}
+  <section id="act-4" style="padding:clamp(120px,14vw,160px) clamp(20px,4vw,48px);background:var(--paper-2)">
+    <div style="max-width:1500px;margin:0 auto">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:30px">
+        [act.04] · <span style="color:var(--muted)">{lang === 'fr' ? 'preuves' : 'proof'}</span>
+      </div>
+      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(40px,7vw,112px);line-height:.96;letter-spacing:-0.025em;max-width:1300px;margin-bottom:60px;font-weight:400">
+        {lang === 'fr' ? (<>Cas clients, en <i>table</i>.</>) : (<>Cases, as a <i>table</i>.</>)}
+      </h2>
+      <div class="c-cases-tbl">
+        <div class="c-cases-head">
+          <span>id</span>
+          <span>client</span>
+          <span>{lang === 'fr' ? 'secteur' : 'sector'}</span>
+          <span>{lang === 'fr' ? 'durée' : 'duration'}</span>
+          <span>stack</span>
+          <span>impact</span>
+          <span></span>
+        </div>
+        {CASE_FEED.slice(0, 4).map((c, i) => (
+          <a href={flh(`/ressources/cas/${c.slug}`, lang)} class="c-case-row" data-last={i === 3 ? 'true' : 'false'}>
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">0{i + 1}</span>
+            <span style="font-family:var(--font-display);font-size:clamp(22px,2vw,26px);line-height:1">{c.client}</span>
+            <span style="font-size:13px;color:var(--muted)">{ft(c.sector, lang)}</span>
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">{c.duration}</span>
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--ink)">{c.stack}</span>
+            <span style="font-size:14px;color:var(--accent);font-weight:500">{ft(c.impact, lang)}</span>
+            <span style="font-family:var(--font-mono);color:var(--muted);text-align:right">↗</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* WRITING */}
+  <section id="writing" style="padding:clamp(100px,12vw,140px) clamp(20px,4vw,48px);border-top:1px solid var(--hairline)">
+    <div style="max-width:1500px;margin:0 auto">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:40px;padding-bottom:16px;border-bottom:1px solid var(--hairline);flex-wrap:wrap;gap:10px">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase">
+          [writing] · <span style="color:var(--muted)">{lang === 'fr' ? 'notes & changelog' : 'field notes & changelog'}</span>
+        </div>
+        <a href={flh('/ressources/blog', lang)} style="font-family:var(--font-mono);font-size:11px;color:var(--muted)">/feed.xml</a>
+      </div>
+      <div>
+        {FIELD_NOTES.map((s) => (
+          <a href={flh('/ressources/blog', lang)} class="c-write-row">
+            <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.08em">{s.date}</span>
+            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">{ft(s.tag, lang)}</span>
+            <span style="font-family:var(--font-display);font-size:clamp(18px,1.8vw,22px);line-height:1.25">{ft(s.text, lang)}</span>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--muted);text-align:right">↗</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ACTE V · session terminal split */}
+  <section id="act-5" style="padding:clamp(140px,18vw,200px) clamp(20px,4vw,48px);background:var(--ink);color:var(--paper)">
+    <div style="max-width:1500px;margin:0 auto">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:30px">
+        [act.05] · <span style="color:rgba(246,241,232,.5)">{lang === 'fr' ? "passer à l'action" : 'act'}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(40px,6vw,80px);align-items:end">
+        <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(56px,10vw,172px);line-height:.9;letter-spacing:-0.03em;color:var(--paper);text-wrap:balance;font-weight:400;margin:0">
+          {lang === 'fr' ? (
+            <>Ouvrir une <i style="color:var(--accent)">séance</i>.<br />Pas un <i>pitch</i>.</>
+          ) : (
+            <>Open a <i style="color:var(--accent)">session</i>.<br />Not a <i>pitch</i>.</>
+          )}
+        </h2>
+        <div style="font-family:var(--font-mono);font-size:13px;color:rgba(246,241,232,.75);background:rgba(246,241,232,.04);border:1px solid rgba(246,241,232,.14);border-radius:10px;padding:22px">
+          <div style="color:var(--accent);margin-bottom:10px">$ virtuose session.open --duration=45m</div>
+          <div>&gt; workspace: your-company</div>
+          <div>&gt; agenda: {lang === 'fr' ? 'un problème diagnostiqué' : 'one diagnosed problem'}</div>
+          <div>&gt; outcome: {lang === 'fr' ? 'notes actionnables ou pas de relance' : 'actionable notes or no follow-up'}</div>
+          <div>&gt; channel: Meet / Zoom / on-site Paris</div>
+          <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+            <a href={flh('/contact', lang)} style="background:var(--accent);color:var(--paper);padding:12px 18px;border-radius:6px;font-size:12.5px" data-mag="0.18">▸ schedule</a>
+            <a href={`mailto:${lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr'}`} style="border:1px solid rgba(246,241,232,.3);padding:12px 18px;border-radius:6px;font-size:12.5px;color:var(--paper)">
+              {lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr'}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Curseur clignotant terminal */
+  .c-cursor{display:inline-block;width:8px;height:14px;background:var(--accent);animation:c-blink 1s infinite}
+  @keyframes c-blink{50%{opacity:0}}
+  @media (prefers-reduced-motion:reduce){.c-cursor{animation:none}}
+
+  /* Service table terminal */
+  .c-services-tbl{border:1px solid var(--ink);border-radius:10px;overflow:hidden}
+  .c-services-head,.c-service-row{display:grid;grid-template-columns:60px 180px 1fr 120px;padding:12px 20px}
+  .c-services-head{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--paper-2);border-bottom:1px solid var(--hairline)}
+  .c-service-row{padding:22px 20px;border-bottom:1px solid var(--hairline);align-items:baseline;color:inherit;transition:background 180ms var(--ease)}
+  .c-service-row[data-last="true"]{border-bottom:none}
+  .c-service-row:hover{background:var(--paper-2)}
+
+  /* Cases table */
+  .c-cases-tbl{border:1px solid var(--ink);border-radius:10px;overflow:hidden;background:var(--paper)}
+  .c-cases-head,.c-case-row{display:grid;grid-template-columns:50px 1.2fr 1fr 110px 1.6fr 1.2fr 40px;padding:14px 20px;gap:14px}
+  .c-cases-head{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--paper-2);border-bottom:1px solid var(--hairline)}
+  .c-case-row{padding:22px 20px;border-bottom:1px solid var(--hairline);align-items:baseline;color:inherit;transition:background 180ms var(--ease)}
+  .c-case-row[data-last="true"]{border-bottom:none}
+  .c-case-row:hover{background:var(--paper-2)}
+
+  /* Writing rows */
+  .c-write-row{display:grid;grid-template-columns:90px 130px 1fr 24px;gap:24px;padding:18px 0;border-top:1px solid var(--hairline);align-items:baseline;color:inherit;transition:color 200ms var(--ease)}
+  .c-write-row:hover{color:var(--accent)}
+
+  @media (max-width:900px){
+    /* Empile les colonnes sur mobile pour rester lisible */
+    .c-services-head,.c-cases-head{display:none}
+    .c-service-row,.c-case-row{grid-template-columns:1fr;gap:6px;padding:18px 16px}
+    .c-write-row{grid-template-columns:1fr;gap:6px}
+  }
+</style>

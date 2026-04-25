@@ -1,31 +1,47 @@
 ---
-// PagePill · tab flottant bottom-left · point d'ancrage éditorial + lien vers /atlas
-// Refonte v2 · pattern Slots Astro :
-//   — Astro rend tout le contenu visible (Vol. 03 · Manifeste · lien /atlas) en HTML pur
-//     → indexable instantanément par GPTBot, ClaudeBot, Google-Extended sans exécution JS
-//   — PagePillIsland (React, client:visible) ne gère que les états .is-visible
-//     (apparition après 220 px de scroll · masquage proche du footer)
+// DirectionSwitcher · barre flottante bottom-left · 4 directions de la homepage
+// Refonte v3 · pattern Slots Astro :
+//   — Astro rend les 4 boutons + état actif en HTML pur (indexable LLM, fonctionne sans JS)
+//   — PagePillIsland (React, client:visible) ne gère que .is-visible (apparition au scroll)
 //
-// Cf docs/04-motion-system.md
+// Les 4 directions :
+//   A · Apparatus = /            (manifeste linéaire 5 actes · current home)
+//   B · Manifesto = /manifesto   (LiquidHero canvas + asymmetric services · DirectionB legacy)
+//   C · Console   = /console     (terminal hero + ProductReel sticky · DirectionC legacy)
+//   ✦ Atlas       = /atlas       (cartographie 4 piliers + persona switcher · ma proposition)
 
 import PagePillIsland from './PagePillIsland.tsx';
 import { langFromPath, localizeHref } from '../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
-const isAtlas = Astro.url.pathname.includes('/atlas');
-const target = isAtlas ? localizeHref('/', lang) : localizeHref('/atlas', lang);
-const targetLabel = isAtlas
-  ? (lang === 'fr' ? "Voir l'accueil" : 'See the home')
-  : (lang === 'fr' ? "Voir l'atlas" : 'See the atlas');
+const path = Astro.url.pathname.replace(/^\/en/, '') || '/';
+
+// Détermine la direction active selon le pathname
+function isActive(p: string) {
+  if (p === '/') return path === '/' || path === '';
+  return path.startsWith(p);
+}
+
+const directions = [
+  { k: 'A', label: 'Apparatus', href: localizeHref('/', lang),         active: isActive('/') && !isActive('/manifesto') && !isActive('/console') && !isActive('/atlas') },
+  { k: 'B', label: 'Manifesto', href: localizeHref('/manifesto', lang), active: isActive('/manifesto') },
+  { k: 'C', label: 'Console',   href: localizeHref('/console', lang),   active: isActive('/console') },
+  { k: '✦', label: 'Atlas',     href: localizeHref('/atlas', lang),     active: isActive('/atlas') },
+];
 ---
-{/* Tout le contenu ci-dessous est rendu par Astro côté serveur · React ne wrap que les états. */}
 <PagePillIsland client:visible>
-  <span>Vol. 03</span>
-  <span style="opacity:.4">·</span>
-  <span>{lang === 'fr' ? 'Manifeste 2026' : '2026 Manifesto'}</span>
-  <span style="opacity:.4">·</span>
-  <a href={target} aria-label={targetLabel}>{targetLabel} →</a>
+  {directions.map((d) => (
+    <a
+      href={d.href}
+      class={'page-pill-btn' + (d.active ? ' is-active' : '')}
+      aria-current={d.active ? 'page' : undefined}
+      aria-label={`${d.k} · ${d.label}`}
+    >
+      <span class="page-pill-k">{d.k}</span>
+      <span class="page-pill-l">{d.label}</span>
+    </a>
+  ))}
 </PagePillIsland>
 
-{/* Styles dans src/styles/global.css (.page-pill · .page-pill.is-visible)
+{/* Styles dans src/styles/global.css (.page-pill, .page-pill-btn, .is-active)
     pour éviter le scoping Astro qui empêche le React island de matcher .is-visible. */}
