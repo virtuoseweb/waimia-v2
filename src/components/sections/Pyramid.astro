@@ -3,7 +3,10 @@
 // Variant : ec-grid cols-4 d'editorial-cell + .scale-in
 // Motion : .scale-in stagger sur cards + .lift hover
 // Mémorable : « Quatre paliers, lus comme un escalier vers la souveraineté. »
+//
+// Composé de · SectionHeader (refactor atomic-components 2026-04-26)
 
+import SectionHeader from '../ui/molecules/SectionHeader.astro';
 import { PYRAMID_TIERS } from '../../data/sitemap';
 import { langFromPath, t } from '../../lib/i18n';
 
@@ -11,26 +14,24 @@ const lang = langFromPath(Astro.url.pathname);
 ---
 <section class="sec sec-paper" aria-labelledby="pyramid-h2">
   <div class="wrap-wide">
-    <header class="sec-hd">
-      <div>
-        <div class="n">
-          <span class="roman">II</span>
-          <span>{lang === 'fr' ? "Acte II — La pyramide d'engagements" : 'Act II — The engagement pyramid'}</span>
-        </div>
-        <h2 id="pyramid-h2">
-          {lang === 'fr' ? (
-            <>Quatre <i>paliers</i>, une seule architecture continue.</>
-          ) : (
-            <>Four <i>tiers</i>, one continuous architecture.</>
-          )}
-        </h2>
-      </div>
-      <p class="aside">
+    <SectionHeader
+      roman="II"
+      label={lang === 'fr' ? "Acte II — La pyramide d'engagements" : 'Act II — The engagement pyramid'}
+      id="pyramid-h2"
+    >
+      <Fragment slot="heading">
+        {lang === 'fr' ? (
+          <>Quatre <i>paliers</i>, une seule architecture continue.</>
+        ) : (
+          <>Four <i>tiers</i>, one continuous architecture.</>
+        )}
+      </Fragment>
+      <Fragment slot="aside">
         {lang === 'fr'
           ? "Du diagnostic process à l'infrastructure souveraine — chaque palier prépare le suivant. Vous montez quand vous êtes prêt."
-          : 'From process diagnostic to sovereign infrastructure — each tier sets up the next. You climb when you\'re ready.'}
-      </p>
-    </header>
+          : "From process diagnostic to sovereign infrastructure — each tier sets up the next. You climb when you're ready."}
+      </Fragment>
+    </SectionHeader>
 
     <div class="ec-grid cols-4 reveal-stagger">
       {PYRAMID_TIERS.map((tier) => (

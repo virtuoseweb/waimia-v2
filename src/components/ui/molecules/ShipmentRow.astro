@@ -1,0 +1,56 @@
+---
+// Molécule · ShipmentRow · « 04.2026 · CAS · Halcyon Health… ↗ »
+// 4 variantes existaient inline (.hero-ship, .writing-row, .b-write-row, .c-write-row)
+// → unifiées ici · prop `tone` pour le contexte (paper / ink)
+//
+// Usage :
+//   <ShipmentRow date="04.2026" tag="CASE" href="/blog/x">
+//     Halcyon Health — triage IA en 6 semaines.
+//   </ShipmentRow>
+//   <ShipmentRow date="03.2026" tag="ESSAY" tone="ink" href="..."> … </ShipmentRow>
+
+interface Props {
+  /** Date affichée · ex: "04.2026" */
+  date: string;
+  /** Tag mono uppercase · ex: "CAS", "ESSAY", "RELEASE" */
+  tag: string;
+  /** Lien (devient un `<a>`) · sinon une `<div>` non-cliquable */
+  href?: string;
+  /** Tone fond · `paper` (clair) ou `ink` (sur fond sombre) */
+  tone?: 'paper' | 'ink';
+  /** Format compact · réduit le font-size du titre */
+  compact?: boolean;
+}
+
+const { date, tag, href, tone = 'paper', compact = false } = Astro.props;
+const isInk = tone === 'ink';
+const muted = isInk ? 'rgba(246,241,232,.5)' : 'var(--muted)';
+const ink = isInk ? 'var(--paper)' : 'var(--ink)';
+const border = isInk ? 'rgba(246,241,232,.12)' : 'var(--hairline)';
+const titleSize = compact ? 19 : 22;
+
+const Tag = href ? 'a' : 'div';
+---
+<Tag
+  href={href}
+  class="u-shipment-row"
+  style={`display:grid;grid-template-columns:90px 130px 1fr 24px;gap:20px;padding:18px 0;border-top:1px solid ${border};align-items:baseline;color:${ink};transition:color 220ms var(--ease),padding-left 320ms var(--ease)`}
+>
+  <span style={`font-family:var(--font-mono);font-size:11px;color:${muted};letter-spacing:.08em`}>{date}</span>
+  <span style={`font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:${muted}`}>{tag}</span>
+  <span style={`font-family:var(--font-display);font-size:${titleSize}px;line-height:1.25;color:${ink}`}>
+    <slot />
+  </span>
+  <span style={`font-family:var(--font-mono);font-size:13px;color:${muted};text-align:right`} aria-hidden>↗</span>
+</Tag>
+
+<style>
+  .u-shipment-row:hover { color: var(--accent) !important; padding-left: 6px; }
+  @media (max-width: 600px) {
+    .u-shipment-row {
+      grid-template-columns: 1fr !important;
+      gap: 6px !important;
+    }
+    .u-shipment-row > :last-child { display: none; }
+  }
+</style>

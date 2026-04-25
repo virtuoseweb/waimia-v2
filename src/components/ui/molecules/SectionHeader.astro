@@ -1,0 +1,57 @@
+---
+// Molécule · SectionHeader
+// Header standard d'une section · grid 1.3fr 1fr (legacy .sec-hd)
+// Avec roman numeral terracotta (italic Instrument Serif) + label + h2 + aside.
+// Pattern le plus dupliqué (≥ 7 occurrences inline avant ce refactor).
+//
+// Usage classique (Apparatus / sections numérotées) :
+//   <SectionHeader roman="II" label="Acte II — La pyramide d'engagements" id="pyramid-h2">
+//     <Fragment slot="heading">Quatre <i>paliers</i>, une seule architecture.</Fragment>
+//     <Fragment slot="aside">Du diagnostic à l'infrastructure souveraine — chaque palier prépare le suivant.</Fragment>
+//   </SectionHeader>
+//
+// Slots :
+//   - default ou `heading` · contenu du <h2>
+//   - `aside` · texte court à droite (optionnel)
+//   - `chapter` · alternative complète au bloc kicker · pour styles personnalisés
+
+interface Props {
+  /** Numéro romain affiché en grand (italic terracotta) · ex: "II", "FIG IV" */
+  roman?: string;
+  /** Texte mono uppercase à côté du roman · ex: "Acte II — La méthode" */
+  label?: string;
+  /** id du h2 · pour aria-labelledby */
+  id?: string;
+  /** Tone du chapter label · `accent` (paper, défaut) ou `dim` (sur fond ink) */
+  tone?: 'accent' | 'dim';
+  /** Classes additionnelles sur le wrapper */
+  class?: string;
+}
+
+const { roman, label, id, tone = 'accent', class: extraClass = '' } = Astro.props;
+const isDim = tone === 'dim';
+const labelColor = isDim ? 'rgba(246,241,232,.55)' : 'var(--accent)';
+---
+<header class={`sec-hd ${extraClass}`.trim()}>
+  <div>
+    {Astro.slots.has('chapter') ? (
+      <slot name="chapter" />
+    ) : (roman || label) ? (
+      <div class="n" style={`color:${labelColor}`}>
+        {roman && <span class="roman">{roman}</span>}
+        {label && <span>{label}</span>}
+      </div>
+    ) : null}
+
+    <h2 id={id}>
+      <slot name="heading">
+        <slot />
+      </slot>
+    </h2>
+  </div>
+  {Astro.slots.has('aside') && (
+    <p class="aside">
+      <slot name="aside" />
+    </p>
+  )}
+</header>

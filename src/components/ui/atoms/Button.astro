@@ -1,0 +1,59 @@
+---
+// Atome · Button
+// Wrapper sur les classes legacy `.btn .btn-primary|ghost|accent` du global.css
+// Centralise les variantes + magnetic + accessibility · 9 fichiers utilisaient
+// inline `<a class="btn btn-primary">` avant ce refactor.
+//
+// Usage :
+//   <Button href="/contact" variant="primary" size="lg" mag={0.18}>Réserver →</Button>
+//   <Button href="mailto:hello@x" variant="ghost">hello@x</Button>
+//   <Button as="button" type="submit" variant="accent">Envoyer</Button>
+
+interface Props {
+  /** Cible href si link (défaut). Si `as="button"` est passé, ignoré. */
+  href?: string;
+  /** Variante visuelle · primary (ink) / ghost (border) / accent (terracotta) / link (souligné) */
+  variant?: 'primary' | 'ghost' | 'accent' | 'link';
+  /** Taille · `md` (défaut) ou `lg` (CTA principaux) */
+  size?: 'md' | 'lg';
+  /** Force magnétique au survol (0 = désactivé). Cf Base.astro inline script. */
+  mag?: number;
+  /** Forcer un <button> au lieu d'un <a> · pour les forms ou actions JS */
+  as?: 'a' | 'button';
+  /** Type pour `<button>` */
+  type?: 'button' | 'submit' | 'reset';
+  /** Aria-label si l'enfant est ambigu (icône seule) */
+  'aria-label'?: string;
+  /** Classes additionnelles */
+  class?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  mag,
+  as = 'a',
+  type = 'button',
+  class: extraClass = '',
+  ...rest
+} = Astro.props;
+
+const classes = [
+  'btn',
+  `btn-${variant}`,
+  size === 'lg' && 'btn-lg',
+  extraClass,
+].filter(Boolean).join(' ');
+
+const dataMag = mag !== undefined ? String(mag) : undefined;
+---
+{as === 'button' ? (
+  <button type={type} class={classes} data-mag={dataMag} {...rest}>
+    <slot />
+  </button>
+) : (
+  <a href={href} class={classes} data-mag={dataMag} {...rest}>
+    <slot />
+  </a>
+)}

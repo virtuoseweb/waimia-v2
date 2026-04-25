@@ -1,0 +1,48 @@
+---
+// Molécule · MetricStrip · 4 chiffres clés en grille · « 04 / 120+ / agents shipped »
+// Wrapper sur la classe legacy `.metrics` · centralise le pattern utilisé sur Hero +
+// /console (OPS metrics: uptime / workspaces / agents / locale / release).
+//
+// Usage :
+//   <MetricStrip metrics={HERO_METRICS} lang={lang} />
+//   <MetricStrip metrics={[{k:'01', n:'120+', label:'agents'}]} />
+
+interface Metric {
+  /** Numéro/index · ex: "01", "04" */
+  k: string;
+  /** Valeur principale · ex: "120+", "€14M" */
+  n: string;
+  /** Texte sous la valeur · accepte string ou {fr,en} (résolu côté appelant) */
+  label: string;
+}
+
+interface Props {
+  metrics: Metric[];
+  /** Tone fond · `paper` (défaut) ou `ink` (dark) */
+  tone?: 'paper' | 'ink';
+  /** Animation `.row-lines` (border bottom scrub) · défaut true */
+  reveal?: boolean;
+  /** Classes additionnelles */
+  class?: string;
+}
+
+const { metrics, tone = 'paper', reveal = true, class: extraClass = '' } = Astro.props;
+const cols = metrics.length;
+
+// On réutilise les classes legacy `.metrics` du global.css quand tone=paper
+// pour bénéficier des animations + responsive déjà câblés.
+const onDarkClass = tone === 'ink' ? 'on-dark' : '';
+---
+<section
+  class={`metrics ${onDarkClass} ${reveal ? 'row-lines' : ''} ${extraClass}`.trim()}
+  style={cols !== 4 ? `grid-template-columns:repeat(${cols},1fr)` : undefined}
+  aria-label="Key metrics"
+>
+  {metrics.map((m) => (
+    <div>
+      <span class="k">№ {m.k}</span>
+      <div class="n">{m.n}</div>
+      <div class="l">{m.label}</div>
+    </div>
+  ))}
+</section>

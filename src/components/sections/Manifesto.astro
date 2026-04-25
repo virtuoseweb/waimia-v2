@@ -3,14 +3,17 @@
 // Variant : grand bloc display italic, sans box · respiration éditoriale
 // Motion : .reveal (fade + up 1400ms)
 // Mémorable : « Le seul endroit où l'agence dit ce qu'elle déteste. »
+//
+// Composé de · Kicker (refactor atomic-components)
 
+import Kicker from '../ui/atoms/Kicker.astro';
 import { langFromPath } from '../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
 ---
 <section class="manifesto" aria-labelledby="manifesto-anchor">
   <div class="wrap-wide">
-    <div class="fig" style="margin-bottom:24px">§ {lang === 'fr' ? 'Manifeste · Viewport 01' : 'Manifesto · Viewport 01'}</div>
+    <Kicker class="manifesto-kicker">§ {lang === 'fr' ? 'Manifeste · Viewport 01' : 'Manifesto · Viewport 01'}</Kicker>
     <p id="manifesto-anchor" class="manifesto-text reveal">
       {lang === 'fr' ? (
         <>
@@ -27,6 +30,8 @@ const lang = langFromPath(Astro.url.pathname);
 
 <style>
   .manifesto{padding:clamp(140px,18vw,260px) 0;background:var(--paper);position:relative;overflow:hidden}
+  /* :global pour cibler le Kicker atom rendu par un sous-composant */
+  :global(.manifesto-kicker){margin-bottom:24px}
   .manifesto-text{font-family:var(--font-display);font-size:clamp(36px,6.2vw,96px);line-height:1.04;letter-spacing:-0.02em;max-width:1300px;font-weight:400;text-wrap:balance}
   .manifesto-text .acc{color:var(--accent)}
 </style>

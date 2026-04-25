@@ -1,0 +1,61 @@
+---
+// Molécule · TerminalMockup
+// Frame de terminal/console · 3 dots + label + status + body en slot
+// 4 variantes inline existaient (OperatingLayer, /manifesto, /console hero, /console reel)
+// → unifiées ici avec slot pour le contenu interne (Pattern Slots)
+//
+// Usage :
+//   <TerminalMockup label="virtuoseos · plateau-saas" status="◉ live" tone="ink">
+//     <pre>$ virtuose ship pipeline.agent</pre>
+//   </TerminalMockup>
+//
+// Slots :
+//   - default · le contenu de la console (commandes, logs, table…)
+
+interface Props {
+  /** Label affiché entre les dots et le status · ex: "virtuoseos · workspace/plateau" */
+  label?: string;
+  /** Status à droite · ex: "◉ live", "◉ 14:22 UTC+1" */
+  status?: string;
+  /** Tone fond · `ink` (dark, défaut), `paper` (clair) */
+  tone?: 'ink' | 'paper';
+  /** Padding du body · défaut 14, peut être 18 pour les consoles plus aérées */
+  bodyPadding?: number;
+  /** Classes additionnelles */
+  class?: string;
+}
+
+const {
+  label = '',
+  status = '',
+  tone = 'ink',
+  bodyPadding = 14,
+  class: extraClass = '',
+} = Astro.props;
+
+const isInk = tone === 'ink';
+const bg = isInk ? '#17140F' : 'var(--paper)';
+const border = isInk ? 'rgba(246,241,232,.14)' : 'var(--hairline-strong)';
+const fg = isInk ? 'rgba(246,241,232,.55)' : 'var(--muted)';
+const dotColor = isInk ? 'rgba(246,241,232,.22)' : 'var(--hairline-strong)';
+const headerBg = isInk ? 'transparent' : 'var(--paper-2)';
+const headerBorder = isInk ? 'rgba(246,241,232,.1)' : 'var(--hairline)';
+---
+<div
+  class={`u-terminal ${extraClass}`.trim()}
+  style={`background:${bg};border:1px solid ${border};border-radius:12px;overflow:hidden;box-shadow:0 40px 120px rgba(12,11,9,.18);font-family:var(--font-mono);font-size:12px`}
+>
+  {/* Chrome · 3 dots + label + status */}
+  <div style={`display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid ${headerBorder};background:${headerBg}`}>
+    {[0, 1, 2].map(() => (
+      <span style={`width:10px;height:10px;border-radius:50%;background:${dotColor};display:inline-block`} aria-hidden></span>
+    ))}
+    {label && <span style={`margin-left:12px;color:${fg};font-size:11px`}>{label}</span>}
+    {status && <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--accent)">{status}</span>}
+  </div>
+
+  {/* Body · slot pour le contenu */}
+  <div style={`padding:${bodyPadding}px`}>
+    <slot />
+  </div>
+</div>

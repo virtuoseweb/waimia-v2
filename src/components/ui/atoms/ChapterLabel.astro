@@ -1,0 +1,32 @@
+---
+// Atome · ChapterLabel
+// « FIG II · 2.0 · Acte II — La méthode » · pattern récurrent (≥ 6 occurrences)
+// Variante du Kicker avec un dot terracotta + numéro + titre acte
+//
+// Usage :
+//   <ChapterLabel num="II · 2.0" title="Acte II — La méthode" />
+//   <ChapterLabel num="FIG IV · 4.0" title="Les preuves" tone="dim" />
+
+interface Props {
+  /** Numéro de figure / acte · ex: "II · 2.0", "FIG IV · 4.0" */
+  num: string;
+  /** Titre de l'acte ou de la section · ex: "Acte II — La méthode" */
+  title: string;
+  /** Couleur · `muted` (défaut), `dim` (sur fond ink) */
+  tone?: 'muted' | 'dim';
+  /** Pas de dot terracotta (utilisé quand on a déjà un autre marqueur) */
+  noDot?: boolean;
+  /** Classes additionnelles */
+  class?: string;
+}
+
+const { num, title, tone = 'muted', noDot = false, class: extraClass = '' } = Astro.props;
+const color = tone === 'dim' ? 'rgba(246,241,232,.55)' : 'var(--muted)';
+const sepColor = tone === 'dim' ? 'rgba(246,241,232,.35)' : 'var(--muted)';
+---
+<div class={`u-chapter-label ${extraClass}`.trim()} style={`display:inline-flex;align-items:baseline;gap:10px;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:${color}`}>
+  {!noDot && <span style="width:6px;height:6px;background:var(--accent);border-radius:50%;display:inline-block;transform:translateY(-2px)" aria-hidden></span>}
+  <span style="color:var(--accent);font-weight:500">{num}</span>
+  <span style={`color:${sepColor}`} aria-hidden>·</span>
+  <span>{title}</span>
+</div>
