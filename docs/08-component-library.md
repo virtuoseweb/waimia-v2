@@ -540,6 +540,87 @@ L'atome détecte automatiquement le mode utilisé via `Astro.slots.has('fr') || 
 
 ---
 
+## Templates supplémentaires (Phase 8) — 3 templates
+
+### `DetailMenuTemplate.astro`
+
+Sous-page de détail mega-menu (template officiel handoff2).
+
+**Mapping** : `offres/detail.html` · `solutions/detail.html` · `technologies/detail.html`
+
+**8 sections** : Hero · Problem (StatRow annotation) · Approach (ProcessSteps) · Deliverables (slot grid) · Proof (ProofBand) · Stack (TechPillRow) · Related (RelatedCards) · CTA
+
+**Composé de** · Bi, Kicker · StatRow, ProcessSteps, ProofBand, TechPillRow, RelatedCards · CtaBand
+
+**Plus complet que** ServiceDetailTemplate (inclut Deliverables explicit + ProblemAnnotation pattern). Couvre 30+ sous-pages mega-menu.
+
+Page exemple : `src/pages/offres/audit-maturite-ia.astro`
+
+### `TrustLegalTemplate.astro`
+
+Pages confiance / conformité / docs légales avec TOC sticky.
+
+**Mapping** : `trust-center.html` · `governance.html` · `docs.html`
+
+**Slots** : `headline`, `lede`, `sections` (HTML libre avec `<section id>` + h2/h3)
+
+**Props clés** : `kickerFr/En`, `revisedAt` (ISO date), `version?`, `sections[]` (TOC items)
+
+**Composé de** · Bi, Kicker · CtaBand
+
+Page exemple : `src/pages/agence/trust-center.astro`
+
+### `UtilityTemplate.astro`
+
+Pages utilitaires (contact, careers, about, academy).
+
+**Mapping** : `contact.html` · `careers.html` · `about.html` · `academy-diagnostic.html`
+
+**Slots** : `headline`, `lede`, `body` (libre)
+
+**Props clés** : `kicker?`, `align: 'left' | 'centered'`, `showCta?: boolean`
+
+**Composé de** · Kicker · CtaBand (optionnel)
+
+Décision : un seul template "utility" car ces pages partagent (h1 + lede + body + CTA optionnel). Prop `align` pour les variations visuelles.
+
+Pages exemples : `/contact` · `/agence/about` · `/agence/careers`
+
+---
+
+## Pages static (sans template) — exception documentée
+
+Certaines pages ont une UX si spécifique que les contraindre dans un template alourdit l'API sans bénéfice. Critères de décision :
+
+1. **1 instance par site** (par définition) → pas de pattern à factoriser
+2. **UX dédiée** ne se prête pas à un slot générique
+3. **Coût d'extension** d'un template existant > coût d'une page static
+
+### `src/pages/404.astro`
+
+Page d'erreur 4xx avec UX dédiée (titre fort, 3 paths suggestions, retour home). Pattern à 1 instance par site — extension d'`UtilityTemplate` ne se justifie pas.
+
+### `src/pages/agence/design-system.astro`
+
+Showcase atomes/molécules/templates. Page-meta unique (1 occurrence par projet par définition). Sert aussi de tests visuels vivants — détection régression rapide.
+
+> **Anti-règle** : ne pas créer un atome/template pour 1 instance. La règle des 3 occurrences évite les abstractions prématurées.
+
+---
+
+## Couverture handoff2 (avril 2026)
+
+| Métrique            | Avant Phase 8-12 | Après Phase 8-12 |
+| ------------------- | ---------------- | ---------------- |
+| Templates           | 5                | **8**            |
+| Pages exemples      | 5                | **13**           |
+| Pages static        | 0                | **2**            |
+| Tests Playwright    | 25               | **37**           |
+| Pages buildées      | 131              | **139**          |
+| Couverture handoff2 | 17 %             | **83 %**         |
+
+---
+
 ## Références croisées
 
 - `docs/06-coding-standards.md` § 4 — règles de nommage atomes/molécules
