@@ -1,0 +1,227 @@
+---
+// Template · DetailMenuTemplate · sous-page de détail mega-menu (template officiel handoff2)
+//
+// Mapping handoff2 :
+//  - offres/detail.html      → /offres/[slug] (audit-maturite-ia, conformite-ai-act, etc.)
+//  - solutions/detail.html   → /solutions/[slug] (finance, ventes-marketing, etc.)
+//  - technologies/detail.html → /technologies/[slug] (claude-models, mcp-connectors, etc.)
+//
+// Squelette · 8 sections : Hero · Problem · Approach · Deliverables · Proof · Stack · Related · CTA
+// (le template officiel handoff data-screen-label "01..08")
+//
+// Plus complet que ServiceDetailTemplate (qui omet Deliverables) — inclut le pattern
+// ProblemAnnotation (3 stats commentées) avant les ProcessSteps.
+
+import Base from '../../layouts/Base.astro';
+import Bi from '../ui/atoms/Bi.astro';
+import Kicker from '../ui/atoms/Kicker.astro';
+import StatRow from '../ui/molecules/StatRow.astro';
+import ProcessSteps from '../ui/molecules/ProcessSteps.astro';
+import ProofBand from '../ui/molecules/ProofBand.astro';
+import TechPillRow from '../ui/molecules/TechPillRow.astro';
+import RelatedCards from '../ui/molecules/RelatedCards.astro';
+import CtaBand from '../ui/organisms/CtaBand.astro';
+
+interface Stat { k: string; label_fr: string; label_en: string; }
+interface Step { sn: string; kicker_fr: string; kicker_en: string; title_fr: string; title_en: string; body_fr: string; body_en: string; }
+interface Pill { label: string; kind?: 'primary' | 'open' | 'neutral'; }
+interface Metric { k: string; label_fr: string; label_en: string; }
+interface RelatedCard { kicker: string; title_fr: string; title_en: string; lead_fr: string; lead_en: string; href: string; }
+
+interface Props {
+  title: string;
+  description: string;
+  /** Numéro éditorial (Detail 02.1, Tech 04.2…) */
+  detailNum: string;
+  /** Kicker sous-section (ex: "OFFRE · Conseil & audit") */
+  parentKickerFr: string;
+  parentKickerEn: string;
+  /** Annotation problem (3 stats avec contexte) */
+  annotation: Stat[];
+  /** Steps approach */
+  steps: Step[];
+  /** Proof */
+  proofQuoteFr: string;
+  proofQuoteEn: string;
+  proofAttrFr: string;
+  proofAttrEn: string;
+  proofMetrics: Metric[];
+  /** Tech stack pills */
+  techPills: Pill[];
+  /** Related cards */
+  relatedCards: RelatedCard[];
+}
+const {
+  title, description, detailNum, parentKickerFr, parentKickerEn, annotation, steps,
+  proofQuoteFr, proofQuoteEn, proofAttrFr, proofAttrEn, proofMetrics,
+  techPills, relatedCards,
+} = Astro.props as Props;
+---
+<Base title={title} description={description}>
+  {/* HERO · masthead avec parent kicker + numéro */}
+  <section class="dt-hero">
+    <div class="wrap-wide">
+      <Kicker class="dt-parent"><Bi fr={parentKickerFr} en={parentKickerEn} /></Kicker>
+      <Kicker tone="accent" class="dt-num">§ {detailNum}</Kicker>
+      <h1 class="dt-h1"><slot name="headline" /></h1>
+      <p class="dt-lede"><slot name="lede" /></p>
+    </div>
+  </section>
+
+  {/* PROBLEM · annotation (3 stats avec contexte) */}
+  <section class="dt-problem">
+    <div class="wrap-wide">
+      <Kicker tone="accent" class="dt-section-k">§ 02 · <Bi fr="Le problème" en="The problem" /></Kicker>
+      <p class="dt-problem-text"><slot name="problem" /></p>
+      <div class="dt-problem-stats">
+        <StatRow stats={annotation} />
+      </div>
+    </div>
+  </section>
+
+  {/* APPROACH · 4 steps */}
+  <section class="dt-approach">
+    <div class="wrap-wide">
+      <header class="dt-section-hd">
+        <div>
+          <Kicker tone="accent" class="dt-section-k">§ 03 · <Bi fr="L'approche" en="The approach" /></Kicker>
+          <h2 class="dt-section-h2"><slot name="approach-headline" /></h2>
+        </div>
+        <p class="dt-section-aside"><slot name="approach-aside" /></p>
+      </header>
+      <ProcessSteps steps={steps} />
+    </div>
+  </section>
+
+  {/* DELIVERABLES · slot grid 3 cols (ouvert pour custom cards) */}
+  <section class="dt-deliverables">
+    <div class="wrap-wide">
+      <header class="dt-section-hd">
+        <div>
+          <Kicker tone="accent" class="dt-section-k">§ 04 · <Bi fr="Livrables" en="Deliverables" /></Kicker>
+          <h2 class="dt-section-h2"><slot name="deliverables-headline" /></h2>
+        </div>
+        <p class="dt-section-aside"><slot name="deliverables-aside" /></p>
+      </header>
+      <slot name="deliverables" />
+    </div>
+  </section>
+
+  {/* PROOF · témoignage + métriques */}
+  <section class="dt-proof">
+    <div class="wrap-wide">
+      <ProofBand
+        quote_fr={proofQuoteFr} quote_en={proofQuoteEn}
+        attr_fr={proofAttrFr} attr_en={proofAttrEn}
+        metrics={proofMetrics}
+      />
+    </div>
+  </section>
+
+  {/* STACK */}
+  <section class="dt-stack">
+    <div class="wrap-wide">
+      <Kicker tone="accent" class="dt-section-k">§ 06 · <Bi fr="La stack" en="The stack" /></Kicker>
+      <p class="dt-stack-lead"><slot name="stack-lead" /></p>
+      <TechPillRow pills={techPills} />
+    </div>
+  </section>
+
+  {/* RELATED */}
+  <section class="dt-related">
+    <div class="wrap-wide">
+      <Kicker class="dt-related-k">§ 07 · <Bi fr="Connexes" en="Related" /></Kicker>
+      <RelatedCards cards={relatedCards} />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .dt-hero { padding: 140px 32px 0; }
+  :global(.dt-parent) { display: block; margin-bottom: 18px; }
+  :global(.dt-num) { display: block; margin-bottom: 24px; }
+  .dt-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 9vw, 156px);
+    line-height: 0.92;
+    letter-spacing: -0.028em;
+    text-wrap: balance;
+    font-weight: 400;
+    margin: 0 0 32px;
+  }
+  .dt-h1 :global(i) { font-style: italic; color: var(--accent); }
+  .dt-lede {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2vw, 24px);
+    line-height: 1.45;
+    max-width: 880px;
+    color: var(--muted);
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .dt-problem,
+  .dt-approach,
+  .dt-deliverables,
+  .dt-proof,
+  .dt-stack,
+  .dt-related { padding: clamp(80px, 12vw, 120px) 32px; }
+  :global(.dt-section-k) { display: block; margin-bottom: 24px; }
+  .dt-problem-text {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+    max-width: 1100px;
+    margin: 0 0 clamp(36px, 5vw, 72px);
+  }
+  .dt-problem-text :global(i) { font-style: italic; color: var(--accent); }
+  .dt-problem-stats { margin-top: clamp(36px, 5vw, 72px); }
+
+  .dt-approach,
+  .dt-proof { background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  .dt-section-hd {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: clamp(24px, 4vw, 60px);
+    margin-bottom: clamp(36px, 5vw, 70px);
+    align-items: end;
+  }
+  .dt-section-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 5.5vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.024em;
+    text-wrap: balance;
+    font-weight: 400;
+    margin: 14px 0 0;
+  }
+  .dt-section-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .dt-section-aside {
+    font-size: clamp(13px, 1.3vw, 15px);
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 400px;
+    text-wrap: pretty;
+    margin: 0;
+  }
+
+  .dt-stack-lead {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.4vw, 30px);
+    line-height: 1.3;
+    color: var(--muted);
+    max-width: 760px;
+    text-wrap: balance;
+    margin: 0 0 clamp(28px, 3vw, 44px);
+  }
+
+  :global(.dt-related-k) { display: block; margin-bottom: 30px; }
+
+  @media (max-width: 900px) {
+    .dt-section-hd { grid-template-columns: 1fr; }
+  }
+</style>
