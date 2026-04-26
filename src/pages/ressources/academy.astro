@@ -1,0 +1,102 @@
+---
+// Page · /ressources/academy · Diagnostic IA gratuit (form interactif)
+// Source : waimia-handoff2 / academy-diagnostic.html
+//
+// Composé de · UtilityTemplate (centered) · slot body avec questionnaire 12 questions
+
+import UtilityTemplate from '../../components/templates/UtilityTemplate.astro';
+import Button from '../../components/ui/atoms/Button.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+---
+<UtilityTemplate
+  title="Diagnostic IA gratuit · 12 questions · Waimia Academy"
+  description="Un diagnostic IA gratuit en 12 questions. 5 minutes. Résultat immédiat avec vos points forts, lacunes, et 3 prochaines actions priorisées."
+  kicker="§ Academy · Diagnostic gratuit · 5 min"
+  align="centered"
+>
+  <Fragment slot="headline">
+    Où en êtes-vous <i>vraiment</i> sur l'IA ?
+  </Fragment>
+  <Fragment slot="lede">
+    Un diagnostic structuré en 12 questions. 5 minutes. Vous recevez un scorecard immédiat — pas de rappel commercial.
+  </Fragment>
+
+  <Fragment slot="body">
+    <form class="acad-form" method="post" action="/api/academy" name="academy">
+      <Kicker tone="accent" class="acad-section-k">§ 01 · Données</Kicker>
+      <fieldset>
+        <legend>Q1 · Vos données métier sont-elles centralisées ?</legend>
+        <label><input type="radio" name="q1" value="0" /> Non, dispersées dans 10+ outils</label>
+        <label><input type="radio" name="q1" value="1" /> Centralisées partiellement (CRM ou warehouse)</label>
+        <label><input type="radio" name="q1" value="2" /> Centralisées dans un entrepôt unifié (dbt, Snowflake, etc.)</label>
+        <label><input type="radio" name="q1" value="3" /> Entrepôt + politique d'écriture par champ documentée</label>
+      </fieldset>
+      <fieldset>
+        <legend>Q2 · Avez-vous une source de vérité unique pour le pipeline revenue ?</legend>
+        <label><input type="radio" name="q2" value="0" /> Non, débats fréquents en comité</label>
+        <label><input type="radio" name="q2" value="1" /> CRM seul fait foi</label>
+        <label><input type="radio" name="q2" value="2" /> CRM + warehouse réconciliés</label>
+        <label><input type="radio" name="q2" value="3" /> Source unique signée par finance + revenue</label>
+      </fieldset>
+
+      <Kicker tone="accent" class="acad-section-k">§ 02 · Outillage IA</Kicker>
+      <fieldset>
+        <legend>Q3 · Avez-vous déjà déployé un agent IA en production ?</legend>
+        <label><input type="radio" name="q3" value="0" /> Non, jamais essayé</label>
+        <label><input type="radio" name="q3" value="1" /> POC seulement, jamais en prod</label>
+        <label><input type="radio" name="q3" value="2" /> 1-2 agents en prod, peu mesurés</label>
+        <label><input type="radio" name="q3" value="3" /> 3+ agents en prod avec audit trail mesurable</label>
+      </fieldset>
+      <fieldset>
+        <legend>Q4 · Connaissez-vous le coût LLM mensuel par agent ?</legend>
+        <label><input type="radio" name="q4" value="0" /> Aucune visibilité</label>
+        <label><input type="radio" name="q4" value="1" /> Total mensuel global seulement</label>
+        <label><input type="radio" name="q4" value="2" /> Par agent, sans drill-down</label>
+        <label><input type="radio" name="q4" value="3" /> Par agent + drill-down (modèle, batch, cache)</label>
+      </fieldset>
+
+      <Kicker tone="accent" class="acad-section-k">§ 03 · Conformité</Kicker>
+      <fieldset>
+        <legend>Q5 · Vos agents IA sont-ils auditables ?</legend>
+        <label><input type="radio" name="q5" value="0" /> Aucun audit trail</label>
+        <label><input type="radio" name="q5" value="1" /> Logs basiques applicatifs</label>
+        <label><input type="radio" name="q5" value="2" /> Trail structuré exportable</label>
+        <label><input type="radio" name="q5" value="3" /> Trail re-rejouable + signé (AI Act ready)</label>
+      </fieldset>
+      <fieldset>
+        <legend>Q6 · Avez-vous un humain d'astreinte nommé sur vos agents prod ?</legend>
+        <label><input type="radio" name="q6" value="0" /> Non, personne désigné</label>
+        <label><input type="radio" name="q6" value="1" /> Oui, mais seulement les heures ouvrées</label>
+        <label><input type="radio" name="q6" value="2" /> Astreinte 24/7 mais réactivité variable</label>
+        <label><input type="radio" name="q6" value="3" /> Astreinte 24/7 avec SLA réveil &lt; 15 min</label>
+      </fieldset>
+
+      <div class="acad-cta">
+        <Button as="button" type="submit" variant="primary" size="lg" mag={0.18}>
+          Voir mon scorecard →
+        </Button>
+        <p class="acad-foot">Aucun rappel commercial. Score envoyé immédiatement à votre email.</p>
+      </div>
+
+      <details class="acad-skip">
+        <summary>Préférez parler directement ?</summary>
+        <p>Sautez le diagnostic et <a href="/contact">réservez 45 min</a>. On lit votre stack ensemble.</p>
+      </details>
+    </form>
+  </Fragment>
+</UtilityTemplate>
+
+<style>
+  .acad-form { max-width: 720px; margin: 0 auto; text-align: left; display: flex; flex-direction: column; gap: 24px; }
+  :global(.acad-section-k) { display: block; margin: 24px 0 8px; }
+  fieldset { border: 1px solid var(--hairline); border-radius: 8px; padding: 22px 24px; display: flex; flex-direction: column; gap: 10px; }
+  legend { font-family: var(--font-display); font-size: clamp(17px, 1.8vw, 20px); line-height: 1.3; padding: 0 8px; }
+  fieldset label { font-size: 14.5px; line-height: 1.4; display: flex; align-items: baseline; gap: 8px; cursor: pointer; padding: 6px 0; transition: color 200ms var(--ease); }
+  fieldset label:hover { color: var(--accent); }
+  fieldset input[type="radio"] { accent-color: var(--accent); flex-shrink: 0; }
+  .acad-cta { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .acad-foot { font-size: 12.5px; color: var(--muted); margin: 0; }
+  .acad-skip { margin-top: 24px; font-size: 13px; color: var(--muted); }
+  .acad-skip summary { cursor: pointer; font-family: var(--font-mono); letter-spacing: 0.06em; padding: 8px 0; }
+  .acad-skip a { color: var(--accent); border-bottom: 1px solid currentColor; }
+</style>

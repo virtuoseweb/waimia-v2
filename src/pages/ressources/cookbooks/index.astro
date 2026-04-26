@@ -1,0 +1,75 @@
+---
+// Page · /ressources/cookbooks · Knowledge base · cookbooks
+// Source : waimia-handoff2 / knowledge-base.html
+//
+// Composé de · ListIndexTemplate (variant cookbooks · cards 2 cols)
+
+import ListIndexTemplate from '../../../components/templates/ListIndexTemplate.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+
+const cookbooks = [
+  { code: 'CB · 01', tag: 'RevOps', title: "Réconcilier HubSpot et l'entrepôt en 5 jours",
+    lead: "Le runbook qu'on suit en interne. Inclut les requêtes dbt et les politiques d'écriture par champ." },
+  { code: 'CB · 02', tag: 'AI Act', title: "Cartographier le périmètre AI Act d'une fintech",
+    lead: "Template + 12 questions à poser au CRO. Sortie : matrice risque par cas d'usage signée." },
+  { code: 'CB · 03', tag: 'FinOps', title: 'Couper 40-70 % de la facture LLM en 2 semaines',
+    lead: 'Tokenisation, batching, caching, routage. Le checklist qu\'on applique en mission.' },
+  { code: 'CB · 04', tag: 'Audit', title: 'Le scorecard 47 critères de maturité IA',
+    lead: 'Notation pondérée par chantier · benchmark anonymisé secteur · estimation effort.' },
+  { code: 'CB · 05', tag: 'Sécurité', title: "Pen tester un agent Claude · les 8 vecteurs d'attaque",
+    lead: "Injection de prompt, exfil, jailbreaks, supply chain. Méthodologie d'audit signée." },
+  { code: 'CB · 06', tag: 'Dette', title: 'Migrer 200 bots RPA vers des agents Claude',
+    lead: 'Triage qui survit / qui meurt / qui était du théâtre. Inclut grille de priorisation.' },
+];
+---
+<ListIndexTemplate
+  title="Cookbooks · Recettes pratiques d'agence IA · Waimia"
+  description="Les runbooks qu'on suit en interne. Réconciliation données, AI Act, FinOps LLM, audit maturité, pen testing — disponibles sous accord NDA."
+  kicker="§ Cookbooks · 6 runbooks"
+>
+  <Fragment slot="headline">
+    Six <i>recettes</i>. Pas de magie.
+  </Fragment>
+  <Fragment slot="lede">
+    Les méthodes qu'on applique en mission, écrites pour être réutilisées. Chaque cookbook inclut le runbook étape par étape, les templates et les pièges connus.
+  </Fragment>
+
+  <Fragment slot="filters">
+    <Kicker tone="accent">RevOps</Kicker>
+    <Kicker>AI Act</Kicker>
+    <Kicker>FinOps</Kicker>
+    <Kicker>Audit</Kicker>
+    <Kicker>Sécurité</Kicker>
+    <Kicker>Dette</Kicker>
+  </Fragment>
+
+  <Fragment slot="list">
+    <div class="cb-grid">
+      {cookbooks.map((c) => (
+        <a class="cb-card" href={`mailto:bonjour@waimia.com?subject=${encodeURIComponent(c.code + ' · ' + c.title)}`}>
+          <div class="cb-meta">
+            <span class="cb-code">{c.code}</span>
+            <span class="cb-tag">{c.tag}</span>
+          </div>
+          <h3 class="cb-title">{c.title}</h3>
+          <p class="cb-lead">{c.lead}</p>
+          <span class="cb-go">Demander le cookbook (NDA) →</span>
+        </a>
+      ))}
+    </div>
+  </Fragment>
+</ListIndexTemplate>
+
+<style>
+  .cb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--hairline-strong); border-bottom: 1px solid var(--hairline-strong); }
+  .cb-card { padding: clamp(28px, 3vw, 44px); border-right: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); display: flex; flex-direction: column; gap: 14px; color: inherit; transition: background 240ms var(--ease); }
+  .cb-card:nth-child(2n) { border-right: none; }
+  .cb-card:nth-last-child(-n+2) { border-bottom: none; }
+  .cb-card:hover { background: var(--paper-2); }
+  .cb-meta { display: flex; gap: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .cb-code { color: var(--accent); }
+  .cb-title { font-family: var(--font-display); font-size: clamp(24px, 3vw, 36px); line-height: 1.05; letter-spacing: -0.02em; font-weight: 400; margin: 0; text-wrap: balance; }
+  .cb-lead { font-size: 14px; line-height: 1.55; color: var(--muted); text-wrap: pretty; margin: 0; max-width: 520px; }
+  .cb-go { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--accent); margin-top: auto; }
+  @media (max-width: 800px) { .cb-grid { grid-template-columns: 1fr; } .cb-card { border-right: none; border-bottom: 1px solid var(--hairline); } .cb-card:last-child { border-bottom: none; } }
+</style>
