@@ -1,0 +1,188 @@
+---
+// Page · /ressources · Hub landing Ressources
+// Source : waimia-handoff2 / ressources.html (450 LoC)
+//
+// Composition directe d'organismes existants : masthead + Featured tool +
+// Cases + WritingNotes (blog) + Cookbooks + Newsletter band + CtaBand.
+
+import Base from '../../layouts/Base.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+import Cases from '../../components/ui/organisms/Cases.astro';
+import WritingNotes from '../../components/ui/organisms/WritingNotes.astro';
+import CtaBand from '../../components/ui/organisms/CtaBand.astro';
+import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
+import Button from '../../components/ui/atoms/Button.astro';
+
+const tools = [
+  { kicker: 'OUTIL · 01', title_fr: 'Calculateur TCO agent', title_en: 'Agent TCO calculator',
+    lead_fr: 'Coût total possession 1 agent · 36 mois →', lead_en: 'Total cost of ownership 1 agent · 36 months →',
+    href: '/ressources/outils/tco-calculator' },
+  { kicker: 'OUTIL · 02', title_fr: 'Calculateur ROI', title_en: 'ROI calculator',
+    lead_fr: 'Valeur récupérée vs coût engagement →', lead_en: 'Value recovered vs engagement cost →',
+    href: '/ressources/outils/roi-calculator' },
+  { kicker: 'OUTIL · 03', title_fr: 'Checklist AI Act', title_en: 'AI Act checklist',
+    lead_fr: 'Conformité par cas d\'usage · 47 critères →', lead_en: 'Compliance per use case · 47 criteria →',
+    href: '/ressources/outils/ai-act-checklist' },
+];
+
+const cookbookCards = [
+  { kicker: 'CB · 01', title_fr: 'RevOps Rebuild', title_en: 'RevOps Rebuild',
+    lead_fr: 'Le runbook qu\'on suit en interne →', lead_en: 'The runbook we follow internally →',
+    href: '/ressources/cookbooks#cb-01' },
+  { kicker: 'CB · 04', title_fr: 'Scorecard maturité IA', title_en: 'AI maturity scorecard',
+    lead_fr: '47 critères notés 0-3 →', lead_en: '47 criteria scored 0-3 →',
+    href: '/ressources/cookbooks#cb-04' },
+  { kicker: 'CB · 06', title_fr: 'RPA → agents Claude', title_en: 'RPA → Claude agents',
+    lead_fr: 'Migration 200 bots méthode →', lead_en: '200 bots migration method →',
+    href: '/ressources/cookbooks#cb-06' },
+];
+---
+<Base
+  title="Ressources · Cas, blog, cookbooks, outils · Waimia"
+  description="Toutes les ressources Waimia — cas clients NDA-protected, notes de terrain, cookbooks de méthodes, calculateurs TCO/ROI/AI Act."
+>
+  {/* MASTHEAD */}
+  <section class="hub-mast">
+    <div class="wrap-wide">
+      <Kicker class="hub-kicker">§ Ressources · 4 catégories</Kicker>
+      <h1 class="hub-h1">Tout ce qu'on <i>publie</i>.</h1>
+      <p class="hub-lede">
+        Cas mesurables, notes de terrain, cookbooks de méthodes, calculateurs gratuits. Pas de pensum SEO. Tout est relu, signé, et NDA-protected quand pertinent.
+      </p>
+    </div>
+  </section>
+
+  {/* FEATURED TOOLS */}
+  <section class="hub-tools">
+    <div class="wrap-wide">
+      <Kicker tone="accent" class="hub-tools-k">§ Outils · calculateurs gratuits sans sign-up</Kicker>
+      <h2 class="hub-tools-h2">Trois <i>calculateurs</i>. Pas de funnel commercial.</h2>
+      <RelatedCards cards={tools} />
+    </div>
+  </section>
+
+  {/* CASES · réutilisation organisme homepage */}
+  <Cases />
+
+  {/* WRITING · réutilisation organisme homepage (blog) */}
+  <WritingNotes />
+
+  {/* COOKBOOKS featured */}
+  <section class="hub-cookbooks">
+    <div class="wrap-wide">
+      <Kicker tone="accent" class="hub-cookbooks-k">§ Cookbooks · 3 sélections</Kicker>
+      <h2 class="hub-cookbooks-h2">Les <i>recettes</i> qu'on applique en mission.</h2>
+      <RelatedCards cards={cookbookCards} />
+      <div class="hub-cookbooks-cta">
+        <Button href="/ressources/cookbooks" variant="ghost" size="lg">Voir les 6 cookbooks →</Button>
+      </div>
+    </div>
+  </section>
+
+  {/* NEWSLETTER BAND */}
+  <section class="hub-nl">
+    <div class="wrap-wide hub-nl-wrap">
+      <div>
+        <Kicker tone="accent" class="hub-nl-k">§ Newsletter · une fois par mois</Kicker>
+        <h2 class="hub-nl-h2">Un <i>essai</i> par mois. Jamais de promotion.</h2>
+        <p class="hub-nl-lead">
+          Notes longues, cas concrets, recettes pratiques. Désabonnement en 1 clic, RGPD-compliant.
+        </p>
+      </div>
+      <form class="hub-nl-form" method="post" action="/api/newsletter">
+        <label for="nl-email" class="sr-only">Email professionnel</label>
+        <input id="nl-email" name="email" type="email" required placeholder="prénom@entreprise.com" autocomplete="email" />
+        <Button as="button" type="submit" variant="primary" size="md">S'abonner →</Button>
+      </form>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .hub-mast { padding: 140px 32px clamp(40px, 5vw, 72px); }
+  :global(.hub-kicker) { display: block; margin-bottom: 24px; }
+  .hub-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 11vw, 180px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .hub-h1 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 2.2vw, 28px);
+    color: var(--ink-2);
+    margin: 32px 0 0;
+    max-width: 760px;
+    line-height: 1.4;
+  }
+
+  .hub-tools,
+  .hub-cookbooks { padding: clamp(80px, 10vw, 120px) 32px; }
+  :global(.hub-tools-k),
+  :global(.hub-cookbooks-k) { display: block; margin-bottom: 18px; }
+  .hub-tools-h2,
+  .hub-cookbooks-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 0.96;
+    letter-spacing: -0.024em;
+    margin: 0 0 clamp(40px, 5vw, 72px);
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hub-tools-h2 :global(i),
+  .hub-cookbooks-h2 :global(i) { font-style: italic; color: var(--accent); }
+
+  .hub-cookbooks { background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  .hub-cookbooks-cta { margin-top: clamp(28px, 3vw, 44px); }
+
+  .hub-nl { padding: clamp(80px, 10vw, 120px) 32px; background: var(--ink); color: var(--paper); }
+  .hub-nl-wrap { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(40px, 6vw, 80px); align-items: center; }
+  :global(.hub-nl-k) { display: block; margin-bottom: 18px; }
+  .hub-nl-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.024em;
+    color: var(--paper);
+    margin: 0 0 18px;
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hub-nl-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-nl-lead {
+    font-size: 15px;
+    line-height: 1.55;
+    color: rgba(246, 241, 232, 0.7);
+    max-width: 520px;
+    margin: 0;
+  }
+  .hub-nl-form {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .hub-nl-form input {
+    flex: 1;
+    min-width: 240px;
+    padding: 14px 18px;
+    background: rgba(246, 241, 232, 0.08);
+    border: 1px solid rgba(246, 241, 232, 0.2);
+    border-radius: 6px;
+    color: var(--paper);
+    font-family: var(--font-display);
+    font-size: 16px;
+  }
+  .hub-nl-form input:focus { outline: none; border-color: var(--accent); }
+
+  @media (max-width: 800px) {
+    .hub-nl-wrap { grid-template-columns: 1fr; }
+  }
+</style>

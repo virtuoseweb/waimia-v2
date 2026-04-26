@@ -1,0 +1,104 @@
+---
+// Page · /solutions · Hub landing Solutions
+// Source : waimia-handoff2 / solutions.html (414 LoC)
+//
+// Composition directe d'organismes existants : Hero light + Departments
+// + Cases + Industry split + CtaBand.
+
+import Base from '../../layouts/Base.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+import Departments from '../../components/ui/organisms/Departments.astro';
+import Cases from '../../components/ui/organisms/Cases.astro';
+import CtaBand from '../../components/ui/organisms/CtaBand.astro';
+import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
+
+const industries = [
+  { kicker: 'INDUSTRY · 01', title_fr: 'Fintech & Banque',     title_en: 'Fintech & Banking',
+    lead_fr: 'ACPR · LCB-FT · KYC →', lead_en: 'ACPR · AML · KYC →', href: '/solutions/fintech' },
+  { kicker: 'INDUSTRY · 02', title_fr: 'Santé',                title_en: 'Healthcare',
+    lead_fr: 'HIPAA · données patient →', lead_en: 'HIPAA · patient data →', href: '/solutions/sante' },
+  { kicker: 'INDUSTRY · 03', title_fr: 'Industrie',            title_en: 'Industry',
+    lead_fr: 'OT · SCADA · maintenance prédictive →', lead_en: 'OT · SCADA · predictive maintenance →', href: '/solutions/industrie' },
+];
+---
+<Base
+  title="Solutions · Par métier et par industrie · Waimia"
+  description="Les solutions IA Waimia organisées par métier (Finance, Ventes, Support, Juridique, RH, IT) et par industrie (Fintech, Santé, Industrie, Public)."
+>
+  {/* MASTHEAD */}
+  <section class="hub-mast">
+    <div class="wrap-wide">
+      <Kicker class="hub-kicker">§ Solutions · 6 métiers · 4 industries</Kicker>
+      <h1 class="hub-h1">Six <i>métiers</i>. Quatre <i>industries</i>. Une méthode.</h1>
+      <p class="hub-lede">
+        Chaque métier a ses contraintes — réglementation, données, culture interne. Notre méthode reste la même : process, agent, audit, mesure.
+      </p>
+    </div>
+  </section>
+
+  {/* DEPARTMENTS · 6 métiers · réutilisation organisme homepage */}
+  <Departments />
+
+  {/* CASES · cas réels par métier · réutilisation organisme homepage */}
+  <Cases />
+
+  {/* INDUSTRY · 3 industries · molécule RelatedCards */}
+  <section class="hub-industry">
+    <div class="wrap-wide">
+      <Kicker tone="accent" class="hub-industry-k">§ Par industrie · contraintes spécifiques</Kicker>
+      <h2 class="hub-industry-h2">Quand le <i>secteur</i> dicte la grammaire.</h2>
+      <p class="hub-industry-lead">
+        Au-delà du métier, certaines industries imposent leurs propres règles — conformité, sécurité, vocabulaire. On adapte sans réinventer.
+      </p>
+      <RelatedCards cards={industries} />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .hub-mast { padding: 140px 32px clamp(40px, 5vw, 72px); }
+  :global(.hub-kicker) { display: block; margin-bottom: 24px; }
+  .hub-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 11vw, 180px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .hub-h1 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 2.2vw, 28px);
+    color: var(--ink-2);
+    margin: 32px 0 0;
+    max-width: 760px;
+    line-height: 1.4;
+    text-wrap: pretty;
+  }
+
+  .hub-industry { padding: clamp(80px, 10vw, 120px) 32px; background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  :global(.hub-industry-k) { display: block; margin-bottom: 18px; }
+  .hub-industry-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 0.96;
+    letter-spacing: -0.024em;
+    margin: 0 0 24px;
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hub-industry-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-industry-lead {
+    font-family: var(--font-display);
+    font-size: clamp(17px, 1.8vw, 22px);
+    color: var(--muted);
+    max-width: 760px;
+    margin: 0 0 clamp(40px, 5vw, 72px);
+    line-height: 1.45;
+  }
+</style>

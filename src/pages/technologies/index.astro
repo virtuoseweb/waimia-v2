@@ -1,0 +1,195 @@
+---
+// Page · /technologies · Hub landing Technologies
+// Source : waimia-handoff2 / technologies.html (566 LoC)
+//
+// Composition directe d'organismes existants : masthead + TrustMarquee
+// + 3 stack layers (Claude / Open-source / Decision) + RelatedCards + CtaBand.
+
+import Base from '../../layouts/Base.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+import TrustMarquee from '../../components/ui/organisms/TrustMarquee.astro';
+import CtaBand from '../../components/ui/organisms/CtaBand.astro';
+import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
+import TechPillRow from '../../components/ui/molecules/TechPillRow.astro';
+
+const stackLayers = [
+  { num: '01', title_fr: 'Claude · cognition', title_en: 'Claude · cognition',
+    body_fr: "Opus 4.7 pour l'analyse, Sonnet 4.6 pour la production, Haiku 4.5 pour le triage rapide. Routage par coût/latence, fallback open-source.",
+    body_en: 'Opus 4.7 for analysis, Sonnet 4.6 for production, Haiku 4.5 for fast triage. Cost/latency routing, open-source fallback.' },
+  { num: '02', title_fr: 'Open-source · souveraineté', title_en: 'Open-source · sovereignty',
+    body_fr: "vLLM, Ollama, Llama 4 70B, DeepSeek R1, Qwen 3. Pour les contraintes ACPR, SecNumCloud, HIPAA — quand la donnée ne peut pas sortir.",
+    body_en: 'vLLM, Ollama, Llama 4 70B, DeepSeek R1, Qwen 3. For ACPR, SecNumCloud, HIPAA constraints — when data cannot leave.' },
+  { num: '03', title_fr: 'Decision layer · VirtuoseOS', title_en: 'Decision layer · VirtuoseOS',
+    body_fr: "Notre kernel multi-workspace avec audit trail re-rejouable, garde-fous AI Act, FinOps LLM intégrés.",
+    body_en: 'Our multi-workspace kernel with replayable audit trail, AI Act guardrails, integrated LLM FinOps.' },
+];
+
+const frameworks = [
+  { kicker: 'FRAMEWORK · 01', title_fr: 'LangGraph + Claude', title_en: 'LangGraph + Claude',
+    lead_fr: 'Orchestration multi-agents stateful →', lead_en: 'Stateful multi-agent orchestration →', href: '/technologies/frameworks' },
+  { kicker: 'FRAMEWORK · 02', title_fr: 'CrewAI + Claude', title_en: 'CrewAI + Claude',
+    lead_fr: 'Agents collaboratifs role-based →', lead_en: 'Role-based collaborative agents →', href: '/technologies/frameworks' },
+  { kicker: 'FRAMEWORK · 03', title_fr: 'MCP custom', title_en: 'Custom MCP',
+    lead_fr: 'Connecteurs propriétaires standard ouvert →', lead_en: 'Custom connectors open standard →', href: '/technologies/mcp-connectors' },
+];
+
+const claudePills = [
+  { label: 'Claude Opus 4.7', kind: 'primary' as const },
+  { label: 'Claude Sonnet 4.6', kind: 'primary' as const },
+  { label: 'Claude Haiku 4.5', kind: 'primary' as const },
+  { label: 'Claude Code', kind: 'primary' as const },
+  { label: 'Claude Skills', kind: 'primary' as const },
+  { label: 'MCP', kind: 'primary' as const },
+];
+
+const ossPills = [
+  { label: 'Llama 4 70B', kind: 'open' as const },
+  { label: 'DeepSeek R1', kind: 'open' as const },
+  { label: 'Qwen 3', kind: 'open' as const },
+  { label: 'vLLM', kind: 'open' as const },
+  { label: 'Ollama', kind: 'open' as const },
+  { label: 'GLM-5', kind: 'open' as const },
+];
+---
+<Base
+  title="Technologies · Claude + open-source + VirtuoseOS · Waimia"
+  description="Notre stack technique : Claude (Opus, Sonnet, Haiku, Code, Skills, MCP), modèles open-source pour souveraineté, et VirtuoseOS comme decision layer."
+>
+  {/* MASTHEAD */}
+  <section class="hub-mast">
+    <div class="wrap-wide">
+      <Kicker class="hub-kicker">§ Technologies · 3 layers · 1 OS</Kicker>
+      <h1 class="hub-h1">Trois <i>couches</i>. Une seule <i>OS</i>.</h1>
+      <p class="hub-lede">
+        Claude pour la cognition. L'open-source pour la souveraineté. VirtuoseOS pour la décision. Trois choix techniques, une seule architecture.
+      </p>
+    </div>
+  </section>
+
+  {/* PARTNER BAND · réutilisation organisme TrustMarquee homepage */}
+  <TrustMarquee />
+
+  {/* 3 STACK LAYERS */}
+  <section class="hub-layers">
+    <div class="wrap-wide">
+      <Kicker tone="accent" class="hub-layers-k">§ Stack · 3 layers superposées</Kicker>
+      <h2 class="hub-layers-h2">Comment <i>on choisit</i>. Sans dogme.</h2>
+      <ol class="hub-stack">
+        {stackLayers.map((s) => (
+          <li class="hub-stack-row">
+            <div class="hub-stack-num">{s.num}</div>
+            <div class="hub-stack-body">
+              <h3 class="hub-stack-title">{s.title_fr}</h3>
+              <p class="hub-stack-text">{s.body_fr}</p>
+              {s.num === '01' && <TechPillRow pills={claudePills} />}
+              {s.num === '02' && <TechPillRow pills={ossPills} />}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* DECISION FRAMEWORK · 3 frameworks orchestration */}
+  <section class="hub-frameworks">
+    <div class="wrap-wide">
+      <Kicker tone="accent" class="hub-frameworks-k">§ Frameworks · orchestration agents</Kicker>
+      <h2 class="hub-frameworks-h2">Trois <i>frameworks</i>. Trois grammaires.</h2>
+      <RelatedCards cards={frameworks} />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .hub-mast { padding: 140px 32px clamp(40px, 5vw, 72px); }
+  :global(.hub-kicker) { display: block; margin-bottom: 24px; }
+  .hub-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 11vw, 180px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .hub-h1 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 2.2vw, 28px);
+    color: var(--ink-2);
+    margin: 32px 0 0;
+    max-width: 760px;
+    line-height: 1.4;
+  }
+
+  .hub-layers { padding: clamp(80px, 10vw, 120px) 32px; }
+  :global(.hub-layers-k) { display: block; margin-bottom: 18px; }
+  .hub-layers-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 0.96;
+    letter-spacing: -0.024em;
+    margin: 0 0 clamp(48px, 5vw, 72px);
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hub-layers-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-stack {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--ink);
+  }
+  .hub-stack-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: clamp(20px, 3vw, 48px);
+    padding: clamp(36px, 4vw, 60px) 0;
+    border-bottom: 1px solid var(--hairline);
+    align-items: start;
+  }
+  .hub-stack-num {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 6vw, 96px);
+    line-height: 0.9;
+    color: var(--accent);
+    font-style: italic;
+  }
+  .hub-stack-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    font-weight: 400;
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+  .hub-stack-text {
+    font-size: clamp(15px, 1.5vw, 18px);
+    line-height: 1.55;
+    color: var(--muted);
+    margin: 0 0 18px;
+    max-width: 780px;
+    text-wrap: pretty;
+  }
+
+  .hub-frameworks { padding: clamp(80px, 10vw, 120px) 32px; background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  :global(.hub-frameworks-k) { display: block; margin-bottom: 18px; }
+  .hub-frameworks-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 0.96;
+    letter-spacing: -0.024em;
+    margin: 0 0 clamp(40px, 5vw, 72px);
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hub-frameworks-h2 :global(i) { font-style: italic; color: var(--accent); }
+
+  @media (max-width: 700px) {
+    .hub-stack-row { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,101 @@
+---
+// Page · /offres · Hub landing Offres
+// Source : waimia-handoff2 / offres.html (797 LoC)
+//
+// Composition directe d'organismes existants — PAS de nouveau template.
+// (Pattern recommandé : reproduire l'approche /src/pages/index.astro)
+
+import Base from '../../layouts/Base.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+import Pyramid from '../../components/ui/organisms/Pyramid.astro';
+import CtaBand from '../../components/ui/organisms/CtaBand.astro';
+import FitColumns from '../../components/ui/molecules/FitColumns.astro';
+
+const fitYesItems = [
+  "Vous avez 50–500 employés et un moteur revenue qui doit livrer",
+  "Vous voulez un audit avant un devis, toujours",
+  "Vous gardez la plateforme quand on part — pas de captivité SaaS",
+  "Vos équipes parlent FR et EN avec parité stricte",
+];
+const fitNoItems = [
+  "Vous cherchez un atelier de cadrage de 6 mois",
+  "Vous voulez un chatbot retail en 48 h",
+  "Vous prévoyez un appel d'offres avec 12 finalistes",
+  "Vous refusez de signer un agreement DPA",
+];
+---
+<Base
+  title="Offres · 4 paliers d'engagement · Waimia"
+  description="Les quatre paliers d'engagement Waimia — Conseil, Light, Orchestration, Enterprise. Un audit avant chaque devis, toujours."
+>
+  {/* MASTHEAD */}
+  <section class="hub-mast">
+    <div class="wrap-wide">
+      <Kicker class="hub-kicker">§ Offres · Pyramide d'engagement · 4 paliers</Kicker>
+      <h1 class="hub-h1">Quatre <i>paliers</i>. Une seule architecture.</h1>
+      <p class="hub-lede">
+        Du diagnostic process à l'infrastructure souveraine — chaque palier prépare le suivant. Vous montez quand vous êtes prêt, jamais avant.
+      </p>
+    </div>
+  </section>
+
+  {/* PYRAMID · 4 tiers · réutilisation de l'organisme homepage */}
+  <Pyramid />
+
+  {/* FIT GUIDE */}
+  <section class="hub-fit">
+    <div class="wrap-wide">
+      <Kicker tone="dim" class="hub-fit-k">§ Fit · pour qui ces offres sont conçues</Kicker>
+      <h2 class="hub-fit-h2">Pour les équipes qui <i>livrent</i>. Pas pour les comités.</h2>
+      <FitColumns
+        yesTitleFr="Vous êtes fait pour nous si"
+        yesTitleEn="You're a fit if"
+        yesItems={fitYesItems}
+        noTitleFr="On refusera si"
+        noTitleEn="We'll say no if"
+        noItems={fitNoItems}
+      />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .hub-mast { padding: 140px 32px clamp(40px, 5vw, 72px); }
+  :global(.hub-kicker) { display: block; margin-bottom: 24px; }
+  .hub-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 11vw, 180px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .hub-h1 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 2.2vw, 28px);
+    color: var(--ink-2);
+    margin: 32px 0 0;
+    max-width: 760px;
+    line-height: 1.4;
+    text-wrap: pretty;
+  }
+
+  .hub-fit { padding: clamp(80px, 10vw, 120px) 32px; background: var(--ink); color: var(--paper); }
+  :global(.hub-fit-k) { display: block; margin-bottom: 24px; }
+  .hub-fit-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 0.96;
+    letter-spacing: -0.024em;
+    color: var(--paper);
+    margin: 0 0 60px;
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hub-fit-h2 :global(i) { font-style: italic; color: var(--accent); }
+</style>
