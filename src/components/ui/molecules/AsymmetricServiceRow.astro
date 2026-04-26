@@ -4,12 +4,15 @@
 // Pattern : grid 4 colonnes [num · name · body · arr] qui se renverse en miroir
 // quand `reverse=true` → [arr-l · body-r · name-r · num-r].
 //
+// Composition rigoureuse Atomic Design : utilise Kicker atom pour les flèches mono.
 // 12 instances (6 par fichier × 2 fichiers fr/en) avant ce refactor.
 //
 // Usage :
 //   {SIX_SERVICES.map((s, i) => (
 //     <AsymmetricServiceRow num={s.k} label={t(s.label, lang)} body={t(s.body, lang)} reverse={i % 2 === 1} />
 //   ))}
+
+import Kicker from '../atoms/Kicker.astro';
 
 interface Props {
   /** Numéro du service · ex: "01", "02" */
@@ -32,11 +35,11 @@ const { num, label, body, reverse = false, class: extraClass = '' } = Astro.prop
       <div class="u-asym-num">{num}</div>
       <div class="u-asym-name">{label}</div>
       <p class="u-asym-body">{body}</p>
-      <div class="u-asym-arr">→</div>
+      <Kicker as="div" tone="accent" size={13} letterSpacing="0" class="u-asym-arr">→</Kicker>
     </>
   ) : (
     <>
-      <div class="u-asym-arr-l">←</div>
+      <Kicker as="div" tone="accent" size={13} letterSpacing="0" class="u-asym-arr-l">←</Kicker>
       <p class="u-asym-body-r">{body}</p>
       <div class="u-asym-name-r">{label}</div>
       <div class="u-asym-num-r">{num}</div>
@@ -51,10 +54,9 @@ const { num, label, body, reverse = false, class: extraClass = '' } = Astro.prop
   .u-asym-num{font-family:var(--font-display);font-size:clamp(40px,5vw,64px);line-height:.9;color:var(--accent);font-style:italic}
   .u-asym-name{font-family:var(--font-display);font-size:clamp(32px,4.5vw,56px);line-height:1;letter-spacing:-0.02em}
   .u-asym-body{font-size:clamp(13px,1.3vw,16px);line-height:1.55;color:var(--muted);max-width:500px}
-  .u-asym-arr{font-family:var(--font-mono);font-size:13px;text-align:right;color:var(--accent)}
-
-  /* Variantes reversed */
-  .u-asym-arr-l{font-family:var(--font-mono);font-size:13px;color:var(--accent)}
+  /* Arrow aligné à droite (Kicker rendu via composition · text-transform:none pour la flèche) */
+  :global(.u-asym-arr){text-align:right;text-transform:none}
+  :global(.u-asym-arr-l){text-transform:none}
   .u-asym-body-r{font-size:clamp(13px,1.3vw,16px);line-height:1.55;color:var(--muted);max-width:500px;margin-left:auto;text-align:right}
   .u-asym-name-r{font-family:var(--font-display);font-size:clamp(32px,4.5vw,56px);line-height:1;letter-spacing:-0.02em;text-align:right}
   .u-asym-num-r{font-family:var(--font-display);font-size:clamp(40px,5vw,64px);line-height:.9;color:var(--accent);font-style:italic;text-align:right}

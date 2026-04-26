@@ -1,7 +1,8 @@
 ---
-// Bi · primitive bilingue côté serveur
+// Atome · Bi · primitive bilingue côté serveur
 // Choisit la chaîne EN/FR selon la langue de la page Astro courante.
-import { langFromPath } from '../../lib/i18n';
+// Indivisible : un seul rôle (text en/fr) sans composition d'autres atomes.
+import { langFromPath } from '../../../lib/i18n';
 
 interface Props {
   en: string;

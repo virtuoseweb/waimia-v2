@@ -1,8 +1,16 @@
-# 08 · Bibliothèque de composants — Atoms & Molecules
+# 08 · Bibliothèque de composants — Atomic Design rigoureux
 
 > **Charte** : tout pattern qui apparaît **≥ 3 fois** dans le code doit être promu en atome (`src/components/ui/atoms/`) ou en molécule (`src/components/ui/molecules/`). Tout pattern à 1-2 occurrences reste inline — on n'invente pas un atome pour un cas marginal.
 >
 > Pourquoi : un atome à instance unique alourdit l'API, dérègle la cohérence, et complique le refactoring. La règle des 3 force la sélection des patterns vraiment partagés.
+
+> **Atomic Design rigoureux** (Brad Frost, étendu pour Astro) :
+>
+> 1. **Atomes** (`src/components/ui/atoms/`) — éléments **indivisibles** : pas d'imports d'autres atomes/molécules, un seul rôle (Kicker, Button, Bi).
+> 2. **Molécules** (`src/components/ui/molecules/`) — **composent au moins 1 atome** ou structurent ≥ 2 éléments en unité fonctionnelle (SectionHeader, MetricStrip, EditorialTable).
+> 3. **Organismes** (`src/components/ui/organisms/`) — sections complètes d'UI composées de molécules + atomes (Hero, Pyramid, Cases, OperatingLayer, Manifesto…).
+> 4. **Templates** (`src/layouts/`) — squelettes de page (Base.astro avec Header + Footer + slot principal).
+> 5. **Pages** (`src/pages/`) — instances finales (`/`, `/manifesto`, `/console`, `/atlas`).
 
 ---
 
@@ -10,8 +18,9 @@
 
 1. [Atomes](#atomes-srccomponentsuiatoms)
 2. [Molécules](#molécules-srccomponentsuimolecules)
-3. [Décisions de design](#décisions-de-design)
-4. [Quand créer un atome](#quand-créer-un-atome)
+3. [Organismes](#organismes-srccomponentsuiorganisms)
+4. [Décisions de design](#décisions-de-design)
+5. [Quand créer un atome](#quand-créer-un-atome)
 
 ---
 

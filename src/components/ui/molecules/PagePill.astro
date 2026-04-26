@@ -11,7 +11,7 @@
 //   ✦ Atlas       = /atlas       (cartographie 4 piliers + persona switcher · ma proposition)
 
 import PagePillIsland from './PagePillIsland.tsx';
-import { langFromPath, localizeHref } from '../../lib/i18n';
+import { langFromPath, localizeHref } from '../../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
 const path = Astro.url.pathname.replace(/^\/en/, '') || '/';

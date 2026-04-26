@@ -6,9 +6,9 @@
 //
 // Composé de · ChapterLabel (refactor atomic-components)
 
-import ChapterLabel from '../ui/atoms/ChapterLabel.astro';
-import { langFromPath, t } from '../../lib/i18n';
-import { WHY_AI_STALLS } from '../../data/sitemap';
+import ChapterLabel from '../atoms/ChapterLabel.astro';
+import { langFromPath, t } from '../../../lib/i18n';
+import { WHY_AI_STALLS } from '../../../data/sitemap';
 
 const lang = langFromPath(Astro.url.pathname);
 ---

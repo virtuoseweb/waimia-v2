@@ -6,9 +6,9 @@
 //
 // Composé de · EditorialWriteRow (refactor atomic-deep)
 
-import EditorialWriteRow from '../ui/molecules/EditorialWriteRow.astro';
-import { langFromPath, t, localizeHref } from '../../lib/i18n';
-import { FIELD_NOTES } from '../../data/sitemap';
+import EditorialWriteRow from '../molecules/EditorialWriteRow.astro';
+import { langFromPath, t, localizeHref } from '../../../lib/i18n';
+import { FIELD_NOTES } from '../../../data/sitemap';
 
 const lang = langFromPath(Astro.url.pathname);
 ---

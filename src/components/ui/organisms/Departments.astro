@@ -6,9 +6,9 @@
 //
 // Composé de · SectionHeader (refactor atomic-components)
 
-import SectionHeader from '../ui/molecules/SectionHeader.astro';
-import { DEPARTMENTS_GRID } from '../../data/sitemap';
-import { langFromPath, t, localizeHref } from '../../lib/i18n';
+import SectionHeader from '../molecules/SectionHeader.astro';
+import { DEPARTMENTS_GRID } from '../../../data/sitemap';
+import { langFromPath, t, localizeHref } from '../../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
 ---

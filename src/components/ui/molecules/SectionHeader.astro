@@ -15,6 +15,9 @@
 //   - `aside` · texte court à droite (optionnel)
 //   - `chapter` · alternative complète au bloc kicker · pour styles personnalisés
 
+// Composition rigoureuse Atomic Design : utilise Kicker atom pour le label.
+import Kicker from '../atoms/Kicker.astro';
+
 interface Props {
   /** Numéro romain affiché en grand (italic terracotta) · ex: "II", "FIG IV" */
   roman?: string;
@@ -30,17 +33,17 @@ interface Props {
 
 const { roman, label, id, tone = 'accent', class: extraClass = '' } = Astro.props;
 const isDim = tone === 'dim';
-const labelColor = isDim ? 'rgba(246,241,232,.55)' : 'var(--accent)';
+const kickerTone = isDim ? 'dim' : 'accent';
 ---
 <header class={`sec-hd ${extraClass}`.trim()}>
   <div>
     {Astro.slots.has('chapter') ? (
       <slot name="chapter" />
     ) : (roman || label) ? (
-      <div class="n" style={`color:${labelColor}`}>
+      <Kicker tone={kickerTone} size={10.5} letterSpacing=".2em" class="n">
         {roman && <span class="roman">{roman}</span>}
         {label && <span>{label}</span>}
-      </div>
+      </Kicker>
     ) : null}
 
     <h2 id={id}>
