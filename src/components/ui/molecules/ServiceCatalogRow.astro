@@ -1,0 +1,114 @@
+---
+// Molécule · ServiceCatalogRow · ligne longue d'un catalogue (hub services list)
+//
+// Pattern récurrent (≥ 3 occurrences) :
+// - hub-consulting.html : 7 services rows (kicker · title · desc · duration · arrow)
+// - virtuoseos.html : modules rows
+// - hub-development.html (à venir) : services rows
+//
+// Composé de · Bi (atom).
+//
+// Pourquoi pas réutiliser AsymmetricServiceRow : celui-ci est alterné gauche/droite,
+// celui-ci est uniforme (kicker · title-block · meta · arrow). Patterns visuels différents.
+//
+// API :
+//   <ServiceCatalogRow num="02.1"
+//     title_fr="Audit de maturité IA" title_en="AI Readiness Assessment"
+//     desc_fr="..." desc_en="..."
+//     meta="10 days · 10 j"
+//     href="/offres/audit-maturite-ia" />
+
+import Bi from '../atoms/Bi.astro';
+
+interface Props {
+  num: string;
+  title_fr: string;
+  title_en: string;
+  desc_fr: string;
+  desc_en: string;
+  meta?: string;
+  href: string;
+  class?: string;
+}
+const { num, title_fr, title_en, desc_fr, desc_en, meta, href, class: extraClass = '' } = Astro.props;
+---
+<a class={`svc-row reveal ${extraClass}`.trim()} href={href}>
+  <span class="svc-num">§ {num}</span>
+  <div class="svc-body">
+    <div class="svc-title">
+      <Bi fr={title_fr} en={title_en} />
+    </div>
+    <p class="svc-desc">
+      <Bi fr={desc_fr} en={desc_en} />
+    </p>
+  </div>
+  {meta && <span class="svc-meta">{meta}</span>}
+  <span class="svc-arr" aria-hidden>↗</span>
+</a>
+
+<style>
+  .svc-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 180px 60px;
+    gap: 32px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--hairline);
+    align-items: center;
+    color: inherit;
+    transition: background 240ms var(--ease), padding-left 320ms var(--ease);
+  }
+  .svc-row:hover {
+    background: var(--paper-2);
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .svc-row:hover .svc-arr {
+    color: var(--accent);
+    transform: translateX(4px) translateY(-2px);
+  }
+  .svc-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+  .svc-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.022em;
+    margin-bottom: 10px;
+    text-wrap: balance;
+  }
+  .svc-desc {
+    color: var(--muted);
+    font-size: 15.5px;
+    max-width: 720px;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+  .svc-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .svc-arr {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    color: var(--muted);
+    text-align: right;
+    transition: color 240ms var(--ease), transform 320ms var(--ease);
+  }
+  @media (max-width: 900px) {
+    .svc-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 24px 0;
+    }
+    .svc-arr,
+    .svc-meta {
+      display: none;
+    }
+  }
+</style>

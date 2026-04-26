@@ -1,0 +1,75 @@
+---
+// Molécule · TechPillRow · pills technos avec dot couleur (primary accent / open green)
+//
+// Pattern récurrent (≥ 3 occurrences) :
+// - case-plateau.html : stack pills
+// - offres/detail.html : tech stack pills
+// - service-revops.html : stack pills
+//
+// Atome unitaire : aurait pu être 1 atome `TechPill` mais l'UI est toujours
+// affiché en row (flex wrap), donc la molécule = row pré-câblé.
+//
+// API :
+//   <TechPillRow pills={[
+//     { label: 'Claude Opus', kind: 'primary' },
+//     { label: 'PostgreSQL', kind: 'open' },
+//   ]} />
+
+interface Pill {
+  label: string;
+  kind?: 'primary' | 'open' | 'neutral';
+}
+interface Props {
+  pills: Pill[];
+  class?: string;
+}
+const { pills, class: extraClass = '' } = Astro.props;
+---
+<div class={`tech-pills ${extraClass}`.trim()}>
+  {pills.map((p) => (
+    <span class={`tech-pill ${p.kind ?? 'neutral'}`}>
+      <span class="tech-pill-dot" aria-hidden></span>
+      {p.label}
+    </span>
+  ))}
+</div>
+
+<style>
+  .tech-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tech-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    transition: all 200ms var(--ease);
+  }
+  .tech-pill:hover {
+    border-color: var(--accent);
+    background: rgba(201, 79, 46, 0.06);
+    color: var(--accent);
+  }
+  .tech-pill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .tech-pill.primary .tech-pill-dot {
+    background: var(--accent);
+  }
+  .tech-pill.open .tech-pill-dot {
+    background: #2aa876;
+  }
+  .tech-pill.neutral .tech-pill-dot {
+    background: var(--muted);
+  }
+</style>

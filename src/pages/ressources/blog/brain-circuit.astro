@@ -1,0 +1,62 @@
+---
+// Page · /ressources/blog/brain-circuit · Essai éditorial long-form
+// Source : waimia-handoff2 / essay-brain-circuit.html
+//
+// Composé de · EssayTemplate (squelette) · contenu Markdown rich text via slot.
+
+import EssayTemplate from '../../../components/templates/EssayTemplate.astro';
+
+const relatedCards = [
+  { kicker: 'NOTE 02', title_fr: "Pourquoi l'IA cale", title_en: 'Why AI stalls',
+    lead_fr: "Quatre figures qui posent le problème →", lead_en: 'Four figures that frame the problem →',
+    href: '/ressources/blog/why-ai-stalls' },
+  { kicker: 'NOTE 03', title_fr: 'La couche sans relief', title_en: 'The unglamorous layer',
+    lead_fr: "Pourquoi le socle compte plus que le modèle →", lead_en: 'Why the foundation matters more than the model →',
+    href: '/ressources/blog/unglamorous-layer' },
+  { kicker: 'CASE 04', title_fr: 'Plateau SaaS', title_en: 'Plateau SaaS',
+    lead_fr: '+€2.4M pipeline →', lead_en: '+€2.4M pipeline →',
+    href: '/ressources/cas/plateau' },
+];
+---
+<EssayTemplate
+  title="Cerveau-circuit · Pourquoi l'iconographie IA est un théâtre · Waimia"
+  description="L'imagerie cerveau-circuit a tué plus de projets IA que n'importe quel modèle défaillant. Pourquoi cette esthétique arrive toujours avant le travail."
+  kicker="ESSAY · 03 · 2026-04"
+  date="2026-04-22"
+  author="Simon Beros"
+  readingTime="9 min"
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">
+    Le <i>cerveau-circuit</i> arrive toujours avant le travail.
+  </Fragment>
+  <Fragment slot="lede">
+    L'imagerie cerveau-circuit a tué plus de projets IA que n'importe quel modèle défaillant. Une note de terrain.
+  </Fragment>
+
+  {/* BODY · contenu rich text — Astro hydrate ce HTML statique côté serveur */}
+  <Fragment slot="body">
+    <p>Quand un comité exécutif valide une initiative IA en regardant un rendu 3D de neurones violets sur fond verre dépoli, il signe rarement pour le travail réel. Il signe pour <em>l'idée du travail</em>. Et l'idée du travail tient en 6 mois, parfois en 18, jamais en 36.</p>
+
+    <h2>Le théâtre arrive avant le diagnostic</h2>
+    <p>L'industrie IA s'est construit un vocabulaire visuel — purple-glass, cerveau-circuit, hexagones flottants — qui prétend rendre lisible ce qui ne l'est pas encore. C'est compréhensible : pour vendre une technologie d'optimisation à un comité qui n'optimisera pas lui-même les agents, il faut un avatar.</p>
+    <p>Mais l'avatar devient le projet. La métaphore tient lieu de spec. Le rendu 3D remplace le runbook. Et au moment où il faut <em>vraiment</em> qu'un agent triage 482 contacts entrants par mois, personne ne sait quel record gagne quand HubSpot et le warehouse se contredisent.</p>
+
+    <h2>Trois symptômes</h2>
+    <p>On reconnaît le théâtre IA à trois signes :</p>
+    <ul>
+      <li>La présentation existe avant les données.</li>
+      <li>Le mot "transformation" apparaît plus de 4 fois en 10 minutes.</li>
+      <li>Personne ne peut nommer un humain qui sera <em>réveillé à 3 h du matin</em> si l'agent fail.</li>
+    </ul>
+    <p>Si ces trois signes sont présents, le projet livrera une démo. Ni plus, ni moins. La démo passera bien en board. Elle ne passera pas le pic de juin.</p>
+
+    <h2>L'antidote : l'écrit, la mesure, l'astreinte</h2>
+    <p>Notre méthode tient en trois mots : <em>par écrit</em>. Une mission de conseil n'est pas un atelier. Une livraison de service n'est pas une démo. Un agent en production a un humain d'astreinte nommé, mesurable, joignable.</p>
+    <blockquote>L'IA n'est pas <em>partout</em> et nulle part — elle est dans la boîte qu'on a fini de remplir, branchée à un système qu'on a fini de réparer.</blockquote>
+    <p>Notre travail commence par l'inverse du théâtre : <em>désempiler</em>. Désempiler les outils, désempiler les comités, désempiler les fausses certitudes. Et écrire ce qui reste — sur papier, dans dbt, dans Claude.</p>
+
+    <h2>Comment lire ce blog</h2>
+    <p>Cet espace publie des notes courtes. Chaque note vient d'un chantier. Aucune n'a été écrite pour SEO. Aucune ne contient de cerveau-circuit. Si une note vous semble lisible, c'est probablement parce qu'elle a été <em>relue</em> — ce qui est plus rare qu'on ne le pense dans l'industrie.</p>
+  </Fragment>
+</EssayTemplate>

@@ -1,0 +1,109 @@
+---
+// Page · /ressources/cas/plateau · Cas Plateau SaaS
+// Source : waimia-handoff2 / case-plateau.html
+//
+// Composé de · CaseStudyTemplate (squelette) · données structurées + slots HTML riche.
+
+import CaseStudyTemplate from '../../../components/templates/CaseStudyTemplate.astro';
+
+const specs = [
+  { label_fr: 'Client',      label_en: 'Client',      value: 'Plateau (pseudonym)' },
+  { label_fr: 'Secteur',     label_en: 'Sector',      value: 'SaaS B2B · Series B' },
+  { label_fr: 'Durée',       label_en: 'Duration',    value: '10 sem · Q4 2025' },
+  { label_fr: 'Stack',       label_en: 'Stack',       value: 'HubSpot · dbt · Claude · VirtuoseOS' },
+  { label_fr: 'Prestations', label_en: 'Services',    value: 'RevOps · Data · AI automation' },
+];
+
+const steps = [
+  { sn: '01', kicker_fr: 'Audit', kicker_en: 'Audit',
+    title_fr: 'Lecture du funnel', title_en: 'Funnel read',
+    body_fr: "Trois semaines à lire CRM, warehouse, billing. On a noté 47 contradictions silencieuses.",
+    body_en: 'Three weeks reading CRM, warehouse, billing. We logged 47 silent contradictions.' },
+  { sn: '02', kicker_fr: 'Refonte', kicker_en: 'Rebuild',
+    title_fr: "Une source de vérité", title_en: 'Single source of truth',
+    body_fr: "On a déclaré dbt comme source officielle. HubSpot écrit, dbt lit, le board pack synchronise.",
+    body_en: 'We declared dbt the official source. HubSpot writes, dbt reads, the board pack syncs.' },
+  { sn: '03', kicker_fr: 'Agents', kicker_en: 'Agents',
+    title_fr: 'Triage Claude', title_en: 'Claude triage',
+    body_fr: "Trois agents Claude — qualification, scoring, routage — branchés sur dbt avec audit trail.",
+    body_en: 'Three Claude agents — qualification, scoring, routing — wired into dbt with audit trail.' },
+  { sn: '04', kicker_fr: 'Livraison', kicker_en: 'Handover',
+    title_fr: 'Dashboards & alertes', title_en: 'Dashboards & alerts',
+    body_fr: "Pipeline live partagé avec la finance. Alertes de drift sur les conversions par segment.",
+    body_en: 'Live pipeline shared with finance. Drift alerts on conversions per segment.' },
+];
+
+const proofMetrics = [
+  { k: '+€2.4M',  label_fr: 'Pipeline récupéré',   label_en: 'Pipeline recovered' },
+  { k: '×3.1',    label_fr: 'Conversion SQL→Deal', label_en: 'SQL→Deal conversion' },
+  { k: '−38%',    label_fr: 'Temps de triage',     label_en: 'Triage time' },
+  { k: '47',      label_fr: 'Contradictions résolues', label_en: 'Contradictions resolved' },
+];
+
+const techPills = [
+  { label: 'Claude Opus 4.7', kind: 'primary' as const },
+  { label: 'Claude Sonnet 4.6', kind: 'primary' as const },
+  { label: 'HubSpot', kind: 'neutral' as const },
+  { label: 'dbt', kind: 'open' as const },
+  { label: 'Snowflake', kind: 'neutral' as const },
+  { label: 'VirtuoseOS', kind: 'primary' as const },
+  { label: 'PostgreSQL', kind: 'open' as const },
+];
+
+const relatedCards = [
+  { kicker: 'CASE 07', title_fr: 'Halcyon Health', title_en: 'Halcyon Health',
+    lead_fr: '−38% temps de triage →', lead_en: '−38% triage time →',
+    href: '/ressources/cas/halcyon' },
+  { kicker: 'CASE 09', title_fr: 'Caserne Industrie', title_en: 'Caserne Industry',
+    lead_fr: '€780k FinOps économisés →', lead_en: '€780k FinOps saved →',
+    href: '/ressources/cas/caserne' },
+  { kicker: 'SERVICE 03.1', title_fr: 'RevOps Rebuild', title_en: 'RevOps Rebuild',
+    lead_fr: 'Le service inspiré par ce cas →', lead_en: 'The service inspired by this case →',
+    href: '/offres/revops' },
+];
+---
+<CaseStudyTemplate
+  title="Cas · Plateau · +€2.4M de pipeline récupéré · Waimia"
+  description="Comment une refonte RevOps de 10 semaines a permis à Plateau de récupérer 2,4 M€ de pipeline que personne ne comptait."
+  caseNum="04"
+  specs={specs}
+  steps={steps}
+  proofQuoteFr="Avant Waimia, je passais mes lundis à débattre des chiffres en comité. Maintenant, la même métrique vit dans Salesforce, dans dbt et dans le board pack."
+  proofQuoteEn="Before Waimia, I spent every Monday debating numbers in committee. Now, the same metric lives in Salesforce, in dbt, and in the board pack."
+  proofAttrFr="Marie Cousin · COO · Plateau"
+  proofAttrEn="Marie Cousin · COO · Plateau"
+  proofMetrics={proofMetrics}
+  techPills={techPills}
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">
+    Une refonte RevOps qui a récupéré <i>2,4 M€</i> de pipeline que personne ne comptait.
+  </Fragment>
+  <Fragment slot="context">
+    <p>L'équipe RevOps de Plateau avait <i>cessé de faire confiance</i> à son propre funnel. Le CRM affichait une croissance que l'entrepôt contredisait. La finance arbitrait au feeling. Les agents IA précédemment déployés livraient des démos, pas du pipeline.</p>
+    <p>Notre brief : poser <i>une seule vérité</i> sur le funnel — et brancher des agents Claude qui opèrent sur cette vérité plutôt que d'en générer une parallèle.</p>
+  </Fragment>
+  <Fragment slot="approach-headline">
+    Pas un atelier. Un <i>chantier</i> de 10 semaines.
+  </Fragment>
+  <Fragment slot="approach-aside">
+    Notre méthode standard : audit → reconciliation → agents → mesure. Adaptée à la grammaire métier (lead, opportunity, MRR-bridge) et au calendrier board.
+  </Fragment>
+  <Fragment slot="stack-lead">
+    Volontairement <i>petite</i>. Claude pour la cognition, dbt pour la lecture canonique, HubSpot pour l'écriture, VirtuoseOS pour l'audit. Aucun no-code intermédiaire.
+  </Fragment>
+</CaseStudyTemplate>
+
+<style is:global>
+  /* Styles paragraphes du slot context · scoped au case-context-grid pour ne pas
+     fuir ailleurs. Pattern utilisé dans 1 seul template — cf docs/08 § 5. */
+  .case-context-grid p {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.32;
+    letter-spacing: -0.012em;
+    margin: 0 0 24px;
+    text-wrap: pretty;
+  }
+  .case-context-grid p i { font-style: italic; color: var(--accent); }
+</style>
