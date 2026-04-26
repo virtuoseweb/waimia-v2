@@ -4,6 +4,8 @@
 // 4 variantes inline existaient (OperatingLayer, /manifesto, /console hero, /console reel)
 // → unifiées ici avec slot pour le contenu interne (Pattern Slots)
 //
+// Composition rigoureuse Atomic Design : utilise Kicker atom pour label+status.
+//
 // Usage :
 //   <TerminalMockup label="virtuoseos · plateau-saas" status="◉ live" tone="ink">
 //     <pre>$ virtuose ship pipeline.agent</pre>
@@ -11,6 +13,8 @@
 //
 // Slots :
 //   - default · le contenu de la console (commandes, logs, table…)
+
+import Kicker from '../atoms/Kicker.astro';
 
 interface Props {
   /** Label affiché entre les dots et le status · ex: "virtuoseos · workspace/plateau" */
@@ -36,10 +40,10 @@ const {
 const isInk = tone === 'ink';
 const bg = isInk ? '#17140F' : 'var(--paper)';
 const border = isInk ? 'rgba(246,241,232,.14)' : 'var(--hairline-strong)';
-const fg = isInk ? 'rgba(246,241,232,.55)' : 'var(--muted)';
 const dotColor = isInk ? 'rgba(246,241,232,.22)' : 'var(--hairline-strong)';
 const headerBg = isInk ? 'transparent' : 'var(--paper-2)';
 const headerBorder = isInk ? 'rgba(246,241,232,.1)' : 'var(--hairline)';
+const kickerTone = isInk ? 'dim' : 'muted';
 ---
 <div
   class={`u-terminal ${extraClass}`.trim()}
@@ -50,8 +54,8 @@ const headerBorder = isInk ? 'rgba(246,241,232,.1)' : 'var(--hairline)';
     {[0, 1, 2].map(() => (
       <span style={`width:10px;height:10px;border-radius:50%;background:${dotColor};display:inline-block`} aria-hidden></span>
     ))}
-    {label && <span style={`margin-left:12px;color:${fg};font-size:11px`}>{label}</span>}
-    {status && <span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--accent)">{status}</span>}
+    {label && <Kicker as="span" tone={kickerTone} letterSpacing="0" class="u-terminal-label">{label}</Kicker>}
+    {status && <Kicker as="span" tone="accent" letterSpacing="0" class="u-terminal-status">{status}</Kicker>}
   </div>
 
   {/* Body · slot pour le contenu */}
@@ -59,3 +63,9 @@ const headerBorder = isInk ? 'rgba(246,241,232,.1)' : 'var(--hairline)';
     <slot />
   </div>
 </div>
+
+<style>
+  /* Label aligné après les dots, status aligné à droite (Kicker rendu inline-block) */
+  :global(.u-terminal-label){margin-left:12px;text-transform:none}
+  :global(.u-terminal-status){margin-left:auto;text-transform:none}
+</style>

@@ -7,15 +7,15 @@
 // Composé de · MastheadRow + Kicker + ShipmentRow + Button + Footnotes + MetricStrip
 // (refactor atomic-components 2026-04-26)
 
-import { langFromPath, t, localizeHref } from '../../lib/i18n';
-import { HERO_METRICS, FIELD_NOTES } from '../../data/sitemap';
+import { langFromPath, t, localizeHref } from '../../../lib/i18n';
+import { HERO_METRICS, FIELD_NOTES } from '../../../data/sitemap';
 
-import MastheadRow from '../ui/atoms/MastheadRow.astro';
-import Kicker from '../ui/atoms/Kicker.astro';
-import Button from '../ui/atoms/Button.astro';
-import ShipmentRow from '../ui/molecules/ShipmentRow.astro';
-import Footnotes from '../ui/molecules/Footnotes.astro';
-import MetricStrip from '../ui/molecules/MetricStrip.astro';
+import MastheadRow from '../molecules/MastheadRow.astro';
+import Kicker from '../atoms/Kicker.astro';
+import Button from '../atoms/Button.astro';
+import ShipmentRow from '../molecules/ShipmentRow.astro';
+import Footnotes from '../molecules/Footnotes.astro';
+import MetricStrip from '../molecules/MetricStrip.astro';
 
 const lang = langFromPath(Astro.url.pathname);
 const ctaHref = localizeHref('/contact', lang);

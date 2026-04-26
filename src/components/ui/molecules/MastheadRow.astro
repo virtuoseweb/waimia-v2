@@ -1,12 +1,16 @@
 ---
-// Atome · MastheadRow · « Vol. 03 · № 01 · Paris/Genève · Bilingue · ◉ Booking »
+// Molécule · MastheadRow · « Vol. 03 · № 01 · Paris/Genève · Bilingue · ◉ Booking »
 // Pattern « couverture de revue » · présent sur Hero (/), /manifesto, /atlas
-// 3-4 colonnes mono uppercase séparées par des hairlines fins
+// 4 colonnes mono uppercase séparées par des hairlines fins
+//
+// Composition rigoureuse Atomic Design : 4× Kicker atom dans une grille
+// (déplacé d'atoms/ vers molecules/ car compose plusieurs atomes).
 //
 // Usage :
 //   <MastheadRow tone="paper" />              (defaults)
 //   <MastheadRow tone="ink" volume="02" status="Q3 2026" />
 
+import Kicker from '../atoms/Kicker.astro';
 import { langFromPath } from '../../../lib/i18n';
 
 interface Props {
@@ -30,31 +34,30 @@ const {
 } = Astro.props;
 
 const isInk = tone === 'ink';
-const color = isInk ? 'rgba(246,241,232,.55)' : 'var(--muted)';
 const borderColor = isInk ? 'rgba(246,241,232,.12)' : 'var(--hairline)';
 const lang_label = lang === 'fr' ? 'Bilingue FR · EN' : 'Bilingual EN · FR';
+const kickerTone = isInk ? 'dim' : 'muted';
 ---
 <div
   class="u-masthead-row"
-  style={`display:grid;grid-template-columns:repeat(4,1fr);gap:32px;border-bottom:1px solid ${borderColor};padding-bottom:18px;font-family:var(--font-mono);font-size:11px;color:${color};letter-spacing:.08em;text-transform:uppercase`}
+  style={`display:grid;grid-template-columns:repeat(4,1fr);gap:32px;border-bottom:1px solid ${borderColor};padding-bottom:18px`}
 >
-  <span>{volume}</span>
-  <span>{locations}</span>
-  <span>{lang_label}</span>
-  <span style="text-align:right">
+  <Kicker as="span" tone={kickerTone}>{volume}</Kicker>
+  <Kicker as="span" tone={kickerTone}>{locations}</Kicker>
+  <Kicker as="span" tone={kickerTone}>{lang_label}</Kicker>
+  <Kicker as="span" tone={kickerTone} class="u-masthead-status">
     <span style="color:var(--accent)">◉</span> {status}
-  </span>
+  </Kicker>
 </div>
 
 <style>
-  /* Mobile · stack en 2 col pour rester lisible */
+  /* Status aligné à droite + Mobile · stack en 2 col pour rester lisible */
+  :global(.u-masthead-status){text-align:right}
   @media (max-width: 900px) {
     .u-masthead-row {
       grid-template-columns: repeat(2, 1fr) !important;
       gap: 14px !important;
     }
-    .u-masthead-row > :last-child {
-      text-align: left !important;
-    }
+    :global(.u-masthead-status){text-align:left}
   }
 </style>

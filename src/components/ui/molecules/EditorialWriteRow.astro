@@ -6,12 +6,15 @@
 //   - .b-write-row     (manifesto.astro · ink, border rgba paper)
 //   - .c-write-row     (console.astro · paper, border hairline)
 //
+// Composition rigoureuse Atomic Design : utilise Kicker atom pour date+tag+arrow.
 // Différent de ShipmentRow (qui est compact, sans date séparée, pour les "shipments").
 //
 // Usage :
 //   <EditorialWriteRow date="2026-04-15" tag="Field note" href="/blog/x" tone="paper">
 //     Le pipeline a livré 18% de plus avant le café.
 //   </EditorialWriteRow>
+
+import Kicker from '../atoms/Kicker.astro';
 
 interface Props {
   /** Date affichée à gauche · ex: "2026-04-15" */
@@ -27,15 +30,16 @@ interface Props {
 }
 
 const { date, tag, href, tone = 'paper', class: extraClass = '' } = Astro.props;
+const kickerTone = tone === 'ink' ? 'dim' : 'muted';
 ---
 <a
   href={href}
   class={`u-edit-write-row ${tone === 'ink' ? 'on-ink' : ''} ${extraClass}`.trim()}
 >
-  <span class="u-ewr-date">{date}</span>
-  <span class="u-ewr-tag">{tag}</span>
+  <Kicker as="span" tone={kickerTone} letterSpacing=".08em">{date}</Kicker>
+  <Kicker as="span" tone={kickerTone} size={10}>{tag}</Kicker>
   <span class="u-ewr-text"><slot /></span>
-  <span class="u-ewr-arr" aria-hidden>↗</span>
+  <Kicker as="span" tone={kickerTone} size={13} letterSpacing="0" class="u-ewr-arr" aria-hidden>↗</Kicker>
 </a>
 
 <style>
@@ -55,19 +59,14 @@ const { date, tag, href, tone = 'paper', class: extraClass = '' } = Astro.props;
   }
   .u-edit-write-row:hover{color:var(--accent);padding-left:6px}
 
-  .u-ewr-date{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.08em}
-  .u-edit-write-row.on-ink .u-ewr-date{color:rgba(246,241,232,.5)}
-
-  .u-ewr-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-  .u-edit-write-row.on-ink .u-ewr-tag{color:rgba(246,241,232,.5)}
-
   .u-ewr-text{font-family:var(--font-display);font-size:clamp(18px,1.8vw,22px);line-height:1.25;text-wrap:pretty}
   .u-edit-write-row.on-ink .u-ewr-text{color:var(--paper)}
 
-  .u-ewr-arr{font-family:var(--font-mono);font-size:13px;color:var(--muted);text-align:right}
+  /* Arrow aligné à droite + sans uppercase (override Kicker) */
+  :global(.u-ewr-arr){text-align:right;text-transform:none}
 
   @media (max-width:900px){
     .u-edit-write-row{grid-template-columns:1fr;gap:6px;padding:14px 0}
-    .u-ewr-arr{display:none}
+    :global(.u-ewr-arr){display:none}
   }
 </style>

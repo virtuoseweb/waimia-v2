@@ -2,6 +2,8 @@
 // Molécule · Footnotes · « ¹ NDA · ² Claude · ³ règles typo »
 // Bande de notes éditoriales en bas du Hero · réutilisable sur toute page hub
 //
+// Composition rigoureuse Atomic Design : utilise Kicker atom (variante non-uppercase).
+//
 // Usage :
 //   <Footnotes
 //     items={[
@@ -9,6 +11,8 @@
 //       { mark: '²', text: 'Claude Opus · Sonnet · Haiku.' },
 //     ]}
 //   />
+
+import Kicker from '../atoms/Kicker.astro';
 
 interface Note {
   /** Marqueur · ex: "¹", "²", "★" */
@@ -27,18 +31,18 @@ interface Props {
 
 const { items, tone = 'paper', class: extraClass = '' } = Astro.props;
 const isInk = tone === 'ink';
-const muted = isInk ? 'rgba(246,241,232,.5)' : 'var(--muted)';
 const ink = isInk ? 'var(--paper)' : 'var(--ink)';
 const border = isInk ? 'rgba(246,241,232,.12)' : 'var(--hairline)';
+const kickerTone = isInk ? 'dim' : 'muted';
 ---
 <div
   class={`u-footnotes ${extraClass}`.trim()}
-  style={`padding:18px 0;border-top:1px solid ${border};display:flex;gap:48px;flex-wrap:wrap;font-family:var(--font-mono);font-size:10.5px;color:${muted};letter-spacing:.06em`}
+  style={`padding:18px 0;border-top:1px solid ${border};display:flex;gap:48px;flex-wrap:wrap`}
 >
   {items.map((n) => (
-    <span>
+    <Kicker as="span" tone={kickerTone} size={10.5} letterSpacing=".06em" textTransform="none">
       <span style={`color:${ink};margin-right:4px`}>{n.mark}</span>
       {n.text}
-    </span>
+    </Kicker>
   ))}
 </div>

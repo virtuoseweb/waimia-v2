@@ -6,13 +6,14 @@
 // Unifie les 2 tables de /console : `c-services-tbl` (4 cols) et `c-cases-tbl` (7 cols).
 // Le pattern grid est paramétré via `cols` pour réutilisation.
 //
+// Composition rigoureuse Atomic Design : chaque header est rendu via Kicker atom.
+//
 // Usage :
 //   <EditorialTable cols="60px 180px 1fr 120px" headers={['id','service','description','status']}>
 //     <EditorialTableRow ...>...
-//     <EditorialTableRow ...>...
 //   </EditorialTable>
-//
-// La row utilise la même grille via `:global(.u-edit-tbl > * )` côté CSS — voir le composant `EditorialTableRow`.
+
+import Kicker from '../atoms/Kicker.astro';
 
 interface Props {
   /** Grid template columns · ex: "60px 180px 1fr 120px" */
@@ -33,7 +34,7 @@ const { cols, headers, tone = 'paper', class: extraClass = '' } = Astro.props;
   data-tone={tone}
 >
   <div class="u-edit-tbl-head">
-    {headers.map((h) => <span>{h}</span>)}
+    {headers.map((h) => <Kicker as="span" size={10.5} letterSpacing=".12em">{h}</Kicker>)}
   </div>
   <slot />
 </div>
@@ -45,11 +46,6 @@ const { cols, headers, tone = 'paper', class: extraClass = '' } = Astro.props;
     grid-template-columns:var(--u-edit-tbl-cols);
     padding:14px 20px;
     gap:14px;
-    font-family:var(--font-mono);
-    font-size:10.5px;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    color:var(--muted);
     background:var(--paper-2);
     border-bottom:1px solid var(--hairline);
   }

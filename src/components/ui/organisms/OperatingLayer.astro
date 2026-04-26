@@ -6,10 +6,10 @@
 //
 // Composé de · ChapterLabel + Button + TerminalMockup (refactor atomic-components)
 
-import ChapterLabel from '../ui/atoms/ChapterLabel.astro';
-import Button from '../ui/atoms/Button.astro';
-import TerminalMockup from '../ui/molecules/TerminalMockup.astro';
-import { langFromPath, localizeHref } from '../../lib/i18n';
+import ChapterLabel from '../atoms/ChapterLabel.astro';
+import Button from '../atoms/Button.astro';
+import TerminalMockup from '../molecules/TerminalMockup.astro';
+import { langFromPath, localizeHref } from '../../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
 const tourHref = localizeHref('/technologies/claude-surfaces', lang);

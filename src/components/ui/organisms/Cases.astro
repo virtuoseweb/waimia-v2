@@ -6,9 +6,9 @@
 //
 // Composé de · ChapterLabel (refactor atomic-components)
 
-import ChapterLabel from '../ui/atoms/ChapterLabel.astro';
-import { CASE_FEED } from '../../data/sitemap';
-import { langFromPath, t, localizeHref } from '../../lib/i18n';
+import ChapterLabel from '../atoms/ChapterLabel.astro';
+import { CASE_FEED } from '../../../data/sitemap';
+import { langFromPath, t, localizeHref } from '../../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
 // On limite à 4 dossiers en home pour le format « Four files »

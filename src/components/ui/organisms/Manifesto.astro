@@ -6,8 +6,8 @@
 //
 // Composé de · Kicker (refactor atomic-components)
 
-import Kicker from '../ui/atoms/Kicker.astro';
-import { langFromPath } from '../../lib/i18n';
+import Kicker from '../atoms/Kicker.astro';
+import { langFromPath } from '../../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
 ---

@@ -1,11 +1,14 @@
 ---
-// Molécule · MetricStrip · 4 chiffres clés en grille · « 04 / 120+ / agents shipped »
-// Wrapper sur la classe legacy `.metrics` · centralise le pattern utilisé sur Hero +
-// /console (OPS metrics: uptime / workspaces / agents / locale / release).
+// Molécule · MetricStrip · 4 chiffres clés en grille · « № 04 / 120+ / agents shipped »
+// Strip horizontal de N colonnes : index Kicker + valeur display + label.
+//
+// Composition rigoureuse Atomic Design : utilise Kicker atom pour l'index `№` et le label.
 //
 // Usage :
-//   <MetricStrip metrics={HERO_METRICS} lang={lang} />
-//   <MetricStrip metrics={[{k:'01', n:'120+', label:'agents'}]} />
+//   <MetricStrip metrics={HERO_METRICS} />
+//   <MetricStrip metrics={[{k:'01', n:'120+', label:'agents'}]} tone="ink" />
+
+import Kicker from '../atoms/Kicker.astro';
 
 interface Metric {
   /** Numéro/index · ex: "01", "04" */
@@ -28,21 +31,63 @@ interface Props {
 
 const { metrics, tone = 'paper', reveal = true, class: extraClass = '' } = Astro.props;
 const cols = metrics.length;
-
-// On réutilise les classes legacy `.metrics` du global.css quand tone=paper
-// pour bénéficier des animations + responsive déjà câblés.
-const onDarkClass = tone === 'ink' ? 'on-dark' : '';
+const isInk = tone === 'ink';
+const kickerTone = isInk ? 'dim' : 'muted';
 ---
 <section
-  class={`metrics ${onDarkClass} ${reveal ? 'row-lines' : ''} ${extraClass}`.trim()}
-  style={cols !== 4 ? `grid-template-columns:repeat(${cols},1fr)` : undefined}
+  class={`u-metric-strip ${isInk ? 'on-dark' : ''} ${reveal ? 'row-lines' : ''} ${extraClass}`.trim()}
+  style={`grid-template-columns:repeat(${cols},1fr)`}
   aria-label="Key metrics"
 >
   {metrics.map((m) => (
-    <div>
-      <span class="k">№ {m.k}</span>
-      <div class="n">{m.n}</div>
-      <div class="l">{m.label}</div>
+    <div class="u-metric">
+      <Kicker as="span" tone={kickerTone} size={10.5} letterSpacing=".18em" class="u-metric-k">№ {m.k}</Kicker>
+      <div class="u-metric-n">{m.n}</div>
+      <Kicker as="div" tone={kickerTone} size={11} letterSpacing=".10em" textTransform="none" class="u-metric-l">{m.label}</Kicker>
     </div>
   ))}
 </section>
+
+<style>
+  .u-metric-strip{
+    display:grid;
+    border-top:1px solid var(--hairline);
+    border-bottom:1px solid var(--hairline);
+  }
+  .u-metric-strip.on-dark{
+    border-top-color:rgba(246,241,232,.15);
+    border-bottom-color:rgba(246,241,232,.15);
+    color:var(--paper);
+  }
+  .u-metric{
+    padding:clamp(20px,2.5vw,32px) clamp(16px,2vw,28px);
+    border-right:1px solid var(--hairline);
+  }
+  .u-metric-strip.on-dark .u-metric{border-right-color:rgba(246,241,232,.12)}
+  .u-metric:last-child{border-right:none}
+
+  :global(.u-metric-k){display:block;margin-bottom:10px}
+
+  .u-metric-n{
+    font-family:var(--font-display);
+    font-size:clamp(28px,3.4vw,44px);
+    line-height:1;
+    letter-spacing:-0.02em;
+    color:var(--ink);
+  }
+  .u-metric-strip.on-dark .u-metric-n{color:var(--paper)}
+
+  :global(.u-metric-l){display:block;margin-top:10px}
+
+  @media (max-width:900px){
+    .u-metric-strip{grid-template-columns:repeat(2,1fr)!important}
+    .u-metric:nth-child(2n){border-right:none}
+    .u-metric:nth-child(-n+2){border-bottom:1px solid var(--hairline)}
+    .u-metric-strip.on-dark .u-metric:nth-child(-n+2){border-bottom-color:rgba(246,241,232,.12)}
+  }
+  @media (max-width:600px){
+    .u-metric-strip{grid-template-columns:1fr!important}
+    .u-metric{border-right:none!important;border-bottom:1px solid var(--hairline)}
+    .u-metric:last-child{border-bottom:none}
+  }
+</style>

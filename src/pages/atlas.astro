@@ -4,11 +4,11 @@
 // On réutilise les sections existantes pour comparer le rythme avec la Direction 1.
 
 import Base from '../layouts/Base.astro';
-import AtlasGrid       from '../components/sections/AtlasGrid.astro';
-import PersonaSwitcher from '../components/sections/PersonaSwitcher.astro';
-import Cases           from '../components/sections/Cases.astro';
-import FieldNotes      from '../components/sections/FieldNotes.astro';
-import CtaBand         from '../components/sections/CtaBand.astro';
+import AtlasGrid       from '../components/ui/organisms/AtlasGrid.astro';
+import PersonaSwitcher from '../components/ui/organisms/PersonaSwitcher.astro';
+import Cases           from '../components/ui/organisms/Cases.astro';
+import FieldNotes      from '../components/ui/organisms/FieldNotes.astro';
+import CtaBand         from '../components/ui/organisms/CtaBand.astro';
 
 import { langFromPath, localizeHref } from '../lib/i18n';
 const lang = langFromPath(Astro.url.pathname);
