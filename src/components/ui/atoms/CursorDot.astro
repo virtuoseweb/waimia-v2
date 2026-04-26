@@ -1,0 +1,71 @@
+---
+// Atome · CursorDot · curseur custom terracotta qui suit la souris
+// Indivisible : un seul rôle (visual cursor feedback), aucune composition.
+//
+// Comportement :
+//   - 8px terracotta par défaut, suit cursor (translate)
+//   - 44px au hover sur a/button (état .hov)
+//   - mix-blend-mode:difference pour rester visible sur tous les fonds
+//   - désactivé sur pointer:coarse (mobile/tablette)
+//
+// Usage : inclure une fois dans Base.astro (template layer).
+---
+<div class="u-cursor-dot" data-cursor-dot></div>
+
+<script>
+  // Logique cursor — pure JS minimal (~40 LoC)
+  // Pattern 2 (Astro + script interne) — cf docs/07-component-patterns.md
+  const dot = document.querySelector<HTMLElement>('[data-cursor-dot]');
+  if (dot && window.matchMedia('(pointer:fine)').matches) {
+    let raf = 0;
+    let nx = 0, ny = 0;
+
+    const onMove = (e: MouseEvent) => {
+      nx = e.clientX;
+      ny = e.clientY;
+      if (!raf) {
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          dot.style.transform = `translate(${nx}px,${ny}px)`;
+          if (!dot.classList.contains('on')) dot.classList.add('on');
+        });
+      }
+    };
+    const onEnter = () => dot.classList.add('hov');
+    const onLeave = () => dot.classList.remove('hov');
+
+    document.addEventListener('mousemove', onMove, { passive: true });
+
+    // Délégation : on attache au document pour capturer les éléments ajoutés dynamiquement
+    document.addEventListener('mouseover', (e) => {
+      const target = (e.target as HTMLElement)?.closest('a,button');
+      if (target) onEnter();
+    });
+    document.addEventListener('mouseout', (e) => {
+      const target = (e.target as HTMLElement)?.closest('a,button');
+      if (target) onLeave();
+    });
+  }
+</script>
+
+<style is:global>
+  .u-cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    pointer-events: none;
+    mix-blend-mode: difference;
+    z-index: 100;
+    transform: translate(-50%, -50%);
+    transition: width 280ms var(--ease), height 280ms var(--ease), opacity 200ms;
+    opacity: 0;
+  }
+  .u-cursor-dot.on { opacity: .9; }
+  .u-cursor-dot.hov { width: 44px; height: 44px; }
+  @media (pointer: coarse) { .u-cursor-dot { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .u-cursor-dot { display: none; } }
+</style>

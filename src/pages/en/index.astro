@@ -12,7 +12,6 @@ import HowWeShip       from '../../components/ui/organisms/HowWeShip.astro';
 import SixServices     from '../../components/ui/organisms/SixServices.astro';
 import Pyramid         from '../../components/ui/organisms/Pyramid.astro';
 import Manifesto       from '../../components/ui/organisms/Manifesto.astro';
-import ManifestoAccent from '../../components/ui/organisms/ManifestoAccent.astro';
 import OperatingLayer  from '../../components/ui/organisms/OperatingLayer.astro';
 import Departments     from '../../components/ui/organisms/Departments.astro';
 import Cases           from '../../components/ui/organisms/Cases.astro';
@@ -68,8 +67,7 @@ const faqItems = [
   <HowWeShip />          {/* 3.5 — how we tackle the problem · sticky pin signature */}
   <SixServices />
   <Pyramid />            {/* 4.5 — the 4-tier architecture beneath the 6 services */}
-  <Manifesto />            {/* Viewport 01 — paper · "We are suspicious of AI theatre" */}
-  <ManifestoAccent />      {/* Viewport 02 — terracotta full-bleed · "We refuse..." (DirectionB legacy) */}
+  <Manifesto />            {/* Viewport unique sur la home (paper) — ManifestoAccent terracotta réservé à /manifesto pour éviter doublon */}
   <OperatingLayer />
   <Departments />        {/* 6.5 — for which department · 6 cells */}
   <Cases />
