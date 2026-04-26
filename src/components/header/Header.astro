@@ -22,7 +22,7 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
   <div class="hdr-inner">
     {/* Logo */}
     <a href={lang === 'fr' ? '/' : '/en'} class="wm" aria-label="Waimia">
-      Waim<i>i</i>a
+      Waim<i>i</i>a<span class="dot">.</span>
     </a>
 
     {/* Nav · 5 boutons (4 mega + 1 simple) */}
@@ -119,7 +119,7 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
 {/* Mobile sheet · accordéon des mega-menus */}
 <div class="m-sheet" id="m-sheet" data-mobile-sheet aria-hidden="true">
   <div class="m-sheet-top">
-    <span class="wm">Waim<i>i</i>a</span>
+    <span class="wm">Waim<i>i</i>a<span class="dot">.</span></span>
     <button class="m-sheet-close" data-mobile-close aria-label={lang === 'fr' ? 'Fermer' : 'Close'}>×</button>
   </div>
   <div class="m-sheet-body">
