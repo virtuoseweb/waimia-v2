@@ -21,6 +21,14 @@ Notre différence : nous livrons des agents qui exécutent en production, pas de
 - [L'Agence](https://waimia.com/agence): vision, équipe, certifications, bureaux.
 - [Trust Center](https://waimia.com/trust): AI Act, RGPD, LPD, ISO 27001.
 
+## Pages détaillées (modèles éditoriaux)
+
+- [Hub Conseil](https://waimia.com/offres/conseil): pillar page avec 7 services (audit maturité IA, roadmap, gouvernance données, dette technique IA, RPA→agentic, FinOps, cybersécurité).
+- [Service RevOps Rebuild](https://waimia.com/offres/revops): chantier 8-12 semaines pour réconcilier CRM/entrepôt/billing et brancher des agents Claude sur une seule vérité.
+- [Cas Plateau SaaS](https://waimia.com/ressources/cas/plateau): refonte RevOps qui a récupéré 2,4 M€ de pipeline en 10 semaines.
+- [Essai « cerveau-circuit »](https://waimia.com/ressources/blog/brain-circuit): pourquoi l'iconographie IA est un théâtre — note de terrain.
+- [Index des cas](https://waimia.com/ressources/cas): tous les cas clients avec impact mesurable.
+
 ## Faits clés
 
 - **120+** agents enterprise livrés.
