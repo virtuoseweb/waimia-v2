@@ -60,6 +60,133 @@ const year = new Date().getFullYear();
     </div>
   </div>
 
+  {/* ──── DEV-INDEX (expérimentation) · navigation complète templates + pages ────
+       Permet à Simon de tout vérifier d'un clic. À retirer ou cacher en prod via
+       prop `<Footer hideDevIndex />` quand validation finie. */}
+  <div class="wrap hline ft-devindex" style="padding-top:clamp(40px,4vw,60px);padding-bottom:clamp(40px,4vw,60px)">
+    <div class="ft-dev-hd">
+      <span class="ft-dev-tag">⌘ DEV INDEX</span>
+      <span class="ft-dev-meta">{lang === 'fr' ? 'Navigation complète · 8 templates · 25+ pages' : 'Full navigation · 8 templates · 25+ pages'}</span>
+    </div>
+
+    {/* Section A · Templates et leur exemple live */}
+    <div class="ft-dev-block">
+      <h4 class="ft-dev-h4">{lang === 'fr' ? 'A · Templates → page exemple' : 'A · Templates → live example'}</h4>
+      <ol class="ft-dev-list">
+        <li><span class="ft-dev-num">01</span><span class="ft-dev-name">HubTemplate</span><span class="ft-dev-type">{lang === 'fr' ? 'Pillar page (hub d\'offres)' : 'Pillar page'}</span><a href="/offres/conseil" class="ft-link">/offres/conseil ↗</a></li>
+        <li><span class="ft-dev-num">02</span><span class="ft-dev-name">HubTemplate · variant</span><span class="ft-dev-type">{lang === 'fr' ? 'Pillar produit' : 'Product pillar'}</span><a href="/technologies/virtuoseos" class="ft-link">/technologies/virtuoseos ↗</a></li>
+        <li><span class="ft-dev-num">03</span><span class="ft-dev-name">ServiceDetailTemplate</span><span class="ft-dev-type">{lang === 'fr' ? 'Service détaillé' : 'Service detail'}</span><a href="/offres/revops" class="ft-link">/offres/revops ↗</a></li>
+        <li><span class="ft-dev-num">04</span><span class="ft-dev-name">ServiceDetail · variant</span><span class="ft-dev-type">{lang === 'fr' ? 'Solution industry' : 'Industry solution'}</span><a href="/solutions/fintech" class="ft-link">/solutions/fintech ↗</a></li>
+        <li><span class="ft-dev-num">05</span><span class="ft-dev-name">DetailMenuTemplate</span><span class="ft-dev-type">{lang === 'fr' ? 'Sous-page mega-menu' : 'Mega-menu detail'}</span><a href="/offres/audit-maturite-ia" class="ft-link">/offres/audit-maturite-ia ↗</a></li>
+        <li><span class="ft-dev-num">06</span><span class="ft-dev-name">CaseStudyTemplate</span><span class="ft-dev-type">{lang === 'fr' ? 'Cas client long-form' : 'Case study'}</span><a href="/ressources/cas/plateau" class="ft-link">/ressources/cas/plateau ↗</a></li>
+        <li><span class="ft-dev-num">07</span><span class="ft-dev-name">EssayTemplate</span><span class="ft-dev-type">{lang === 'fr' ? 'Essai éditorial' : 'Editorial essay'}</span><a href="/ressources/blog/brain-circuit" class="ft-link">/ressources/blog/brain-circuit ↗</a></li>
+        <li><span class="ft-dev-num">08</span><span class="ft-dev-name">ListIndexTemplate</span><span class="ft-dev-type">{lang === 'fr' ? 'Index cas (cards)' : 'Cases index (cards)'}</span><a href="/ressources/cas" class="ft-link">/ressources/cas ↗</a></li>
+        <li><span class="ft-dev-num">09</span><span class="ft-dev-name">ListIndex · variant</span><span class="ft-dev-type">{lang === 'fr' ? 'Blog (rows)' : 'Blog (rows)'}</span><a href="/ressources/blog" class="ft-link">/ressources/blog ↗</a></li>
+        <li><span class="ft-dev-num">10</span><span class="ft-dev-name">ListIndex · variant</span><span class="ft-dev-type">{lang === 'fr' ? 'Cookbooks (cards)' : 'Cookbooks (cards)'}</span><a href="/ressources/cookbooks" class="ft-link">/ressources/cookbooks ↗</a></li>
+        <li><span class="ft-dev-num">11</span><span class="ft-dev-name">ListIndex · variant</span><span class="ft-dev-type">{lang === 'fr' ? 'Changelog (timeline)' : 'Changelog (timeline)'}</span><a href="/ressources/changelog" class="ft-link">/ressources/changelog ↗</a></li>
+        <li><span class="ft-dev-num">12</span><span class="ft-dev-name">TrustLegalTemplate</span><span class="ft-dev-type">{lang === 'fr' ? 'Compliance & légal' : 'Compliance & legal'}</span><a href="/agence/trust-center" class="ft-link">/agence/trust-center ↗</a></li>
+        <li><span class="ft-dev-num">13</span><span class="ft-dev-name">TrustLegal · variant</span><span class="ft-dev-type">{lang === 'fr' ? 'Gouvernance interne' : 'Internal governance'}</span><a href="/agence/governance" class="ft-link">/agence/governance ↗</a></li>
+        <li><span class="ft-dev-num">14</span><span class="ft-dev-name">TrustLegal · variant</span><span class="ft-dev-type">{lang === 'fr' ? 'Documentation tech' : 'Tech documentation'}</span><a href="/agence/docs" class="ft-link">/agence/docs ↗</a></li>
+        <li><span class="ft-dev-num">15</span><span class="ft-dev-name">UtilityTemplate</span><span class="ft-dev-type">{lang === 'fr' ? 'Contact (centered+form)' : 'Contact (centered+form)'}</span><a href="/contact" class="ft-link">/contact ↗</a></li>
+        <li><span class="ft-dev-num">16</span><span class="ft-dev-name">Utility · variant</span><span class="ft-dev-type">{lang === 'fr' ? 'À propos (left+story)' : 'About (left+story)'}</span><a href="/agence/about" class="ft-link">/agence/about ↗</a></li>
+        <li><span class="ft-dev-num">17</span><span class="ft-dev-name">Utility · variant</span><span class="ft-dev-type">{lang === 'fr' ? 'Carrières (left+jobs)' : 'Careers (left+jobs)'}</span><a href="/agence/careers" class="ft-link">/agence/careers ↗</a></li>
+        <li><span class="ft-dev-num">18</span><span class="ft-dev-name">Utility · variant</span><span class="ft-dev-type">{lang === 'fr' ? 'Diagnostic (form 12Q)' : 'Diagnostic (12Q form)'}</span><a href="/ressources/academy" class="ft-link">/ressources/academy ↗</a></li>
+      </ol>
+    </div>
+
+    {/* Section B · Pages static (sans template) */}
+    <div class="ft-dev-block">
+      <h4 class="ft-dev-h4">{lang === 'fr' ? 'B · Pages static (sans template, justifiées)' : 'B · Static pages (no template, justified)'}</h4>
+      <ol class="ft-dev-list">
+        <li><span class="ft-dev-num">19</span><span class="ft-dev-name">404.astro</span><span class="ft-dev-type">{lang === 'fr' ? 'UX 4xx (1 instance/site)' : '4xx UX (1 instance/site)'}</span><a href="/404" class="ft-link">/404 ↗</a></li>
+        <li><span class="ft-dev-num">20</span><span class="ft-dev-name">design-system.astro</span><span class="ft-dev-type">{lang === 'fr' ? 'Showcase atomes/molécules' : 'Atoms/molecules showcase'}</span><a href="/agence/design-system" class="ft-link">/agence/design-system ↗</a></li>
+      </ol>
+    </div>
+
+    {/* Section C · Pages homepage variants (Direction A/B/C/Atlas) */}
+    <div class="ft-dev-block">
+      <h4 class="ft-dev-h4">{lang === 'fr' ? 'C · Variantes homepage (4 directions)' : 'C · Homepage variants (4 directions)'}</h4>
+      <ol class="ft-dev-list">
+        <li><span class="ft-dev-num">21</span><span class="ft-dev-name">Direction A · Apparatus</span><span class="ft-dev-type">{lang === 'fr' ? 'Manifeste 5 actes (home)' : 'Manifesto 5 acts (home)'}</span><a href="/" class="ft-link">/ ↗</a></li>
+        <li><span class="ft-dev-num">22</span><span class="ft-dev-name">Direction B · Manifesto</span><span class="ft-dev-type">{lang === 'fr' ? 'LiquidHero canvas + asym' : 'LiquidHero canvas + asym'}</span><a href="/manifesto" class="ft-link">/manifesto ↗</a></li>
+        <li><span class="ft-dev-num">23</span><span class="ft-dev-name">Direction C · Console</span><span class="ft-dev-type">{lang === 'fr' ? 'Terminal + ProductReel' : 'Terminal + ProductReel'}</span><a href="/console" class="ft-link">/console ↗</a></li>
+        <li><span class="ft-dev-num">24</span><span class="ft-dev-name">✦ Atlas</span><span class="ft-dev-type">{lang === 'fr' ? 'Cartographie 4 piliers' : '4 pillars cartography'}</span><a href="/atlas" class="ft-link">/atlas ↗</a></li>
+      </ol>
+    </div>
+
+    {/* Section D · Pages encore en Stub (catchall via [...slug].astro) */}
+    <div class="ft-dev-block">
+      <h4 class="ft-dev-h4">{lang === 'fr' ? 'D · Routes encore en Stub (catchall)' : 'D · Routes still stubbed (catchall)'}</h4>
+      <p class="ft-dev-stub-lead">
+        {lang === 'fr'
+          ? "Ces routes existent dans la nav/footer mais sont rendues par /pages/[...slug].astro (Stub éditorial). Elles suivront les templates ci-dessus dès que le contenu sera validé."
+          : 'These routes exist in nav/footer but are served by /pages/[...slug].astro (editorial stub). They will follow the templates above once content is validated.'}
+      </p>
+      <div class="ft-dev-stub-grid">
+        <div>
+          <span class="ft-dev-stub-cat">{lang === 'fr' ? 'Hubs landing' : 'Hub landings'}</span>
+          <ul>
+            <li><a href="/offres" class="ft-link">/offres</a></li>
+            <li><a href="/solutions" class="ft-link">/solutions</a></li>
+            <li><a href="/technologies" class="ft-link">/technologies</a></li>
+            <li><a href="/ressources" class="ft-link">/ressources</a></li>
+            <li><a href="/agence" class="ft-link">/agence</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="ft-dev-stub-cat">{lang === 'fr' ? 'Sous-pages /offres' : '/offres sub-pages'}</span>
+          <ul>
+            <li><a href="/offres/agents-metiers" class="ft-link">agents-metiers</a></li>
+            <li><a href="/offres/poc-mvp-sprint" class="ft-link">poc-mvp-sprint</a></li>
+            <li><a href="/offres/managed-agents" class="ft-link">managed-agents</a></li>
+            <li><a href="/offres/self-hosted" class="ft-link">self-hosted</a></li>
+            <li><span class="ft-dev-more">+ 12 autres</span></li>
+          </ul>
+        </div>
+        <div>
+          <span class="ft-dev-stub-cat">{lang === 'fr' ? 'Sous-pages /solutions' : '/solutions sub-pages'}</span>
+          <ul>
+            <li><a href="/solutions/finance" class="ft-link">finance</a></li>
+            <li><a href="/solutions/sante" class="ft-link">sante</a></li>
+            <li><a href="/solutions/ventes-marketing" class="ft-link">ventes-marketing</a></li>
+            <li><a href="/solutions/it-engineering" class="ft-link">it-engineering</a></li>
+            <li><span class="ft-dev-more">+ 8 autres</span></li>
+          </ul>
+        </div>
+        <div>
+          <span class="ft-dev-stub-cat">{lang === 'fr' ? 'Sous-pages /technologies' : '/technologies sub-pages'}</span>
+          <ul>
+            <li><a href="/technologies/claude-models" class="ft-link">claude-models</a></li>
+            <li><a href="/technologies/claude-code" class="ft-link">claude-code</a></li>
+            <li><a href="/technologies/mcp-connectors" class="ft-link">(via offres)</a></li>
+            <li><a href="/technologies/rag-prive" class="ft-link">rag-prive</a></li>
+            <li><span class="ft-dev-more">+ 7 autres</span></li>
+          </ul>
+        </div>
+        <div>
+          <span class="ft-dev-stub-cat">{lang === 'fr' ? 'Cas restants' : 'Remaining cases'}</span>
+          <ul>
+            <li><a href="/ressources/cas/halcyon" class="ft-link">halcyon</a></li>
+            <li><a href="/ressources/cas/northbound" class="ft-link">northbound</a></li>
+            <li><a href="/ressources/cas/caserne" class="ft-link">caserne</a></li>
+            <li><a href="/ressources/cas/virtuoseos" class="ft-link">virtuoseos</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="ft-dev-stub-cat">{lang === 'fr' ? 'Outils & ressources' : 'Tools & resources'}</span>
+          <ul>
+            <li><a href="/ressources/outils/tco-calculator" class="ft-link">tco-calculator</a></li>
+            <li><a href="/ressources/outils/roi-calculator" class="ft-link">roi-calculator</a></li>
+            <li><a href="/ressources/outils/ai-act-checklist" class="ft-link">ai-act-checklist</a></li>
+            <li><a href="/ressources/newsletter" class="ft-link">newsletter</a></li>
+            <li><a href="/ressources/temoignages" class="ft-link">temoignages</a></li>
+            <li><a href="/ressources/webinaires" class="ft-link">webinaires</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   {/* Bottom — copyright + socials */}
   <div class="wrap hline" style="padding:24px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--muted)">
     <span>© {year} Waimia · {lang === 'fr' ? 'Partenaire Intégrateur IA' : 'AI Integration Partner'}</span>
@@ -98,5 +225,106 @@ const year = new Date().getFullYear();
   }
   @media (max-width:640px){
     .ft-tier1-grid{grid-template-columns:1fr!important;gap:32px!important}
+  }
+
+  /* ──── DEV-INDEX (expérimentation Simon · validation visuelle) ──── */
+  .ft-devindex {
+    background: var(--paper-2);
+    border-top: 1px dashed var(--accent);
+  }
+  .ft-dev-hd {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 32px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--hairline);
+    flex-wrap: wrap;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .ft-dev-tag { color: var(--accent); }
+  .ft-dev-meta { color: var(--muted); }
+
+  .ft-dev-block { margin: 28px 0; }
+  .ft-dev-h4 {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.1;
+    letter-spacing: -0.018em;
+    font-weight: 400;
+    margin: 0 0 18px;
+    text-wrap: balance;
+  }
+
+  .ft-dev-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .ft-dev-list li {
+    display: grid;
+    grid-template-columns: 40px 200px 1fr auto;
+    gap: 16px;
+    align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--hairline);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+  }
+  .ft-dev-num { color: var(--accent); letter-spacing: .1em; }
+  .ft-dev-name { font-weight: 500; color: var(--ink); }
+  .ft-dev-type { color: var(--muted); font-size: 11.5px; }
+
+  .ft-dev-stub-lead {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 720px;
+    margin: 0 0 24px;
+    text-wrap: pretty;
+  }
+  .ft-dev-stub-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .ft-dev-stub-grid > div {
+    border-top: 1px solid var(--hairline);
+    padding-top: 14px;
+  }
+  .ft-dev-stub-cat {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .ft-dev-stub-grid ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .ft-dev-more { color: var(--muted); font-style: italic; }
+
+  @media (max-width: 900px) {
+    .ft-dev-list li { grid-template-columns: 32px 1fr; gap: 10px; row-gap: 4px; }
+    .ft-dev-list li .ft-dev-type,
+    .ft-dev-list li .ft-link { grid-column: 2; }
+    .ft-dev-stub-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .ft-dev-stub-grid { grid-template-columns: 1fr; }
   }
 </style>
