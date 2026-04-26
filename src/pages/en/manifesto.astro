@@ -16,6 +16,10 @@ import LiquidHero from '../../components/motion/LiquidHero.tsx';
 import ManifestoAccent from '../../components/sections/ManifestoAccent.astro';
 import Button from '../../components/ui/atoms/Button.astro';
 import Kicker from '../../components/ui/atoms/Kicker.astro';
+import PillCTA from '../../components/ui/atoms/PillCTA.astro';
+import EditorialWriteRow from '../../components/ui/molecules/EditorialWriteRow.astro';
+import AsymmetricServiceRow from '../../components/ui/molecules/AsymmetricServiceRow.astro';
+import EditorialCaseCard from '../../components/ui/molecules/EditorialCaseCard.astro';
 import { CLIENT_LOGOS, SIX_SERVICES, CASE_FEED, FIELD_NOTES } from '../../data/sitemap';
 import { langFromPath, t as ft, localizeHref as flh } from '../../lib/i18n';
 
@@ -40,17 +44,17 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
     <LiquidHero client:visible />
     <div style="position:relative;z-index:2;padding:160px clamp(20px,4vw,48px) 80px;color:var(--paper);min-height:100vh;display:flex;flex-direction:column;justify-content:space-between">
       {/* top meta */}
-      <div style="display:flex;justify-content:space-between;align-items:baseline;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(246,241,232,.55);flex-wrap:wrap;gap:14px">
-        <span>Waimia · Manifeste 02</span>
-        <span>Paris · 2026</span>
-        <span><span style="color:var(--accent)">◉</span> Booking T3</span>
+      <div class="b-hero-meta">
+        <Kicker as="span" class="b-hero-dim">Waimia · Manifeste 02</Kicker>
+        <Kicker as="span" class="b-hero-dim">Paris · 2026</Kicker>
+        <Kicker as="span" class="b-hero-dim"><span style="color:var(--accent)">◉</span> Booking T3</Kicker>
       </div>
 
       {/* headline */}
       <div style="max-width:1600px">
-        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(246,241,232,.55);margin-bottom:24px">
+        <Kicker class="b-hero-tag">
           {lang === 'fr' ? (<>Une agence IA · <span style="color:var(--accent)">artisanat français, finition internationale</span></>) : (<>An AI agency · <span style="color:var(--accent)">French craft, international polish</span></>)}
-        </div>
+        </Kicker>
         <h1 style="font-family:var(--font-display);font-size:clamp(64px,13vw,220px);line-height:.88;letter-spacing:-0.035em;color:var(--paper);text-wrap:balance;font-weight:400;margin:0">
           {lang === 'fr' ? (
             <>Construire du <i style="color:var(--accent)">revenue</i>,<br />pas des <i>démos</i>.</>
@@ -68,16 +72,16 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
             : 'An AI agency for SaaS, fintech and industry that want their revenue engine to ship — not to rehearse.'}
         </p>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <a href={flh('/contact', lang)} style="background:var(--accent);color:var(--paper);padding:16px 26px;border-radius:999px;font-size:13.5px;font-weight:500" data-mag="0.18">
+          <PillCTA href={flh('/contact', lang)} variant="accent" mag={0.18}>
             {lang === 'fr' ? 'Prendre RDV →' : 'Book a session →'}
-          </a>
-          <a href={flh('/console', lang)} style="border:1px solid rgba(246,241,232,.35);color:var(--paper);padding:16px 26px;border-radius:999px;font-size:13.5px">
+          </PillCTA>
+          <PillCTA href={flh('/console', lang)} variant="ghost-dark">
             {lang === 'fr' ? 'La plateforme' : 'The platform'}
-          </a>
+          </PillCTA>
         </div>
-        <div style="font-family:var(--font-mono);font-size:11px;color:rgba(246,241,232,.55);letter-spacing:.08em;text-align:right">
-          <div>SCROLL TO BEGIN ↓</div>
-          <div style="margin-top:6px">FIVE ACTS · ONE DOCUMENT</div>
+        <div class="b-hero-foot">
+          <Kicker class="b-hero-dim">SCROLL TO BEGIN ↓</Kicker>
+          <Kicker class="b-hero-dim">FIVE ACTS · ONE DOCUMENT</Kicker>
         </div>
       </div>
     </div>
@@ -100,12 +104,10 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
     <div style="max-width:1600px;margin:0 auto">
       <div style="display:grid;grid-template-columns:1fr 2fr;gap:clamp(40px,6vw,80px);margin-bottom:clamp(80px,10vw,120px)">
         <div style="position:sticky;top:120px;align-self:start">
-          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(246,241,232,.5)">
+          <Kicker class="b-acte-1">
             <span style="color:var(--accent)">I.</span> {lang === 'fr' ? 'Le constat' : 'The reckoning'}
-          </div>
-          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(246,241,232,.3);margin-top:4px">
-            {lang === 'fr' ? 'Acte I' : 'Act I'}
-          </div>
+          </Kicker>
+          <Kicker class="b-acte-1-sub">{lang === 'fr' ? 'Acte I' : 'Act I'}</Kicker>
         </div>
         <p class="reveal" style="font-family:var(--font-display);font-size:clamp(40px,6.5vw,104px);line-height:1.02;letter-spacing:-0.025em;color:var(--paper);text-wrap:balance;font-weight:400">
           {lang === 'fr' ? (
@@ -144,31 +146,14 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
           <>We do the <i style="color:var(--accent)">unglamorous</i> layer. On purpose.</>
         )}
       </h2>
-      {SIX_SERVICES.map((s, i) => {
-        const reverse = i % 2 === 1;
-        return (
-          <div
-            class="reveal b-service-row"
-            data-reverse={reverse ? 'true' : 'false'}
-          >
-            {!reverse ? (
-              <>
-                <div class="b-svc-num">{s.k}</div>
-                <div class="b-svc-name">{ft(s.label, lang)}</div>
-                <p class="b-svc-body">{ft(s.body, lang)}</p>
-                <div class="b-svc-arr">→</div>
-              </>
-            ) : (
-              <>
-                <div class="b-svc-arr-l">←</div>
-                <p class="b-svc-body-r">{ft(s.body, lang)}</p>
-                <div class="b-svc-name-r">{ft(s.label, lang)}</div>
-                <div class="b-svc-num-r">{s.k}</div>
-              </>
-            )}
-          </div>
-        );
-      })}
+      {SIX_SERVICES.map((s, i) => (
+        <AsymmetricServiceRow
+          num={s.k}
+          label={ft(s.label, lang)}
+          body={ft(s.body, lang)}
+          reverse={i % 2 === 1}
+        />
+      ))}
     </div>
   </section>
 
@@ -179,9 +164,9 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
   <section style="padding:clamp(140px,16vw,200px) clamp(20px,4vw,48px);background:var(--ink);color:var(--paper);text-align:center">
     <div class="signature-grid on-dark"></div>
     <div style="max-width:1100px;margin:0 auto;position:relative;z-index:1">
-      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(246,241,232,.5);margin-bottom:32px">
+      <Kicker class="b-acte-3">
         <span style="color:var(--accent)">III.</span> {lang === 'fr' ? 'La plateforme' : 'The platform'}
-      </div>
+      </Kicker>
       <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(48px,8vw,128px);line-height:.94;letter-spacing:-0.03em;color:var(--paper);text-wrap:balance;font-weight:400;margin-bottom:32px">
         {lang === 'fr' ? (
           <>Virtuose<i style="color:var(--accent)">OS</i>.<br />Le <i>kernel</i> sous chaque intervention.</>
@@ -189,9 +174,9 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
           <>Virtuose<i style="color:var(--accent)">OS</i>.<br />The <i>kernel</i> under every engagement.</>
         )}
       </h2>
-      <a href={flh('/console', lang)} style="display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--paper);padding:18px 32px;border-radius:999px;font-size:14px;font-weight:500;font-family:var(--font-mono)" data-mag="0.18">
+      <PillCTA href={flh('/console', lang)} variant="accent-mono" mag={0.18}>
         ▸ {lang === 'fr' ? 'Voir la Console (Direction C)' : 'See the Console (Direction C)'}
-      </a>
+      </PillCTA>
     </div>
   </section>
 
@@ -206,23 +191,16 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
       </h2>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
         {CASE_FEED.slice(0, 4).map((c, i) => (
-          <a class="reveal lift b-case-card" style={`margin-top:${i % 2 === 1 ? '60px' : '0'}`} href={flh(`/ressources/cas/${c.slug}`, lang)}>
-            <div style="display:flex;justify-content:space-between;align-items:baseline">
-              <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase">CASE 0{i + 1} · {ft(c.sector, lang)}</div>
-              <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted)">{c.duration}</div>
-            </div>
-            <div style="font-family:var(--font-display);font-size:clamp(36px,5vw,72px);line-height:.95;letter-spacing:-0.025em;margin-top:18px">{c.client}</div>
-            <div style="margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-top:20px;border-top:1px solid var(--hairline)">
-              <div>
-                <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Stack</div>
-                <div style="font-size:13.5px">{c.stack}</div>
-              </div>
-              <div>
-                <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Impact</div>
-                <div style="font-size:16px;color:var(--accent);font-weight:500">{ft(c.impact, lang)}</div>
-              </div>
-            </div>
-          </a>
+          <EditorialCaseCard
+            idx={i + 1}
+            client={c.client}
+            sector={ft(c.sector, lang)}
+            stack={c.stack}
+            impact={ft(c.impact, lang)}
+            duration={c.duration}
+            href={flh(`/ressources/cas/${c.slug}`, lang)}
+            offset={i % 2 === 1 ? 60 : 0}
+          />
         ))}
       </div>
     </div>
@@ -232,21 +210,21 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
   <section style="padding:clamp(120px,14vw,160px) clamp(20px,4vw,48px);background:var(--ink);color:var(--paper)">
     <div style="max-width:1600px;margin:0 auto;display:grid;grid-template-columns:400px 1fr;gap:clamp(40px,6vw,100px)">
       <div>
-        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(246,241,232,.5)">
-          {lang === 'fr' ? 'Écrits' : 'Writing'}
-        </div>
+        <Kicker class="b-writing-tag">{lang === 'fr' ? 'Écrits' : 'Writing'}</Kicker>
         <div style="font-family:var(--font-display);font-size:clamp(36px,6vw,88px);line-height:.96;letter-spacing:-0.025em;margin-top:28px;color:var(--paper)">
           {lang === 'fr' ? (<>Notes de <i style="color:var(--accent)">terrain</i>, lentement.</>) : (<>Field <i style="color:var(--accent)">notes</i>, slowly.</>)}
         </div>
       </div>
       <div>
         {FIELD_NOTES.map((s) => (
-          <a href={flh('/ressources/blog', lang)} class="b-write-row">
-            <span style="font-family:var(--font-mono);font-size:11px;color:rgba(246,241,232,.5)">{s.date}</span>
-            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(246,241,232,.5)">{ft(s.tag, lang)}</span>
-            <span style="font-family:var(--font-display);font-size:clamp(18px,1.8vw,26px);line-height:1.25;color:var(--paper)">{ft(s.text, lang)}</span>
-            <span style="font-family:var(--font-mono);font-size:13px">↗</span>
-          </a>
+          <EditorialWriteRow
+            date={s.date}
+            tag={ft(s.tag, lang)}
+            href={flh('/ressources/blog', lang)}
+            tone="ink"
+          >
+            {ft(s.text, lang)}
+          </EditorialWriteRow>
         ))}
       </div>
     </div>
@@ -274,38 +252,24 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
 </Base>
 
 <style>
-  /* Margins pour les Kicker atom rendus par les sous-composants */
+  /* Spacing/colors pour les Kicker atoms rendus par les sous-composants
+     Note : :global est requis car le scoping Astro ne descend pas dans les composants enfants */
   :global(.manifesto-acte-iv){margin-bottom:32px}
   :global(.manifesto-acte-v){margin-bottom:40px}
+  :global(.b-hero-dim){color:rgba(246,241,232,.55) !important}
+  :global(.b-hero-tag){color:rgba(246,241,232,.55) !important;margin-bottom:24px}
+  :global(.b-acte-1){color:rgba(246,241,232,.5) !important}
+  :global(.b-acte-1-sub){color:rgba(246,241,232,.3) !important;letter-spacing:.14em;margin-top:4px}
+  :global(.b-acte-3){color:rgba(246,241,232,.5) !important;margin-bottom:32px}
+  :global(.b-writing-tag){color:rgba(246,241,232,.5) !important}
+
+  /* Hero meta + foot · layout */
+  .b-hero-meta{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:14px}
+  .b-hero-foot{display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right}
 
   /* Marquee local · plus rapide que le marquee paper du / */
   .b-marquee-track{display:inline-flex;animation:b-slide 80s linear infinite}
   @keyframes b-slide{to{transform:translateX(-33.333%)}}
   @media (prefers-reduced-motion:reduce){.b-marquee-track{animation:none}}
 
-  /* Service rows asymétriques */
-  .b-service-row{display:grid;grid-template-columns:140px 1fr 2fr 100px;gap:clamp(20px,3vw,40px);align-items:baseline;padding:clamp(36px,4.5vw,48px) 0;border-top:1px solid var(--hairline)}
-  .b-service-row[data-reverse="true"]{grid-template-columns:100px 2fr 1fr 140px}
-  .b-svc-num{font-family:var(--font-display);font-size:clamp(40px,5vw,64px);line-height:.9;color:var(--accent);font-style:italic}
-  .b-svc-name{font-family:var(--font-display);font-size:clamp(32px,4.5vw,56px);line-height:1;letter-spacing:-0.02em}
-  .b-svc-body{font-size:clamp(13px,1.3vw,16px);line-height:1.55;color:var(--muted);max-width:500px}
-  .b-svc-arr{font-family:var(--font-mono);font-size:13px;text-align:right;color:var(--accent)}
-  .b-svc-arr-l{font-family:var(--font-mono);font-size:13px;color:var(--accent)}
-  .b-svc-body-r{font-size:clamp(13px,1.3vw,16px);line-height:1.55;color:var(--muted);max-width:500px;margin-left:auto;text-align:right}
-  .b-svc-name-r{font-family:var(--font-display);font-size:clamp(32px,4.5vw,56px);line-height:1;letter-spacing:-0.02em;text-align:right}
-  .b-svc-num-r{font-family:var(--font-display);font-size:clamp(40px,5vw,64px);line-height:.9;color:var(--accent);font-style:italic;text-align:right}
-
-  .b-case-card{display:block;padding:clamp(24px,3vw,40px);background:var(--paper-2);border-radius:18px;border:1px solid var(--hairline);transition:all 280ms var(--ease);color:inherit}
-  .b-case-card:hover{border-color:var(--accent);transform:translateY(-4px)}
-
-  .b-write-row{display:grid;grid-template-columns:90px 130px 1fr 20px;gap:24px;padding:22px 0;border-top:1px solid rgba(246,241,232,.12);align-items:baseline;color:inherit;transition:color 200ms var(--ease)}
-  .b-write-row:hover{color:var(--accent)}
-
-  @media (max-width:900px){
-    .b-service-row,
-    .b-service-row[data-reverse="true"]{grid-template-columns:1fr;gap:8px;padding:24px 0}
-    .b-svc-arr,.b-svc-arr-l{display:none}
-    .b-svc-body-r,.b-svc-name-r,.b-svc-num-r{text-align:left;margin-left:0}
-    .b-write-row{grid-template-columns:1fr;gap:6px;padding:18px 0}
-  }
 </style>

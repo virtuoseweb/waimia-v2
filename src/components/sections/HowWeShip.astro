@@ -3,7 +3,10 @@
 // Variant : Sticky pin (signature motion de la page)
 // Motion : sticky position + step opacity scrub via JS minimal
 // Mémorable : « Quatre étapes qu'on parcourt sans bouger — le scroll fait le travail. »
+//
+// Composé de · SectionHeader (refactor atomic-deep)
 
+import SectionHeader from '../ui/molecules/SectionHeader.astro';
 import { langFromPath } from '../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
@@ -41,26 +44,20 @@ const steps = [
 ---
 <section class="sec" id="how" aria-labelledby="how-h2">
   <div class="wrap-wide">
-    <header class="sec-hd">
-      <div>
-        <div class="n">
-          <span class="roman">IV</span>
-          <span>{lang === 'fr' ? 'Acte IV — Comment on livre' : 'Act IV — How we ship'}</span>
-        </div>
-        <h2 id="how-h2">
-          {lang === 'fr' ? (
-            <>Quatre <i>étapes</i>. Pas de slide deck intermédiaire.</>
-          ) : (
-            <>Four <i>steps</i>. No intermediate slide deck.</>
-          )}
-        </h2>
-      </div>
-      <p class="aside">
+    <SectionHeader
+      roman="IV"
+      label={lang === 'fr' ? 'Acte IV — Comment on livre' : 'Act IV — How we ship'}
+      id="how-h2"
+    >
+      <Fragment slot="heading">
+        {lang === 'fr' ? (<>Quatre <i>étapes</i>. Pas de slide deck intermédiaire.</>) : (<>Four <i>steps</i>. No intermediate slide deck.</>)}
+      </Fragment>
+      <Fragment slot="aside">
         {lang === 'fr'
           ? 'Chaque étape produit un livrable concret. Vous ne payez la suivante que si la précédente a passé son audit.'
           : 'Each step delivers something concrete. You only pay the next one if the previous one passed its audit.'}
-      </p>
-    </header>
+      </Fragment>
+    </SectionHeader>
 
     {/* Sticky pin · scrub */}
     <div class="how-wrap" id="how-wrap">

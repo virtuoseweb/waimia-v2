@@ -1,0 +1,77 @@
+---
+// Molécule · EditorialCaseCard
+// Card éditoriale pour cas client (signature visuelle de /manifesto Acte IV).
+// Pattern : card paper-2 avec idx+sector + client + stack/impact en 2 colonnes.
+// Padding 18px radius 18px, hover border accent + translateY(-4px).
+//
+// 8 instances vérifiées (4 par fichier × 2 fr/en) avant ce refactor.
+//
+// Usage :
+//   <EditorialCaseCard
+//     idx={0}
+//     client="ACME"
+//     sector="Fintech"
+//     stack="Claude / HubSpot / Drizzle"
+//     impact="+€14M pipeline"
+//     duration="6 weeks"
+//     href="/cas/acme"
+//     offset={60}
+//   />
+
+import Kicker from '../atoms/Kicker.astro';
+
+interface Props {
+  /** Index dans la liste (1, 2, 3, 4 → CASE 01-04) */
+  idx: number;
+  /** Nom client */
+  client: string;
+  /** Secteur d'activité (déjà localisé) */
+  sector: string;
+  /** Stack tech */
+  stack: string;
+  /** Texte d'impact (déjà localisé) */
+  impact: string;
+  /** Durée du projet · ex: "6 weeks" */
+  duration: string;
+  /** URL cible */
+  href: string;
+  /** Décalage vertical en px (alternance 0/60 pour effet stagger) */
+  offset?: number;
+  /** Classes additionnelles */
+  class?: string;
+}
+
+const { idx, client, sector, stack, impact, duration, href, offset = 0, class: extraClass = '' } = Astro.props;
+const offsetStyle = offset ? `margin-top:${offset}px` : '';
+---
+<a class={`u-case-card reveal lift ${extraClass}`.trim()} style={offsetStyle} href={href}>
+  <div class="u-case-card-hd">
+    <Kicker as="span">CASE 0{idx} · {sector}</Kicker>
+    <Kicker as="span">{duration}</Kicker>
+  </div>
+  <div class="u-case-card-client">{client}</div>
+  <div class="u-case-card-foot">
+    <div>
+      <Kicker class="u-case-card-k">Stack</Kicker>
+      <div class="u-case-card-v">{stack}</div>
+    </div>
+    <div>
+      <Kicker class="u-case-card-k">Impact</Kicker>
+      <div class="u-case-card-impact">{impact}</div>
+    </div>
+  </div>
+</a>
+
+<style>
+  .u-case-card{display:block;padding:clamp(24px,3vw,40px);background:var(--paper-2);border-radius:18px;border:1px solid var(--hairline);transition:border-color 280ms var(--ease),transform 280ms var(--ease);color:inherit}
+  .u-case-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+
+  .u-case-card-hd{display:flex;justify-content:space-between;align-items:baseline}
+
+  .u-case-card-client{font-family:var(--font-display);font-size:clamp(36px,5vw,72px);line-height:.95;letter-spacing:-0.025em;margin-top:18px}
+
+  .u-case-card-foot{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-top:20px;border-top:1px solid var(--hairline)}
+  :global(.u-case-card-k){margin-bottom:6px}
+  .u-case-card-v{font-size:13.5px}
+  .u-case-card-impact{font-size:16px;color:var(--accent);font-weight:500}
+</style>

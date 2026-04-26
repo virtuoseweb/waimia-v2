@@ -1,0 +1,68 @@
+---
+// Molécule · AsymmetricServiceRow
+// Service row qui alterne gauche/droite (signature visuelle de /manifesto Acte II).
+// Pattern : grid 4 colonnes [num · name · body · arr] qui se renverse en miroir
+// quand `reverse=true` → [arr-l · body-r · name-r · num-r].
+//
+// 12 instances (6 par fichier × 2 fichiers fr/en) avant ce refactor.
+//
+// Usage :
+//   {SIX_SERVICES.map((s, i) => (
+//     <AsymmetricServiceRow num={s.k} label={t(s.label, lang)} body={t(s.body, lang)} reverse={i % 2 === 1} />
+//   ))}
+
+interface Props {
+  /** Numéro du service · ex: "01", "02" */
+  num: string;
+  /** Nom du service · ex: "Process Intelligence" */
+  label: string;
+  /** Corps descriptif */
+  body: string;
+  /** Inverser le sens (alternance gauche↔droite) */
+  reverse?: boolean;
+  /** Classes additionnelles */
+  class?: string;
+}
+
+const { num, label, body, reverse = false, class: extraClass = '' } = Astro.props;
+---
+<div class={`u-asym-svc-row reveal ${extraClass}`.trim()} data-reverse={reverse ? 'true' : 'false'}>
+  {!reverse ? (
+    <>
+      <div class="u-asym-num">{num}</div>
+      <div class="u-asym-name">{label}</div>
+      <p class="u-asym-body">{body}</p>
+      <div class="u-asym-arr">→</div>
+    </>
+  ) : (
+    <>
+      <div class="u-asym-arr-l">←</div>
+      <p class="u-asym-body-r">{body}</p>
+      <div class="u-asym-name-r">{label}</div>
+      <div class="u-asym-num-r">{num}</div>
+    </>
+  )}
+</div>
+
+<style>
+  .u-asym-svc-row{display:grid;grid-template-columns:140px 1fr 2fr 100px;gap:clamp(20px,3vw,40px);align-items:baseline;padding:clamp(36px,4.5vw,48px) 0;border-top:1px solid var(--hairline)}
+  .u-asym-svc-row[data-reverse="true"]{grid-template-columns:100px 2fr 1fr 140px}
+
+  .u-asym-num{font-family:var(--font-display);font-size:clamp(40px,5vw,64px);line-height:.9;color:var(--accent);font-style:italic}
+  .u-asym-name{font-family:var(--font-display);font-size:clamp(32px,4.5vw,56px);line-height:1;letter-spacing:-0.02em}
+  .u-asym-body{font-size:clamp(13px,1.3vw,16px);line-height:1.55;color:var(--muted);max-width:500px}
+  .u-asym-arr{font-family:var(--font-mono);font-size:13px;text-align:right;color:var(--accent)}
+
+  /* Variantes reversed */
+  .u-asym-arr-l{font-family:var(--font-mono);font-size:13px;color:var(--accent)}
+  .u-asym-body-r{font-size:clamp(13px,1.3vw,16px);line-height:1.55;color:var(--muted);max-width:500px;margin-left:auto;text-align:right}
+  .u-asym-name-r{font-family:var(--font-display);font-size:clamp(32px,4.5vw,56px);line-height:1;letter-spacing:-0.02em;text-align:right}
+  .u-asym-num-r{font-family:var(--font-display);font-size:clamp(40px,5vw,64px);line-height:.9;color:var(--accent);font-style:italic;text-align:right}
+
+  @media (max-width:900px){
+    .u-asym-svc-row,
+    .u-asym-svc-row[data-reverse="true"]{grid-template-columns:1fr;gap:8px;padding:24px 0}
+    .u-asym-arr,.u-asym-arr-l{display:none}
+    .u-asym-body-r,.u-asym-name-r,.u-asym-num-r{text-align:left;margin-left:0}
+  }
+</style>
