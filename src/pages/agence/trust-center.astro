@@ -1,0 +1,106 @@
+---
+// Page · /agence/trust-center · Trust Center
+// Source : waimia-handoff2 / trust-center.html
+//
+// Composé de · TrustLegalTemplate (TOC sticky + sections RGPD/AI Act/ISO/SOC/NDR)
+// Sections empilées via slot `sections`.
+
+import TrustLegalTemplate from '../../components/templates/TrustLegalTemplate.astro';
+import Bi from '../../components/ui/atoms/Bi.astro';
+
+const sections = [
+  { id: 'gdpr',   title_fr: 'Règlement Général sur la Protection des Données', title_en: 'GDPR · General Data Protection Regulation' },
+  { id: 'ai-act', title_fr: 'Règlement IA Européen',                            title_en: 'EU AI Act' },
+  { id: 'iso',    title_fr: 'ISO 27001 · Système de management',                title_en: 'ISO 27001 · Management system' },
+  { id: 'soc2',   title_fr: 'SOC 2 · Contrôles sécurité & disponibilité',       title_en: 'SOC 2 · Security & availability controls' },
+  { id: 'data',   title_fr: 'Vos données, vos règles',                          title_en: 'Your data, your rules' },
+  { id: 'design', title_fr: 'Nos principes de design',                          title_en: 'Our design principles' },
+];
+---
+<TrustLegalTemplate
+  title="Trust Center · Conformité, sécurité et traçabilité · Waimia"
+  description="Notre politique de sécurité, conformité (RGPD, AI Act, ISO 27001, SOC 2) et de traitement des données pour les agents IA livrés en production."
+  kickerFr="Trust Center · Conformité & sécurité"
+  kickerEn="Trust Center · Compliance & security"
+  revisedAt="2026-04-22"
+  version="v3.1"
+  sections={sections}
+>
+  <Fragment slot="headline">
+    <i>Où nous</i><br />en sommes.
+  </Fragment>
+  <Fragment slot="lede">
+    Une politique lisible de bout en bout. Pas de page de marketing sécurité. Voici ce qui est appliqué, mesurable, et auditable aujourd'hui.
+  </Fragment>
+
+  <Fragment slot="sections">
+    <section id="gdpr">
+      <h2><Bi fr="Règlement Général sur la Protection des Données" en="General Data Protection Regulation (GDPR)" /></h2>
+      <p><Bi
+        fr="Waimia est responsable de traitement pour les données qui transitent par VirtuoseOS. Aucune donnée client n'est conservée par les modèles Anthropic (no-retention agreement signé). Les données sont traitées dans la zone EU choisie par le client."
+        en="Waimia is data controller for data transiting VirtuoseOS. No client data is retained by Anthropic models (signed no-retention agreement). Data is processed in the EU zone selected by the client."
+      /></p>
+      <h3><Bi fr="Bases légales" en="Legal bases" /></h3>
+      <ul>
+        <li><Bi fr="Exécution contractuelle (mission audit, livraison agent)." en="Contract performance (audit mission, agent delivery)." /></li>
+        <li><Bi fr="Intérêt légitime (suivi qualité, métriques agrégées)." en="Legitimate interest (quality monitoring, aggregated metrics)." /></li>
+        <li><Bi fr="Consentement explicite (newsletter, contact)." en="Explicit consent (newsletter, contact)." /></li>
+      </ul>
+      <h3><Bi fr="Vos droits" en="Your rights" /></h3>
+      <p><Bi fr="Accès, rectification, effacement, portabilité, opposition. Délai de réponse 30 jours. Contact" en="Access, rectification, erasure, portability, objection. 30-day response time. Contact" /> <a href="mailto:dpo@waimia.com">dpo@waimia.com</a>.</p>
+    </section>
+
+    <section id="ai-act">
+      <h2><Bi fr={"Règlement IA Européen"} en={"EU AI Act"} /></h2>
+      <p><Bi
+        fr="VirtuoseOS classe chaque agent livré dans une catégorie AI Act (interdit / haut risque / risque limité / minimal). Les agents haut risque embarquent les obligations associées : trail audit, validation humaine, documentation technique signée."
+        en="VirtuoseOS classifies every shipped agent under an AI Act category (prohibited / high-risk / limited / minimal). High-risk agents embed the matching obligations: audit trail, human validation, signed technical documentation."
+      /></p>
+      <h3><Bi fr="Obligations haut risque" en="High-risk obligations" /></h3>
+      <ul>
+        <li><Bi fr="Documentation technique signée (Annexe IV)." en="Signed technical documentation (Annex IV)." /></li>
+        <li><Bi fr="Système de gestion de la qualité." en="Quality management system." /></li>
+        <li><Bi fr="Traçabilité automatique (trail audit re-rejouable)." en="Automatic traceability (replayable audit trail)." /></li>
+        <li><Bi fr="Surveillance humaine sur décisions critiques." en="Human oversight on critical decisions." /></li>
+      </ul>
+    </section>
+
+    <section id="iso">
+      <h2><Bi fr={"Système de management sécurité"} en={"Security management system"} /></h2>
+      <p><Bi
+        fr="ISO 27001 en cours de certification (audit blanc T2 2026, certification visée T4 2026). En attendant, les contrôles techniques et organisationnels sont mappés sur le référentiel et audités annuellement par un commissaire externe."
+        en="ISO 27001 certification underway (mock audit Q2 2026, target certification Q4 2026). In the meantime, technical and organizational controls are mapped to the standard and audited annually by an external auditor."
+      /></p>
+    </section>
+
+    <section id="soc2">
+      <h2><Bi fr={"Contrôles SOC 2"} en={"SOC 2 controls"} /></h2>
+      <p><Bi
+        fr="Type II en cours pour les contrôles availability + confidentiality. Rapport disponible sous NDA pour les prospects en sourcing."
+        en="Type II in progress for availability + confidentiality controls. Report available under NDA for prospects in sourcing."
+      /></p>
+    </section>
+
+    <section id="data">
+      <h2><Bi fr={"Vos données,"} en={"Your data,"} /><br /><i>vos règles</i>.</h2>
+      <h3><Bi fr={"Pas de rétention Anthropic"} en={"No Anthropic retention"} /></h3>
+      <p><Bi fr="Accord no-retention signé avec Anthropic. Vos données traversent les modèles sans y rester." en="No-retention agreement signed with Anthropic. Your data flows through models without staying." /></p>
+      <h3><Bi fr={"Zéro donnée sortante"} en={"Zero outgoing data"} /></h3>
+      <p><Bi fr="Self-hosted disponible (vLLM/Ollama). Vos données ne quittent jamais votre infrastructure." en="Self-hosted available (vLLM/Ollama). Your data never leaves your infrastructure." /></p>
+      <h3><Bi fr={"Minimisation appliquée"} en={"Minimization applied"} /></h3>
+      <p><Bi fr="Chaque agent reçoit le minimum de données nécessaires à son rôle. Documenté, signé, audité." en="Each agent receives the minimum data necessary for its role. Documented, signed, audited." /></p>
+      <h3><Bi fr={"Résidence configurable"} en={"Configurable residency"} /></h3>
+      <p><Bi fr="EU-Frankfurt par défaut. CH-Zurich pour clients suisses. US si explicitement choisi." en="EU-Frankfurt by default. CH-Zurich for Swiss clients. US if explicitly chosen." /></p>
+    </section>
+
+    <section id="design">
+      <h2><Bi fr={"Nos principes"} en={"Our principles"} /><br /><i>de design</i>.</h2>
+      <h3><Bi fr={"Human-in-the-loop sur les décisions critiques"} en={"Human-in-the-loop on critical decisions"} /></h3>
+      <h3><Bi fr={"Traçabilité totale, zéro boîte noire"} en={"Full traceability, zero black box"} /></h3>
+      <h3><Bi fr={"Scope minimal — l'agent ne fait que ce qu'il doit"} en={"Minimal scope — the agent only does what it should"} /></h3>
+      <h3><Bi fr={"Dégradation gracieuse — l'agent échoue prévisiblement"} en={"Graceful degradation — the agent fails predictably"} /></h3>
+      <h3><Bi fr={"Explicabilité à la demande"} en={"Explainability on demand"} /></h3>
+      <h3><Bi fr={"Tests de biais et d'équité avant déploiement"} en={"Bias and fairness testing before deployment"} /></h3>
+    </section>
+  </Fragment>
+</TrustLegalTemplate>

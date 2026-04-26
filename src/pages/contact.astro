@@ -1,0 +1,167 @@
+---
+// Page · /contact · Form RDV
+// Source : waimia-handoff2 / contact.html
+//
+// Composé de · UtilityTemplate (centered) · slot body avec form
+
+import UtilityTemplate from '../components/templates/UtilityTemplate.astro';
+import Button from '../components/ui/atoms/Button.astro';
+---
+<UtilityTemplate
+  title="Contact · Réserver une séance de travail · Waimia"
+  description="Une séance de 45 minutes pour un problème diagnostiqué — ou pas de relance. Paris, Genève, Meet, Zoom. Réponse en 24 h ouvrées."
+  kicker="§ Contact"
+  align="centered"
+>
+  <Fragment slot="headline">
+    Une <i>séance</i>.<br />Pas un pitch.
+  </Fragment>
+  <Fragment slot="lede">
+    45 minutes. On revient avec un problème diagnostiqué — ou on ne relance pas.
+  </Fragment>
+
+  <Fragment slot="body">
+    <div class="contact-grid">
+      {/* Form */}
+      <form class="contact-form" method="post" action="/api/contact" name="contact">
+        <div class="form-row">
+          <label for="company"><span>Entreprise</span><span aria-hidden>*</span></label>
+          <input id="company" name="company" type="text" required autocomplete="organization" />
+        </div>
+        <div class="form-row">
+          <label for="name"><span>Votre nom</span><span aria-hidden>*</span></label>
+          <input id="name" name="name" type="text" required autocomplete="name" />
+        </div>
+        <div class="form-row">
+          <label for="email"><span>Email pro</span><span aria-hidden>*</span></label>
+          <input id="email" name="email" type="email" required autocomplete="email" />
+        </div>
+        <div class="form-row">
+          <label for="role">Fonction</label>
+          <input id="role" name="role" type="text" autocomplete="organization-title" />
+        </div>
+        <div class="form-row form-row-full">
+          <label for="brief"><span>Le problème en 3 phrases</span><span aria-hidden>*</span></label>
+          <textarea id="brief" name="brief" rows="4" required></textarea>
+        </div>
+        <Button as="button" type="submit" variant="primary" size="lg">Réserver 45 min →</Button>
+      </form>
+
+      {/* Aside · contact direct */}
+      <aside class="contact-aside">
+        <h2 class="contact-aside-h2">Ou directement</h2>
+        <ul class="contact-list">
+          <li>
+            <span class="contact-k">Email</span>
+            <a href="mailto:bonjour@waimia.fr">bonjour@waimia.fr</a>
+          </li>
+          <li>
+            <span class="contact-k">Booking</span>
+            <a href="https://cal.com/waimia/45min" rel="noopener" target="_blank">cal.com/waimia/45min ↗</a>
+          </li>
+          <li>
+            <span class="contact-k">LinkedIn</span>
+            <a href="https://linkedin.com/company/waimia" rel="noopener" target="_blank">/company/waimia ↗</a>
+          </li>
+          <li>
+            <span class="contact-k">Paris</span>
+            <span>15 rue de la Paix · 75002</span>
+          </li>
+          <li>
+            <span class="contact-k">Genève</span>
+            <span>8 rue du Rhône · 1204</span>
+          </li>
+        </ul>
+        <p class="contact-foot">Réponse en 24 h ouvrées. Tout est NDA-protected. Pas de pitch automatisé.</p>
+      </aside>
+    </div>
+  </Fragment>
+</UtilityTemplate>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(40px, 6vw, 80px);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .form-row { display: flex; flex-direction: column; gap: 6px; }
+  .form-row-full { grid-column: 1 / -1; }
+  .form-row label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    gap: 4px;
+  }
+  .form-row label span:last-child { color: var(--accent); }
+  .form-row input,
+  .form-row textarea {
+    font-family: var(--font-display);
+    font-size: 17px;
+    padding: 12px 14px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 6px;
+    background: var(--paper);
+    color: var(--ink);
+    transition: border-color 200ms var(--ease);
+  }
+  .form-row input:focus,
+  .form-row textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .contact-aside {
+    border-left: 1px solid var(--hairline);
+    padding-left: clamp(20px, 3vw, 40px);
+  }
+  .contact-aside-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.1;
+    letter-spacing: -0.018em;
+    font-weight: 400;
+    margin: 0 0 24px;
+  }
+  .contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .contact-list li { display: flex; flex-direction: column; gap: 4px; }
+  .contact-k {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .contact-list a {
+    color: var(--accent);
+    transition: color 200ms var(--ease);
+  }
+  .contact-list a:hover { color: var(--accent-2, var(--accent)); }
+  .contact-foot {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  @media (max-width: 800px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    .contact-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--hairline); padding-top: 32px; }
+  }
+</style>
