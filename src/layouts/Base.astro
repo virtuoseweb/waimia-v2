@@ -87,6 +87,10 @@ const pageLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <slot name="head" />
   </head>
   <body>
+    {/* Skip-to-content · WCAG 2.4.1 — apparaît au focus, masqué sinon */}
+    <a href="#main" class="skip-link">
+      {lang === 'fr' ? 'Aller au contenu' : 'Skip to content'}
+    </a>
     <ProgressBar />
     <CursorDot />
     <Header />
