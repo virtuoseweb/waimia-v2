@@ -310,6 +310,10 @@ pre {
 }
 .hdr .wm i {
   font-style: italic;
+  color: var(--accent);
+}
+.hdr .wm .dot {
+  color: var(--accent);
 }
 
 .hdr-nav {
@@ -671,6 +675,13 @@ pre {
 .m-sheet-top .wm {
   font-family: var(--font-display);
   font-size: 26px;
+}
+.m-sheet-top .wm i {
+  font-style: italic;
+  color: var(--accent);
+}
+.m-sheet-top .wm .dot {
+  color: var(--accent);
 }
 .m-sheet-close {
   width: 40px;

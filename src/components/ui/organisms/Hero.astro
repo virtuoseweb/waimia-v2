@@ -46,13 +46,13 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
       {lang === 'fr' ? (
         <>
           Les <i>opérations</i> revenue,<br />
-          refondues avec l'IA —<br />
+          refondues avec l'<i class="acc">IA</i> —<br />
           sans le <i>théâtre</i>.
         </>
       ) : (
         <>
           Revenue <i>operations</i>,<br />
-          rebuilt with AI —<br />
+          rebuilt with <i class="acc">AI</i> —<br />
           without the <i>theatre</i>.
         </>
       )}
@@ -113,6 +113,8 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
 
   .hero-headline { font-family:var(--font-display); font-size:clamp(48px,9vw,148px); line-height:.96; letter-spacing:-0.025em; font-weight:400; margin:0 0 32px; }
   .hero-headline i { font-style:italic; }
+  /* Mot relevé en accent (mot-clé central : IA / AI) */
+  .hero-headline i.acc { color: var(--accent); }
 
   .hero-sub { display:grid; grid-template-columns:1.05fr 1fr; gap:clamp(40px,5vw,80px); margin-top:clamp(40px,4vw,56px); padding-top:clamp(28px,3vw,40px); border-top:1px solid var(--hairline); align-items:start; }
   .hero-fig { margin-bottom:16px; }
