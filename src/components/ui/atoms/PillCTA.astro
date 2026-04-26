@@ -1,0 +1,50 @@
+---
+// Atome · PillCTA
+// CTA en pill (border-radius:999px) · 3 variantes pour les hero /manifesto.
+// Différent de Button atom : Button utilise les classes legacy `.btn` (border-radius:999px
+// mais padding/font/background distincts). PillCTA est dédié aux hero canvas dark.
+//
+// 6 occurrences vérifiées avant ce refactor (manifesto.astro × 2, en/manifesto × 2,
+// + variantes accent-mono × 2).
+//
+// Usage :
+//   <PillCTA href="/contact" variant="accent" mag={0.18}>Prendre RDV →</PillCTA>
+//   <PillCTA href="/console" variant="ghost-dark">La plateforme</PillCTA>
+//   <PillCTA href="/console" variant="accent-mono" mag={0.18}>▸ Voir la Console</PillCTA>
+
+interface Props {
+  /** URL cible */
+  href: string;
+  /** Variante visuelle ·
+   *   accent — terracotta sur paper, pour le CTA principal hero
+   *   ghost-dark — border-paper sur fond ink, pour le CTA secondaire hero
+   *   accent-mono — terracotta + font-mono, pour les CTA d'acte (▸) */
+  variant?: 'accent' | 'ghost-dark' | 'accent-mono';
+  /** Force magnétique au survol (0 = désactivé). Cf Base.astro inline script. */
+  mag?: number;
+  /** Classes additionnelles */
+  class?: string;
+}
+
+const { href, variant = 'accent', mag, class: extraClass = '' } = Astro.props;
+
+// Styles inline · regroupés ici une fois pour toutes
+// padding/border-radius/font-size identiques aux occurrences vérifiées
+const baseStyle = 'display:inline-flex;align-items:center;gap:8px;border-radius:999px;font-weight:500;transition:background 280ms var(--ease),color 280ms var(--ease),transform 280ms var(--ease)';
+
+const variantStyle = {
+  'accent':      'background:var(--accent);color:var(--paper);padding:16px 26px;font-size:13.5px',
+  'ghost-dark':  'border:1px solid rgba(246,241,232,.35);color:var(--paper);padding:16px 26px;font-size:13.5px',
+  'accent-mono': 'background:var(--accent);color:var(--paper);padding:18px 32px;font-size:14px;font-family:var(--font-mono)',
+}[variant];
+
+const dataMag = mag !== undefined ? String(mag) : undefined;
+---
+<a
+  href={href}
+  class={`u-pill-cta ${extraClass}`.trim()}
+  style={`${baseStyle};${variantStyle}`}
+  data-mag={dataMag}
+>
+  <slot />
+</a>

@@ -15,7 +15,10 @@
 import Base from '../layouts/Base.astro';
 import ProductReel from '../components/motion/ProductReel.tsx';
 import Kicker from '../components/ui/atoms/Kicker.astro';
+import TerminalCTA from '../components/ui/atoms/TerminalCTA.astro';
 import TerminalMockup from '../components/ui/molecules/TerminalMockup.astro';
+import EditorialWriteRow from '../components/ui/molecules/EditorialWriteRow.astro';
+import EditorialTable from '../components/ui/molecules/EditorialTable.astro';
 import { CASE_FEED, FIELD_NOTES, SIX_SERVICES } from '../data/sitemap';
 import { langFromPath, t as ft, localizeHref as flh } from '../lib/i18n';
 
@@ -46,17 +49,17 @@ const METRICS = [
   <section style="padding:140px clamp(20px,4vw,48px) 80px;background:var(--paper)">
     <div style="max-width:1500px;margin:0 auto">
       {/* meta bar */}
-      <div style="display:flex;justify-content:space-between;align-items:baseline;padding-bottom:20px;border-bottom:1px solid var(--hairline);margin-bottom:50px;font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;flex-wrap:wrap;gap:10px">
-        <span><span style="color:var(--accent)">◉</span> virtuoseos · v2.4.1 · {lang === 'fr' ? 'sortie 04.2026' : 'released 04.2026'}</span>
-        <span>Waimia · Paris · {lang === 'fr' ? 'bilingue FR · EN' : 'bilingual EN · FR'}</span>
+      <div class="c-meta-bar">
+        <Kicker as="span"><span style="color:var(--accent)">◉</span> virtuoseos · v2.4.1 · {lang === 'fr' ? 'sortie 04.2026' : 'released 04.2026'}</Kicker>
+        <Kicker as="span">Waimia · Paris · {lang === 'fr' ? 'bilingue FR · EN' : 'bilingual EN · FR'}</Kicker>
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,56px);align-items:end">
         {/* left · headline */}
         <div>
-          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;color:var(--accent);margin-bottom:24px">
+          <Kicker tone="accent" class="c-platform-tag">
             [platform] · {lang === 'fr' ? "la couche opérationnelle sous chaque intervention" : 'the operating layer under every engagement'}
-          </div>
+          </Kicker>
           <h1 style="font-family:var(--font-display);font-size:clamp(48px,9vw,156px);line-height:.92;letter-spacing:-0.028em;text-wrap:balance;font-weight:400;margin:0">
             {lang === 'fr' ? (
               <>Un <i>système d'exploitation</i><br />pour les opérations revenue.</>
@@ -70,12 +73,12 @@ const METRICS = [
               : 'Waimia ships VirtuoseOS as the substrate under its engagements — kernel, agents, audit. You keep the platform when we leave.'}
           </p>
           <div style="display:flex;gap:10px;margin-top:36px;flex-wrap:wrap">
-            <a href="#act-3" style="background:var(--ink);color:var(--paper);padding:14px 22px;border-radius:8px;font-size:13.5px;font-family:var(--font-mono)" data-mag="0.18">
+            <TerminalCTA href="#act-3" variant="ink" size="md" mag={0.18}>
               ▸ {lang === 'fr' ? 'ouvrir la console' : 'open the console'}
-            </a>
-            <a href={flh('/contact', lang)} style="border:1px solid var(--ink);padding:14px 22px;border-radius:8px;font-size:13.5px;font-family:var(--font-mono)">
+            </TerminalCTA>
+            <TerminalCTA href={flh('/contact', lang)} variant="ink-ghost" size="md">
               {lang === 'fr' ? 'prendre une séance →' : 'book a working session →'}
-            </a>
+            </TerminalCTA>
           </div>
         </div>
 
@@ -130,7 +133,7 @@ const METRICS = [
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--hairline);border-radius:10px;overflow:hidden;background:var(--paper)">
           {OBS.map((r, i) => (
             <div class="reveal" style={`padding:28px 24px;border-right:${i % 2 === 0 ? '1px solid var(--hairline)' : 'none'};border-bottom:${i < 2 ? '1px solid var(--hairline)' : 'none'}`}>
-              <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.1em">{r.tag}</div>
+              <Kicker tone="accent">{r.tag}</Kicker>
               <div style="font-family:var(--font-display);font-size:clamp(20px,2vw,26px);line-height:1.18;margin-top:10px;letter-spacing:-0.01em">
                 {ft(r.text, lang)}
               </div>
@@ -153,22 +156,16 @@ const METRICS = [
       <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(40px,7vw,112px);line-height:.96;letter-spacing:-0.025em;max-width:1300px;margin-bottom:60px;font-weight:400;text-wrap:balance">
         {lang === 'fr' ? (<>Six services. Une <i>seule</i> couche.</>) : (<>Six services. One <i>continuous</i> layer.</>)}
       </h2>
-      <div class="c-services-tbl">
-        <div class="c-services-head">
-          <span>id</span>
-          <span>service</span>
-          <span>description</span>
-          <span style="text-align:right">status</span>
-        </div>
-        {SIX_SERVICES.map((s, i) => (
-          <a href={flh('/contact', lang)} class="c-service-row" data-last={i === SIX_SERVICES.length - 1 ? 'true' : 'false'}>
+      <EditorialTable cols="60px 180px 1fr 120px" headers={['id', 'service', 'description', 'status']}>
+        {SIX_SERVICES.map((s) => (
+          <a href={flh('/contact', lang)} class="u-edit-tbl-row">
             <span style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">{s.k}</span>
             <span style="font-family:var(--font-display);font-size:clamp(20px,2vw,24px);line-height:1;letter-spacing:-0.01em">{ft(s.label, lang)}</span>
             <span style="font-size:13.5px;color:var(--muted);line-height:1.45;padding-right:20px">{ft(s.body, lang)}</span>
             <span style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.1em;text-align:right">◉ active</span>
           </a>
         ))}
-      </div>
+      </EditorialTable>
     </div>
   </section>
 
@@ -211,18 +208,12 @@ const METRICS = [
       <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(40px,7vw,112px);line-height:.96;letter-spacing:-0.025em;max-width:1300px;margin-bottom:60px;font-weight:400">
         {lang === 'fr' ? (<>Cas clients, en <i>table</i>.</>) : (<>Cases, as a <i>table</i>.</>)}
       </h2>
-      <div class="c-cases-tbl">
-        <div class="c-cases-head">
-          <span>id</span>
-          <span>client</span>
-          <span>{lang === 'fr' ? 'secteur' : 'sector'}</span>
-          <span>{lang === 'fr' ? 'durée' : 'duration'}</span>
-          <span>stack</span>
-          <span>impact</span>
-          <span></span>
-        </div>
+      <EditorialTable
+        cols="50px 1.2fr 1fr 110px 1.6fr 1.2fr 40px"
+        headers={['id', 'client', lang === 'fr' ? 'secteur' : 'sector', lang === 'fr' ? 'durée' : 'duration', 'stack', 'impact', '']}
+      >
         {CASE_FEED.slice(0, 4).map((c, i) => (
-          <a href={flh(`/ressources/cas/${c.slug}`, lang)} class="c-case-row" data-last={i === 3 ? 'true' : 'false'}>
+          <a href={flh(`/ressources/cas/${c.slug}`, lang)} class="u-edit-tbl-row">
             <span style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">0{i + 1}</span>
             <span style="font-family:var(--font-display);font-size:clamp(22px,2vw,26px);line-height:1">{c.client}</span>
             <span style="font-size:13px;color:var(--muted)">{ft(c.sector, lang)}</span>
@@ -232,7 +223,7 @@ const METRICS = [
             <span style="font-family:var(--font-mono);color:var(--muted);text-align:right">↗</span>
           </a>
         ))}
-      </div>
+      </EditorialTable>
     </div>
   </section>
 
@@ -247,12 +238,14 @@ const METRICS = [
       </div>
       <div>
         {FIELD_NOTES.map((s) => (
-          <a href={flh('/ressources/blog', lang)} class="c-write-row">
-            <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.08em">{s.date}</span>
-            <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">{ft(s.tag, lang)}</span>
-            <span style="font-family:var(--font-display);font-size:clamp(18px,1.8vw,22px);line-height:1.25">{ft(s.text, lang)}</span>
-            <span style="font-family:var(--font-mono);font-size:13px;color:var(--muted);text-align:right">↗</span>
-          </a>
+          <EditorialWriteRow
+            date={s.date}
+            tag={ft(s.tag, lang)}
+            href={flh('/ressources/blog', lang)}
+            tone="paper"
+          >
+            {ft(s.text, lang)}
+          </EditorialWriteRow>
         ))}
       </div>
     </div>
@@ -279,10 +272,10 @@ const METRICS = [
           <div>&gt; outcome: {lang === 'fr' ? 'notes actionnables ou pas de relance' : 'actionable notes or no follow-up'}</div>
           <div>&gt; channel: Meet / Zoom / on-site Paris</div>
           <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
-            <a href={flh('/contact', lang)} style="background:var(--accent);color:var(--paper);padding:12px 18px;border-radius:6px;font-size:12.5px" data-mag="0.18">▸ schedule</a>
-            <a href={`mailto:${lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr'}`} style="border:1px solid rgba(246,241,232,.3);padding:12px 18px;border-radius:6px;font-size:12.5px;color:var(--paper)">
+            <TerminalCTA href={flh('/contact', lang)} variant="accent" size="sm" mag={0.18}>▸ schedule</TerminalCTA>
+            <TerminalCTA href={`mailto:${lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr'}`} variant="ghost-dark" size="sm">
               {lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr'}
-            </a>
+            </TerminalCTA>
           </div>
         </div>
       </div>
@@ -296,36 +289,14 @@ const METRICS = [
   :global(.c-manifesto-tag){margin-bottom:40px}
   :global(.c-act-04){margin-bottom:30px}
   :global(.c-act-05){margin-bottom:30px}
+  :global(.c-platform-tag){margin-bottom:24px}
+
+  /* Meta bar hero · layout */
+  .c-meta-bar{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:20px;border-bottom:1px solid var(--hairline);margin-bottom:50px;flex-wrap:wrap;gap:10px}
 
   /* Curseur clignotant terminal */
   .c-cursor{display:inline-block;width:8px;height:14px;background:var(--accent);animation:c-blink 1s infinite}
   @keyframes c-blink{50%{opacity:0}}
   @media (prefers-reduced-motion:reduce){.c-cursor{animation:none}}
 
-  /* Service table terminal */
-  .c-services-tbl{border:1px solid var(--ink);border-radius:10px;overflow:hidden}
-  .c-services-head,.c-service-row{display:grid;grid-template-columns:60px 180px 1fr 120px;padding:12px 20px}
-  .c-services-head{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--paper-2);border-bottom:1px solid var(--hairline)}
-  .c-service-row{padding:22px 20px;border-bottom:1px solid var(--hairline);align-items:baseline;color:inherit;transition:background 180ms var(--ease)}
-  .c-service-row[data-last="true"]{border-bottom:none}
-  .c-service-row:hover{background:var(--paper-2)}
-
-  /* Cases table */
-  .c-cases-tbl{border:1px solid var(--ink);border-radius:10px;overflow:hidden;background:var(--paper)}
-  .c-cases-head,.c-case-row{display:grid;grid-template-columns:50px 1.2fr 1fr 110px 1.6fr 1.2fr 40px;padding:14px 20px;gap:14px}
-  .c-cases-head{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--paper-2);border-bottom:1px solid var(--hairline)}
-  .c-case-row{padding:22px 20px;border-bottom:1px solid var(--hairline);align-items:baseline;color:inherit;transition:background 180ms var(--ease)}
-  .c-case-row[data-last="true"]{border-bottom:none}
-  .c-case-row:hover{background:var(--paper-2)}
-
-  /* Writing rows */
-  .c-write-row{display:grid;grid-template-columns:90px 130px 1fr 24px;gap:24px;padding:18px 0;border-top:1px solid var(--hairline);align-items:baseline;color:inherit;transition:color 200ms var(--ease)}
-  .c-write-row:hover{color:var(--accent)}
-
-  @media (max-width:900px){
-    /* Empile les colonnes sur mobile pour rester lisible */
-    .c-services-head,.c-cases-head{display:none}
-    .c-service-row,.c-case-row{grid-template-columns:1fr;gap:6px;padding:18px 16px}
-    .c-write-row{grid-template-columns:1fr;gap:6px}
-  }
 </style>

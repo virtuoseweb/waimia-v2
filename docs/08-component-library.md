@@ -93,6 +93,48 @@ Newspaper meta row : `Vol. 03 · Paris/Genève · Bilingue · Booking T2`. Un at
 <MastheadRow />
 ```
 
+### `PillCTA.astro`
+
+CTA pill (border-radius:999px) pour les hero canvas dark. **6 occurrences vérifiées** (manifesto.astro × 2 hero CTAs + 1 Acte III, × 2 EN versions).
+
+Différent de `Button` (qui utilise `.btn` legacy avec padding/font distincts) : `PillCTA` est dédié aux hero terracotta dark.
+
+| Prop      | Type                                        | Défaut     | Description                                                                                   |
+| --------- | ------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------- |
+| `href`    | `string`                                    | —          | URL cible                                                                                     |
+| `variant` | `'accent' \| 'ghost-dark' \| 'accent-mono'` | `'accent'` | `accent` (CTA hero principal), `ghost-dark` (CTA hero secondaire), `accent-mono` (CTA Acte ▸) |
+| `mag`     | `number`                                    | —          | Force magnétique au survol                                                                    |
+
+**Usage** :
+
+```astro
+<PillCTA href="/contact" variant="accent" mag={0.18}>Prendre RDV →</PillCTA>
+<PillCTA href="/console" variant="ghost-dark">La plateforme</PillCTA>
+<PillCTA href="/console" variant="accent-mono" mag={0.18}>▸ Voir la Console</PillCTA>
+```
+
+### `TerminalCTA.astro`
+
+CTA terminal-style (border-radius:6-8px, font-mono) pour `/console`. **8 occurrences vérifiées** (console.astro × 4 → hero CTAs + Acte V CTAs, × 2 EN versions).
+
+Différent de `Button` (rounded 999px) et `PillCTA` (rounded 999px) : ici radius square pour cohérence avec les terminal mockups.
+
+| Prop      | Type                                               | Défaut  | Description                                                                                                                          |
+| --------- | -------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `href`    | `string`                                           | —       | URL cible                                                                                                                            |
+| `variant` | `'ink' \| 'ink-ghost' \| 'accent' \| 'ghost-dark'` | `'ink'` | `ink` (primaire fond clair), `ink-ghost` (secondaire fond clair), `accent` (primaire fond dark), `ghost-dark` (secondaire fond dark) |
+| `size`    | `'md' \| 'sm'`                                     | `'md'`  | `md` (rounded 8px), `sm` (rounded 6px)                                                                                               |
+| `mag`     | `number`                                           | —       | Force magnétique au survol                                                                                                           |
+
+**Usage** :
+
+```astro
+<TerminalCTA href="#act-3" variant="ink" size="md" mag={0.18}>▸ ouvrir la console</TerminalCTA>
+<TerminalCTA href="/contact" variant="ink-ghost" size="md">prendre une séance →</TerminalCTA>
+<TerminalCTA href="/contact" variant="accent" size="sm" mag={0.18}>▸ schedule</TerminalCTA>
+<TerminalCTA href="mailto:hello@x" variant="ghost-dark" size="sm">hello@x</TerminalCTA>
+```
+
 ---
 
 ## Molécules (`src/components/ui/molecules/`)
@@ -197,6 +239,115 @@ Wrapper sur la classe legacy `.metrics` · 4 chiffres clés en grille.
 ]} />
 ```
 
+### `EditorialWriteRow.astro`
+
+Row éditorial pour blog/changelog · grid `[date · tag · text · arrow]`. Unifie 3 variantes inline qui existaient :
+
+- `.writing-row` (WritingNotes.astro · paper)
+- `.b-write-row` (manifesto.astro · ink, border rgba paper)
+- `.c-write-row` (console.astro · paper, border hairline)
+
+**5 instances par fichier × 3 fichiers = 15 rows** consolidées.
+
+| Prop   | Type               | Défaut    | Description                           |
+| ------ | ------------------ | --------- | ------------------------------------- |
+| `date` | `string`           | —         | Date affichée à gauche                |
+| `tag`  | `string`           | —         | Tag/catégorie · ex: `"Field note"`    |
+| `href` | `string`           | —         | URL cible                             |
+| `tone` | `'paper' \| 'ink'` | `'paper'` | `ink` pour les sections sur fond dark |
+
+**Slot** : `default` · le titre/texte de la ligne.
+
+**Usage** :
+
+```astro
+<EditorialWriteRow date="2026-04-15" tag="Field note" href="/blog/x" tone="paper">
+  Le pipeline a livré 18% de plus avant le café.
+</EditorialWriteRow>
+```
+
+### `AsymmetricServiceRow.astro`
+
+Service row qui alterne gauche/droite (signature visuelle de `/manifesto` Acte II). Pattern : grid 4 colonnes `[num · name · body · arr]` qui se renverse en miroir quand `reverse=true`.
+
+**12 instances** (6 services × 2 fichiers fr/en) consolidées.
+
+| Prop      | Type      | Défaut  | Description                                 |
+| --------- | --------- | ------- | ------------------------------------------- |
+| `num`     | `string`  | —       | Numéro · ex: `"01"`, `"02"`                 |
+| `label`   | `string`  | —       | Nom du service                              |
+| `body`    | `string`  | —       | Corps descriptif                            |
+| `reverse` | `boolean` | `false` | Inverser le sens (alternance gauche↔droite) |
+
+**Usage** :
+
+```astro
+{SIX_SERVICES.map((s, i) => (
+  <AsymmetricServiceRow num={s.k} label={t(s.label, lang)} body={t(s.body, lang)} reverse={i % 2 === 1} />
+))}
+```
+
+### `EditorialCaseCard.astro`
+
+Card éditoriale pour cas client (signature visuelle de `/manifesto` Acte IV). Card `paper-2` avec idx+sector + client + stack/impact en 2 colonnes. Padding 18px radius 18px, hover border accent + translateY(-4px).
+
+**8 instances** (4 cas × 2 fichiers fr/en) consolidées.
+
+| Prop       | Type     | Défaut | Description                               |
+| ---------- | -------- | ------ | ----------------------------------------- |
+| `idx`      | `number` | —      | Index dans la liste (rendu `CASE 0X`)     |
+| `client`   | `string` | —      | Nom client                                |
+| `sector`   | `string` | —      | Secteur (déjà localisé)                   |
+| `stack`    | `string` | —      | Stack tech                                |
+| `impact`   | `string` | —      | Texte d'impact (déjà localisé)            |
+| `duration` | `string` | —      | Durée du projet · ex: `"6 weeks"`         |
+| `href`     | `string` | —      | URL cible                                 |
+| `offset`   | `number` | `0`    | Décalage vertical en px (alternance 0/60) |
+
+**Usage** :
+
+```astro
+<EditorialCaseCard
+  idx={1}
+  client="ACME"
+  sector="Fintech"
+  stack="Claude / HubSpot / Drizzle"
+  impact="+€14M pipeline"
+  duration="6 weeks"
+  href="/cas/acme"
+  offset={60}
+/>
+```
+
+### `EditorialTable.astro`
+
+Frame de table éditoriale terminal-style · header (mono uppercase) + slot pour rows. Border 1px solid ink + radius 10px + head bg paper-2.
+
+Unifie les 2 tables de `/console` : `c-services-tbl` (4 cols) et `c-cases-tbl` (7 cols). Le pattern grid est paramétré via `cols` pour réutilisation.
+
+| Prop      | Type               | Défaut    | Description                                          |
+| --------- | ------------------ | --------- | ---------------------------------------------------- |
+| `cols`    | `string`           | —         | Grid template columns · ex: `"60px 180px 1fr 120px"` |
+| `headers` | `string[]`         | —         | Headers de la table (1 par colonne)                  |
+| `tone`    | `'paper' \| 'ink'` | `'paper'` | Tone fond head                                       |
+
+**Slot** : `default` · les rows. Chaque row doit utiliser `class="u-edit-tbl-row"` pour bénéficier du grid + hover.
+
+**Usage** :
+
+```astro
+<EditorialTable cols="60px 180px 1fr 120px" headers={['id', 'service', 'description', 'status']}>
+  {SIX_SERVICES.map((s) => (
+    <a href="..." class="u-edit-tbl-row">
+      <span>{s.k}</span>
+      <span>{s.label}</span>
+      <span>{s.body}</span>
+      <span>◉ active</span>
+    </a>
+  ))}
+</EditorialTable>
+```
+
 ---
 
 ## Décisions de design
@@ -205,15 +356,21 @@ Wrapper sur la classe legacy `.metrics` · 4 chiffres clés en grille.
 
 L'audit pré-refactor a recensé les patterns récurrents :
 
-| Pattern                                                                                                        | Occurrences avant | Atome créé          |
-| -------------------------------------------------------------------------------------------------------------- | ----------------- | ------------------- |
-| `font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)` | 30+               | ✅ `Kicker`         |
-| `<div class="chapter-label"><span class="dot"></span><span>FIG X</span>...`                                    | 5                 | ✅ `ChapterLabel`   |
-| `<a class="btn btn-primary btn-lg" data-mag>`                                                                  | 9+ fichiers       | ✅ `Button`         |
-| `<header class="sec-hd"><div class="n">...<h2>...<p class="aside">`                                            | 7+                | ✅ `SectionHeader`  |
-| Terminal frame `3 dots + label + status + body`                                                                | 4                 | ✅ `TerminalMockup` |
+| Pattern                                                                                                        | Occurrences avant          | Composant créé                          |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------- | --------------------------------------- |
+| `font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)` | 30+                        | ✅ `Kicker`                             |
+| `<div class="chapter-label"><span class="dot"></span><span>FIG X</span>...`                                    | 5                          | ✅ `ChapterLabel`                       |
+| `<a class="btn btn-primary btn-lg" data-mag>`                                                                  | 9+ fichiers                | ✅ `Button`                             |
+| `<a style="background:var(--accent);...border-radius:999px">` (hero CTAs)                                      | 6                          | ✅ `PillCTA` (atomic-deep)              |
+| `<a style="background:var(--ink);...border-radius:8px;font-mono">` (terminal CTAs)                             | 8                          | ✅ `TerminalCTA` (atomic-deep)          |
+| `<header class="sec-hd"><div class="n">...<h2>...<p class="aside">`                                            | 9                          | ✅ `SectionHeader`                      |
+| Terminal frame `3 dots + label + status + body`                                                                | 4                          | ✅ `TerminalMockup`                     |
+| `.b-write-row` + `.c-write-row` + `.writing-row` (date/tag/text/arrow)                                         | 15 instances · 3 variantes | ✅ `EditorialWriteRow` (atomic-deep)    |
+| `.b-service-row` asymétrique (signature `/manifesto`)                                                          | 12 instances               | ✅ `AsymmetricServiceRow` (atomic-deep) |
+| `.b-case-card` cards décalées (`/manifesto` Acte IV)                                                           | 8 instances                | ✅ `EditorialCaseCard` (atomic-deep)    |
+| `.c-services-tbl` + `.c-cases-tbl` (tables terminal `/console`)                                                | 4 frames · 20 rows         | ✅ `EditorialTable` (atomic-deep)       |
 
-Les patterns à 1-2 occurrences (ex : marquee dark de `/manifesto`, `chapter-label` simple de `WritingNotes`) restent inline. Promouvoir un atome à instance unique alourdit l'API sans bénéfice.
+Les patterns à 1-2 occurrences (ex : marquee dark de `/manifesto`, hero atlas de `/atlas`, manifesto stats `43`/`<9`/`×4`, FAQ singleton) restent inline. Promouvoir un atome à instance unique alourdit l'API sans bénéfice.
 
 ### Comment styler un atome rendu par un sous-composant ?
 

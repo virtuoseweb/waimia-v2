@@ -1,0 +1,57 @@
+---
+// Atome · TerminalCTA
+// CTA terminal-style (border-radius:6-8px, font-mono) · pour /console hero et CTA Acte V.
+// Différent de Button atom (rounded 999px) et PillCTA (rounded 999px) : ici radius square
+// pour cohérence avec les terminal mockups.
+//
+// 8 occurrences vérifiées avant ce refactor (console.astro × 4 → hero CTAs + acte V CTAs,
+// × 2 EN versions = 8 total).
+//
+// Usage :
+//   <TerminalCTA href="#act-3" variant="ink" size="md" mag={0.18}>▸ ouvrir la console</TerminalCTA>
+//   <TerminalCTA href="/contact" variant="ink-ghost" size="md">prendre une séance →</TerminalCTA>
+//   <TerminalCTA href="/contact" variant="accent" size="sm" mag={0.18}>▸ schedule</TerminalCTA>
+//   <TerminalCTA href="mailto:hello@x" variant="ghost-dark" size="sm">hello@x</TerminalCTA>
+
+interface Props {
+  /** URL cible */
+  href: string;
+  /** Variante visuelle ·
+   *   ink         — fond ink (bouton primaire fond clair)
+   *   ink-ghost   — border ink (bouton secondaire fond clair)
+   *   accent      — fond terracotta (bouton primaire fond dark Acte V)
+   *   ghost-dark  — border paper (bouton secondaire fond dark Acte V) */
+  variant?: 'ink' | 'ink-ghost' | 'accent' | 'ghost-dark';
+  /** Taille · md (rounded 8px, padding 14×22) ou sm (rounded 6px, padding 12×18) */
+  size?: 'md' | 'sm';
+  /** Force magnétique au survol */
+  mag?: number;
+  /** Classes additionnelles */
+  class?: string;
+}
+
+const { href, variant = 'ink', size = 'md', mag, class: extraClass = '' } = Astro.props;
+
+const sizeStyle = size === 'sm'
+  ? 'padding:12px 18px;border-radius:6px;font-size:12.5px'
+  : 'padding:14px 22px;border-radius:8px;font-size:13.5px';
+
+const variantStyle = {
+  'ink':         'background:var(--ink);color:var(--paper)',
+  'ink-ghost':   'border:1px solid var(--ink);color:var(--ink)',
+  'accent':      'background:var(--accent);color:var(--paper)',
+  'ghost-dark':  'border:1px solid rgba(246,241,232,.3);color:var(--paper)',
+}[variant];
+
+const baseStyle = 'display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);transition:background 280ms var(--ease),color 280ms var(--ease),transform 280ms var(--ease)';
+
+const dataMag = mag !== undefined ? String(mag) : undefined;
+---
+<a
+  href={href}
+  class={`u-terminal-cta ${extraClass}`.trim()}
+  style={`${baseStyle};${sizeStyle};${variantStyle}`}
+  data-mag={dataMag}
+>
+  <slot />
+</a>

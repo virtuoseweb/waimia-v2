@@ -1,0 +1,73 @@
+---
+// Molécule · EditorialWriteRow
+// Row éditorial pour blog/changelog · grid `[date | tag | text | arrow]`
+// Unifie 3 variantes inline qui existaient :
+//   - .writing-row     (WritingNotes.astro · paper)
+//   - .b-write-row     (manifesto.astro · ink, border rgba paper)
+//   - .c-write-row     (console.astro · paper, border hairline)
+//
+// Différent de ShipmentRow (qui est compact, sans date séparée, pour les "shipments").
+//
+// Usage :
+//   <EditorialWriteRow date="2026-04-15" tag="Field note" href="/blog/x" tone="paper">
+//     Le pipeline a livré 18% de plus avant le café.
+//   </EditorialWriteRow>
+
+interface Props {
+  /** Date affichée à gauche · ex: "2026-04-15" */
+  date: string;
+  /** Tag/catégorie · ex: "Field note", "Changelog" */
+  tag: string;
+  /** URL cible */
+  href: string;
+  /** Tone fond · `paper` (clair, défaut) ou `ink` (dark, hero canvas) */
+  tone?: 'paper' | 'ink';
+  /** Classes additionnelles */
+  class?: string;
+}
+
+const { date, tag, href, tone = 'paper', class: extraClass = '' } = Astro.props;
+---
+<a
+  href={href}
+  class={`u-edit-write-row ${tone === 'ink' ? 'on-ink' : ''} ${extraClass}`.trim()}
+>
+  <span class="u-ewr-date">{date}</span>
+  <span class="u-ewr-tag">{tag}</span>
+  <span class="u-ewr-text"><slot /></span>
+  <span class="u-ewr-arr" aria-hidden>↗</span>
+</a>
+
+<style>
+  .u-edit-write-row{
+    display:grid;
+    grid-template-columns:90px 130px 1fr 24px;
+    gap:24px;
+    padding:18px 0;
+    border-top:1px solid var(--hairline);
+    align-items:baseline;
+    color:inherit;
+    transition:color 200ms var(--ease),padding-left 320ms var(--ease);
+  }
+  .u-edit-write-row.on-ink{
+    border-top-color:rgba(246,241,232,.12);
+    padding:22px 0;
+  }
+  .u-edit-write-row:hover{color:var(--accent);padding-left:6px}
+
+  .u-ewr-date{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.08em}
+  .u-edit-write-row.on-ink .u-ewr-date{color:rgba(246,241,232,.5)}
+
+  .u-ewr-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .u-edit-write-row.on-ink .u-ewr-tag{color:rgba(246,241,232,.5)}
+
+  .u-ewr-text{font-family:var(--font-display);font-size:clamp(18px,1.8vw,22px);line-height:1.25;text-wrap:pretty}
+  .u-edit-write-row.on-ink .u-ewr-text{color:var(--paper)}
+
+  .u-ewr-arr{font-family:var(--font-mono);font-size:13px;color:var(--muted);text-align:right}
+
+  @media (max-width:900px){
+    .u-edit-write-row{grid-template-columns:1fr;gap:6px;padding:14px 0}
+    .u-ewr-arr{display:none}
+  }
+</style>
