@@ -1,0 +1,251 @@
+---
+// Template · CaseStudyTemplate · cas client (long-form)
+//
+// Mapping handoff2 :
+//  - case-plateau.html → /ressources/cas/plateau
+//  - (autres cas seront stubs jusqu'à contenu validé)
+//
+// Squelette : Masthead + Spec bar + Context + Approach (steps) + Proof band
+//             + Tech stack + Related + CTABand
+//
+// Composé de · Bi, Kicker, ChapterLabel atoms · ProcessSteps, ProofBand,
+//              TechPillRow, RelatedCards molecules · CtaBand organism.
+
+import Base from '../../layouts/Base.astro';
+import Bi from '../ui/atoms/Bi.astro';
+import Kicker from '../ui/atoms/Kicker.astro';
+import ChapterLabel from '../ui/atoms/ChapterLabel.astro';
+import ProcessSteps from '../ui/molecules/ProcessSteps.astro';
+import ProofBand from '../ui/molecules/ProofBand.astro';
+import TechPillRow from '../ui/molecules/TechPillRow.astro';
+import RelatedCards from '../ui/molecules/RelatedCards.astro';
+import CtaBand from '../ui/organisms/CtaBand.astro';
+
+interface SpecItem {
+  label_fr: string;
+  label_en: string;
+  value: string;
+}
+interface Step {
+  sn: string;
+  kicker_fr: string;
+  kicker_en: string;
+  title_fr: string;
+  title_en: string;
+  body_fr: string;
+  body_en: string;
+}
+interface Pill {
+  label: string;
+  kind?: 'primary' | 'open' | 'neutral';
+}
+interface Metric {
+  k: string;
+  label_fr: string;
+  label_en: string;
+}
+interface RelatedCard {
+  kicker: string;
+  title_fr: string;
+  title_en: string;
+  lead_fr: string;
+  lead_en: string;
+  href: string;
+}
+interface Props {
+  title: string;
+  description: string;
+  /** Numéro éditorial (Case 04, Case 07…) */
+  caseNum: string;
+  /** Spec bar (5 items typiquement : Client, Sector, Duration, Stack, Services) */
+  specs: SpecItem[];
+  /** Steps process (4 typiquement) */
+  steps: Step[];
+  /** Proof quote + metrics */
+  proofQuoteFr: string;
+  proofQuoteEn: string;
+  proofAttrFr: string;
+  proofAttrEn: string;
+  proofMetrics: Metric[];
+  /** Tech stack pills */
+  techPills: Pill[];
+  /** Related cards (3 cas connexes) */
+  relatedCards: RelatedCard[];
+}
+const {
+  title, description, caseNum, specs, steps,
+  proofQuoteFr, proofQuoteEn, proofAttrFr, proofAttrEn, proofMetrics,
+  techPills, relatedCards,
+} = Astro.props;
+---
+<Base title={title} description={description}>
+  {/* MASTHEAD */}
+  <section class="case-masthead">
+    <div class="wrap-wide">
+      <Kicker class="case-num">§ Case {caseNum}</Kicker>
+      <h1 class="case-h1">
+        <slot name="headline" />
+      </h1>
+    </div>
+  </section>
+
+  {/* SPEC BAR (Client · Sector · Duration · Stack · Services) */}
+  <section class="case-specs">
+    <div class="wrap-wide case-specs-grid" style={`--spec-cols:${specs.length}`}>
+      {specs.map((s, i) => (
+        <div class="case-spec" data-last={i === specs.length - 1 ? 'true' : 'false'}>
+          <Kicker class="case-spec-l"><Bi fr={s.label_fr} en={s.label_en} /></Kicker>
+          <div class="case-spec-v">{s.value}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* CONTEXT (slot ouvert pour storytelling) */}
+  <section class="case-context">
+    <div class="wrap-wide case-context-grid">
+      <div>
+        <ChapterLabel num="§ 01" title="Context" class="case-sticky" />
+      </div>
+      <div>
+        <Kicker tone="accent" class="case-context-k"><Bi fr="Le brief" en="The brief" /></Kicker>
+        <slot name="context" />
+      </div>
+    </div>
+  </section>
+
+  {/* APPROACH · steps */}
+  <section class="case-approach">
+    <div class="wrap-wide">
+      <header class="case-section-hd">
+        <Kicker tone="accent">§ 02 · <Bi fr="L'approche" en="The approach" /></Kicker>
+        <h2 class="case-section-h2"><slot name="approach-headline" /></h2>
+        <p class="case-section-aside"><slot name="approach-aside" /></p>
+      </header>
+      <ProcessSteps steps={steps} />
+    </div>
+  </section>
+
+  {/* PROOF (testimony + metrics) */}
+  <section class="case-proof">
+    <div class="wrap-wide">
+      <ProofBand
+        quote_fr={proofQuoteFr} quote_en={proofQuoteEn}
+        attr_fr={proofAttrFr} attr_en={proofAttrEn}
+        metrics={proofMetrics}
+      />
+    </div>
+  </section>
+
+  {/* STACK */}
+  <section class="case-stack">
+    <div class="wrap-wide">
+      <Kicker tone="accent" class="case-stack-k">§ 04 · <Bi fr="La stack" en="The stack" /></Kicker>
+      <p class="case-stack-lead">
+        <slot name="stack-lead" />
+      </p>
+      <TechPillRow pills={techPills} />
+    </div>
+  </section>
+
+  {/* RELATED */}
+  <section class="case-related">
+    <div class="wrap-wide">
+      <Kicker class="case-related-k">§ 05 · <Bi fr="Cas reliés" en="Related cases" /></Kicker>
+      <RelatedCards cards={relatedCards} />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .case-masthead { padding: 140px 32px 40px; }
+  :global(.case-num) { display: block; margin-bottom: 20px; }
+  .case-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 11vw, 180px);
+    line-height: 0.88;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+    font-weight: 400;
+    margin: 0 0 48px;
+  }
+  .case-h1 :global(i) { font-style: italic; color: var(--accent); }
+
+  .case-specs { padding: 0 32px 40px; border-bottom: 1px solid var(--hairline); }
+  .case-specs-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--spec-cols, 5), 1fr);
+    border-top: 1px solid var(--hairline);
+  }
+  .case-spec {
+    padding: 22px 20px;
+    border-right: 1px solid var(--hairline);
+  }
+  .case-spec[data-last='true'] { border-right: none; }
+  :global(.case-spec-l) { display: block; margin-bottom: 6px; }
+  .case-spec-v {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: -0.01em;
+  }
+
+  .case-context { padding: clamp(80px, 12vw, 120px) 32px; }
+  .case-context-grid {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 64px;
+  }
+  :global(.case-sticky) { position: sticky; top: 100px; }
+  :global(.case-context-k) { display: block; margin-bottom: 24px; }
+
+  .case-approach { padding: clamp(80px, 12vw, 120px) 32px; background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  .case-section-hd {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: clamp(24px, 4vw, 60px);
+    margin-bottom: clamp(36px, 5vw, 70px);
+    align-items: end;
+  }
+  .case-section-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 5.5vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.024em;
+    text-wrap: balance;
+    font-weight: 400;
+    margin: 14px 0 0;
+  }
+  .case-section-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .case-section-aside {
+    font-size: clamp(13px, 1.3vw, 15px);
+    line-height: 1.55;
+    color: var(--muted);
+    text-wrap: pretty;
+    max-width: 400px;
+    margin: 0;
+  }
+
+  .case-proof { padding: clamp(80px, 12vw, 120px) 32px; }
+  .case-stack { padding: clamp(80px, 12vw, 120px) 32px; background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  :global(.case-stack-k) { display: block; margin-bottom: 16px; }
+  .case-stack-lead {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.4vw, 30px);
+    line-height: 1.3;
+    color: var(--muted);
+    max-width: 760px;
+    text-wrap: balance;
+    margin: 0 0 clamp(28px, 3vw, 44px);
+  }
+
+  .case-related { padding: clamp(80px, 10vw, 100px) 32px; }
+  :global(.case-related-k) { display: block; margin-bottom: 30px; }
+
+  @media (max-width: 900px) {
+    .case-context-grid,
+    .case-section-hd { grid-template-columns: 1fr; }
+    .case-specs-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

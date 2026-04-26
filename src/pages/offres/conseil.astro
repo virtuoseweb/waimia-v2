@@ -1,0 +1,123 @@
+---
+// Page · /offres/conseil · Hub Consulting, Audit & Strategy
+// Source : waimia-handoff2 / hub-consulting.html (page primaire selon README)
+//
+// Composé de · HubTemplate (squelette) + ServiceCatalogRow × 7 (catalogue)
+// Le contenu du handoff est intégré ici — données structurées, slots HTML riche.
+
+import HubTemplate from '../../components/templates/HubTemplate.astro';
+import ServiceCatalogRow from '../../components/ui/molecules/ServiceCatalogRow.astro';
+
+const stats = [
+  { k: '43',    label_fr: 'interventions',   label_en: 'engagements' },
+  { k: '€18M+', label_fr: 'pipeline audité', label_en: 'pipeline audited' },
+  { k: '0',     label_fr: 'ateliers vendus', label_en: 'workshops sold' },
+  { k: '12',    label_fr: 'juridictions UE', label_en: 'EU jurisdictions' },
+];
+
+// Catalogue services · 7 services hub-consulting
+const services = [
+  { num: '02.1', slug: 'audit-maturite-ia', meta: '10 j · 10 days',
+    title_fr: 'Audit de maturité IA', title_en: 'AI Readiness Assessment',
+    desc_fr: "Un diagnostic de 10 jours. Data, outillage, équipe, gouvernance. Un scorecard lisible.",
+    desc_en: "A 10-day diagnostic. Data, tooling, team, governance. One readable scorecard." },
+  { num: '02.2', slug: 'roadmap-ia', meta: '3–5 sem · 3–5 wks',
+    title_fr: "Cadrage & feuille de route IA", title_en: 'Strategic Scoping & AI Roadmap',
+    desc_fr: "On rédige le backlog ordonné qu'un board peut approuver et qu'un tech lead peut livrer.",
+    desc_en: "We write the ordered backlog a board can approve and an eng lead can ship against." },
+  { num: '02.3', slug: 'gouvernance-donnees', meta: '4 sem · 4 wks',
+    title_fr: 'Audit gouvernance & qualité des données', title_en: 'Data Governance & Quality Audit',
+    desc_fr: "Là où l'entrepôt ment, là où le CRM ment, quel chiffre la finance peut croire.",
+    desc_en: 'Where the warehouse lies, where the CRM lies, where finance can trust which number.' },
+  { num: '02.4', slug: 'dette-technique-ia', meta: '4 sem · 4 wks',
+    title_fr: "Audit dette technique pour l'IA", title_en: 'IT & Technical Debt Audit for AI',
+    desc_fr: "Ce qui empêche les agents de partir en prod. Classé par coût de correction, pas par drame.",
+    desc_en: 'What blocks agents from shipping to production. Ranked by cost-to-fix, not by drama.' },
+  { num: '02.5', slug: 'rpa-vers-agents', meta: '3 sem · 3 wks',
+    title_fr: 'Migration RPA → agents IA', title_en: 'RPA → Agentic AI Migration Mapping',
+    desc_fr: "Lesquels de vos 200 bots RPA survivent en agents. Lesquels doivent mourir. Lesquels étaient du théâtre.",
+    desc_en: 'Which of your 200 RPA bots survive as agents. Which should die. Which were always theatre.' },
+  { num: '02.6', slug: 'finops-ia', meta: '2 sem · 2 wks',
+    title_fr: 'AI FinOps — coûts LLM & cloud', title_en: 'AI FinOps — LLM & Cloud Cost Optimization',
+    desc_fr: "Tokenisation, batching, caching, routage. On coupe 40–70 % sur les factures LLM, sans l'annoncer.",
+    desc_en: 'Tokenization, batching, caching, model routing. We cut LLM bills by 40–70% without telling anyone.' },
+  { num: '02.7', slug: 'cybersecurite-ia', meta: '3–6 sem · 3–6 wks',
+    title_fr: "Cybersécurité & pen test des systèmes IA", title_en: 'AI Systems Cybersecurity & Pen Testing',
+    desc_fr: "Injection de prompt, exfil, jailbreaks, supply chain. On attaque d'abord, à l'écrit.",
+    desc_en: 'Prompt injection, data exfil, jailbreaks, supply chain. We attack it first, in writing.' },
+];
+
+const fitYesItems = [
+  "You have a CRM nobody trusts and a warehouse that disagrees with it",
+  "Your GRC team needs audit trails your current AI stack can't produce",
+  "You tried a workshop-led consultancy and got a 72-slide deck",
+  "You have 50–500 EU employees and real governance obligations",
+];
+const fitNoItems = [
+  "You want a logo for your innovation report",
+  "You need a chatbot by Friday",
+  "You want to train your own foundation model",
+  "You're looking for someone to run 12 workshops",
+];
+
+const relatedCards = [
+  { kicker: 'CASE 04', title_fr: 'Plateau SaaS', title_en: 'Plateau SaaS',
+    lead_fr: '+€2.4M pipeline →', lead_en: '+€2.4M pipeline →',
+    href: '/ressources/cas/plateau' },
+  { kicker: 'CASE 07', title_fr: 'Halcyon Health', title_en: 'Halcyon Health',
+    lead_fr: '−38% temps de triage →', lead_en: '−38% triage time →',
+    href: '/ressources/cas/halcyon' },
+  { kicker: 'CASE 09', title_fr: 'Caserne Industrie', title_en: 'Caserne Industry',
+    lead_fr: '€780k FinOps économisés →', lead_en: '€780k FinOps saved →',
+    href: '/ressources/cas/caserne' },
+];
+---
+<HubTemplate
+  title="Conseil, audit & stratégie · Waimia"
+  description="Sept services qui refondent le socle d'une intervention IA — données, gouvernance, coût, sécurité. Faits par nous-mêmes, par écrit."
+  hubNum="02"
+  metaKickerFr="Hub · Pilier Entreprise · 7 services"
+  metaKickerEn="Hub · Enterprise pillar · 7 services"
+  stats={stats}
+  fitYesTitleFr="Vous êtes fait pour nous si"
+  fitYesTitleEn="You're a fit if"
+  fitYesItems={fitYesItems}
+  fitNoTitleFr="On refusera si"
+  fitNoTitleEn="We'll say no if"
+  fitNoItems={fitNoItems}
+  relatedKickerFr="Cas issus de ce hub"
+  relatedKickerEn="Cases that came out of this hub"
+  relatedCards={relatedCards}
+>
+  {/* HEADLINE — méthode Slots Astro, JSX riche (italic, br) sans sérialisation */}
+  <Fragment slot="headline">
+    La couche <i>sans relief</i>, avant que les agents ne touchent à quoi que ce soit.
+  </Fragment>
+  <Fragment slot="lede">
+    Sept prestations qui refondent le socle sur lequel repose une intervention IA — données, gouvernance, coût, sécurité. Faites par nous-mêmes, par écrit.
+  </Fragment>
+
+  {/* MANIFESTO PULL · stance éditorial */}
+  <Fragment slot="manifesto">
+    Une mission de conseil n'est pas un <i>diagnostic de 72 slides</i>. C'est un schéma, un runbook, et un ingénieur d'astreinte nommé.
+  </Fragment>
+
+  {/* CATALOGUE · 7 ServiceCatalogRow */}
+  <Fragment slot="catalog-meta">07 · TRIÉ DANS L'ORDRE D'UTILISATION</Fragment>
+  <Fragment slot="catalog">
+    {services.map((s) => (
+      <ServiceCatalogRow
+        num={s.num}
+        title_fr={s.title_fr} title_en={s.title_en}
+        desc_fr={s.desc_fr} desc_en={s.desc_en}
+        meta={s.meta}
+        href={`/offres/${s.slug}`}
+      />
+    ))}
+  </Fragment>
+
+  {/* FIT HEADLINE */}
+  <Fragment slot="fit-headline">
+    Pour la DSI, la <i>COO</i>, le head of RevOps — pas pour la slide.
+  </Fragment>
+</HubTemplate>

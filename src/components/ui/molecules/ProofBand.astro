@@ -1,0 +1,148 @@
+---
+// Molécule · ProofBand · témoignage (quote + attribution) + métriques chiffrées
+//
+// Pattern récurrent (≥ 3 occurrences) :
+// - case-plateau.html : proof section
+// - service-revops.html : proof section
+// - offres/detail.html : section proof
+//
+// Composé de · Bi (atom) pour bilingue.
+//
+// Décision : un seul slot pour la quote (HTML riche : i, em, strong) et props
+// pour les metrics. Cohérent avec docs/07-component-patterns.md (Pattern Slots).
+//
+// API :
+//   <ProofBand
+//     quote_fr="..." quote_en="..."
+//     attr_fr="Marie Cousin · COO Plateau" attr_en="Marie Cousin · COO Plateau"
+//     metrics={[
+//       { k: '+€2.4M', label_fr: 'Pipeline ouvert', label_en: 'Pipeline opened' },
+//       { k: '×3.1', label_fr: 'Conversion SQL→Deal', label_en: 'SQL→Deal conversion' },
+//     ]}
+//   />
+
+import Bi from '../atoms/Bi.astro';
+import Kicker from '../atoms/Kicker.astro';
+
+interface Metric {
+  k: string;
+  label_fr: string;
+  label_en: string;
+}
+interface Props {
+  quote_fr: string;
+  quote_en: string;
+  attr_fr: string;
+  attr_en: string;
+  metrics: Metric[];
+  class?: string;
+}
+const { quote_fr, quote_en, attr_fr, attr_en, metrics, class: extraClass = '' } = Astro.props;
+---
+<div class={`proof-band ${extraClass}`.trim()}>
+  <div class="proof-main">
+    <Kicker class="proof-label"><Bi fr="Témoignage" en="Testimony" /></Kicker>
+    <blockquote class="proof-quote">
+      <Bi fr={`« ${quote_fr} »`} en={`"${quote_en}"`} />
+    </blockquote>
+    <div class="proof-attr">
+      <Bi fr={attr_fr} en={attr_en} />
+    </div>
+  </div>
+  <div class="proof-div" aria-hidden></div>
+  <div class="proof-aside">
+    <Kicker class="proof-label"><Bi fr="Mesures" en="Metrics" /></Kicker>
+    <div class="proof-metrics">
+      {metrics.map((m) => (
+        <div class="proof-metric">
+          <div class="proof-metric-k">{m.k}</div>
+          <div class="proof-metric-l"><Bi fr={m.label_fr} en={m.label_en} /></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .proof-band {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    align-items: stretch;
+  }
+  .proof-main {
+    padding: clamp(32px, 4vw, 56px) clamp(28px, 4vw, 56px) clamp(32px, 4vw, 56px) 0;
+  }
+  .proof-div {
+    background: var(--hairline-strong);
+  }
+  .proof-aside {
+    padding: clamp(32px, 4vw, 56px) 0 clamp(32px, 4vw, 56px) clamp(28px, 4vw, 56px);
+  }
+  /* :global parce que Kicker est rendu par sous-composant */
+  :global(.proof-label) {
+    margin-bottom: 16px;
+  }
+  .proof-quote {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.8vw, 40px);
+    line-height: 1.12;
+    letter-spacing: -0.018em;
+    font-weight: 400;
+    text-wrap: pretty;
+    font-style: italic;
+    margin: 0;
+  }
+  .proof-attr {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 18px;
+    letter-spacing: 0.06em;
+  }
+  .proof-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .proof-metric {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .proof-metric:nth-child(odd) {
+    border-right: 1px solid var(--hairline);
+    padding-right: 24px;
+  }
+  .proof-metric:nth-child(even) {
+    padding-left: 24px;
+  }
+  .proof-metric:nth-last-child(-n + 2) {
+    border-bottom: none;
+  }
+  .proof-metric-k {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3.5vw, 48px);
+    line-height: 0.95;
+    letter-spacing: -0.022em;
+    color: var(--accent);
+  }
+  .proof-metric-l {
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  @media (max-width: 900px) {
+    .proof-band {
+      grid-template-columns: 1fr;
+    }
+    .proof-div {
+      display: none;
+    }
+    .proof-main,
+    .proof-aside {
+      padding: 32px 0;
+    }
+    .proof-aside {
+      border-top: 1px solid var(--hairline-strong);
+    }
+  }
+</style>

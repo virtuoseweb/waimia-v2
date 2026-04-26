@@ -1,0 +1,101 @@
+---
+// Molécule · FitColumns · 2 colonnes Yes/No (« You're a fit if » / « We'll say no if »)
+//
+// Pattern récurrent (≥ 3 occurrences) :
+// - hub-consulting.html : Fit / No section dark
+// - service-revops.html : Idéal pour / Pas pour
+// - silo-anthropic.html : variante
+//
+// Composé de · Bi atom.
+//
+// Décision tone="ink" obligatoire : ce pattern apparaît exclusivement
+// sur fond ink dark dans les handoffs (cohérent éditorialement).
+// Pas de variante paper pour rester intentionnel.
+//
+// API :
+//   <FitColumns
+//     yesTitleFr="Vous êtes fait pour nous si" yesTitleEn="You're a fit if"
+//     yesItems={['item 1', 'item 2', ...]}
+//     noTitleFr="On refusera si" noTitleEn="We'll say no if"
+//     noItems={['item 1', ...]}
+//   />
+
+import Bi from '../atoms/Bi.astro';
+
+interface Props {
+  yesTitleFr: string;
+  yesTitleEn: string;
+  yesItems: string[];
+  noTitleFr: string;
+  noTitleEn: string;
+  noItems: string[];
+  class?: string;
+}
+const { yesTitleFr, yesTitleEn, yesItems, noTitleFr, noTitleEn, noItems, class: extraClass = '' } = Astro.props;
+---
+<div class={`fit-cols ${extraClass}`.trim()}>
+  <div class="fit-col">
+    <div class="fit-k fit-k-muted">◉ <Bi fr={yesTitleFr} en={yesTitleEn} /></div>
+    <ul>
+      {yesItems.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+  <div class="fit-col fit-col-no">
+    <div class="fit-k fit-k-accent">◉ <Bi fr={noTitleFr} en={noTitleEn} /></div>
+    <ul>
+      {noItems.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .fit-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .fit-col {
+    padding: 40px 32px;
+  }
+  .fit-col-no {
+    border-left: 1px solid rgba(246, 241, 232, 0.14);
+  }
+  .fit-k {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .fit-k-muted {
+    color: rgba(246, 241, 232, 0.5);
+  }
+  .fit-k-accent {
+    color: var(--accent);
+  }
+  .fit-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .fit-col li {
+    padding: 18px 0;
+    border-top: 1px solid rgba(246, 241, 232, 0.1);
+    font-family: var(--font-display);
+    font-size: 26px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    text-wrap: pretty;
+  }
+  @media (max-width: 900px) {
+    .fit-cols {
+      grid-template-columns: 1fr;
+    }
+    .fit-col-no {
+      border-left: none;
+      border-top: 1px solid rgba(246, 241, 232, 0.14);
+    }
+    .fit-col li {
+      font-size: 20px;
+    }
+  }
+</style>

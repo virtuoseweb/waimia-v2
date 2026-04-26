@@ -1,0 +1,171 @@
+---
+// Template · EssayTemplate · article éditorial long-form (essais, blog)
+//
+// Mapping handoff2 :
+//  - essay-brain-circuit.html → /ressources/blog/brain-circuit
+//  - changelog.html (variant)
+//
+// Squelette : Masthead minimaliste + lede + body slot (rich text) + Author footer
+//             + Related cards + CTABand
+//
+// Décision : pas de spec bar (différencie d'un Case). Le squelette est plus simple
+// et laisse 100 % du body en slot pour le HTML rich text (h2, h3, p, blockquote, code).
+
+import Base from '../../layouts/Base.astro';
+import Bi from '../ui/atoms/Bi.astro';
+import Kicker from '../ui/atoms/Kicker.astro';
+import RelatedCards from '../ui/molecules/RelatedCards.astro';
+import CtaBand from '../ui/organisms/CtaBand.astro';
+
+interface RelatedCard {
+  kicker: string;
+  title_fr: string;
+  title_en: string;
+  lead_fr: string;
+  lead_en: string;
+  href: string;
+}
+interface Props {
+  title: string;
+  description: string;
+  /** Catégorie + numéro éditorial (Essay 03, Note 12) */
+  kicker: string;
+  /** Date publication ISO ou format libre */
+  date: string;
+  /** Auteur */
+  author: string;
+  /** Reading time approximé */
+  readingTime?: string;
+  /** Related cards (3 articles connexes) */
+  relatedCards: RelatedCard[];
+}
+const { title, description, kicker, date, author, readingTime, relatedCards } = Astro.props;
+---
+<Base title={title} description={description}>
+  <article class="essay">
+    {/* MASTHEAD */}
+    <header class="essay-hd">
+      <div class="wrap-wide">
+        <Kicker class="essay-kicker">{kicker}</Kicker>
+        <h1 class="essay-h1">
+          <slot name="headline" />
+        </h1>
+        <p class="essay-lede">
+          <slot name="lede" />
+        </p>
+        <div class="essay-meta">
+          <span>{author}</span>
+          <span aria-hidden>·</span>
+          <time datetime={date}>{date}</time>
+          {readingTime && (<><span aria-hidden>·</span><span>{readingTime}</span></>)}
+        </div>
+      </div>
+    </header>
+
+    {/* BODY (slot rich text) — 1 colonne lisibilité */}
+    <div class="essay-body">
+      <div class="essay-prose">
+        <slot name="body" />
+      </div>
+    </div>
+
+    {/* RELATED */}
+    <section class="essay-related">
+      <div class="wrap-wide">
+        <Kicker class="essay-related-k"><Bi fr="Lectures voisines" en="Related notes" /></Kicker>
+        <RelatedCards cards={relatedCards} />
+      </div>
+    </section>
+  </article>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .essay-hd { padding: 140px 32px clamp(40px, 6vw, 80px); border-bottom: 1px solid var(--hairline); }
+  :global(.essay-kicker) { display: block; margin-bottom: 24px; }
+  .essay-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.96;
+    letter-spacing: -0.026em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+    max-width: 1200px;
+  }
+  .essay-h1 :global(i) { font-style: italic; color: var(--accent); }
+  .essay-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 2.2vw, 28px);
+    line-height: 1.4;
+    color: var(--muted);
+    margin: 24px 0 32px;
+    max-width: 760px;
+    text-wrap: pretty;
+  }
+  .essay-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    text-transform: uppercase;
+  }
+
+  .essay-body { padding: clamp(60px, 8vw, 100px) 32px; }
+  /* `.essay-prose` est un wrapper de typographie editor pour le slot HTML rich.
+     C'est le SEUL endroit où on définit ces sélecteurs nestés — utilisé dans
+     1 template uniquement. Pas un cas marginal de variable utility. */
+  .essay-prose {
+    max-width: 720px;
+    margin: 0 auto;
+    font-family: var(--font-display);
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--ink-2);
+  }
+  .essay-prose :global(h2) {
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    margin: clamp(48px, 6vw, 72px) 0 24px;
+    text-wrap: balance;
+  }
+  .essay-prose :global(h2 i) { font-style: italic; color: var(--accent); }
+  .essay-prose :global(h3) {
+    font-size: clamp(22px, 2.4vw, 28px);
+    line-height: 1.2;
+    font-weight: 400;
+    margin: clamp(32px, 4vw, 48px) 0 16px;
+  }
+  .essay-prose :global(p) { margin: 0 0 1.4em; }
+  .essay-prose :global(blockquote) {
+    border-left: 2px solid var(--accent);
+    padding-left: 24px;
+    font-style: italic;
+    color: var(--muted);
+    margin: clamp(28px, 3vw, 40px) 0;
+  }
+  .essay-prose :global(a) {
+    color: var(--accent);
+    border-bottom: 1px solid currentColor;
+  }
+  .essay-prose :global(ul),
+  .essay-prose :global(ol) { margin: 0 0 1.4em 1.5em; }
+  .essay-prose :global(li) { margin-bottom: 0.4em; }
+  .essay-prose :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--paper-2);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .essay-related { padding: clamp(80px, 10vw, 100px) 32px; border-top: 1px solid var(--hairline); }
+  :global(.essay-related-k) { display: block; margin-bottom: 30px; }
+</style>

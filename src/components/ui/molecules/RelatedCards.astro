@@ -1,0 +1,108 @@
+---
+// Molécule · RelatedCards · 3 cards à la fin d'une page (cas, articles, services liés)
+//
+// Pattern récurrent (≥ 3 occurrences) :
+// - hub-consulting.html : « Cases that came out of this hub »
+// - case-plateau.html : « Related work »
+// - service-revops.html : services related
+//
+// Composé de · Bi atom.
+//
+// Decision : 1 seul pattern à 3 cards (pas 4, pas 6) — on contraint pour
+// la cohérence éditoriale. Si besoin de N cards, on créera RelatedCardsGrid.
+//
+// API :
+//   <RelatedCards cards={[
+//     { kicker: 'CASE 04', title_fr: 'Plateau', title_en: 'Plateau',
+//       lead_fr: '+€2.4M pipeline', lead_en: '+€2.4M pipeline',
+//       href: '/ressources/cas/plateau' },
+//   ]} />
+
+import Bi from '../atoms/Bi.astro';
+
+interface Card {
+  kicker: string;
+  title_fr: string;
+  title_en: string;
+  lead_fr: string;
+  lead_en: string;
+  href: string;
+}
+interface Props {
+  cards: Card[];
+  class?: string;
+}
+const { cards, class: extraClass = '' } = Astro.props;
+---
+<div class={`related-grid ${extraClass}`.trim()}>
+  {cards.map((c) => (
+    <a class="related-card" href={c.href}>
+      <span class="related-k">{c.kicker}</span>
+      <h3 class="related-title"><Bi fr={c.title_fr} en={c.title_en} /></h3>
+      <p class="related-lead"><Bi fr={c.lead_fr} en={c.lead_en} /></p>
+      <span class="related-go" aria-hidden>→</span>
+    </a>
+  ))}
+</div>
+
+<style>
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--hairline-strong);
+  }
+  .related-card {
+    padding: clamp(22px, 2.5vw, 36px) clamp(18px, 2vw, 28px);
+    border-right: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: inherit;
+    transition: background 240ms var(--ease);
+  }
+  .related-card:last-child {
+    border-right: none;
+  }
+  .related-card:hover {
+    background: var(--paper-2);
+  }
+  .related-k {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+  }
+  .related-title {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.4vw, 32px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    margin: 8px 0 4px;
+    text-wrap: balance;
+  }
+  .related-lead {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+  .related-go {
+    margin-top: auto;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+  }
+  @media (max-width: 800px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+    .related-card {
+      border-right: none;
+      border-bottom: 1px solid var(--hairline);
+    }
+    .related-card:last-child {
+      border-bottom: none;
+    }
+  }
+</style>

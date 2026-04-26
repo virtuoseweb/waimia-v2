@@ -1,0 +1,87 @@
+---
+// Template · ListIndexTemplate · index/listing d'éléments (cas, articles, knowledge base)
+//
+// Mapping handoff2 :
+//  - cases-index.html        → /ressources/cas
+//  - writing-index.html      → /ressources/blog
+//  - knowledge-base.html     → /ressources/cookbooks
+//  - changelog.html          → /ressources/changelog
+//
+// Squelette : Masthead minimaliste + Filter row (slot) + List slot + CTA
+//
+// Le pattern liste/grid est géré par le slot `list` — la page utilisatrice choisit
+// EditorialWriteRow (writing-index), EditorialCaseCard grid (cases-index), ou autre.
+
+import Base from '../../layouts/Base.astro';
+import Kicker from '../ui/atoms/Kicker.astro';
+import CtaBand from '../ui/organisms/CtaBand.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Section éditoriale (Cas clients, Notes, Cookbooks…) */
+  kicker: string;
+}
+const { title, description, kicker } = Astro.props;
+---
+<Base title={title} description={description}>
+  {/* MASTHEAD */}
+  <section class="list-hd">
+    <div class="wrap-wide">
+      <Kicker class="list-kicker">{kicker}</Kicker>
+      <h1 class="list-h1"><slot name="headline" /></h1>
+      <p class="list-lede"><slot name="lede" /></p>
+
+      {Astro.slots.has('filters') && (
+        <div class="list-filters">
+          <slot name="filters" />
+        </div>
+      )}
+    </div>
+  </section>
+
+  {/* LIST (slot ouvert) */}
+  <section class="list-body">
+    <div class="wrap-wide">
+      <slot name="list" />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .list-hd {
+    padding: 140px 32px clamp(40px, 5vw, 72px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  :global(.list-kicker) { display: block; margin-bottom: 24px; }
+  .list-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 11vw, 180px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .list-h1 :global(i) { font-style: italic; color: var(--accent); }
+  .list-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 2.2vw, 32px);
+    color: var(--ink-2);
+    margin: 32px 0 0;
+    max-width: 760px;
+    line-height: 1.4;
+    text-wrap: pretty;
+  }
+  .list-filters {
+    margin-top: clamp(36px, 4vw, 56px);
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .list-body { padding: clamp(60px, 8vw, 100px) 32px; }
+</style>

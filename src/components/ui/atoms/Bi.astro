@@ -2,13 +2,30 @@
 // Atome · Bi · primitive bilingue côté serveur
 // Choisit la chaîne EN/FR selon la langue de la page Astro courante.
 // Indivisible : un seul rôle (text en/fr) sans composition d'autres atomes.
+//
+// Deux modes (cf docs/07-component-patterns.md) :
+//   1. Props (string simple) : <Bi en="Hello" fr="Bonjour" />
+//   2. Slots (JSX riche) — recommandé pour HTML structuré (i, br, strong) :
+//        <Bi>
+//          <Fragment slot="fr">Construire du <i>revenue</i>.</Fragment>
+//          <Fragment slot="en">Build <i>revenue</i>.</Fragment>
+//        </Bi>
+//
+// Pourquoi Slots quand le texte contient du HTML : Astro pré-rend le contenu
+// statique avant l'envoi (hydratation sélective), évite la sérialisation et
+// reste indexable GEO/AIO sans coût React. Cf message Simon 2026-04-26.
 import { langFromPath } from '../../../lib/i18n';
 
 interface Props {
-  en: string;
-  fr: string;
+  en?: string;
+  fr?: string;
 }
 const { en, fr } = Astro.props;
 const lang = langFromPath(Astro.url.pathname);
+const isFr = lang === 'fr';
+const hasSlots = Astro.slots.has('fr') || Astro.slots.has('en');
 ---
-{lang === 'en' ? en : fr}
+{hasSlots
+  ? (isFr ? <slot name="fr" /> : <slot name="en" />)
+  : (isFr ? fr : en)
+}

@@ -1,0 +1,95 @@
+---
+// Page · /offres/revops · Service RevOps Rebuild
+// Source : waimia-handoff2 / service-revops.html
+//
+// Composé de · ServiceDetailTemplate (squelette) · données structurées + slots HTML riche.
+
+import ServiceDetailTemplate from '../../components/templates/ServiceDetailTemplate.astro';
+
+const problemStats = [
+  { k: '43',   label_fr: 'outils dans la stack RevOps moyenne', label_en: 'tools in the average RevOps stack' },
+  { k: '< 9',  label_fr: 'touchent le même enregistrement client', label_en: 'touch the same customer record' },
+  { k: '× 4',  label_fr: 'taux de réussite 6 sem vs 6 mois',     label_en: 'success rate 6 wks vs 6 mos' },
+];
+
+const steps = [
+  { sn: '01', kicker_fr: 'Diagnostiquer', kicker_en: 'Diagnose',
+    title_fr: 'Audit du funnel', title_en: 'Funnel audit',
+    body_fr: "On lit votre CRM, votre warehouse, votre billing. On note où ils mentent.",
+    body_en: 'We read your CRM, your warehouse, your billing. We note where they lie.' },
+  { sn: '02', kicker_fr: 'Reconcilier', kicker_en: 'Reconcile',
+    title_fr: "Source de vérité unique", title_en: 'Single source of truth',
+    body_fr: "On désigne quel système gagne sur chaque champ. On documente la règle.",
+    body_en: 'We declare which system wins per field. We document the rule.' },
+  { sn: '03', kicker_fr: 'Automatiser', kicker_en: 'Automate',
+    title_fr: 'Agents de triage', title_en: 'Triage agents',
+    body_fr: "Claude triage les leads, qualifie, route. Pas de chatbot — du routage auditable.",
+    body_en: 'Claude triages leads, qualifies, routes. Not a chatbot — auditable routing.' },
+  { sn: '04', kicker_fr: 'Mesurer', kicker_en: 'Measure',
+    title_fr: 'Dashboards & alertes', title_en: 'Dashboards & alerts',
+    body_fr: "Pipeline live, conversion par segment, alertes de drift. Visible aux finance et CEO.",
+    body_en: 'Live pipeline, conversion per segment, drift alerts. Visible to finance and CEO.' },
+];
+
+const techPills = [
+  { label: 'Claude Opus 4.7', kind: 'primary' as const },
+  { label: 'Claude Sonnet 4.6', kind: 'primary' as const },
+  { label: 'HubSpot', kind: 'neutral' as const },
+  { label: 'Salesforce', kind: 'neutral' as const },
+  { label: 'dbt', kind: 'open' as const },
+  { label: 'PostgreSQL', kind: 'open' as const },
+  { label: 'Snowflake', kind: 'neutral' as const },
+];
+
+const proofMetrics = [
+  { k: '+€2.4M', label_fr: 'Pipeline ouvert',    label_en: 'Pipeline opened' },
+  { k: '×3.1',   label_fr: 'Conversion SQL→Deal', label_en: 'SQL→Deal conversion' },
+  { k: '−38%',   label_fr: 'Temps de triage',     label_en: 'Triage time' },
+  { k: '10 sem', label_fr: 'Durée du chantier',   label_en: 'Project duration' },
+];
+
+const relatedCards = [
+  { kicker: 'CASE 04', title_fr: 'Plateau SaaS', title_en: 'Plateau SaaS',
+    lead_fr: 'La refonte qui a inspiré ce service →', lead_en: 'The rebuild that inspired this service →',
+    href: '/ressources/cas/plateau' },
+  { kicker: 'SERVICE 02.3', title_fr: 'Gouvernance des données', title_en: 'Data governance',
+    lead_fr: 'Pré-requis amont du RevOps Rebuild →', lead_en: 'Prerequisite upstream of RevOps Rebuild →',
+    href: '/offres/gouvernance-donnees' },
+  { kicker: 'OFFRE 03.1', title_fr: 'Agents métiers', title_en: 'Business agents',
+    lead_fr: 'Triage Claude au-delà du RevOps →', lead_en: 'Claude triage beyond RevOps →',
+    href: '/offres/agents-metiers' },
+];
+---
+<ServiceDetailTemplate
+  title="RevOps Rebuild · Waimia"
+  description="Réconcilier CRM, warehouse et billing pour qu'une seule vérité circule. Des agents Claude qui font le tri sans théâtre."
+  serviceNum="03.1"
+  problemStats={problemStats}
+  steps={steps}
+  proofQuoteFr="On a arrêté de débattre des chiffres en comité. La même métrique vit dans Salesforce, dans dbt et dans le board pack."
+  proofQuoteEn="We stopped debating numbers in committee. The same metric lives in Salesforce, in dbt, and in the board pack."
+  proofAttrFr="Marie Cousin · COO Plateau"
+  proofAttrEn="Marie Cousin · COO Plateau"
+  proofMetrics={proofMetrics}
+  techPills={techPills}
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">
+    Réconcilier le <i>funnel</i>. Sans théâtre.
+  </Fragment>
+  <Fragment slot="lede">
+    Un chantier de 8 à 12 semaines pour que CRM, entrepôt et finance arrêtent de se contredire — et que vos agents Claude opèrent sur une seule vérité.
+  </Fragment>
+  <Fragment slot="problem">
+    Le RevOps moyen <i>empile 43 outils</i> dont moins de 9 touchent le même enregistrement client. Les agents IA livrés dans ce chaos finissent en démos. Notre travail commence par <i>désempiler</i>.
+  </Fragment>
+  <Fragment slot="approach-headline">
+    Quatre <i>phases</i>. Pas un atelier.
+  </Fragment>
+  <Fragment slot="approach-aside">
+    Notre méthode reste la même quel que soit le secteur — diagnostic, reconciliation, automatisation, mesure. Ce qui change, c'est la grammaire métier.
+  </Fragment>
+  <Fragment slot="stack-lead">
+    Une stack délibérément <i>petite</i>. Claude pour la cognition, dbt pour la lecture, votre CRM pour l'écriture. Pas de no-code intermédiaire.
+  </Fragment>
+</ServiceDetailTemplate>

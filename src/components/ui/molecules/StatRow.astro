@@ -1,0 +1,94 @@
+---
+// Molécule · StatRow · N grands chiffres XL avec label uppercase
+//
+// Pattern récurrent (≥ 4 occurrences vérifiées) :
+// - Hero hub-consulting : 43 / €18M+ / 0 / 12
+// - Manifesto stats : 43 / <9 / ×4
+// - VirtuoseOS hero stats
+// - Service-revops stats
+//
+// Composé de · Kicker (atom) pour les labels uppercase.
+//
+// Tone :
+//  - `paper` (défaut) : fond clair, ink + accent sur stat
+//  - `ink`            : fond dark, paper + accent sur stat
+//
+// API :
+//   <StatRow stats={[
+//     { k: '43',    label_fr: 'interventions',  label_en: 'engagements' },
+//     { k: '€18M+', label_fr: 'pipeline audité', label_en: 'pipeline audited' },
+//   ]} />
+
+import Kicker from '../atoms/Kicker.astro';
+import Bi from '../atoms/Bi.astro';
+
+interface Stat {
+  k: string;
+  label_fr: string;
+  label_en: string;
+}
+interface Props {
+  stats: Stat[];
+  tone?: 'paper' | 'ink';
+  class?: string;
+}
+const { stats, tone = 'paper', class: extraClass = '' } = Astro.props as Props;
+const isInk = tone === 'ink';
+const kickerTone = isInk ? 'dim' : 'muted';
+---
+<div class={`stat-row ${isInk ? 'on-ink' : ''} ${extraClass}`.trim()}>
+  {stats.map((s, i) => (
+    <div class="stat-cell" data-last={i === stats.length - 1 ? 'true' : 'false'}>
+      <div class="stat-k">{s.k}</div>
+      <Kicker tone={kickerTone} class="stat-l">
+        <Bi fr={s.label_fr} en={s.label_en} />
+      </Kicker>
+    </div>
+  ))}
+</div>
+
+<style>
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 4), 1fr);
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--hairline-strong);
+  }
+  .stat-row.on-ink {
+    border-top-color: var(--paper);
+    border-bottom-color: rgba(246, 241, 232, 0.18);
+  }
+  .stat-cell {
+    padding: clamp(24px, 3vw, 36px) clamp(14px, 2vw, 22px);
+    border-right: 1px solid var(--hairline);
+  }
+  .on-ink .stat-cell {
+    border-right-color: rgba(246, 241, 232, 0.12);
+  }
+  .stat-cell[data-last='true'] {
+    border-right: none;
+  }
+  .stat-k {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 7vw, 112px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+  }
+  /* :global parce que <Kicker> est un sous-composant rendu hors scope Astro */
+  :global(.stat-l) {
+    margin-top: 14px;
+  }
+  @media (max-width: 700px) {
+    .stat-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .stat-cell:nth-child(2n) {
+      border-right: none;
+    }
+    .stat-cell:nth-child(odd):nth-last-child(2),
+    .stat-cell:nth-child(odd):nth-last-child(2) ~ .stat-cell {
+      border-bottom: 1px solid var(--hairline);
+    }
+  }
+</style>

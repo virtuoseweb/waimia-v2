@@ -417,6 +417,129 @@ Si oui aux 3 questions → créer l'atome. Sinon → laisser inline (et document
 
 ---
 
+## Templates de page (`src/components/templates/`)
+
+Squelettes de page réutilisables pour le contenu Waimia (handoff2). Chaque template est un **organisme** qui compose atomes + molécules + organismes existants, et expose des **slots Astro** pour permettre du JSX riche sans sérialisation.
+
+### `HubTemplate.astro`
+
+Pillar page d'un hub d'offres / hub thématique.
+
+**Mapping handoff2** : `hub-consulting.html` → `/offres/conseil` · `virtuoseos.html` → `/technologies/virtuoseos` (à venir)
+
+**Slots** : `headline`, `lede`, `manifesto` (optionnel), `catalog`, `catalog-meta`, `fit-headline`
+
+**Props clés** : `hubNum`, `stats: Stat[]`, `fitYesItems[]`, `fitNoItems[]`, `relatedCards[]`
+
+**Composé de** · Kicker, Bi, ChapterLabel · StatRow, FitColumns, RelatedCards · CtaBand
+
+Page exemple : `src/pages/offres/conseil.astro`
+
+### `ServiceDetailTemplate.astro`
+
+Page détaillée d'UN service du catalogue (problème → méthode → livrables → preuve).
+
+**Mapping handoff2** : `service-revops.html`, `silo-anthropic.html`, `industry-fintech.html`, `loc-paris.html`
+
+**Slots** : `headline`, `lede`, `problem`, `approach-headline`, `approach-aside`, `deliverables` (optionnel), `stack-lead`
+
+**Props clés** : `serviceNum`, `problemStats[]?`, `steps[]`, `proofMetrics[]?`, `techPills[]`, `relatedCards[]`
+
+**Composé de** · Kicker, Bi · StatRow, ProcessSteps, ProofBand, TechPillRow, RelatedCards · CtaBand
+
+Page exemple : `src/pages/offres/revops.astro`
+
+### `CaseStudyTemplate.astro`
+
+Cas client long-form avec spec bar et témoignage.
+
+**Mapping handoff2** : `case-plateau.html` (et autres cas à venir)
+
+**Slots** : `headline`, `context` (HTML riche), `approach-headline`, `approach-aside`, `stack-lead`
+
+**Props clés** : `caseNum`, `specs[]` (5 typiquement), `steps[]`, `proofMetrics[]`, `techPills[]`, `relatedCards[]`
+
+**Composé de** · Kicker, Bi, ChapterLabel · ProcessSteps, ProofBand, TechPillRow, RelatedCards · CtaBand
+
+Page exemple : `src/pages/ressources/cas/plateau.astro`
+
+### `EssayTemplate.astro`
+
+Article éditorial long-form avec typographie editor (h2, h3, blockquote, p, ul/ol, code).
+
+**Mapping handoff2** : `essay-brain-circuit.html`, `changelog.html`, futurs blog posts
+
+**Slots** : `headline`, `lede`, `body` (rich text)
+
+**Props clés** : `kicker`, `date`, `author`, `readingTime?`, `relatedCards[]`
+
+**Composé de** · Kicker, Bi · RelatedCards · CtaBand
+
+Page exemple : `src/pages/ressources/blog/brain-circuit.astro`
+
+> Décision : `.essay-prose` est le SEUL endroit où on définit des sélecteurs nestés (h2 i, blockquote, etc.) — utilisé dans 1 template uniquement. Pas un cas marginal de variable utility, c'est la stylesheet typographique de l'editor body.
+
+### `ListIndexTemplate.astro`
+
+Index/listing d'éléments (cas, articles, knowledge base, changelog).
+
+**Mapping handoff2** : `cases-index.html`, `writing-index.html`, `knowledge-base.html`, `changelog.html`
+
+**Slots** : `headline`, `lede`, `filters` (optionnel), `list`
+
+**Props clés** : `kicker`
+
+**Composé de** · Kicker · CtaBand. Le `list` slot accepte n'importe quelle molécule de listing (EditorialCaseCard, EditorialWriteRow, etc.).
+
+Page exemple : `src/pages/ressources/cas/index.astro`
+
+---
+
+## Méthode des Slots — Astro hydratation sélective
+
+Tous les templates et la plupart des organismes utilisent **des slots nommés** plutôt que des props string pour le contenu riche.
+
+**Pourquoi** (cf message Simon 2026-04-26 + docs/07-component-patterns.md) :
+
+- Astro pré-rend le contenu statique avant l'envoi (hydratation sélective)
+- Pas de sérialisation JSON pour HTML riche (italic, br, strong, lien)
+- Indexable GEO/AIO sans coût React
+- Permet de mixer Markdown, autres composants Astro, ou JSX inline
+
+**Exemple** :
+
+```astro
+<HubTemplate hubNum="02" stats={...}>
+  <Fragment slot="headline">
+    La couche <i>sans relief</i>, avant que les agents ne touchent à quoi que ce soit.
+  </Fragment>
+  <Fragment slot="lede">Sept prestations qui...</Fragment>
+</HubTemplate>
+```
+
+L'`<i>` est rendu en HTML statique côté serveur — aucun JS n'est requis pour le voir, et un crawler LLM (GPT, Perplexity, Google AI Overview) le lit comme du texte enrichi.
+
+---
+
+## Atom `Bi` — bilingue avec deux modes
+
+Pour rester en cohérence avec la méthode Slots :
+
+```astro
+{/* Mode 1 · Props string (texte simple) */}
+<Bi en="Hello" fr="Bonjour" />
+
+{/* Mode 2 · Slots (JSX riche · recommandé pour HTML structuré) */}
+<Bi>
+  <Fragment slot="fr">Construire du <i>revenue</i>.</Fragment>
+  <Fragment slot="en">Build <i>revenue</i>.</Fragment>
+</Bi>
+```
+
+L'atome détecte automatiquement le mode utilisé via `Astro.slots.has('fr') || Astro.slots.has('en')`.
+
+---
+
 ## Références croisées
 
 - `docs/06-coding-standards.md` § 4 — règles de nommage atomes/molécules
