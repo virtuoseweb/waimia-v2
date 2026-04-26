@@ -1,0 +1,99 @@
+---
+// Page · /ressources/changelog · Changelog VirtuoseOS + agence
+// Source : waimia-handoff2 / changelog.html
+//
+// Composé de · ListIndexTemplate (variant timeline · entries datées + tags type)
+
+import ListIndexTemplate from '../../components/templates/ListIndexTemplate.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+
+const entries = [
+  { date: '2026-04-22', tag: 'PLATFORM', version: 'v2.4.1', title: "VirtuoseOS · trail audit replay 4× plus rapide",
+    body: "Le trail audit re-rejoue maintenant 4× plus vite grâce à un cache LRU sur les chunks Claude. Impact direct : audits AI Act 4× moins coûteux." },
+  { date: '2026-04-15', tag: 'AGENCE', version: '—', title: "3 nouveaux rôles ouverts · Q3 2026",
+    body: "Engineering Claude · Architecte RevOps · Lead Compliance & AI Act. Voir /agence/careers." },
+  { date: '2026-04-08', tag: 'COOKBOOK', version: '—', title: "CB·06 · Migrer 200 bots RPA vers agents Claude",
+    body: "Nouveau cookbook publié. Méthode pour identifier quels RPA bots survivent en agents, lesquels meurent, lesquels étaient du théâtre." },
+  { date: '2026-03-28', tag: 'PLATFORM', version: 'v2.4.0', title: "VirtuoseOS · self-hosted Llama 4 + DeepSeek R1 GA",
+    body: "Self-hosting GA pour Llama 4 70B et DeepSeek R1. Performances : 80-90% de Claude Sonnet sur RevOps. Idéal contraintes ACPR/SecNumCloud." },
+  { date: '2026-03-15', tag: 'CASE', version: '—', title: "Cas Plateau publié · +€2.4M pipeline récupéré",
+    body: "Refonte RevOps en 10 semaines documentée. Voir /ressources/cas/plateau." },
+  { date: '2026-02-22', tag: 'COMPLIANCE', version: '—', title: "ISO 27001 · audit blanc passé",
+    body: "Audit blanc T1 2026 passé sans non-conformité majeure. Certification visée T4 2026." },
+  { date: '2026-02-08', tag: 'PLATFORM', version: 'v2.3.0', title: "VirtuoseOS · MCP Stripe + GitHub officiels",
+    body: "Connecteurs MCP Stripe et GitHub validés. Intégration en 5 minutes via descriptor JSON." },
+  { date: '2026-01-15', tag: 'AGENCE', version: '—', title: "Activateur Francenum officialisé",
+    body: "Waimia est référencé Activateur Francenum · subventions État jusqu'à 50% pour PME éligibles." },
+];
+
+// Group entries par mois pour timeline
+const byMonth = entries.reduce<Record<string, typeof entries>>((acc, e) => {
+  const month = e.date.slice(0, 7); // YYYY-MM
+  if (!acc[month]) acc[month] = [];
+  acc[month].push(e);
+  return acc;
+}, {});
+const months = Object.keys(byMonth).sort().reverse();
+---
+<ListIndexTemplate
+  title="Changelog · VirtuoseOS + agence · Waimia"
+  description="Toutes les nouveautés VirtuoseOS, cookbooks, cas, et annonces d'agence. Par ordre chronologique inverse."
+  kicker="§ Changelog · 8 entrées · 2026"
+>
+  <Fragment slot="headline">
+    Tout ce qu'on a <i>livré</i>.
+  </Fragment>
+  <Fragment slot="lede">
+    Pas de marketing-blog. Juste la liste des nouveautés produit, cookbooks, cas, et annonces d'agence — datées, taguées, signées.
+  </Fragment>
+
+  <Fragment slot="filters">
+    <Kicker tone="accent">PLATFORM</Kicker>
+    <Kicker>COOKBOOK</Kicker>
+    <Kicker>CASE</Kicker>
+    <Kicker>AGENCE</Kicker>
+    <Kicker>COMPLIANCE</Kicker>
+  </Fragment>
+
+  <Fragment slot="list">
+    <div class="cl-timeline">
+      {months.map((month) => (
+        <div class="cl-month">
+          <Kicker class="cl-month-k">{month}</Kicker>
+          <div class="cl-entries">
+            {byMonth[month].map((e) => (
+              <article class="cl-entry">
+                <div class="cl-meta">
+                  <time datetime={e.date} class="cl-date">{e.date}</time>
+                  <span class={`cl-tag cl-tag-${e.tag.toLowerCase()}`}>{e.tag}</span>
+                  {e.version !== '—' && <span class="cl-version">{e.version}</span>}
+                </div>
+                <h3 class="cl-title">{e.title}</h3>
+                <p class="cl-body">{e.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </Fragment>
+</ListIndexTemplate>
+
+<style>
+  .cl-timeline { max-width: 1100px; }
+  .cl-month { display: grid; grid-template-columns: 120px 1fr; gap: clamp(20px, 3vw, 40px); padding: clamp(28px, 3vw, 44px) 0; border-top: 1px solid var(--hairline); }
+  .cl-month:first-child { border-top: 1px solid var(--ink); }
+  :global(.cl-month-k) { display: block; position: sticky; top: 100px; align-self: start; }
+  .cl-entries { display: flex; flex-direction: column; gap: clamp(28px, 3vw, 40px); }
+  .cl-entry { display: flex; flex-direction: column; gap: 10px; }
+  .cl-meta { display: flex; flex-wrap: wrap; gap: 14px; align-items: baseline; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; }
+  .cl-date { color: var(--muted); }
+  .cl-tag { color: var(--accent); letter-spacing: 0.14em; }
+  .cl-version { color: var(--ink); padding: 2px 8px; background: var(--paper-2); border-radius: 4px; }
+  .cl-title { font-family: var(--font-display); font-size: clamp(22px, 2.4vw, 32px); line-height: 1.1; letter-spacing: -0.018em; font-weight: 400; margin: 0; text-wrap: balance; }
+  .cl-body { font-size: 15px; line-height: 1.55; color: var(--muted); text-wrap: pretty; max-width: 720px; margin: 0; }
+  @media (max-width: 700px) {
+    .cl-month { grid-template-columns: 1fr; }
+    :global(.cl-month-k) { position: static; }
+  }
+</style>

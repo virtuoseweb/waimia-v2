@@ -1,0 +1,66 @@
+---
+// Page · /agence/governance · Gouvernance interne Waimia
+// Source : waimia-handoff2 / governance.html
+//
+// Composé de · TrustLegalTemplate (TOC sticky + sections gouvernance interne)
+
+import TrustLegalTemplate from '../../components/templates/TrustLegalTemplate.astro';
+import Bi from '../../components/ui/atoms/Bi.astro';
+
+const sections = [
+  { id: 'structure',    title_fr: 'Structure capitalistique',         title_en: 'Capital structure' },
+  { id: 'comite',       title_fr: 'Comité de direction',              title_en: 'Executive committee' },
+  { id: 'ethics',       title_fr: 'Comité éthique IA',                title_en: 'AI ethics committee' },
+  { id: 'sourcing',     title_fr: 'Sourcing & sélection clients',     title_en: 'Sourcing & client selection' },
+  { id: 'incidents',    title_fr: 'Gestion incidents production',     title_en: 'Production incident management' },
+  { id: 'whistleblower', title_fr: 'Lanceurs d\'alerte',                title_en: 'Whistleblowing' },
+];
+---
+<TrustLegalTemplate
+  title="Gouvernance · Comité éthique, sourcing, incidents · Waimia"
+  description="Notre gouvernance interne — capital, comité de direction, comité éthique IA, processus sourcing client, gestion incidents production, lanceurs d'alerte."
+  kickerFr="Gouvernance · Cadre interne"
+  kickerEn="Governance · Internal framework"
+  revisedAt="2026-04-15"
+  version="v1.4"
+  sections={sections}
+>
+  <Fragment slot="headline">
+    <i>Comment</i><br />nous décidons.
+  </Fragment>
+  <Fragment slot="lede">
+    La gouvernance interne d'une agence IA n'est pas un accessoire. Elle conditionne quels clients on prend, quels agents on refuse de livrer, et qui est joignable à 3 h du matin.
+  </Fragment>
+
+  <Fragment slot="sections">
+    <section id="structure">
+      <h2><Bi fr="Structure" en="Structure" /> <i><Bi fr="capitalistique" en="capital" /></i></h2>
+      <p><Bi fr="Waimia SAS est détenue à 100 % par ses fondateurs et opérationnels. Pas d'investisseur tiers, pas de fonds, pas de holding offshore. Cette structure protège la durée des engagements et la liberté de refuser un client." en="Waimia SAS is 100% owned by its founders and operators. No third-party investors, no funds, no offshore holding. This structure protects engagement duration and the freedom to decline a client." /></p>
+    </section>
+
+    <section id="comite">
+      <h2><Bi fr={"Comité"} en={"Executive"} /> <i><Bi fr="de direction" en="committee" /></i></h2>
+      <p><Bi fr="Réunion hebdomadaire (lundi 9 h) avec ordre du jour public en interne. Décisions consignées · arbitrage CEO sur désaccord. Toute décision impactant un client est documentée par écrit." en="Weekly meeting (Mon 9am) with agenda public internally. Decisions logged · CEO arbitrates disagreements. Every client-impacting decision documented in writing." /></p>
+    </section>
+
+    <section id="ethics">
+      <h2><Bi fr={"Comité"} en={"AI ethics"} /> <i><Bi fr="éthique IA" en="committee" /></i></h2>
+      <p><Bi fr="Comité de 3 personnes (CEO + responsable Compliance + 1 membre tournant). Saisi automatiquement pour : agents impactant des décisions humaines, données sensibles santé/finance, ou cas avec biais potentiels. Avis bloquant — pas consultatif." en="3-person committee (CEO + Compliance lead + 1 rotating member). Auto-triggered for: agents impacting human decisions, sensitive health/finance data, cases with potential biases. Blocking opinion — not advisory." /></p>
+    </section>
+
+    <section id="sourcing">
+      <h2><Bi fr={"Sourcing &"} en={"Sourcing &"} /> <i><Bi fr="sélection" en="selection" /></i></h2>
+      <p><Bi fr="On refuse en moyenne 1 client sur 3 en sourcing. Critères : fit produit, capacité à exécuter, alignement éthique. Les briefs cybersécurité offensive et chatbots commerciaux non-éthiques sont systématiquement refusés." en="We decline on average 1 in 3 clients during sourcing. Criteria: product fit, execution capacity, ethical alignment. Offensive cybersecurity briefs and unethical commercial chatbots are systematically declined." /></p>
+    </section>
+
+    <section id="incidents">
+      <h2><Bi fr={"Gestion"} en={"Incident"} /> <i><Bi fr="incidents" en="management" /></i></h2>
+      <p><Bi fr="Tout agent en production a un humain d'astreinte nommé. Incident P1 = réveil joignable sous 15 min, communication client sous 1 h, post-mortem écrit sous 5 jours ouvrés. Documents internes archivés 7 ans." en="Every production agent has a named on-call human. P1 incident = reachable on call within 15 min, client communication within 1h, written post-mortem within 5 business days. Internal documents archived 7 years." /></p>
+    </section>
+
+    <section id="whistleblower">
+      <h2><Bi fr={"Lanceurs"} en={"Whistleblowing"} /> <i><Bi fr="d'alerte" en="" /></i></h2>
+      <p><Bi fr="Conformément à la directive UE 2019/1937. Adresse confidentielle : alerte@waimia.com (PGP key publiée). Anonymat protégé · pas de retours négatifs · réponse sous 7 jours." en="In accordance with EU directive 2019/1937. Confidential address: alerte@waimia.com (PGP key published). Anonymity protected · no retaliation · response within 7 days." /></p>
+    </section>
+  </Fragment>
+</TrustLegalTemplate>
