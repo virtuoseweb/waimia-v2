@@ -1,0 +1,166 @@
+---
+// Page · /offres/audit-maturite-ia · Sous-page mega-menu (offres/detail template)
+// Source : adaptation hub-consulting service 02.1 + offres/detail.html structure
+//
+// Composé de · DetailMenuTemplate (8 sections) avec slot deliverables custom.
+
+import DetailMenuTemplate from '../../components/templates/DetailMenuTemplate.astro';
+
+const annotation = [
+  { k: '10 j',  label_fr: 'durée fixe',                label_en: 'fixed duration' },
+  { k: '47',    label_fr: 'critères évalués',          label_en: 'criteria evaluated' },
+  { k: '1',     label_fr: 'scorecard livré',           label_en: 'scorecard delivered' },
+];
+
+const steps = [
+  { sn: '01', kicker_fr: 'J1-J2', kicker_en: 'D1-D2',
+    title_fr: 'Cadrage initial', title_en: 'Initial scoping',
+    body_fr: "Demi-journée comité élargi. On lit votre stack, votre roadmap, votre comité IA actuel.",
+    body_en: 'Half-day with extended committee. We read your stack, roadmap, current AI committee.' },
+  { sn: '02', kicker_fr: 'J3-J6', kicker_en: 'D3-D6',
+    title_fr: 'Audit terrain', title_en: 'Field audit',
+    body_fr: "Entretiens 1-1 avec 8-12 personnes (data, ops, GRC, finance, IT). Plus questionnaire async.",
+    body_en: '1-on-1 interviews with 8-12 people (data, ops, GRC, finance, IT). Plus async survey.' },
+  { sn: '03', kicker_fr: 'J7-J8', kicker_en: 'D7-D8',
+    title_fr: 'Analyse', title_en: 'Analysis',
+    body_fr: "Scorecard 47 critères noté · cartographie des chantiers actionnables · estimation effort.",
+    body_en: '47-criteria scorecard scored · actionable workstream map · effort estimation.' },
+  { sn: '04', kicker_fr: 'J9-J10', kicker_en: 'D9-D10',
+    title_fr: 'Restitution', title_en: 'Debrief',
+    body_fr: "2 sessions : board (1h) + équipe technique (2h). Document final 30 pages signé.",
+    body_en: '2 sessions: board (1h) + tech team (2h). Final 30-page signed document.' },
+];
+
+const techPills = [
+  { label: 'Claude Opus (analyse)', kind: 'primary' as const },
+  { label: 'Notion / Confluence',   kind: 'neutral' as const },
+  { label: 'Whimsical',              kind: 'neutral' as const },
+];
+
+const proofMetrics = [
+  { k: '32',    label_fr: 'audits livrés en 18 mois',  label_en: 'audits delivered last 18 months' },
+  { k: '94%',   label_fr: 'NPS post-restitution',       label_en: 'post-debrief NPS' },
+  { k: '78%',   label_fr: 'engagés sur chantier suivant', label_en: 'engaged on next workstream' },
+  { k: '10 j',  label_fr: 'durée standard, jamais dépassée', label_en: 'standard duration, never exceeded' },
+];
+
+const relatedCards = [
+  { kicker: 'OFFRE 02.2', title_fr: 'Roadmap IA stratégique', title_en: 'Strategic AI Roadmap',
+    lead_fr: 'La suite naturelle d\'un audit →', lead_en: 'The natural follow-up to an audit →',
+    href: '/offres/roadmap-ia' },
+  { kicker: 'OFFRE 02.3', title_fr: 'Audit gouvernance données', title_en: 'Data governance audit',
+    lead_fr: 'Service complémentaire fréquent →', lead_en: 'Frequent companion service →',
+    href: '/offres/gouvernance-donnees' },
+  { kicker: 'CASE 04', title_fr: 'Plateau SaaS', title_en: 'Plateau SaaS',
+    lead_fr: 'Audit suivi de RevOps Rebuild →', lead_en: 'Audit followed by RevOps Rebuild →',
+    href: '/ressources/cas/plateau' },
+];
+---
+<DetailMenuTemplate
+  title="Audit de maturité IA · 10 jours · Waimia"
+  description="Un diagnostic IA en 10 jours fixes. 47 critères évalués sur data, outillage, équipe, gouvernance. Un scorecard lisible que le board peut signer."
+  detailNum="02.1"
+  parentKickerFr="Hub Conseil · Audit & Stratégie"
+  parentKickerEn="Consulting Hub · Audit & Strategy"
+  annotation={annotation}
+  steps={steps}
+  proofQuoteFr="Un audit où on lit nos vrais workflows au lieu de débiter une slide template. La restitution a permis de couper deux chantiers fantômes immédiatement."
+  proofQuoteEn="An audit where they actually read our workflows instead of running a template deck. The debrief killed two phantom workstreams immediately."
+  proofAttrFr="Marie Cousin · COO Plateau"
+  proofAttrEn="Marie Cousin · COO Plateau"
+  proofMetrics={proofMetrics}
+  techPills={techPills}
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">
+    Un <i>diagnostic IA</i> en 10 jours. Lu par un board, signé par nous.
+  </Fragment>
+  <Fragment slot="lede">
+    Pas un atelier. Pas une slide template. 10 jours fixes pour évaluer 47 critères sur votre data, votre outillage, votre équipe, votre gouvernance — et livrer un scorecard que vos commissaires aux comptes peuvent signer.
+  </Fragment>
+  <Fragment slot="problem">
+    La majorité des audits IA livrent un <i>72 slides deck</i> qui finit dans le SharePoint. Le board ne le lit pas. Les ingénieurs ne savent pas quoi en faire. Notre audit produit l'inverse : 30 pages denses, un scorecard signé, des actions priorisées par coût-de-correction.
+  </Fragment>
+  <Fragment slot="approach-headline">
+    Dix <i>jours</i>. Pas onze. Pas neuf.
+  </Fragment>
+  <Fragment slot="approach-aside">
+    Le périmètre est volontairement borné. On audite ce qui est lisible en 10 jours — au-delà, c'est l'objet d'un autre service (Roadmap IA stratégique).
+  </Fragment>
+  <Fragment slot="deliverables-headline">
+    Un <i>scorecard</i>, un <i>document</i>, deux <i>restitutions</i>.
+  </Fragment>
+  <Fragment slot="deliverables-aside">
+    Tout est signé par notre équipe et par votre référent technique. Aucun livrable « anonyme ».
+  </Fragment>
+  <Fragment slot="deliverables">
+    <div class="del-grid">
+      <div class="del-card">
+        <div class="del-tag">SCORECARD</div>
+        <h3>47 critères notés 0-3</h3>
+        <p>Notation pondérée par chantier · justifications inline · benchmark anonymisé secteur.</p>
+      </div>
+      <div class="del-card">
+        <div class="del-tag">DOCUMENT</div>
+        <h3>30 pages denses, signées</h3>
+        <p>Constats, hypothèses, recommandations priorisées par coût-de-correction · pas de fluff.</p>
+      </div>
+      <div class="del-card">
+        <div class="del-tag">RESTITUTION</div>
+        <h3>2 sessions live</h3>
+        <p>Board (1h Q&amp;A board-friendly) + équipe technique (2h Q&amp;A approfondie).</p>
+      </div>
+    </div>
+  </Fragment>
+  <Fragment slot="stack-lead">
+    Stack volontairement <i>légère</i>. Claude Opus pour l'analyse · Notion pour la collaboration · Whimsical pour les schémas. Aucun outil de cadrage propriétaire.
+  </Fragment>
+</DetailMenuTemplate>
+
+<style is:global>
+  /* Pattern deliverables 3 cards · spécifique à DetailMenuTemplate (1 instance ici).
+     Pas extrait en molécule car contenu trop variable d'un detail à l'autre. */
+  .del-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--hairline-strong);
+  }
+  .del-card {
+    padding: clamp(24px, 3vw, 40px) clamp(20px, 2.5vw, 32px);
+    border-right: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: background 220ms var(--ease);
+  }
+  .del-card:last-child { border-right: none; }
+  .del-card:hover { background: var(--paper-2); }
+  .del-tag {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .del-card h3 {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.1;
+    letter-spacing: -0.013em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .del-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+    text-wrap: pretty;
+    margin: 0;
+  }
+  @media (max-width: 800px) {
+    .del-grid { grid-template-columns: 1fr; }
+    .del-card { border-right: none; border-bottom: 1px solid var(--hairline); }
+    .del-card:last-child { border-bottom: none; }
+  }
+</style>

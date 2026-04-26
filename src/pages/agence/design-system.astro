@@ -1,0 +1,217 @@
+---
+// Page static · /agence/design-system · showcase composants
+// Source : waimia-handoff2 / design-system.html
+//
+// Décision non-template (cf docs/08-component-library.md § Pages static) :
+// page-meta unique (showcase atomes/molécules/templates par définition à 1 instance).
+// Sert aussi de tests visuels vivants — détection régression rapide.
+
+import Base from '../../layouts/Base.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+import ChapterLabel from '../../components/ui/atoms/ChapterLabel.astro';
+import Button from '../../components/ui/atoms/Button.astro';
+import PillCTA from '../../components/ui/atoms/PillCTA.astro';
+import TerminalCTA from '../../components/ui/atoms/TerminalCTA.astro';
+import Bi from '../../components/ui/atoms/Bi.astro';
+import StatRow from '../../components/ui/molecules/StatRow.astro';
+import TechPillRow from '../../components/ui/molecules/TechPillRow.astro';
+import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
+import SectionHeader from '../../components/ui/molecules/SectionHeader.astro';
+---
+<Base
+  title="Design System · Atomes, molécules, templates · Waimia"
+  description="Showcase des composants Waimia. Atomic Design 5 niveaux : atoms, molecules, organisms, templates, pages."
+  noindex
+>
+  <section class="ds-hd">
+    <div class="wrap-wide">
+      <Kicker class="ds-kicker">§ Design System · Atomic Design 5 niveaux</Kicker>
+      <h1 class="ds-h1">Showcase des <i>composants</i>.</h1>
+      <p class="ds-lede">
+        Cette page liste les atomes, molécules et templates utilisés dans le site Waimia. Elle sert de référence visuelle et de test de régression vivant.
+      </p>
+    </div>
+  </section>
+
+  <div class="wrap-wide ds-body">
+    {/* ATOMS */}
+    <section class="ds-section">
+      <ChapterLabel num="ATOMS · 01" title="Briques minimales" />
+
+      <div class="ds-block">
+        <h3>Kicker (3 tones)</h3>
+        <div class="ds-row">
+          <Kicker>§ TONE MUTED · 11px MONO</Kicker>
+          <Kicker tone="accent">§ TONE ACCENT · TERRACOTTA</Kicker>
+          <Kicker tone="dim">§ TONE DIM · ON DARK</Kicker>
+        </div>
+      </div>
+
+      <div class="ds-block">
+        <h3>ChapterLabel</h3>
+        <ChapterLabel num="II · 2.0" title="Acte II — La méthode" />
+      </div>
+
+      <div class="ds-block">
+        <h3>Button (4 variants)</h3>
+        <div class="ds-row" style="gap:12px">
+          <Button href="#" variant="primary">Primary</Button>
+          <Button href="#" variant="ghost">Ghost</Button>
+          <Button href="#" variant="accent">Accent</Button>
+          <Button href="#" variant="link">Link</Button>
+        </div>
+        <div class="ds-row" style="gap:12px;margin-top:14px">
+          <Button href="#" variant="primary" size="lg" mag={0.18}>Primary · large · magnetic</Button>
+        </div>
+      </div>
+
+      <div class="ds-block">
+        <h3>PillCTA (rounded 999px)</h3>
+        <div class="ds-row" style="gap:12px">
+          <PillCTA href="#" variant="accent">Pill accent</PillCTA>
+          <PillCTA href="#" variant="ghost-dark">Pill ghost-dark</PillCTA>
+          <PillCTA href="#" variant="accent-mono">▸ Pill accent-mono</PillCTA>
+        </div>
+      </div>
+
+      <div class="ds-block">
+        <h3>TerminalCTA (rounded 6-8px font-mono)</h3>
+        <div class="ds-row" style="gap:12px">
+          <TerminalCTA href="#" variant="ink">▸ ouvrir la console</TerminalCTA>
+          <TerminalCTA href="#" variant="ink-ghost">prendre une séance →</TerminalCTA>
+          <TerminalCTA href="#" variant="accent">▸ schedule</TerminalCTA>
+        </div>
+      </div>
+
+      <div class="ds-block">
+        <h3>Bi (bilingue)</h3>
+        <p>Mode props : <Bi fr="Bonjour" en="Hello" /></p>
+        <p>Mode slots :
+          <Bi>
+            <Fragment slot="fr">Construire du <i style="color:var(--accent)">revenue</i>.</Fragment>
+            <Fragment slot="en">Build <i style="color:var(--accent)">revenue</i>.</Fragment>
+          </Bi>
+        </p>
+      </div>
+    </section>
+
+    {/* MOLECULES */}
+    <section class="ds-section">
+      <ChapterLabel num="MOLECULES · 02" title="Compositions fonctionnelles" />
+
+      <div class="ds-block">
+        <h3>SectionHeader (legacy .sec-hd)</h3>
+        <SectionHeader roman="II" label="Acte II — Démo" id="ds-demo">
+          <Fragment slot="heading">Quatre <i>paliers</i>, une seule architecture.</Fragment>
+          <Fragment slot="aside">Du diagnostic à l'infrastructure souveraine.</Fragment>
+        </SectionHeader>
+      </div>
+
+      <div class="ds-block">
+        <h3>StatRow</h3>
+        <StatRow stats={[
+          { k: '43',    label_fr: 'interventions',   label_en: 'engagements' },
+          { k: '€18M+', label_fr: 'pipeline audité', label_en: 'pipeline audited' },
+          { k: '× 4',   label_fr: 'taux de réussite', label_en: 'success rate' },
+          { k: '12',    label_fr: 'juridictions UE',  label_en: 'EU jurisdictions' },
+        ]} />
+      </div>
+
+      <div class="ds-block">
+        <h3>TechPillRow</h3>
+        <TechPillRow pills={[
+          { label: 'Claude Opus', kind: 'primary' },
+          { label: 'PostgreSQL',  kind: 'open' },
+          { label: 'HubSpot',     kind: 'neutral' },
+          { label: 'dbt',         kind: 'open' },
+        ]} />
+      </div>
+
+      <div class="ds-block">
+        <h3>RelatedCards (3 cards · pattern fin de page)</h3>
+        <RelatedCards cards={[
+          { kicker: 'CASE 04', title_fr: 'Plateau SaaS', title_en: 'Plateau SaaS', lead_fr: '+€2.4M pipeline →', lead_en: '+€2.4M pipeline →', href: '/ressources/cas/plateau' },
+          { kicker: 'OFFRE 03.1', title_fr: 'RevOps Rebuild', title_en: 'RevOps Rebuild', lead_fr: 'Le service inspiré →', lead_en: 'Inspired service →', href: '/offres/revops' },
+          { kicker: 'TRUST', title_fr: 'Trust Center', title_en: 'Trust Center', lead_fr: 'Politique données →', lead_en: 'Data policy →', href: '/agence/trust-center' },
+        ]} />
+      </div>
+    </section>
+
+    {/* TEMPLATES */}
+    <section class="ds-section">
+      <ChapterLabel num="TEMPLATES · 03" title="Squelettes de page" />
+      <p class="ds-foot">
+        8 templates dans <code>src/components/templates/</code> :
+        <strong>HubTemplate</strong>, <strong>ServiceDetailTemplate</strong>, <strong>CaseStudyTemplate</strong>,
+        <strong>EssayTemplate</strong>, <strong>ListIndexTemplate</strong>, <strong>DetailMenuTemplate</strong>,
+        <strong>TrustLegalTemplate</strong>, <strong>UtilityTemplate</strong>.
+        Voir <a href="/offres/conseil">/offres/conseil</a>, <a href="/ressources/cas/plateau">/cas/plateau</a>,
+        <a href="/agence/trust-center">/trust-center</a>, <a href="/contact">/contact</a> pour des instances vivantes.
+      </p>
+    </section>
+
+    {/* COLOR TOKENS */}
+    <section class="ds-section">
+      <ChapterLabel num="TOKENS · 04" title="Couleurs & typographie" />
+      <div class="ds-tokens-grid">
+        <div class="ds-token"><span class="ds-swatch" style="background:var(--paper)"></span><code>--paper</code> · #F6F1E8</div>
+        <div class="ds-token"><span class="ds-swatch" style="background:var(--paper-2)"></span><code>--paper-2</code></div>
+        <div class="ds-token"><span class="ds-swatch" style="background:var(--ink)"></span><code>--ink</code> · #0C0B09</div>
+        <div class="ds-token"><span class="ds-swatch" style="background:var(--accent)"></span><code>--accent</code> · #C94F2E</div>
+        <div class="ds-token"><span class="ds-swatch" style="background:var(--muted)"></span><code>--muted</code></div>
+        <div class="ds-token"><span class="ds-swatch" style="background:var(--hairline)"></span><code>--hairline</code></div>
+      </div>
+      <div class="ds-fonts">
+        <p style="font-family:var(--font-display);font-size:32px">Instrument Serif <i>italic</i></p>
+        <p style="font-family:var(--font-mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase">JetBrains Mono · Kicker</p>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .ds-hd { padding: 140px 32px clamp(40px, 5vw, 72px); border-bottom: 1px solid var(--hairline); }
+  :global(.ds-kicker) { display: block; margin-bottom: 24px; }
+  .ds-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 9vw, 156px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .ds-h1 i { font-style: italic; color: var(--accent); }
+  .ds-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 2.2vw, 28px);
+    color: var(--ink-2);
+    margin: 32px 0 0;
+    max-width: 760px;
+    line-height: 1.4;
+  }
+
+  .ds-body { padding: clamp(60px, 8vw, 100px) 32px; }
+  .ds-section { margin-bottom: clamp(80px, 10vw, 120px); }
+  .ds-block { margin: 32px 0; }
+  .ds-block h3 {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 14px;
+  }
+  .ds-row { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+
+  .ds-foot { font-family: var(--font-display); font-size: 17px; line-height: 1.6; color: var(--ink-2); max-width: 800px; }
+  .ds-foot a { color: var(--accent); border-bottom: 1px solid currentColor; }
+  .ds-foot strong { font-weight: 600; }
+  .ds-foot code, .ds-tokens-grid code { font-family: var(--font-mono); font-size: 13px; background: var(--paper-2); padding: 2px 6px; border-radius: 4px; }
+
+  .ds-tokens-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .ds-token { display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid var(--hairline); border-radius: 6px; }
+  .ds-swatch { width: 32px; height: 32px; border: 1px solid var(--hairline); border-radius: 4px; flex-shrink: 0; }
+  .ds-fonts { margin-top: 24px; }
+</style>

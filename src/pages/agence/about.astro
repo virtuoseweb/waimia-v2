@@ -1,0 +1,136 @@
+---
+// Page · /agence/about · À propos
+// Source : waimia-handoff2 / about.html
+//
+// Composé de · UtilityTemplate (left-aligned) · slot body avec story narrative
+
+import UtilityTemplate from '../../components/templates/UtilityTemplate.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+---
+<UtilityTemplate
+  title="L'Agence · Pourquoi Waimia · Architectes de systèmes agentiques"
+  description="Une agence IA boutique, francophone, fondée à Paris-Genève. On livre des agents qui exécutent — pas des slides qui répètent."
+  kicker="§ L'Agence"
+  align="left"
+>
+  <Fragment slot="headline">
+    Une agence IA boutique. <i>Francophone</i>, par choix.
+  </Fragment>
+  <Fragment slot="lede">
+    Pas de chaîne de sous-traitance offshore. Pas de slide template. Une équipe restreinte qui livre du code en français le mardi et qui mesure le pipeline le vendredi.
+  </Fragment>
+
+  <Fragment slot="body">
+    <div class="about-grid">
+      {/* Story · 60 % */}
+      <article class="about-prose">
+        <Kicker tone="accent" class="about-kicker">§ 01 · Origine</Kicker>
+        <h2>Une agence née d'une <i>frustration</i> de chantier.</h2>
+        <p>Waimia est née en 2024 d'une observation répétée : la grande majorité des projets IA livrent des démos, pas des produits. Un POC qui passe en démo board. Un agent qui réussit en showroom mais cale en juin. Un consultant qui repart avec son SharePoint et laisse l'équipe interne se débrouiller.</p>
+        <p>Notre angle est l'inverse. On <i>livre</i>. On signe. On reste joignables à 3 h du matin si l'agent fail. On apprend en faisant — pas en formant des comités à propos de l'IA.</p>
+
+        <Kicker tone="accent" class="about-kicker">§ 02 · Stance</Kicker>
+        <h2>Ce que nous <i>refusons</i>.</h2>
+        <ul>
+          <li>Le théâtre IA — purple-glass, cerveau-circuit, hexagones flottants.</li>
+          <li>Les ateliers de cadrage de 6 mois sans livrable signé.</li>
+          <li>Les pitch decks qui promettent l'impossible et masquent les limites des modèles.</li>
+          <li>Les agents non-auditables qui transforment le SaaS en boîte noire.</li>
+          <li>Le no-code wrapper propriétaire qui rend le client dépendant à vie.</li>
+        </ul>
+
+        <Kicker tone="accent" class="about-kicker">§ 03 · Méthode</Kicker>
+        <h2>Quatre <i>livrables</i>, jamais un de plus.</h2>
+        <p>Chaque mission Waimia produit quatre livrables canoniques : un schéma de l'existant, un runbook d'exécution, un trail audit re-rejouable, un humain d'astreinte nommé. Ni 72 slides, ni roadmap PowerPoint à 18 mois.</p>
+      </article>
+
+      {/* Aside · facts */}
+      <aside class="about-aside">
+        <Kicker class="about-aside-k">Faits clés</Kicker>
+        <dl class="about-facts">
+          <div><dt>Fondée</dt><dd>2024 · Paris</dd></div>
+          <div><dt>Co-fondateurs</dt><dd>Simon Beros (CEO) + équipe technique</dd></div>
+          <div><dt>Bureaux</dt><dd>Paris (FR) · Genève (CH)</dd></div>
+          <div><dt>Équipe</dt><dd>10 personnes · 100 % seniors</dd></div>
+          <div><dt>Clients</dt><dd>SaaS B2B · Fintech UE · Industrie · Santé</dd></div>
+          <div><dt>Partenariats</dt><dd>Anthropic (en cours) · Activateur Francenum</dd></div>
+          <div><dt>Langues</dt><dd>Français + English (parité stricte)</dd></div>
+          <div><dt>Volumes 2025</dt><dd>43 missions · €18M+ pipeline audité</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </Fragment>
+</UtilityTemplate>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: clamp(40px, 6vw, 80px);
+    max-width: 1200px;
+  }
+  .about-prose {
+    font-family: var(--font-display);
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    max-width: 720px;
+  }
+  :global(.about-kicker) { display: block; margin: clamp(40px, 5vw, 64px) 0 12px; }
+  :global(.about-prose > *:first-child) { margin-top: 0; }
+  .about-prose h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    margin: 0 0 18px;
+    text-wrap: balance;
+  }
+  .about-prose h2 i { font-style: italic; color: var(--accent); }
+  .about-prose p { margin: 0 0 1.2em; }
+  .about-prose ul { margin: 0 0 1.4em 1.4em; }
+  .about-prose ul li { margin-bottom: 0.5em; }
+  .about-prose i { font-style: italic; }
+
+  .about-aside {
+    border-left: 1px solid var(--hairline);
+    padding-left: clamp(20px, 3vw, 40px);
+    align-self: start;
+    position: sticky;
+    top: 100px;
+  }
+  :global(.about-aside-k) { display: block; margin-bottom: 18px; }
+  .about-facts {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .about-facts > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .about-facts > div:last-child { border-bottom: none; }
+  .about-facts dt {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .about-facts dd {
+    font-family: var(--font-display);
+    font-size: 16px;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .about-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--hairline); padding-top: 32px; position: static; }
+  }
+</style>

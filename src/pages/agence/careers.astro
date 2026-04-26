@@ -1,0 +1,151 @@
+---
+// Page · /agence/careers · Opportunités
+// Source : waimia-handoff2 / careers.html
+//
+// Composé de · UtilityTemplate (left) · slot body avec liste de jobs
+
+import UtilityTemplate from '../../components/templates/UtilityTemplate.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+
+const roles = [
+  {
+    code: 'ENG · 01',
+    title_fr: 'Ingénieur·e Claude · Senior',
+    title_en: 'Claude Engineer · Senior',
+    location: 'Paris ou Genève',
+    type: 'CDI · 75-110 k€',
+    summary_fr: "Tu déploies des agents Claude en production, tu écris du Python/TypeScript propre, tu connais les MCP. Tu es à l'aise pour mettre les mains dans dbt et HubSpot quand il faut.",
+  },
+  {
+    code: 'OPS · 02',
+    title_fr: 'Architecte RevOps · Senior',
+    title_en: 'RevOps Architect · Senior',
+    location: 'Paris',
+    type: 'CDI · 70-95 k€',
+    summary_fr: "Tu lis Salesforce et HubSpot couramment. Tu sais réconcilier des entrepôts. Tu écris des memos pour board. Tu n'as pas peur d'auditer 47 outils.",
+  },
+  {
+    code: 'GRC · 03',
+    title_fr: "Responsable Compliance & AI Act",
+    title_en: 'Compliance & AI Act Lead',
+    location: 'Paris ou Genève',
+    type: 'CDI · 75-100 k€',
+    summary_fr: "Tu maîtrises le RGPD, l'AI Act, et idéalement ACPR/HIPAA. Tu rédiges des documentations techniques annexe IV. Tu es à l'aise face à des CISO ETI.",
+  },
+];
+---
+<UtilityTemplate
+  title="Carrières · Rejoindre Waimia · Architectes systèmes agentiques"
+  description="Trois rôles ouverts. Pas de stages, pas de juniors. On cherche des seniors qui livrent le mardi et qui mesurent le vendredi."
+  kicker="§ Carrières · 3 rôles ouverts"
+  align="left"
+>
+  <Fragment slot="headline">
+    Pas un <i>employeur</i> classique. Pas une <i>scale-up</i> non plus.
+  </Fragment>
+  <Fragment slot="lede">
+    On cherche des seniors qui livrent du code en production le mardi et qui mesurent le pipeline le vendredi. Pas de stages. Pas de juniors. Pas de bullshit.
+  </Fragment>
+
+  <Fragment slot="body">
+    <div class="careers-wrap">
+      <Kicker tone="accent" class="careers-section-k">§ Rôles ouverts · Q3 2026</Kicker>
+      <ol class="careers-list">
+        {roles.map((r) => (
+          <li class="careers-row">
+            <div class="careers-meta">
+              <span class="careers-code">{r.code}</span>
+              <span class="careers-loc">{r.location}</span>
+              <span class="careers-type">{r.type}</span>
+            </div>
+            <h3 class="careers-title">{r.title_fr}</h3>
+            <p class="careers-summary">{r.summary_fr}</p>
+            <a href={`mailto:jobs@waimia.com?subject=${encodeURIComponent(r.code + ' · ' + r.title_fr)}`} class="careers-apply">
+              Candidater pour ce rôle →
+            </a>
+          </li>
+        ))}
+      </ol>
+
+      <div class="careers-foot">
+        <Kicker tone="accent" class="careers-section-k">§ Pas de rôle qui matche ?</Kicker>
+        <p>Écrivez quand même à <a href="mailto:bonjour@waimia.com">bonjour@waimia.com</a>. Si votre CV est intéressant, on créera le rôle. Pas la peine d'attendre une offre qui colle pile poil.</p>
+      </div>
+    </div>
+  </Fragment>
+</UtilityTemplate>
+
+<style>
+  .careers-wrap { max-width: 1100px; }
+  :global(.careers-section-k) { display: block; margin-bottom: 24px; }
+  .careers-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 clamp(60px, 7vw, 100px);
+    border-top: 1px solid var(--hairline-strong);
+  }
+  .careers-row {
+    padding: clamp(28px, 3vw, 44px) 0;
+    border-bottom: 1px solid var(--hairline);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .careers-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .careers-code { color: var(--accent); }
+  .careers-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.022em;
+    font-weight: 400;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .careers-summary {
+    font-family: var(--font-display);
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--muted);
+    text-wrap: pretty;
+    max-width: 720px;
+    margin: 0;
+  }
+  .careers-apply {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+    align-self: start;
+    transition: color 200ms var(--ease);
+  }
+  .careers-apply:hover { color: var(--accent-2, var(--accent)); }
+
+  .careers-foot {
+    border-top: 1px solid var(--hairline);
+    padding-top: clamp(28px, 3vw, 40px);
+    max-width: 720px;
+  }
+  .careers-foot p {
+    font-family: var(--font-display);
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    margin: 0;
+  }
+  .careers-foot a {
+    color: var(--accent);
+    border-bottom: 1px solid currentColor;
+  }
+</style>

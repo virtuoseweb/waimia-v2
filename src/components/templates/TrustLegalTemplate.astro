@@ -1,0 +1,212 @@
+---
+// Template · TrustLegalTemplate · pages confiance / conformité / docs légales
+//
+// Mapping handoff2 :
+//  - trust-center.html → /agence/trust-center
+//  - governance.html   → /agence/governance
+//  - docs.html         → /agence/docs
+//
+// Squelette · masthead minimaliste + TOC sticky gauche + sections H2/H3 empilées
+// + footer signataires/dates revision.
+//
+// Composé de · Bi (atom) · Kicker (atom) · CtaBand (organism)
+//
+// Décision · TOC sticky gauche : pattern visuel récurrent dans handoff2 trust-center.
+// Pas extrait en molécule — usage 1× par page (le TOC est généré depuis les sections
+// passées en prop). Si un autre template a besoin d'un TOC sticky, on extrait alors.
+
+import Base from '../../layouts/Base.astro';
+import Bi from '../ui/atoms/Bi.astro';
+import Kicker from '../ui/atoms/Kicker.astro';
+import CtaBand from '../ui/organisms/CtaBand.astro';
+
+interface Section {
+  /** Anchor id (slug) */
+  id: string;
+  /** Titre de section (h2) — bilingue */
+  title_fr: string;
+  title_en: string;
+}
+interface Props {
+  title: string;
+  description: string;
+  /** Kicker section (Trust Center, Governance, Docs) */
+  kickerFr: string;
+  kickerEn: string;
+  /** Date de dernière révision (ISO) */
+  revisedAt: string;
+  /** Versionnage doc (ex: v2.4.1) */
+  version?: string;
+  /** Sections affichées dans le TOC sticky */
+  sections: Section[];
+}
+const { title, description, kickerFr, kickerEn, revisedAt, version, sections } = Astro.props as Props;
+---
+<Base title={title} description={description}>
+  {/* MASTHEAD */}
+  <section class="trust-hd">
+    <div class="wrap-wide">
+      <Kicker class="trust-kicker"><Bi fr={kickerFr} en={kickerEn} /></Kicker>
+      <h1 class="trust-h1"><slot name="headline" /></h1>
+      <p class="trust-lede"><slot name="lede" /></p>
+      <div class="trust-meta">
+        <Bi fr="Dernière révision" en="Last revised" /> ·
+        <time datetime={revisedAt}>{revisedAt}</time>
+        {version && <><span aria-hidden> · </span><span>{version}</span></>}
+      </div>
+    </div>
+  </section>
+
+  {/* BODY · TOC sticky + sections */}
+  <div class="trust-body">
+    <div class="wrap-wide trust-grid">
+      {/* TOC sticky */}
+      <aside class="trust-toc" aria-label="Table of contents">
+        <Kicker class="trust-toc-k"><Bi fr="Sommaire" en="Contents" /></Kicker>
+        <ol>
+          {sections.map((s, i) => (
+            <li>
+              <a href={`#${s.id}`}>
+                <span class="trust-toc-num">{String(i + 1).padStart(2, '0')}</span>
+                <span><Bi fr={s.title_fr} en={s.title_en} /></span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </aside>
+
+      {/* Sections */}
+      <article class="trust-sections">
+        <slot name="sections" />
+      </article>
+    </div>
+  </div>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .trust-hd {
+    padding: 140px 32px clamp(40px, 5vw, 72px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  :global(.trust-kicker) { display: block; margin-bottom: 24px; }
+  .trust-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 8vw, 128px);
+    line-height: 0.94;
+    letter-spacing: -0.028em;
+    text-wrap: balance;
+    font-weight: 400;
+    margin: 0;
+  }
+  .trust-h1 :global(i) { font-style: italic; color: var(--accent); }
+  .trust-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 2.2vw, 28px);
+    color: var(--ink-2);
+    margin: 32px 0 24px;
+    max-width: 760px;
+    line-height: 1.4;
+    text-wrap: pretty;
+  }
+  .trust-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .trust-body { padding: clamp(60px, 8vw, 100px) 32px; }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: clamp(40px, 6vw, 80px);
+  }
+  .trust-toc {
+    position: sticky;
+    top: 100px;
+    align-self: start;
+  }
+  :global(.trust-toc-k) { display: block; margin-bottom: 18px; }
+  .trust-toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    line-height: 1.4;
+    border-top: 1px solid var(--hairline);
+    padding-top: 14px;
+  }
+  .trust-toc a {
+    color: var(--ink-2);
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 8px;
+    align-items: baseline;
+    transition: color 240ms var(--ease);
+  }
+  .trust-toc a:hover { color: var(--accent); }
+  .trust-toc-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .trust-sections {
+    font-family: var(--font-display);
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    max-width: 780px;
+  }
+  .trust-sections :global(section) {
+    padding: clamp(40px, 5vw, 72px) 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .trust-sections :global(section):first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+  .trust-sections :global(h2) {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.022em;
+    font-weight: 400;
+    margin: 0 0 36px;
+    text-wrap: balance;
+  }
+  .trust-sections :global(h2 i) { font-style: italic; color: var(--accent); }
+  .trust-sections :global(h3) {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.2vw, 26px);
+    line-height: 1.2;
+    font-weight: 400;
+    margin: clamp(28px, 3vw, 40px) 0 12px;
+    color: var(--ink);
+  }
+  .trust-sections :global(p) { margin: 0 0 1.2em; }
+  .trust-sections :global(ul) { margin: 0 0 1.4em 1.5em; }
+  .trust-sections :global(li) { margin-bottom: 0.5em; }
+  .trust-sections :global(a) {
+    color: var(--accent);
+    border-bottom: 1px solid currentColor;
+  }
+
+  @media (max-width: 900px) {
+    .trust-grid { grid-template-columns: 1fr; }
+    .trust-toc {
+      position: static;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--hairline);
+    }
+  }
+</style>

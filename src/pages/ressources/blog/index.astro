@@ -1,0 +1,47 @@
+---
+// Page · /ressources/blog · Index notes & essais
+// Source : waimia-handoff2 / writing-index.html
+//
+// Composé de · ListIndexTemplate (variant writing-index) + EditorialWriteRow
+
+import ListIndexTemplate from '../../../components/templates/ListIndexTemplate.astro';
+import EditorialWriteRow from '../../../components/ui/molecules/EditorialWriteRow.astro';
+import { FIELD_NOTES } from '../../../data/sitemap';
+import { langFromPath, t } from '../../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+
+// Mappage spécifique vers /ressources/blog/<slug> · 1 essai live (brain-circuit) + autres en stub
+const slugFor = (idx: number) => idx === 0 ? '/ressources/blog/brain-circuit' : '/ressources/blog';
+---
+<ListIndexTemplate
+  title="Notes & essais · Waimia"
+  description="Pas de pensum SEO. Notes courtes, cas concrets, recettes pratiques. Un essai mensuel, jamais de promotion."
+  kicker="§ Notes & essais · monthly"
+>
+  <Fragment slot="headline">
+    Notes <i>lentes</i> du terrain.
+  </Fragment>
+  <Fragment slot="lede">
+    Une newsletter mensuelle, jamais de promotion. Tout ce qu'on aurait voulu lire avant de commencer un chantier.
+  </Fragment>
+
+  <Fragment slot="list">
+    <div class="blog-list">
+      {FIELD_NOTES.map((note, i) => (
+        <EditorialWriteRow
+          date={note.date}
+          tag={t(note.tag, lang)}
+          href={slugFor(i)}
+          tone="paper"
+        >
+          {t(note.text, lang)}
+        </EditorialWriteRow>
+      ))}
+    </div>
+  </Fragment>
+</ListIndexTemplate>
+
+<style>
+  .blog-list { max-width: 1100px; }
+</style>

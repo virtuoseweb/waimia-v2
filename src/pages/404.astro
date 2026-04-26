@@ -1,0 +1,117 @@
+---
+// Page static · /404 · page d'erreur 4xx
+// Source : waimia-handoff2 / 404.html
+//
+// Décision non-template (cf docs/08-component-library.md § Pages static) :
+// pattern à 1 instance par site, UX dédiée (titre fort, suggestions, lien retour).
+// Extension d'UtilityTemplate ne se justifierait pas — surcoût > bénéfice.
+
+import Base from '../layouts/Base.astro';
+import Kicker from '../components/ui/atoms/Kicker.astro';
+import Button from '../components/ui/atoms/Button.astro';
+import { langFromPath } from '../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+---
+<Base
+  title="404 · Cette page n'existe pas (encore) · Waimia"
+  description="Page introuvable. Voici quelques pistes pour retrouver ce que vous cherchiez."
+  noindex
+>
+  <main class="err">
+    <div class="wrap-wide err-wrap">
+      <Kicker class="err-code">{lang === 'fr' ? '§ Erreur 404 · page introuvable' : '§ Error 404 · not found'}</Kicker>
+      <h1 class="err-h1">
+        {lang === 'fr' ? (<>Cette <i>page</i><br />n'existe pas (encore).</>) : (<>This <i>page</i><br />doesn't exist (yet).</>)}
+      </h1>
+      <p class="err-lede">
+        {lang === 'fr'
+          ? "L'URL que vous avez tapée pointe vers une page que nous n'avons pas livrée — ou plus livrée. Voici trois chemins pour retrouver ce que vous cherchiez."
+          : "The URL you typed points to a page we haven't shipped — or no longer ship. Here are three paths to find what you were looking for."}
+      </p>
+
+      <ul class="err-paths">
+        <li>
+          <Kicker tone="accent" class="err-path-k">→ {lang === 'fr' ? 'Pour explorer' : 'To explore'}</Kicker>
+          <a href={lang === 'fr' ? '/' : '/en'} class="err-path-link">{lang === 'fr' ? "Revenir à l'accueil" : 'Back home'}</a>
+        </li>
+        <li>
+          <Kicker tone="accent" class="err-path-k">→ {lang === 'fr' ? 'Pour chercher un service' : 'To find a service'}</Kicker>
+          <a href={lang === 'fr' ? '/offres/conseil' : '/en/offres/conseil'} class="err-path-link">{lang === 'fr' ? 'Voir le hub Conseil' : 'See the Consulting hub'}</a>
+        </li>
+        <li>
+          <Kicker tone="accent" class="err-path-k">→ {lang === 'fr' ? 'Pour parler à quelqu\'un' : 'To talk to someone'}</Kicker>
+          <a href={lang === 'fr' ? '/contact' : '/en/contact'} class="err-path-link">{lang === 'fr' ? 'Réserver 45 min' : 'Book 45 min'}</a>
+        </li>
+      </ul>
+
+      <div class="err-cta">
+        <Button href={lang === 'fr' ? '/' : '/en'} variant="primary" size="lg" mag={0.18}>
+          {lang === 'fr' ? "← Retour à l'accueil" : '← Back home'}
+        </Button>
+      </div>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .err { padding: 140px 32px clamp(60px, 8vw, 100px); min-height: 80vh; display: flex; align-items: center; }
+  .err-wrap { max-width: 1100px; }
+  :global(.err-code) { display: block; margin-bottom: 24px; }
+  .err-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(64px, 13vw, 200px);
+    line-height: 0.88;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+    font-weight: 400;
+    margin: 0 0 32px;
+  }
+  .err-h1 :global(i) { font-style: italic; color: var(--accent); }
+  .err-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 2.2vw, 28px);
+    color: var(--ink-2);
+    margin: 0 0 clamp(48px, 5vw, 72px);
+    max-width: 760px;
+    line-height: 1.4;
+    text-wrap: pretty;
+  }
+  .err-paths {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 clamp(48px, 5vw, 72px);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--hairline-strong);
+    border-bottom: 1px solid var(--hairline-strong);
+  }
+  .err-paths li {
+    padding: clamp(24px, 3vw, 36px) clamp(20px, 2.5vw, 32px);
+    border-right: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: background 240ms var(--ease);
+  }
+  .err-paths li:last-child { border-right: none; }
+  .err-paths li:hover { background: var(--paper-2); }
+  :global(.err-path-k) { display: block; }
+  .err-path-link {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.2vw, 28px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    transition: color 200ms var(--ease);
+  }
+  .err-path-link:hover { color: var(--accent); }
+  .err-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  @media (max-width: 800px) {
+    .err-paths { grid-template-columns: 1fr; }
+    .err-paths li { border-right: none; border-bottom: 1px solid var(--hairline); }
+    .err-paths li:last-child { border-bottom: none; }
+  }
+</style>
