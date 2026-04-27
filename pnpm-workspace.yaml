@@ -1,0 +1,10 @@
+packages:
+  - "apps/web"
+  - "packages/*"
+
+# Note · apps/cal (Cal.com self-host) reste sur Yarn 3 Berry par défaut
+# (convention upstream Cal.com). Il est donc EXCLU du workspace pnpm.
+# Lance `cd apps/cal && yarn install` séparément.
+#
+# Cette isolation évite la conversion de Cal.com en pnpm (~2-4h friction)
+# et permet à Cal.com de suivre l'upstream sans conflit lockfile.

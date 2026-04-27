@@ -1,40 +1,28 @@
 {
-  "name": "site",
-  "type": "module",
-  "version": "0.0.1",
+  "name": "waimia-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Waimia · monorepo · web (Astro) + cal (Cal.com self-host) + packages partagés",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.12.0",
+    "pnpm": ">=9.0.0"
   },
+  "packageManager": "pnpm@9.15.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro",
-    "check": "astro check",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui",
-    "test:e2e:prod": "PLAYWRIGHT_BASE_URL=https://waimia-v2.vercel.app playwright test"
-  },
-  "dependencies": {
-    "@astrojs/mdx": "^5.0.4",
-    "@astrojs/react": "^5.0.4",
-    "@astrojs/sitemap": "^3.7.2",
-    "@astrojs/vercel": "^10.0.5",
-    "@react-email/components": "^1.0.12",
-    "@react-email/render": "^2.0.7",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "astro": "^6.1.9",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
-    "resend": "^6.12.2",
-    "vite": "^8.0.10"
+    "dev": "turbo run dev --parallel",
+    "dev:web": "pnpm --filter waimia-web dev",
+    "dev:cal": "cd apps/cal && yarn dev",
+    "build": "turbo run build",
+    "build:web": "pnpm --filter waimia-web build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean && rm -rf node_modules .turbo"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.8",
-    "@playwright/test": "^1.59.1",
-    "@tailwindcss/vite": "^4.2.4",
-    "tailwindcss": "^4.2.4",
-    "typescript": "^6.0.3"
+    "turbo": "^2.3.3"
   }
 }
