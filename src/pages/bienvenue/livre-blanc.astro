@@ -1,0 +1,28 @@
+---
+// Page · /bienvenue/livre-blanc · Welcome post-download lead magnet
+import WelcomeTemplate from '../../components/templates/WelcomeTemplate.astro';
+
+const nextSteps = [
+  { num: '01', title_fr: 'Le PDF est dans votre email', title_en: 'PDF is in your inbox',
+    body_fr: "Lien direct + lien tracké pour accès permanent. Si le mail tarde, regardez les spams (depuis bonjour@waimia.fr).",
+    body_en: 'Direct link + tracked link for permanent access. If delayed, check spam (from bonjour@waimia.fr).' },
+  { num: '02', title_fr: '3 emails sur 14 jours', title_en: '3 emails over 14 days',
+    body_fr: "Vous recevrez : J+1 un insight RevOps · J+7 le cas Plateau · J+14 une invitation RDV facultative. Aucun rappel automatique au-delà.",
+    body_en: 'You will receive: D+1 a RevOps insight · D+7 the Plateau case · D+14 an optional booking. No reminders beyond.' },
+  { num: '03', title_fr: 'Discuter du livre blanc', title_en: 'Discuss the white paper',
+    body_fr: "Si une question naît à la lecture, bookez 45 minutes avec nous — on vous répond avec votre contexte.",
+    body_en: 'If a question arises while reading, book 45 minutes with us — we respond with your context.',
+    ctaLabel: 'Réserver 45 min →', ctaHref: '/contact' },
+];
+---
+<WelcomeTemplate
+  title="Bienvenue · Livre blanc · Waimia"
+  description="Votre livre blanc est en route par email. Voici les prochaines étapes."
+  kicker="§ Livre blanc · Confirmation"
+  nextSteps={nextSteps}
+>
+  <Fragment slot="headline">Le <i>PDF</i> est en route.</Fragment>
+  <Fragment slot="lede">
+    32 pages, signées, NDA-protected. Lecture estimée : 25 minutes.
+  </Fragment>
+</WelcomeTemplate>

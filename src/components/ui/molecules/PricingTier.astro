@@ -1,0 +1,173 @@
+---
+// Molécule · PricingTier · 1 colonne pricing avec features list + CTA
+//
+// Pattern récurrent attendu sur ConversionFunnelTemplate (3 instances par page) +
+// futures pages pricing publiques. Justification ≥ 3 occurrences.
+//
+// Composé de · Bi (atom) · Button (atom).
+//
+// Usage :
+//   <PricingTier
+//     idx="01" tier="Starter" highlight={false}
+//     price="7 900 €" period="HT · forfait"
+//     desc_fr="Site web IA-native MVP" desc_en="MVP IA-native website"
+//     features={['Astro+React 95% IA', 'Agent éditeur GEO', '5 pages clés']}
+//     ctaLabel="Démarrer →" ctaHref="/contact?offer=starter"
+//   />
+
+import Bi from '../atoms/Bi.astro';
+import Button from '../atoms/Button.astro';
+
+interface Props {
+  /** Index visible (01/02/03) */
+  idx: string;
+  /** Nom du palier (Starter / Standard / Custom) */
+  tier: string;
+  /** Mettre en avant (border accent, label « Recommandé ») */
+  highlight?: boolean;
+  /** Prix affiché (ex: "7 900 €" ou "Sur devis") */
+  price: string;
+  /** Suffixe période (ex: "HT · forfait" ou "/mois") */
+  period?: string;
+  /** Description courte tier */
+  desc_fr: string;
+  desc_en: string;
+  /** Liste features (1 ligne par item) */
+  features: string[];
+  /** Label CTA */
+  ctaLabel: string;
+  /** Href CTA */
+  ctaHref: string;
+  /** Classes additionnelles */
+  class?: string;
+}
+const { idx, tier, highlight = false, price, period, desc_fr, desc_en, features, ctaLabel, ctaHref, class: extraClass = '' } = Astro.props as Props;
+---
+<article class={`pricing-tier ${highlight ? 'is-highlighted' : ''} ${extraClass}`.trim()}>
+  {highlight && (
+    <span class="pricing-badge"><Bi fr="Recommandé" en="Recommended" /></span>
+  )}
+  <header class="pricing-hd">
+    <span class="pricing-idx">§ {idx}</span>
+    <h3 class="pricing-tier-name">{tier}</h3>
+    <p class="pricing-desc"><Bi fr={desc_fr} en={desc_en} /></p>
+  </header>
+  <div class="pricing-price">
+    <span class="pricing-price-k">{price}</span>
+    {period && <span class="pricing-price-period">{period}</span>}
+  </div>
+  <ul class="pricing-features">
+    {features.map((f) => (
+      <li>
+        <span class="pricing-check" aria-hidden>✓</span>
+        <span>{f}</span>
+      </li>
+    ))}
+  </ul>
+  <Button href={ctaHref} variant={highlight ? 'primary' : 'ghost'} size="lg">{ctaLabel}</Button>
+</article>
+
+<style>
+  .pricing-tier {
+    position: relative;
+    padding: clamp(28px, 3vw, 40px) clamp(24px, 2.6vw, 32px);
+    border: 1px solid var(--hairline-strong);
+    border-radius: 14px;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    transition: border-color 240ms var(--ease), transform 320ms var(--ease);
+  }
+  .pricing-tier:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
+  .pricing-tier.is-highlighted {
+    border-color: var(--accent);
+    background: var(--paper-2);
+    box-shadow: 0 24px 60px rgba(201, 79, 46, 0.08);
+  }
+  .pricing-badge {
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    background: var(--accent);
+    color: var(--paper);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 999px;
+  }
+  .pricing-hd {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .pricing-idx {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+  }
+  .pricing-tier-name {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.2vw, 40px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    margin: 0;
+  }
+  .pricing-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 0;
+    text-wrap: pretty;
+  }
+  .pricing-price {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 18px 0;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .pricing-price-k {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+  }
+  .pricing-price-period {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+  .pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+  .pricing-features li {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+  .pricing-check {
+    color: var(--accent);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+</style>

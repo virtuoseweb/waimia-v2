@@ -1,0 +1,30 @@
+---
+// Page · /ressources/livres-blancs/ai-act-readiness · Lead magnet exemple
+import LeadMagnetTemplate from '../../../components/templates/LeadMagnetTemplate.astro';
+
+const toc = [
+  { num: '01', title: "Périmètre AI Act · 4 catégories de risque" },
+  { num: '02', title: 'Mapping de votre stack actuelle (Annexe IV)' },
+  { num: '03', title: '47 critères de conformité notés 0-3' },
+  { num: '04', title: 'Trail audit re-rejouable · template' },
+  { num: '05', title: 'Documentation technique · plan-type' },
+  { num: '06', title: 'Roadmap conformité 12 mois · Gantt' },
+  { num: '07', title: 'Q&R · 24 questions courantes ACPR/CNIL' },
+];
+---
+<LeadMagnetTemplate
+  title="Êtes-vous prêt pour l'AI Act ? · Checklist 47 critères · Waimia"
+  description="32 pages denses pour cartographier votre conformité AI Act. 47 critères notés 0-3. Roadmap 12 mois incluse. Gratuit, NDA-protected."
+  slug="ai-act-readiness"
+  kicker="§ Livre blanc · 32 pages · gratuit"
+  format="PDF · 32 pages · 25 min de lecture"
+  publishedAt="2026-04-15"
+  toc={toc}
+>
+  <Fragment slot="headline">
+    Êtes-vous prêt pour l'<i>AI Act</i> ? Checklist 47 critères.
+  </Fragment>
+  <Fragment slot="lede">
+    Le règlement européen entre en force en 2026. La plupart des entreprises découvrent qu'elles ne peuvent ni tracer ni signer les décisions de leurs modèles. Voici notre méthode pour cartographier votre conformité avant l'amende.
+  </Fragment>
+</LeadMagnetTemplate>

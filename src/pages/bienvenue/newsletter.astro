@@ -1,0 +1,29 @@
+---
+// Page · /bienvenue/newsletter · Welcome post-signup newsletter
+import WelcomeTemplate from '../../components/templates/WelcomeTemplate.astro';
+
+const nextSteps = [
+  { num: '01', title_fr: 'Vérifiez votre boîte mail', title_en: 'Check your inbox',
+    body_fr: "Le welcome email arrive d'ici 30 secondes (depuis bonjour@waimia.fr). Si introuvable, regardez les spams ou ajoutez-nous à vos contacts.",
+    body_en: 'The welcome email arrives within 30 seconds (from bonjour@waimia.fr). If missing, check spam or add us to contacts.' },
+  { num: '02', title_fr: "Lisez la dernière note", title_en: 'Read the latest note',
+    body_fr: "Pendant que la première newsletter arrive, voici l'essai du mois — sur le théâtre IA et l'imagerie cerveau-circuit.",
+    body_en: 'While the first newsletter arrives, here is the monthly essay — on AI theatre and brain-circuit imagery.',
+    ctaLabel: 'Lire l\'essai →', ctaHref: '/ressources/blog/brain-circuit' },
+  { num: '03', title_fr: 'Explorez les cas clients', title_en: 'Explore client cases',
+    body_fr: "Quatre dossiers livrés. Mesurables sous NDA. Voir Plateau (+€2.4M) ou Halcyon (−38% triage).",
+    body_en: 'Four cases delivered. Measurable under NDA. See Plateau (+€2.4M) or Halcyon (−38% triage).',
+    ctaLabel: 'Voir les cas →', ctaHref: '/ressources/cas' },
+];
+---
+<WelcomeTemplate
+  title="Bienvenue · Newsletter Waimia"
+  description="Votre inscription est confirmée. Le welcome email arrive sous 30 secondes."
+  kicker="§ Newsletter · Confirmation"
+  nextSteps={nextSteps}
+>
+  <Fragment slot="headline">Inscription <i>confirmée</i>.</Fragment>
+  <Fragment slot="lede">
+    Une note longue le 15 de chaque mois. Pas de promotion. Désabonnement en 1 clic.
+  </Fragment>
+</WelcomeTemplate>

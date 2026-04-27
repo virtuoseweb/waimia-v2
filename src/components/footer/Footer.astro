@@ -130,6 +130,42 @@ const year = new Date().getFullYear();
       </ol>
     </div>
 
+    {/* Section F · Templates + pages conversion (NEW · Phase A-E) */}
+    <div class="ft-dev-block">
+      <h4 class="ft-dev-h4">{lang === 'fr' ? 'F · Conversion + Resend + Cal (NEW)' : 'F · Conversion + Resend + Cal (NEW)'}</h4>
+      <p class="ft-dev-stub-lead">
+        {lang === 'fr'
+          ? "Tunnel offre flagship, lead magnets, welcome pages, API routes Resend et Cal.com embed. Toute l'infra conversion d'agence web/IA."
+          : 'Flagship offer funnel, lead magnets, welcome pages, Resend API routes and Cal.com embed. Full conversion infra for web/AI agency.'}
+      </p>
+      <ol class="ft-dev-list">
+        <li><span class="ft-dev-num">29</span><span class="ft-dev-name">ConversionFunnelTemplate</span><span class="ft-dev-type">{lang === 'fr' ? 'Tunnel offre flagship · 8 sections' : 'Flagship funnel · 8 sections'}</span><a href="/offres/site-web-ia" class="ft-link">/offres/site-web-ia ↗</a></li>
+        <li><span class="ft-dev-num">30</span><span class="ft-dev-name">LeadMagnetTemplate</span><span class="ft-dev-type">{lang === 'fr' ? 'Download gated · form + ToC' : 'Gated download · form + ToC'}</span><a href="/ressources/livres-blancs/ai-act-readiness" class="ft-link">/livres-blancs/ai-act ↗</a></li>
+        <li><span class="ft-dev-num">31</span><span class="ft-dev-name">WelcomeTemplate · newsletter</span><span class="ft-dev-type">{lang === 'fr' ? 'Post-signup confirmation' : 'Post-signup confirmation'}</span><a href="/bienvenue/newsletter" class="ft-link">/bienvenue/newsletter ↗</a></li>
+        <li><span class="ft-dev-num">32</span><span class="ft-dev-name">WelcomeTemplate · livre blanc</span><span class="ft-dev-type">{lang === 'fr' ? 'Post-download confirmation' : 'Post-download confirmation'}</span><a href="/bienvenue/livre-blanc" class="ft-link">/bienvenue/livre-blanc ↗</a></li>
+        <li><span class="ft-dev-num">33</span><span class="ft-dev-name">WelcomeTemplate · audit</span><span class="ft-dev-type">{lang === 'fr' ? 'Post-RDV booké confirmation' : 'Post-booking confirmation'}</span><a href="/bienvenue/audit" class="ft-link">/bienvenue/audit ↗</a></li>
+        <li><span class="ft-dev-num">34</span><span class="ft-dev-name">CalEmbed (molecule)</span><span class="ft-dev-type">{lang === 'fr' ? 'Cal.com inline · /contact' : 'Cal.com inline · /contact'}</span><a href="/contact" class="ft-link">/contact (embed) ↗</a></li>
+        <li><span class="ft-dev-num">35</span><span class="ft-dev-name">PricingTier (molecule)</span><span class="ft-dev-type">{lang === 'fr' ? '3 tiers pricing dans funnel' : '3-tier pricing in funnel'}</span><a href="/offres/site-web-ia#pricing" class="ft-link">site-web-ia#pricing ↗</a></li>
+      </ol>
+    </div>
+
+    {/* Section G · API routes Resend + Email templates */}
+    <div class="ft-dev-block">
+      <h4 class="ft-dev-h4">{lang === 'fr' ? 'G · API routes (POST · SSR Vercel)' : 'G · API routes (POST · Vercel SSR)'}</h4>
+      <p class="ft-dev-stub-lead">
+        {lang === 'fr'
+          ? "5 endpoints Astro SSR connectés à Resend (envoi emails + tags Automations). 6 templates React Email dans src/lib/emails/."
+          : '5 Astro SSR endpoints connected to Resend (email sending + Automations tags). 6 React Email templates in src/lib/emails/.'}
+      </p>
+      <ol class="ft-dev-list">
+        <li><span class="ft-dev-num">36</span><span class="ft-dev-name">POST /api/contact</span><span class="ft-dev-type">{lang === 'fr' ? 'Form contact → 2 emails (client+équipe)' : 'Contact form → 2 emails (client+team)'}</span><span class="ft-dev-more">SSR · prerender:false</span></li>
+        <li><span class="ft-dev-num">37</span><span class="ft-dev-name">POST /api/newsletter</span><span class="ft-dev-type">{lang === 'fr' ? 'Newsletter signup → welcome' : 'Newsletter signup → welcome'}</span><span class="ft-dev-more">SSR</span></li>
+        <li><span class="ft-dev-num">38</span><span class="ft-dev-name">POST /api/lead-magnet</span><span class="ft-dev-type">{lang === 'fr' ? 'Download → PDF + nurturing' : 'Download → PDF + nurturing'}</span><span class="ft-dev-more">SSR</span></li>
+        <li><span class="ft-dev-num">39</span><span class="ft-dev-name">POST /api/academy</span><span class="ft-dev-type">{lang === 'fr' ? 'Diagnostic 12Q → scorecard' : 'Diagnostic 12Q → scorecard'}</span><span class="ft-dev-more">SSR</span></li>
+        <li><span class="ft-dev-num">40</span><span class="ft-dev-name">POST /api/devis</span><span class="ft-dev-type">{lang === 'fr' ? 'Devis configurateur → récap' : 'Quote configurator → recap'}</span><span class="ft-dev-more">SSR</span></li>
+      </ol>
+    </div>
+
     {/* Section E · Routes encore en Stub (catchall via [...slug].astro) */}
     <div class="ft-dev-block">
       <h4 class="ft-dev-h4">{lang === 'fr' ? 'E · Sous-routes encore en Stub' : 'E · Sub-routes still stubbed'}</h4>
