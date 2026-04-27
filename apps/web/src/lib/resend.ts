@@ -1,50 +1,50 @@
 /**
- * Resend client singleton + helpers d'envoi typés.
+ * Resend client · fetch() direct vers l'API Resend (sans SDK).
+ *
+ * Pourquoi pas le SDK `resend` ?
+ * Le SDK npm `resend@6.x` a des exports ESM/CJS qui plantent silencieusement
+ * le bundle Astro/Vite SSR sur Vercel monorepo (validé empiriquement le
+ * 2026-04-27 : tous les /api/*.ts qui importaient lib/resend disparaissaient
+ * du bundle entry.mjs → 404 en prod). Cf docs/known-issues.md #1.
+ *
+ * Solution : appel direct à l'API REST Resend via fetch(). Zéro SDK, zéro
+ * bundle issue. Compatible 100% serverless Vercel.
+ *
+ * API Resend · https://resend.com/docs/api-reference/emails/send-email
+ *   POST https://api.resend.com/emails
+ *   Authorization: Bearer ${apiKey}
+ *   Body: { from, to, subject, html | text, reply_to, tags }
  *
  * Usage :
  *   import { sendEmail, emitEvent } from '~/lib/resend';
  *   await sendEmail({ to, subject, react });
- *   await emitEvent('lead_magnet_downloaded', { contactId, ... });
- *
- * Cf docs/09-integrations.md pour la stratégie complète.
  */
 
-// Import dynamique pour ne pas casser le bundle Astro/Vite SSR au build :
-// `import { Resend } from "resend"` (import statique) provoquait l'exclusion
-// silencieuse de tous les fichiers /api/*.ts qui le transitaient (404 en prod
-// post-bascule monorepo 2026-04-27, validé via /api/healthcheck OK et
-// /api/diag-resend HTML catch-all).
+import { render } from "@react-email/render";
+import type { ReactElement } from "react";
+
+const RESEND_API_URL = "https://api.resend.com";
 const apiKey = import.meta.env.RESEND_API_KEY;
+
 if (!apiKey && import.meta.env.PROD) {
   console.error("[resend] RESEND_API_KEY missing in production env");
 }
 
-let _resend: import("resend").Resend | null = null;
-async function getResend() {
-  if (_resend) return _resend;
-  const { Resend } = await import("resend");
-  _resend = new Resend(apiKey ?? "dummy-key-dev");
-  return _resend;
-}
-
 // EMAIL_FROM · alias virtuoseweb.fr (domaine déjà vérifié sur Resend, partagé
 // avec sitewebastro). Override via env Vercel : EMAIL_FROM="Waimia <…>".
-// Migration vers bonjour@waimia.fr possible plus tard quand DNS waimia.com
-// sera configuré + domaine ajouté dans Resend.
 export const EMAIL_FROM =
   import.meta.env.EMAIL_FROM ?? "Waimia <waimia@virtuoseweb.fr>";
-// Reply-to par défaut · client peut répondre directement au mail confirmation
 export const EMAIL_REPLY_TO =
   import.meta.env.EMAIL_REPLY_TO ?? "contact@virtuoseweb.fr";
 export const EMAIL_INTERNAL_TO =
   import.meta.env.EMAIL_INTERNAL_TO ?? "contact@virtuoseweb.fr";
 
-/* ───── Helper · envoi typé ───── */
 interface SendArgs {
   to: string | string[];
   subject: string;
-  react: React.ReactElement;
-  /** Tags Resend pour filtrage analytics (ex: ['contact', 'fr']) */
+  /** React Email element · sera rendu en HTML via @react-email/render */
+  react: ReactElement;
+  /** Tags Resend pour filtrage analytics (ex: [{name:'type',value:'contact'}]) */
   tags?: { name: string; value: string }[];
   /** Reply-to si différent du From */
   replyTo?: string;
@@ -61,28 +61,41 @@ export async function sendEmail({
     console.warn("[resend] skipped (no API key)", { to, subject });
     return { id: "dev-no-send", skipped: true };
   }
-  const resend = await getResend();
-  const result = await resend.emails.send({
+
+  // Render React Email element → HTML string
+  const html = await render(react);
+
+  const body = {
     from: EMAIL_FROM,
-    to,
+    to: Array.isArray(to) ? to : [to],
     subject,
-    react,
-    tags,
-    // Si l'appelant ne précise pas, on route les replies vers EMAIL_REPLY_TO
-    // (boîte humaine surveillée), pas vers EMAIL_FROM (alias d'envoi seul).
-    replyTo: replyTo ?? EMAIL_REPLY_TO,
+    html,
+    reply_to: replyTo ?? EMAIL_REPLY_TO,
+    ...(tags && tags.length > 0 ? { tags } : {}),
+  };
+
+  const response = await fetch(`${RESEND_API_URL}/emails`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
   });
-  if (result.error) {
-    console.error("[resend] send error", result.error);
-    throw new Error(result.error.message);
+
+  if (!response.ok) {
+    const errBody = await response.text();
+    console.error("[resend] send error", response.status, errBody);
+    throw new Error(`Resend API ${response.status}: ${errBody.slice(0, 200)}`);
   }
-  return { id: result.data?.id, skipped: false };
+
+  const data = (await response.json()) as { id?: string };
+  return { id: data.id, skipped: false };
 }
 
 /* ───── Helper · événement Automations ─────
-   Émet un event qui déclenche une séquence Resend Automations configurée
-   dans le dashboard. Les triggers actifs : lead_magnet_downloaded,
-   academy_completed, contact_submitted (cf docs/09-integrations.md). */
+   Ajoute le contact à l'audience Resend (déclenche les Automations dashboard
+   qui écoutent sur audience + tags d'email). Cf docs/09-integrations.md. */
 type EventName =
   | "lead_magnet_downloaded"
   | "academy_completed"
@@ -91,6 +104,7 @@ type EventName =
 interface EventPayload {
   contactId?: string;
   email: string;
+  firstName?: string;
   [key: string]: unknown;
 }
 
@@ -99,10 +113,7 @@ export async function emitEvent(name: EventName, payload: EventPayload) {
     console.warn("[resend] event skipped (no API key)", { name, payload });
     return { skipped: true };
   }
-  // Resend Automations se déclenchent via les TAGS d'email envoyé
-  // (cf docs/09-integrations.md). On ajoute juste le contact à l'audience
-  // si configuré, sinon no-op : les emails sendEmail() embarquent les tags
-  // et c'est ce que les Automations dashboard Resend écoutent.
+
   const audienceId = import.meta.env.RESEND_AUDIENCE_ID;
   if (!audienceId) {
     console.info("[resend] no audience configured, event tag-only", {
@@ -111,18 +122,32 @@ export async function emitEvent(name: EventName, payload: EventPayload) {
     });
     return { skipped: false, audienceless: true };
   }
-  try {
-    const resend = await getResend();
-    await resend.contacts.create({
-      email: payload.email,
-      audienceId,
-      firstName:
-        typeof payload.firstName === "string" ? payload.firstName : undefined,
-    });
-    return { skipped: false };
-  } catch (err) {
-    // Idempotent : si le contact existe déjà, c'est OK
-    console.warn("[resend] event error (likely duplicate)", err);
+
+  const body = {
+    email: payload.email,
+    ...(typeof payload.firstName === "string"
+      ? { first_name: payload.firstName }
+      : {}),
+  };
+
+  const response = await fetch(
+    `${RESEND_API_URL}/audiences/${audienceId}/contacts`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    }
+  );
+
+  // Idempotent : Resend retourne 200 OK pour duplicate, ou 422 selon version
+  if (!response.ok && response.status !== 422) {
+    const errBody = await response.text();
+    console.warn("[resend] event error (non-fatal)", response.status, errBody);
     return { skipped: false, idempotent: true };
   }
+
+  return { skipped: false };
 }
