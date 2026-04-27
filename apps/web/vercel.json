@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "cd ../.. && corepack enable && corepack prepare pnpm@9.15.0 --activate && pnpm install --no-frozen-lockfile",
-  "buildCommand": "cd ../.. && pnpm --filter waimia-web build",
+  "installCommand": "cd ../.. && npx -y pnpm@9.15.0 install --no-frozen-lockfile",
+  "buildCommand": "cd ../.. && npx -y pnpm@9.15.0 --filter waimia-web build",
   "outputDirectory": ".vercel/output"
 }
