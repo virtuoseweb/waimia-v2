@@ -19,10 +19,17 @@ if (!apiKey && import.meta.env.PROD) {
 
 export const resend = new Resend(apiKey ?? "dummy-key-dev");
 
+// EMAIL_FROM · alias virtuoseweb.fr (domaine déjà vérifié sur Resend, partagé
+// avec sitewebastro). Override via env Vercel : EMAIL_FROM="Waimia <…>".
+// Migration vers bonjour@waimia.fr possible plus tard quand DNS waimia.com
+// sera configuré + domaine ajouté dans Resend.
 export const EMAIL_FROM =
-  import.meta.env.EMAIL_FROM ?? "Waimia <bonjour@waimia.fr>";
+  import.meta.env.EMAIL_FROM ?? "Waimia <waimia@virtuoseweb.fr>";
+// Reply-to par défaut · client peut répondre directement au mail confirmation
+export const EMAIL_REPLY_TO =
+  import.meta.env.EMAIL_REPLY_TO ?? "contact@virtuoseweb.fr";
 export const EMAIL_INTERNAL_TO =
-  import.meta.env.EMAIL_INTERNAL_TO ?? "alerts@waimia.fr";
+  import.meta.env.EMAIL_INTERNAL_TO ?? "contact@virtuoseweb.fr";
 
 /* ───── Helper · envoi typé ───── */
 interface SendArgs {
@@ -52,7 +59,9 @@ export async function sendEmail({
     subject,
     react,
     tags,
-    replyTo,
+    // Si l'appelant ne précise pas, on route les replies vers EMAIL_REPLY_TO
+    // (boîte humaine surveillée), pas vers EMAIL_FROM (alias d'envoi seul).
+    replyTo: replyTo ?? EMAIL_REPLY_TO,
   });
   if (result.error) {
     console.error("[resend] send error", result.error);

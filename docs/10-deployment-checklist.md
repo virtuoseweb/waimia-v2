@@ -13,10 +13,13 @@ Dashboard : <https://vercel.com/virtuoseweb/waimia-v2/settings/environment-varia
 À **récupérer depuis sitewebastro** (`~/sitewebastro/.env`) ou créer si absent :
 
 ```bash
-# Resend · prêt à réutiliser depuis sitewebastro
+# Resend · domaine déjà vérifié sur virtuoseweb.fr (DKIM + SPF en place
+# côté o2switch). On envoie via alias `waimia@virtuoseweb.fr` et on route
+# les replies vers `contact@virtuoseweb.fr` (boîte Google Workspace surveillée).
 RESEND_API_KEY=re_••••••
-EMAIL_FROM="Waimia <bonjour@waimia.fr>"
-EMAIL_INTERNAL_TO=alerts@waimia.fr
+EMAIL_FROM="Waimia <waimia@virtuoseweb.fr>"
+EMAIL_REPLY_TO=contact@virtuoseweb.fr
+EMAIL_INTERNAL_TO=contact@virtuoseweb.fr
 
 # OpenAI · prêt à réutiliser depuis sitewebastro
 OPENAI_API_KEY=sk-••••••
@@ -24,6 +27,11 @@ OPENAI_API_KEY=sk-••••••
 # Anthropic · nouvelle clé à créer sur https://console.anthropic.com
 ANTHROPIC_API_KEY=sk-ant-••••••
 ```
+
+> **Note migration** : quand le domaine `waimia.com` sera ajouté + vérifié
+> dans Resend (TXT DKIM + SPF + send.waimia.com MX), on passera `EMAIL_FROM`
+> à `Waimia <bonjour@waimia.fr>`. En attendant, virtuoseweb.fr fonctionne
+> immédiatement sans toucher au DNS.
 
 ### Variables publiques (PUBLIC\_ prefix · accessibles client)
 
