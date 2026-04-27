@@ -28,11 +28,27 @@ export default defineConfig({
     locales: ['fr', 'en'],
     routing: { prefixDefaultLocale: false, redirectToDefaultLocale: false },
   },
+  // Pattern redirections · single source of truth pour les renames d'URL.
+  // Cf docs/11-url-redirects.md pour le workflow complet et les cas d'usage.
+  // Ajoute ici toute redirection AVANT de renommer une URL en prod, sinon
+  // Google perd le ranking de l'ancienne. Astro émet 308 par défaut (=301 SEO).
+  redirects: {
+    // Exemples (à dé-commenter si rename) :
+    // '/ancienne-url': '/nouvelle-url',
+    // '/old-blog-slug': { status: 301, destination: '/ressources/blog/new-slug' },
+  },
   integrations: [
     react(),
     mdx(),
     sitemap({
       i18n: { defaultLocale: 'fr', locales: { fr: 'fr-FR', en: 'en-US' } },
+      // Filtre sitemap.xml :
+      //  · /bienvenue/* : thank-you pages post-conversion (déjà noindex sur la page,
+      //    pas de raison qu'elles soient crawlables/indexées)
+      //  · /agence/design-system : showcase interne (déjà noindex)
+      filter: (page) =>
+        !page.includes('/bienvenue/') &&
+        !page.includes('/agence/design-system'),
     }),
   ],
   // Cast `as any` parce que tailwindcss/vite et Astro embarquent leur propre

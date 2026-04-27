@@ -60,9 +60,11 @@ const year = new Date().getFullYear();
     </div>
   </div>
 
-  {/* ──── DEV-INDEX (expérimentation) · navigation complète templates + pages ────
-       Permet à Simon de tout vérifier d'un clic. À retirer ou cacher en prod via
-       prop `<Footer hideDevIndex />` quand validation finie. */}
+  {/* ──── DEV-INDEX · visible UNIQUEMENT en dev (`npm run dev`) ────
+       En prod (build Vercel) le bloc est silencieusement omis du HTML servi
+       pour ne pas leak la structure interne aux crawlers SEO/AIO. Si tu veux
+       le voir en local : npm run dev (import.meta.env.DEV = true). */}
+  {import.meta.env.DEV && (
   <div class="wrap hline ft-devindex" style="padding-top:clamp(40px,4vw,60px);padding-bottom:clamp(40px,4vw,60px)">
     <div class="ft-dev-hd">
       <span class="ft-dev-tag">⌘ DEV INDEX</span>
@@ -234,6 +236,7 @@ const year = new Date().getFullYear();
       </div>
     </div>
   </div>
+  )}
 
   {/* Bottom — copyright + socials */}
   <div class="wrap hline" style="padding:24px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--muted)">
