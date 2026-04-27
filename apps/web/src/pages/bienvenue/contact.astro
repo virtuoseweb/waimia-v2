@@ -1,0 +1,43 @@
+---
+// Page · /bienvenue/contact · Welcome post-form contact soumis
+// Atterrissage après POST /api/contact réussi (cf api/contact.ts redirect).
+import WelcomeTemplate from '../../components/templates/WelcomeTemplate.astro';
+
+const nextSteps = [
+  {
+    num: '01',
+    title_fr: 'Votre brief est arrivé',
+    title_en: 'Your brief has landed',
+    body_fr: "Un humain — pas un agent IA — l'a déjà sous les yeux. Vous recevrez un mail de confirmation immédiat avec le récap, et notre réponse dans les 24 h ouvrées.",
+    body_en: 'A human — not an AI agent — already has it. Confirmation email is on its way with the recap, our answer within 24 business hours.',
+  },
+  {
+    num: '02',
+    title_fr: 'Aucune relance commerciale',
+    title_en: 'No follow-up theatre',
+    body_fr: "Si on ne peut pas vous être utile sur le brief envoyé, on vous le dit en clair et on ne relance pas. Pas de séquence de nurturing, pas de SDR.",
+    body_en: 'If we cannot help on the brief, we say so plainly and stop. No nurturing sequence, no SDR cadence.',
+  },
+  {
+    num: '03',
+    title_fr: 'Pendant ce temps, lisez la méthode',
+    title_en: 'Meanwhile, read the method',
+    body_fr: "Notre approche en 4 phases — diagnostic, réconciliation, agents, mesure. 5 minutes de lecture, autant de gagnées dans la séance qui suit.",
+    body_en: 'Our 4-phase approach — diagnose, reconcile, agents, measure. 5 minutes to read, as many saved during the follow-up call.',
+    ctaLabel: 'Voir la méthode →',
+    ctaHref: '/offres/conseil',
+  },
+];
+---
+
+<WelcomeTemplate
+  title="Bienvenue · Brief reçu · Waimia"
+  description="Votre brief contact est arrivé. Réponse humaine sous 24 h ouvrées, sans relance commerciale."
+  kicker="§ Contact · Confirmation"
+  nextSteps={nextSteps}
+>
+  <Fragment slot="headline">Brief <i>reçu</i>.</Fragment>
+  <Fragment slot="lede">
+    Un humain l'a sous les yeux. Réponse dans les 24 h ouvrées — ou silence assumé.
+  </Fragment>
+</WelcomeTemplate>
