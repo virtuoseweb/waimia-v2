@@ -4,12 +4,79 @@ Ce document liste les bugs identifiés mais non résolus, avec les hypothèses t
 
 ---
 
-## 🔴 #1 · 404 sur toutes les API routes Astro `/api/*` en prod
+## 🟢 #1 · 404 sur API routes POST · CAUSE TROUVÉE + WORKAROUND APPLIQUÉ
 
-**Status** · Ouvert · Impact moyen (forms /contact, /newsletter, /lead-magnet, /devis, /academy non fonctionnels en prod)
-**Découvert** · 2026-04-27 post-bascule monorepo
-**Build local** · Healthcheck OK, Resend SDK fonctionne en dev (port 4321)
-**Build Vercel** · Build OK, mais `entry.mjs` exclut silencieusement les API routes qui importent `lib/resend` ou `@react-email/components`
+**Status** · ✅ **Workaround actif · 6/6 forms fonctionnels** (commit `4327d14`)
+**Cause root** · Bug `@astrojs/vercel@10.0.5` adapter monorepo : exclut spécifiquement les exports `POST` du bundle SSR
+**Solution** · Workaround `export const ALL` + dispatch méthode interne
+**Impact résiduel** · Issue GitHub Astro à ouvrir pour fix upstream
+
+### Validation empirique (5 endpoints diag)
+
+| Export pattern | Bundle inclus ? | Status prod |
+| -------------- | :-------------: | :---------: |
+| `export const GET = ()` | ✅ | 200 |
+| `export const GET = async ({ request }) =>` | ✅ | 200 |
+| `export const POST: APIRoute = async (...)` | ❌ | 404 |
+| `export async function POST() {...}` | ❌ | 404 |
+| **`export const ALL = async (...)`** | **✅** | **200** |
+
+→ Bug **spécifique au mot-clé `POST`**, pas aux imports ni à la signature async.
+
+### Workaround appliqué (commit `4327d14`)
+
+5 forms (`contact`, `newsletter`, `lead-magnet`, `devis`, `academy`) passés en :
+
+```ts
+export const ALL: APIRoute = async ({ request }) => {
+  if (request.method !== "POST") {
+    return new Response(null, { status: 405, headers: { Allow: "POST" } });
+  }
+  // ... logique POST identique à avant
+};
+```
+
+Comportement HTTP correct : 405 `Method Not Allowed` sur GET/PUT/DELETE, logique POST inchangée.
+
+### Hypothèses préalablement écartées (~15 commits, 7+ deploys)
+
+| Tentative | Commit | Conclusion |
+|-----------|--------|------------|
+| `outputDirectory` vercel.json | `46b41f1` | Pas la cause |
+| Catch-all `[...slug].astro` shadowe | `aca070e` | Invalidé empiriquement |
+| `buildCommand` cwd issue | `349cc46` | Pas la cause |
+| Import dynamique de Resend SDK | `f795896` | Pas la cause |
+| `vite.ssr.noExternal` resend + react-email | `761e6be` | Pas la cause |
+| Refactor lib/resend en `fetch()` direct | `b958316` | Pas la cause (mais code plus propre) |
+| Imports dynamiques emails dans /api/*.ts | `9fcb6a2` | Pas la cause |
+| Refactor emails React → HTML strings | `485317c` | Pas la cause (mais 0 React Email = bonus) |
+
+### Reverse en POST direct (futur)
+
+Quand le bug `@astrojs/vercel` sera fixé upstream, reverser en 1 ligne par fichier :
+
+```ts
+// Avant (workaround)
+export const ALL: APIRoute = async ({ request }) => {
+  if (request.method !== "POST") return new Response(null, { status: 405 });
+  // ...
+};
+
+// Après (POST direct)
+export const POST: APIRoute = async ({ request }) => {
+  // ...
+};
+```
+
+### Issue GitHub Astro à ouvrir
+
+Repro minimal :
+1. Astro 6 + `@astrojs/vercel@10.0.5` + monorepo pnpm + `output: 'server'`
+2. Créer `src/pages/api/test.ts` avec `export const POST = async () => Response.json({ok:true})`
+3. Build + deploy Vercel : route 404, runtime log `[router] No matching route`
+4. Idem avec `export const ALL` → route 200
+
+Lien repo de référence : https://github.com/virtuoseweb/waimia-v2 commits `e1bc1a9` (POST 404) vs `edb2592` (ALL 200).
 
 ### Symptômes
 
