@@ -11,9 +11,13 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
+    "typecheck": "astro check",
+    "lint": "echo \"waimia-web: lint TBD (ajouter eslint quand stabilisé)\"",
+    "format": "prettier --write \"src/**/*.{astro,ts,tsx,js,jsx,md,json}\"",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:e2e:prod": "PLAYWRIGHT_BASE_URL=https://waimia-v2.vercel.app playwright test"
+    "test:e2e:prod": "PLAYWRIGHT_BASE_URL=https://waimia-v2.vercel.app playwright test",
+    "clean": "rm -rf dist .astro .vercel .turbo"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.4",

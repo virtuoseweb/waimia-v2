@@ -19,7 +19,11 @@
     "build": "turbo run build",
     "build:web": "pnpm --filter waimia-web build",
     "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
     "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "format": "prettier --write \".\"",
+    "format:check": "prettier --check \".\"",
     "clean": "turbo run clean && rm -rf node_modules .turbo"
   },
   "devDependencies": {
