@@ -11,6 +11,34 @@ import Pyramid from '../../components/ui/organisms/Pyramid.astro';
 import CtaBand from '../../components/ui/organisms/CtaBand.astro';
 import FitColumns from '../../components/ui/molecules/FitColumns.astro';
 
+const offreCards = [
+  { num: '01', kicker: 'OFFRE · CONSEIL',
+    title_fr: 'Conseil & Audit',
+    sub_fr: 'Cartographier avant d\'agir',
+    lead_fr: 'Diagnostic process, audit de maturité, choix de stack — la phase qui évite les pivots à 6 mois.',
+    href: '/offres/conseil' },
+  { num: '02', kicker: 'OFFRE · AUDIT IA',
+    title_fr: 'Audit de maturité IA',
+    sub_fr: '10 jours · lu par un board',
+    lead_fr: 'Scorecard 47 critères, livrable signé, recommandations chiffrées. Bloc indépendant ou tremplin Light.',
+    href: '/offres/audit-maturite-ia' },
+  { num: '03', kicker: 'OFFRE · REVOPS',
+    title_fr: 'RevOps Rebuild',
+    sub_fr: 'Reconstruction du funnel',
+    lead_fr: 'Lead scoring, séquences, attribution. On reconstruit la machine revenue avec agents Claude branchés.',
+    href: '/offres/revops' },
+  { num: '04', kicker: 'OFFRE · WEB',
+    title_fr: 'Site web IA-native',
+    sub_fr: 'Astro + React · 95% IA',
+    lead_fr: 'Site éditorial conçu et écrit avec IA, design custom, déploiement Vercel — livré en 4 à 6 semaines.',
+    href: '/offres/site-web-ia' },
+  { num: '05', kicker: 'OFFRE · COWORK',
+    title_fr: 'Claude Cowork & Artifacts',
+    sub_fr: 'Déploiement light · 2 semaines',
+    lead_fr: 'Plugin Claude pour vos équipes : skills, artifacts, MCP custom. Déployé, formé, monitoré — sans IT lourde.',
+    href: '/offres/claude-cowork' },
+];
+
 const fitYesItems = [
   "Vous avez 50–500 employés et un moteur revenue qui doit livrer",
   "Vous voulez un audit avant un devis, toujours",
@@ -41,6 +69,32 @@ const fitNoItems = [
 
   {/* PYRAMID · 4 tiers · réutilisation de l'organisme homepage */}
   <Pyramid />
+
+  {/* OFFRES EN DÉTAIL · 5 cards vers vraies sub-pages */}
+  <section class="hub-offres-detail">
+    <div class="wrap-wide">
+      <Kicker tone="accent" class="hub-od-k">§ Offres en détail · 5 entrées concrètes</Kicker>
+      <h2 class="hub-od-h2">Cinq <i>portes d'entrée</i>. Aucune ne se vend seule.</h2>
+      <p class="hub-od-lead">
+        Chaque offre se lit en 4 minutes — scope, durée, livrables, prix. Pas de plaquette commerciale.
+      </p>
+      <ol class="hub-od-list">
+        {offreCards.map((o) => (
+          <li class="hub-od-row">
+            <a class="hub-od-link" href={o.href}>
+              <span class="hub-od-num">{o.num}</span>
+              <span class="hub-od-body">
+                <span class="hub-od-kicker">{o.kicker}</span>
+                <span class="hub-od-title">{o.title_fr} <i>· {o.sub_fr}</i></span>
+                <span class="hub-od-text">{o.lead_fr}</span>
+              </span>
+              <span class="hub-od-arr" aria-hidden>→</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
 
   {/* FIT GUIDE */}
   <section class="hub-fit">
@@ -83,6 +137,87 @@ const fitNoItems = [
     max-width: 760px;
     line-height: 1.4;
     text-wrap: pretty;
+  }
+
+  .hub-offres-detail { padding: clamp(80px, 10vw, 120px) 32px; background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  :global(.hub-od-k) { display: block; margin-bottom: 18px; }
+  .hub-od-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 0.96;
+    letter-spacing: -0.024em;
+    margin: 0 0 24px;
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hub-od-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-od-lead {
+    font-family: var(--font-display);
+    font-size: clamp(17px, 1.8vw, 22px);
+    color: var(--muted);
+    max-width: 760px;
+    margin: 0 0 clamp(40px, 5vw, 64px);
+    line-height: 1.45;
+  }
+  .hub-od-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--ink);
+  }
+  .hub-od-row {
+    border-bottom: 1px solid var(--hairline);
+  }
+  .hub-od-link {
+    display: grid;
+    grid-template-columns: 80px 1fr 60px;
+    gap: clamp(20px, 3vw, 40px);
+    padding: clamp(28px, 3vw, 44px) 0;
+    align-items: start;
+    color: inherit;
+    transition: background 240ms var(--ease);
+  }
+  .hub-od-link:hover { background: rgba(0, 0, 0, 0.02); }
+  .hub-od-num {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 0.9;
+    color: var(--accent);
+    font-style: italic;
+  }
+  .hub-od-body { display: flex; flex-direction: column; gap: 8px; }
+  .hub-od-kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+  }
+  .hub-od-title {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    text-wrap: balance;
+  }
+  .hub-od-title :global(i) { font-style: italic; color: var(--muted); font-size: 0.7em; }
+  .hub-od-text {
+    font-size: clamp(14px, 1.4vw, 16px);
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 720px;
+    text-wrap: pretty;
+  }
+  .hub-od-arr {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    color: var(--accent);
+    align-self: center;
+    text-align: right;
+  }
+  @media (max-width: 700px) {
+    .hub-od-link { grid-template-columns: 56px 1fr; }
+    .hub-od-arr { display: none; }
   }
 
   .hub-fit { padding: clamp(80px, 10vw, 120px) 32px; background: var(--ink); color: var(--paper); }

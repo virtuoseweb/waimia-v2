@@ -1,0 +1,496 @@
+---
+/**
+ * OffresDetailTemplate · sub-page Offres (focus conversion service)
+ *
+ * Sections (6) sémantiquement différenciées de Solutions/Technologies :
+ *   1. Hero · breadcrumb + tier badge + h1 + lead + CTA + meta pricing
+ *   2. Problem · statement macro-typo (la tension marché en 1 phrase forte)
+ *   3. Method · 4 phases numérotées 01→04 (méthode Waimia signature)
+ *   4. Deliverables · 3-6 cards livrables tangibles + tag format (PDF, scripts...)
+ *   5. Proof · quote client + métriques chiffrées
+ *   6. CTA dark · "Prêt à déployer ?"
+ *
+ * Brique signature : DeliverablesGrid (livrables tangibles avec tag format).
+ * Pas de Stack ici : déplacé sur Solutions/Technologies où il a + de sens.
+ * Source handoff : project/pages/offres/detail.html (lignes 161-311).
+ *
+ * Usage minimal (props) :
+ *   <OffresDetailTemplate
+ *     tier="§ 02 · DÉPLOIEMENT LIGHT"
+ *     tierLabel="Claude Cowork & Artifacts"
+ *     meta="Palier 02 · à partir de 3 500 €"
+ *     title="Contact Claude Cowork & Artifacts"
+ *     description="Déploiement complet de Claude sur chaque poste."
+ *   >
+ *     <Fragment slot="title">Claude<br/>Cowork &amp;<br/>Artifacts</Fragment>
+ *     <Fragment slot="lead">Lead html...</Fragment>
+ *     <Fragment slot="problem-statement">Les équipes ont accès à l'IA. <em>Elles ne l'utilisent pas.</em></Fragment>
+ *     ... etc
+ *   </OffresDetailTemplate>
+ */
+import Base from '../../layouts/Base.astro';
+import Header from '../header/Header.astro';
+import Footer from '../footer/Footer.astro';
+
+interface Props {
+  /** SEO meta · title de la page (browser tab) */
+  title: string;
+  /** SEO meta · description */
+  description: string;
+  /** Tier badge (kicker au-dessus du h1) ex: "§ 02 · DÉPLOIEMENT LIGHT" */
+  tier: string;
+  /** Label du breadcrumb second segment ex: "Claude Cowork & Artifacts" */
+  tierLabel: string;
+  /** Meta sous le CTA hero ex: "Palier 02 · à partir de 3 500 €" */
+  meta?: string;
+  /** Href du CTA hero (default /contact) */
+  ctaHref?: string;
+  /** Label du CTA hero (default "Parler à un expert →") */
+  ctaLabel?: string;
+}
+
+const {
+  title,
+  description,
+  tier,
+  tierLabel,
+  meta = '',
+  ctaHref = '/contact',
+  ctaLabel = 'Parler à un expert →',
+} = Astro.props;
+---
+<Base {title} {description}>
+  <Header />
+
+  <main id="main">
+    {/* ────────── 1. HERO ────────── */}
+    <section class="off-hero" data-screen-label="01 Hero">
+      <svg class="off-hero-geo" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <circle cx="1200" cy="120" r="340" fill="none" stroke="currentColor" stroke-width=".6" opacity=".18"/>
+        <circle cx="1200" cy="120" r="220" fill="none" stroke="var(--accent)" stroke-width=".4" opacity=".25"/>
+        <line x1="0" y1="400" x2="1440" y2="280" stroke="currentColor" stroke-width=".4" opacity=".12"/>
+      </svg>
+      <div class="wrap">
+        <nav class="off-hero-bc" aria-label="Fil d'Ariane">
+          <a href="/offres">Offres</a>
+          <span aria-hidden="true">/</span>
+          <span>{tierLabel}</span>
+        </nav>
+        <div class="off-hero-tier">{tier}</div>
+        <h1 class="off-hero-title"><slot name="title" /></h1>
+        <div class="off-hero-sub">
+          <p class="off-hero-lead"><slot name="lead" /></p>
+          <div class="off-hero-actions">
+            <a class="off-hero-cta" href={ctaHref}>{ctaLabel}</a>
+            {meta && <div class="off-hero-meta">{meta}</div>}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ────────── 2. PROBLEM ────────── */}
+    <section class="off-sec" data-screen-label="02 Problem">
+      <div class="wrap wrap-tight">
+        <div class="off-problem-statement"><slot name="problem-statement" /></div>
+        <div class="off-problem-annotations"><slot name="problem-annotations" /></div>
+      </div>
+    </section>
+
+    {/* ────────── 3. METHOD ────────── */}
+    <section class="off-sec off-sec-paper" data-screen-label="03 Method">
+      <div class="wrap">
+        <div class="off-sec-hd">
+          <div>
+            <div class="kicker">Notre approche</div>
+            <h2><i>Méthode</i><br/>Waimia</h2>
+          </div>
+          <p class="off-aside"><slot name="method-aside" /></p>
+        </div>
+        <div class="off-steps"><slot name="method-steps" /></div>
+      </div>
+    </section>
+
+    {/* ────────── 4. DELIVERABLES ────────── */}
+    <section class="off-sec" data-screen-label="04 Deliverables">
+      <div class="wrap">
+        <div class="off-sec-hd">
+          <div>
+            <div class="kicker">Ce que vous recevez</div>
+            <h2><i>Livrables</i></h2>
+          </div>
+          <p class="off-aside"><slot name="deliverables-aside" /></p>
+        </div>
+        <div class="off-del-grid"><slot name="deliverables" /></div>
+      </div>
+    </section>
+
+    {/* ────────── 5. PROOF ────────── */}
+    <section class="off-sec off-sec-paper" data-screen-label="05 Proof">
+      <div class="wrap wrap-tight">
+        <div class="off-proof-band">
+          <div class="off-proof-main">
+            <div class="kicker">Signal terrain</div>
+            <div class="off-proof-quote"><slot name="proof-quote" /></div>
+            <div class="off-proof-attr"><slot name="proof-attr" /></div>
+          </div>
+          <div class="off-proof-div" aria-hidden="true"></div>
+          <div class="off-proof-aside">
+            <div class="kicker">Métriques clés</div>
+            <div class="off-proof-metrics"><slot name="proof-metrics" /></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ────────── 6. RELATED (optionnel) ────────── */}
+    <slot name="related" />
+
+    {/* ────────── 7. CTA ────────── */}
+    <section class="off-sec off-sec-dark" data-screen-label="07 CTA">
+      <div class="wrap wrap-tight">
+        <div class="off-cta-final">
+          <h2><i><slot name="cta-title">Prêt à<br/>déployer ?</slot></i></h2>
+          <div class="off-cta-body">
+            <p><slot name="cta-body">Cadrage en 45 minutes. Nous auditons votre contexte et proposons un plan d'action concret — sans engagement.</slot></p>
+            <div class="off-cta-btns">
+              <a class="btn-accent" href="/contact">Prendre rendez-vous →</a>
+              <a class="btn-light" href="/offres">Toutes les offres</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* ───── Hero ───── */
+  .off-hero {
+    position: relative;
+    padding: clamp(80px, 10vw, 140px) 0 clamp(64px, 8vw, 120px);
+    overflow: hidden;
+    color: var(--ink);
+  }
+  .off-hero-geo {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none;
+  }
+  .off-hero-bc {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex; gap: 8px; align-items: center;
+    margin-bottom: 24px;
+  }
+  .off-hero-bc a { color: var(--muted); transition: color 220ms var(--ease); }
+  .off-hero-bc a:hover { color: var(--accent); }
+  .off-hero-tier {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .off-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 9vw, 148px);
+    line-height: 0.92;
+    letter-spacing: -0.028em;
+    font-weight: 400;
+    margin: 0 0 32px;
+    text-wrap: balance;
+  }
+  .off-hero-title :global(i) { color: var(--accent); font-style: italic; }
+  .off-hero-sub {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(24px, 4vw, 64px);
+    align-items: end;
+    max-width: 1100px;
+  }
+  .off-hero-lead {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2vw, 26px);
+    line-height: 1.4;
+    color: var(--ink);
+    font-style: italic;
+    margin: 0;
+  }
+  .off-hero-lead :global(span) { color: var(--accent); display: block; margin-top: 8px; }
+  .off-hero-actions { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .off-hero-cta {
+    display: inline-block;
+    padding: 14px 24px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: -0.005em;
+    transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
+  }
+  .off-hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+  .off-hero-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ───── Sec common ───── */
+  .off-sec { padding: clamp(72px, 8vw, 120px) 0; position: relative; }
+  .off-sec-paper { background: var(--paper-2, #EFEBE2); }
+  .off-sec-dark { background: var(--ink); color: var(--paper); }
+  .off-sec-dark :global(.kicker) { color: var(--accent); }
+  .off-sec-hd {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(24px, 4vw, 80px);
+    margin-bottom: clamp(40px, 5vw, 64px);
+    align-items: end;
+  }
+  .off-sec-hd h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 0.96;
+    letter-spacing: -0.018em;
+    font-weight: 400;
+    margin: 8px 0 0;
+  }
+  .off-sec-hd :global(i) { color: var(--accent); font-style: italic; }
+  .off-aside {
+    font-family: var(--font-display);
+    font-size: clamp(15px, 1.3vw, 17px);
+    line-height: 1.5;
+    color: var(--muted);
+    font-style: italic;
+    max-width: 480px;
+    margin: 0;
+  }
+
+  /* ───── Problem ───── */
+  .off-problem-statement {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4.6vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: clamp(24px, 3vw, 40px);
+    text-wrap: balance;
+  }
+  .off-problem-statement :global(em) { color: var(--accent); font-style: italic; }
+  .off-problem-annotations {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+    margin-top: 32px;
+  }
+  .off-problem-annotations :global(.ann-value) {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 4vw, 56px);
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+  .off-problem-annotations :global(.ann-label) {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ───── Steps (Method) ───── */
+  .off-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: clamp(24px, 3vw, 48px);
+    counter-reset: step;
+  }
+  .off-steps :global(.step) {
+    counter-increment: step;
+    padding-top: 32px;
+    border-top: 1px solid currentColor;
+    border-color: rgba(0,0,0,0.12);
+  }
+  .off-steps :global(.step-n) {
+    font-family: var(--font-display);
+    font-size: 96px;
+    line-height: 0.85;
+    color: var(--accent);
+    margin-bottom: 16px;
+    font-weight: 400;
+  }
+  .off-steps :global(.step-k) {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .off-steps :global(.step h3) {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 1.6vw, 24px);
+    line-height: 1.2;
+    margin: 0 0 12px;
+    font-weight: 400;
+  }
+  .off-steps :global(.step p) { font-size: 15px; line-height: 1.55; color: var(--ink); margin: 0; }
+
+  /* ───── Deliverables ───── */
+  .off-del-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: clamp(20px, 2.5vw, 32px);
+  }
+  .off-del-grid :global(.del-card) {
+    padding: 28px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 12px;
+    background: var(--paper);
+    transition: border-color 220ms var(--ease), transform 220ms var(--ease);
+  }
+  .off-del-grid :global(.del-card:hover) { border-color: var(--accent); transform: translateY(-2px); }
+  .off-del-grid :global(.del-card h3) {
+    font-family: var(--font-display);
+    font-size: 21px;
+    line-height: 1.2;
+    margin: 16px 0 8px;
+    font-weight: 400;
+  }
+  .off-del-grid :global(.del-card p) { font-size: 14.5px; line-height: 1.55; color: var(--ink); margin: 0 0 16px; }
+  .off-del-grid :global(.del-tag) {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 6px 10px;
+    background: rgba(201,79,46,0.08);
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  /* ───── Proof ───── */
+  .off-proof-band {
+    display: grid;
+    grid-template-columns: 1.6fr auto 1fr;
+    gap: clamp(24px, 3vw, 48px);
+    align-items: stretch;
+  }
+  .off-proof-quote {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2vw, 26px);
+    line-height: 1.4;
+    color: var(--ink);
+    font-style: italic;
+    margin: 12px 0 16px;
+  }
+  .off-proof-attr {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .off-proof-div { width: 1px; background: rgba(0,0,0,0.1); }
+  .off-proof-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 24px;
+    margin-top: 12px;
+  }
+  .off-proof-metrics :global(.metric-v) {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3vw, 40px);
+    color: var(--accent);
+    line-height: 1;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .off-proof-metrics :global(.metric-l) {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    line-height: 1.3;
+  }
+
+  /* ───── CTA final dark ───── */
+  .off-cta-final {
+    text-align: center;
+    padding: clamp(40px, 5vw, 64px) 0;
+  }
+  .off-cta-final h2 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.95;
+    margin: 0 0 32px;
+    font-weight: 400;
+  }
+  .off-cta-final h2 :global(i) { color: var(--accent); font-style: italic; }
+  .off-cta-body p {
+    font-family: var(--font-display);
+    font-size: clamp(16px, 1.4vw, 19px);
+    line-height: 1.5;
+    color: var(--paper);
+    font-style: italic;
+    max-width: 540px;
+    margin: 0 auto 32px;
+  }
+  .off-cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-accent {
+    display: inline-block;
+    padding: 14px 28px;
+    background: var(--accent);
+    color: var(--paper);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: -0.005em;
+    transition: transform 220ms var(--ease);
+  }
+  .btn-accent:hover { transform: translateY(-2px); }
+  .btn-light {
+    display: inline-block;
+    padding: 14px 28px;
+    background: transparent;
+    color: var(--paper);
+    border: 1px solid rgba(246,241,232,0.3);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: -0.005em;
+    transition: border-color 220ms var(--ease);
+  }
+  .btn-light:hover { border-color: var(--paper); }
+
+  /* ───── Wrap utilities (si pas globales) ───── */
+  .wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 48px);
+  }
+  .wrap-tight { max-width: 880px; }
+
+  @media (max-width: 800px) {
+    .off-hero-sub { grid-template-columns: 1fr; }
+    .off-sec-hd { grid-template-columns: 1fr; }
+    .off-proof-band { grid-template-columns: 1fr; }
+    .off-proof-div { display: none; }
+  }
+</style>

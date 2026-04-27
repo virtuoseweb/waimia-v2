@@ -54,6 +54,8 @@ export const MM_OFFRES: MegaMenu = {
       label: { en: 'Consulting & Audit', fr: 'Conseil & Audit' },
       tint: '#C94F2E',
       items: [
+        { href: '/offres/conseil', label: { en: 'Consulting hub · 7 services', fr: 'Hub Conseil · 7 services' }, lead: { en: 'The full advisory catalogue.', fr: 'Le catalogue conseil complet.' }, featured: true },
+        { href: '/offres/audit-maturite-ia', label: { en: 'AI Readiness Assessment · 10 days', fr: 'Audit de maturité IA · 10 jours' }, lead: { en: 'Data, tooling, team, governance scorecard.', fr: 'Data, outillage, équipe, gouvernance — un scorecard.' } },
         { href: '/offres/audit-process-intelligence', label: { en: 'Process Intelligence Audit', fr: 'Audit Process Intelligence' }, lead: { en: 'Map the SOPs before the agents.', fr: 'Cartographier les SOPs avant les agents.' } },
         { href: '/offres/conformite-ai-act', label: { en: 'AI Act · GDPR · LPD Compliance', fr: 'Conformité AI Act · RGPD · LPD' }, lead: { en: 'Audit + remediation + dossier.', fr: 'Audit + remédiation + dossier.' } },
         { href: '/offres/architecture-hybride', label: { en: 'Hybrid Architecture Strategy', fr: "Stratégie d'architecture hybride" }, lead: { en: 'Claude + open-source · the split.', fr: "Claude + open-source · l'équilibre." } },
@@ -76,6 +78,7 @@ export const MM_OFFRES: MegaMenu = {
       label: { en: 'Autonomous agents & MVP', fr: 'Agents autonomes & MVP' },
       tint: '#C94F2E',
       items: [
+        { href: '/offres/revops', label: { en: 'RevOps Rebuild · Claude-native', fr: 'Refonte RevOps · Claude-native' }, lead: { en: 'Funnel, handoffs, attribution — agents in the CRM.', fr: 'Funnel, passations, attribution — agents dans le CRM.' }, featured: true },
         { href: '/offres/agents-metiers', label: { en: 'Custom Business Agents', fr: 'Agents métiers autonomes' }, lead: { en: 'One job, one agent, audit trail.', fr: 'Un job, un agent, trace auditable.' } },
         { href: '/offres/multi-agents', label: { en: 'Multi-Agent Systems · LangGraph / CrewAI', fr: 'Systèmes multi-agents · LangGraph / CrewAI' } },
         { href: '/offres/tiered-routing', label: { en: 'Tiered Routing', fr: 'Tiered Routing · routage dynamique' }, lead: { en: 'Route to Haiku, escalate to Opus.', fr: 'Router vers Haiku, escalader vers Opus.' } },
@@ -87,6 +90,7 @@ export const MM_OFFRES: MegaMenu = {
       label: { en: 'Scale & sovereignty', fr: 'Scale & souveraineté' },
       tint: '#C94F2E',
       items: [
+        { href: '/offres/site-web-ia', label: { en: 'AI-Native Website Build', fr: 'Site web IA-native' }, lead: { en: 'Production-grade, GEO-ready, sovereign.', fr: 'Production-ready, GEO-aware, souverain.' }, featured: true },
         { href: '/offres/managed-agents', label: { en: 'Claude Managed Agents · async cloud', fr: 'Claude Managed Agents · cloud async' }, lead: { en: 'Anthropic-hosted, long-running agents.', fr: 'Agents longs hébergés Anthropic.' } },
         { href: '/offres/self-hosted', label: { en: 'Self-Hosted Infrastructure', fr: 'Infrastructure Self-Hosted' }, lead: { en: 'On your hardware · total governance.', fr: 'Sur votre infra · gouvernance totale.' } },
         { href: '/offres/open-source', label: { en: 'Open-Source Model Deployment', fr: 'Déploiement modèles open-source' }, lead: { en: 'Llama 4 · DeepSeek · Qwen · GLM.', fr: 'Llama 4 · DeepSeek · Qwen · GLM.' } },
@@ -129,6 +133,7 @@ export const MM_SOLUTIONS: MegaMenu = {
       kicker: { en: 'BY INDUSTRY', fr: 'PAR INDUSTRIE' },
       label: { en: 'Security-framed', fr: 'Contraintes de sécurité' },
       items: [
+        { href: '/solutions/fintech', label: { en: 'Fintech · Claude-native', fr: 'Fintech · Claude-native' }, lead: { en: 'KYC, fraud, AML — agents in compliance loops.', fr: 'KYC, fraude, AML — agents dans les boucles compliance.' }, featured: true },
         { href: '/solutions/sante', label: { en: 'Healthcare & Life Sciences', fr: 'Santé & Sciences de la vie' }, lead: { en: 'HIPAA · LPD-ready deployments.', fr: 'Déploiements HIPAA · LPD-ready.' } },
         { href: '/solutions/finance-industrie', label: { en: 'Banking, Finance & Insurance', fr: 'Banque, Finance & Assurance' }, lead: { en: 'ACPR · DORA · PCI-aware.', fr: 'ACPR · DORA · PCI.' } },
         { href: '/solutions/secteur-public', label: { en: 'Public Sector & Defense', fr: 'Secteur Public & Défense' }, lead: { en: 'Sovereign self-hosted · SecNumCloud.', fr: 'Souverain self-hosted · SecNumCloud.' } },
@@ -171,6 +176,7 @@ export const MM_TECH: MegaMenu = {
       kicker: { en: 'OPEN SOURCE · SOVEREIGN', fr: 'OPEN SOURCE · SOUVERAIN' },
       label: { en: 'Self-hosted', fr: 'Self-hosted' },
       items: [
+        { href: '/technologies/virtuoseos', label: { en: 'VirtuoseOS · sovereign agent runtime', fr: 'VirtuoseOS · runtime souverain' }, lead: { en: 'Our open agent OS · self-hosted, audit-ready.', fr: "Notre OS d'agents · self-hosted, traçable." }, featured: true },
         { href: '/technologies/inference', label: { en: 'vLLM · Ollama · Prem AI', fr: 'vLLM · Ollama · Prem AI' } },
         { href: '/technologies/open-source-models', label: { en: 'Qwen 3.5 · Llama 4 · DeepSeek V3.2 · GLM-5', fr: 'Qwen 3.5 · Llama 4 · DeepSeek V3.2 · GLM-5' } },
         { href: '/technologies/rag-prive', label: { en: 'Private RAG · vector DBs', fr: 'RAG privé · vector DBs' } },
@@ -181,6 +187,7 @@ export const MM_TECH: MegaMenu = {
       kicker: { en: 'FRAMEWORKS · ORCHESTRATION', fr: 'FRAMEWORKS · ORCHESTRATION' },
       label: { en: 'Multi-agent & no-code', fr: 'Multi-agents & no-code' },
       items: [
+        { href: '/technologies', label: { en: 'Technologies hub · the full stack', fr: 'Hub Technologies · la stack complète' }, lead: { en: 'Anthropic · open-source · orchestration.', fr: "Anthropic · open-source · orchestration." }, featured: true },
         { href: '/technologies/frameworks', label: { en: 'LangGraph · CrewAI · AutoGen', fr: 'LangGraph · CrewAI · AutoGen' } },
         { href: '/technologies/no-code', label: { en: 'Make · n8n · Zapier', fr: 'Make · n8n · Zapier' } },
         { href: '/technologies/observability', label: { en: 'Observability · LangSmith · Helicone', fr: 'Observabilité · LangSmith · Helicone' } },
@@ -219,8 +226,10 @@ export const MM_RESOURCES: MegaMenu = {
       kicker: { en: 'LEARNING', fr: 'APPRENTISSAGE' },
       label: { en: 'Blog · cookbooks · masterclass', fr: 'Blog · cookbooks · masterclass' },
       items: [
+        { href: '/ressources/cookbooks/claude-skills-tutorial', label: { en: 'Cookbook · Build a Claude Skill', fr: 'Cookbook · Créer une Claude Skill' }, lead: { en: 'Step-by-step, code included.', fr: "Pas-à-pas, avec le code." }, featured: true },
         { href: '/ressources/blog', label: { en: 'Blog · agentic insights', fr: 'Blog · insights agentiques' } },
         { href: '/ressources/cookbooks', label: { en: 'Cookbooks & tutorials', fr: 'Cookbooks & tutoriels' }, lead: { en: 'How to build a Claude Skill.', fr: 'Créer une Claude Skill.' } },
+        { href: '/ressources/academy', label: { en: 'Academy · Claude masterclass', fr: 'Academy · masterclass Claude' } },
         { href: '/ressources/webinaires', label: { en: 'Webinars & masterclass', fr: 'Webinaires & masterclass' } },
         { href: '/ressources/newsletter', label: { en: 'Newsletter · Intelligence Opérationnelle', fr: 'Newsletter · Intelligence Opérationnelle' } },
       ],
@@ -230,6 +239,7 @@ export const MM_RESOURCES: MegaMenu = {
       label: { en: 'Lead-gen utilities', fr: 'Utilitaires de qualification' },
       tint: '#C94F2E',
       items: [
+        { href: '/ressources/livres-blancs/ai-act-readiness', label: { en: 'White paper · AI Act Readiness', fr: "Livre blanc · Préparation à l'AI Act" }, lead: { en: 'The compliance dossier · downloadable.', fr: 'Le dossier de conformité · téléchargeable.' }, featured: true },
         { href: '/ressources/outils/tco-calculator', label: { en: 'AI Agent TCO Calculator', fr: 'Calculateur coût TCO agents' }, lead: { en: 'Model your true agent cost.', fr: 'Modéliser le vrai coût agent.' } },
         { href: '/ressources/outils/roi-calculator', label: { en: 'ROI & Time-saved Calculator', fr: 'Calculateur ROI & temps gagné' } },
         { href: '/ressources/outils/ai-act-checklist', label: { en: 'AI Act Readiness Checklist', fr: "Checklist prêt pour l'AI Act" } },

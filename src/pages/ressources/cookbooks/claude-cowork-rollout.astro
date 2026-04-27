@@ -1,0 +1,92 @@
+---
+// Page · /ressources/cookbooks/claude-cowork-rollout · Cookbook adoption
+// Source : brief content marketing · Waimia
+//
+// Composé de · EssayTemplate (squelette) · contenu rich text via slot.
+
+import EssayTemplate from '../../../components/templates/EssayTemplate.astro';
+
+const relatedCards = [
+  { kicker: 'COOKBOOK 01', title_fr: 'Construire un Claude Skill', title_en: 'Build a Claude Skill',
+    lead_fr: 'Du brief client à la skill déployée en 30 minutes →', lead_en: 'From client brief to deployed skill in 30 minutes →',
+    href: '/ressources/cookbooks/claude-skills-tutorial' },
+  { kicker: 'COOKBOOK 02', title_fr: 'MCP server Notion', title_en: 'MCP Notion server',
+    lead_fr: 'Connecter Claude à votre Notion en moins d\'une heure →', lead_en: 'Wire Claude to your Notion in under an hour →',
+    href: '/ressources/cookbooks/mcp-server-deploy' },
+  { kicker: 'OFFRE', title_fr: 'Conseil Claude Cowork', title_en: 'Claude Cowork advisory',
+    lead_fr: 'Mission cadrée 6 semaines pour déployer Claude →', lead_en: 'Scoped 6-week engagement to roll out Claude →',
+    href: '/services' },
+];
+---
+<EssayTemplate
+  title="Rollout Claude Cowork sur 200 collaborateurs : la checklist Waimia · Cookbook · Waimia"
+  description="Distribuer une licence ne suffit pas. Voici les 7 étapes qui font la différence entre adoption ≥80 % à J+30 et 73 % de licences inutilisées."
+  kicker="COOKBOOK · 03 · CLAUDE COWORK"
+  date="2026-04-20"
+  author="Simon Beros"
+  readingTime="9 min"
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">
+    Rollout <i>Claude Cowork</i> sur 200 collaborateurs : la checklist Waimia.
+  </Fragment>
+  <Fragment slot="lede">
+    Distribuer une licence ne suffit pas. Voici les 7 étapes qui font la différence entre adoption ≥80 % à J+30 et 73 % de licences inutilisées.
+  </Fragment>
+
+  <Fragment slot="body">
+    <h2>Le piège : licences distribuées ≠ adoption</h2>
+    <p>Sur 14 déploiements Claude Cowork qu'on a observés en 2025-2026, la médiane d'usage actif à J+30 était de 27 %. Autrement dit : 73 % des licences payées n'étaient jamais utilisées une seconde fois après la première session de découverte. Côté finance, c'est 6 chiffres jetés. Côté narrative interne, c'est pire : un échec public qui durcit la résistance pour le prochain projet IA.</p>
+    <p>Pourquoi ce taux ? Parce que la plupart des rollouts s'arrêtent à « on a acheté les licences, on a envoyé l'email d'invitation ». Sans rituel d'adoption, sans contenu adapté aux métiers, sans mesure d'usage, l'agent reste un onglet qu'on ferme. Les 7 étapes qui suivent sont ce qu'on applique en mission pour basculer du côté ≥80 % d'adoption.</p>
+
+    <h2>Étape 1 : Audit pré-rollout</h2>
+    <p>Avant la première licence distribuée, cartographier les 5 workflows chronophages par métier. Pas « les workflows IA », pas « les workflows à automatiser » — les workflows <em>chronophages</em>, ceux qui mangent 30 % du temps utile et que personne n'aime faire. Pour un commercial : qualification entrante, mise à jour CRM, préparation de RDV, rédaction de proposition, reporting hebdo. Pour un contrôleur de gestion : variance mensuelle, refonte de templates, réconciliation comptable, prévisionnel rolling, alertes seuils.</p>
+    <p>Cet audit prend 3 jours sur une PME de 200, 8 jours sur une ETI. Output : une matrice de 8-15 workflows par métier, scorés sur fréquence × douleur × faisabilité Claude. Les 3 premiers de chaque liste deviennent la cible du rollout.</p>
+
+    <h2>Étape 2 : Champion par département</h2>
+    <p>Sans champion, pas d'adoption. Le champion n'est pas le manager — c'est un volontaire enthousiaste, idéalement déjà un peu geek, qui accepte une responsabilité formelle : 4 h par semaine pendant les 8 premières semaines, payées sur son temps officiel, pas en heures sup'. Son rôle : faire la démo concrète à ses pairs avec leurs vrais dossiers, pas avec un cas fictif.</p>
+    <p>Règle : pas de champion désigné contre son gré. Un champion involontaire devient anti-champion en 3 semaines. Recrutez sur volontariat avec une vraie carotte (formation, visibilité interne, prime).</p>
+
+    <h2>Étape 3 : Bibliothèque de 15 prompts par métier</h2>
+    <p>Le piège mortel : livrer une « bibliothèque de prompts génériques ». 80 prompts du type « rédige-moi un email professionnel ». Personne ne les utilise parce qu'ils ne sont pas <em>leurs</em> cas.</p>
+    <p>Ce qui marche : 15 prompts <strong>spécifiques au métier</strong>, qui couvrent les 3-5 workflows identifiés à l'étape 1. Pour le commercial : « Qualifie ce lead entrant à partir de ce email + de la fiche LinkedIn jointe + de notre ICP — sors un score 1-5 et 3 questions à poser au premier RDV ». Pour le contrôleur : « Compare ces deux exports CSV mensuels et identifie les écarts &gt; 5 % avec leur cause probable basée sur le contexte ops du mois ».</p>
+    <p>Chaque prompt est testé sur 5 cas réels avant publication. Ceux qui ratent &gt; 1 cas sur 5 sont jetés. Mieux vaut 10 prompts qui marchent à 95 % que 30 qui marchent à 60 %.</p>
+
+    <h2>Étape 4 : Onboarding en 4 sessions de 90 min</h2>
+    <p>Une session unique de 2 h, c'est de l'audition d'ennui. Le pattern qui marche : 4 sessions de 90 min étalées sur 3 semaines, en groupes de 8-12 personnes du même métier, avec leurs vrais dossiers ouverts en tab.</p>
+    <ul>
+      <li><strong>Session 1 — Découverte ciblée</strong> : 30 min de démo des 3 workflows prioritaires sur des cas du groupe, 60 min de pratique en binôme avec dossiers réels.</li>
+      <li><strong>Session 2 — Bibliothèque de prompts</strong> : exploration des 15 prompts métier, chaque participant en customise 3 pour ses dossiers personnels.</li>
+      <li><strong>Session 3 — Tools et MCP</strong> : connexion à Notion, Drive, Slack — les bonnes pratiques de scope, ce qui se partage et ce qui reste local.</li>
+      <li><strong>Session 4 — Cas critiques</strong> : retour d'expérience, démos par les participants eux-mêmes, identification des prompts à améliorer.</li>
+    </ul>
+    <p>Les sessions sont enregistrées et republiées en interne dans une base Notion dédiée. Un retardataire peut rattraper en 4 h sans bloquer le groupe.</p>
+
+    <h2>Étape 5 : MCP connectors configurés J0</h2>
+    <p>Erreur fréquente : laisser chaque utilisateur connecter ses propres outils. Résultat : 200 personnes qui ne configurent jamais Notion, Drive ou Slack, et un Claude qui reste à l'état de chatbot générique. Adoption garantie à 12 %.</p>
+    <p>La règle Waimia : les 3 connecteurs MCP critiques (Notion, Drive d'équipe, Slack channels publics) sont configurés <strong>avant</strong> le J0 utilisateur, par l'IT, avec scope minimal. L'utilisateur reçoit un Claude déjà branché à son contexte de travail. Première démo, première valeur perçue, première habitude.</p>
+    <p>Le cookbook 02 (<a href="/ressources/cookbooks/mcp-server-deploy">MCP server Notion</a>) détaille comment câbler proprement un connecteur Notion. Le même pattern s'applique à Drive et Slack.</p>
+
+    <h2>Étape 6 : Mesure d'usage J+15 et J+30</h2>
+    <p>Sans dashboard, pas de signal de décrochage. Mesurez 4 indicateurs minimum :</p>
+    <ul>
+      <li><strong>DAU / MAU</strong> par département (objectif : DAU/MAU &gt; 0,4 à J+30)</li>
+      <li><strong>Sessions actives par utilisateur par semaine</strong> (objectif : médiane &gt; 5)</li>
+      <li><strong>Temps économisé déclaré</strong> via micro-survey 2 questions / semaine (objectif : &gt; 3 h / utilisateur / semaine à J+30)</li>
+      <li><strong>Top 10 prompts les plus utilisés</strong> par département — signal direct de quels prompts tiennent la promesse</li>
+    </ul>
+    <p>Configurez des alertes : si un utilisateur n'a pas ouvert Claude pendant 7 jours après son onboarding, le champion de son département reçoit un ping. Petite intervention humaine qui sauve 60 % des décrocheurs.</p>
+
+    <h2>Étape 7 : Itération continue</h2>
+    <p>Le rollout n'est pas un projet, c'est un <em>produit</em>. À J+30, J+60, J+90, faites un sprint de 2 jours pour :</p>
+    <ul>
+      <li>Retirer les prompts les moins utilisés (&lt; 5 % d'usage)</li>
+      <li>Ajouter 5 nouveaux prompts inspirés des cas remontés par les utilisateurs</li>
+      <li>Mettre à jour les MCP si l'organisation a ajouté un outil (nouveau CRM, nouvelle base de connaissance)</li>
+      <li>Republier la bibliothèque, communiquer le changelog en interne (vraiment — les gens lisent les changelog quand c'est concis et qu'ils savent à quoi ça sert)</li>
+    </ul>
+    <p>Au bout de 6 mois, vous avez une bibliothèque de 25-40 prompts métier vivante, des MCP qui couvrent 90 % du contexte de travail, et un usage actif &gt; 80 %. C'est le point de bascule où Claude devient un collègue, pas un outil. Et c'est rare — dans les 14 déploiements observés, seuls 3 y arrivaient. Tous les 3 avaient suivi la même structure que ces 7 étapes.</p>
+
+    <p>Si vous démarrez un rollout sur 50 à 500 collaborateurs et voulez éviter le piège des 73 %, <a href="/services">notre offre Conseil Claude Cowork</a> couvre l'audit, la bibliothèque, l'onboarding et le pilotage continu sur 6 semaines.</p>
+  </Fragment>
+</EssayTemplate>

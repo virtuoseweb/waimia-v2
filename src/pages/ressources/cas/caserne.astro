@@ -1,0 +1,106 @@
+---
+// Page · /ressources/cas/caserne · Cas Caserne secteur public défense
+// Source : brief content marketing 2025-Q4
+//
+// Composé de · CaseStudyTemplate (squelette) · données structurées + slots HTML riche.
+
+import CaseStudyTemplate from '../../../components/templates/CaseStudyTemplate.astro';
+
+const specs = [
+  { label_fr: 'Client',      label_en: 'Client',      value: 'Caserne (pseudonym)' },
+  { label_fr: 'Secteur',     label_en: 'Sector',      value: 'Défense · collectivité + opérateur' },
+  { label_fr: 'Durée',       label_en: 'Duration',    value: '14 sem · Q4 2025' },
+  { label_fr: 'Stack',       label_en: 'Stack',       value: 'Llama 3 70B · Ollama · Qdrant' },
+  { label_fr: 'Prestations', label_en: 'Services',    value: 'Self-hosted · RAG privé · SecNumCloud' },
+];
+
+const steps = [
+  { sn: '01', kicker_fr: 'Conformité', kicker_en: 'Compliance',
+    title_fr: 'Audit SecNumCloud', title_en: 'SecNumCloud audit',
+    body_fr: "Trois semaines d'audit conformité SecNumCloud + cartographie complète de la classification data. Aucun raccourci.",
+    body_en: 'Three weeks of SecNumCloud compliance audit + full data classification mapping. No shortcuts.' },
+  { sn: '02', kicker_fr: 'Stack', kicker_en: 'Stack',
+    title_fr: 'Llama 3 70B + Qdrant', title_en: 'Llama 3 70B + Qdrant',
+    body_fr: "Stack open-source 100% self-hosted : Ollama pour servir Llama 3 70B, Qdrant pour le RAG privé. Zéro modèle US.",
+    body_en: 'Fully self-hosted open-source stack: Ollama serving Llama 3 70B, Qdrant for private RAG. Zero US models.' },
+  { sn: '03', kicker_fr: 'Agents', kicker_en: 'Agents',
+    title_fr: 'Analyse documentaire', title_en: 'Document analysis',
+    body_fr: "Agents d'analyse + résumé de documents techniques classifiés. Chaque inférence reste sur l'infrastructure souveraine.",
+    body_en: 'Analysis + summary agents on classified technical documents. Every inference stays on sovereign infrastructure.' },
+  { sn: '04', kicker_fr: 'Transfert', kicker_en: 'Handover',
+    title_fr: 'Formation analystes', title_en: 'Analyst training',
+    body_fr: "Formation des analystes internes + transfert complet de compétences. Waimia se retire, l'équipe opère seule.",
+    body_en: 'Internal analyst training + full skills handover. Waimia steps back, the team operates on its own.' },
+];
+
+const proofMetrics = [
+  { k: '−65%',   label_fr: 'Temps de pré-analyse',        label_en: 'Pre-analysis time' },
+  { k: '100%',   label_fr: 'Souveraineté data',           label_en: 'Data sovereignty' },
+  { k: '+220%',  label_fr: 'Capacité appels d\'offres',   label_en: 'RFP processing capacity' },
+  { k: '0',      label_fr: 'Incident classification leak', label_en: 'Classification leak incident' },
+];
+
+const techPills = [
+  { label: 'Llama 3 70B', kind: 'open' as const },
+  { label: 'Ollama', kind: 'open' as const },
+  { label: 'Qdrant', kind: 'open' as const },
+  { label: 'SecNumCloud', kind: 'neutral' as const },
+  { label: 'VirtuoseOS', kind: 'primary' as const },
+];
+
+const relatedCards = [
+  { kicker: 'CASE 07', title_fr: 'Halcyon Health', title_en: 'Halcyon Health',
+    lead_fr: '−38% temps de triage →', lead_en: '−38% triage time →',
+    href: '/ressources/cas/halcyon' },
+  { kicker: 'CASE 12', title_fr: 'VirtuoseOS interne', title_en: 'VirtuoseOS internal',
+    lead_fr: 'Le delivery industrialisé →', lead_en: 'Industrialized delivery →',
+    href: '/ressources/cas/virtuoseos' },
+  { kicker: 'SERVICE 04.1', title_fr: 'Souverain & self-hosted', title_en: 'Sovereign & self-hosted',
+    lead_fr: 'Le service inspiré par ce cas →', lead_en: 'The service inspired by this case →',
+    href: '/offres/souverain' },
+];
+---
+<CaseStudyTemplate
+  title="Cas · Caserne · 100% souveraineté data · Waimia"
+  description="Comment un déploiement self-hosted Llama 3 70B sur SecNumCloud a multiplié par 3,2 la capacité de traitement d'appels d'offres classifiés, sans une seule sortie d'infrastructure."
+  caseNum="09"
+  specs={specs}
+  steps={steps}
+  proofQuoteFr="Notre contrainte n'était pas négociable : aucune sortie d'infra, aucun modèle américain, aucune télémétrie. Waimia est arrivée avec une stack ouverte qui tient ces trois lignes — et qui livre les résultats."
+  proofQuoteEn="Our constraint wasn't negotiable: no infra leaks, no US models, no telemetry. Waimia came with an open-source stack holding all three lines — and delivering results."
+  proofAttrFr="Responsable SI · Direction sécurité · Caserne"
+  proofAttrEn="IT Director · Security division · Caserne"
+  proofMetrics={proofMetrics}
+  techPills={techPills}
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">
+    Une stack <i>self-hosted</i> qui traite 3,2 × plus d'appels d'offres classifiés — sans sortir de l'infra.
+  </Fragment>
+  <Fragment slot="context">
+    <p>Caserne a une contrainte que l'industrie IA ignore : <i>aucun modèle américain</i>, aucune sortie de l'infrastructure souveraine, classification Confidentiel Défense. Les analystes étaient saturés, les délais de réponse aux appels d'offres trop longs, et chaque démo SaaS arrivait fermée à clé.</p>
+    <p>Notre brief : déployer une stack <i>100% open-source self-hosted</i> sur SecNumCloud. Llama 3 70B servi par Ollama, RAG privé Qdrant, agents d'analyse. <i>Pas de Claude.</i> C'est exactement ce que demande le contexte.</p>
+  </Fragment>
+  <Fragment slot="approach-headline">
+    Quand le contexte exige Llama, on livre <i>Llama</i>.
+  </Fragment>
+  <Fragment slot="approach-aside">
+    Waimia n'est pas Claude-only. Pour ce cas, le bon outil est open-source self-hosted. Notre méthode reste la même : audit conformité → stack → agents → transfert.
+  </Fragment>
+  <Fragment slot="stack-lead">
+    Volontairement <i>ouverte</i>. Llama 3 70B pour la cognition, Ollama pour servir, Qdrant pour le RAG. Toute la pile reste sur SecNumCloud, sous contrôle Caserne.
+  </Fragment>
+</CaseStudyTemplate>
+
+<style is:global>
+  /* Styles paragraphes du slot context · cohérents avec /ressources/cas/plateau. */
+  .case-context-grid p {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.32;
+    letter-spacing: -0.012em;
+    margin: 0 0 24px;
+    text-wrap: pretty;
+  }
+  .case-context-grid p i { font-style: italic; color: var(--accent); }
+</style>

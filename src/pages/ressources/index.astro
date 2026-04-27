@@ -7,8 +7,6 @@
 
 import Base from '../../layouts/Base.astro';
 import Kicker from '../../components/ui/atoms/Kicker.astro';
-import Cases from '../../components/ui/organisms/Cases.astro';
-import WritingNotes from '../../components/ui/organisms/WritingNotes.astro';
 import CtaBand from '../../components/ui/organisms/CtaBand.astro';
 import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
 import Button from '../../components/ui/atoms/Button.astro';
@@ -26,15 +24,50 @@ const tools = [
 ];
 
 const cookbookCards = [
-  { kicker: 'CB · 01', title_fr: 'RevOps Rebuild', title_en: 'RevOps Rebuild',
-    lead_fr: 'Le runbook qu\'on suit en interne →', lead_en: 'The runbook we follow internally →',
-    href: '/ressources/cookbooks#cb-01' },
-  { kicker: 'CB · 04', title_fr: 'Scorecard maturité IA', title_en: 'AI maturity scorecard',
-    lead_fr: '47 critères notés 0-3 →', lead_en: '47 criteria scored 0-3 →',
-    href: '/ressources/cookbooks#cb-04' },
-  { kicker: 'CB · 06', title_fr: 'RPA → agents Claude', title_en: 'RPA → Claude agents',
-    lead_fr: 'Migration 200 bots méthode →', lead_en: '200 bots migration method →',
-    href: '/ressources/cookbooks#cb-06' },
+  { kicker: 'COOKBOOK · 01', title_fr: 'Claude Skills · tutoriel', title_en: 'Claude Skills tutorial',
+    lead_fr: 'Construire un skill from scratch · 30 min →', lead_en: 'Build a skill from scratch · 30 min →',
+    href: '/ressources/cookbooks/claude-skills-tutorial' },
+  { kicker: 'COOKBOOK · 02', title_fr: 'MCP Server · déploiement', title_en: 'MCP server deploy',
+    lead_fr: 'Serveur MCP custom · prod-ready →', lead_en: 'Custom MCP server · prod-ready →',
+    href: '/ressources/cookbooks/mcp-server-deploy' },
+  { kicker: 'COOKBOOK · 03', title_fr: 'Claude Cowork · rollout', title_en: 'Claude Cowork rollout',
+    lead_fr: 'Déploiement light en 14 jours →', lead_en: '14-day light rollout →',
+    href: '/ressources/cookbooks/claude-cowork-rollout' },
+];
+
+const caseCards = [
+  { num: '01', kicker: 'CAS · SAAS B2B', title_fr: 'Plateau',
+    sub_fr: '+2,4 M€ pipeline récupéré',
+    lead_fr: 'RevOps rebuild · 10 semaines · Claude + HubSpot + dbt.',
+    href: '/ressources/cas/plateau' },
+  { num: '02', kicker: 'CAS · SANTÉ-TECH', title_fr: 'Halcyon Health',
+    sub_fr: '−38% temps de triage',
+    lead_fr: 'Triage assisté · 6 semaines · Claude + Snowflake.',
+    href: '/ressources/cas/halcyon' },
+  { num: '03', kicker: 'CAS · FINTECH EU', title_fr: 'Northbound',
+    sub_fr: '×3,1 conversion SQL',
+    lead_fr: 'Lead qualification · 14 semaines · Claude + Segment + dbt.',
+    href: '/ressources/cas/northbound' },
+  { num: '04', kicker: 'CAS · INDUSTRIE FR', title_fr: 'Caserne',
+    sub_fr: '1 200 h/an récupérées',
+    lead_fr: 'RAG documentaire · 8 semaines · Claude + RAG + SAP.',
+    href: '/ressources/cas/caserne' },
+  { num: '05', kicker: 'CAS · INTERNE', title_fr: 'VirtuoseOS',
+    sub_fr: 'L\'OS sous chaque livraison',
+    lead_fr: 'Blueprint interne Waimia · ongoing · Claude + open-source + multi-agent.',
+    href: '/ressources/cas/virtuoseos' },
+];
+
+const blogCards = [
+  { kicker: 'BLOG · 01', title_fr: 'Brain Circuit', title_en: 'Brain Circuit',
+    lead_fr: 'Note longue · architecture cognitive →', lead_en: 'Long read · cognitive architecture →',
+    href: '/ressources/blog/brain-circuit' },
+];
+
+const livresBlancsCards = [
+  { kicker: 'LIVRE BLANC · 01', title_fr: 'AI Act Readiness', title_en: 'AI Act Readiness',
+    lead_fr: 'Conformité européenne · checklist 47 critères →', lead_en: 'EU compliance · 47 criteria checklist →',
+    href: '/ressources/livres-blancs/ai-act-readiness' },
 ];
 ---
 <Base
@@ -61,20 +94,68 @@ const cookbookCards = [
     </div>
   </section>
 
-  {/* CASES · réutilisation organisme homepage */}
-  <Cases />
+  {/* CAS CLIENTS · 5 cards vers vraies sub-pages */}
+  <section class="hub-cases-detail">
+    <div class="wrap-wide">
+      <Kicker tone="accent" class="hub-cd-k">§ Cas clients · 5 dossiers signés</Kicker>
+      <h2 class="hub-cd-h2">Cinq <i>missions</i>. Toutes mesurées.</h2>
+      <p class="hub-cd-lead">
+        Pas de témoignages publicitaires — chaque cas est lu, validé et signé par le client. Quatre clients externes plus notre blueprint interne.
+      </p>
+      <ol class="hub-cd-list">
+        {caseCards.map((c) => (
+          <li class="hub-cd-row">
+            <a class="hub-cd-link" href={c.href}>
+              <span class="hub-cd-num">{c.num}</span>
+              <span class="hub-cd-body">
+                <span class="hub-cd-kicker">{c.kicker}</span>
+                <span class="hub-cd-title">{c.title_fr} <i>· {c.sub_fr}</i></span>
+                <span class="hub-cd-text">{c.lead_fr}</span>
+              </span>
+              <span class="hub-cd-arr" aria-hidden>→</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
 
-  {/* WRITING · réutilisation organisme homepage (blog) */}
-  <WritingNotes />
-
-  {/* COOKBOOKS featured */}
+  {/* COOKBOOKS · 3 cards vers vraies sub-pages */}
   <section class="hub-cookbooks">
     <div class="wrap-wide">
-      <Kicker tone="accent" class="hub-cookbooks-k">§ Cookbooks · 3 sélections</Kicker>
+      <Kicker tone="accent" class="hub-cookbooks-k">§ Cookbooks · 3 recettes signées</Kicker>
       <h2 class="hub-cookbooks-h2">Les <i>recettes</i> qu'on applique en mission.</h2>
       <RelatedCards cards={cookbookCards} />
       <div class="hub-cookbooks-cta">
-        <Button href="/ressources/cookbooks" variant="ghost" size="lg">Voir les 6 cookbooks →</Button>
+        <Button href="/ressources/cookbooks" variant="ghost" size="lg">Tous les cookbooks →</Button>
+      </div>
+    </div>
+  </section>
+
+  {/* BLOG + LIVRES BLANCS · pages détaillées */}
+  <section class="hub-blog-lb">
+    <div class="wrap-wide hub-blog-lb-grid">
+      <div>
+        <Kicker tone="accent" class="hub-blog-k">§ Blog · notes longues</Kicker>
+        <h2 class="hub-blog-h2">Une <i>note</i> à la fois.</h2>
+        <p class="hub-blog-lead">
+          Pas de calendrier éditorial. On publie quand on a vraiment quelque chose à dire.
+        </p>
+        <RelatedCards cards={blogCards} />
+        <div class="hub-blog-cta">
+          <Button href="/ressources/blog" variant="ghost" size="md">Tous les articles →</Button>
+        </div>
+      </div>
+      <div>
+        <Kicker tone="accent" class="hub-lb-k">§ Livres blancs · documents PDF</Kicker>
+        <h2 class="hub-lb-h2">Un <i>document</i> par sujet.</h2>
+        <p class="hub-lb-lead">
+          Téléchargeable sans formulaire. Cité par nos clients en comité de direction.
+        </p>
+        <RelatedCards cards={livresBlancsCards} />
+        <div class="hub-lb-cta">
+          <Button href="/ressources/livres-blancs" variant="ghost" size="md">Tous les livres blancs →</Button>
+        </div>
       </div>
     </div>
   </section>
@@ -142,6 +223,119 @@ const cookbookCards = [
 
   .hub-cookbooks { background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
   .hub-cookbooks-cta { margin-top: clamp(28px, 3vw, 44px); }
+
+  .hub-cases-detail { padding: clamp(80px, 10vw, 120px) 32px; }
+  :global(.hub-cd-k) { display: block; margin-bottom: 18px; }
+  .hub-cd-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 0.96;
+    letter-spacing: -0.024em;
+    margin: 0 0 24px;
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hub-cd-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-cd-lead {
+    font-family: var(--font-display);
+    font-size: clamp(17px, 1.8vw, 22px);
+    color: var(--muted);
+    max-width: 760px;
+    margin: 0 0 clamp(40px, 5vw, 64px);
+    line-height: 1.45;
+  }
+  .hub-cd-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--ink);
+  }
+  .hub-cd-row { border-bottom: 1px solid var(--hairline); }
+  .hub-cd-link {
+    display: grid;
+    grid-template-columns: 80px 1fr 60px;
+    gap: clamp(20px, 3vw, 40px);
+    padding: clamp(24px, 2.5vw, 36px) 0;
+    align-items: start;
+    color: inherit;
+    transition: background 240ms var(--ease);
+  }
+  .hub-cd-link:hover { background: rgba(0, 0, 0, 0.02); }
+  .hub-cd-num {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 0.9;
+    color: var(--accent);
+    font-style: italic;
+  }
+  .hub-cd-body { display: flex; flex-direction: column; gap: 6px; }
+  .hub-cd-kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+  }
+  .hub-cd-title {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.6vw, 36px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    text-wrap: balance;
+  }
+  .hub-cd-title :global(i) { font-style: italic; color: var(--muted); font-size: 0.7em; }
+  .hub-cd-text {
+    font-size: clamp(13px, 1.3vw, 15px);
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 720px;
+    text-wrap: pretty;
+  }
+  .hub-cd-arr {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    color: var(--accent);
+    align-self: center;
+    text-align: right;
+  }
+  @media (max-width: 700px) {
+    .hub-cd-link { grid-template-columns: 48px 1fr; }
+    .hub-cd-arr { display: none; }
+  }
+
+  .hub-blog-lb { padding: clamp(80px, 10vw, 120px) 32px; border-top: 1px solid var(--hairline); }
+  .hub-blog-lb-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 5vw, 80px);
+  }
+  :global(.hub-blog-k),
+  :global(.hub-lb-k) { display: block; margin-bottom: 14px; }
+  .hub-blog-h2,
+  .hub-lb-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.022em;
+    margin: 0 0 18px;
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hub-blog-h2 :global(i),
+  .hub-lb-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-blog-lead,
+  .hub-lb-lead {
+    font-family: var(--font-display);
+    font-size: clamp(15px, 1.6vw, 18px);
+    color: var(--muted);
+    margin: 0 0 28px;
+    line-height: 1.45;
+  }
+  .hub-blog-cta,
+  .hub-lb-cta { margin-top: clamp(20px, 2.5vw, 32px); }
+  @media (max-width: 800px) {
+    .hub-blog-lb-grid { grid-template-columns: 1fr; }
+  }
 
   .hub-nl { padding: clamp(80px, 10vw, 120px) 32px; background: var(--ink); color: var(--paper); }
   .hub-nl-wrap { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(40px, 6vw, 80px); align-items: center; }

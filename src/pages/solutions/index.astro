@@ -20,6 +20,19 @@ const industries = [
   { kicker: 'INDUSTRY · 03', title_fr: 'Industrie',            title_en: 'Industry',
     lead_fr: 'OT · SCADA · maintenance prédictive →', lead_en: 'OT · SCADA · predictive maintenance →', href: '/solutions/industrie' },
 ];
+
+const flagshipSolutions = [
+  { num: '01', kicker: 'SOLUTION · MÉTIER',
+    title_fr: 'Finance & Comptabilité',
+    sub_fr: 'Réconciliation · mémos · reporting',
+    lead_fr: 'Agents Claude branchés sur la donnée comptable. Réconciliation bancaire, mémos auto, reporting board en J+3.',
+    href: '/solutions/finance' },
+  { num: '02', kicker: 'SOLUTION · INDUSTRIE',
+    title_fr: 'Fintech',
+    sub_fr: 'Conformité ACPR + agents IA',
+    lead_fr: 'Pile conforme ACPR / LCB-FT / KYC. Stack open-source souverain quand la donnée ne peut pas sortir.',
+    href: '/solutions/fintech' },
+];
 ---
 <Base
   title="Solutions · Par métier et par industrie · Waimia"
@@ -38,6 +51,32 @@ const industries = [
 
   {/* DEPARTMENTS · 6 métiers · réutilisation organisme homepage */}
   <Departments />
+
+  {/* SOLUTIONS PHARES · 2 cards vers vraies sub-pages détaillées */}
+  <section class="hub-flagship">
+    <div class="wrap-wide">
+      <Kicker tone="accent" class="hub-flagship-k">§ Solutions phares · pages détaillées</Kicker>
+      <h2 class="hub-flagship-h2">Deux <i>terrains</i> qu'on connaît à fond.</h2>
+      <p class="hub-flagship-lead">
+        Les autres métiers sont disponibles sur demande — ces deux-là sont écrits noir sur blanc parce que c'est là qu'on a livré le plus.
+      </p>
+      <ol class="hub-flagship-list">
+        {flagshipSolutions.map((s) => (
+          <li class="hub-flagship-row">
+            <a class="hub-flagship-link" href={s.href}>
+              <span class="hub-flagship-num">{s.num}</span>
+              <span class="hub-flagship-body">
+                <span class="hub-flagship-kicker">{s.kicker}</span>
+                <span class="hub-flagship-title">{s.title_fr} <i>· {s.sub_fr}</i></span>
+                <span class="hub-flagship-text">{s.lead_fr}</span>
+              </span>
+              <span class="hub-flagship-arr" aria-hidden>→</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
 
   {/* CASES · cas réels par métier · réutilisation organisme homepage */}
   <Cases />
@@ -79,6 +118,85 @@ const industries = [
     max-width: 760px;
     line-height: 1.4;
     text-wrap: pretty;
+  }
+
+  .hub-flagship { padding: clamp(80px, 10vw, 120px) 32px; background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  :global(.hub-flagship-k) { display: block; margin-bottom: 18px; }
+  .hub-flagship-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 0.96;
+    letter-spacing: -0.024em;
+    margin: 0 0 24px;
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hub-flagship-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-flagship-lead {
+    font-family: var(--font-display);
+    font-size: clamp(17px, 1.8vw, 22px);
+    color: var(--muted);
+    max-width: 760px;
+    margin: 0 0 clamp(40px, 5vw, 64px);
+    line-height: 1.45;
+  }
+  .hub-flagship-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--ink);
+  }
+  .hub-flagship-row { border-bottom: 1px solid var(--hairline); }
+  .hub-flagship-link {
+    display: grid;
+    grid-template-columns: 80px 1fr 60px;
+    gap: clamp(20px, 3vw, 40px);
+    padding: clamp(28px, 3vw, 44px) 0;
+    align-items: start;
+    color: inherit;
+    transition: background 240ms var(--ease);
+  }
+  .hub-flagship-link:hover { background: rgba(0, 0, 0, 0.02); }
+  .hub-flagship-num {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 0.9;
+    color: var(--accent);
+    font-style: italic;
+  }
+  .hub-flagship-body { display: flex; flex-direction: column; gap: 8px; }
+  .hub-flagship-kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+  }
+  .hub-flagship-title {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    text-wrap: balance;
+  }
+  .hub-flagship-title :global(i) { font-style: italic; color: var(--muted); font-size: 0.7em; }
+  .hub-flagship-text {
+    font-size: clamp(14px, 1.4vw, 16px);
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 720px;
+    text-wrap: pretty;
+  }
+  .hub-flagship-arr {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    color: var(--accent);
+    align-self: center;
+    text-align: right;
+  }
+  @media (max-width: 700px) {
+    .hub-flagship-link { grid-template-columns: 56px 1fr; }
+    .hub-flagship-arr { display: none; }
   }
 
   .hub-industry { padding: clamp(80px, 10vw, 120px) 32px; background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }

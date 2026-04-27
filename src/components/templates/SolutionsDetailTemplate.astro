@@ -1,0 +1,701 @@
+---
+/**
+ * SolutionsDetailTemplate · sub-page Solutions (focus département métier)
+ *
+ * Sections (7) sémantiquement différenciées d'OffresDetail :
+ *   1. Hero Department · breadcrumb + DEPT badge + h1 + lead italique + tags row + meta + SVG rect rotated 15°
+ *   2. Pain Points · 3 cards numérotées 01/02/03 (empathie métier "pourquoi ça bloque")
+ *   3. Workflows Table · BRIQUE SIGNATURE 5 colonnes : numéro / kicker+h3 / model / gain / how
+ *   4. ROI Band Dark · BRIQUE SIGNATURE 4 chiffres énormes 88px en background ink
+ *   5. Case Study Split · split dark/light 50/50 (case dark + résultats light)
+ *   6. Department Stack · 3×2 cards (kicker + h3 + body + pill type)
+ *   7. CTA Dept-Augmented Dark · h2 personnalisé "Votre équipe X, augmentée."
+ *
+ * Briques signatures Solutions : Workflows Table + ROI Band (densité métier).
+ * Géométrie hero : rectangle rotated 15° (≠ cercles d'OffresDetail) — signal visuel de différenciation.
+ * Source handoff : project/pages/solutions/detail.html (lignes 157-280, dict SOLUTIONS).
+ *
+ * Usage minimal (props) :
+ *   <SolutionsDetailTemplate
+ *     dept="DÉPARTEMENT"
+ *     deptLabel="Finance & Comptabilité"
+ *     meta="Finance · Comptabilité · Contrôle de gestion"
+ *     title="Solutions · Finance"
+ *     description="Réconciliation automatisée, mémos financiers, reporting intelligent."
+ *   >
+ *     <Fragment slot="title"><i>Finance</i><br/>&amp; Comptabilité</Fragment>
+ *     <Fragment slot="lead">Lead html...</Fragment>
+ *     <Fragment slot="tags">5 pills...</Fragment>
+ *     ... etc
+ *   </SolutionsDetailTemplate>
+ */
+import Base from '../../layouts/Base.astro';
+import Header from '../header/Header.astro';
+import Footer from '../footer/Footer.astro';
+
+interface Props {
+  /** SEO meta · title de la page (browser tab) */
+  title: string;
+  /** SEO meta · description */
+  description: string;
+  /** Department badge (kicker au-dessus du h1) ex: "DÉPARTEMENT" */
+  dept: string;
+  /** Label du breadcrumb second segment ex: "Finance & Comptabilité" */
+  deptLabel: string;
+  /** Meta sous le CTA hero ex: "Finance · Comptabilité · Contrôle de gestion" */
+  meta?: string;
+  /** Href du CTA hero (default /contact) */
+  ctaHref?: string;
+  /** Label du CTA hero (default "Parler à un expert →") */
+  ctaLabel?: string;
+}
+
+const {
+  title,
+  description,
+  dept,
+  deptLabel,
+  meta = '',
+  ctaHref = '/contact',
+  ctaLabel = 'Parler à un expert →',
+} = Astro.props;
+---
+<Base {title} {description}>
+  <Header />
+
+  <main id="main">
+    {/* ────────── 1. HERO DEPARTMENT ────────── */}
+    <section class="sol-hero" data-screen-label="01 Hero Department">
+      <svg class="sol-hero-geo" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect x="980" y="-40" width="420" height="420" fill="none" stroke="currentColor" stroke-width=".6" opacity=".18" transform="rotate(15 1190 170)"/>
+        <rect x="1040" y="20" width="280" height="280" fill="none" stroke="var(--accent)" stroke-width=".4" opacity=".25" transform="rotate(15 1180 160)"/>
+        <line x1="0" y1="420" x2="1440" y2="300" stroke="currentColor" stroke-width=".4" opacity=".12"/>
+      </svg>
+      <div class="wrap">
+        <nav class="sol-hero-bc" aria-label="Fil d'Ariane">
+          <a href="/solutions">Solutions</a>
+          <span aria-hidden="true">/</span>
+          <span>{deptLabel}</span>
+        </nav>
+        <div class="sol-hero-dept">{dept}</div>
+        <h1 class="sol-hero-title"><slot name="title" /></h1>
+        <div class="sol-hero-sub">
+          <p class="sol-hero-lead"><slot name="lead" /></p>
+          <div class="sol-hero-actions">
+            <a class="sol-hero-cta" href={ctaHref}>{ctaLabel}</a>
+            {meta && <div class="sol-hero-meta">{meta}</div>}
+          </div>
+        </div>
+        <div class="sol-hero-tags"><slot name="tags" /></div>
+      </div>
+    </section>
+
+    {/* ────────── 2. PAIN POINTS ────────── */}
+    <section class="sol-sec" data-screen-label="02 Pain Points">
+      <div class="wrap">
+        <div class="sol-sec-hd">
+          <div>
+            <div class="kicker">Pourquoi ça bloque</div>
+            <h2><i>Points</i><br/>de friction</h2>
+          </div>
+          <p class="sol-aside"><slot name="pain-aside">Avant d'automatiser, comprendre où le temps se perd. Trois frictions récurrentes que nous voyons sur le terrain.</slot></p>
+        </div>
+        <div class="sol-pain-grid"><slot name="pains" /></div>
+      </div>
+    </section>
+
+    {/* ────────── 3. WORKFLOWS TABLE ────────── */}
+    <section class="sol-sec sol-sec-paper" data-screen-label="03 Workflows">
+      <div class="wrap">
+        <div class="sol-sec-hd">
+          <div>
+            <div class="kicker">Workflows déployés</div>
+            <h2><i>Ce qu'on</i><br/>automatise</h2>
+          </div>
+          <p class="sol-aside"><slot name="workflows-aside">Chaque workflow est nommé, mesuré, attribué à un modèle Claude précis. Pas de boîte noire.</slot></p>
+        </div>
+        <div class="sol-workflow-table">
+          <div class="sol-workflow-head">
+            <div class="sol-wf-col-n">№</div>
+            <div class="sol-wf-col-name">Workflow</div>
+            <div class="sol-wf-col-model">Modèle</div>
+            <div class="sol-wf-col-gain">Gain</div>
+            <div class="sol-wf-col-how">Comment</div>
+          </div>
+          <div class="sol-workflow-body"><slot name="workflows" /></div>
+        </div>
+      </div>
+    </section>
+
+    {/* ────────── 4. ROI BAND DARK ────────── */}
+    <section class="sol-sec sol-sec-dark sol-roi-band" data-screen-label="04 ROI Band">
+      <div class="wrap">
+        <div class="sol-roi-hd">
+          <div class="kicker">ROI mesuré</div>
+          <h2><i>Preuve</i> macro</h2>
+        </div>
+        <div class="sol-roi-grid"><slot name="roi" /></div>
+      </div>
+    </section>
+
+    {/* ────────── 5. CASE STUDY SPLIT ────────── */}
+    <section class="sol-case" data-screen-label="05 Case Study">
+      <div class="sol-case-grid">
+        <div class="sol-case-dark">
+          <div class="wrap-inner">
+            <div class="kicker"><slot name="case-kicker">Cas client</slot></div>
+            <h2 class="sol-case-title"><slot name="case-title" /></h2>
+            <p class="sol-case-body"><slot name="case-body" /></p>
+            <a class="sol-case-cta" href="/cas-clients"><slot name="case-cta-label">Voir le cas complet →</slot></a>
+          </div>
+        </div>
+        <div class="sol-case-light">
+          <div class="wrap-inner">
+            <div class="kicker">Résultats</div>
+            <div class="sol-case-results"><slot name="case-results" /></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ────────── 6. DEPARTMENT STACK ────────── */}
+    <section class="sol-sec sol-sec-paper" data-screen-label="06 Stack">
+      <div class="wrap">
+        <div class="sol-sec-hd">
+          <div>
+            <div class="kicker">Stack technique</div>
+            <h2><i>Outils</i><br/>déployés</h2>
+          </div>
+          <p class="sol-aside"><slot name="stack-aside">Le triptyque Anthropic primary + intégrations métier secondary + open source pour l'orchestration.</slot></p>
+        </div>
+        <div class="sol-stack-grid"><slot name="stack" /></div>
+      </div>
+    </section>
+
+    {/* ────────── 7. CTA DEPT-AUGMENTED DARK ────────── */}
+    <section class="sol-sec sol-sec-dark" data-screen-label="07 CTA">
+      <div class="wrap wrap-tight">
+        <div class="sol-cta-final">
+          <h2><i><slot name="cta-title">Votre équipe,<br/>augmentée.</slot></i></h2>
+          <div class="sol-cta-body">
+            <p><slot name="cta-body">Cadrage en 45 minutes. Nous analysons votre périmètre et proposons les 3 workflows à fort ROI — sans engagement.</slot></p>
+            <div class="sol-cta-btns">
+              <a class="btn-accent" href="/contact">Prendre rendez-vous →</a>
+              <a class="btn-light" href="/solutions">Toutes les solutions</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* ───── Hero Department ───── */
+  .sol-hero {
+    position: relative;
+    padding: clamp(80px, 10vw, 140px) 0 clamp(64px, 8vw, 120px);
+    overflow: hidden;
+    color: var(--ink);
+  }
+  .sol-hero-geo {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none;
+  }
+  .sol-hero-bc {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex; gap: 8px; align-items: center;
+    margin-bottom: 24px;
+  }
+  .sol-hero-bc a { color: var(--muted); transition: color 220ms var(--ease); }
+  .sol-hero-bc a:hover { color: var(--accent); }
+  .sol-hero-dept {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .sol-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 9vw, 148px);
+    line-height: 0.92;
+    letter-spacing: -0.028em;
+    font-weight: 400;
+    margin: 0 0 32px;
+    text-wrap: balance;
+  }
+  .sol-hero-title :global(i) { color: var(--accent); font-style: italic; }
+  .sol-hero-sub {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(24px, 4vw, 64px);
+    align-items: end;
+    max-width: 1100px;
+    margin-bottom: clamp(28px, 3vw, 40px);
+  }
+  .sol-hero-lead {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2vw, 26px);
+    line-height: 1.4;
+    color: var(--ink);
+    font-style: italic;
+    margin: 0;
+  }
+  .sol-hero-lead :global(span) { color: var(--accent); display: block; margin-top: 8px; }
+  .sol-hero-actions { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .sol-hero-cta {
+    display: inline-block;
+    padding: 14px 24px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: -0.005em;
+    transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
+  }
+  .sol-hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+  .sol-hero-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .sol-hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .sol-hero-tags :global(.sol-tag) {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding: 8px 14px;
+    background: rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 999px;
+    transition: border-color 220ms var(--ease), color 220ms var(--ease);
+  }
+  .sol-hero-tags :global(.sol-tag:hover) {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ───── Sec common ───── */
+  .sol-sec { padding: clamp(72px, 8vw, 120px) 0; position: relative; }
+  .sol-sec-paper { background: var(--paper-2, #EFEBE2); }
+  .sol-sec-dark { background: var(--ink); color: var(--paper); }
+  .sol-sec-dark :global(.kicker) { color: var(--accent); }
+  .sol-sec-hd {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(24px, 4vw, 80px);
+    margin-bottom: clamp(40px, 5vw, 64px);
+    align-items: end;
+  }
+  .sol-sec-hd h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 0.96;
+    letter-spacing: -0.018em;
+    font-weight: 400;
+    margin: 8px 0 0;
+  }
+  .sol-sec-hd :global(i) { color: var(--accent); font-style: italic; }
+  .sol-aside {
+    font-family: var(--font-display);
+    font-size: clamp(15px, 1.3vw, 17px);
+    line-height: 1.5;
+    color: var(--muted);
+    font-style: italic;
+    max-width: 480px;
+    margin: 0;
+  }
+
+  /* ───── Pain Points ───── */
+  .sol-pain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: clamp(24px, 3vw, 48px);
+  }
+  .sol-pain-grid :global(.pain-card) {
+    padding-top: 32px;
+    border-top: 1px solid rgba(0,0,0,0.12);
+  }
+  .sol-pain-grid :global(.pn) {
+    font-family: var(--font-display);
+    font-size: 96px;
+    line-height: 0.85;
+    color: var(--accent);
+    margin-bottom: 16px;
+    font-weight: 400;
+  }
+  .sol-pain-grid :global(.pk) {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .sol-pain-grid :global(.pain-card h3) {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 1.8vw, 26px);
+    line-height: 1.2;
+    margin: 0 0 12px;
+    font-weight: 400;
+  }
+  .sol-pain-grid :global(.pain-card p) {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* ───── Workflows Table (BRIQUE SIGNATURE) ───── */
+  .sol-workflow-table {
+    border-top: 1px solid rgba(0,0,0,0.12);
+  }
+  .sol-workflow-head {
+    display: grid;
+    grid-template-columns: 60px 2fr 1.2fr 1fr 2.4fr;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .sol-workflow-body :global(.wf-row) {
+    display: grid;
+    grid-template-columns: 60px 2fr 1.2fr 1fr 2.4fr;
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    align-items: start;
+    transition: background 220ms var(--ease);
+  }
+  .sol-workflow-body :global(.wf-row:hover) {
+    background: rgba(201,79,46,0.03);
+  }
+  .sol-workflow-body :global(.wf-n) {
+    font-family: var(--font-display);
+    font-size: 32px;
+    line-height: 1;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .sol-workflow-body :global(.wf-name .wf-k) {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .sol-workflow-body :global(.wf-name h3) {
+    font-family: var(--font-display);
+    font-size: clamp(19px, 1.5vw, 22px);
+    line-height: 1.2;
+    margin: 0;
+    font-weight: 400;
+  }
+  .sol-workflow-body :global(.wf-model) {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .sol-workflow-body :global(.wf-gain) {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2vw, 28px);
+    color: var(--accent);
+    line-height: 1;
+    font-weight: 400;
+  }
+  .sol-workflow-body :global(.wf-how) {
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  /* ───── ROI Band Dark (BRIQUE SIGNATURE) ───── */
+  .sol-roi-band { padding: clamp(80px, 9vw, 128px) 0; }
+  .sol-roi-hd { margin-bottom: clamp(40px, 5vw, 64px); }
+  .sol-roi-hd .kicker { color: var(--accent); }
+  .sol-roi-hd h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 0.96;
+    letter-spacing: -0.018em;
+    font-weight: 400;
+    margin: 8px 0 0;
+    color: var(--paper);
+  }
+  .sol-roi-hd h2 :global(i) { color: var(--accent); font-style: italic; }
+  .sol-roi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: clamp(24px, 3vw, 48px);
+  }
+  .sol-roi-grid :global(.roi-cell) {
+    padding-top: 32px;
+    border-top: 1px solid rgba(246,241,232,0.18);
+  }
+  .sol-roi-grid :global(.roi-v) {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 7vw, 88px);
+    line-height: 0.9;
+    color: var(--accent);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .sol-roi-grid :global(.roi-l) {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(246,241,232,0.7);
+    line-height: 1.4;
+  }
+
+  /* ───── Case Study Split ───── */
+  .sol-case { background: var(--paper); }
+  .sol-case-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 480px;
+  }
+  .sol-case-dark {
+    background: var(--ink);
+    color: var(--paper);
+    padding: clamp(48px, 6vw, 80px) clamp(32px, 4vw, 64px);
+    display: flex; align-items: center;
+  }
+  .sol-case-dark .kicker { color: var(--accent); }
+  .sol-case-dark .wrap-inner { max-width: 480px; }
+  .sol-case-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.016em;
+    font-weight: 400;
+    margin: 12px 0 20px;
+    text-wrap: balance;
+  }
+  .sol-case-title :global(i) { color: var(--accent); font-style: italic; }
+  .sol-case-body {
+    font-family: var(--font-display);
+    font-size: clamp(15px, 1.3vw, 17px);
+    line-height: 1.55;
+    color: var(--paper);
+    font-style: italic;
+    margin: 0 0 28px;
+    opacity: 0.92;
+  }
+  .sol-case-cta {
+    display: inline-block;
+    padding: 12px 22px;
+    background: var(--accent);
+    color: var(--paper);
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: -0.005em;
+    transition: transform 220ms var(--ease);
+  }
+  .sol-case-cta:hover { transform: translateY(-2px); }
+  .sol-case-light {
+    background: var(--paper-2, #EFEBE2);
+    padding: clamp(48px, 6vw, 80px) clamp(32px, 4vw, 64px);
+    display: flex; align-items: center;
+  }
+  .sol-case-light .wrap-inner { max-width: 420px; width: 100%; }
+  .sol-case-results { margin-top: 16px; }
+  .sol-case-results :global(.res-row) {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    align-items: baseline;
+    padding: 22px 0;
+    border-top: 1px solid rgba(0,0,0,0.12);
+  }
+  .sol-case-results :global(.res-row:last-child) { border-bottom: 1px solid rgba(0,0,0,0.12); }
+  .sol-case-results :global(.res-v) {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1;
+    color: var(--accent);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .sol-case-results :global(.res-l) {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ───── Department Stack ───── */
+  .sol-stack-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(20px, 2.5vw, 32px);
+  }
+  .sol-stack-grid :global(.stack-card) {
+    padding: 28px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 12px;
+    background: var(--paper);
+    transition: border-color 220ms var(--ease), transform 220ms var(--ease);
+    display: flex; flex-direction: column;
+    gap: 12px;
+  }
+  .sol-stack-grid :global(.stack-card:hover) { border-color: var(--accent); transform: translateY(-2px); }
+  .sol-stack-grid :global(.stack-k) {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .sol-stack-grid :global(.stack-card h3) {
+    font-family: var(--font-display);
+    font-size: 21px;
+    line-height: 1.2;
+    margin: 0;
+    font-weight: 400;
+  }
+  .sol-stack-grid :global(.stack-card p) {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink);
+    margin: 0;
+    flex: 1;
+  }
+  .sol-stack-grid :global(.stack-pill) {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    align-self: flex-start;
+  }
+  .sol-stack-grid :global(.stack-pill.primary) {
+    color: var(--accent);
+    background: rgba(201,79,46,0.08);
+  }
+  .sol-stack-grid :global(.stack-pill.secondary) {
+    color: var(--ink);
+    background: rgba(0,0,0,0.06);
+  }
+  .sol-stack-grid :global(.stack-pill.open) {
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid rgba(0,0,0,0.15);
+  }
+
+  /* ───── CTA final dark ───── */
+  .sol-cta-final {
+    text-align: center;
+    padding: clamp(40px, 5vw, 64px) 0;
+  }
+  .sol-cta-final h2 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.95;
+    margin: 0 0 32px;
+    font-weight: 400;
+  }
+  .sol-cta-final h2 :global(i) { color: var(--accent); font-style: italic; }
+  .sol-cta-body p {
+    font-family: var(--font-display);
+    font-size: clamp(16px, 1.4vw, 19px);
+    line-height: 1.5;
+    color: var(--paper);
+    font-style: italic;
+    max-width: 540px;
+    margin: 0 auto 32px;
+  }
+  .sol-cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-accent {
+    display: inline-block;
+    padding: 14px 28px;
+    background: var(--accent);
+    color: var(--paper);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: -0.005em;
+    transition: transform 220ms var(--ease);
+  }
+  .btn-accent:hover { transform: translateY(-2px); }
+  .btn-light {
+    display: inline-block;
+    padding: 14px 28px;
+    background: transparent;
+    color: var(--paper);
+    border: 1px solid rgba(246,241,232,0.3);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: -0.005em;
+    transition: border-color 220ms var(--ease);
+  }
+  .btn-light:hover { border-color: var(--paper); }
+
+  /* ───── Wrap utilities ───── */
+  .wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 48px);
+  }
+  .wrap-tight { max-width: 880px; }
+
+  @media (max-width: 1000px) {
+    .sol-stack-grid { grid-template-columns: repeat(2, 1fr); }
+    .sol-workflow-head,
+    .sol-workflow-body :global(.wf-row) {
+      grid-template-columns: 48px 1.6fr 1fr 1fr 2fr;
+      gap: 16px;
+    }
+  }
+  @media (max-width: 800px) {
+    .sol-hero-sub { grid-template-columns: 1fr; }
+    .sol-sec-hd { grid-template-columns: 1fr; }
+    .sol-case-grid { grid-template-columns: 1fr; }
+    .sol-stack-grid { grid-template-columns: 1fr; }
+    .sol-workflow-head { display: none; }
+    .sol-workflow-body :global(.wf-row) {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 24px 0;
+    }
+    .sol-workflow-body :global(.wf-n) { font-size: 24px; margin-bottom: 4px; }
+    .sol-workflow-body :global(.wf-gain) { margin: 6px 0; }
+  }
+</style>

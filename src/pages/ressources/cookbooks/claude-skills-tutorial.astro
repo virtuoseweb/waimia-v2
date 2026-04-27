@@ -1,0 +1,134 @@
+---
+// Page · /ressources/cookbooks/claude-skills-tutorial · Cookbook technique
+// Source : brief content marketing · Waimia
+//
+// Composé de · EssayTemplate (squelette) · contenu rich text via slot.
+
+import EssayTemplate from '../../../components/templates/EssayTemplate.astro';
+
+const relatedCards = [
+  { kicker: 'COOKBOOK 02', title_fr: 'MCP server Notion', title_en: 'MCP Notion server',
+    lead_fr: 'Connecter Claude à votre base Notion en moins d\'une heure →', lead_en: 'Wire Claude to your Notion in under an hour →',
+    href: '/ressources/cookbooks/mcp-server-deploy' },
+  { kicker: 'COOKBOOK 03', title_fr: 'Rollout Claude Cowork', title_en: 'Claude Cowork rollout',
+    lead_fr: 'La checklist 7 étapes pour 200 collaborateurs →', lead_en: 'The 7-step checklist for 200 employees →',
+    href: '/ressources/cookbooks/claude-cowork-rollout' },
+  { kicker: 'OFFRE', title_fr: 'Conseil Claude Cowork', title_en: 'Claude Cowork advisory',
+    lead_fr: 'Mission cadrée 6 semaines pour déployer Claude →', lead_en: 'Scoped 6-week engagement to roll out Claude →',
+    href: '/services' },
+];
+---
+<EssayTemplate
+  title="Construire un Claude Skill pour automatiser un workflow métier en 30 minutes · Cookbook · Waimia"
+  description="Un guide pas à pas, du brief client à la skill déployée. Avec un exemple réel : générer des mémos de variance financière."
+  kicker="COOKBOOK · 01 · CLAUDE SKILLS"
+  date="2026-04-25"
+  author="Simon Beros"
+  readingTime="12 min"
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">
+    Construire un <i>Claude Skill</i> pour automatiser un workflow métier en 30 minutes.
+  </Fragment>
+  <Fragment slot="lede">
+    Un guide pas à pas, du brief client à la skill déployée. Avec un exemple réel : générer des mémos de variance financière.
+  </Fragment>
+
+  <Fragment slot="body">
+    <h2>Pourquoi un skill ?</h2>
+    <p>Un skill, c'est un prompt qui marche, transformé en fonction réutilisable. Vous l'avez peut-être affiné pendant trois semaines pour produire un mémo de variance qui passe le filtre de votre CFO. Sans skill, ce prompt vit dans une note Apple, dans le tab Slack d'un collègue, dans un Notion à demi-rangé. Avec un skill, il devient une capacité native de Claude — invocable par tous, versionnable, mesurable. Le skill est l'unité de capitalisation de l'agent.</p>
+
+    <h2>Anatomie d'un Claude Skill</h2>
+    <p>Un skill = trois fichiers, parfois quatre. Le cœur est un fichier <code>SKILL.md</code> qui décrit le contrat (nom, description, triggers). Autour, vous ajoutez un system prompt, des outils si la skill en a besoin (lecture CRM, écriture DOCX), et des scripts si elle doit appeler du code déterministe.</p>
+
+    <pre is:raw><code>my-skill/
+  SKILL.md          ← contrat + frontmatter (nom, description, triggers)
+  system.md         ← règles du jeu (ton, contraintes, format)
+  tools/
+    fetch_crm.ts    ← appel API CRM
+    render_docx.ts  ← rendu template DOCX
+  scripts/
+    score.py        ← scoring déterministe
+</code></pre>
+
+    <p>Claude charge le <code>SKILL.md</code> en lazy-load : seulement quand le contexte de la conversation matche les triggers. Vous pouvez donc avoir 200 skills installés sans alourdir le prompt de chaque tour.</p>
+
+    <h2>Notre exemple : <i>memo-variance</i></h2>
+    <p>Le cas d'usage : un contrôleur de gestion produit chaque mois 14 mémos de variance pour son comité de direction. Chaque mémo prend 35 minutes : ouvrir le rapport BI, comparer N et N-1, identifier les écarts &gt; 5 %, rédiger la narrative, justifier les écarts avec les opérations, formater au gabarit DOCX maison. Total : 8 h de travail à faible valeur ajoutée par mois.</p>
+    <p>Notre skill <em>memo-variance</em> ramène ça à 6 minutes : extraction des chiffres CRM via tool, comparaison automatique, narrative générée avec ton interne, output DOCX prêt à signer. Le contrôleur relit, ajuste deux phrases, envoie.</p>
+
+    <h2>Étape 1 : Le SKILL.md</h2>
+    <p>Le frontmatter YAML décrit ce que la skill fait et quand elle se déclenche. Soyez précis sur les triggers : un trigger trop large pollue le contexte, un trigger trop étroit empêche Claude de découvrir la skill quand elle serait utile.</p>
+
+    <pre is:raw><code>---
+name: memo-variance
+description: Génère un mémo de variance mensuel à partir d'un rapport CRM
+  brut. Compare période courante vs N-1, identifie les écarts &gt; 5 %, rédige
+  la narrative au format DOCX avec gabarit Waimia.
+triggers:
+  - "rapport de variance"
+  - "mémo mensuel finance"
+  - "écart budget réel"
+  - "comparaison N-1"
+tools:
+  - fetch_crm
+  - render_docx
+---
+
+# Memo Variance Skill
+
+Cette skill produit un mémo de variance financière à partir d'un rapport
+mensuel brut.
+</code></pre>
+
+    <h2>Étape 2 : System prompt</h2>
+    <p>Le system prompt encode les règles du jeu : ton, format attendu, contraintes éditoriales, garde-fous. Pour <em>memo-variance</em>, on précise quatre choses essentielles.</p>
+    <ul>
+      <li><strong>Ton</strong> : factuel, pas commercial. Pas de superlatifs (« remarquable », « exceptionnel »).</li>
+      <li><strong>Format</strong> : 4 sections fixes — Synthèse, Écarts &gt; 5 %, Causes opérationnelles, Recommandations.</li>
+      <li><strong>Chiffres</strong> : toujours en valeur absolue ET en pourcentage. Toujours arrondi à 2 décimales.</li>
+      <li><strong>Garde-fou</strong> : si un écart dépasse 25 %, le marquer en rouge et exiger une vérification humaine avant publication.</li>
+    </ul>
+    <p>Ce prompt système, c'est <em>le savoir-faire interne du contrôleur</em> écrit. Aucun modèle ne le devine. C'est ce qui transforme une output générique en livrable signable.</p>
+
+    <h2>Étape 3 : Tools associés</h2>
+    <p>Deux outils suffisent. <code>fetch_crm</code> récupère les chiffres bruts depuis HubSpot ou Salesforce via une API authentifiée. <code>render_docx</code> applique le gabarit DOCX maison (logo, polices, structure de mémo) au texte généré.</p>
+
+    <pre is:raw><code>// tools/fetch_crm.ts
+export const fetchCrm = {
+  name: 'fetch_crm',
+  description: 'Récupère les chiffres N et N-1 par ligne de revenu',
+  input_schema: {
+    type: 'object',
+    properties: {
+      period: { type: 'string', description: 'Format YYYY-MM' },
+      segment: { type: 'string', description: 'enterprise | mid-market | smb' }
+    },
+    required: ['period']
+  },
+  execute: async ({ period, segment }) =&gt; {
+    // appel HubSpot avec scope read-only
+    const data = await hubspot.reports.fetch({ period, segment });
+    return { current: data.current, previous: data.previous };
+  }
+};
+</code></pre>
+
+    <p>La règle d'or : les tools donnent à Claude des <em>capacités déterministes</em>. La narrative est générative, les chiffres ne le sont jamais. Si un chiffre est inventé, votre skill est morte avant le premier comité.</p>
+
+    <h2>Étape 4 : Test et itération</h2>
+    <p>Une skill ne naît pas parfaite. Le travail réel commence après le déploiement. Sur <em>memo-variance</em>, on a fait tourner la skill sur les 12 derniers mémos de variance produits manuellement. On a comparé chaque output Claude à la version humaine validée. Le scoring se fait sur trois axes :</p>
+    <ul>
+      <li><strong>Exactitude</strong> : tous les chiffres correspondent-ils au rapport source ? (zéro tolérance)</li>
+      <li><strong>Couverture</strong> : tous les écarts &gt; 5 % sont-ils mentionnés ? (zéro oubli)</li>
+      <li><strong>Ton</strong> : la narrative passerait-elle le filtre du CFO sans réécriture lourde ? (note 1-5)</li>
+    </ul>
+    <p>Sur les 4 premiers tests, on a corrigé : un format de date, deux phrases trop commerciales dans le system prompt, un cas limite où le rapport source contient des cellules vides. À partir du 8e test, le scoring passe au-dessus de 4.5/5 et la skill est prête.</p>
+    <p>Une skill mature a son propre <em>changelog</em>. Versionnez-la dans votre repo, taggez chaque release, gardez les anciennes versions accessibles. C'est de l'ingénierie logicielle classique appliquée à du prompt — et c'est ce qui distingue un skill jouable d'un POC.</p>
+
+    <h2>Aller plus loin</h2>
+    <p>Quand votre skill a besoin d'accéder à un outil externe (Notion, Drive, Slack, votre CRM maison), passez par un serveur MCP — c'est l'API standard d'Anthropic. Le <a href="/ressources/cookbooks/mcp-server-deploy">cookbook 02</a> détaille comment câbler un serveur MCP Notion en moins d'une heure.</p>
+    <p>Quand vous voulez déployer 50 skills sur 200 collaborateurs, le <a href="/ressources/cookbooks/claude-cowork-rollout">cookbook 03</a> donne la checklist d'adoption qui distingue 80 % d'usage actif de 73 % de licences inutilisées.</p>
+    <p>Et si vous voulez nous confier la construction d'une bibliothèque de skills sur mesure pour vos métiers, <a href="/services">notre offre Conseil Claude Cowork</a> couvre l'audit, la priorisation et la livraison sur 6 semaines.</p>
+  </Fragment>
+</EssayTemplate>

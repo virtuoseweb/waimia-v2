@@ -1,0 +1,206 @@
+---
+// Page · /ressources/cookbooks/mcp-server-deploy · Cookbook technique
+// Source : brief content marketing · Waimia
+//
+// Composé de · EssayTemplate (squelette) · contenu rich text via slot.
+
+import EssayTemplate from '../../../components/templates/EssayTemplate.astro';
+
+const relatedCards = [
+  { kicker: 'COOKBOOK 01', title_fr: 'Construire un Claude Skill', title_en: 'Build a Claude Skill',
+    lead_fr: 'Du brief client à la skill déployée en 30 minutes →', lead_en: 'From client brief to deployed skill in 30 minutes →',
+    href: '/ressources/cookbooks/claude-skills-tutorial' },
+  { kicker: 'COOKBOOK 03', title_fr: 'Rollout Claude Cowork', title_en: 'Claude Cowork rollout',
+    lead_fr: 'La checklist 7 étapes pour 200 collaborateurs →', lead_en: 'The 7-step checklist for 200 employees →',
+    href: '/ressources/cookbooks/claude-cowork-rollout' },
+  { kicker: 'OFFRE', title_fr: 'Conseil Claude Cowork', title_en: 'Claude Cowork advisory',
+    lead_fr: 'Mission cadrée 6 semaines pour déployer Claude →', lead_en: 'Scoped 6-week engagement to roll out Claude →',
+    href: '/services' },
+];
+---
+<EssayTemplate
+  title="Déployer un serveur MCP pour connecter Claude à votre Notion · Cookbook · Waimia"
+  description="MCP est l'API standard d'Anthropic pour donner à Claude accès à vos données. Voici comment câbler un serveur MCP sur Notion en moins d'une heure."
+  kicker="COOKBOOK · 02 · MCP CONNECTORS"
+  date="2026-04-23"
+  author="Simon Beros"
+  readingTime="15 min"
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">
+    Déployer un serveur <i>MCP</i> pour connecter Claude à votre Notion.
+  </Fragment>
+  <Fragment slot="lede">
+    MCP (Model Context Protocol) est l'API standard d'Anthropic pour donner à Claude accès à vos données. Voici comment câbler un serveur MCP sur Notion en moins d'une heure.
+  </Fragment>
+
+  <Fragment slot="body">
+    <h2>Pourquoi MCP plutôt qu'un connecteur custom</h2>
+    <p>Avant MCP, chaque éditeur d'agent IA inventait son propre format de connecteur. Vous écriviez un wrapper pour ChatGPT, un autre pour Claude, un troisième pour Gemini. Lock-in, dette de maintenance, fragilité aux mises à jour de l'API du modèle.</p>
+    <p>MCP (Model Context Protocol) est un standard ouvert publié par Anthropic en novembre 2024. Un serveur MCP que vous écrivez aujourd'hui pour Claude marchera demain pour tout client qui parle MCP — y compris des éditeurs concurrents qui ont commencé à l'adopter. C'est le HTTP des agents IA : on parie sur un standard ouvert, on évite le piège du connecteur propriétaire.</p>
+
+    <h2>Architecture d'un serveur MCP</h2>
+    <p>Un serveur MCP expose trois primitives à Claude :</p>
+    <ul>
+      <li><strong>Resources</strong> — des données lisibles (pages Notion, lignes de DB, fichiers Drive)</li>
+      <li><strong>Tools</strong> — des actions exécutables (créer une page, mettre à jour un bloc, supprimer une ligne)</li>
+      <li><strong>Prompts</strong> — des templates de prompt réutilisables côté serveur</li>
+    </ul>
+    <p>Le serveur communique avec Claude via deux transports : <code>stdio</code> (process local, idéal pour Claude Desktop / Claude Code) ou <code>sse</code> (HTTP server-sent events, idéal pour serveurs partagés).</p>
+
+    <pre is:raw><code>┌──────────────┐         MCP protocol         ┌──────────────┐
+│  Claude      │ ◄──────────────────────────► │  MCP Server  │
+│  (host)      │   stdio | sse transport      │  (Notion)    │
+└──────────────┘                              └──────┬───────┘
+                                                     │
+                                                     ▼
+                                              ┌──────────────┐
+                                              │  Notion API  │
+                                              └──────────────┘
+</code></pre>
+
+    <h2>Pré-requis</h2>
+    <p>Avant de scaffolder, assurez-vous d'avoir :</p>
+    <ul>
+      <li><strong>Node 22+</strong> (le SDK MCP TypeScript exige les top-level await récents)</li>
+      <li><strong>Une intégration Notion</strong> avec une clé API et accès aux pages cibles (Settings → Integrations → New)</li>
+      <li><strong>Claude Desktop</strong> ou <strong>Claude Code</strong> en local (pour la phase de test)</li>
+    </ul>
+
+    <h2>Étape 1 : Scaffolding</h2>
+    <p>Anthropic fournit un générateur officiel qui scaffolde la structure standard. Une commande, et vous avez un serveur MCP fonctionnel mais vide, prêt à être étendu.</p>
+
+    <pre is:raw><code>npx @modelcontextprotocol/create-server notion-mcp
+cd notion-mcp
+npm install @notionhq/client
+</code></pre>
+
+    <p>Vous obtenez l'arborescence suivante :</p>
+
+    <pre is:raw><code>notion-mcp/
+  src/
+    index.ts          ← entry point + setup transport
+    resources.ts      ← pages Notion exposées
+    tools.ts          ← actions Notion
+  package.json
+  tsconfig.json
+</code></pre>
+
+    <h2>Étape 2 : Définir les resources</h2>
+    <p>Une <em>resource</em> MCP, c'est une donnée que Claude peut lire. Pour Notion, on expose chaque page de la workspace comme une resource avec un URI <code is:raw>notion://page/{id}</code>.</p>
+
+    <pre is:raw><code>// src/resources.ts
+import { Client } from '@notionhq/client';
+
+const notion = new Client({ auth: process.env.NOTION_TOKEN });
+
+export async function listResources() {
+  const response = await notion.search({
+    filter: { property: 'object', value: 'page' },
+    page_size: 100,
+  });
+
+  return response.results.map((page) =&gt; ({
+    uri: `notion://page/${page.id}`,
+    name: page.properties?.title?.title?.[0]?.plain_text ?? 'Untitled',
+    mimeType: 'text/markdown',
+  }));
+}
+
+export async function readResource(uri: string) {
+  const id = uri.replace('notion://page/', '');
+  const blocks = await notion.blocks.children.list({ block_id: id });
+  return {
+    contents: [{
+      uri,
+      mimeType: 'text/markdown',
+      text: blocksToMarkdown(blocks.results),
+    }],
+  };
+}
+</code></pre>
+
+    <p>Le serveur retourne le contenu en markdown, pas en JSON brut Notion. Claude comprend le markdown nativement, vous économisez des tokens et la lisibilité est immédiate.</p>
+
+    <h2>Étape 3 : Définir les tools</h2>
+    <p>Trois tools couvrent 90 % des usages : <code>search</code> pour retrouver une page par mot-clé, <code>create_page</code> pour en créer une nouvelle, <code>update_block</code> pour modifier un bloc existant.</p>
+
+    <pre is:raw><code>// src/tools.ts
+export const searchTool = {
+  name: 'search_notion',
+  description: 'Recherche dans toutes les pages Notion accessibles',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      query: { type: 'string', description: 'Texte à chercher' }
+    },
+    required: ['query']
+  },
+  handler: async ({ query }: { query: string }) =&gt; {
+    const results = await notion.search({ query, page_size: 10 });
+    return results.results.map((p) =&gt; ({
+      id: p.id,
+      title: p.properties?.title?.title?.[0]?.plain_text ?? 'Untitled',
+      url: p.url,
+    }));
+  },
+};
+
+export const createPageTool = {
+  name: 'create_notion_page',
+  description: 'Crée une nouvelle page Notion',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      parent_id: { type: 'string' },
+      title: { type: 'string' },
+      content: { type: 'string', description: 'Contenu markdown' }
+    },
+    required: ['parent_id', 'title', 'content']
+  },
+  handler: async ({ parent_id, title, content }) =&gt; {
+    const page = await notion.pages.create({
+      parent: { page_id: parent_id },
+      properties: { title: { title: [{ text: { content: title } }] } },
+      children: markdownToBlocks(content),
+    });
+    return { id: page.id, url: page.url };
+  },
+};
+</code></pre>
+
+    <p>Notez la philosophie : chaque tool fait <em>une</em> chose, son input schema est strict, sa réponse est minimale. Claude est très bon pour orchestrer des tools simples — il est mauvais avec des tools « tout-en-un » à 12 paramètres optionnels.</p>
+
+    <h2>Étape 4 : Test local + déploiement</h2>
+    <p>Une fois le serveur compilé (<code>npm run build</code>), connectez-le à Claude Code en une commande :</p>
+
+    <pre is:raw><code>claude mcp add notion-mcp \
+  --command "node /chemin/absolu/notion-mcp/dist/index.js" \
+  --env NOTION_TOKEN=secret_xxx
+</code></pre>
+
+    <p>Vérifiez que la connexion fonctionne :</p>
+
+    <pre is:raw><code>claude mcp list
+# Doit afficher : notion-mcp [✓ connected]
+
+claude
+&gt; List my recent Notion pages
+# Claude appelle list_resources et retourne la liste
+</code></pre>
+
+    <p>Pour un déploiement multi-utilisateur, basculez sur le transport SSE et hostez le serveur sur Vercel, Railway ou votre infra interne. Le code reste identique, seul le bootstrap change.</p>
+
+    <h2>Sécurité et gouvernance</h2>
+    <p>Un serveur MCP qui parle à Notion peut, mal configuré, exfiltrer toute votre base. Quatre règles :</p>
+    <ul>
+      <li><strong>Scope minimal</strong> — l'intégration Notion ne doit avoir accès qu'aux pages réellement nécessaires. Pas d'accès workspace-wide par défaut.</li>
+      <li><strong>Audit log</strong> — logguer chaque appel de tool (<code>tool_name</code>, <code>input</code>, <code>output_size</code>, <code>duration_ms</code>). Stocker 90 jours minimum.</li>
+      <li><strong>MCP gate</strong> — pour les actions sensibles (suppression, modification de page partagée), ajouter une étape de confirmation explicite côté serveur, pas seulement côté UI Claude.</li>
+      <li><strong>Rotation des secrets</strong> — le <code>NOTION_TOKEN</code> doit tourner tous les 90 jours. Stockez-le dans un gestionnaire de secrets (Vercel env, Doppler, AWS Secrets Manager), jamais en clair dans le repo.</li>
+    </ul>
+    <p>MCP n'a pas inventé de nouveaux risques — il a juste rendu visible ce que les connecteurs custom cachaient. Traitez votre serveur MCP comme un service exposé : authentification, audit, scope, rotation. Le standard ne dispense pas de la rigueur.</p>
+
+    <p>Si vous voulez une bibliothèque de connecteurs MCP packagés pour votre stack (Notion, Drive, Slack, HubSpot, votre CRM maison), <a href="/services">notre offre Conseil Claude Cowork</a> couvre l'architecture, le code et la conformité sur 6 semaines.</p>
+  </Fragment>
+</EssayTemplate>

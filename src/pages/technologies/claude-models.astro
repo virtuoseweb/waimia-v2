@@ -1,0 +1,189 @@
+---
+/**
+ * /technologies/claude-models · sub-page Couche Modèles
+ *
+ * Style writing : vocabulaire technique developer, ton CTO/architecte,
+ * chiffres durs benchmark, anti-fluff. Copy Claude-native premium, factuel.
+ *
+ * Source handoff : project/pages/technologies/detail.html dict TECHNOLOGIES["claude-models"].
+ */
+import TechnologiesDetailTemplate from '../../components/templates/TechnologiesDetailTemplate.astro';
+---
+<TechnologiesDetailTemplate
+  title="Claude Models · Couche Modèles · Waimia"
+  description="Haiku pour la vitesse, Sonnet pour l'équilibre, Opus pour la puissance, Code pour le développement. Un modèle Claude par profil de tâche — alignement, sécurité et gouvernance natifs."
+  layer="COUCHE MODÈLES"
+  layerLabel="Claude Models"
+  layerType="claude"
+  showModels={true}
+  showEcosystem={false}
+  meta="Anthropic · Claude-first"
+  ctaHref="/contact"
+  ctaLabel="Parler architecture →"
+>
+  {/* ── Hero ── */}
+  <Fragment slot="title"><i>Claude</i><br/>Models</Fragment>
+  <Fragment slot="lead">
+    Haiku pour la vitesse, Sonnet pour l'équilibre, Opus pour la puissance, Code pour le développement.
+    <span>Un modèle par profil de tâche.</span>
+  </Fragment>
+
+  {/* ── Positioning Split ── */}
+  <Fragment slot="positioning-title"><i>Pourquoi</i> Claude</Fragment>
+  <Fragment slot="positioning-aside">
+    Waimia est Claude-first — pas par dogme, mais parce que Claude est le modèle le plus aligné pour les usages enterprise exigeants.
+  </Fragment>
+  <Fragment slot="positioning-statement">
+    Claude est le seul modèle frontier conçu avec la <em>sécurité comme contrainte de design</em> — pas comme patch après coup.
+  </Fragment>
+  <Fragment slot="positioning-facts">
+    <div class="fact">
+      <span class="fact-k">Contexte</span>
+      <span class="fact-v">200K tokens</span>
+      <span class="fact-l">fenêtre de contexte sur Claude Sonnet 4</span>
+    </div>
+    <div class="fact">
+      <span class="fact-k">Instructions suivies</span>
+      <span class="fact-v">99.2%</span>
+      <span class="fact-l">sur les benchmarks d'instruction following</span>
+    </div>
+    <div class="fact">
+      <span class="fact-k">Données non retenues</span>
+      <span class="fact-v">API</span>
+      <span class="fact-l">Anthropic ne retient pas les données via API</span>
+    </div>
+  </Fragment>
+
+  {/* ── Capabilities Grid 3×2 ── */}
+  <Fragment slot="capabilities-aside">
+    Six capacités fondamentales qui distinguent Claude pour le contexte enterprise — chacune mesurable, documentée, contractualisable.
+  </Fragment>
+  <Fragment slot="capabilities">
+    <div class="cap-card">
+      <div class="cap-ck">Raisonnement</div>
+      <h3>Raisonnement long et complexe</h3>
+      <p>Chaînes de pensée structurées sur problèmes multi-étapes — analyse, hypothèses, contre-arguments, synthèse.</p>
+      <div class="cap-v">200K ctx</div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-ck">Instructions</div>
+      <h3>Suivi d'instructions précis</h3>
+      <p>Respect strict des contraintes formelles — formats, ton, règles métier, garde-fous opérationnels.</p>
+      <div class="cap-v">99.2%</div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-ck">Sécurité</div>
+      <h3>Constitutional AI natif</h3>
+      <p>Alignement par principes intégrés au training — refus contextuels, transparence, traçabilité des décisions.</p>
+      <div class="cap-v">CAI</div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-ck">Multimodal</div>
+      <h3>Vision PDF texte code</h3>
+      <p>Analyse documents complexes, schémas, captures, code source — sans pipeline OCR séparé à maintenir.</p>
+      <div class="cap-v">Native</div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-ck">Artifacts</div>
+      <h3>Génération artefacts structurés</h3>
+      <p>Sorties typées exploitables — JSON Schema, code, documents — directement intégrables dans vos workflows.</p>
+      <div class="cap-v">Native</div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-ck">Gouvernance</div>
+      <h3>Politique d'utilisation claire</h3>
+      <p>DPA disponible, résidence Europe possible, responsabilité contractuelle Anthropic — pas de zone grise juridique.</p>
+      <div class="cap-v">DPA</div>
+    </div>
+  </Fragment>
+
+  {/* ── Models Comparison Table ── */}
+  <Fragment slot="models-aside">
+    Le bon modèle pour le bon profil de tâche — la différence de coût va de 1 à 60 entre Haiku et Opus, le choix se fait à la tâche.
+  </Fragment>
+  <Fragment slot="models-rows">
+    <tr>
+      <td class="mdl-name">Claude Haiku 3.5</td>
+      <td><span class="mdl-badge mdl-badge--speed">Vitesse</span></td>
+      <td class="mdl-cost">$0.25/M</td>
+      <td class="mdl-ctx">200K</td>
+      <td class="mdl-uses">Triage, classification, scoring, tâches répétitives à fort volume</td>
+    </tr>
+    <tr>
+      <td class="mdl-name">Claude Sonnet 4</td>
+      <td><span class="mdl-badge mdl-badge--balance">Équilibre</span></td>
+      <td class="mdl-cost">$3/M</td>
+      <td class="mdl-ctx">200K</td>
+      <td class="mdl-uses">Rédaction, analyse, agents, la plupart des workflows enterprise</td>
+    </tr>
+    <tr>
+      <td class="mdl-name">Claude Opus 4</td>
+      <td><span class="mdl-badge mdl-badge--power">Puissance</span></td>
+      <td class="mdl-cost">$15/M</td>
+      <td class="mdl-ctx">200K</td>
+      <td class="mdl-uses">Raisonnement complexe, stratégie, audit critique, cas exigeants</td>
+    </tr>
+    <tr>
+      <td class="mdl-name">Claude Code</td>
+      <td><span class="mdl-badge mdl-badge--code">Code</span></td>
+      <td class="mdl-cost">$3/M</td>
+      <td class="mdl-ctx">200K</td>
+      <td class="mdl-uses">Développement, revue de code, documentation, modernisation legacy</td>
+    </tr>
+  </Fragment>
+
+  {/* ── When To Use Dual ── */}
+  <Fragment slot="when-aside">
+    Aide décision rare mais essentielle — Claude excelle dans certains contextes, d'autres modèles sont plus adaptés ailleurs. Anti-théâtre, pro-architecture.
+  </Fragment>
+  <Fragment slot="when-use">
+    <li>Vous avez des besoins en instruction following strict</li>
+    <li>La sécurité et la gouvernance des données sont critiques</li>
+    <li>Vous avez des documents longs à analyser (&gt;50 pages)</li>
+    <li>Vous déployez des agents autonomes enterprise</li>
+    <li>Vous avez besoin d'une responsabilité contractuelle claire</li>
+  </Fragment>
+  <Fragment slot="when-avoid">
+    <li>Vos volumes sont très élevés et votre budget très contraint (préférer Haiku 3.5 ou modèles open-source)</li>
+    <li>Vous avez besoin de vision temps réel haute fréquence (autres modèles plus adaptés)</li>
+    <li>Vous testez du raw fine-tuning (préférer modèles open-source self-hosted)</li>
+  </Fragment>
+
+  {/* ── Integration Flow 5 nodes ── */}
+  <Fragment slot="integration-aside">
+    Position de la couche Modèles dans la stack Waimia — Claude est le moteur de raisonnement, alimenté par les données et orchestré par les couches supérieures.
+  </Fragment>
+  <Fragment slot="integration-nodes">
+    <div class="flow-node">
+      <span class="flow-layer">01 · Données</span>
+      <h3>Connecteurs MCP</h3>
+      <p class="flow-body">Sources métier branchées via Model Context Protocol — accès gouverné, audit logs.</p>
+    </div>
+    <div class="flow-node flow-node--active">
+      <span class="flow-layer">02 · Modèles</span>
+      <h3>Claude</h3>
+      <p class="flow-body">Haiku · Sonnet · Opus · Code — sélection à la tâche, fallback configurable.</p>
+    </div>
+    <div class="flow-node">
+      <span class="flow-layer">03 · Orchestration</span>
+      <h3>LangGraph</h3>
+      <p class="flow-body">Graphes d'agents, état durable, retries et human-in-the-loop natifs.</p>
+    </div>
+    <div class="flow-node">
+      <span class="flow-layer">04 · Interface</span>
+      <h3>Cowork · Skills · API</h3>
+      <p class="flow-body">Surfaces de consommation pour équipes et systèmes — pas de fork client lourd.</p>
+    </div>
+    <div class="flow-node">
+      <span class="flow-layer">05 · Observation</span>
+      <h3>LangSmith · Logs</h3>
+      <p class="flow-body">Traces, évaluations, coûts par tâche — visibilité opérationnelle complète.</p>
+    </div>
+  </Fragment>
+
+  {/* ── CTA Architecture Dark ── */}
+  <Fragment slot="cta-title">Quelle stack<br/>pour votre<br/>contexte ?</Fragment>
+  <Fragment slot="cta-body">
+    Chaque déploiement Waimia commence par un choix technologique rigoureux — adapté à vos contraintes, pas à nos préférences.
+  </Fragment>
+</TechnologiesDetailTemplate>

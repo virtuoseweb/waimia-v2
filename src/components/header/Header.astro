@@ -158,32 +158,32 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
   </div>
 </div>
 
-{/* Logique state · pas de React, un module ESM bundlé par Astro · ~1.4 KB
-   Pattern 2 (Astro + script) — cf docs/07-component-patterns.md
+{/* Logique state · `is:inline` pour bypass le bug Astro 6 + adapter Vercel
+   en dev (script bundlé via virtual path Vite retourne 500). En prod, c'est
+   inlined direct dans le HTML SSR — slightly bigger HTML mais aucun fetch
+   supplémentaire et fonctionne en local + prod identique.
    A11y · WCAG 2.4.5 (Multiple Ways) + 2.1.1 (Keyboard) + 4.1.2 (Name, Role, Value) */}
-<script>
+<script is:inline>
   // ─── 1. Refs · groupées en une passe DOM ───────────────────────────────
   const hdrEl = document.getElementById('hdr');
   if (hdrEl) {
-    // Alias non-null capturable proprement par les closures (narrowing perdu sinon)
-    const hdr: HTMLElement = hdrEl;
-    const triggers = Array.from(document.querySelectorAll<HTMLElement>('[data-mega-trigger]'));
-    const panels   = Array.from(document.querySelectorAll<HTMLElement>('[data-mega-panel]'));
-    const navItems = Array.from(document.querySelectorAll<HTMLElement>('[data-nav-item]'));
-    const scrim      = document.querySelector<HTMLElement>('[data-mega-scrim]');
-    const burger     = document.querySelector<HTMLElement>('[data-burger]');
-    const sheet      = document.querySelector<HTMLElement>('[data-mobile-sheet]');
-    const closeSheet = document.querySelector<HTMLElement>('[data-mobile-close]');
-    const navRoot    = document.querySelector<HTMLElement>('.hdr-nav');
+    const hdr = hdrEl;
+    const triggers = Array.from(document.querySelectorAll('[data-mega-trigger]'));
+    const panels   = Array.from(document.querySelectorAll('[data-mega-panel]'));
+    const navItems = Array.from(document.querySelectorAll('[data-nav-item]'));
+    const scrim      = document.querySelector('[data-mega-scrim]');
+    const burger     = document.querySelector('[data-burger]');
+    const sheet      = document.querySelector('[data-mobile-sheet]');
+    const closeSheet = document.querySelector('[data-mobile-close]');
+    const navRoot    = document.querySelector('.hdr-nav');
 
     // ─── 2. State ────────────────────────────────────────────────────────
-    let closeTimer: number | null = null;
+    let closeTimer = null;
     let openKey = '';
 
-    // Map key → trigger / panel / navItem pour O(1) lookup, évite forEach toggle
-    const triggerByKey = new Map(triggers.map((t) => [t.getAttribute('data-mega-trigger') ?? '', t]));
-    const panelByKey   = new Map(panels.map((p) => [p.getAttribute('data-mega-panel') ?? '', p]));
-    const navItemByKey = new Map(navItems.map((n) => [n.getAttribute('data-nav-item') ?? '', n]));
+    const triggerByKey = new Map(triggers.map((t) => [t.getAttribute('data-mega-trigger') || '', t]));
+    const panelByKey   = new Map(panels.map((p) => [p.getAttribute('data-mega-panel') || '', p]));
+    const navItemByKey = new Map(navItems.map((n) => [n.getAttribute('data-nav-item') || '', n]));
 
     function clearCloseTimer() {
       if (closeTimer !== null) {
@@ -193,28 +193,24 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
     }
 
     // ─── 3. Open / close mega panel ──────────────────────────────────────
-    function setOpen(nextKey: string) {
+    function setOpen(nextKey) {
       clearCloseTimer();
       if (nextKey === openKey) return;
 
-      // Close previous (O(1))
       if (openKey) {
-        triggerByKey.get(openKey)?.setAttribute('aria-expanded', 'false');
-        panelByKey.get(openKey)?.setAttribute('aria-hidden', 'true');
-        panelByKey.get(openKey)?.classList.remove('is-open');
-        navItemByKey.get(openKey)?.classList.remove('is-open');
+        const t = triggerByKey.get(openKey); if (t) t.setAttribute('aria-expanded', 'false');
+        const p = panelByKey.get(openKey); if (p) { p.setAttribute('aria-hidden', 'true'); p.classList.remove('is-open'); }
+        const n = navItemByKey.get(openKey); if (n) n.classList.remove('is-open');
       }
-      // Open next (O(1))
       if (nextKey) {
-        triggerByKey.get(nextKey)?.setAttribute('aria-expanded', 'true');
-        panelByKey.get(nextKey)?.setAttribute('aria-hidden', 'false');
-        panelByKey.get(nextKey)?.classList.add('is-open');
-        navItemByKey.get(nextKey)?.classList.add('is-open');
+        const t = triggerByKey.get(nextKey); if (t) t.setAttribute('aria-expanded', 'true');
+        const p = panelByKey.get(nextKey); if (p) { p.setAttribute('aria-hidden', 'false'); p.classList.add('is-open'); }
+        const n = navItemByKey.get(nextKey); if (n) n.classList.add('is-open');
       }
 
       openKey = nextKey;
       hdr.setAttribute('data-open', nextKey);
-      scrim?.classList.toggle('is-open', Boolean(nextKey));
+      if (scrim) scrim.classList.toggle('is-open', Boolean(nextKey));
     }
 
     function scheduleClose() {
@@ -224,65 +220,58 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
 
     // ─── 4. Mega trigger interactions (mouse + keyboard) ────────────────
     for (const trigger of triggers) {
-      const key = trigger.getAttribute('data-mega-trigger') ?? '';
-      const item = trigger.closest<HTMLElement>('[data-nav-item]');
+      const key = trigger.getAttribute('data-mega-trigger') || '';
+      const item = trigger.closest('[data-nav-item]');
       if (!item) continue;
 
-      // Mouse / focus
       item.addEventListener('mouseenter', () => setOpen(key));
       item.addEventListener('focusin', () => setOpen(key));
 
-      // Click toggles · clearCloseTimer FIRST to avoid race vs scheduleClose
       trigger.addEventListener('click', (e) => {
         e.preventDefault();
         clearCloseTimer();
         setOpen(openKey === key ? '' : key);
       });
 
-      // Keyboard · WCAG 2.1.1 · Enter/Space déclenchent déjà le `click` listener
-      // ci-dessus via le comportement natif du <button>. On gère ici uniquement
-      // ArrowDown pour ouvrir + déplacer le focus dans le panel (UX clavier).
       trigger.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowDown') {
           e.preventDefault();
           setOpen(key);
-          requestAnimationFrame(() =>
-            panelByKey.get(key)?.querySelector<HTMLElement>('a')?.focus(),
-          );
+          requestAnimationFrame(() => {
+            const p = panelByKey.get(key);
+            const firstLink = p && p.querySelector('a');
+            if (firstLink) firstLink.focus();
+          });
         }
       });
     }
 
-    // Close on hover-out of nav root (with debounce)
-    navRoot?.addEventListener('mouseleave', scheduleClose);
+    if (navRoot) navRoot.addEventListener('mouseleave', scheduleClose);
 
-    // Panel hover keeps open
     for (const panel of panels) {
       panel.addEventListener('mouseenter', () => {
         const key = panel.getAttribute('data-mega-panel');
         if (key) setOpen(key);
       });
       panel.addEventListener('mouseleave', scheduleClose);
-      // Inside panel: ArrowUp returns focus to trigger · Esc closes
       panel.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-          const key = panel.getAttribute('data-mega-panel') ?? '';
+          const key = panel.getAttribute('data-mega-panel') || '';
           setOpen('');
-          triggerByKey.get(key)?.focus();
-        } else if (e.key === 'ArrowUp' && (e.target as HTMLElement)?.matches('a')) {
-          // Allow up to escape back to trigger from first link
-          const links = panel.querySelectorAll<HTMLAnchorElement>('a');
+          const t = triggerByKey.get(key); if (t) t.focus();
+        } else if (e.key === 'ArrowUp' && e.target && e.target.matches && e.target.matches('a')) {
+          const links = panel.querySelectorAll('a');
           if (links[0] === e.target) {
             e.preventDefault();
-            const key = panel.getAttribute('data-mega-panel') ?? '';
-            triggerByKey.get(key)?.focus();
+            const key = panel.getAttribute('data-mega-panel') || '';
+            const t = triggerByKey.get(key); if (t) t.focus();
           }
         }
       });
     }
 
     // ─── 5. Scrim + global keyboard ─────────────────────────────────────
-    scrim?.addEventListener('click', () => setOpen(''));
+    if (scrim) scrim.addEventListener('click', () => setOpen(''));
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && openKey) setOpen('');
     });
@@ -293,36 +282,30 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
     onScroll();
 
     // ─── 7. Mobile sheet ────────────────────────────────────────────────
-    function setSheetOpen(open: boolean) {
-      sheet?.classList.toggle('is-open', open);
-      sheet?.setAttribute('aria-hidden', open ? 'false' : 'true');
-      burger?.classList.toggle('is-open', open);
-      burger?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    function setSheetOpen(open) {
+      if (sheet) { sheet.classList.toggle('is-open', open); sheet.setAttribute('aria-hidden', open ? 'false' : 'true'); }
+      if (burger) { burger.classList.toggle('is-open', open); burger.setAttribute('aria-expanded', open ? 'true' : 'false'); }
       document.body.style.overflow = open ? 'hidden' : '';
     }
-    burger?.addEventListener('click', () => {
-      setSheetOpen(!sheet?.classList.contains('is-open'));
+    if (burger) burger.addEventListener('click', () => {
+      setSheetOpen(!(sheet && sheet.classList.contains('is-open')));
     });
-    closeSheet?.addEventListener('click', () => setSheetOpen(false));
+    if (closeSheet) closeSheet.addEventListener('click', () => setSheetOpen(false));
 
-    // Defensive cleanup · si l'utilisateur quitte la page sheet ouverte,
-    // ne pas laisser body.overflow=hidden persister sur la page d'arrivée
     window.addEventListener('pagehide', () => {
       document.body.style.overflow = '';
     });
 
-    // Mobile accordions
-    for (const tr of document.querySelectorAll<HTMLElement>('[data-acc-trigger]')) {
+    for (const tr of document.querySelectorAll('[data-acc-trigger]')) {
       tr.addEventListener('click', () => {
-        const key = tr.getAttribute('data-acc-trigger') ?? '';
+        const key = tr.getAttribute('data-acc-trigger') || '';
         const acc = document.querySelector(`[data-acc="${key}"]`);
-        const isOpen = acc?.classList.toggle('is-open') ?? false;
+        const isOpen = acc ? acc.classList.toggle('is-open') : false;
         tr.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       });
     }
 
-    // Close mobile sheet on link click (improves UX)
-    for (const link of sheet?.querySelectorAll('a') ?? []) {
+    if (sheet) for (const link of sheet.querySelectorAll('a')) {
       link.addEventListener('click', () => setSheetOpen(false));
     }
   }

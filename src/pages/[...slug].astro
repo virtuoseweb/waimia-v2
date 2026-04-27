@@ -3,9 +3,18 @@
 // (listées dans la nav/CTAs). Affiche un stub éditorial — pas de 404 jaloux.
 // À mesure que les pages se construisent (via Pages CMS), elles ajoutent
 // des fichiers spécifiques qui prennent priorité sur ce catch-all.
+//
+// Routing par racine URL :
+//   /offres/<slug>       → OffresDetailTemplate (placeholder)
+//   /solutions/<slug>    → SolutionsDetailTemplate (placeholder)
+//   /technologies/<slug> → TechnologiesDetailTemplate (placeholder)
+//   *                    → Stub minimal (hubs, autres routes)
 
 import Base from '../layouts/Base.astro';
 import Stub from '../components/ui/organisms/Stub.astro';
+import OffresDetailTemplate from '../components/templates/OffresDetailTemplate.astro';
+import SolutionsDetailTemplate from '../components/templates/SolutionsDetailTemplate.astro';
+import TechnologiesDetailTemplate from '../components/templates/TechnologiesDetailTemplate.astro';
 import { langFromPath } from '../lib/i18n';
 
 export function getStaticPaths() {
@@ -45,8 +54,22 @@ const { slug } = Astro.params;
 const lang = langFromPath(Astro.url.pathname);
 const path = (slug ?? '').replace(/^en\//, '');
 
-// Mapping page → titre court selon la racine
 const root = path.split('/')[0];
+const subSlug = path.split('/').slice(1).join('/');
+const isDeepRoute = path.includes('/');
+
+// Convertit un slug kebab-case en titre humain (Title Case avec espaces).
+function slugToTitle(s: string): string {
+  if (!s) return '';
+  return s
+    .split('/')
+    .pop()!
+    .split('-')
+    .map((w) => (w.length > 0 ? w[0].toUpperCase() + w.slice(1) : ''))
+    .join(' ');
+}
+
+// Mapping page → titre court selon la racine (utilisé pour les hubs et le Stub fallback)
 const TITLES: Record<string, { kicker: { fr: string; en: string }; title: { fr: string; en: string }; body: { fr: string; en: string } }> = {
   offres: {
     kicker: { fr: '§ Hub — Offres', en: '§ Hub — Services' },
@@ -114,26 +137,326 @@ const TITLES: Record<string, { kicker: { fr: string; en: string }; title: { fr: 
   },
 };
 
-// Détecte la racine du path pour choisir le bon stub
-const meta = TITLES[root] ?? TITLES.contact;
-const isDeepRoute = path.includes('/');
-const slugTail = path.split('/').slice(-1)[0]?.replace(/-/g, ' ');
+// Pour les routes profondes (ex: offres/foo) sur les 3 racines à templates dédiés,
+// on rend le template approprié avec un contenu placeholder éditorial.
+// Sinon (hubs, autres racines, /agence, /contact…) on retombe sur le Stub.
+const useOffresTemplate = root === 'offres' && !!subSlug;
+const useSolutionsTemplate = root === 'solutions' && !!subSlug;
+const useTechnologiesTemplate = root === 'technologies' && !!subSlug;
+const useTemplate = useOffresTemplate || useSolutionsTemplate || useTechnologiesTemplate;
 
-const finalTitle = isDeepRoute
-  ? { fr: slugTail, en: slugTail }
-  : meta.title;
+// Pages catch-all (placeholder) → noindex via header HTTP (les templates n'ayant
+// pas de prop noindex, on injecte via X-Robots-Tag — équivalent <meta robots>).
+if (useTemplate || isDeepRoute) {
+  Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+}
+
+const humanTitle = slugToTitle(subSlug);
+
+// SEO meta pour les pages catch-all "template" (toujours noindex)
+const tplPageTitle = useOffresTemplate
+  ? `${humanTitle} · Offre en préparation · Waimia`
+  : useSolutionsTemplate
+  ? `${humanTitle} · Solution en préparation · Waimia`
+  : useTechnologiesTemplate
+  ? `${humanTitle} · Technologie en préparation · Waimia`
+  : '';
+const tplPageDesc = `Cette page est en construction. Contactez-nous pour anticiper votre besoin sur ${humanTitle}.`;
+
+// Stub fallback meta
+const meta = TITLES[root] ?? TITLES.contact;
+const slugTail = path.split('/').slice(-1)[0]?.replace(/-/g, ' ');
+const finalTitle = isDeepRoute ? { fr: slugTail, en: slugTail } : meta.title;
 ---
-<Base
-  title={`Waimia · ${lang === 'fr' ? meta.title.fr : meta.title.en}`}
-  description={lang === 'fr' ? meta.body.fr : meta.body.en}
-  noindex={isDeepRoute}
->
-  <Stub
-    kicker_fr={meta.kicker.fr}
-    kicker_en={meta.kicker.en}
-    title_fr={finalTitle.fr}
-    title_en={finalTitle.en}
-    body_fr={meta.body.fr}
-    body_en={meta.body.en}
-  />
-</Base>
+{useOffresTemplate ? (
+  <OffresDetailTemplate
+    title={tplPageTitle}
+    description={tplPageDesc}
+    tier="§ — · OFFRE EN PRÉPARATION"
+    tierLabel={humanTitle}
+    meta="Page en construction · Contactez-nous pour anticiper"
+    ctaHref="/contact"
+    ctaLabel="Parler à un expert →"
+  >
+    <Fragment slot="title"><i>{humanTitle}</i></Fragment>
+
+    <Fragment slot="lead">
+      Cette offre est en préparation.
+      <span>Contactez-nous pour discuter de votre besoin spécifique en avance.</span>
+    </Fragment>
+
+    <Fragment slot="problem-statement">
+      Vous avez un besoin urgent sur ce sujet ?<br/>
+      <em>Parlons-en directement.</em>
+    </Fragment>
+
+    <Fragment slot="problem-annotations">
+      <div>
+        <div class="ann-value">—</div>
+        <div class="ann-label">Détails de la prestation à venir.</div>
+      </div>
+    </Fragment>
+
+    <Fragment slot="method-aside">
+      Notre méthodologie sera détaillée ici prochainement.
+    </Fragment>
+
+    <Fragment slot="method-steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div class="step-k">Cadrage</div>
+        <h3>Comprendre votre contexte.</h3>
+        <p>Audit du périmètre, des contraintes et des objectifs métier — sans engagement.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div class="step-k">Diagnostic</div>
+        <h3>Mesurer l'existant.</h3>
+        <p>Inventaire des outils, processus et données — état des lieux écrit.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div class="step-k">Plan d'action</div>
+        <h3>Définir la trajectoire.</h3>
+        <p>Backlog ordonné, livrables nommés, jalons et budget — un document que votre board peut approuver.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <div class="step-k">Livraison</div>
+        <h3>Mise en production.</h3>
+        <p>Implémentation, mesure d'usage, transmission documentée — pas de dépendance à une ressource interne pour aller live.</p>
+      </div>
+    </Fragment>
+
+    <Fragment slot="deliverables-aside">
+      Les livrables précis de cette offre seront détaillés ici. En attendant, parlons de votre cas.
+    </Fragment>
+
+    <Fragment slot="deliverables">
+      <div class="del-card">
+        <h3>Diagnostic écrit</h3>
+        <p>Un document clair, lisible par le board comme par les équipes techniques.</p>
+        <span class="del-tag">À préciser</span>
+      </div>
+      <div class="del-card">
+        <h3>Plan d'action ordonné</h3>
+        <p>Backlog priorisé par ROI estimé, calendrier, budget — pas un deck de 72 slides.</p>
+        <span class="del-tag">À préciser</span>
+      </div>
+      <div class="del-card">
+        <h3>Mise en œuvre</h3>
+        <p>Implémentation par notre équipe, avec passation documentée à la vôtre.</p>
+        <span class="del-tag">À préciser</span>
+      </div>
+    </Fragment>
+
+    <Fragment slot="proof-quote">
+      "Le contenu de cette page sera publié prochainement. Nous prenons les engagements client en avance."
+    </Fragment>
+
+    <Fragment slot="proof-attr">
+      — Équipe Waimia
+    </Fragment>
+
+    <Fragment slot="proof-metrics">
+      <div>
+        <div class="metric-v">—</div>
+        <div class="metric-l">Métriques publiées dès la mise en ligne.</div>
+      </div>
+    </Fragment>
+
+    <Fragment slot="cta-title">Cadrons<br/>votre besoin.</Fragment>
+    <Fragment slot="cta-body">
+      Cette offre arrive bientôt — mais nous accueillons déjà les demandes en avance.
+      Réponse sous 4 h en jours ouvrés.
+    </Fragment>
+  </OffresDetailTemplate>
+) : useSolutionsTemplate ? (
+  <SolutionsDetailTemplate
+    title={tplPageTitle}
+    description={tplPageDesc}
+    dept="DÉPARTEMENT"
+    deptLabel={humanTitle}
+    meta="Page en construction · Contactez-nous pour anticiper"
+    ctaHref="/contact"
+    ctaLabel="Parler à un expert →"
+  >
+    <Fragment slot="title"><i>{humanTitle}</i></Fragment>
+
+    <Fragment slot="lead">
+      Cette solution est en préparation.
+      <span>Contactez-nous pour discuter de votre besoin spécifique en avance.</span>
+    </Fragment>
+
+    <Fragment slot="tags">
+      <span class="sol-tag">À préciser</span>
+    </Fragment>
+
+    <Fragment slot="pain-aside">
+      Avant d'automatiser, comprendre où le temps se perd. Le détail des frictions de ce département arrive bientôt.
+    </Fragment>
+
+    <Fragment slot="pains">
+      <div class="pain-card">
+        <div class="pn">01</div>
+        <div class="pk">Cadrage à venir</div>
+        <h3>Frictions identifiées<br/>dans ce département.</h3>
+        <p>Le détail des points de friction sera publié à la mise en ligne. Si vous avez un besoin urgent, contactez-nous.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pn">02</div>
+        <div class="pk">Cas terrain</div>
+        <h3>Mesures qualitatives<br/>et chiffres durs.</h3>
+        <p>Nous publierons ici les patterns récurrents observés sur le terrain — temps perdu, double saisie, retards de pilotage.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pn">03</div>
+        <div class="pk">Conséquences</div>
+        <h3>Coût caché<br/>de l'inaction.</h3>
+        <p>Ce que coûte ne pas adresser ces frictions — en heures, en marge, en risque réglementaire.</p>
+      </div>
+    </Fragment>
+
+    <Fragment slot="workflows-aside">
+      La grille de workflows agentiques pour ce département sera détaillée ici prochainement.
+    </Fragment>
+
+    <Fragment slot="workflows">
+      <div class="wf-row">
+        <div class="wf-n">01</div>
+        <div class="wf-name">
+          <span class="wf-k">À venir</span>
+          <h3>Workflow agentique en cours de cadrage.</h3>
+        </div>
+      </div>
+    </Fragment>
+
+    <Fragment slot="roi">
+      <div>
+        <div class="metric-v">—</div>
+        <div class="metric-l">ROI publié à la mise en ligne.</div>
+      </div>
+    </Fragment>
+
+    <Fragment slot="case-title">
+      Cas client à venir.
+    </Fragment>
+    <Fragment slot="case-body">
+      Nous publierons ici un cas client représentatif de ce département dès qu'il sera consolidé.
+    </Fragment>
+    <Fragment slot="case-results">
+      <div>
+        <div class="metric-v">—</div>
+        <div class="metric-l">Résultats à venir</div>
+      </div>
+    </Fragment>
+
+    <Fragment slot="stack-aside">
+      La stack technique recommandée pour ce département sera publiée ici.
+    </Fragment>
+    <Fragment slot="stack">
+      <div class="stack-card">
+        <div class="kicker">À préciser</div>
+        <h3>Stack en cours<br/>de finalisation</h3>
+        <p>Le triptyque Anthropic + intégrations métier + open-source orchestration sera détaillé à la mise en ligne.</p>
+        <span class="pill">Anthropic-first</span>
+      </div>
+    </Fragment>
+
+    <Fragment slot="cta-title">Votre équipe<br/>{humanTitle},<br/>augmentée.</Fragment>
+    <Fragment slot="cta-body">
+      Cette solution arrive bientôt — mais nous accueillons déjà les demandes en avance.
+      Réponse sous 4 h en jours ouvrés.
+    </Fragment>
+  </SolutionsDetailTemplate>
+) : useTechnologiesTemplate ? (
+  <TechnologiesDetailTemplate
+    title={tplPageTitle}
+    description={tplPageDesc}
+    layer="COUCHE TECHNIQUE"
+    layerLabel={humanTitle}
+    layerType="claude"
+    showModels={false}
+    showEcosystem={false}
+    meta="Page en construction · Contactez-nous pour anticiper"
+    ctaHref="/contact"
+    ctaLabel="Parler architecture →"
+  >
+    <Fragment slot="title"><i>{humanTitle}</i></Fragment>
+
+    <Fragment slot="lead">
+      Cette technologie est en préparation.
+      <span>Contactez-nous pour discuter de votre architecture cible.</span>
+    </Fragment>
+
+    <Fragment slot="positioning-title">Pourquoi <i>{humanTitle}</i></Fragment>
+    <Fragment slot="positioning-aside">
+      Notre prise de position sur cette brique technologique sera publiée ici.
+    </Fragment>
+    <Fragment slot="positioning-statement">
+      Le contenu détaillé de cette page arrive prochainement. En attendant, nous accueillons les demandes architecture en avance.
+    </Fragment>
+    <Fragment slot="positioning-facts">
+      <div class="fact"><div class="fact-k">Statut</div><div class="fact-v">En préparation</div></div>
+      <div class="fact"><div class="fact-k">Réponse</div><div class="fact-v">Sous 4 h ouvrées</div></div>
+    </Fragment>
+
+    <Fragment slot="capabilities-aside">
+      L'inventaire technique de cette brique sera détaillé à la mise en ligne.
+    </Fragment>
+    <Fragment slot="capabilities">
+      <div class="cap-card">
+        <div class="kicker">À venir</div>
+        <h3>Capacités<br/>en cours de cadrage</h3>
+        <p>Cette section recensera les capacités techniques de cette brique — points forts, contraintes, intégrations.</p>
+        <div class="cap-value">—</div>
+      </div>
+      <div class="cap-card">
+        <div class="kicker">À venir</div>
+        <h3>Cas d'usage<br/>recommandés</h3>
+        <p>Les patterns d'usage les plus pertinents pour cette brique seront listés ici.</p>
+        <div class="cap-value">—</div>
+      </div>
+    </Fragment>
+
+    <Fragment slot="when-aside">
+      Le guide de décision (utiliser quand · considérer autre chose quand) arrive bientôt.
+    </Fragment>
+    <Fragment slot="when-use">
+      <li>Cas d'usage à préciser.</li>
+    </Fragment>
+    <Fragment slot="when-avoid">
+      <li>Limites à préciser.</li>
+    </Fragment>
+
+    <Fragment slot="integration-aside">
+      Le flow d'intégration de cette brique sera détaillé ici.
+    </Fragment>
+    <Fragment slot="integration-nodes">
+      <div class="node"><div class="node-k">01</div><div class="node-l">Cadrage</div></div>
+      <div class="node"><div class="node-k">02</div><div class="node-l">Implémentation</div></div>
+      <div class="node"><div class="node-k">03</div><div class="node-l">Mise en production</div></div>
+    </Fragment>
+
+    <Fragment slot="cta-title">Quelle stack<br/>pour votre<br/>contexte ?</Fragment>
+    <Fragment slot="cta-body">
+      Chaque déploiement Waimia commence par un choix technologique rigoureux — adapté à vos contraintes, pas à nos préférences.
+      Réponse sous 4 h en jours ouvrés.
+    </Fragment>
+  </TechnologiesDetailTemplate>
+) : (
+  <Base
+    title={`Waimia · ${lang === 'fr' ? meta.title.fr : meta.title.en}`}
+    description={lang === 'fr' ? meta.body.fr : meta.body.en}
+    noindex={isDeepRoute}
+  >
+    <Stub
+      kicker_fr={meta.kicker.fr}
+      kicker_en={meta.kicker.en}
+      title_fr={finalTitle.fr}
+      title_en={finalTitle.en}
+      body_fr={meta.body.fr}
+      body_en={meta.body.en}
+    />
+  </Base>
+)}

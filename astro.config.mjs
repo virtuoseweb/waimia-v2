@@ -13,10 +13,12 @@ import vercel from '@astrojs/vercel';
 // - Tailwind v4 CSS-first
 // - Sitemap auto-generated with hreflang
 //
-// Note · Playwright utilise `pnpm build && pnpm preview` (vs `pnpm dev`) parce
-// que le dev server Astro 6 + adapter Vercel a un bug qui empêche le chargement
-// des modules `astro:scripts/before-hydration.js` (500 error). Le preview server
-// utilise le build statique, fidèle à la prod.
+// Note · Astro 6 dev server a un bug avec les `<script>` de composants servis
+// via virtual paths Vite (`?astro&type=script&index=0&lang.ts` → 500). Notre
+// Header.astro contourne via `<script is:inline>` (cf commentaire Header).
+// En build/prod, ce comportement est identique : `is:inline` produit du JS
+// embed dans le HTML SSR (~3KB), pas de bundle supplémentaire mais pas de hop
+// HTTP non plus. Trade-off net neutre pour ce cas.
 export default defineConfig({
   site: 'https://waimia.com',
   output: 'server',

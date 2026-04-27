@@ -1,0 +1,107 @@
+---
+// Page · /ressources/cas/virtuoseos · Cas interne VirtuoseOS
+// Source : brief content marketing — méta-cas plateforme interne
+//
+// Composé de · CaseStudyTemplate (squelette) · données structurées + slots HTML riche.
+
+import CaseStudyTemplate from '../../../components/templates/CaseStudyTemplate.astro';
+
+const specs = [
+  { label_fr: 'Client',      label_en: 'Client',      value: 'Waimia (interne)' },
+  { label_fr: 'Secteur',     label_en: 'Sector',      value: 'Plateforme delivery' },
+  { label_fr: 'Durée',       label_en: 'Duration',    value: '16 sem · Q4 2025 → Q1 2026' },
+  { label_fr: 'Stack',       label_en: 'Stack',       value: 'Claude · Skills · MCP · LangGraph' },
+  { label_fr: 'Prestations', label_en: 'Services',    value: 'R&D interne · industrialisation' },
+];
+
+const steps = [
+  { sn: '01', kicker_fr: 'Cartographie', kicker_en: 'Mapping',
+    title_fr: '12 missions, 6 patterns', title_en: '12 missions, 6 patterns',
+    body_fr: "Quatre semaines à relire 12 missions historiques. On a identifié 6 patterns récurrents qui revenaient sur chaque deal.",
+    body_en: 'Four weeks rereading 12 historical missions. We identified 6 recurring patterns showing up in every deal.' },
+  { sn: '02', kicker_fr: 'Templates', kicker_en: 'Templates',
+    title_fr: 'Bibliothèque d\'agents', title_en: 'Agent library',
+    body_fr: "Templates de mission + bibliothèque d'agents Claude pré-configurés. Chaque agent est versionné, testé, observable.",
+    body_en: 'Mission templates + library of preconfigured Claude agents. Each agent is versioned, tested, observable.' },
+  { sn: '03', kicker_fr: 'Observabilité', kicker_en: 'Observability',
+    title_fr: 'Dashboard cross-mission', title_en: 'Cross-mission dashboard',
+    body_fr: "Dashboard delivery temps réel + métriques cross-mission. On voit l'avancement, le coût et le drift en un seul écran.",
+    body_en: 'Real-time delivery dashboard + cross-mission metrics. Progress, cost and drift visible on a single screen.' },
+  { sn: '04', kicker_fr: 'Rollout', kicker_en: 'Rollout',
+    title_fr: 'Adoption interne', title_en: 'Internal adoption',
+    body_fr: "Rollout équipe + formation. Aujourd'hui, chaque nouvelle mission Waimia démarre depuis VirtuoseOS, pas depuis zéro.",
+    body_en: 'Team rollout + training. Today, every new Waimia mission starts from VirtuoseOS — not from scratch.' },
+];
+
+const proofMetrics = [
+  { k: '−40%',   label_fr: 'Durée moyenne mission',  label_en: 'Average mission duration' },
+  { k: '×3.2',   label_fr: 'Capacité parallèle',     label_en: 'Parallel capacity' },
+  { k: '100%',   label_fr: 'Traçabilité agents',     label_en: 'Agent traceability' },
+  { k: '4–7×',   label_fr: 'Réutilisation patterns', label_en: 'Pattern reuse per mission' },
+];
+
+const techPills = [
+  { label: 'Claude Sonnet 4', kind: 'primary' as const },
+  { label: 'Claude Skills', kind: 'primary' as const },
+  { label: 'MCP', kind: 'primary' as const },
+  { label: 'LangGraph', kind: 'open' as const },
+  { label: 'LangSmith', kind: 'neutral' as const },
+  { label: 'Notion', kind: 'neutral' as const },
+];
+
+const relatedCards = [
+  { kicker: 'CASE 04', title_fr: 'Plateau SaaS', title_en: 'Plateau SaaS',
+    lead_fr: '+2,4 M€ de pipeline récupéré →', lead_en: '+€2.4M pipeline recovered →',
+    href: '/ressources/cas/plateau' },
+  { kicker: 'CASE 08', title_fr: 'Northbound Logistique', title_en: 'Northbound Logistics',
+    lead_fr: '+1,8 M€ ARR signés →', lead_en: '+€1.8M ARR signed →',
+    href: '/ressources/cas/northbound' },
+  { kicker: 'SERVICE 05.1', title_fr: 'Delivery industrialisé', title_en: 'Industrialized delivery',
+    lead_fr: 'La méthode VirtuoseOS →', lead_en: 'The VirtuoseOS method →',
+    href: '/offres/virtuoseos' },
+];
+---
+<CaseStudyTemplate
+  title="Cas · VirtuoseOS · −40% durée mission · Waimia"
+  description="Comment Waimia a industrialisé son propre delivery — 16 semaines de R&D interne, missions divisées par 1,7, capacité parallèle multipliée par 3,2."
+  caseNum="12"
+  specs={specs}
+  steps={steps}
+  proofQuoteFr="Avant VirtuoseOS, chaque mission redémarrait à 70%. Aujourd'hui, on capitalise vraiment — un nouveau projet pioche dans 6 patterns éprouvés et on garde notre énergie pour ce qui est singulier au client."
+  proofQuoteEn="Before VirtuoseOS, every mission restarted at 70%. Today we genuinely capitalize — a new project picks from 6 proven patterns and we keep our energy for what's unique to the client."
+  proofAttrFr="Simon Berros · Fondateur · Waimia"
+  proofAttrEn="Simon Berros · Founder · Waimia"
+  proofMetrics={proofMetrics}
+  techPills={techPills}
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">
+    Notre propre OS de delivery — testé sur <i>Waimia</i> avant d'être proposé aux clients.
+  </Fragment>
+  <Fragment slot="context">
+    <p>Avant VirtuoseOS, une mission Waimia durait <i>8 à 12 semaines</i> avec une variabilité énorme. Aucune capitalisation cross-client. Chaque nouveau projet redémarrait à 70% — relisons les briefs précédents, recodons les agents, reconstruisons les dashboards.</p>
+    <p>Notre brief interne : construire la couche opérationnelle qui industrialise tout ce qu'on fait. <i>Eat our own dog food</i> avant de la proposer. Templates de mission, agents pré-configurés, observabilité standardisée.</p>
+  </Fragment>
+  <Fragment slot="approach-headline">
+    Pas un framework. Une <i>plateforme</i> qu'on utilise tous les jours.
+  </Fragment>
+  <Fragment slot="approach-aside">
+    16 semaines de R&D interne, sur fonds propres. Méthode appliquée à nous-mêmes : cartographie → templates → observabilité → rollout. Aujourd'hui, chaque nouvelle mission client démarre depuis VirtuoseOS.
+  </Fragment>
+  <Fragment slot="stack-lead">
+    Volontairement <i>nôtre</i>. Claude Sonnet 4 pour la cognition, Skills pour la composition, MCP pour les connecteurs, LangGraph pour les workflows. Tout est versionné, observable, transférable.
+  </Fragment>
+</CaseStudyTemplate>
+
+<style is:global>
+  /* Styles paragraphes du slot context · cohérents avec /ressources/cas/plateau. */
+  .case-context-grid p {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.32;
+    letter-spacing: -0.012em;
+    margin: 0 0 24px;
+    text-wrap: pretty;
+  }
+  .case-context-grid p i { font-style: italic; color: var(--accent); }
+</style>

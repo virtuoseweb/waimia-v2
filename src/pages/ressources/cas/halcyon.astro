@@ -1,0 +1,107 @@
+---
+// Page · /ressources/cas/halcyon · Cas Halcyon Health
+// Source : brief content marketing 2026-Q1
+//
+// Composé de · CaseStudyTemplate (squelette) · données structurées + slots HTML riche.
+
+import CaseStudyTemplate from '../../../components/templates/CaseStudyTemplate.astro';
+
+const specs = [
+  { label_fr: 'Client',      label_en: 'Client',      value: 'Halcyon (pseudonym)' },
+  { label_fr: 'Secteur',     label_en: 'Sector',      value: 'Santé · groupe de cliniques' },
+  { label_fr: 'Durée',       label_en: 'Duration',    value: '8 sem · Q1 2026' },
+  { label_fr: 'Stack',       label_en: 'Stack',       value: 'Claude Sonnet 4 · MCP · DocLib' },
+  { label_fr: 'Prestations', label_en: 'Services',    value: 'Triage IA · MCP · HDS' },
+];
+
+const steps = [
+  { sn: '01', kicker_fr: 'Audit', kicker_en: 'Audit',
+    title_fr: 'Volumétrie & sémantique', title_en: 'Volumetrics & semantics',
+    body_fr: "Deux semaines à lire 14 000 demandes patient. On a cartographié 23 motifs récurrents et 6 zones d'urgence vitale.",
+    body_en: 'Two weeks reading 14,000 patient requests. We mapped 23 recurring patterns and 6 vital emergency zones.' },
+  { sn: '02', kicker_fr: 'Modèle', kicker_en: 'Model',
+    title_fr: 'Triage Sonnet 4 + base HDS', title_en: 'Sonnet 4 triage + HDS base',
+    body_fr: "Modèle de triage Claude Sonnet 4 adossé à la base réglementaire HDS. Prompt structuré, sortie typée, audit trail.",
+    body_en: 'Claude Sonnet 4 triage model anchored on HDS regulatory base. Structured prompt, typed output, audit trail.' },
+  { sn: '03', kicker_fr: 'Branchement', kicker_en: 'Wiring',
+    title_fr: 'MCP DocLib + Doctolib', title_en: 'MCP DocLib + Doctolib',
+    body_fr: "MCP connector vers DocLib, Doctolib et la messagerie sécurisée. L'agent suggère rappel, RDV ou redirection.",
+    body_en: 'MCP connector to DocLib, Doctolib and secure email. The agent suggests callback, appointment or redirection.' },
+  { sn: '04', kicker_fr: 'Mesure', kicker_en: 'Measure',
+    title_fr: 'Six semaines en production', title_en: 'Six weeks in production',
+    body_fr: "Mesure sur 1200 demandes vs baseline. Ajustement du seuil de bascule humaine sur 4 motifs. Zéro faux négatif vital.",
+    body_en: 'Measurement on 1,200 requests vs baseline. Human-handoff threshold tuned on 4 patterns. Zero vital false negative.' },
+];
+
+const proofMetrics = [
+  { k: '−38%',   label_fr: 'Temps de triage moyen',  label_en: 'Average triage time' },
+  { k: '2h45',   label_fr: 'Délai moyen vs 6h',      label_en: 'Average delay vs 6h' },
+  { k: '99.2%',  label_fr: 'Accuracy classification', label_en: 'Classification accuracy' },
+  { k: '0',      label_fr: 'Faux négatif vital',     label_en: 'Vital false negatives' },
+];
+
+const techPills = [
+  { label: 'Claude Sonnet 4', kind: 'primary' as const },
+  { label: 'MCP', kind: 'primary' as const },
+  { label: 'DocLib', kind: 'neutral' as const },
+  { label: 'Doctolib', kind: 'neutral' as const },
+  { label: 'Hébergeur HDS', kind: 'open' as const },
+  { label: 'LangSmith', kind: 'neutral' as const },
+];
+
+const relatedCards = [
+  { kicker: 'CASE 04', title_fr: 'Plateau SaaS', title_en: 'Plateau SaaS',
+    lead_fr: '+2,4 M€ de pipeline récupéré →', lead_en: '+€2.4M pipeline recovered →',
+    href: '/ressources/cas/plateau' },
+  { kicker: 'CASE 09', title_fr: 'Caserne Souverain', title_en: 'Caserne Sovereign',
+    lead_fr: '100% souveraineté data →', lead_en: '100% data sovereignty →',
+    href: '/ressources/cas/caserne' },
+  { kicker: 'SERVICE 02.1', title_fr: 'Agents métier', title_en: 'Business agents',
+    lead_fr: 'Le service inspiré par ce cas →', lead_en: 'The service inspired by this case →',
+    href: '/offres/agents' },
+];
+---
+<CaseStudyTemplate
+  title="Cas · Halcyon · Triage IA −38% · Waimia"
+  description="Comment un agent Claude Sonnet 4 a fait passer le triage des demandes patient de 6h à 2h45, sans aucun faux négatif vital sur 1200 cas."
+  caseNum="07"
+  specs={specs}
+  steps={steps}
+  proofQuoteFr="Avant, mes secrétaires ouvraient les mails à la chaîne sans hiérarchie. Maintenant, l'urgence remonte en haut de la pile, et les rappels non-urgents se rangent tout seuls."
+  proofQuoteEn="Before, my secretaries opened mails one after the other with no hierarchy. Now, urgent cases rise to the top of the pile, and non-urgent callbacks file themselves."
+  proofAttrFr="Cadre de santé · Direction médicale · Halcyon"
+  proofAttrEn="Healthcare manager · Medical direction · Halcyon"
+  proofMetrics={proofMetrics}
+  techPills={techPills}
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">
+    Un triage patient ramené de <i>6 h</i> à <i>2 h 45</i>, sans un seul faux négatif vital.
+  </Fragment>
+  <Fragment slot="context">
+    <p>Quatre secrétaires médicales débordées. Un délai de réponse entre <i>6 h et 72 h</i>. Une file d'urgence qui ne distinguait pas le rappel administratif de la douleur thoracique. Halcyon avait besoin d'une priorisation, pas d'une démo IA.</p>
+    <p>Notre brief : un agent Claude qui pré-trie les demandes patient — mail et formulaire — selon l'urgence, et qui suggère <i>rappel, RDV ou redirection</i>. Hébergement HDS, data residency France, audit trail complet.</p>
+  </Fragment>
+  <Fragment slot="approach-headline">
+    Un triage qui se trompe <i>moins</i> que la file d'attente humaine.
+  </Fragment>
+  <Fragment slot="approach-aside">
+    Notre méthode standard adaptée santé : audit volumétrique → modèle adossé HDS → branchement MCP → mesure 6 semaines. La bascule humaine reste obligatoire sur les zones d'urgence vitale.
+  </Fragment>
+  <Fragment slot="stack-lead">
+    Volontairement <i>contrainte</i>. Claude Sonnet 4 pour la cognition, MCP pour les connecteurs, hébergeur HDS pour la conformité. Aucune brique non auditée.
+  </Fragment>
+</CaseStudyTemplate>
+
+<style is:global>
+  /* Styles paragraphes du slot context · cohérents avec /ressources/cas/plateau. */
+  .case-context-grid p {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.32;
+    letter-spacing: -0.012em;
+    margin: 0 0 24px;
+    text-wrap: pretty;
+  }
+  .case-context-grid p i { font-style: italic; color: var(--accent); }
+</style>

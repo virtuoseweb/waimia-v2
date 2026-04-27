@@ -1,0 +1,106 @@
+---
+// Page · /ressources/cas/northbound · Cas Northbound Logistique
+// Source : brief content marketing 2026-Q1
+//
+// Composé de · CaseStudyTemplate (squelette) · données structurées + slots HTML riche.
+
+import CaseStudyTemplate from '../../../components/templates/CaseStudyTemplate.astro';
+
+const specs = [
+  { label_fr: 'Client',      label_en: 'Client',      value: 'Northbound (pseudonym)' },
+  { label_fr: 'Secteur',     label_en: 'Sector',      value: 'Logistique B2B · ETI 50 M€' },
+  { label_fr: 'Durée',       label_en: 'Duration',    value: '10 sem · Q1 2026' },
+  { label_fr: 'Stack',       label_en: 'Stack',       value: 'Claude · Salesforce · dbt · Hex' },
+  { label_fr: 'Prestations', label_en: 'Services',    value: 'RevOps · Lead scoring · Pipeline' },
+];
+
+const steps = [
+  { sn: '01', kicker_fr: 'Audit', kicker_en: 'Audit',
+    title_fr: 'Réconciliation CRM ↔ entrepôt', title_en: 'CRM ↔ warehouse reconciliation',
+    body_fr: "Deux semaines à recoller CRM, entrepôt et facturation. On a réécrit la définition métier de Lead, SQL et Opportunity.",
+    body_en: 'Two weeks reconciling CRM, warehouse and billing. We rewrote the business definitions of Lead, SQL and Opportunity.' },
+  { sn: '02', kicker_fr: 'Scoring', kicker_en: 'Scoring',
+    title_fr: '47 critères Sonnet 4', title_en: '47-criterion Sonnet 4',
+    body_fr: "Lead scoring Claude Sonnet 4 sur 47 critères entreprise + comportement. Sortie typée, recalcul nightly, alertes drift.",
+    body_en: 'Claude Sonnet 4 lead scoring on 47 criteria — firmographics + behavior. Typed output, nightly recompute, drift alerts.' },
+  { sn: '03', kicker_fr: 'Qualification', kicker_en: 'Qualification',
+    title_fr: 'Scripts par segment', title_en: 'Per-segment scripts',
+    body_fr: "Agent qualification + scripts d'appel personnalisés par segment. Quotes structurées générées en 4 minutes au lieu de 90.",
+    body_en: 'Qualification agent + per-segment call scripts. Structured quotes generated in 4 minutes instead of 90.' },
+  { sn: '04', kicker_fr: 'Pipeline', kicker_en: 'Pipeline',
+    title_fr: 'Dashboard temps réel', title_en: 'Real-time dashboard',
+    body_fr: "Dashboard pipeline live partagé direction commerciale ↔ finance. Alertes deal slip à >30j, win rate par segment.",
+    body_en: 'Live pipeline dashboard shared between sales leadership and finance. Deal-slip alerts past 30 days, win rate per segment.' },
+];
+
+const proofMetrics = [
+  { k: '+1.8M€',  label_fr: 'ARR signé sur 6 mois',     label_en: 'ARR signed over 6 months' },
+  { k: '+62%',    label_fr: 'Taux SQL → Opportunity',   label_en: 'SQL → Opportunity rate' },
+  { k: '−45%',    label_fr: 'Deals stalled >30j',       label_en: 'Deals stalled >30d' },
+  { k: '+24%',    label_fr: 'Win rate',                 label_en: 'Win rate' },
+];
+
+const techPills = [
+  { label: 'Claude Sonnet 4', kind: 'primary' as const },
+  { label: 'Claude Haiku 3.5', kind: 'primary' as const },
+  { label: 'Salesforce MCP', kind: 'neutral' as const },
+  { label: 'dbt', kind: 'open' as const },
+  { label: 'Hex', kind: 'neutral' as const },
+];
+
+const relatedCards = [
+  { kicker: 'CASE 04', title_fr: 'Plateau SaaS', title_en: 'Plateau SaaS',
+    lead_fr: '+2,4 M€ de pipeline récupéré →', lead_en: '+€2.4M pipeline recovered →',
+    href: '/ressources/cas/plateau' },
+  { kicker: 'CASE 12', title_fr: 'VirtuoseOS interne', title_en: 'VirtuoseOS internal',
+    lead_fr: 'Le delivery industrialisé →', lead_en: 'Industrialized delivery →',
+    href: '/ressources/cas/virtuoseos' },
+  { kicker: 'SERVICE 03.1', title_fr: 'RevOps Rebuild', title_en: 'RevOps Rebuild',
+    lead_fr: 'Le service inspiré par ce cas →', lead_en: 'The service inspired by this case →',
+    href: '/offres/revops' },
+];
+---
+<CaseStudyTemplate
+  title="Cas · Northbound · +1,8 M€ ARR · Waimia"
+  description="Comment une refonte RevOps de 10 semaines a fait passer Northbound de +0,7 M€ prévus à +1,8 M€ d'ARR signés, avec −45% de deals stalled."
+  caseNum="08"
+  specs={specs}
+  steps={steps}
+  proofQuoteFr="On vendait à l'aveugle. Aujourd'hui, je sais quel deal va slipper avant le commercial qui le pilote — et l'alerte tombe avant le comité du lundi."
+  proofQuoteEn="We were selling blind. Now I know which deal is about to slip before the rep who runs it — and the alert lands before Monday's committee."
+  proofAttrFr="VP Sales · Direction commerciale · Northbound"
+  proofAttrEn="VP Sales · Sales leadership · Northbound"
+  proofMetrics={proofMetrics}
+  techPills={techPills}
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">
+    <i>+1,8 M€</i> d'ARR signés sur 6 mois — quand la prévision interne tablait sur <i>+0,7 M€</i>.
+  </Fragment>
+  <Fragment slot="context">
+    <p>Northbound vendait sans visibilité. Le RevOps était <i>fragmenté</i> entre Salesforce, l'entrepôt et trois exports manuels. Le lead scoring se faisait au feeling, la qualification durait 90 minutes, et personne ne voyait les deals slipper avant le comité du lundi.</p>
+    <p>Notre brief : refondre le funnel commercial avec des agents Claude qui scorent, qualifient et alertent. <i>Une seule vérité</i> sur le pipeline, partagée du commercial au CFO.</p>
+  </Fragment>
+  <Fragment slot="approach-headline">
+    Un funnel <i>scoré</i>, pas un funnel <i>raconté</i>.
+  </Fragment>
+  <Fragment slot="approach-aside">
+    Notre méthode standard : réconciliation → scoring → qualification → dashboard. Adaptée à la grammaire logistique B2B (lane, account, RFQ) et au cycle long (90-180 jours).
+  </Fragment>
+  <Fragment slot="stack-lead">
+    Volontairement <i>économe</i>. Sonnet 4 pour le scoring profond, Haiku 3.5 pour les générations rapides, dbt pour la lecture canonique. Aucun no-code intermédiaire.
+  </Fragment>
+</CaseStudyTemplate>
+
+<style is:global>
+  /* Styles paragraphes du slot context · cohérents avec /ressources/cas/plateau. */
+  .case-context-grid p {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.32;
+    letter-spacing: -0.012em;
+    margin: 0 0 24px;
+    text-wrap: pretty;
+  }
+  .case-context-grid p i { font-style: italic; color: var(--accent); }
+</style>
