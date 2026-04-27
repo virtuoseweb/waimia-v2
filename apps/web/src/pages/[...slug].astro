@@ -9,6 +9,12 @@
 //   /solutions/<slug>    → SolutionsDetailTemplate (placeholder)
 //   /technologies/<slug> → TechnologiesDetailTemplate (placeholder)
 //   *                    → Stub minimal (hubs, autres routes)
+//
+// `prerender = true` : génère les routes de getStaticPaths() en HTML statique
+// au build. Sans ça, en mode `output: 'server'`, le catch-all devient SSR
+// pur et intercepte aussi /api/* (404 sur API routes en prod, observé
+// 2026-04-27 post-bascule monorepo).
+export const prerender = true;
 
 import Base from '../layouts/Base.astro';
 import Stub from '../components/ui/organisms/Stub.astro';

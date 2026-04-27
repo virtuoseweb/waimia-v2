@@ -36,6 +36,57 @@ Quand le projet `waimia-v2` est passé d'app simple à monorepo, il faut update 
    - `curl -I https://waimia.com/contact` → 200
    - `curl https://waimia.com/sitemap-index.xml` → XML valide
 
+## ⚠️ Pattern critique · Vercel + pnpm version pinnée
+
+**Problème observé en prod (2026-04-27)** : Vercel utilise **pnpm 6.35.1** par défaut dans son PATH système. Tout `package.json` qui déclare `"engines": { "pnpm": ">=9.0.0" }` ou `"packageManager": "pnpm@9.x"` plante avec `ERR_PNPM_UNSUPPORTED_ENGINE` au build.
+
+### Approches qui ÉCHOUENT
+
+| Approche                                       | Pourquoi ça plante                                          |
+| ---------------------------------------------- | ----------------------------------------------------------- |
+| `pnpm install` (default)                       | Version 6.35.1, incompatible avec engines >=9               |
+| `npm install -g pnpm@9.15.0 && pnpm install`   | Le PATH système résout encore le pnpm 6 préinstallé         |
+| `corepack enable && corepack prepare pnpm@9 --activate` | Le shim Corepack n'a pas la priorité sur le PATH    |
+
+### Pattern qui FONCTIONNE
+
+Dans `apps/<app>/vercel.json` :
+
+```json
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "cd ../.. && npx -y pnpm@9.15.0 install --no-frozen-lockfile",
+  "buildCommand": "cd ../.. && npx -y pnpm@9.15.0 --filter waimia-<app> build",
+  "outputDirectory": ".vercel/output"
+}
+```
+
+Pourquoi ça marche : `npx -y pnpm@<version>` télécharge la version exacte depuis npm registry et l'exécute directement, **bypass complet du PATH système**.
+
+Compromis : 1er build ~44s (téléchargement pnpm depuis registry), builds suivants ~25s grâce au cache Vercel.
+
+### À retenir pour les futures apps Vercel + pnpm
+
+- Toujours commit `apps/<app>/vercel.json` avec installCommand explicite
+- `cd ../..` car rootDirectory est `apps/<app>` mais le workspace pnpm vit à la racine
+- `--no-frozen-lockfile` pour tolérer un lockfile dev-friendly (politique `.npmrc`)
+- `--filter waimia-<app>` pour ne builder que l'app concernée (économie minutes)
+
+### Apps/cal · cas particulier yarn 4 berry
+
+Cal.com upstream utilise **yarn 4 berry** (pas pnpm). Pour `apps/cal/vercel.json` :
+
+```json
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "yarn install --immutable",
+  "buildCommand": "yarn build",
+  "outputDirectory": ".next"
+}
+```
+
+Yarn 4 berry est auto-détecté par Vercel via le `.yarnrc.yml` upstream. Pas de contournement nécessaire.
+
 ## Variables d'environnement Vercel
 
 Les variables `.env*` ne sont **pas** committées. Sur Vercel, set via :
