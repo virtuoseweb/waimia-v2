@@ -1,0 +1,50 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "_comment": "Template à renommer en vercel.json quand on créera le projet Vercel waimia-cal (cf docs/cal-setup.md). Garde le suffixe .template tant que pas de projet Vercel pour cal.waimia.com.",
+
+  "installCommand": "YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install",
+  "buildCommand": "yarn build",
+
+  "crons": [
+    {
+      "path": "/api/cron/bookingReminder",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/calendar-subscriptions",
+      "schedule": "*/15 * * * *"
+    },
+    {
+      "path": "/api/cron/calendar-subscriptions-cleanup",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/changeTimeZone",
+      "schedule": "0 1 * * *"
+    },
+    {
+      "path": "/api/cron/selected-calendars",
+      "schedule": "*/30 * * * *"
+    },
+    {
+      "path": "/api/cron/syncAppMeta",
+      "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/cron/webhookTriggers",
+      "schedule": "*/5 * * * *"
+    }
+  ],
+
+  "headers": [
+    {
+      "source": "/api/cron/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    }
+  ]
+}
