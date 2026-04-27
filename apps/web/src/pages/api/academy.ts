@@ -4,8 +4,6 @@
  */
 import type { APIRoute } from "astro";
 import { sendEmail, EMAIL_INTERNAL_TO, emitEvent } from "../../lib/resend";
-import AcademyResults from "../../lib/emails/AcademyResults";
-import InternalLeadAlert from "../../lib/emails/InternalLeadAlert";
 
 export const prerender = false;
 
@@ -102,6 +100,11 @@ export const POST: APIRoute = async ({ request }) => {
   const nextActions = NEXT_ACTIONS_BY_CAT[category];
 
   try {
+    const [{ default: AcademyResults }, { default: InternalLeadAlert }] =
+      await Promise.all([
+        import("../../lib/emails/AcademyResults"),
+        import("../../lib/emails/InternalLeadAlert"),
+      ]);
     await Promise.all([
       sendEmail({
         to: email,

@@ -4,7 +4,6 @@
  */
 import type { APIRoute } from "astro";
 import { sendEmail, emitEvent } from "../../lib/resend";
-import WelcomeNewsletter from "../../lib/emails/WelcomeNewsletter";
 
 export const prerender = false;
 
@@ -31,6 +30,9 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   try {
+    const { default: WelcomeNewsletter } = await import(
+      "../../lib/emails/WelcomeNewsletter"
+    );
     await sendEmail({
       to: email,
       subject: "Bienvenue · Waimia",

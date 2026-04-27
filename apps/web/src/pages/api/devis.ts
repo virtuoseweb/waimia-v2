@@ -4,8 +4,6 @@
  */
 import type { APIRoute } from "astro";
 import { sendEmail, EMAIL_INTERNAL_TO, emitEvent } from "../../lib/resend";
-import DevisRecap from "../../lib/emails/DevisRecap";
-import InternalLeadAlert from "../../lib/emails/InternalLeadAlert";
 
 export const prerender = false;
 
@@ -52,6 +50,11 @@ export const POST: APIRoute = async ({ request }) => {
   const reference = generateRef();
 
   try {
+    const [{ default: DevisRecap }, { default: InternalLeadAlert }] =
+      await Promise.all([
+        import("../../lib/emails/DevisRecap"),
+        import("../../lib/emails/InternalLeadAlert"),
+      ]);
     await Promise.all([
       sendEmail({
         to: email,

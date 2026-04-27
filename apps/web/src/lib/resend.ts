@@ -20,8 +20,11 @@
  *   await sendEmail({ to, subject, react });
  */
 
-import { render } from "@react-email/render";
 import type { ReactElement } from "react";
+
+// Import dynamique de @react-email/render au runtime (évite l'inclusion au
+// bundle SSR qui plantait silencieusement les fichiers /api/*.ts qui le
+// transitaient — cf docs/known-issues.md #1).
 
 const RESEND_API_URL = "https://api.resend.com";
 const apiKey = import.meta.env.RESEND_API_KEY;
@@ -62,7 +65,8 @@ export async function sendEmail({
     return { id: "dev-no-send", skipped: true };
   }
 
-  // Render React Email element → HTML string
+  // Render React Email element → HTML string (import dynamique)
+  const { render } = await import("@react-email/render");
   const html = await render(react);
 
   const body = {

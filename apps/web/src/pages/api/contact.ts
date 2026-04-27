@@ -4,8 +4,10 @@
  */
 import type { APIRoute } from "astro";
 import { sendEmail, EMAIL_INTERNAL_TO, emitEvent } from "../../lib/resend";
-import ContactConfirmation from "../../lib/emails/ContactConfirmation";
-import InternalLeadAlert from "../../lib/emails/InternalLeadAlert";
+
+// Imports dynamiques des templates email · évite que @react-email/components
+// fasse partie du graphe d'import statique du bundle SSR Astro/Vite, qui
+// excluait silencieusement la route /api/contact en prod (cf known-issues #1).
 
 export const prerender = false;
 
@@ -33,6 +35,11 @@ export const POST: APIRoute = async ({ request }) => {
 
   const firstName = name?.split(" ")[0] ?? undefined;
   try {
+    const [{ default: ContactConfirmation }, { default: InternalLeadAlert }] =
+      await Promise.all([
+        import("../../lib/emails/ContactConfirmation"),
+        import("../../lib/emails/InternalLeadAlert"),
+      ]);
     await Promise.all([
       sendEmail({
         to: email,
