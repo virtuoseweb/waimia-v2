@@ -1,0 +1,239 @@
+---
+// Template · LeadMagnetTemplate · download gated d'un livre blanc / outil PDF
+//
+// Mapping :
+//  - /ressources/livres-blancs/ai-act-readiness
+//  - /ressources/livres-blancs/revops-guide
+//  - /ressources/livres-blancs/finops-llm-playbook
+//  (4-6 livres blancs prévus · justification template)
+//
+// Squelette · 3 sections : Hero (titre + cover) + Form gated + Preview content (ToC)
+// Submit form → POST /api/lead-magnet → email PDF link → redirect /bienvenue/livre-blanc
+//
+// Composé de · Bi · Kicker · Button · CtaBand · NON inclus (c'est le CTA principal de la page)
+
+import Base from '../../layouts/Base.astro';
+import Kicker from '../ui/atoms/Kicker.astro';
+import Button from '../ui/atoms/Button.astro';
+
+interface ToCItem { num: string; title: string; }
+
+interface Props {
+  title: string;
+  description: string;
+  /** Identifiant slug pour /api/lead-magnet (ex: 'ai-act-readiness') */
+  slug: string;
+  /** Kicker section (ex: "§ Livre blanc · 32 pages · gratuit") */
+  kicker: string;
+  /** Format teaser ("PDF · 32 pages") */
+  format: string;
+  /** Date publication (ISO) */
+  publishedAt: string;
+  /** Table des matières */
+  toc: ToCItem[];
+  /** URL image cover (relatif /og/) ou ressource interne */
+  coverUrl?: string;
+}
+const { title, description, slug, kicker, format, publishedAt, toc, coverUrl } = Astro.props as Props;
+---
+<Base title={title} description={description}>
+  {/* HERO · titre + cover */}
+  <section class="lm-hero">
+    <div class="wrap-wide lm-hero-grid">
+      <div class="lm-hero-text">
+        <Kicker tone="accent" class="lm-kicker">{kicker}</Kicker>
+        <h1 class="lm-h1"><slot name="headline" /></h1>
+        <p class="lm-lede"><slot name="lede" /></p>
+        <div class="lm-meta">
+          <span>{format}</span>
+          <span aria-hidden>·</span>
+          <time datetime={publishedAt}>{publishedAt}</time>
+          <span aria-hidden>·</span>
+          <span>Gratuit</span>
+        </div>
+      </div>
+      {coverUrl && (
+        <div class="lm-cover" aria-hidden>
+          <img src={coverUrl} alt="" loading="eager" />
+        </div>
+      )}
+    </div>
+  </section>
+
+  {/* FORM GATED + ToC PREVIEW · 2 cols */}
+  <section class="lm-body">
+    <div class="wrap-wide lm-body-grid">
+      {/* Form gated */}
+      <form class="lm-form" method="post" action="/api/lead-magnet" name="lead-magnet">
+        <input type="hidden" name="slug" value={slug} />
+        <Kicker tone="accent" class="lm-form-k">§ 01 · Recevoir le PDF par email</Kicker>
+        <h2 class="lm-form-h2">Trois <i>champs</i>. Le PDF dans 30 secondes.</h2>
+
+        <div class="form-row">
+          <label for="lm-email"><span>Email pro</span><span aria-hidden>*</span></label>
+          <input id="lm-email" name="email" type="email" required autocomplete="email" placeholder="prénom@entreprise.com" />
+        </div>
+        <div class="form-row">
+          <label for="lm-company"><span>Entreprise</span><span aria-hidden>*</span></label>
+          <input id="lm-company" name="company" type="text" required autocomplete="organization" />
+        </div>
+        <div class="form-row">
+          <label for="lm-role">Fonction</label>
+          <input id="lm-role" name="role" type="text" autocomplete="organization-title" placeholder="CEO, COO, CTO, RevOps Lead..." />
+        </div>
+
+        <Button as="button" type="submit" variant="primary" size="lg" mag={0.18}>
+          Envoyer le PDF →
+        </Button>
+
+        <p class="lm-foot">
+          Aucune relance commerciale automatique. Vous recevez le PDF, puis 3 emails sur 14 jours (1 insight, 1 cas, 1 invitation RDV facultative). Désinscription en 1 clic.
+        </p>
+      </form>
+
+      {/* Preview ToC */}
+      <aside class="lm-toc">
+        <Kicker class="lm-toc-k">§ 02 · Au programme</Kicker>
+        <ol>
+          {toc.map((t) => (
+            <li>
+              <span class="lm-toc-num">{t.num}</span>
+              <span>{t.title}</span>
+            </li>
+          ))}
+        </ol>
+        <slot name="extra" />
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lm-hero { padding: 140px 32px clamp(40px, 5vw, 72px); border-bottom: 1px solid var(--hairline); }
+  .lm-hero-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(32px, 5vw, 80px);
+    align-items: center;
+  }
+  :global(.lm-kicker) { display: block; margin-bottom: 20px; }
+  .lm-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 8vw, 120px);
+    line-height: 0.94;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    font-weight: 400;
+    margin: 0 0 24px;
+  }
+  .lm-h1 :global(i) { font-style: italic; color: var(--accent); }
+  .lm-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 24px);
+    color: var(--ink-2);
+    margin: 0 0 24px;
+    max-width: 620px;
+    line-height: 1.4;
+    text-wrap: pretty;
+  }
+  .lm-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .lm-cover {
+    aspect-ratio: 3/4;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--paper-2);
+  }
+  .lm-cover img { width: 100%; height: 100%; object-fit: cover; }
+
+  .lm-body { padding: clamp(60px, 8vw, 100px) 32px; }
+  .lm-body-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: clamp(40px, 6vw, 80px);
+  }
+  .lm-form { display: flex; flex-direction: column; gap: 22px; }
+  :global(.lm-form-k) { display: block; }
+  .lm-form-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.6vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    margin: 0 0 12px;
+    text-wrap: balance;
+  }
+  .lm-form-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .form-row { display: flex; flex-direction: column; gap: 6px; }
+  .form-row label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    gap: 4px;
+  }
+  .form-row label span:last-child { color: var(--accent); }
+  .form-row input {
+    font-family: var(--font-display);
+    font-size: 17px;
+    padding: 12px 14px;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 6px;
+    background: var(--paper);
+    color: var(--ink);
+    transition: border-color 200ms var(--ease);
+  }
+  .form-row input:focus { outline: none; border-color: var(--accent); }
+  .lm-foot { font-size: 12.5px; line-height: 1.5; color: var(--muted); margin: 8px 0 0; max-width: 540px; }
+
+  .lm-toc {
+    border-left: 1px solid var(--hairline);
+    padding-left: clamp(24px, 3vw, 40px);
+    align-self: start;
+    position: sticky;
+    top: 100px;
+  }
+  :global(.lm-toc-k) { display: block; margin-bottom: 18px; }
+  .lm-toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  .lm-toc li {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .lm-toc-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 900px) {
+    .lm-hero-grid { grid-template-columns: 1fr; }
+    .lm-body-grid { grid-template-columns: 1fr; }
+    .lm-toc { border-left: none; padding-left: 0; border-top: 1px solid var(--hairline); padding-top: 32px; position: static; }
+  }
+</style>

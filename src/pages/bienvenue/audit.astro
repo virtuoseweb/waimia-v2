@@ -1,0 +1,28 @@
+---
+// Page · /bienvenue/audit · Welcome post-RDV audit booké
+import WelcomeTemplate from '../../components/templates/WelcomeTemplate.astro';
+
+const nextSteps = [
+  { num: '01', title_fr: 'Vérifiez l\'invitation calendar', title_en: 'Check the calendar invite',
+    body_fr: "L'invitation Cal.com est arrivée dans votre email. Visio Meet incluse. Reschedule en 1 clic si besoin.",
+    body_en: 'The Cal.com invite arrived in your email. Meet included. Reschedule in 1 click if needed.' },
+  { num: '02', title_fr: 'Préparez 1 question précise', title_en: 'Prepare 1 precise question',
+    body_fr: "On gagne 30 minutes ensemble si vous arrivez avec un problème nommé (« notre funnel ne convertit pas après le SQL »).",
+    body_en: 'We save 30 min together if you arrive with a named problem ("our funnel doesn\'t convert after SQL").' },
+  { num: '03', title_fr: 'Lisez la méthode (5 min)', title_en: 'Read the method (5 min)',
+    body_fr: "Notre approche en 4 phases — diagnostic, reconciliation, agents, mesure. Permet de poser des questions au bon endroit.",
+    body_en: 'Our 4-phase approach — diagnose, reconcile, agents, measure. Helps ask questions at the right place.',
+    ctaLabel: 'Voir la méthode →', ctaHref: '/offres/conseil' },
+];
+---
+<WelcomeTemplate
+  title="Bienvenue · Audit booké · Waimia"
+  description="Votre RDV audit est confirmé. Voici comment préparer la séance pour gagner du temps."
+  kicker="§ Audit · Confirmation"
+  nextSteps={nextSteps}
+>
+  <Fragment slot="headline">RDV <i>confirmé</i>.</Fragment>
+  <Fragment slot="lede">
+    45 minutes. On revient avec un problème diagnostiqué — ou on ne relance pas.
+  </Fragment>
+</WelcomeTemplate>

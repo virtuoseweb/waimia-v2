@@ -19,11 +19,16 @@
     "@astrojs/mdx": "^5.0.4",
     "@astrojs/react": "^5.0.4",
     "@astrojs/sitemap": "^3.7.2",
+    "@astrojs/vercel": "^10.0.5",
+    "@react-email/components": "^1.0.12",
+    "@react-email/render": "^2.0.7",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "astro": "^6.1.9",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "resend": "^6.12.2",
+    "vite": "^8.0.10"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",

@@ -6,6 +6,8 @@
 
 import UtilityTemplate from '../components/templates/UtilityTemplate.astro';
 import Button from '../components/ui/atoms/Button.astro';
+import CalEmbed from '../components/ui/molecules/CalEmbed.astro';
+import Kicker from '../components/ui/atoms/Kicker.astro';
 ---
 <UtilityTemplate
   title="Contact · Réserver une séance de travail · Waimia"
@@ -74,6 +76,17 @@ import Button from '../components/ui/atoms/Button.astro';
         </ul>
         <p class="contact-foot">Réponse en 24 h ouvrées. Tout est NDA-protected. Pas de pitch automatisé.</p>
       </aside>
+    </div>
+
+    {/* Cal.com embed inline · option directe sans passer par form */}
+    <div class="contact-cal">
+      <Kicker tone="accent" class="contact-cal-k">§ Ou directement · réserver maintenant</Kicker>
+      <h2 class="contact-cal-h2">Pas de form. <i>Choisissez</i> un créneau.</h2>
+      <p class="contact-cal-lead">
+        Si vous savez déjà ce dont vous avez besoin, sautez le formulaire et bookez directement
+        45 minutes ci-dessous. Calendrier synchronisé Paris-Genève.
+      </p>
+      <CalEmbed layout="inline" />
     </div>
   </Fragment>
 </UtilityTemplate>
@@ -158,6 +171,31 @@ import Button from '../components/ui/atoms/Button.astro';
     color: var(--muted);
     line-height: 1.5;
     margin: 0;
+  }
+
+  .contact-cal {
+    max-width: 1100px;
+    margin: clamp(60px, 8vw, 100px) auto 0;
+    padding-top: clamp(40px, 5vw, 60px);
+    border-top: 1px solid var(--hairline);
+  }
+  :global(.contact-cal-k) { display: block; margin-bottom: 18px; }
+  .contact-cal-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 0.96;
+    letter-spacing: -0.024em;
+    margin: 0 0 18px;
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .contact-cal-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .contact-cal-lead {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin: 0 0 32px;
+    max-width: 680px;
   }
 
   @media (max-width: 800px) {

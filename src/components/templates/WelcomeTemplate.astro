@@ -1,0 +1,192 @@
+---
+// Template · WelcomeTemplate · post-conversion welcome page
+//
+// Mapping :
+//  - /bienvenue/newsletter   (newsletter signup confirmation)
+//  - /bienvenue/livre-blanc  (lead magnet downloaded confirmation)
+//  - /bienvenue/audit        (RDV audit booké confirmation)
+//  - /bienvenue/devis        (devis envoyé confirmation)
+//  - /bienvenue/academy      (diagnostic 12Q complété)
+//
+// Décision · NOUVEAU template (vs UtilityTemplate variant) :
+//  - UtilityTemplate inclut CtaBand (focus conversion). Welcome a déjà converti.
+//  - Welcome focus sur "next steps" clairs (3 actions max).
+//  - Layout centered avec emphase visuelle "✓ confirmation".
+//  - Pas de Footer DEV INDEX (UX post-conversion propre).
+//
+// Composé de · Bi (atom) · Kicker (atom) · Button (atom) · CtaBand · NON inclus.
+
+import Base from '../../layouts/Base.astro';
+import Kicker from '../ui/atoms/Kicker.astro';
+
+interface NextStep {
+  num: string;
+  title_fr: string;
+  title_en: string;
+  body_fr: string;
+  body_en: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  /** Kicker section (ex: "§ Newsletter · Confirmation") */
+  kicker: string;
+  /** Next steps (1-3 actions concrètes post-conversion) */
+  nextSteps: NextStep[];
+}
+const { title, description, kicker, nextSteps } = Astro.props as Props;
+---
+<Base title={title} description={description} noindex>
+  <main class="welcome">
+    <div class="wrap-wide welcome-wrap">
+      {/* CHECKMARK + KICKER */}
+      <div class="welcome-mark" aria-hidden>
+        <svg viewBox="0 0 64 64" width="64" height="64">
+          <circle cx="32" cy="32" r="30" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+          <path d="M 18 32 L 28 42 L 46 22" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <Kicker tone="accent" class="welcome-kicker">{kicker}</Kicker>
+
+      {/* HEADLINE */}
+      <h1 class="welcome-h1"><slot name="headline" /></h1>
+      <p class="welcome-lede"><slot name="lede" /></p>
+
+      {/* NEXT STEPS · 1-3 actions */}
+      <ol class="welcome-steps">
+        {nextSteps.map((s) => (
+          <li class="welcome-step">
+            <span class="welcome-step-num">{s.num}</span>
+            <div class="welcome-step-body">
+              <h2 class="welcome-step-title">{s.title_fr}</h2>
+              <p class="welcome-step-text">{s.body_fr}</p>
+              {s.ctaLabel && s.ctaHref && (
+                <a href={s.ctaHref} class="welcome-step-cta">{s.ctaLabel} →</a>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      {/* FOOTER MINIMAL */}
+      <div class="welcome-foot">
+        <slot name="foot">
+          <a href="/" class="welcome-back">← Retour à l'accueil</a>
+        </slot>
+      </div>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .welcome {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding: clamp(80px, 12vw, 140px) 32px;
+  }
+  .welcome-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .welcome-mark {
+    margin: 0 auto 24px;
+    width: 64px;
+    height: 64px;
+  }
+  :global(.welcome-kicker) { display: inline-block; margin-bottom: 18px; }
+  .welcome-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 8vw, 96px);
+    line-height: 0.96;
+    letter-spacing: -0.028em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0 0 20px;
+  }
+  .welcome-h1 :global(i) { font-style: italic; color: var(--accent); }
+  .welcome-lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(18px, 1.8vw, 22px);
+    color: var(--ink-2);
+    margin: 0 auto 60px;
+    max-width: 600px;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
+  .welcome-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 60px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .welcome-step {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 18px;
+    padding: 24px;
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    background: var(--paper-2);
+    transition: border-color 240ms var(--ease);
+  }
+  .welcome-step:hover { border-color: var(--accent); }
+  .welcome-step-num {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5vw, 56px);
+    line-height: 1;
+    color: var(--accent);
+    font-style: italic;
+  }
+  .welcome-step-title {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.2vw, 26px);
+    line-height: 1.1;
+    letter-spacing: -0.018em;
+    font-weight: 400;
+    margin: 0 0 10px;
+  }
+  .welcome-step-text {
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin: 0 0 12px;
+    text-wrap: pretty;
+  }
+  .welcome-step-cta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+    transition: color 200ms var(--ease);
+  }
+  .welcome-step-cta:hover { color: var(--accent-2, var(--accent)); }
+
+  .welcome-foot {
+    border-top: 1px solid var(--hairline);
+    padding-top: 32px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .welcome-back {
+    color: var(--muted);
+    transition: color 200ms var(--ease);
+  }
+  .welcome-back:hover { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .welcome-step { grid-template-columns: 1fr; gap: 8px; }
+  }
+</style>
