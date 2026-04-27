@@ -44,14 +44,14 @@ export const POST: APIRoute = async ({ request }) => {
       sendEmail({
         to: email,
         subject: "Votre brief est arrivé · Waimia",
-        react: ContactConfirmation({ firstName, brief }),
+        html: ContactConfirmation({ firstName, brief }),
         tags: [{ name: "event", value: "contact_submitted" }],
         replyTo: EMAIL_INTERNAL_TO,
       }),
       sendEmail({
         to: EMAIL_INTERNAL_TO,
         subject: `[Lead] contact · ${email}${company ? " · " + company : ""}`,
-        react: InternalLeadAlert({
+        html: InternalLeadAlert({
           source: "contact",
           email,
           company,

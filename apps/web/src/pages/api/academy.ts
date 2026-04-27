@@ -109,7 +109,7 @@ export const POST: APIRoute = async ({ request }) => {
       sendEmail({
         to: email,
         subject: `Votre scorecard · ${score}/24`,
-        react: AcademyResults({ firstName, score, category, nextActions }),
+        html: AcademyResults({ firstName, score, category, nextActions }),
         tags: [
           { name: "event", value: "academy_completed" },
           { name: "score-category", value: category },
@@ -118,7 +118,7 @@ export const POST: APIRoute = async ({ request }) => {
       sendEmail({
         to: EMAIL_INTERNAL_TO,
         subject: `[Lead${isHot ? " 🔥" : ""}] academy · ${score}/24 · ${email}`,
-        react: InternalLeadAlert({
+        html: InternalLeadAlert({
           source: "academy",
           email,
           company,

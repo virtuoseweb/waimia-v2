@@ -36,7 +36,7 @@ export const POST: APIRoute = async ({ request }) => {
     await sendEmail({
       to: email,
       subject: "Bienvenue · Waimia",
-      react: WelcomeNewsletter({ firstName }),
+      html: WelcomeNewsletter({ firstName }),
       tags: [{ name: "event", value: "newsletter_signup" }],
     });
     await emitEvent("contact_submitted", { email, firstName });

@@ -59,7 +59,7 @@ export const POST: APIRoute = async ({ request }) => {
       sendEmail({
         to: email,
         subject: `Devis ${reference} · ${offerLabel}`,
-        react: DevisRecap({
+        html: DevisRecap({
           firstName,
           reference,
           offerSlug: slug,
@@ -76,7 +76,7 @@ export const POST: APIRoute = async ({ request }) => {
       sendEmail({
         to: EMAIL_INTERNAL_TO,
         subject: `[Lead] devis · ${slug} · ${budget} · ${email}`,
-        react: InternalLeadAlert({
+        html: InternalLeadAlert({
           source: "devis",
           email,
           company,

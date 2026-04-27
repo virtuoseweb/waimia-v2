@@ -53,7 +53,7 @@ export const POST: APIRoute = async ({ request }) => {
       sendEmail({
         to: email,
         subject: `${magnet.title} · votre PDF`,
-        react: LeadMagnetDelivery({
+        html: LeadMagnetDelivery({
           firstName,
           title: magnet.title,
           pdfUrl: magnet.pdfUrl,
@@ -67,7 +67,7 @@ export const POST: APIRoute = async ({ request }) => {
       sendEmail({
         to: EMAIL_INTERNAL_TO,
         subject: `[Lead] livre-blanc · ${slug} · ${email}`,
-        react: InternalLeadAlert({
+        html: InternalLeadAlert({
           source: "lead-magnet",
           email,
           company,

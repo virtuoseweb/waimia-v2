@@ -7,6 +7,11 @@
  * 2026-04-27 : tous les /api/*.ts qui importaient lib/resend disparaissaient
  * du bundle entry.mjs → 404 en prod). Cf docs/known-issues.md #1.
  *
+ * Pourquoi pas React Email ?
+ * Même cause racine : `@react-email/components` + `@react-email/render`
+ * cassent le graphe d'import SSR Astro/Vite/Vercel monorepo. Solution :
+ * templates HTML inline (template strings) dans `lib/emails/*.ts`.
+ *
  * Solution : appel direct à l'API REST Resend via fetch(). Zéro SDK, zéro
  * bundle issue. Compatible 100% serverless Vercel.
  *
@@ -17,14 +22,8 @@
  *
  * Usage :
  *   import { sendEmail, emitEvent } from '~/lib/resend';
- *   await sendEmail({ to, subject, react });
+ *   await sendEmail({ to, subject, html });
  */
-
-import type { ReactElement } from "react";
-
-// Import dynamique de @react-email/render au runtime (évite l'inclusion au
-// bundle SSR qui plantait silencieusement les fichiers /api/*.ts qui le
-// transitaient — cf docs/known-issues.md #1).
 
 const RESEND_API_URL = "https://api.resend.com";
 const apiKey = import.meta.env.RESEND_API_KEY;
@@ -45,8 +44,8 @@ export const EMAIL_INTERNAL_TO =
 interface SendArgs {
   to: string | string[];
   subject: string;
-  /** React Email element · sera rendu en HTML via @react-email/render */
-  react: ReactElement;
+  /** HTML pré-rendu de l'email (templates inline · cf lib/emails/*.ts) */
+  html: string;
   /** Tags Resend pour filtrage analytics (ex: [{name:'type',value:'contact'}]) */
   tags?: { name: string; value: string }[];
   /** Reply-to si différent du From */
@@ -56,7 +55,7 @@ interface SendArgs {
 export async function sendEmail({
   to,
   subject,
-  react,
+  html,
   tags,
   replyTo,
 }: SendArgs) {
@@ -64,10 +63,6 @@ export async function sendEmail({
     console.warn("[resend] skipped (no API key)", { to, subject });
     return { id: "dev-no-send", skipped: true };
   }
-
-  // Render React Email element → HTML string (import dynamique)
-  const { render } = await import("@react-email/render");
-  const html = await render(react);
 
   const body = {
     from: EMAIL_FROM,
@@ -143,7 +138,7 @@ export async function emitEvent(name: EventName, payload: EventPayload) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-    }
+    },
   );
 
   // Idempotent : Resend retourne 200 OK pour duplicate, ou 422 selon version
