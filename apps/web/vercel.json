@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "cd ../.. && npm install -g pnpm@9.15.0 && pnpm install --frozen-lockfile",
+  "buildCommand": "cd ../.. && pnpm --filter waimia-web build",
+  "outputDirectory": ".vercel/output"
+}
