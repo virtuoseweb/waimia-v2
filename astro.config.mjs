@@ -6,12 +6,17 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import vercel from '@astrojs/vercel';
 
-// Waimia · Astro 6 config · SSR hybrid pour API routes Resend
-// - output: 'server' avec prerender:true en défaut → toutes les pages sont SSG
-//   sauf opt-in `export const prerender = false` (API routes, /api/*)
+// Waimia · Astro 6 config · SSR pour API routes Resend
+// - output: 'server' : tout SSR par défaut, sera caché edge par Vercel
+// - adapter: vercel() · Vercel Functions on-demand pour /api/*
 // - i18n: FR default at /, EN at /en/* — content-routed for proper SEO/GEO
-// - Tailwind v4 CSS-first (tokens declared in src/styles/tokens.css via @theme)
+// - Tailwind v4 CSS-first
 // - Sitemap auto-generated with hreflang
+//
+// Note · Playwright utilise `pnpm build && pnpm preview` (vs `pnpm dev`) parce
+// que le dev server Astro 6 + adapter Vercel a un bug qui empêche le chargement
+// des modules `astro:scripts/before-hydration.js` (500 error). Le preview server
+// utilise le build statique, fidèle à la prod.
 export default defineConfig({
   site: 'https://waimia.com',
   output: 'server',

@@ -1,0 +1,29 @@
+---
+// Page · /en/bienvenue/newsletter · EN variant
+import WelcomeTemplate from '../../../components/templates/WelcomeTemplate.astro';
+
+const nextSteps = [
+  { num: '01', title_fr: 'Vérifiez votre boîte mail', title_en: 'Check your inbox',
+    body_fr: "Le welcome email arrive d'ici 30 secondes (depuis bonjour@waimia.fr).",
+    body_en: 'The welcome email arrives within 30 seconds (from bonjour@waimia.fr). If missing, check spam.' },
+  { num: '02', title_fr: "Lisez la dernière note", title_en: 'Read the latest essay',
+    body_fr: "L'essai du mois — sur le théâtre IA et l'imagerie cerveau-circuit.",
+    body_en: "This month's essay — on AI theatre and brain-circuit imagery.",
+    ctaLabel: 'Read the essay →', ctaHref: '/en/ressources/blog/brain-circuit' },
+  { num: '03', title_fr: 'Explorez les cas clients', title_en: 'Explore client cases',
+    body_fr: "Quatre dossiers livrés. NDA-protected.",
+    body_en: 'Four cases delivered. NDA-protected. See Plateau (+€2.4M) or Halcyon (−38% triage).',
+    ctaLabel: 'See cases →', ctaHref: '/en/ressources/cas' },
+];
+---
+<WelcomeTemplate
+  title="Welcome · Newsletter Waimia"
+  description="Your subscription is confirmed. Welcome email arrives within 30 seconds."
+  kicker="§ Newsletter · Confirmation"
+  nextSteps={nextSteps}
+>
+  <Fragment slot="headline">Subscription <i>confirmed</i>.</Fragment>
+  <Fragment slot="lede">
+    One long note on the 15th of each month. No promotion. Unsubscribe in 1 click.
+  </Fragment>
+</WelcomeTemplate>

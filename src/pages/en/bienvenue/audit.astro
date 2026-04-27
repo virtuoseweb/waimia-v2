@@ -1,0 +1,28 @@
+---
+// Page · /en/bienvenue/audit · EN variant
+import WelcomeTemplate from '../../../components/templates/WelcomeTemplate.astro';
+
+const nextSteps = [
+  { num: '01', title_fr: "Vérifiez l'invitation calendar", title_en: 'Check the calendar invite',
+    body_fr: "L'invitation Cal.com est arrivée dans votre email. Visio Meet incluse.",
+    body_en: 'The Cal.com invite arrived in your email. Meet included. Reschedule in 1 click if needed.' },
+  { num: '02', title_fr: 'Préparez 1 question précise', title_en: 'Prepare 1 precise question',
+    body_fr: "Arrivez avec un problème nommé.",
+    body_en: 'We save 30 min together if you arrive with a named problem ("our funnel doesn\'t convert after SQL").' },
+  { num: '03', title_fr: 'Lisez la méthode', title_en: 'Read the method',
+    body_fr: "Notre approche en 4 phases.",
+    body_en: 'Our 4-phase approach — diagnose, reconcile, agents, measure.',
+    ctaLabel: 'See the method →', ctaHref: '/en/offres/conseil' },
+];
+---
+<WelcomeTemplate
+  title="Welcome · Audit booked · Waimia"
+  description="Your audit booking is confirmed. Here is how to prepare for the session."
+  kicker="§ Audit · Confirmation"
+  nextSteps={nextSteps}
+>
+  <Fragment slot="headline">Booking <i>confirmed</i>.</Fragment>
+  <Fragment slot="lede">
+    45 minutes. We bring back one diagnosed problem — or we don't follow up.
+  </Fragment>
+</WelcomeTemplate>
