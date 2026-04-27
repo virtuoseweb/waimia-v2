@@ -1,0 +1,64 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "globalDependencies": [
+    "tsconfig.base.json",
+    ".prettierrc",
+    ".editorconfig",
+    "**/.env*"
+  ],
+  "globalEnv": [
+    "NODE_ENV",
+    "VERCEL_ENV",
+    "VERCEL"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "dist/**",
+        ".astro/**",
+        ".vercel/**",
+        ".next/**",
+        "!.next/cache/**"
+      ],
+      "env": [
+        "RESEND_API_KEY",
+        "RESEND_AUDIENCE_ID",
+        "EMAIL_FROM",
+        "EMAIL_REPLY_TO",
+        "EMAIL_INTERNAL_TO",
+        "PUBLIC_SITE_URL",
+        "PUBLIC_CAL_USERNAME",
+        "PUBLIC_CAL_EVENT_TYPE",
+        "NOTION_TOKEN"
+      ]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "interactive": true
+    },
+    "lint": {
+      "outputs": []
+    },
+    "typecheck": {
+      "outputs": [],
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
+    "test:e2e": {
+      "dependsOn": ["build"],
+      "outputs": ["playwright-report/**", "test-results/**"]
+    },
+    "format": {
+      "cache": false
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

@@ -1,0 +1,18 @@
+# CODEOWNERS · review automatique sur PR
+# Documentation : https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner pour tout le repo
+* @simonberos
+
+# Ownership par app
+/apps/web/    @simonberos
+/apps/cal/    @simonberos
+
+# Packages partagés
+/packages/    @simonberos
+
+# Configs critiques
+/turbo.json           @simonberos
+/pnpm-workspace.yaml  @simonberos
+/tsconfig.base.json   @simonberos
+/.github/             @simonberos

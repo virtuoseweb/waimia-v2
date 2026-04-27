@@ -1,0 +1,22 @@
+{
+  "name": "@waimia/db",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Prisma schemas + clients partagés Waimia (Cal.com self-host + future business DB)",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "echo \"@waimia/db: lint TBD\"",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist .turbo"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}

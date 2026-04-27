@@ -1,0 +1,18 @@
+node_modules
+dist
+.astro
+.turbo
+.next
+.vercel
+.cache
+coverage
+playwright-report
+test-results
+
+# Cal.com upstream — ne pas reformater (convention upstream à respecter)
+apps/cal
+
+# Lockfiles
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
