@@ -9,7 +9,14 @@ import InternalLeadAlert from "../../lib/emails/InternalLeadAlert";
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request }) => {
+// Bug @astrojs/vercel@10 adapter : `export const POST` exclu du bundle SSR
+// monorepo. Workaround validé empiriquement : utiliser `ALL` + dispatch
+// méthode interne. Cf docs/known-issues.md #1. Reverser en POST direct
+// quand le bug upstream sera fixé.
+export const ALL: APIRoute = async ({ request }) => {
+  if (request.method !== "POST") {
+    return new Response(null, { status: 405, headers: { Allow: "POST" } });
+  }
   let payload: Record<string, string>;
   try {
     const ct = request.headers.get("content-type") ?? "";

@@ -9,6 +9,8 @@ import InternalLeadAlert from "../../lib/emails/InternalLeadAlert";
 
 export const prerender = false;
 
+// Workaround bug @astrojs/vercel@10 (POST exclu du bundle). Cf known-issues #1.
+
 const MAGNETS: Record<string, { title: string; pdfUrl: string }> = {
   "ai-act-readiness": {
     title: "Êtes-vous prêt pour l'AI Act ? · Checklist 47 critères",
@@ -20,7 +22,10 @@ const MAGNETS: Record<string, { title: string; pdfUrl: string }> = {
   },
 };
 
-export const POST: APIRoute = async ({ request }) => {
+export const ALL: APIRoute = async ({ request }) => {
+  if (request.method !== "POST") {
+    return new Response(null, { status: 405, headers: { Allow: "POST" } });
+  }
   let payload: Record<string, string>;
   try {
     const ct = request.headers.get("content-type") ?? "";

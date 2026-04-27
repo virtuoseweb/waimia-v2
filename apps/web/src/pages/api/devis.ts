@@ -21,7 +21,11 @@ function generateRef() {
   return `WAI-${ts}-${rand}`;
 }
 
-export const POST: APIRoute = async ({ request }) => {
+// Workaround bug @astrojs/vercel@10 (POST exclu du bundle). Cf known-issues #1.
+export const ALL: APIRoute = async ({ request }) => {
+  if (request.method !== "POST") {
+    return new Response(null, { status: 405, headers: { Allow: "POST" } });
+  }
   let payload: Record<string, string>;
   try {
     const ct = request.headers.get("content-type") ?? "";
