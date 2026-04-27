@@ -9,15 +9,23 @@
  * Cf docs/09-integrations.md pour la stratégie complète.
  */
 
-import { Resend } from "resend";
-
+// Import dynamique pour ne pas casser le bundle Astro/Vite SSR au build :
+// `import { Resend } from "resend"` (import statique) provoquait l'exclusion
+// silencieuse de tous les fichiers /api/*.ts qui le transitaient (404 en prod
+// post-bascule monorepo 2026-04-27, validé via /api/healthcheck OK et
+// /api/diag-resend HTML catch-all).
 const apiKey = import.meta.env.RESEND_API_KEY;
 if (!apiKey && import.meta.env.PROD) {
-  // En prod, on log mais on ne crash pas (failover graceful)
   console.error("[resend] RESEND_API_KEY missing in production env");
 }
 
-export const resend = new Resend(apiKey ?? "dummy-key-dev");
+let _resend: import("resend").Resend | null = null;
+async function getResend() {
+  if (_resend) return _resend;
+  const { Resend } = await import("resend");
+  _resend = new Resend(apiKey ?? "dummy-key-dev");
+  return _resend;
+}
 
 // EMAIL_FROM · alias virtuoseweb.fr (domaine déjà vérifié sur Resend, partagé
 // avec sitewebastro). Override via env Vercel : EMAIL_FROM="Waimia <…>".
@@ -53,6 +61,7 @@ export async function sendEmail({
     console.warn("[resend] skipped (no API key)", { to, subject });
     return { id: "dev-no-send", skipped: true };
   }
+  const resend = await getResend();
   const result = await resend.emails.send({
     from: EMAIL_FROM,
     to,
@@ -103,6 +112,7 @@ export async function emitEvent(name: EventName, payload: EventPayload) {
     return { skipped: false, audienceless: true };
   }
   try {
+    const resend = await getResend();
     await resend.contacts.create({
       email: payload.email,
       audienceId,
