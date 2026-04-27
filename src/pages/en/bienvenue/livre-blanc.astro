@@ -1,0 +1,28 @@
+---
+// Page · /en/bienvenue/livre-blanc · EN variant
+import WelcomeTemplate from '../../../components/templates/WelcomeTemplate.astro';
+
+const nextSteps = [
+  { num: '01', title_fr: 'Le PDF est dans votre email', title_en: 'PDF is in your inbox',
+    body_fr: "Lien direct + lien tracké pour accès permanent.",
+    body_en: 'Direct link + tracked link for permanent access. If delayed, check spam.' },
+  { num: '02', title_fr: '3 emails sur 14 jours', title_en: '3 emails over 14 days',
+    body_fr: "1 insight RevOps · 1 cas Plateau · 1 invitation RDV facultative.",
+    body_en: 'D+1 a RevOps insight · D+7 the Plateau case · D+14 an optional booking. No reminders beyond.' },
+  { num: '03', title_fr: 'Discuter du livre blanc', title_en: 'Discuss the white paper',
+    body_fr: "Bookez 45 minutes avec nous.",
+    body_en: 'Book 45 minutes with us — we respond with your context.',
+    ctaLabel: 'Book 45 min →', ctaHref: '/en/contact' },
+];
+---
+<WelcomeTemplate
+  title="Welcome · White paper · Waimia"
+  description="Your white paper is on its way by email. Here are the next steps."
+  kicker="§ White paper · Confirmation"
+  nextSteps={nextSteps}
+>
+  <Fragment slot="headline">The <i>PDF</i> is on its way.</Fragment>
+  <Fragment slot="lede">
+    32 pages, signed, NDA-protected. Estimated reading time: 25 minutes.
+  </Fragment>
+</WelcomeTemplate>

@@ -18,6 +18,7 @@
 
 import Base from '../../layouts/Base.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
+import Bi from '../ui/atoms/Bi.astro';
 
 interface NextStep {
   num: string;
@@ -61,8 +62,8 @@ const { title, description, kicker, nextSteps } = Astro.props as Props;
           <li class="welcome-step">
             <span class="welcome-step-num">{s.num}</span>
             <div class="welcome-step-body">
-              <h2 class="welcome-step-title">{s.title_fr}</h2>
-              <p class="welcome-step-text">{s.body_fr}</p>
+              <h2 class="welcome-step-title"><Bi fr={s.title_fr} en={s.title_en} /></h2>
+              <p class="welcome-step-text"><Bi fr={s.body_fr} en={s.body_en} /></p>
               {s.ctaLabel && s.ctaHref && (
                 <a href={s.ctaHref} class="welcome-step-cta">{s.ctaLabel} →</a>
               )}
