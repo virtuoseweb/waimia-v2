@@ -4,6 +4,8 @@
  */
 import type { APIRoute } from "astro";
 import { sendEmail, EMAIL_INTERNAL_TO, emitEvent } from "../../lib/resend";
+import LeadMagnetDelivery from "../../lib/emails/LeadMagnetDelivery";
+import InternalLeadAlert from "../../lib/emails/InternalLeadAlert";
 
 export const prerender = false;
 
@@ -44,11 +46,6 @@ export const POST: APIRoute = async ({ request }) => {
   const pageUrl = `https://waimia.com/ressources/livres-blancs/${slug}`;
 
   try {
-    const [{ default: LeadMagnetDelivery }, { default: InternalLeadAlert }] =
-      await Promise.all([
-        import("../../lib/emails/LeadMagnetDelivery"),
-        import("../../lib/emails/InternalLeadAlert"),
-      ]);
     await Promise.all([
       sendEmail({
         to: email,
