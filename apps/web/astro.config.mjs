@@ -55,5 +55,16 @@ export default defineConfig({
   ],
   // Cast `as any` parce que tailwindcss/vite et Astro embarquent leur propre
   // version de Vite — TS détecte un mismatch nominal mais runtime OK.
-  vite: { plugins: [/** @type {any} */ (tailwindcss())] },
+  //
+  // ssr.noExternal : force le bundling SSR de packages spécifiques. Sans ça,
+  // resend / @react-email/components ont des exports ESM/CJS qui plantaient
+  // silencieusement le bundle Astro (404 sur toutes /api/* en prod post-bascule
+  // monorepo, validé empiriquement le 2026-04-27 via /api/healthcheck OK).
+  // En forçant noExternal, Vite inline ces deps dans entry.mjs proprement.
+  vite: {
+    plugins: [/** @type {any} */ (tailwindcss())],
+    ssr: {
+      noExternal: ['resend', '@react-email/components', '@react-email/render'],
+    },
+  },
 });
