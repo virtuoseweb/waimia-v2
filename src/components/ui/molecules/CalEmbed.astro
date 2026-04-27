@@ -33,12 +33,16 @@ interface Props {
   id?: string;
 }
 
+// `.trim()` défensif : `vercel env add` via `echo 'value' |` stocke parfois
+// la valeur avec un \n trailing qui casse le slug Cal.com (404 en prod).
+// On strip systématiquement les whitespaces — coût zéro, robustesse +1.
+// Defaults ajustés sur le compte Cal.com réel (cal.com/simonberos/audit).
 const {
-  username = import.meta.env.PUBLIC_CAL_USERNAME ?? 'waimia',
-  eventType = import.meta.env.PUBLIC_CAL_EVENT_TYPE ?? '45min',
+  username = (import.meta.env.PUBLIC_CAL_USERNAME ?? 'simonberos').trim(),
+  eventType = (import.meta.env.PUBLIC_CAL_EVENT_TYPE ?? 'audit').trim(),
   layout = 'inline',
   trigger = '[data-cal]',
-  buttonText = 'Réserver 45 min',
+  buttonText = 'Réserver un audit',
   theme = 'light',
   id = 'cal-embed',
 } = Astro.props as Props;
