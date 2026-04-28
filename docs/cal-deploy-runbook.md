@@ -261,7 +261,12 @@ pointe sur `waimia-cal-xxx.vercel.app`. Une fois `cal.waimia.com` actif :
 
 ## 8 · Validation post-deploy
 
-Smoke test prod :
+> **Raccourci automatisé** : `bash scripts/cal-deploy-validate.sh` lance
+> les 5 smoke tests d'un coup (DNS, login, /api/health, embed public,
+> cookies, latence) avec verdict vert/rouge et exit code 0/1 — utilisable
+> en pre-commit hook ou en CI une fois `cal.waimia.com` actif.
+
+Smoke test manuel détaillé :
 
 ```bash
 # 1. Page de connexion
