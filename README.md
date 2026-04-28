@@ -141,6 +141,7 @@ Prisma / modifs locales).
 | [`docs/adding-an-app.md`](docs/adding-an-app.md)       | Recette pour ajouter une 3ᵉ app au monorepo                          |
 | [`docs/cal-setup.md`](docs/cal-setup.md)               | Cal.diy self-host : setup, sync upstream subtree, env vars Vercel    |
 | [`docs/cal-deploy-runbook.md`](docs/cal-deploy-runbook.md) | Phase 5 step-by-step : projet Vercel, env vars, DNS, validation prod |
+| [`docs/cal-deploy-env.template.md`](docs/cal-deploy-env.template.md) | Phase 5 env vars copy-paste prêt pour Vercel UI bulk import         |
 | [`docs/known-issues.md`](docs/known-issues.md)         | Bugs trackés (POST exclusion @astrojs/vercel@10, Vite 8 + Tailwind4) |
 | [`docs/astro-bug-report.md`](docs/astro-bug-report.md) | Brouillon issue GitHub upstream Astro à ouvrir                       |
 | [`docs/ci-template.md`](docs/ci-template.md)           | Template `.github/workflows/ci.yml` (lint + typecheck + e2e)         |

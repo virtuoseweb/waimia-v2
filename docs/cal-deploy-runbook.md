@@ -119,6 +119,10 @@ invalider toutes les sessions et chiffrements existants en DB.
 
 ## 4 · Env vars Vercel (Production scope)
 
+> **Raccourci** : utiliser [`cal-deploy-env.template.md`](cal-deploy-env.template.md)
+> qui contient les blocs `KEY=VALUE` prêts pour le bulk-import Vercel UI.
+> Vercel détecte le format `.env` collé et provisionne tout d'un coup.
+
 Settings projet `waimia-cal` → **Environment Variables** → ajouter
 **toutes en Production scope** (pas Preview ni Development) :
 
