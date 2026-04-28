@@ -4,11 +4,13 @@ Refonte v2 du site Waimia — agence IA experte Claude. Pacing manifeste 5 actes
 
 ## Stack
 
-- **Astro 6** · SSG par défaut, contenu rendu côté serveur
+- **Astro 6** · `output: 'server'` SSR via `@astrojs/vercel@10` adapter
 - **React 19** · îlots minimaux uniquement (Pattern Slots privilégié)
 - **Tailwind v4** · CSS-first via `@theme` (tokens DS dans `src/styles/tokens.css`)
 - **MDX** · content collections typées via Zod
 - **i18n** · `/` FR · `/en/*` EN · hreflang automatique
+- **Resend (fetch direct)** · emails transactionnels sans SDK (cf [`src/lib/resend.ts`](src/lib/resend.ts))
+- **Cal.com embed** · iframe `cal.com/simonberos/audit` sur `/contact` (cf [`src/components/ui/molecules/CalEmbed.astro`](src/components/ui/molecules/CalEmbed.astro))
 
 ## Documentation projet
 
@@ -28,11 +30,19 @@ Refonte v2 du site Waimia — agence IA experte Claude. Pacing manifeste 5 actes
 ## Démarrage
 
 ```bash
-pnpm install
-pnpm dev          # localhost:4321
-pnpm build        # → dist/ (128 pages, ~1.4s)
-pnpm astro check  # TypeScript + Astro check
+pnpm install         # depuis racine monorepo
+pnpm dev:web         # localhost:4321
+pnpm build:web       # → dist/ + .vercel/output (Build Output API)
+pnpm typecheck       # = pnpm astro check : 0 errors, 0 warnings
+pnpm test:e2e        # Playwright tests E2E (templates + API)
+pnpm test:e2e:prod   # Tests contre https://waimia-v2.vercel.app
 ```
+
+> **Bug local connu** : `pnpm build` peut échouer en local sur Node 25 +
+> Tailwind v4 + Vite 8 + Rolldown rc.17 (`Missing field tsconfigPaths`).
+> Workaround : laisser Vercel builder (Node 24 stable). En local, valider
+> via `pnpm typecheck` uniquement. Cf
+> [`../../docs/known-issues.md`](../../docs/known-issues.md) #2.
 
 ## Routes principales
 
@@ -70,6 +80,27 @@ Cf [docs/07-component-patterns.md](docs/07-component-patterns.md) pour l'arbre d
 - **Production** : <https://waimia-v2.vercel.app>
 - **Repo** : <https://github.com/virtuoseweb/waimia-v2>
 - **Auto-deploy** : `git push origin main` → Vercel build → live
+- **Vercel root directory** : `apps/web`
+- **Install command** : `cd ../.. && npx -y pnpm@9.15.0 install --no-frozen-lockfile`
+  (force pnpm 9.15 — Vercel installe pnpm 6.35 par défaut, incompatible)
+- **Build command** : `npx astro build`
+
+## API routes (5 forms)
+
+| Endpoint              | Use case                              | Notes                                                       |
+| --------------------- | ------------------------------------- | ----------------------------------------------------------- |
+| `/api/contact`        | Form contact `/contact`               | redirect `/bienvenue/contact` après POST                    |
+| `/api/newsletter`     | Signup newsletter footer              | déclenche email welcome via Resend                          |
+| `/api/lead-magnet`    | Download gated `/ressources/...`      | redirect `/bienvenue/livre-blanc` + email PDF link          |
+| `/api/devis`          | Configurateur devis                   | redirect `/bienvenue/devis` + alerte interne                |
+| `/api/academy`        | Diagnostic 12 questions               | scoring + tag hot lead si score < 12/24                     |
+| `/api/healthcheck`    | Health check sans imports             | endpoint trivial pour valider que SSR routing fonctionne    |
+
+> **Workaround actif** : tous les endpoints utilisent `export const ALL`
+> avec dispatch méthode interne au lieu de `export const POST`, à cause du
+> bug `@astrojs/vercel@10` qui exclut les `POST` du bundle SSR sur monorepo
+> pnpm. Cf [`../../docs/known-issues.md`](../../docs/known-issues.md) #1
+> et [`../../docs/astro-bug-report.md`](../../docs/astro-bug-report.md).
 
 ## Branches
 
