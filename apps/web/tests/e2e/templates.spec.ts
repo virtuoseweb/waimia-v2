@@ -562,8 +562,9 @@ test("WelcomeTemplate · /bienvenue/contact rend kicker + headline + 3 next step
   await waitNoBoot(page);
 
   const html = await page.content();
-  expect(html).toContain("CONTACT"); // kicker '§ CONTACT · CONFIRMATION'
-  expect(html).toContain("CONFIRMATION");
+  // Kicker source · '§ Contact · Confirmation' (uppercase est CSS-only)
+  expect(html).toContain("Contact");
+  expect(html).toContain("Confirmation");
   expect(html).toContain("Brief"); // headline 'Brief reçu.'
   expect(html).toContain("Aucune relance commerciale"); // step 02
   expect(html).toContain("/offres/conseil"); // CTA secondaire
@@ -578,7 +579,8 @@ test("WelcomeTemplate · /bienvenue/audit rend RDV confirmé + invitation calend
   expect(resp?.status()).toBe(200);
   await waitNoBoot(page);
   const html = await page.content();
-  expect(html).toContain("AUDIT");
+  // Kicker source · '§ Audit · Confirmation' (uppercase est CSS-only)
+  expect(html).toContain("Audit");
   expect(html).toContain("invitation"); // step 01 calendar
   expect(html).toContain("question précise"); // step 02
 });
