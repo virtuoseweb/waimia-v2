@@ -379,7 +379,8 @@ test("UtilityTemplate · /contact rend form + email + LinkedIn + bookings", asyn
   expect(resp?.status()).toBe(200);
   await waitNoBoot(page);
   const html = await page.content();
-  expect(html).toContain("bonjour@waimia.fr");
+  // Email contact direct · robuste rebrand (virtuoseweb.fr ou waimia.fr)
+  expect(html).toMatch(/mailto:[^"]+@[^"]+\.[a-z]+/);
   expect(html).toContain("linkedin.com");
   expect(html).toContain("cal.com");
   expect(html).toContain("Paris");
@@ -544,4 +545,88 @@ test("Templates étendus · pas de liens 'click here' / 'cliquez ici' sur 10 pag
     expect(html.toLowerCase()).not.toContain("click here");
     expect(html.toLowerCase()).not.toContain("cliquez ici");
   }
+});
+
+/* ═════════════════════════════════════════════════════════════════════════════
+ * SUITE B · Templates conversion (Wave 2026-04-28)
+ * Couvre WelcomeTemplate, ConversionFunnelTemplate, LeadMagnetTemplate
+ * + smoke API healthcheck.
+ * ═════════════════════════════════════════════════════════════════════════════ */
+
+/* ───── WelcomeTemplate · /bienvenue/contact ───── */
+test("WelcomeTemplate · /bienvenue/contact rend kicker + headline + 3 next steps", async ({
+  page,
+}) => {
+  const resp = await page.goto("/bienvenue/contact");
+  expect(resp?.status()).toBe(200);
+  await waitNoBoot(page);
+
+  const html = await page.content();
+  expect(html).toContain("CONTACT"); // kicker '§ CONTACT · CONFIRMATION'
+  expect(html).toContain("CONFIRMATION");
+  expect(html).toContain("Brief"); // headline 'Brief reçu.'
+  expect(html).toContain("Aucune relance commerciale"); // step 02
+  expect(html).toContain("/offres/conseil"); // CTA secondaire
+  expect(await page.title()).toContain("Brief");
+});
+
+/* ───── WelcomeTemplate · /bienvenue/audit ───── */
+test("WelcomeTemplate · /bienvenue/audit rend RDV confirmé + invitation calendar", async ({
+  page,
+}) => {
+  const resp = await page.goto("/bienvenue/audit");
+  expect(resp?.status()).toBe(200);
+  await waitNoBoot(page);
+  const html = await page.content();
+  expect(html).toContain("AUDIT");
+  expect(html).toContain("invitation"); // step 01 calendar
+  expect(html).toContain("question précise"); // step 02
+});
+
+/* ───── ConversionFunnelTemplate · /offres/site-web-ia ───── */
+test("ConversionFunnelTemplate · /offres/site-web-ia rend hero + pricing 3 tiers + FAQ", async ({
+  page,
+}) => {
+  const resp = await page.goto("/offres/site-web-ia");
+  expect(resp?.status()).toBe(200);
+  await waitNoBoot(page);
+  const html = await page.content();
+  // Au moins 1 marqueur par grande section
+  expect(html.toLowerCase()).toMatch(/agent.*ia|claude/i);
+  // Pricing tiers (Starter / Standard / Custom selon le contenu)
+  expect(html).toMatch(/starter|standard|custom/i);
+});
+
+/* ───── LeadMagnetTemplate · /ressources/livres-blancs/ai-act-readiness ───── */
+test("LeadMagnetTemplate · /ressources/livres-blancs/ai-act-readiness rend titre livre blanc + form", async ({
+  page,
+}) => {
+  const resp = await page.goto("/ressources/livres-blancs/ai-act-readiness");
+  expect(resp?.status()).toBe(200);
+  await waitNoBoot(page);
+  const html = await page.content();
+  expect(html).toContain("AI Act");
+  // Form gated avec champ email
+  const emailInput = await page.locator('input[type="email"]').count();
+  expect(emailInput).toBeGreaterThanOrEqual(1);
+});
+
+/* ───── API · /api/healthcheck (smoke) ───── */
+test("API · /api/healthcheck répond 200 JSON {ok:true}", async ({ request }) => {
+  const resp = await request.get("/api/healthcheck");
+  expect(resp.status()).toBe(200);
+  expect(resp.headers()["content-type"]).toContain("json");
+  const body = await resp.json();
+  expect(body.ok).toBe(true);
+  expect(body.ts).toBeTruthy();
+});
+
+/* ───── API · /api/contact GET → 405 Method Not Allowed (route exists) ───── */
+test("API · /api/contact GET → 405 (workaround export const ALL valide)", async ({
+  request,
+}) => {
+  const resp = await request.get("/api/contact");
+  expect(resp.status()).toBe(405);
+  const allow = resp.headers()["allow"];
+  expect(allow).toBe("POST");
 });

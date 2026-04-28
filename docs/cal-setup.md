@@ -296,27 +296,94 @@ git push
 
 Ouvrir `https://waimia.com/contact` → l'embed Cal doit charger depuis `cal.waimia.com`. Réserver un créneau test pour valider le flow E2E (booking + email confirmation).
 
-## Sync upstream Cal.com
+## Sync upstream Cal.com (pattern subtree)
 
-Pour suivre les évolutions upstream (security patches, nouvelles features) :
+`apps/cal` n'a **pas son propre `.git`** (intégré au monorepo waimia-v2). Pour suivre les évolutions upstream, on utilise le pattern **git subtree merge** depuis la racine du monorepo.
+
+### Setup initial (une seule fois)
+
+Depuis la racine du monorepo :
 
 ```bash
-cd apps/cal
+cd /Users/simonberos/waimia-site/site
 
-# Une seule fois : ajouter le remote
-git remote add upstream https://github.com/calcom/cal.com.git
+# Ajouter le remote upstream Cal.com
+git remote add cal-upstream https://github.com/calcom/cal.com.git
 
-# Toutes les 4-6 semaines : sync
-git fetch upstream
-git checkout -b sync/cal-vX.Y.Z
-git merge upstream/main
-yarn install
-yarn workspace @calcom/prisma db-migrate  # si nouvelles migrations
-# Tester en local
-git push origin sync/cal-vX.Y.Z          # → PR review → merge → redeploy Vercel
+# Vérifier que le remote est bien ajouté
+git remote -v
+# origin       https://github.com/virtuoseweb/waimia-v2.git (fetch + push)
+# cal-upstream https://github.com/calcom/cal.com.git (fetch + push)
+
+# Fetch pour la première fois (gros DL initial)
+git fetch cal-upstream
 ```
 
-⚠️ **`apps/cal` n'a actuellement PAS de remote upstream Cal.com configuré** (sub-repo `.git` retiré pour intégration monorepo). À configurer au premier sync.
+### Sync périodique (toutes les 4-6 semaines)
+
+```bash
+cd /Users/simonberos/waimia-site/site
+
+# 1. Branche dédiée pour la sync (review avant merge sur main)
+git checkout -b sync/cal-$(date +%Y-%m-%d)
+
+# 2. Subtree merge depuis upstream/main → apps/cal/
+git fetch cal-upstream
+git merge -s subtree -X subtree=apps/cal cal-upstream/main --squash --allow-unrelated-histories -m "sync(cal): upstream calcom/cal.com $(date +%Y-%m-%d)"
+
+# 3. Résoudre conflits si besoin (rare si on n'a pas modifié le code Cal.com)
+# Les conflits typiques : .env.example, .yarnrc.yml, README.md
+# → Garder upstream sauf si conflit réel sur configs Waimia
+
+# 4. Re-installer deps (Cal.com peut avoir bumpé des deps)
+cd apps/cal
+yarn install
+
+# 5. Run migrations DB si nouvelles
+yarn workspace @calcom/prisma db-deploy
+
+# 6. Tester en local
+yarn dev    # → vérifier setup wizard + login admin existant
+
+# 7. Si OK, commit + push pour PR
+cd ../..
+git push origin sync/cal-$(date +%Y-%m-%d)
+# → Créer PR sur GitHub → review → merge sur main → redeploy Vercel
+```
+
+### Cas alternatif · cherry-pick patch ciblé
+
+Si on veut juste un fix précis (ex: security patch sur un commit upstream précis) sans tout sync :
+
+```bash
+git fetch cal-upstream
+git log cal-upstream/main --oneline | head -20    # repérer le commit
+git cherry-pick -X subtree=apps/cal <commit-sha>
+```
+
+### Rollback en cas de problème
+
+Tag de référence avant chaque sync :
+
+```bash
+git tag pre-cal-sync-$(date +%Y-%m-%d)
+git push origin pre-cal-sync-$(date +%Y-%m-%d)
+```
+
+Si la sync casse quelque chose, revert :
+
+```bash
+git checkout main
+git reset --hard pre-cal-sync-$(date +%Y-%m-%d)
+git push origin main --force-with-lease    # ⚠️ destructif, demander à Simon avant
+```
+
+### ⚠️ Points d'attention
+
+- **Yarn lockfile** : la sync peut bumper `apps/cal/yarn.lock`. Si conflit, garder upstream + re-yarn install local.
+- **Migrations Prisma** : toujours `yarn workspace @calcom/prisma db-deploy` après sync, pas `db-migrate` (qui crée une nouvelle migration locale).
+- **Frequence** : 4-6 semaines pour rester à jour sécurité sans noyer le repo de syncs.
+- **Modifications locales Cal.com** : à éviter. Si nécessaire, documenter dans `apps/cal/WAIMIA-PATCHES.md` pour pouvoir les rejouer après chaque sync.
 
 ## Dépendances entre `apps/web` et `apps/cal`
 
