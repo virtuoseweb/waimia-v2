@@ -762,6 +762,31 @@ Si ce check renvoie un autre host, il y a un autre piège (§13.5 ou
 > yarn workspace @calcom/prisma seed-basic
 > ```
 
+**Validation empirique 2026-05-04** :
+
+```
+$ cd apps/cal && set -a && source .env && set +a && \
+    node -e "console.log('host:',new URL(process.env.DATABASE_URL).host)"
+host: db.prisma.io:5432  ✓
+
+$ yarn workspace @calcom/prisma seed-basic 2>&1 | tail -1
+👤 Added 'Enterprise Team-10' membership for 'enterprise-member-10' with role 'OWNER'
+$ echo $?
+0  ✓
+```
+
+Le seed termine sur les Enterprise Teams (dernier step du `seed.ts`),
+puis exit 0. Apps store re-seedée (incluant `google-calendar` si
+`GOOGLE_API_CREDENTIALS` est exportée — sinon le step Google est
+skippé silencieusement par le `try/catch` ligne 109-125 de
+`seed-app-store.ts`).
+
+> **Effet de bord à anticiper** : tout `yarn db-seed` re-crée les ~39
+> users `@example.com` + Enterprise members. Si tu avais déjà fait le
+> cleanup §13.8, refais-le **après** chaque re-seed. Script local
+> reproductible :
+> `apps/cal/.local-scripts/cleanup-seed.ts` (cf §13.8 pour le contenu).
+
 ---
 
 ## Annexes
