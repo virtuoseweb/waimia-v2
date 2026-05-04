@@ -1,6 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
 
+  "framework": "nextjs",
+  "outputDirectory": "apps/web/.next",
+
   "installCommand": "YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install",
   "buildCommand": "yarn build",
 
