@@ -377,6 +377,11 @@ Cal.com 6.x déplace les passwords dans `UserPassword`. Cf
 Variable `GOOGLE_API_CREDENTIALS` manquante ou JSON malformé. Cf
 [§13.9](#139--google-calendar-oauth-setup).
 
+### `yarn db-seed` plante avec `P1001 Can't reach database server at base`
+
+Le seed Cal.com n'auto-charge pas `.env`. `DATABASE_URL` doit être
+exportée shell-side. Cf [§13.12](#1312--le-seed-calcom-ne-charge-pas-dotenv-p1001-hostbase).
+
 ---
 
 ## 12 · Coût estimé
@@ -680,6 +685,82 @@ Une fois §§13.1-13.9 verts en prod, basculer le composant embed côté
 
 Cf commit `85df751` pour le diff complet sur
 `apps/web/src/components/ui/molecules/CalEmbed.astro`.
+
+### 13.12 · Le seed Cal.com ne charge pas dotenv (P1001 `host=base`)
+
+**Symptôme** : après une session migration réussie, un re-seed plante :
+
+```
+PrismaClientKnownRequestError: Can't reach database server at base
+code: 'P1001'
+DriverAdapterError: DatabaseNotReachable
+```
+
+Le hostname `base` est trompeur — ce n'est PAS une URL malformée, le
+`apps/cal/.env` contient bien `db.prisma.io:5432` (vérifiable avec
+`grep '^DATABASE_URL=' apps/cal/.env | cut -d= -f2- | head -c 30`).
+
+**Cause** : `apps/cal/scripts/seed.ts`, `seed-utils.ts` et le wrapper
+`apps/cal/packages/prisma/index.ts` n'importent **aucun** `dotenv`. Le
+fichier `index.ts` fait :
+
+```ts
+const connectionString = process.env.DATABASE_URL || "";
+const adapter = pool ? new PrismaPg(pool) : new PrismaPg({ connectionString });
+```
+
+Si `DATABASE_URL` n'est pas exportée dans la session shell qui lance
+`yarn seed-basic` (zsh/bash), `process.env.DATABASE_URL` est undefined,
+`connectionString` devient une chaîne vide, et `PrismaPg` parse cette
+URL vide en repliant sur un host par défaut qui apparaît littéralement
+comme `base` dans le message d'erreur.
+
+**Quand ça arrive typiquement** : entre 2 sessions de travail. La
+première a fait `export DATABASE_URL="$DBURL"` shell-side (cf §13.5)
+pour les migrations. Le terminal a été fermé entre temps, ou un
+nouveau tab zsh a été ouvert. Le `.env` du repo est intact, mais
+l'export shell-side ne persiste pas, et le seed ne le recharge pas tout
+seul.
+
+**Fix — wrap chaque commande seed avec `set -a; source .env; set +a`** :
+
+```bash
+cd /Users/simonberos/waimia-site/site/apps/cal
+set -a; source .env; set +a
+yarn workspace @calcom/prisma seed-basic 2>&1 | tail -40
+```
+
+Le `set -a` active l'auto-export, `source .env` charge toutes les vars,
+`set +a` désactive l'auto-export pour la suite (hygiène). Pattern POSIX
+standard, fonctionne en zsh comme en bash.
+
+**Sanity check 5s** avant le seed (ne touche pas la DB) :
+
+```bash
+cd apps/cal && set -a && source .env && set +a \
+  && node -e "console.log('host:',new URL(process.env.DATABASE_URL).host)"
+# Attendu : host: db.prisma.io:5432
+```
+
+Si ce check renvoie un autre host, il y a un autre piège (§13.5 ou
+§13.6 probablement).
+
+> **Note importante** : ne PAS modifier `apps/cal/scripts/seed.ts` pour
+> y ajouter `import "dotenv/config"` — c'est du code upstream Cal.com
+> synchronisé via subtree (cf [`cal-setup.md`](cal-setup.md)). Toute
+> modif locale crée des conflits à chaque sync. Le wrap shell-side
+> reste la bonne approche.
+
+> **Pour CI / scripts répétables** : externaliser dans
+> `apps/cal/.local-scripts/run-seed.sh` (gitignored, cf §13.7-§13.8) :
+>
+> ```bash
+> #!/usr/bin/env bash
+> set -euo pipefail
+> cd "$(dirname "$0")/.."
+> set -a; source .env; set +a
+> yarn workspace @calcom/prisma seed-basic
+> ```
 
 ---
 
