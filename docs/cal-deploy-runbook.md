@@ -357,6 +357,26 @@ length = 64 chars hex. Si toujours OK, regénérer + redeploy.
 Vérifier `ALLOWED_HOSTNAMES` côté `waimia-cal` env vars + CSP côté
 `waimia-v2` (`apps/web/src/layouts/Base.astro` `Content-Security-Policy`).
 
+### Build « npx astro build » au lieu de `yarn build`
+
+Vercel applique la config du `vercel.json` le plus haut dans l'arbre. Cf
+[§13.2](#132--vercel-jsontemplate-doit-être-promu-en-vercel-json).
+
+### `Failed to connect to upstream database` au build Prisma
+
+Sous-task `@calcom/prisma:build` ne reçoit pas `DIRECT_URL`. Cf
+[§13.1](#131--direct_url-manquant-dans-app-cal-turbo-json).
+
+### Login admin échoue avec mot de passe seedé
+
+Cal.com 6.x déplace les passwords dans `UserPassword`. Cf
+[§13.7](#137--reset-password-admin-via-prisma-direct).
+
+### Google Calendar absent du store Apps
+
+Variable `GOOGLE_API_CREDENTIALS` manquante ou JSON malformé. Cf
+[§13.9](#139--google-calendar-oauth-setup).
+
 ---
 
 ## 12 · Coût estimé
@@ -369,6 +389,297 @@ Vérifier `ALLOWED_HOSTNAMES` côté `waimia-cal` env vars + CSP côté
 | Resend SMTP (10k emails/mois)    | $0 (réutilise abo waimia-v2)   |
 | Domaine `waimia.com`             | déjà payé                      |
 | **Total**                        | **$0** (tier gratuit suffisant en démarrage) |
+
+---
+
+## 13 · Pièges live-debug — Phase 5 lessons (2026-04-28)
+
+> Capture du déploiement réel `cal.waimia.com`. À lire avant tout
+> nouveau deploy ou avant la sync upstream Cal.com majeure : ce sont
+> les pièges qu'on a rencontrés concrètement, dans l'ordre où ils sont
+> apparus. Chaque sous-section référence le commit qui contient le fix.
+
+### 13.1 · `DIRECT_URL` manquant dans `apps/cal/turbo.json`
+
+**Symptôme** : à `yarn build`, le sous-task `@calcom/prisma:build` plante
+avec `Failed to connect to upstream database`. Logs Vercel montrent que
+Prisma tente de joindre un host vide ou `localhost:5432`.
+
+**Cause** : le schema Cal.com utilise `DATABASE_DIRECT_URL` mais certains
+build scripts internes utilisent encore `DIRECT_URL` (legacy). Turborepo
+filtre les env vars passées aux sous-tasks via `globalEnv` — et `DIRECT_URL`
+n'y était pas listée.
+
+**Fix** :
+
+```diff
+ // apps/cal/turbo.json
+ "globalEnv": [
+   "DATABASE_URL",
+   "DATABASE_DIRECT_URL",
++  "DIRECT_URL",
+   ...
+ ]
+```
+
+Cf commit `c1bd899` — ajout d'une seule ligne, débloque tout le build.
+
+### 13.2 · `vercel.json.template` doit être promu en `vercel.json`
+
+**Symptôme** : Vercel exécute `npx astro build` au lieu de `yarn build`
+sur les déploiements `apps/cal`. Le projet est branché sur le bon root
+mais le framework détecté est faux.
+
+**Cause** : sans `apps/cal/vercel.json`, Vercel remonte l'arborescence et
+trouve `apps/web/vercel.json` (Astro). Il applique cette config au
+projet cal alors qu'on est dans un autre root.
+
+**Fix** : promouvoir le template fourni en config active :
+
+```bash
+cp apps/cal/vercel.json.template apps/cal/vercel.json
+git add apps/cal/vercel.json && git commit -m "feat(cal): promote vercel.json"
+```
+
+Cf commit `4b88553`.
+
+### 13.3 · Hobby plan limite 1 cron par jour max
+
+**Symptôme** : "This cron expression would run more than once per day".
+
+**Fix** : sur Hobby, ne garder que 4 crons quotidiens :
+
+```json
+"crons": [
+  { "path": "/api/cron/bookingReminder",                "schedule": "0 8 * * *" },
+  { "path": "/api/cron/calendar-subscriptions-cleanup", "schedule": "0 0 * * *" },
+  { "path": "/api/cron/changeTimeZone",                 "schedule": "0 1 * * *" },
+  { "path": "/api/cron/syncAppMeta",                    "schedule": "0 4 * * *" }
+]
+```
+
+Cf commit `c6fe01c`. Pour les crons fréquents (workflows, reminders bookings
+intra-day), passer en Pro plan ou les déclencher via webhook externe.
+
+### 13.4 · `framework: "nextjs"` + `outputDirectory` explicites
+
+**Symptôme** : "No Output Directory named 'public' found".
+
+**Cause** : Vercel détecte framework=Other (null) parce que `apps/cal` est
+un monorepo turbo + le `package.json` racine n'a pas `next` directement.
+
+**Fix** : forcer explicitement dans `apps/cal/vercel.json` :
+
+```json
+{
+  "framework": "nextjs",
+  "outputDirectory": "apps/web/.next"
+}
+```
+
+> **Attention** : `apps/web` ici réfère au sous-package interne de Cal.com
+> (`apps/cal/apps/web`), **pas** à notre `apps/web` Astro racine. Cal.com
+> a son propre monorepo imbriqué. Cf commit `248f01c`.
+
+### 13.5 · Migrations Prisma locales — process.env > dotenv
+
+**Symptôme** : `vercel env pull .env.production` ramène les vars Sensitive
+**vides** (Vercel masque les Sensitive en CLI). Du coup `yarn prisma migrate deploy`
+plante avec `DATABASE_URL resolved to empty string` ou `Authentication failed`.
+
+**Cause** : le runtime Cal.com charge `dotenv-flow` qui lit dans l'ordre
+`.env` → `.env.production` → `.env.local`. Si `.env.production` contient
+`DATABASE_URL=` (vide), il **écrase** la valeur du `.env`.
+
+**Fix** : exporter shell-side avant `prisma migrate` (process.env est
+prioritaire sur dotenv-flow) :
+
+```bash
+cd apps/cal
+DBURL='postgres://USER:PASS@HOST:5432/DB?sslmode=require'
+export DATABASE_URL="$DBURL"
+export DIRECT_URL="$DBURL"
+yarn prisma migrate deploy
+```
+
+### 13.6 · Markdown auto-linkification du clipboard IDE
+
+**Symptôme** : copier la `DATABASE_URL` du dashboard Prisma dans
+`apps/cal/.env` via Claude IDE introduit du markdown :
+`[host](mailto:host)` ou `[db.prisma.io](http://db.prisma.io)`. Prisma
+plante avec `Invalid URL`.
+
+**Cause** : Claude IDE auto-linkifie certains patterns (`user@host`,
+`*.io`, `*.com`) en markdown au copy-paste.
+
+**Fix shell** : reconstruire l'URL via regex, en parsant les composants
+isolés côté terminal externe :
+
+```bash
+DB_HOST=$(printf '%s' "$RAW_HOST" | grep -oE 'db\.prisma\.io' | head -1)
+DBURL="postgres://${DB_USER}:${DB_PASS}@${DB_HOST}:5432/postgres?sslmode=require"
+```
+
+Ou éditer `.env` dans un terminal externe (Ghostty, Terminal.app) hors
+contexte IDE.
+
+### 13.7 · Reset password admin via Prisma direct
+
+**Symptôme** : login admin échoue avec le password seedé
+`ADMINadmin2022!`. Le mail "forgot password" n'arrive pas (SMTP pas
+finalisé en première passe).
+
+**Cause** : Cal.com 6.x ne stocke plus le password dans `User.password`
+(string), mais dans une **table `UserPassword` en relation 1-1**. Les
+seeds historiques peuvent avoir alimenté la mauvaise table.
+
+**Fix** : utiliser `password: { upsert: ... }` via Prisma, en lançant via
+`yarn dlx tsx` pour résoudre les workspace TypeScript paths :
+
+```typescript
+// apps/cal/.local-scripts/reset-password.ts (gitignored)
+import bcrypt from 'bcryptjs';
+import prisma from '@calcom/prisma';
+
+async function main() {
+  const target = 'admin@example.com';
+  const newPwd = 'WaimiaCal_' + Math.random().toString(36).slice(2, 12) + '!';
+  const hash = await bcrypt.hash(newPwd, 12);
+
+  await prisma.user.update({
+    where: { email: target },
+    data: {
+      password: { upsert: { create: { hash }, update: { hash } } }
+    }
+  });
+
+  console.log('LOGIN:', target, newPwd);
+  await prisma.$disconnect();
+}
+main().catch(e => { console.error(e); process.exit(1); });
+```
+
+Run :
+
+```bash
+cd apps/cal
+export DATABASE_URL='...'  # même URL que migrate, cf §13.5
+yarn dlx tsx .local-scripts/reset-password.ts
+```
+
+> **Pourquoi `yarn dlx tsx` et pas `node` ?** Cal.com génère le client
+> Prisma à un chemin custom (`packages/prisma/generated/prisma/`) — `node`
+> ne résout pas les workspace paths TypeScript. `tsx` lance le runtime
+> avec le `tsconfig.json` chargé, donc `import prisma from '@calcom/prisma'`
+> marche.
+
+### 13.8 · Cleanup test users post-`yarn db-seed`
+
+**Risque** : `yarn db-seed` crée ~39 utilisateurs `*@example.com` avec
+des mots de passe identiques (`username == password`) — exploitable en
+clair sur prod.
+
+**Cleanup** : script Prisma local :
+
+```typescript
+// apps/cal/.local-scripts/cleanup-seed.ts (gitignored)
+import prisma from '@calcom/prisma';
+
+async function main() {
+  const users = await prisma.user.findMany({
+    where: {
+      email: { endsWith: '@example.com' },
+      NOT: [
+        { email: 'admin@example.com' },         // garder admin
+        { email: 'contact@virtuoseweb.fr' },    // ton compte réel
+      ],
+    },
+    select: { id: true, email: true },
+  });
+
+  console.log('Suppression de', users.length, 'utilisateurs test');
+
+  for (const u of users) {
+    await prisma.eventType.deleteMany({ where: { userId: u.id } });
+    await prisma.membership.deleteMany({ where: { userId: u.id } });
+    await prisma.user.delete({ where: { id: u.id } });
+  }
+}
+main().finally(() => prisma.$disconnect());
+```
+
+Sur le seed Cal.com de référence : ~39 users + ~146 event types + ~146
+memberships supprimés.
+
+### 13.9 · Google Calendar OAuth setup
+
+Pour activer l'intégration Google Calendar (Cal.com l'expose comme app
+dans le store) :
+
+1. **Google Cloud Console** → Créer un OAuth Client ID
+   - Type : Web application
+   - Name : `Cal Waimia Production`
+   - Authorized redirect URIs :
+     - `https://cal.waimia.com/api/integrations/googlecalendar/callback`
+     - `https://cal.waimia.com/api/auth/callback/google` (si "Login with Google" activé)
+
+2. **Vercel env vars** → ajouter en Production :
+
+   ```
+   GOOGLE_API_CREDENTIALS={"web":{"client_id":"...","client_secret":"GOCSPX-...","redirect_uris":["..."]}}
+   ```
+
+   La valeur est le **JSON brut** du client OAuth (pas le path du fichier).
+
+3. **Re-run db-seed** (registre l'app `google-calendar` dans la table `App`) :
+
+   ```bash
+   cd apps/cal
+   export DATABASE_URL='...'
+   yarn db-seed
+   ```
+
+4. **UI Cal** → Settings → Apps → Calendar → "Google Calendar" doit
+   apparaître comme option Connect.
+
+> **Sécurité** : si tu as plusieurs OAuth clients (ancien dev + nouveau
+> prod), **désactiver l'ancien** dans Google Cloud Console → Credentials
+> une fois la prod validée. Ne jamais commit `client_secret` en clair.
+
+### 13.10 · `corepack` manquant sur Homebrew Node 25
+
+**Symptôme** : `corepack: command not found` quand on tente
+`corepack enable` pour activer yarn 4 berry.
+
+**Fix** :
+
+```bash
+brew install corepack
+brew link --overwrite corepack
+# corepack écrase le shim pnpm de Homebrew, mais corepack inclut son
+# propre pnpm — pas de régression.
+corepack enable
+yarn --version  # → 4.12 attendu (lockfile apps/cal/yarn.lock)
+```
+
+### 13.11 · Embed bumped après validation `cal.waimia.com`
+
+Une fois §§13.1-13.9 verts en prod, basculer le composant embed côté
+`apps/web` :
+
+```diff
+- // Note · Cal.com SaaS recommandé pour démarrer (slug `simonberos/audit`)
++ // Note · Cal.com self-host actif sur cal.waimia.com (slug `simon/audit`)
+- username = 'simonberos'
++ username = 'simon'
+- src='https://app.cal.com/embed/embed.js'
++ src='https://cal.waimia.com/embed/embed.js'
+- origin: 'https://app.cal.com'
++ origin: 'https://cal.waimia.com'
+```
+
+Cf commit `85df751` pour le diff complet sur
+`apps/web/src/components/ui/molecules/CalEmbed.astro`.
 
 ---
 
