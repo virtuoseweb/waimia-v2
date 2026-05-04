@@ -13,8 +13,8 @@
 //
 // Documentation : https://cal.com/docs/embed
 //
-// Note · Cal.com SaaS recommandé pour démarrer (slug `simonberos/audit` actif).
-// Cal.diy MIT self-hosted possible plus tard pour souveraineté.
+// Note · Cal.com self-host actif sur cal.waimia.com (slug `simon/audit`).
+// Cf docs/cal-deploy-runbook.md + docs/cal-setup.md pour le setup complet.
 
 interface Props {
   /** Slug Cal.com (default: env PUBLIC_CAL_USERNAME) */
@@ -36,9 +36,9 @@ interface Props {
 // `.trim()` défensif : `vercel env add` via `echo 'value' |` stocke parfois
 // la valeur avec un \n trailing qui casse le slug Cal.com (404 en prod).
 // On strip systématiquement les whitespaces — coût zéro, robustesse +1.
-// Defaults ajustés sur le compte Cal.com réel (cal.com/simonberos/audit).
+// Defaults ajustés sur le self-host Waimia (cal.waimia.com/simon/audit).
 const {
-  username = (import.meta.env.PUBLIC_CAL_USERNAME ?? 'simonberos').trim(),
+  username = (import.meta.env.PUBLIC_CAL_USERNAME ?? 'simon').trim(),
   eventType = (import.meta.env.PUBLIC_CAL_EVENT_TYPE ?? 'audit').trim(),
   layout = 'inline',
   trigger = '[data-cal]',
@@ -83,9 +83,9 @@ const calLink = `${username}/${eventType}`;
       }
       p(cal, ar);
     };
-  })(window, 'https://app.cal.com/embed/embed.js', 'init');
+  })(window, 'https://cal.waimia.com/embed/embed.js', 'init');
 
-  Cal('init', { origin: 'https://app.cal.com' });
+  Cal('init', { origin: 'https://cal.waimia.com' });
 
   if (layout === 'inline') {
     Cal('inline', {
