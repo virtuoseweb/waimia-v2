@@ -10,6 +10,7 @@ import { setTestEmail } from "@calcom/lib/testEmails";
 import { prisma } from "@calcom/prisma";
 
 import { sanitizeDisplayName } from "../lib/sanitizeDisplayName";
+import { sendViaResendHttps, shouldUseResendHttps } from "../lib/sendViaResendHttps";
 
 export default class BaseEmail {
   name = "";
@@ -71,6 +72,25 @@ export default class BaseEmail {
       },
       ...(parseSubject.success && { subject: decodeHTML(parseSubject.data) }),
     };
+    if (shouldUseResendHttps()) {
+      try {
+        const result = await sendViaResendHttps(payloadWithUnEscapedSubject);
+        if (result?.id) {
+          console.log(`sendEmail (resend-https) ok id=${result.id} subject=${"subject" in payloadWithUnEscapedSubject ? payloadWithUnEscapedSubject.subject : ""}`);
+        }
+      } catch (e) {
+        const err = getServerErrorFromUnknown(e);
+        this.printNodeMailerError(err);
+        console.error(
+          "sendEmail (resend-https)",
+          `from: ${"from" in payloadWithUnEscapedSubject ? payloadWithUnEscapedSubject.from : ""}`,
+          `subject: ${"subject" in payloadWithUnEscapedSubject ? payloadWithUnEscapedSubject.subject : ""}`,
+          err
+        );
+      }
+      return new Promise((resolve) => resolve("send mail async"));
+    }
+
     const { createTransport } = await import("nodemailer");
     await new Promise((resolve, reject) =>
       createTransport(this.getMailerOptions().transport).sendMail(
