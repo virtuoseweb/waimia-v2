@@ -1241,6 +1241,66 @@ cal.diy OSS n'a PAS Stripe billing intégré dans sa version gratuite. Pour prop
 
 **Recommandation** : commencer C (free public pendant ramp-up), basculer B après ~50 hosts actifs (effort ~2-3 sprints).
 
+### 13.18 · Resend HTTPS 422 double-wrap `from` — fix structurel + test régression
+
+**Symptôme post-deploy `gs2shnh1i`** (PR #1 livré) :
+
+```
+sendEmail (resend-https) from: Waimia <Waimia <waimia@virtuoseweb.fr>> subject: ...
+Resend HTTPS error: 422 Unprocessable Entity — {"statusCode":422,"name":"validation_error","message":"Invalid `from` field. The email address needs to follow the `email@example.com` or `Name <email@example.com>` format."}
+```
+
+**Cause root** : `EMAIL_FROM` env var Vercel était set à `Waimia <waimia@virtuoseweb.fr>` (déjà au format `Name <email>`). Cal.diy code wrappe une seconde fois autour, produisant `Waimia <Waimia <waimia@virtuoseweb.fr>>` — Resend refuse 422.
+
+**Fix structurel (definitive)** :
+
+Cal.diy supporte **deux env vars séparées** :
+- `EMAIL_FROM` : juste l'adresse email, ex `waimia@virtuoseweb.fr`
+- `EMAIL_FROM_NAME` : juste le nom display, ex `Waimia`
+
+Cal.diy code construit ensuite le format RFC 5322 correct `Waimia <waimia@virtuoseweb.fr>`. **Pas de double-wrap possible**.
+
+**Action appliquée 2026-05-06 18:24 CEST** :
+
+```bash
+# Avant : EMAIL_FROM = "Waimia <waimia@virtuoseweb.fr>"  ❌
+vercel env rm EMAIL_FROM production --yes
+echo "waimia@virtuoseweb.fr" | vercel env add EMAIL_FROM production
+# EMAIL_FROM_NAME existait déjà = "Waimia" ✅
+```
+
+**Fix défensif (PR #4 commit `cf8ae58`)** : helper `normalizeFromAddress()` détecte le double-wrap et l'unwrap au runtime, en cas de réintroduction accidentelle :
+
+```typescript
+export function normalizeFromAddress(from: string): string {
+  const doubleWrap = from.match(/^\s*(.+?)\s*<\s*.+?\s*<\s*([^<>\s]+@[^<>\s]+)\s*>\s*>\s*$/);
+  if (doubleWrap) {
+    const [, outerName, email] = doubleWrap;
+    return `${outerName.trim()} <${email}>`;
+  }
+  return from;
+}
+```
+
+**Tests régression (PR #6)** : `sendViaResendHttps.test.ts` couvre 6 cas :
+- Format valide passé tel quel
+- Bare email passé tel quel
+- Double-wrap unwrappé correctement
+- Outer name préservé même différent du inner
+- Whitespace variations
+- Multi-word + accents (français)
+
+**Sync upstream** : si Cal.diy upstream change `_base-email.ts`, le `from` ré-wrappé peut casser. Le helper `normalizeFromAddress` reste défensif. Le test catche au build CI.
+
+**Validation empirique post-fix** :
+
+| Étape | Avant fix | Après fix |
+|---|---|---|
+| Vercel env `EMAIL_FROM` | `Waimia <waimia@virtuoseweb.fr>` | `waimia@virtuoseweb.fr` |
+| Cal.diy build `from` | `Waimia <Waimia <waimia@virtuoseweb.fr>>` | `Waimia <waimia@virtuoseweb.fr>` |
+| Resend status | 422 validation_error | À confirmer post-deploy `m5nux58gi` |
+| Email reçu | ❌ | À confirmer |
+
 ---
 
 ## Annexes
