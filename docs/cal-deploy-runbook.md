@@ -382,6 +382,23 @@ Variable `GOOGLE_API_CREDENTIALS` manquante ou JSON malformé. Cf
 Le seed Cal.com n'auto-charge pas `.env`. `DATABASE_URL` doit être
 exportée shell-side. Cf [§13.12](#1312--le-seed-calcom-ne-charge-pas-dotenv-p1001-hostbase).
 
+### `/event-types/<id>` ou `/settings/*` affiche "Something went wrong"
+
+Probablement `User.defaultScheduleId` null après cleanup. Cf
+[§13.13](#1313--cleanup-laisse-les-users-actifs-sans-defaultscheduleid).
+
+### Google Calendar absent de la Boutique d'applications
+
+`GOOGLE_API_CREDENTIALS` non exportée au seed → step Google
+silencieusement skippé. Cf
+[§13.14](#1314--google-calendar-absent-du-store-si-google_api_credentials-pas-exportée-au-seed).
+
+### Booking créé mais aucun email reçu (booker + host)
+
+`SEND_BOOKING_CONFIRMATION_EMAIL_FAILED` → vars EMAIL_* mal configurées
+ou Sensitive corrompues. Cf
+[§13.15](#1315--vars-email_-sensitive-empêchent-diag--risque-corruption-silencieuse).
+
 ---
 
 ## 12 · Coût estimé
@@ -786,6 +803,289 @@ skippé silencieusement par le `try/catch` ligne 109-125 de
 > cleanup §13.8, refais-le **après** chaque re-seed. Script local
 > reproductible :
 > `apps/cal/.local-scripts/cleanup-seed.ts` (cf §13.8 pour le contenu).
+
+### 13.13 · Cleanup laisse les users actifs sans `defaultScheduleId`
+
+**Symptôme** : après cleanup §13.8 + recovery du compte admin/perso,
+les pages `/event-types/<id>?tabName=setup`, `/settings/my-account/profile`
+et `/settings/my-account/calendars` affichent **"Something went wrong"**.
+Logs Vercel runtime montrent :
+
+```
+Error [TRPCError]: Failed to ...
+GET /api/trpc/eventTypes/getEventTypesFromUser  500
+```
+
+**Cause** : Cal.com 6.x requiert que `User.defaultScheduleId` pointe sur
+un `Schedule` existant pour que l'API tRPC `eventTypes.getEventTypesFromUser`
+calcule l'availability. Le seed crée **un seul** Schedule global utilisé en
+M2M par les test users — quand le cleanup les supprime, le Schedule reste
+mais n'est rattaché à aucun user. Les comptes réels (créés manuellement
+via UI Cal ou conservés au cleanup) partent **sans `defaultScheduleId`** —
+le frontend appelle tRPC, le backend Prisma ne trouve pas de schedule
+résolu, throw.
+
+**Diagnostic** : compter les schedules vs users avec defaultScheduleId :
+
+```bash
+yarn dlx tsx -e "import prisma from '@calcom/prisma';
+(async () => {
+  const u = await prisma.user.count();
+  const usd = await prisma.user.count({ where: { defaultScheduleId: { not: null } } });
+  const s = await prisma.schedule.count();
+  console.log({users: u, usersWithDefault: usd, schedules: s});
+  await prisma.\$disconnect();
+})();"
+# Cas problematique : users=4 schedules=1 usersWithDefault=0
+# Cas attendu :     users=N schedules>=N usersWithDefault=N
+```
+
+**Fix idempotent** — script `apps/cal/.local-scripts/fix-user-defaults.ts`
+(gitignored) qui pour chaque user sans `defaultScheduleId` crée un
+Schedule "Working Hours" Lun-Ven 9h-18h Europe/Paris + set le default.
+
+```bash
+cd apps/cal && set -a && source .env && set +a \
+  && yarn dlx tsx .local-scripts/fix-user-defaults.ts
+```
+
+Le script vit dans `.local-scripts/` parce qu'il dépend de la DB live et
+n'a pas vocation à être committé. Pour le contenu canonique : cf
+[snippet ci-dessous](#snippet-fix-user-defaultsts).
+
+**Validation empirique 2026-05-04/05** : 4 users → 4 schedules après run,
+les pages `/event-types/<id>?tabName=setup` se chargent normalement.
+
+#### Snippet `fix-user-defaults.ts`
+
+```typescript
+import prisma from '@calcom/prisma';
+
+async function main() {
+  const users = await prisma.user.findMany({
+    select: { id: true, email: true, defaultScheduleId: true, timeZone: true },
+    orderBy: { id: 'asc' },
+  });
+
+  for (const u of users) {
+    const hasSched = await prisma.schedule.findFirst({ where: { userId: u.id }, select: { id: true } });
+    if (u.defaultScheduleId && hasSched) continue;
+
+    let scheduleId: number;
+    if (hasSched) {
+      scheduleId = hasSched.id;
+    } else {
+      const s = await prisma.schedule.create({
+        data: {
+          userId: u.id,
+          name: 'Working Hours',
+          timeZone: u.timeZone ?? 'Europe/Paris',
+          availability: {
+            create: [1, 2, 3, 4, 5].map(day => ({
+              days: [day],
+              startTime: new Date('1970-01-01T09:00:00Z'),
+              endTime: new Date('1970-01-01T18:00:00Z'),
+              userId: u.id,
+            })),
+          },
+        },
+      });
+      scheduleId = s.id;
+    }
+
+    await prisma.user.update({
+      where: { id: u.id },
+      data: { defaultScheduleId: scheduleId, timeZone: u.timeZone ?? 'Europe/Paris' },
+    });
+  }
+}
+main().finally(() => prisma.$disconnect());
+```
+
+### 13.14 · Google Calendar absent du store si `GOOGLE_API_CREDENTIALS` pas exportée au seed
+
+**Symptôme** : page `Boutique d'applications / Calendar` sur cal.waimia.com
+liste Apple/CalDav/Notion/Amie/Exchange/ICS/Vimcal — **mais pas Google
+Calendar**. Conséquence cascade : pas de Google Meet dans le picker
+"Conferencing" des event types.
+
+**Cause** : `apps/cal/scripts/seed-app-store.ts:109-125` :
+
+```ts
+try {
+  const { client_secret, client_id, redirect_uris } =
+    JSON.parse(process.env.GOOGLE_API_CREDENTIALS || "").web;
+  await createApp("google-calendar", "googlecalendar", ["calendar"], "google_calendar", { ... });
+  await createApp("google-meet", "googlevideo", ["conferencing"], "google_video", { ... });
+} catch (e) {
+  if (e instanceof Error)
+    console.error("Error adding google credentials to DB:", e.message);
+}
+```
+
+Si `process.env.GOOGLE_API_CREDENTIALS` n'est pas exportée au moment du
+`yarn db-seed`, `JSON.parse("")` throw `Unexpected end of JSON input`,
+le `catch` **swallow l'erreur** (juste un `console.error` non bloquant).
+Le seed termine en succès apparent, mais les apps `google-calendar` et
+`google-meet` ne sont **pas créées** dans la table `App`.
+
+**2 fixes possibles** :
+
+**Option A — Re-seed complet** avec env exportée (si tu acceptes l'effet
+de bord §13 warning, c-à-d re-créer les ~39 test users) :
+
+```bash
+cd apps/cal && set -a && source .env && set +a \
+  && export GOOGLE_API_CREDENTIALS="$(cat ~/Downloads/client_secret_*.json)" \
+  && yarn workspace @calcom/prisma seed-basic
+# Puis re-cleanup §13.8
+```
+
+**Option B — Script chirurgical** (préféré, idempotent, ne touche pas
+les users) — `apps/cal/.local-scripts/seed-google-app.ts` (gitignored) :
+
+```typescript
+import prisma from '@calcom/prisma';
+
+async function main() {
+  const raw = process.env.GOOGLE_API_CREDENTIALS;
+  if (!raw) { console.error('GOOGLE_API_CREDENTIALS env var manquante'); process.exit(1); }
+  const { web } = JSON.parse(raw);
+  const keys = {
+    client_id: web.client_id,
+    client_secret: web.client_secret,
+    redirect_uris: web.redirect_uris || [],
+  };
+
+  const upsert = async (slug: string, dirName: string, category: string) => {
+    const found = await prisma.app.findFirst({ where: { OR: [{ slug }, { dirName }] } });
+    const data = { slug, dirName, categories: [category], keys: keys as any, enabled: true };
+    if (found) await prisma.app.update({ where: { slug: found.slug }, data });
+    else await prisma.app.create({ data });
+  };
+
+  await upsert('google-calendar', 'googlecalendar', 'calendar');
+  await upsert('google-meet', 'googlevideo', 'conferencing');
+}
+main().finally(() => prisma.$disconnect());
+```
+
+Run :
+
+```bash
+cd apps/cal && set -a && source .env && set +a \
+  && export GOOGLE_API_CREDENTIALS="$(cat ~/Downloads/client_secret_*.json)" \
+  && yarn dlx tsx .local-scripts/seed-google-app.ts
+```
+
+**Pour éviter ce piège au prochain re-seed** : ajouter
+`GOOGLE_API_CREDENTIALS` au `apps/cal/.env` local sur **une seule ligne
+JSON** (pas multi-ligne, sinon `source .env` casse) :
+
+```bash
+printf 'GOOGLE_API_CREDENTIALS=%s\n' \
+  "$(cat ~/Downloads/client_secret_*.json | tr -d '\n')" \
+  >> apps/cal/.env
+```
+
+> **Note importante** : Google Calendar dans le store ≠ Google Calendar
+> connecté pour ton user. Il faut ensuite aller dans
+> `cal.waimia.com/apps/categories/calendar` → Connect → flow OAuth pour
+> que **ton compte Google soit lié** (création d'un row `Credential`).
+> Tant que ce flow n'est pas complété, Google Meet n'apparaît PAS dans
+> le picker "Conferencing" des event types — c'est normal et conditionné
+> au Credential, pas à la présence dans App.
+
+### 13.15 · Vars `EMAIL_*` Sensitive empêchent diag + risque corruption silencieuse
+
+**Symptôme** : booking POST réussit (200, event créé en DB, Google
+Calendar invité OK) mais le booker **et le host** ne reçoivent **aucun
+email**. Logs Vercel runtime à l'instant T du booking :
+
+```
+20:07:15 POST /api/book/event 200 error  SEND_BOOKING_CONFIRMATION_E...
+```
+
+(message tronqué Vercel CLI, c'est `SEND_BOOKING_CONFIRMATION_EMAIL_FAILED`.)
+
+**Cause profonde** : au bulk-import des env vars Cal sur Vercel (§4 du
+runbook), le tag **"Sensitive"** a été coché par défaut sur les 6 vars
+`EMAIL_*`. Conséquence :
+
+- `vercel env pull` ramène les valeurs **vides** côté CLI
+  (cf §13.5, même piège que `DATABASE_URL` au début)
+- Le runtime Vercel reçoit la vraie valeur — sauf si **la valeur enregistrée
+  elle-même est cassée** (markdown linkification §13.6 au copy-paste, ou
+  Resend API key périmée, ou format `EMAIL_FROM` rejeté pour spoofing)
+- Le diag CLI est **aveugle** : impossible de savoir si la valeur réelle
+  est correcte sans manipulation UI
+- Et Cal.com Sentry-style logging tronque le message d'erreur — le
+  symptôme reste opaque
+
+**Diagnostic en 4 étapes** :
+
+```bash
+# 1. Pull web project (waimia-v2) qui marche pour Phase 2 emails
+cd apps/web && vercel env pull /tmp/web.env --environment=production --yes
+RESEND_KEY=$(grep '^RESEND_API_KEY=' /tmp/web.env | sed 's/^RESEND_API_KEY=//; s/^"//; s/"$//')
+
+# 2. Si RESEND_KEY len=36 prefix='re_' : Standard (visible). Si vide : Sensitive.
+echo "len=${#RESEND_KEY} prefix='${RESEND_KEY:0:3}'"
+
+# 3. Test API Resend (no email sent, juste check key validity)
+curl -s -H "Authorization: Bearer $RESEND_KEY" https://api.resend.com/api-keys \
+  | python3 -m json.tool | head -5
+
+# 4. Liste domaines verifies (pour valider EMAIL_FROM)
+curl -s -H "Authorization: Bearer $RESEND_KEY" https://api.resend.com/domains \
+  | python3 -m json.tool | grep -E '"name"|"status"'
+
+rm /tmp/web.env
+```
+
+**Fix complet** — re-pousser les 6 vars `EMAIL_*` du projet cal en
+**non-Sensitive** (sauf le password, qui peut rester Sensitive si tu
+veux) avec valeurs canoniques :
+
+```bash
+set -e
+SCRATCH=$(mktemp -d)
+trap "rm -rf $SCRATCH" EXIT
+
+cd apps/web
+vercel env pull "$SCRATCH/web.env" --environment=production --yes
+RESEND_KEY=$(grep '^RESEND_API_KEY=' "$SCRATCH/web.env" | sed 's/^RESEND_API_KEY=//; s/^"//; s/"$//')
+[ "${RESEND_KEY:0:3}" != "re_" ] && { echo "ERROR: RESEND_KEY not extracted"; exit 1; }
+
+cd ../cal
+for v in EMAIL_FROM EMAIL_FROM_NAME EMAIL_SERVER_HOST EMAIL_SERVER_PORT EMAIL_SERVER_USER EMAIL_SERVER_PASSWORD; do
+  vercel env rm "$v" production --yes
+done
+
+printf 'Waimia <waimia@virtuoseweb.fr>'  | vercel env add EMAIL_FROM            production
+printf 'Waimia'                          | vercel env add EMAIL_FROM_NAME       production
+printf 'smtp.resend.com'                 | vercel env add EMAIL_SERVER_HOST     production
+printf '465'                             | vercel env add EMAIL_SERVER_PORT     production
+printf 'resend'                          | vercel env add EMAIL_SERVER_USER     production
+printf '%s' "$RESEND_KEY"                | vercel env add EMAIL_SERVER_PASSWORD production
+
+# Trigger redeploy production (env var changes ne re-deploient pas auto)
+LATEST_URL=$(vercel ls --prod 2>&1 | grep '\.vercel\.app' | head -1 | awk '{print $1}')
+vercel redeploy "$LATEST_URL" --target production
+```
+
+> **Recommandation** : marquer **EMAIL_SERVER_PASSWORD comme la seule
+> Sensitive** (vraie API key) ; les 5 autres en Standard pour permettre
+> le diag CLI futur. La protection Sensitive sert à éviter les leaks en
+> logs CI ou screenshots — n'a pas grand intérêt pour des valeurs
+> publiques (host SMTP, port, "resend" username, format FROM).
+
+**Validation empirique 2026-05-05** :
+- Resend API key validée via `/api-keys` endpoint ✓
+- `virtuoseweb.fr` confirmé seul domaine vérifié Resend ✓
+- 6 vars EMAIL_* repushées non-Sensitive sur waimia-v2-web ✓
+- Redeploy `dpl_41oeijegvG7b6VcwgGnENLqs9bAc` BUILDING ✓
+- Test E2E booking post-deploy : à confirmer dans la prochaine session
 
 ---
 
