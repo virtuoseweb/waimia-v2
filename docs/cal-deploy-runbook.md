@@ -1196,6 +1196,51 @@ local quand merged.
 > serait un pattern de tâtonnement aveugle vu la troncation Vercel logs.
 > Le HTTPS direct est diagnostiqué + testé empiriquement.
 
+### 13.17 · Strategy email finale — Google Calendar (booking) + Resend (système) + SaaS multi-tenant
+
+**Contexte** : après §13.16 (patch Resend HTTPS pour bypass nodemailer SMTP), la vraie question stratégique se pose : pour une app cal.diy proposée en SaaS marque blanche Waimia, quel est le bon design email ?
+
+**Décision architecture (2026-05-06)** :
+
+| Type d'email | Provider | Pourquoi |
+|---|---|---|
+| Confirmation booking attendee | **Google Calendar API** (natif) | Quand l'host connecte Google Calendar, l'event est créé via API et Google envoie l'invite à l'attendee depuis l'adresse host. Plus propre, plus deliverable, et l'attendee peut RSVP directement sur son agenda. |
+| Notification host | **Google Calendar** (natif) | Event apparaît sur l'agenda host avec notif Google native (push mobile + email). |
+| Signup confirmation | **Resend HTTPS** (`from: noreply@waimia.com`) | Email système Waimia → user. Pas de calendrier impliqué. |
+| Password reset / magic link | **Resend HTTPS** (`from: noreply@waimia.com`) | Email système Waimia → user. |
+| Notifications internes équipe | **Resend HTTPS** (`from: noreply@waimia.com`) | Alerte interne booking, paiement, etc. |
+| Booking confirmation cal-side (fallback) | **Resend HTTPS** (`from: cal-host@<tenant-domain>`) | Si host n'a pas Google Calendar connecté ou pour cas dégradés. Patch §13.16 actif. |
+
+**Avantage SaaS multi-tenant** :
+- Chaque tenant (client Waimia) connecte son propre Google/Outlook via le App Store cal.diy
+- Cal.diy crée l'event sur le calendrier du tenant → invite envoyée depuis l'adresse du tenant
+- L'attendee voit `From: contact@<tenant>.com` (pas `noreply@cal.waimia.com` — meilleur deliverability + branding tenant)
+- Cal.diy continue d'envoyer les emails système depuis Waimia (Resend)
+
+**Validation empirique cal.waimia.com 2026-05-06** :
+
+| Composant | État | Preuve |
+|---|---|---|
+| Google Calendar app installée pour host | ✅ | `/apps/google-calendar` → "1 active install" + Disconnect button |
+| Default destination calendar | ✅ | `/apps/installed/calendar` → "Add events to: Agenda Pro (Google - Agenda Pro)" |
+| Booking créé en DB | ✅ | `3BaHJVxiZQ8ZQtuzV1LTDJ` confirmation page rendered |
+| Google Calendar event créé | ❓ | À vérifier — aucun email reçu côté attendee `simonberos47@gmail.com` |
+| Cal-side confirmation email envoyé | ❌ | Confirmé : 0 email reçu (avant patch §13.16) |
+
+**Action items prochaine session** :
+1. Vérifier dans Google Calendar de waimia@virtuoseweb.fr (calendar Agenda Pro) si event 3BaHJVxiZQ8ZQtuzV1LTDJ a été créé via Cal.diy. Si oui, pourquoi pas d'invite envoyée ? Vérifier `sendNotifications: true` + attendee email setup côté code.
+2. Tester nouveau booking post-patch §13.16 deploy : si Resend HTTPS marche, attendee doit recevoir email cal-side. Si Google Calendar API marche aussi, attendee doit recevoir aussi invite GCal native.
+3. Configurer `EMAIL_FROM` final SaaS-friendly : `noreply@waimia.com` (au lieu de `noreply@cal.waimia.com`) pour cohérence brand.
+
+**Question monétisation free → premium (hors scope SMTP)** :
+
+cal.diy OSS n'a PAS Stripe billing intégré dans sa version gratuite. Pour proposer free→premium en SaaS Waimia, options :
+- A. Utiliser cal.com EE (Enterprise Edition) — billing Stripe inclus mais pas MIT
+- B. Câbler Stripe nous-mêmes via Stripe Checkout + webhooks → custom plan/quota logic
+- C. Différer monétisation → focus 100% UX bookings + acquisition d'abord
+
+**Recommandation** : commencer C (free public pendant ramp-up), basculer B après ~50 hosts actifs (effort ~2-3 sprints).
+
 ---
 
 ## Annexes
