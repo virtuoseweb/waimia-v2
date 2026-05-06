@@ -1087,6 +1087,115 @@ vercel redeploy "$LATEST_URL" --target production
 - Redeploy `dpl_41oeijegvG7b6VcwgGnENLqs9bAc` BUILDING ✓
 - Test E2E booking post-deploy : à confirmer dans la prochaine session
 
+### 13.16 · Cal.com nodemailer SMTP hang sur Vercel Lambda — fix Resend HTTPS direct
+
+**Symptôme** : tous les fixes §13.15 appliqués (env vars EMAIL_* non-Sensitive +
+RESEND_API_KEY priorité 1 + redeploy), mais 5 bookings test successifs
+montrent toujours :
+
+```
+POST /api/book/event 200 error  SEND_BOOKING_CONFIRMATION_E... (tronqué)
+```
+
+Aucun email Cal n'arrive (booker + host) malgré que le booking est créé
+en DB et que Google Calendar invite est bien envoyé via API Google.
+
+**Validation empirique parallèle** : `curl -X POST https://api.resend.com/emails`
+avec le même `RESEND_API_KEY` et `from: "Waimia <waimia@virtuoseweb.fr>"` →
+réponse `{"id":"..."}` → email **delivered Inbox** sur `simonberos47@gmail.com`
+en < 30s. Donc :
+
+| Composant | État |
+|---|---|
+| RESEND_API_KEY | ✅ valide |
+| Domaine `virtuoseweb.fr` Resend | ✅ DKIM/SPF verified |
+| Format `EMAIL_FROM` | ✅ accepté par Gmail (Inbox direct, pas spam) |
+| Cal `nodemailer.sendMail` via `smtp.resend.com:465` | ❌ hang silencieux |
+
+**Cause root** : nodemailer 7.0.12 hang sur le port 465 SMTP outbound depuis
+Vercel Lambda Functions. Le réseau Lambda régional restreint/throttle
+probablement le port SMTP (465). Symptômes matchent : pas de timeout
+explicite, juste throw silencieux après quelques secondes, log `console.error`
+tronqué à ~30 chars dans Vercel runtime API.
+
+**Workaround `ENABLE_ASYNC_TASKER=false`** testé, **régression** : Cal
+remonte alors l'erreur sync au client → **welcome page 500** post-booking.
+Pire que silencieux. Rolled back.
+
+**Fix définitif — patch local Resend HTTPS direct**
+
+Approche : remplacer le transport nodemailer SMTP par un appel `fetch()` HTTPS
+direct vers `https://api.resend.com/emails` quand `RESEND_API_KEY` est set.
+0 dépendance ajoutée (fetch natif Node 18+). Patch additif minimaliste.
+
+**Fichiers patchés** (branche `fix/cal-smtp-resend-sdk`, commit `006302f`) :
+
+```
+apps/cal/packages/emails/lib/sendViaResendHttps.ts   (NEW, 130 lignes)
+apps/cal/packages/emails/templates/_base-email.ts    (+20 lignes branche conditionnelle)
+```
+
+`sendViaResendHttps.ts` :
+- `shouldUseResendHttps()` : retourne `true` si `RESEND_API_KEY` set ET
+  `RESEND_USE_HTTPS != "false"`
+- `sendViaResendHttps(payload)` : POST vers `api.resend.com/emails` avec
+  conversion payload nodemailer → format Resend API JSON
+
+`_base-email.ts` ligne ~75, branche AVANT `createTransport(nodemailer)` :
+
+```ts
+if (shouldUseResendHttps()) {
+  try {
+    const result = await sendViaResendHttps(payloadWithUnEscapedSubject);
+    if (result?.id) {
+      console.log(`sendEmail (resend-https) ok id=${result.id} subject=...`);
+    }
+  } catch (e) {
+    const err = getServerErrorFromUnknown(e);
+    this.printNodeMailerError(err);
+    console.error("sendEmail (resend-https)", `from: ...`, `subject: ...`, err);
+  }
+  return new Promise((resolve) => resolve("send mail async"));
+}
+
+// Fallback nodemailer legacy intact ci-dessous
+const { createTransport } = await import("nodemailer");
+...
+```
+
+**Activation** :
+- AUTO en prod (RESEND_API_KEY déjà set)
+- ROLLBACK runtime : `RESEND_USE_HTTPS=false` env Vercel → fallback nodemailer
+  legacy sans redeploy
+
+**Test local empirique 2026-05-06** :
+
+```bash
+cd apps/cal && set -a && source .env && set +a
+yarn dlx tsx .local-scripts/test-smtp-fix.ts
+# → Resend HTTPS response: { id: '38f4f6c4-5e4f-4aaf-b892-3e82cc9f19c7' }
+# → SUCCESS — Resend email id: 38f4f6c4-5e4f-4aaf-b892-3e82cc9f19c7
+```
+
+**Sync upstream Cal.com** :
+
+Patch local-only, pas commit upstream. Risque conflit `subtree pull`
+uniquement sur `_base-email.ts` si upstream réécrit `sendEmail()`. Le
+`sendViaResendHttps.ts` est un fichier nouveau sans conflit possible.
+
+**Procédure resync** documentée dans `apps/cal/.local-scripts/SMTP-FIX.md`
+(gitignored).
+
+**Moyen terme** : ouvrir issue/PR upstream Cal.com proposant le support
+HTTPS providers natif (Resend / Mailgun / SendGrid SDK) — drop le patch
+local quand merged.
+
+> **Pourquoi pas modifier `serverConfig.ts` directement** : le bug est dans
+> nodemailer.sendMail (TLS/auth/timeout sur port 465 Lambda), pas dans la
+> config transport. Modifier `serverConfig.ts` (ex: ajouter `tls: { rejectUnauthorized: false }`)
+> serait un pattern de tâtonnement aveugle vu la troncation Vercel logs.
+> Le HTTPS direct est diagnostiqué + testé empiriquement.
+
 ---
 
 ## Annexes
