@@ -68,6 +68,20 @@ export function shouldUseResendHttps(): boolean {
   return true;
 }
 
+/**
+ * Cal.diy sometimes wraps `from` twice when EMAIL_FROM is already `Name <email>`,
+ * producing `Outer <Inner <email>>`. Resend rejects this with 422. Normalize to
+ * `Name <email>` by extracting the deepest email address.
+ */
+export function normalizeFromAddress(from: string): string {
+  const doubleWrap = from.match(/^\s*(.+?)\s*<\s*.+?\s*<\s*([^<>\s]+@[^<>\s]+)\s*>\s*>\s*$/);
+  if (doubleWrap) {
+    const [, outerName, email] = doubleWrap;
+    return `${outerName.trim()} <${email}>`;
+  }
+  return from;
+}
+
 export async function sendViaResendHttps(
   payload: Record<string, unknown>
 ): Promise<{ id?: string }> {
@@ -76,8 +90,9 @@ export async function sendViaResendHttps(
     throw new Error("RESEND_API_KEY is not configured");
   }
 
-  const from = typeof payload.from === "string" ? payload.from : process.env.EMAIL_FROM;
-  if (!from) throw new Error("Resend HTTPS: missing 'from' (and EMAIL_FROM)");
+  const fromRaw = typeof payload.from === "string" ? payload.from : process.env.EMAIL_FROM;
+  if (!fromRaw) throw new Error("Resend HTTPS: missing 'from' (and EMAIL_FROM)");
+  const from = normalizeFromAddress(fromRaw);
 
   const to = toArray(payload.to);
   if (!to || to.length === 0) throw new Error("Resend HTTPS: missing 'to'");
