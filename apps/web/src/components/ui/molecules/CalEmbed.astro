@@ -1,120 +1,58 @@
 ---
-// Molécule · CalEmbed · Cal.com booking widget
+// Molécule · CalEmbed · Cal.com booking widget (SaaS via @calcom/embed-react)
 //
-// 3 layouts officiels Cal.com :
-//  - inline       · iframe pleine largeur intégrée dans la page
-//  - floating-popup · bouton flottant ancré (bottom-right)
-//  - element-click  · transforme un lien existant en trigger popup
+// Bascule 2026-05-08 :
+//   AVANT · script vanilla pointant sur cal.waimia.com (self-host)
+//   APRÈS · island React via @calcom/embed-react, calendrier cal.com SaaS
+//
+// Calendrier source : https://cal.com/simonberos/audit
+// Documentation : https://cal.com/docs/embed
 //
 // Réutilisable sur :
 //  - /contact (inline) · plein widget de booking
-//  - /offres/conseil et hubs (floating-popup) · CTA permanent
-//  - liens textuels « Prendre RDV » (element-click) · partout
+//  - toute page nécessitant un embed direct Cal.com
 //
-// Documentation : https://cal.com/docs/embed
-//
-// Note · Cal.com self-host actif sur cal.waimia.com (slug `simon/audit`).
-// Cf docs/cal-deploy-runbook.md + docs/cal-setup.md pour le setup complet.
+// L'app self-host `apps/cal` (cal.waimia.com) reste déployée pour back-up,
+// mais le site (waimia.com) pointe désormais sur cal.com SaaS pour réduire
+// la dépendance opérationnelle (pas de runtime à maintenir côté Waimia).
+
+import CalEmbedReact from './CalEmbedReact.tsx';
 
 interface Props {
   /** Slug Cal.com (default: env PUBLIC_CAL_USERNAME) */
   username?: string;
   /** Event type slug (default: env PUBLIC_CAL_EVENT_TYPE) */
   eventType?: string;
-  /** Layout · inline (défaut) / floating-popup / element-click */
-  layout?: 'inline' | 'floating-popup' | 'element-click';
-  /** Pour element-click : sélecteur CSS du lien à transformer (ex: '[data-cal]') */
-  trigger?: string;
-  /** Pour floating-popup : label du bouton flottant */
-  buttonText?: string;
+  /** Namespace Cal isolant l'instance (default: env PUBLIC_CAL_NAMESPACE) */
+  namespace?: string;
   /** Theme · auto/light/dark */
   theme?: 'auto' | 'light' | 'dark';
-  /** ID élément container (default 'cal-embed') */
+  /** Layout · seul `inline` est supporté avec @calcom/embed-react ici */
+  layout?: 'inline';
+  /** ID élément container (default 'cal-embed') · conservé pour compat ascendante */
   id?: string;
 }
 
 // `.trim()` défensif : `vercel env add` via `echo 'value' |` stocke parfois
 // la valeur avec un \n trailing qui casse le slug Cal.com (404 en prod).
-// On strip systématiquement les whitespaces — coût zéro, robustesse +1.
-// Defaults ajustés sur le self-host Waimia (cal.waimia.com/simon/audit).
 const {
-  username = (import.meta.env.PUBLIC_CAL_USERNAME ?? 'simon').trim(),
+  username = (import.meta.env.PUBLIC_CAL_USERNAME ?? 'simonberos').trim(),
   eventType = (import.meta.env.PUBLIC_CAL_EVENT_TYPE ?? 'audit').trim(),
-  layout = 'inline',
-  trigger = '[data-cal]',
-  buttonText = 'Réserver un audit',
+  namespace = (import.meta.env.PUBLIC_CAL_NAMESPACE ?? 'audit').trim(),
   theme = 'light',
   id = 'cal-embed',
 } = Astro.props as Props;
 
 const calLink = `${username}/${eventType}`;
 ---
-{layout === 'inline' && (
-  <div id={id} class="cal-inline" style="min-height:600px;width:100%"></div>
-)}
-
-{/* Le script Cal embed officiel · injecté une seule fois par page */}
-<script
-  is:inline
-  define:vars={{ calLink, layout, trigger, buttonText, theme, id }}
->
-  (function (C, A, L) {
-    let p = function (a, ar) { a.q.push(ar); };
-    let d = C.document;
-    C.Cal = C.Cal || function () {
-      let cal = C.Cal;
-      let ar = arguments;
-      if (!cal.loaded) {
-        cal.ns = {};
-        cal.q = cal.q || [];
-        d.head.appendChild(d.createElement('script')).src = A;
-        cal.loaded = true;
-      }
-      if (ar[0] === L) {
-        const api = function () { p(api, arguments); };
-        const namespace = ar[1];
-        api.q = api.q || [];
-        if (typeof namespace === 'string') {
-          cal.ns[namespace] = cal.ns[namespace] || api;
-          p(cal.ns[namespace], ar);
-          p(cal, ['initNamespace', namespace]);
-        } else p(cal, ar);
-        return;
-      }
-      p(cal, ar);
-    };
-  })(window, 'https://cal.waimia.com/embed/embed.js', 'init');
-
-  Cal('init', { origin: 'https://cal.waimia.com' });
-
-  if (layout === 'inline') {
-    Cal('inline', {
-      elementOrSelector: '#' + id,
-      calLink,
-      layout: 'month_view',
-      config: { theme },
-    });
-  } else if (layout === 'floating-popup') {
-    Cal('floatingButton', {
-      calLink,
-      config: { theme },
-      buttonText,
-      buttonColor: '#C94F2E',
-      buttonTextColor: '#F6F1E8',
-    });
-  } else if (layout === 'element-click') {
-    Cal('on', {
-      action: 'linkReady',
-      callback: () => {
-        document.querySelectorAll(trigger).forEach((el) => {
-          el.setAttribute('data-cal-link', calLink);
-          el.setAttribute('data-cal-config', JSON.stringify({ theme }));
-        });
-      },
-    });
-    Cal('ui', { theme, hideEventTypeDetails: false });
-  }
-</script>
+<div id={id} class="cal-inline">
+  <CalEmbedReact
+    client:only="react"
+    namespace={namespace}
+    calLink={calLink}
+    theme={theme}
+  />
+</div>
 
 <style>
   .cal-inline {
@@ -122,5 +60,7 @@ const calLink = `${username}/${eventType}`;
     border-radius: 12px;
     overflow: hidden;
     background: var(--paper);
+    min-height: 600px;
+    width: 100%;
   }
 </style>
