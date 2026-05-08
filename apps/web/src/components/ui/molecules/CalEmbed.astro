@@ -55,12 +55,14 @@ const calLink = `${username}/${eventType}`;
 </div>
 
 <style>
+  /* Intégration éditoriale : pas de cadre wrapper.
+   * Le widget Cal.com fournit son propre conteneur visuel (carte profil + grid).
+   * On laisse l'embed flotter dans le flow `<UtilityTemplate>` — la séparation
+   * hiérarchique vient déjà du `.contact-cal { border-top }` côté page.
+   * `min-height` stabilise le layout pendant l'hydratation `client:only="react"`.
+   */
   .cal-inline {
-    border: 1px solid var(--hairline-strong);
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--paper);
-    min-height: 600px;
     width: 100%;
+    min-height: 600px;
   }
 </style>
