@@ -96,7 +96,22 @@ const { items, heading = 'Questions fréquentes', intro } = Astro.props;
     text-wrap: balance;
   }
 
+  .faq-item {
+    overflow: hidden;
+  }
+
   .faq-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 380ms var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  .faq-item[open] .faq-body {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-body > * {
+    min-height: 0;
     overflow: hidden;
   }
 

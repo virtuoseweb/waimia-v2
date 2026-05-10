@@ -55,6 +55,19 @@ const lang = langFromPath(Astro.url.pathname);
     grid-template-columns: 7fr 5fr 4fr 8fr;
   }
 
+  .editorial-cell {
+    transition: transform 200ms var(--ease, cubic-bezier(0.22, 1, 0.36, 1)), border-color 200ms var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  .editorial-cell:hover {
+    border-color: var(--accent);
+  }
+
+  .editorial-cell:hover .e-num {
+    color: var(--accent);
+    transition: color 200ms var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
   @media (max-width: 900px) {
     .pyramid-asym {
       grid-template-columns: repeat(2, 1fr);

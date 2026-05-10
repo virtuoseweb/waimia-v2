@@ -53,6 +53,34 @@ const lang = langFromPath(Astro.url.pathname);
     max-width:1440px;
   }
 
+  @media (max-width: 767px) {
+    .dept-grid {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: var(--space-4, 16px);
+      padding-bottom: var(--space-4, 16px);
+    }
+
+    .dept-grid > * {
+      flex: 0 0 min(280px, 80vw);
+      scroll-snap-align: start;
+    }
+
+    .dept-grid::-webkit-scrollbar {
+      height: 2px;
+    }
+    .dept-grid::-webkit-scrollbar-track {
+      background: var(--hairline);
+    }
+    .dept-grid::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 1px;
+    }
+  }
+
   .dept-sector {
     display:flex;
     align-items:center;

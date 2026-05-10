@@ -25,6 +25,7 @@ import Cases           from '../components/ui/organisms/Cases.astro';
 import FAQ             from '../components/seo/FAQ.astro';
 import BookSession     from '../components/ui/organisms/BookSession.astro';
 import SigBand         from '../components/ui/organisms/SigBand.astro';
+import FooterMarquee   from '../components/ui/organisms/FooterMarquee.astro';
 
 import { faqPage } from '../lib/seo';
 
@@ -94,6 +95,9 @@ const faqItems = [
 
   {/* SigBand · signature pré-footer */}
   <SigBand />
+
+  {/* FooterMarquee · ruban éditorial animé pré-scrollprogress */}
+  <FooterMarquee />
 
   <ScrollProgress />
   <script>
