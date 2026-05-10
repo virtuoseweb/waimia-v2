@@ -30,7 +30,14 @@
  *   </SolutionsDetailTemplate>
  */
 import Base from '../../layouts/Base.astro';
-
+import Callout from '../editorial/Callout.astro';
+import Timeline from '../editorial/Timeline.astro';
+import KeyMetric from '../editorial/KeyMetric.astro';
+import EditorialTable from '../editorial/EditorialTable.astro';
+import Dingbat from '../editorial/Dingbat.astro';
+import SecteurServicesB2B from '../svg/sumie/SecteurServicesB2B.astro';
+import SecteurIndustrie from '../svg/sumie/SecteurIndustrie.astro';
+import SecteurFinance from '../svg/sumie/SecteurFinance.astro';
 
 interface Props {
   /** SEO meta · title de la page (browser tab) */
@@ -58,6 +65,106 @@ const {
   ctaHref = '/contact',
   ctaLabel = 'Parler à un expert →',
 } = Astro.props;
+
+const painHtml = await Astro.slots.render('pains');
+const painAsideHtml = await Astro.slots.render('pain-aside');
+const workflowsHtml = await Astro.slots.render('workflows');
+const workflowsAsideHtml = await Astro.slots.render('workflows-aside');
+const roiHtml = await Astro.slots.render('roi');
+const stackHtml = await Astro.slots.render('stack');
+const stackAsideHtml = await Astro.slots.render('stack-aside');
+
+const stripHtml = (html: string) =>
+  html
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const extract = (html: string, selectorClass: string) => {
+  const match = html.match(new RegExp(`<[^>]*class=["'][^"']*${selectorClass}[^"']*["'][^>]*>([\\s\\S]*?)<\\/[^>]+>`, 'i'));
+  return match ? stripHtml(match[1] ?? '') : '';
+};
+
+const extractTag = (html: string, tag: string) => {
+  const match = html.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i'));
+  return match ? stripHtml(match[1] ?? '') : '';
+};
+
+const splitCards = (html: string, className: string) =>
+  html
+    .split(new RegExp(`<div class=["'][^"']*${className}[^"']*["'][^>]*>`, 'i'))
+    .slice(1);
+
+const frictionPoints = splitCards(painHtml, 'pain-card')
+  .map((block, index) => {
+    const title = extractTag(block, 'h3');
+    const meta = extract(block, 'pk');
+    const body = extractTag(block, 'p') || meta || title;
+    return {
+      num: extract(block, 'pn') || String(index + 1).padStart(2, '0'),
+      meta,
+      title,
+      body,
+      variant: index === 0 ? 'highlight' : 'default',
+    };
+  })
+  .filter((event) => event.title && event.body);
+
+const proofMetrics = Array.from(
+  roiHtml.matchAll(/<div class=["'](?:roi-cell|[^"']*\broi-cell\b[^"']*)["'][^>]*>[\s\S]*?<div class=["']roi-v["']>([\s\S]*?)<\/div>[\s\S]*?<div class=["']roi-l["']>([\s\S]*?)<\/div>[\s\S]*?<\/div>/g)
+).map((match) => ({
+  value: stripHtml(match[1] ?? ''),
+  label: stripHtml(match[2] ?? ''),
+}));
+
+const fallbackProofMetrics = Array.from(
+  roiHtml.matchAll(/<div class=["']metric-v["']>([\s\S]*?)<\/div>[\s\S]*?<div class=["']metric-l["']>([\s\S]*?)<\/div>/g)
+).map((match) => ({
+  value: stripHtml(match[1] ?? ''),
+  label: stripHtml(match[2] ?? ''),
+}));
+
+const proofMetricRows = proofMetrics.length > 0 ? proofMetrics : fallbackProofMetrics;
+
+const proofMetricPlacements = [
+  { class: 'col-4 start-1', size: 'hero', align: 'left', variant: 'default' },
+  { class: 'col-4 start-6', size: 'hero', align: 'center', variant: 'accent' },
+  { class: 'col-3 start-3', size: 'md', align: 'left', variant: 'default' },
+  { class: 'col-3 start-9', size: 'md', align: 'right', variant: 'default' },
+  { class: 'col-3 start-2', size: 'md', align: 'left', variant: 'default' },
+  { class: 'col-3 start-8', size: 'md', align: 'right', variant: 'default' },
+] as const;
+
+const stackRows = splitCards(stackHtml, 'stack-card')
+  .map((block) => {
+    const category = extract(block, 'stack-k') || extract(block, 'kicker');
+    const tool = extractTag(block, 'h3');
+    const role = extractTag(block, 'p');
+    return [category, tool, role];
+  })
+  .filter((row) => row.every(Boolean));
+
+const defaultToolRows = [
+  ['Modèle raisonnement', 'Claude Sonnet 4.6', 'Scoring leads, séquences et synthèses métier'],
+  ['Modèle volume', 'Claude Haiku 4.5', 'Qualification, tri, extraction et déduplication'],
+  ['CRM', 'HubSpot / Salesforce / Pipedrive', 'Pipeline, tracking et attribution'],
+  ['Email', 'Resend / Postmark', 'Délivrabilité et relances mesurées'],
+  ['Analytics', 'GA4 + Mixpanel', 'Conversion et signaux comportementaux'],
+  ['Orchestration', 'LangGraph open-source', 'Workflows IA durables et transférables'],
+];
+
+const toolRows = stackRows.length > 0 ? stackRows : defaultToolRows;
+
+const signature = `${dept} ${deptLabel} ${title}`.toLowerCase();
+const sectorVisual =
+  signature.includes('services b2b') || signature.includes('cabinet') || signature.includes('conseil')
+    ? 'services-b2b'
+    : signature.includes('industrie')
+      ? 'industrie'
+      : signature.includes('finance') || signature.includes('compta') || signature.includes('comptabilité')
+        ? 'finance'
+        : '';
 ---
 <Base {title} {description}>
     {/* ────────── 1. HERO DEPARTMENT ────────── */}
@@ -67,75 +174,121 @@ const {
         <rect x="1040" y="20" width="280" height="280" fill="none" stroke="var(--accent)" stroke-width=".4" opacity=".25" transform="rotate(15 1180 160)"/>
         <line x1="0" y1="420" x2="1440" y2="300" stroke="currentColor" stroke-width=".4" opacity=".12"/>
       </svg>
-      <div class="wrap">
-        <nav class="sol-hero-bc" aria-label="Fil d'Ariane">
-          <a href="/solutions">Solutions</a>
-          <span aria-hidden="true">/</span>
-          <span>{deptLabel}</span>
-        </nav>
-        <div class="sol-hero-dept">{dept}</div>
-        <h1 class="sol-hero-title"><slot name="title" /></h1>
-        <div class="sol-hero-sub">
-          <p class="sol-hero-lead"><slot name="lead" /></p>
-          <div class="sol-hero-actions">
-            <a class="sol-hero-cta" href={ctaHref}>{ctaLabel}</a>
-            {meta && <div class="sol-hero-meta">{meta}</div>}
+      <div class="wrap g12 g12--full">
+        <div class="sol-hero-copy col-7 start-1">
+          <nav class="sol-hero-bc" aria-label="Fil d'Ariane">
+            <a href="/solutions">Solutions</a>
+            <span aria-hidden="true">/</span>
+            <span>{deptLabel}</span>
+          </nav>
+          <div class="sol-hero-dept">{dept}</div>
+          <h1 class="sol-hero-title reveal"><slot name="title" /></h1>
+          <div class="sol-hero-sub">
+            <p class="sol-hero-lead"><slot name="lead" /></p>
+            <div class="sol-hero-actions">
+              <a class="sol-hero-cta" href={ctaHref}>{ctaLabel}</a>
+              {meta && <div class="sol-hero-meta">{meta}</div>}
+            </div>
           </div>
+          <div class="sol-hero-tags reveal-stagger"><slot name="tags" /></div>
         </div>
-        <div class="sol-hero-tags"><slot name="tags" /></div>
+        {sectorVisual && (
+          <aside class="sol-hero-visual col-4 start-9" aria-hidden="true">
+            {sectorVisual === 'services-b2b' && <SecteurServicesB2B size="lg" />}
+            {sectorVisual === 'industrie' && <SecteurIndustrie size="lg" />}
+            {sectorVisual === 'finance' && <SecteurFinance size="lg" />}
+          </aside>
+        )}
       </div>
     </section>
 
     {/* ────────── 2. PAIN POINTS ────────── */}
-    <section class="sol-sec" data-screen-label="02 Pain Points">
-      <div class="wrap">
-        <div class="sol-sec-hd">
-          <div>
-            <div class="kicker">Pourquoi ça bloque</div>
-            <h2><i>Points</i><br/>de friction</h2>
-          </div>
-          <p class="sol-aside"><slot name="pain-aside">Avant d'automatiser, comprendre où le temps se perd. Trois frictions récurrentes que nous voyons sur le terrain.</slot></p>
+    <section class="sol-sec sol-friction reveal-stagger" data-screen-label="02 Pain Points">
+      <div class="wrap g12 g12--full">
+        <header class="sol-sec-hd section-eyebrow col-prose">
+          <span class="eyebrow">§ Friction</span>
+          <h2><i>Points</i><br/>de friction</h2>
+        </header>
+        <aside class="sol-aside col-aside">
+          <Callout variant="note" size="sm">
+            {painAsideHtml.trim() ? (
+              <Fragment set:html={painAsideHtml} />
+            ) : (
+              <>Avant d'automatiser, comprendre où le temps se perd. Trois frictions récurrentes que nous voyons sur le terrain.</>
+            )}
+          </Callout>
+        </aside>
+        <div class="sol-pain-grid col-prose">
+          {frictionPoints.length > 0 ? (
+            <Timeline events={frictionPoints} numbered={true} />
+          ) : (
+            <Fragment set:html={painHtml} />
+          )}
         </div>
-        <div class="sol-pain-grid"><slot name="pains" /></div>
       </div>
     </section>
 
     {/* ────────── 3. WORKFLOWS TABLE ────────── */}
-    <section class="sol-sec sol-sec-paper" data-screen-label="03 Workflows">
-      <div class="wrap">
-        <div class="sol-sec-hd">
-          <div>
-            <div class="kicker">Workflows déployés</div>
-            <h2><i>Ce qu'on</i><br/>automatise</h2>
-          </div>
-          <p class="sol-aside"><slot name="workflows-aside">Chaque workflow est nommé, mesuré, attribué à un modèle Claude précis. Pas de boîte noire.</slot></p>
-        </div>
-        <div class="sol-workflow-table">
-          <div class="sol-workflow-head">
+    <section class="sol-sec sol-sec-paper sol-workflows reveal-stagger" data-screen-label="03 Workflows">
+      <div class="wrap g12 g12--full">
+        <header class="sol-sec-hd section-eyebrow col-prose">
+          <span class="eyebrow">§ Workflows</span>
+          <h2><i>Ce qu'on</i><br/>automatise</h2>
+        </header>
+        <aside class="sol-aside col-aside">
+          <Callout variant="info" size="sm">
+            {workflowsAsideHtml.trim() ? (
+              <Fragment set:html={workflowsAsideHtml} />
+            ) : (
+              <>Chaque workflow est nommé, mesuré, attribué à un modèle précis. Pas de boîte noire.</>
+            )}
+          </Callout>
+        </aside>
+        <div class="sol-workflow-table col-12">
+          <div class="sol-workflow-head reveal-stagger">
             <div class="sol-wf-col-n">№</div>
             <div class="sol-wf-col-name">Workflow</div>
             <div class="sol-wf-col-model">Modèle</div>
             <div class="sol-wf-col-gain">Gain</div>
             <div class="sol-wf-col-how">Comment</div>
           </div>
-          <div class="sol-workflow-body"><slot name="workflows" /></div>
+          <div class="sol-workflow-body reveal-stagger"><Fragment set:html={workflowsHtml} /></div>
         </div>
       </div>
     </section>
 
     {/* ────────── 4. ROI BAND DARK ────────── */}
-    <section class="sol-sec sol-sec-dark sol-roi-band" data-screen-label="04 ROI Band">
-      <div class="wrap">
-        <div class="sol-roi-hd">
-          <div class="kicker">ROI mesuré</div>
+    <section class="sol-sec sol-sec-dark sol-proof reveal-stagger" data-screen-label="04 ROI Band">
+      <div class="wrap g12 g12--full">
+        <header class="sol-roi-hd section-eyebrow col-12">
+          <span class="eyebrow">§ Preuve macro</span>
           <h2><i>Preuve</i> macro</h2>
+        </header>
+        <div class="sol-roi-grid col-12 g12">
+          {proofMetricRows.length > 0 ? (
+            proofMetricRows.map((metric, index) => {
+              const placement = proofMetricPlacements[index % proofMetricPlacements.length];
+              return (
+                <div class={placement.class}>
+                  <KeyMetric
+                    value={metric.value}
+                    label={metric.label}
+                    size={placement.size}
+                    align={placement.align}
+                    variant={placement.variant}
+                  />
+                </div>
+              );
+            })
+          ) : (
+            <Fragment set:html={roiHtml} />
+          )}
         </div>
-        <div class="sol-roi-grid"><slot name="roi" /></div>
       </div>
     </section>
 
     {/* ────────── 5. CASE STUDY SPLIT ────────── */}
-    <section class="sol-case" data-screen-label="05 Case Study">
+    <section class="sol-case reveal-stagger" data-screen-label="05 Case Study">
       <div class="sol-case-grid">
         <div class="sol-case-dark">
           <div class="wrap-inner">
@@ -155,23 +308,37 @@ const {
     </section>
 
     {/* ────────── 6. DEPARTMENT STACK ────────── */}
-    <section class="sol-sec sol-sec-paper" data-screen-label="06 Stack">
-      <div class="wrap">
-        <div class="sol-sec-hd">
-          <div>
-            <div class="kicker">Stack technique</div>
-            <h2><i>Outils</i><br/>déployés</h2>
-          </div>
-          <p class="sol-aside"><slot name="stack-aside">Le triptyque Anthropic primary + intégrations métier secondary + open source pour l'orchestration.</slot></p>
+    <section class="sol-sec sol-sec-paper sol-tools reveal" data-screen-label="06 Stack">
+      <div class="wrap g12 g12--full">
+        <header class="sol-sec-hd section-eyebrow col-prose">
+          <span class="eyebrow">§ Stack outils</span>
+          <h2><i>Outils</i><br/>déployés</h2>
+        </header>
+        <aside class="sol-aside col-aside">
+          <Callout variant="note" size="sm">
+            {stackAsideHtml.trim() ? (
+              <Fragment set:html={stackAsideHtml} />
+            ) : (
+              <>Le triptyque Anthropic primary + intégrations métier secondary + open source pour l'orchestration.</>
+            )}
+          </Callout>
+        </aside>
+        <div class="sol-stack-grid col-prose">
+          <EditorialTable
+            caption={`Stack typique · ${deptLabel}`}
+            columns={['Catégorie', 'Outil', 'Rôle']}
+            rows={toolRows}
+            variant="editorial"
+          />
         </div>
-        <div class="sol-stack-grid"><slot name="stack" /></div>
       </div>
     </section>
 
     {/* ────────── 7. CTA DEPT-AUGMENTED DARK ────────── */}
-    <section class="sol-sec sol-sec-dark" data-screen-label="07 CTA">
+    <section class="sol-sec sol-sec-dark sol-cta reveal" data-screen-label="07 CTA">
       <div class="wrap wrap-tight">
         <div class="sol-cta-final">
+          <Dingbat variant="asterism" size="sm" />
           <h2><i><slot name="cta-title">Votre équipe,<br/>augmentée.</slot></i></h2>
           <div class="sol-cta-body">
             <p><slot name="cta-body">Cadrage en 45 minutes. Nous analysons votre périmètre et proposons les 3 workflows à fort ROI — sans engagement.</slot></p>
@@ -193,9 +360,27 @@ const {
     overflow: hidden;
     color: var(--ink);
   }
+  .start-9 { grid-column-start: 9; }
+  .start-10 { grid-column-start: 10; }
   .sol-hero-geo {
     position: absolute; inset: 0; width: 100%; height: 100%;
     pointer-events: none;
+  }
+  .sol-hero-copy,
+  .sol-hero-visual {
+    position: relative;
+    z-index: 1;
+  }
+  .sol-hero-visual {
+    align-self: center;
+    opacity: 0.85;
+    color: var(--ink);
+    mix-blend-mode: multiply;
+  }
+  .sol-hero-visual :global(svg) {
+    width: min(100%, 480px);
+    height: auto;
+    margin-left: auto;
   }
   .sol-hero-bc {
     font-family: var(--font-mono);
@@ -249,7 +434,7 @@ const {
     padding: 14px 24px;
     background: var(--ink);
     color: var(--paper);
-    border-radius: 999px;
+    border-radius: 2px;
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
@@ -278,8 +463,8 @@ const {
     color: var(--ink);
     padding: 8px 14px;
     background: rgba(0,0,0,0.04);
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 999px;
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
     transition: border-color 220ms var(--ease), color 220ms var(--ease);
   }
   .sol-hero-tags :global(.sol-tag:hover) {
@@ -289,15 +474,28 @@ const {
 
   /* ───── Sec common ───── */
   .sol-sec { padding: clamp(72px, 8vw, 120px) 0; position: relative; }
-  .sol-sec-paper { background: var(--paper-2, #EFEBE2); }
+  .sol-friction { margin-top: var(--section-base); }
+  .sol-workflows { margin-top: var(--section-base); }
+  .sol-proof { margin-top: var(--section-loose); }
+  .sol-tools { margin-top: var(--section-base); }
+  .sol-cta { margin-top: var(--section-grand); }
+  .sol-sec-paper {
+    background: var(--paper-2, #EFEBE2);
+    border-block: 1px solid var(--hairline);
+  }
   .sol-sec-dark { background: var(--ink); color: var(--paper); }
   .sol-sec-dark :global(.kicker) { color: var(--accent); }
   .sol-sec-hd {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(24px, 4vw, 80px);
     margin-bottom: clamp(40px, 5vw, 64px);
-    align-items: end;
+  }
+  .section-eyebrow .eyebrow {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
   }
   .sol-sec-hd h2 {
     font-family: var(--font-display);
@@ -317,16 +515,17 @@ const {
     max-width: 480px;
     margin: 0;
   }
+  .sol-aside :global(.callout) {
+    margin: 0;
+  }
 
   /* ───── Pain Points ───── */
   .sol-pain-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: clamp(24px, 3vw, 48px);
+    display: block;
   }
   .sol-pain-grid :global(.pain-card) {
     padding-top: 32px;
-    border-top: 1px solid rgba(0,0,0,0.12);
+    border-top: 1px solid var(--hairline);
   }
   .sol-pain-grid :global(.pn) {
     font-family: var(--font-display);
@@ -360,26 +559,34 @@ const {
 
   /* ───── Workflows Table (BRIQUE SIGNATURE) ───── */
   .sol-workflow-table {
-    border-top: 1px solid rgba(0,0,0,0.12);
+    border-top: 1px solid var(--hairline);
   }
   .sol-workflow-head {
     display: grid;
     grid-template-columns: 60px 2fr 1.2fr 1fr 2.4fr;
     gap: 24px;
     padding: 16px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.12);
+    border-bottom: 1px solid var(--hairline);
     font-family: var(--font-mono);
     font-size: 10.5px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
   }
+  .sol-workflow-body {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--gut);
+    row-gap: var(--space-5);
+  }
   .sol-workflow-body :global(.wf-row) {
+    grid-column: 1 / -1;
     display: grid;
     grid-template-columns: 60px 2fr 1.2fr 1fr 2.4fr;
-    gap: 24px;
+    column-gap: 24px;
+    row-gap: var(--space-5);
     padding: 28px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.08);
+    border-bottom: 1px solid var(--hairline);
     align-items: start;
     transition: background 220ms var(--ease);
   }
@@ -430,6 +637,7 @@ const {
 
   /* ───── Prose MDX rich body (slot workflows avec contenu narrative) ───── */
   .sol-workflow-body :global(h2) {
+    grid-column: 2 / span 7;
     font-family: var(--font-display);
     font-size: clamp(28px, 3vw, 40px);
     line-height: 1.1;
@@ -440,6 +648,7 @@ const {
     max-width: 880px;
   }
   .sol-workflow-body :global(h3):not(.wf-name h3) {
+    grid-column: 2 / span 7;
     font-family: var(--font-display);
     font-size: clamp(20px, 1.8vw, 24px);
     line-height: 1.2;
@@ -447,6 +656,7 @@ const {
     font-weight: 400;
   }
   .sol-workflow-body :global(p):not(.wf-how p) {
+    grid-column: 2 / span 7;
     font-family: var(--font-display);
     font-size: clamp(16px, 1.4vw, 18px);
     line-height: 1.65;
@@ -456,6 +666,7 @@ const {
   }
   .sol-workflow-body :global(ul),
   .sol-workflow-body :global(ol) {
+    grid-column: 2 / span 7;
     font-family: var(--font-display);
     font-size: clamp(16px, 1.4vw, 18px);
     line-height: 1.65;
@@ -475,6 +686,7 @@ const {
     font-style: italic;
   }
   .sol-workflow-body :global(blockquote) {
+    grid-column: 2 / span 7;
     border-left: 3px solid var(--accent);
     padding: 16px 0 16px 24px;
     margin: 32px 0;
@@ -510,11 +722,11 @@ const {
     font-size: 14px;
     background: rgba(0, 0, 0, 0.04);
     padding: 2px 6px;
-    border-radius: 4px;
+    border-radius: 2px;
   }
 
   /* ───── ROI Band Dark (BRIQUE SIGNATURE) ───── */
-  .sol-roi-band { padding: clamp(80px, 9vw, 128px) 0; }
+  .sol-proof { padding: clamp(80px, 9vw, 128px) 0; }
   .sol-roi-hd { margin-bottom: clamp(40px, 5vw, 64px); }
   .sol-roi-hd .kicker { color: var(--accent); }
   .sol-roi-hd h2 {
@@ -528,13 +740,20 @@ const {
   }
   .sol-roi-hd h2 :global(i) { color: var(--accent); font-style: italic; }
   .sol-roi-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: clamp(24px, 3vw, 48px);
+  }
+  .sol-roi-grid :global(.key-metric-value) {
+    color: var(--paper);
+  }
+  .sol-roi-grid :global(.key-metric-accent .key-metric-value) {
+    color: var(--accent);
+  }
+  .sol-roi-grid :global(.key-metric-label) {
+    color: rgba(246,241,232,0.7);
   }
   .sol-roi-grid :global(.roi-cell) {
     padding-top: 32px;
-    border-top: 1px solid rgba(246,241,232,0.18);
+    border-top: 1px solid var(--hairline-dark);
   }
   .sol-roi-grid :global(.roi-v) {
     font-family: var(--font-display);
@@ -593,7 +812,7 @@ const {
     padding: 12px 22px;
     background: var(--accent);
     color: var(--paper);
-    border-radius: 999px;
+    border-radius: 2px;
     font-size: 13.5px;
     font-weight: 500;
     text-decoration: none;
@@ -614,9 +833,9 @@ const {
     gap: 24px;
     align-items: baseline;
     padding: 22px 0;
-    border-top: 1px solid rgba(0,0,0,0.12);
+    border-top: 1px solid var(--hairline);
   }
-  .sol-case-results :global(.res-row:last-child) { border-bottom: 1px solid rgba(0,0,0,0.12); }
+  .sol-case-results :global(.res-row:last-child) { border-bottom: 1px solid var(--hairline); }
   .sol-case-results :global(.res-v) {
     font-family: var(--font-display);
     font-size: clamp(28px, 3vw, 40px);
@@ -636,14 +855,12 @@ const {
 
   /* ───── Department Stack ───── */
   .sol-stack-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(20px, 2.5vw, 32px);
+    display: block;
   }
   .sol-stack-grid :global(.stack-card) {
     padding: 28px;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 12px;
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
     background: var(--paper);
     transition: border-color 220ms var(--ease), transform 220ms var(--ease);
     display: flex; flex-direction: column;
@@ -677,7 +894,7 @@ const {
     letter-spacing: 0.1em;
     text-transform: uppercase;
     padding: 6px 10px;
-    border-radius: 4px;
+    border-radius: 2px;
     display: inline-block;
     align-self: flex-start;
   }
@@ -692,7 +909,7 @@ const {
   .sol-stack-grid :global(.stack-pill.open) {
     color: var(--muted);
     background: transparent;
-    border: 1px solid rgba(0,0,0,0.15);
+    border: 1px solid var(--hairline);
   }
 
   /* ───── CTA final dark ───── */
@@ -723,7 +940,7 @@ const {
     padding: 14px 28px;
     background: var(--accent);
     color: var(--paper);
-    border-radius: 999px;
+    border-radius: 2px;
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
@@ -737,7 +954,7 @@ const {
     background: transparent;
     color: var(--paper);
     border: 1px solid rgba(246,241,232,0.3);
-    border-radius: 999px;
+    border-radius: 2px;
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
