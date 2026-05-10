@@ -25,21 +25,21 @@ const email = lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr';
 
     <h2 id="book-h2" class="book-h2">
       {lang === 'fr' ? (
-        <>Prêt à <i>activer</i><br />votre système IA&nbsp;?</>
+        <>Stop le <i>théâtre</i>.<br />Câbler.</>
       ) : (
-        <>Book a <i>working session</i>.<br />Not a pitch.</>
+        <>Stop the <i>theatre</i>.<br />Wire it.</>
       )}
     </h2>
 
     <p class="book-lede">
       {lang === 'fr'
-        ? "Cadrage en 45 minutes. On audite votre contexte et on revient avec un plan d'action concret — sans engagement."
-        : "45 minutes. We bring one diagnosed problem back, or we don't follow up. Either is fine."}
+        ? "45 minutes. On regarde. On audite. On chiffre. Si on n'a rien à vous proposer, on le dit. On ne relance pas."
+        : "45 minutes. We look. We audit. We price. If we have nothing to offer, we say so. No follow-up."}
     </p>
 
     <div class="book-ctas">
       <Button href={ctaHref} variant="primary" size="lg" mag={0.22}>
-        {lang === 'fr' ? 'Réserver mon diagnostic →' : 'Book 45 min →'}
+        {lang === 'fr' ? 'Câbler →' : 'Wire it →'}
       </Button>
       <Button href={`mailto:${email}`} variant="ghost" size="lg">
         {email}

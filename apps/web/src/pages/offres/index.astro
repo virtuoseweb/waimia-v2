@@ -11,8 +11,8 @@ const offresHero = {
   num: '01',
   kicker: 'OFFRE PHARE · 5 à 20 k€',
   title_fr: 'Growth System IA',
-  sub_fr: "Système d'acquisition et de conversion automatisé",
-  lead_fr: "Site, CRM, relances, dashboards — tout connecté. Le wedge d'entrée qui transforme votre acquisition en machine.",
+  sub_fr: "Pas un site. Pas un CRM. Pas un dashboard. Un système.",
+  lead_fr: "Site, CRM, relances, pilotage — connectés et mesurés. Le mardi on câble. Le vendredi on mesure.",
   href: '/offres/growth-system-ia',
 };
 
@@ -30,11 +30,11 @@ const offresPiliers = [
 const offresNiveaux = [
   { kicker: 'STARTER · 1 à 5 k€',
     title_fr: 'Activation IA · 1 semaine',
-    lead_fr: "Audit + formation. La porte d'entrée pour démarrer sans risque.",
+    lead_fr: "Cinq jours. Un workflow en production. Pas un POC, pas une démo.",
     href: '/offres/activation-ia' },
   { kicker: 'ETI · 25 à 150 k€+',
     title_fr: 'Infrastructure IA · ETI',
-    lead_fr: "Multi-équipes, multi-sites, gouvernance. Quand l'IA dépasse une équipe.",
+    lead_fr: "Quand les pilotes IA s'éparpillent. Une infra commune, une gouvernance, une équipe interne formée.",
     href: '/offres/infrastructure-ia' },
 ];
 ---
@@ -47,7 +47,7 @@ const offresNiveaux = [
       <Kicker class="hub-kicker">§ Offres · 3 piliers + 2 niveaux</Kicker>
       <h1 class="hub-h1">Trois <i>systèmes</i>. Deux <i>niveaux</i>. Une <i>méthode</i>.</h1>
       <p class="hub-lede">
-        Trois systèmes pour adresser les leviers business — un format starter pour activer rapidement, un format ETI quand l'ambition est plus forte.
+        Pas un module. Pas un add-on. Trois systèmes complets, deux niveaux d'engagement. Le reste, ce sont des slides.
       </p>
     </div>
   </section>
@@ -59,13 +59,13 @@ const offresNiveaux = [
       <h2 class="hub-hero-title">{offresHero.title_fr}</h2>
       <p class="hub-hero-sub">{offresHero.sub_fr}</p>
       <p class="hub-hero-lead">{offresHero.lead_fr}</p>
-      <span class="hub-hero-cta">Découvrir le système →</span>
+      <span class="hub-hero-cta">Activer →</span>
     </a>
   </section>
 
   <section class="hub-piliers wrap-wide">
     <Kicker>§ Les autres piliers</Kicker>
-    <h3 class="hub-h3">Pilotage et productivité, complémentaires.</h3>
+    <h3 class="hub-h3">Voir clair. Travailler moins vite — et mieux.</h3>
     <div class="hub-pilier-grid">
       {offresPiliers.map((p) => (
         <a href={p.href} class="hub-pilier-card">

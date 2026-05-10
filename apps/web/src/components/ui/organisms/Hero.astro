@@ -34,15 +34,15 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
     <h1 id="hero-heading" class="hero-headline">
       {lang === 'fr' ? (
         <>
-          L'<i class="acc">IA</i>, <i>connectée</i><br />
-          à vos outils,<br />
-          à vos opérations.
+          L'<i class="acc">IA</i><br />
+          <i>dans</i> Excel, HubSpot,<br />
+          Outlook.
         </>
       ) : (
         <>
-          <i class="acc">AI</i>, <i>connected</i><br />
-          to your tools,<br />
-          to your operations.
+          <i class="acc">AI</i><br />
+          <i>inside</i> Excel, HubSpot,<br />
+          Outlook.
         </>
       )}
     </h1>
@@ -53,14 +53,14 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
         <Kicker class="hero-fig">§ 01 · {lang === 'fr' ? 'Promesse' : 'Promise'}</Kicker>
         <p class="hero-lede">
           {lang === 'fr' ? (
-            <>Nous aidons les PME à <i>piloter</i> leur acquisition et leurs opérations grâce à des systèmes IA connectés à leurs données.</>
+            <>Pas des démos. Pas des slides. Des <i>systèmes</i> câblés dans vos outils, mesurés dès la première semaine.</>
           ) : (
-            <>We help SMBs <i>manage</i> acquisition and operations with AI systems connected to their data.</>
+            <>No demos. No decks. <i>Systems</i> wired into your tools, measured from week one.</>
           )}
         </p>
         <div class="hero-ctas">
           <Button href={ctaHref} variant="primary" size="lg" mag={0.18}>
-            {lang === 'fr' ? 'Réserver mon diagnostic →' : 'Book a diagnostic →'}
+            {lang === 'fr' ? 'Activer →' : 'Activate →'}
           </Button>
           <Button href={offerHref} variant="ghost" size="lg">
             {lang === 'fr' ? 'Voir Growth System IA' : 'See AI Growth System'}
@@ -72,8 +72,8 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
         <Kicker class="hero-fig">§ 02 · {lang === 'fr' ? 'En clair' : 'In short'}</Kicker>
         <p class="hero-context">
           {lang === 'fr'
-            ? "Acquisition. CRM. Relances. Productivité. Des workflows qui tournent, des données lisibles, des heures récupérées chaque semaine."
-            : 'Acquisition. CRM. Follow-ups. Productivity. Workflows that run, readable data, hours reclaimed every week.'}
+            ? "Acquisition. CRM. Relances. Productivité. Le mardi on câble. Le vendredi on mesure."
+            : 'Acquisition. CRM. Follow-ups. Productivity. Tuesday we wire. Friday we measure.'}
         </p>
       </div>
     </div>
