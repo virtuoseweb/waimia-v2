@@ -50,4 +50,14 @@ import OffresDetailTemplate from '../../components/templates/OffresDetailTemplat
   </Fragment>
   <Fragment slot="cta-title"><i>Industrialiser</i><br/>l'IA à l'échelle.</Fragment>
   <Fragment slot="cta-body">90 minutes avec votre direction technique et opérationnelle. On audite vos pilots, on propose une architecture. Si on n'a rien à proposer, on le dit. On ne vend pas d'infra pour vendre de l'infra.</Fragment>
+  <Fragment slot="body-end">
+    <script>
+      import { initOffresRich } from '../../lib/animations/signature/offres-rich';
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initOffresRich);
+      } else {
+        initOffresRich();
+      }
+    </script>
+  </Fragment>
 </OffresDetailTemplate>

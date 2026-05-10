@@ -118,11 +118,11 @@ const proofMetrics = Array.from(
 }));
 
 const deliverableClasses = [
-  'col-7 start-1 deliverable deliverable-large',
-  'col-4 start-9 deliverable deliverable-aside',
-  'col-5 start-2 deliverable',
-  'col-7 start-6 deliverable deliverable-wide',
-  'col-4 start-1 deliverable',
+  'col-6 start-1 deliverable',
+  'col-6 start-7 deliverable',
+  'col-6 start-1 deliverable',
+  'col-6 start-7 deliverable',
+  'col-6 start-1 deliverable',
   'col-6 start-7 deliverable',
 ];
 
@@ -331,7 +331,7 @@ const growthToolRows = [
   /* ───── Hero ───── */
   .off-hero {
     position: relative;
-    padding: clamp(80px, 10vw, 140px) 0 clamp(64px, 8vw, 120px);
+    padding: clamp(72px, 8vw, 112px) 0 clamp(48px, 5.5vw, 88px);
     overflow: hidden;
     color: var(--ink);
   }
@@ -417,17 +417,17 @@ const growthToolRows = [
   }
 
   /* ───── Sec common ───── */
-  .off-sec { padding: var(--section-base) 0; position: relative; }
+  .off-sec { padding: clamp(48px, 5.5vw, 76px) 0; position: relative; }
   .off-sec + .off-sec,
   .off-related + .off-sec { margin-block-start: 0; }
   .off-method,
-  .off-proof { padding-block: var(--section-loose); }
+  .off-proof { padding-block: clamp(56px, 6.5vw, 88px); }
   .off-sec-dark { margin-block-start: var(--section-grand); }
   .off-sec-paper { background: var(--paper-2, #EFEBE2); border-block: 1px solid var(--hairline); }
   .off-sec-dark { background: var(--ink); color: var(--paper); }
   .off-sec-dark :global(.kicker) { color: var(--accent); }
   .off-sec-hd {
-    margin-bottom: clamp(32px, 4vw, 56px);
+    margin-bottom: clamp(20px, 2.5vw, 36px);
   }
   .off-sec-hd h2 {
     font-family: var(--font-display);
@@ -521,7 +521,7 @@ const growthToolRows = [
   .off-steps :global(.timeline-vertical) { margin: 0; }
   .off-steps :global(.step) {
     counter-increment: step;
-    padding-top: 32px;
+    padding-top: 18px;
     border-top: 1px solid currentColor;
     border-color: rgba(0,0,0,0.12);
   }
@@ -552,7 +552,7 @@ const growthToolRows = [
 
   /* ───── Deliverables ───── */
   .off-del-grid {
-    margin-top: var(--space-8);
+    margin-top: var(--space-4);
   }
   .deliverable,
   .off-del-grid :global(.del-card) {
@@ -628,7 +628,7 @@ const growthToolRows = [
   }
   .off-proof-div { width: 1px; background: rgba(0,0,0,0.1); }
   .off-proof-metrics {
-    row-gap: var(--space-5);
+    row-gap: var(--space-3);
     align-items: end;
     margin-top: 0;
   }
@@ -835,5 +835,43 @@ const growthToolRows = [
   @media (min-width: 768px) and (max-width: 1100px) {
     .start-9,
     .start-10 { grid-column-start: auto; }
+  }
+
+  /* ── Text mask reveal hero ── */
+  @keyframes mask-reveal {
+    from { clip-path: inset(0 100% 0 0); }
+    to   { clip-path: inset(0 0% 0 0); }
+  }
+  .off-hero-title {
+    animation: mask-reveal 1.1s cubic-bezier(0.16, 1, 0.30, 1) 0.2s both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .off-hero-title { animation: none; }
+  }
+
+  /* ── Offres method horizontal scroll wrap ── */
+  .off-method-scroll-outer {
+    overflow: hidden;
+    position: relative;
+  }
+  .off-method-scroll-inner {
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    will-change: transform;
+  }
+  .off-method-scroll-inner .timeline-item {
+    width: clamp(260px, 28vw, 380px);
+    flex-shrink: 0;
+    padding-right: clamp(32px, 4vw, 64px);
+  }
+  .off-method-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: var(--accent);
+    width: 0%;
+    border-radius: 0;
   }
 </style>

@@ -172,4 +172,14 @@ const schemas = [serviceSchema, faqSchema, breadcrumb].filter(Boolean);
       </div>
     </section>
   </Fragment>
+  <Fragment slot="body-end">
+    <script>
+      import { initOffresRich } from '../../lib/animations/signature/offres-rich';
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initOffresRich);
+      } else {
+        initOffresRich();
+      }
+    </script>
+  </Fragment>
 </OffresDetailTemplate>
