@@ -15,6 +15,7 @@ import Base from '../../layouts/Base.astro';
 import Bi from '../ui/atoms/Bi.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
 import RelatedCards from '../ui/molecules/RelatedCards.astro';
+import AuthorCard from '../ui/molecules/AuthorCard.astro';
 import CtaBand from '../ui/organisms/CtaBand.astro';
 
 interface RelatedCard {
@@ -38,8 +39,12 @@ interface Props {
   readingTime?: string;
   /** Related cards (3 articles connexes) */
   relatedCards: RelatedCard[];
+  /** Slug auteur pour AuthorCard dans le footer */
+  authorSlug?: string;
+  /** Sources bibliographiques (depuis frontmatter) */
+  sources?: Array<{ name: string; url: string; type: string }>;
 }
-const { title, description, kicker, date, author, readingTime, relatedCards } = Astro.props as Props;
+const { title, description, kicker, date, author, readingTime, relatedCards, authorSlug, sources } = Astro.props as Props;
 
 // JSON-LD Article schema · GEO/AIO indexable par crawlers LLM
 const articleLd = {
@@ -78,110 +83,360 @@ const articleLd = {
       </div>
     </header>
 
-    {/* BODY (slot rich text) — 1 colonne lisibilité */}
+    {/* BODY */}
     <div class="essay-body">
-      <div class="essay-prose">
-        <slot name="body" />
+      <div class={`essay-layout ${sources && sources.length > 0 ? 'essay-layout--with-aside' : ''}`}>
+        <div class="essay-prose reveal">
+          <slot name="body" />
+        </div>
+        {sources && sources.length > 0 && (
+          <aside class="essay-sources">
+            <span class="essay-sources-label">§ Sources</span>
+            <ul class="essay-sources-list">
+              {sources.map(src => (
+                <li class="essay-source-item">
+                  <a href={src.url} class="essay-source-link" target="_blank" rel="noopener noreferrer">
+                    {src.name}
+                  </a>
+                  <span class="essay-source-type">{src.type}</span>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        )}
       </div>
     </div>
 
-    {/* RELATED */}
-    <section class="essay-related">
-      <div class="wrap-wide">
-        <Kicker class="essay-related-k"><Bi fr="Lectures voisines" en="Related notes" /></Kicker>
-        <RelatedCards cards={relatedCards} />
+    {/* FOOTER 3-COL · Related + Author + CTA */}
+    <footer class="essay-footer reveal">
+      <div class="wrap-wide essay-footer-grid">
+        <div class="essay-footer-related">
+          <Kicker class="essay-related-k"><Bi fr="À lire ensuite" en="Related notes" /></Kicker>
+          <RelatedCards cards={relatedCards} />
+        </div>
+        {authorSlug && (
+          <div class="essay-footer-author">
+            <Kicker>§ Auteur</Kicker>
+            <AuthorCard authorSlug={authorSlug} variant="mini" />
+          </div>
+        )}
+        <div class="essay-footer-cta">
+          <Kicker>§ Contact</Kicker>
+          <p class="essay-cta-text">Une question sur ce sujet&nbsp;?</p>
+          <a href="/contact" class="essay-cta-link">Discutons-en →</a>
+        </div>
       </div>
-    </section>
+    </footer>
   </article>
 
   <CtaBand />
 </Base>
 
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+</script>
+
 <style>
-  .essay-hd { padding: 140px 32px clamp(40px, 6vw, 80px); border-bottom: 1px solid var(--hairline); }
-  :global(.essay-kicker) { display: block; margin-bottom: 24px; }
-  .essay-h1 {
-    font-family: var(--font-display);
-    font-size: clamp(48px, 7vw, 96px);
-    line-height: 0.96;
-    letter-spacing: -0.026em;
-    font-weight: 400;
-    text-wrap: balance;
-    margin: 0;
-    max-width: 1200px;
-  }
-  .essay-h1 :global(i) { font-style: italic; color: var(--accent); }
-  .essay-lede {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(20px, 2.2vw, 28px);
-    line-height: 1.4;
-    color: var(--muted);
-    margin: 24px 0 32px;
-    max-width: 760px;
-    text-wrap: pretty;
-  }
-  .essay-meta {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    text-transform: uppercase;
-  }
+/* ── Hero ─────────────────────────────────────────────── */
+.essay-hd {
+  padding: 140px 32px clamp(40px, 6vw, 80px);
+  border-bottom: 1px solid var(--hairline);
+}
+:global(.essay-kicker) { display: block; margin-bottom: 24px; }
+.essay-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 0.96;
+  letter-spacing: -0.026em;
+  font-weight: 400;
+  text-wrap: balance;
+  margin: 0;
+  max-width: 1200px;
+}
+.essay-h1 :global(i) { font-style: italic; color: var(--accent); }
+.essay-lede {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.4;
+  color: var(--muted);
+  margin: 24px 0 32px;
+  max-width: 760px;
+  text-wrap: pretty;
+}
+.essay-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  text-transform: uppercase;
+}
 
-  .essay-body { padding: clamp(60px, 8vw, 100px) 32px; }
-  /* `.essay-prose` est un wrapper de typographie editor pour le slot HTML rich.
-     C'est le SEUL endroit où on définit ces sélecteurs nestés — utilisé dans
-     1 template uniquement. Pas un cas marginal de variable utility. */
-  .essay-prose {
-    max-width: 720px;
-    margin: 0 auto;
-    font-family: var(--font-display);
-    font-size: 19px;
-    line-height: 1.65;
-    color: var(--ink-2);
-  }
-  .essay-prose :global(h2) {
-    font-size: clamp(32px, 4vw, 48px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    font-weight: 400;
-    margin: clamp(48px, 6vw, 72px) 0 24px;
-    text-wrap: balance;
-  }
-  .essay-prose :global(h2 i) { font-style: italic; color: var(--accent); }
-  .essay-prose :global(h3) {
-    font-size: clamp(22px, 2.4vw, 28px);
-    line-height: 1.2;
-    font-weight: 400;
-    margin: clamp(32px, 4vw, 48px) 0 16px;
-  }
-  .essay-prose :global(p) { margin: 0 0 1.4em; }
-  .essay-prose :global(blockquote) {
-    border-left: 2px solid var(--accent);
-    padding-left: 24px;
-    font-style: italic;
-    color: var(--muted);
-    margin: clamp(28px, 3vw, 40px) 0;
-  }
-  .essay-prose :global(a) {
-    color: var(--accent);
-    border-bottom: 1px solid currentColor;
-  }
-  .essay-prose :global(ul),
-  .essay-prose :global(ol) { margin: 0 0 1.4em 1.5em; }
-  .essay-prose :global(li) { margin-bottom: 0.4em; }
-  .essay-prose :global(code) {
-    font-family: var(--font-mono);
-    font-size: 0.85em;
-    background: var(--paper-2);
-    padding: 2px 8px;
-    border-radius: 4px;
-  }
+/* ── Body layout ──────────────────────────────────────── */
+.essay-body {
+  padding: clamp(60px, 8vw, 100px) 32px;
+}
+.essay-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.essay-layout--with-aside {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: clamp(40px, 5vw, 80px);
+  align-items: start;
+}
 
-  .essay-related { padding: clamp(80px, 10vw, 100px) 32px; border-top: 1px solid var(--hairline); }
-  :global(.essay-related-k) { display: block; margin-bottom: 30px; }
+/* ── Prose ────────────────────────────────────────────── */
+.essay-prose {
+  max-width: 720px;
+  font-family: var(--font-display);
+  font-size: clamp(17px, 1.45vw, 19px);
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+/* Drop cap sur premier paragraphe */
+.essay-prose :global(p:first-of-type::first-letter) {
+  float: left;
+  font-family: var(--font-display);
+  font-size: 5em;
+  line-height: 0.85;
+  margin: 0.05em 0.08em -0.05em 0;
+  color: var(--accent);
+  font-style: italic;
+}
+
+/* Drop cap apres chaque hr = nouveau chapitre */
+.essay-prose :global(hr + p::first-letter) {
+  float: left;
+  font-family: var(--font-display);
+  font-size: 5em;
+  line-height: 0.85;
+  margin: 0.05em 0.08em -0.05em 0;
+  color: var(--accent);
+  font-style: italic;
+}
+
+.essay-prose :global(h2) {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3vw, 40px);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  line-height: 1.15;
+  margin: clamp(48px, 6vw, 72px) 0 24px;
+  color: var(--ink);
+  max-width: 880px;
+  text-wrap: balance;
+}
+.essay-prose :global(h2)::before {
+  content: '§';
+  display: inline-block;
+  margin-right: 0.4em;
+  color: var(--accent);
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 0.6em;
+  vertical-align: 0.2em;
+  letter-spacing: 0;
+}
+.essay-prose :global(h2 i) { font-style: italic; color: var(--accent); }
+.essay-prose :global(h3) {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 1.8vw, 24px);
+  font-weight: 400;
+  margin: clamp(32px, 4vw, 48px) 0 16px;
+  line-height: 1.2;
+}
+.essay-prose :global(p) { margin: 0 0 1.4em; }
+
+.essay-prose :global(blockquote) {
+  border-left: 2px solid var(--accent);
+  padding: 12px 0 12px 24px;
+  margin: clamp(28px, 3vw, 40px) 0;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 1.8vw, 24px);
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--ink-2);
+  max-width: 640px;
+}
+.essay-prose :global(blockquote p:last-child) {
+  margin: 12px 0 0;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-style: normal;
+}
+
+.essay-prose :global(a) {
+  color: var(--ink);
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  text-decoration: none;
+  padding-bottom: 1px;
+  transition: background-size 120ms var(--ease);
+}
+.essay-prose :global(a:hover) {
+  background-size: 100% 2px;
+}
+
+.essay-prose :global(code) {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--paper-2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--hairline);
+}
+
+.essay-prose :global(ul),
+.essay-prose :global(ol) {
+  margin: 0 0 1.4em 1.5em;
+  max-width: 640px;
+}
+.essay-prose :global(li) { margin-bottom: 0.4em; line-height: 1.5; }
+
+.essay-prose :global(hr) {
+  border: none;
+  height: 1px;
+  background: var(--hairline-strong);
+  margin: clamp(48px, 6vw, 72px) 0;
+  width: 100%;
+}
+
+/* ── Aside sources ────────────────────────────────────── */
+.essay-sources {
+  position: sticky;
+  top: clamp(64px, 8vw, 100px);
+  align-self: start;
+  padding-left: 24px;
+  border-left: 1px solid var(--hairline-strong);
+}
+.essay-sources-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.essay-sources-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.essay-source-item {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.essay-source-item:last-child { border-bottom: none; }
+.essay-source-link {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  word-break: break-word;
+}
+.essay-source-link:hover { color: var(--accent); }
+.essay-source-type {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+/* ── Footer 3-col ─────────────────────────────────────── */
+.essay-footer {
+  padding: clamp(60px, 8vw, 100px) 32px;
+  border-top: 1px solid var(--hairline);
+}
+.essay-footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(40px, 5vw, 64px);
+}
+:global(.essay-related-k) { display: block; margin-bottom: 30px; }
+.essay-footer-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.essay-cta-text {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--ink-2);
+  margin: 8px 0 0;
+  max-width: 240px;
+  line-height: 1.45;
+}
+.essay-cta-link {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 120ms var(--ease);
+}
+.essay-cta-link:hover { color: var(--accent); }
+
+/* ── Scroll reveal ────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 600ms var(--ease), transform 600ms var(--ease);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (min-width: 1100px) {
+  .essay-footer-grid {
+    grid-template-columns: 1fr 280px 240px;
+    align-items: start;
+  }
+}
+
+@media (max-width: 1099px) {
+  .essay-layout--with-aside {
+    grid-template-columns: 1fr;
+  }
+  .essay-sources {
+    position: static;
+    border-left: none;
+    border-top: 1px solid var(--hairline-strong);
+    padding-left: 0;
+    padding-top: 24px;
+    margin-top: 32px;
+  }
+}
 </style>

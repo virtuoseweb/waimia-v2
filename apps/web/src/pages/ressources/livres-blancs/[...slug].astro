@@ -47,8 +47,46 @@ const toc = d.chapters_fr.map((c, i) => ({
   <Fragment slot="headline">{d.title_fr}</Fragment>
   <Fragment slot="lede">{d.description_fr}</Fragment>
   <Fragment slot="extra">
-    <AuthorByline authorSlug={authorSlug} date={d.publishedAt} />
-    <Content />
-    <AuthorCard authorSlug={authorSlug} variant="full" />
+    <div class="lb-prose">
+      <AuthorByline authorSlug={authorSlug} date={d.publishedAt} />
+      <Content />
+      <AuthorCard authorSlug={authorSlug} variant="full" />
+    </div>
   </Fragment>
 </LeadMagnetTemplate>
+
+<style>
+  .lb-prose {
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--hairline);
+    font-family: var(--font-display);
+    font-size: clamp(16px, 1.4vw, 18px);
+    line-height: 1.65;
+    color: var(--ink-2);
+  }
+  .lb-prose :global(p:first-of-type::first-letter) {
+    float: left;
+    font-family: var(--font-display);
+    font-size: 4.5em;
+    line-height: 0.85;
+    margin: 0.05em 0.08em -0.05em 0;
+    color: var(--accent);
+    font-style: italic;
+  }
+  .lb-prose :global(h2) {
+    font-size: clamp(22px, 2.4vw, 30px);
+    font-weight: 400;
+    font-style: italic;
+    margin: 32px 0 16px;
+    line-height: 1.2;
+  }
+  .lb-prose :global(p) { margin: 0 0 1.2em; }
+  .lb-prose :global(a) {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .lb-prose :global(ul), .lb-prose :global(ol) { margin: 0 0 1.2em 1.5em; }
+  .lb-prose :global(li) { margin-bottom: 0.4em; }
+</style>

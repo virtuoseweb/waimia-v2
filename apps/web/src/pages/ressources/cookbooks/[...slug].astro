@@ -2,7 +2,6 @@
 import { getCollection, getEntry, render } from 'astro:content';
 import EssayTemplate from '../../../components/templates/EssayTemplate.astro';
 import AuthorByline from '../../../components/ui/molecules/AuthorByline.astro';
-import AuthorCard from '../../../components/ui/molecules/AuthorCard.astro';
 
 const slugifyAuthorName = (name: string) =>
   name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -66,12 +65,13 @@ const relatedCards = d.relatedCookbooks.length > 0
   date={dateStr}
   author={authorLabel}
   relatedCards={relatedCards}
+  authorSlug={authorSlug}
+  sources={d.sources}
 >
   <Fragment slot="headline">{d.title_fr}</Fragment>
   <Fragment slot="lede">{d.description_fr}</Fragment>
   <Fragment slot="body">
     <AuthorByline authorSlug={authorSlug} date={d.publishedAt} />
     <Content />
-    <AuthorCard authorSlug={authorSlug} variant="full" />
   </Fragment>
 </EssayTemplate>

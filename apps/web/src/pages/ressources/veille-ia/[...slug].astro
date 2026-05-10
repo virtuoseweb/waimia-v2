@@ -1,6 +1,7 @@
 ---
 import { getEntry, render } from 'astro:content';
 import EssayTemplate from '../../../components/templates/EssayTemplate.astro';
+import AuthorByline from '../../../components/ui/molecules/AuthorByline.astro';
 
 const { slug } = Astro.params;
 if (!slug) return Astro.redirect('/404');
@@ -13,6 +14,7 @@ const authorEntry = d.author ? await getEntry('authors', d.author.id) : null;
 
 const dateStr = d.date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
 const dateDisplay = d.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+const authorSlug = authorEntry?.data?.slug ?? d.author?.id ?? '';
 ---
 <EssayTemplate
   title={`${d.title_fr} · Veille IA Waimia`}
@@ -21,9 +23,15 @@ const dateDisplay = d.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 
   date={dateDisplay}
   author={authorEntry?.data.title_fr ?? ''}
   readingTime="3 min lecture"
+  authorSlug={authorSlug}
   relatedCards={[]}
 >
   <Fragment slot="headline">{d.title_fr}</Fragment>
   <Fragment slot="lede">{d.impact_fr}</Fragment>
-  <Fragment slot="body"><Content /></Fragment>
+  <Fragment slot="body">
+    {authorEntry && (
+      <AuthorByline authorSlug={d.author?.id} date={d.date} readingTime="3 min lecture" />
+    )}
+    <Content />
+  </Fragment>
 </EssayTemplate>
