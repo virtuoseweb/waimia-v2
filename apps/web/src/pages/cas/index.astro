@@ -1,9 +1,6 @@
 ---
 // Page · /cas · Hub cas clients Waimia
-// Route principale de la nav — liste des 4 cas business.
-
 import Base from '../../layouts/Base.astro';
-import Kicker from '../../components/ui/atoms/Kicker.astro';
 import { langFromPath, t } from '../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
@@ -15,6 +12,7 @@ const featuredCases = [
     title: { fr: 'Plateau · pipeline reconnecté', en: 'Plateau · pipeline reconnected' },
     headline: { fr: '+€2,4 M de pipeline récupéré.', en: '+€2.4M pipeline recovered.' },
     duration: '10 sem',
+    num: '01',
   },
   {
     slug: 'halcyon',
@@ -22,6 +20,7 @@ const featuredCases = [
     title: { fr: 'Halcyon · triage automatisé', en: 'Halcyon · automated triage' },
     headline: { fr: '−38 % de temps de triage. CSAT +14 points.', en: '−38% triage time. +14 CSAT pts.' },
     duration: '6 sem',
+    num: '02',
   },
   {
     slug: 'northbound',
@@ -29,6 +28,7 @@ const featuredCases = [
     title: { fr: 'Northbound · scoring continu', en: 'Northbound · continuous scoring' },
     headline: { fr: '×3,1 conversion lead → SQL.', en: '×3.1 lead → SQL conversion.' },
     duration: '14 sem',
+    num: '03',
   },
   {
     slug: 'caserne',
@@ -36,8 +36,12 @@ const featuredCases = [
     title: { fr: 'Caserne · finance fluidifiée', en: 'Caserne · finance streamlined' },
     headline: { fr: '1 200 h/an récupérées.', en: '1,200 hours/year reclaimed.' },
     duration: '8 sem',
+    num: '04',
   },
 ];
+
+const featured = featuredCases[0]!;
+const others = featuredCases.slice(1);
 ---
 <Base
   title={lang === 'fr' ? "Cas clients · pipelines reconnectés, opérations fluidifiées · Waimia" : "Case studies · pipelines reconnected, operations streamlined · Waimia"}
@@ -45,8 +49,8 @@ const featuredCases = [
 >
   <section class="hub-mast">
     <div class="wrap-wide">
-      <Kicker>§ Cas clients · ROI mesurés, pas promis</Kicker>
-      <h1 class="hub-h1">
+      <span class="hub-eyebrow">§ Cas clients · ROI mesurés</span>
+      <h1 class="hub-h1 reveal">
         {lang === 'fr'
           ? <><span>Pas de <i>marketing</i>.</span><br/><span>Des chiffres.</span></>
           : <><span>No <i>marketing</i>.</span><br/><span>Numbers.</span></>
@@ -60,27 +64,64 @@ const featuredCases = [
     </div>
   </section>
 
-  <section class="cas-grid wrap-wide">
-    {featuredCases.map((c) => (
-      <a href={`/cas/${c.slug}`} class="cas-card">
-        <div class="cas-card-sector">{t(c.sector, lang)} · {c.duration}</div>
-        <h2 class="cas-card-title">{t(c.title, lang)}</h2>
-        <p class="cas-card-headline">{t(c.headline, lang)}</p>
-        <span class="cas-card-cta">{lang === 'fr' ? 'Lire le cas →' : 'Read case →'}</span>
+  <section class="hub-grid wrap-wide reveal-stagger">
+    {/* Cas phare (Plateau) — col-7 vedette */}
+    <a href={`/cas/${featured.slug}`} class="cas-card cas-card-featured">
+      <div class="cas-card-num">{featured.num}</div>
+      <div class="cas-card-sector">{t(featured.sector, lang)} · {featured.duration}</div>
+      <h2 class="cas-card-title">{t(featured.title, lang)}</h2>
+      <p class="cas-card-headline cas-card-headline-featured">{t(featured.headline, lang)}</p>
+      <span class="cas-card-cta">{lang === 'fr' ? 'Lire le cas →' : 'Read case →'}</span>
+    </a>
+
+    {/* Autres cas — col-5 */}
+    <div class="cas-others">
+      {others.map((c) => (
+        <a href={`/cas/${c.slug}`} class="cas-card cas-card-secondary">
+          <div class="cas-card-num">{c.num}</div>
+          <div class="cas-card-sector">{t(c.sector, lang)} · {c.duration}</div>
+          <h2 class="cas-card-title">{t(c.title, lang)}</h2>
+          <p class="cas-card-headline">{t(c.headline, lang)}</p>
+          <span class="cas-card-cta">{lang === 'fr' ? 'Lire le cas →' : 'Read case →'}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="hub-cta">
+    <div class="wrap-wide">
+      <span class="hub-eyebrow">§ Câbler le vôtre</span>
+      <h2 class="hub-cta-h2">
+        {lang === 'fr'
+          ? <><em>Le mardi on cable.</em><br/>Le vendredi on mesure.</>
+          : <><em>Tuesday we ship.</em><br/>Friday we measure.</>
+        }
+      </h2>
+      <a href="/contact" class="hub-cta-btn">
+        {lang === 'fr' ? 'Démarrer le chantier →' : 'Start the engagement →'}
       </a>
-    ))}
+    </div>
   </section>
 </Base>
 
 <style>
-  .hub-mast { padding: 140px 32px 60px; }
+  .hub-mast { padding: 140px 32px 60px; position: relative; }
+  .hub-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
   .hub-h1 {
     font-family: var(--font-display);
     font-size: clamp(56px, 10vw, 160px);
     line-height: 0.9;
     letter-spacing: -0.03em;
     font-weight: 400;
-    margin: 20px 0 32px;
+    margin: 0 0 32px;
     text-wrap: balance;
   }
   .hub-h1 i { font-style: italic; color: var(--accent); }
@@ -91,13 +132,15 @@ const featuredCases = [
     line-height: 1.55;
   }
 
-  .cas-grid {
+  /* Grille asymétrique */
+  .hub-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 7fr 5fr;
     gap: 1px;
     background: var(--hairline);
     border: 1px solid var(--hairline);
-    margin: 40px auto 120px;
+    margin: 40px auto 80px;
+    align-items: stretch;
   }
   .cas-card {
     display: flex;
@@ -106,12 +149,26 @@ const featuredCases = [
     background: var(--paper);
     text-decoration: none;
     color: inherit;
-    transition: background 0.15s;
-    gap: 12px;
+    transition: background 0.18s;
+    gap: 10px;
   }
   .cas-card:hover { background: var(--paper-2); }
+  .cas-others {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--hairline);
+  }
+  .cas-card-secondary { flex: 1; }
+  .cas-card-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
   .cas-card-sector {
-    font-family: var(--font-mono, monospace);
+    font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -125,6 +182,9 @@ const featuredCases = [
     line-height: 1.1;
     margin: 4px 0 0;
   }
+  .cas-card-featured .cas-card-title {
+    font-size: clamp(28px, 3.5vw, 56px);
+  }
   .cas-card-headline {
     font-size: clamp(13px, 1.3vw, 15px);
     color: var(--muted);
@@ -132,15 +192,53 @@ const featuredCases = [
     line-height: 1.5;
     flex: 1;
   }
+  .cas-card-headline-featured {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2vw, 28px);
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
   .cas-card-cta {
     font-size: 13px;
     color: var(--accent);
-    font-family: var(--font-mono, monospace);
+    font-family: var(--font-mono);
     letter-spacing: 0.04em;
     margin-top: 16px;
   }
 
+  /* CTA final dark */
+  .hub-cta {
+    background: var(--ink);
+    color: var(--paper);
+    padding: clamp(80px, 10vw, 120px) 32px;
+    text-align: center;
+  }
+  .hub-cta .hub-eyebrow { color: var(--accent); margin-bottom: 24px; }
+  .hub-cta-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 80px);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    margin: 0 0 40px;
+    text-wrap: balance;
+  }
+  .hub-cta-h2 em { font-style: italic; color: var(--accent); }
+  .hub-cta-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--paper);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    padding: 14px 28px;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+  .hub-cta-btn:hover { opacity: 0.88; }
+
   @media (max-width: 700px) {
-    .cas-grid { grid-template-columns: 1fr; }
+    .hub-grid { grid-template-columns: 1fr; }
+    .cas-others { gap: 1px; }
   }
 </style>

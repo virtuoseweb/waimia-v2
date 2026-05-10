@@ -14,12 +14,13 @@
 import Base from '../../layouts/Base.astro';
 import Bi from '../ui/atoms/Bi.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
+import { langFromPath } from '../../lib/i18n';
 import ChapterLabel from '../ui/atoms/ChapterLabel.astro';
 import ProcessSteps from '../ui/molecules/ProcessSteps.astro';
 import ProofBand from '../ui/molecules/ProofBand.astro';
 import TechPillRow from '../ui/molecules/TechPillRow.astro';
-import RelatedCards from '../ui/molecules/RelatedCards.astro';
 import CtaBand from '../ui/organisms/CtaBand.astro';
+import KeyMetric from '../editorial/KeyMetric.astro';
 
 interface SpecItem {
   label_fr: string;
@@ -77,13 +78,20 @@ const {
   proofQuoteFr, proofQuoteEn, proofAttrFr, proofAttrEn, proofMetrics,
   techPills, relatedCards,
 } = Astro.props;
+const lang = langFromPath(Astro.url.pathname);
 ---
 <Base title={title} description={description}>
   {/* MASTHEAD */}
   <section class="case-masthead">
+    <svg class="case-hero-decoration" viewBox="0 0 600 500" aria-hidden="true" focusable="false">
+      <circle cx="480" cy="80" r="220" fill="none" stroke="currentColor" stroke-width=".5" opacity=".12"/>
+      <circle cx="460" cy="60" r="140" fill="none" stroke="var(--accent)" stroke-width=".4" opacity=".18"/>
+      <line x1="0" y1="400" x2="600" y2="280" stroke="currentColor" stroke-width=".4" opacity=".1"/>
+    </svg>
     <div class="wrap-wide">
+      <span class="eyebrow">§ Cas client</span>
       <Kicker class="case-num">§ Case {caseNum}</Kicker>
-      <h1 class="case-h1">
+      <h1 class="case-h1 reveal">
         <slot name="headline" />
       </h1>
     </div>
@@ -102,7 +110,7 @@ const {
   </section>
 
   {/* CONTEXT (slot ouvert pour storytelling) */}
-  <section class="case-context">
+  <section class="case-context reveal">
     <div class="wrap-wide case-context-grid">
       <div>
         <ChapterLabel num="§ 01" title="Context" class="case-sticky" />
@@ -115,7 +123,7 @@ const {
   </section>
 
   {/* APPROACH · steps */}
-  <section class="case-approach">
+  <section class="case-approach reveal-stagger">
     <div class="wrap-wide">
       <header class="case-section-hd">
         <Kicker tone="accent">§ 02 · <Bi fr="L'approche" en="The approach" /></Kicker>
@@ -126,19 +134,40 @@ const {
     </div>
   </section>
 
-  {/* PROOF (testimony + metrics) */}
-  <section class="case-proof">
+  {/* PROOF TESTIMONIAL */}
+  <section class="case-proof reveal">
     <div class="wrap-wide">
-      <ProofBand
-        quote_fr={proofQuoteFr} quote_en={proofQuoteEn}
-        attr_fr={proofAttrFr} attr_en={proofAttrEn}
-        metrics={proofMetrics}
-      />
+      <span class="eyebrow">§ 03 · Témoignage</span>
+      <blockquote class="case-proof-quote">
+        <Bi fr={`« ${proofQuoteFr} »`} en={`"${proofQuoteEn}"`} />
+      </blockquote>
+      <cite class="case-proof-attr">
+        <Bi fr={proofAttrFr} en={proofAttrEn} />
+      </cite>
     </div>
   </section>
 
+  {/* KEY METRICS */}
+  {proofMetrics.length > 0 && (
+    <section class="case-key-metrics reveal-stagger">
+      <div class="wrap-wide">
+        <span class="eyebrow">§ Résultats mesurés</span>
+        <div class="case-km-row">
+          {proofMetrics.map((m, idx) => (
+            <KeyMetric
+              value={m.k}
+              label={m.label_fr}
+              size={idx === 0 ? 'hero' : 'lg'}
+              align={idx === 0 ? 'left' : idx === 1 ? 'center' : 'right'}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
   {/* STACK */}
-  <section class="case-stack">
+  <section class="case-stack reveal">
     <div class="wrap-wide">
       <Kicker tone="accent" class="case-stack-k">§ 04 · <Bi fr="La stack" en="The stack" /></Kicker>
       <p class="case-stack-lead">
@@ -149,10 +178,19 @@ const {
   </section>
 
   {/* RELATED */}
-  <section class="case-related">
+  <section class="case-related reveal-stagger">
     <div class="wrap-wide">
-      <Kicker class="case-related-k">§ 05 · <Bi fr="Cas reliés" en="Related cases" /></Kicker>
-      <RelatedCards cards={relatedCards} />
+      <span class="eyebrow">§ Autres cas</span>
+      <div class="case-related-grid">
+        {relatedCards.map((c) => (
+          <a class="related-case-card" href={c.href}>
+            <span class="related-case-kicker">{c.kicker}</span>
+            <h3 class="related-case-title">{lang === 'en' ? c.title_en : c.title_fr}</h3>
+            <p class="related-case-lead">{lang === 'en' ? c.lead_en : c.lead_fr}</p>
+            <span class="related-case-go" aria-hidden>→</span>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -229,6 +267,39 @@ const {
   }
 
   .case-proof { padding: clamp(80px, 12vw, 120px) 32px; }
+  .case-proof-quote {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3.5vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -0.018em;
+    font-weight: 400;
+    font-style: italic;
+    text-wrap: pretty;
+    max-width: 860px;
+    margin: 0 0 24px;
+  }
+  .case-proof-attr {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    font-style: normal;
+  }
+  .case-key-metrics {
+    padding: clamp(60px, 8vw, 100px) 32px;
+    background: var(--ink);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .case-key-metrics .eyebrow { color: var(--accent); margin-bottom: 40px; }
+  .case-km-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: clamp(24px, 4vw, 60px);
+    align-items: end;
+  }
+  .case-key-metrics :global(.key-metric-value) { color: var(--paper); }
+  .case-key-metrics :global(.key-metric-label) { color: rgba(246,241,232,0.55); }
   .case-stack { padding: clamp(80px, 12vw, 120px) 32px; background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
   :global(.case-stack-k) { display: block; margin-bottom: 16px; }
   .case-stack-lead {
@@ -248,5 +319,79 @@ const {
     .case-context-grid,
     .case-section-hd { grid-template-columns: 1fr; }
     .case-specs-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Hero decoration SVG */
+  .case-hero-decoration {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 500px;
+    height: 400px;
+    pointer-events: none;
+    color: var(--ink);
+  }
+  .case-masthead { position: relative; overflow: hidden; }
+
+  /* Eyebrow */
+  .eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  /* Related cases with GSAP target class */
+  .case-related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--hairline-strong);
+    gap: 0;
+  }
+  .related-case-card {
+    padding: clamp(22px, 2.5vw, 36px) clamp(18px, 2vw, 28px);
+    border-right: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: inherit;
+    text-decoration: none;
+    transition: background 240ms ease;
+  }
+  .related-case-card:last-child { border-right: none; }
+  .related-case-card:hover { background: var(--paper-2); }
+  .related-case-kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+  }
+  .related-case-title {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.4vw, 32px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    margin: 8px 0 4px;
+  }
+  .related-case-lead {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .related-case-go {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+  }
+  @media (max-width: 800px) {
+    .case-related-grid { grid-template-columns: 1fr; }
+    .related-case-card { border-right: none; border-bottom: 1px solid var(--hairline); }
+    .related-case-card:last-child { border-bottom: none; }
+    .case-hero-decoration { width: 280px; height: 240px; opacity: 0.6; }
   }
 </style>
