@@ -29,7 +29,12 @@
  *   </OffresDetailTemplate>
  */
 import Base from '../../layouts/Base.astro';
-
+import Callout from '../editorial/Callout.astro';
+import DropCap from '../editorial/DropCap.astro';
+import PullQuote from '../editorial/PullQuote.astro';
+import Timeline from '../editorial/Timeline.astro';
+import KeyMetric from '../editorial/KeyMetric.astro';
+import Dingbat from '../editorial/Dingbat.astro';
 
 interface Props {
   /** SEO meta · title de la page (browser tab) */
@@ -57,16 +62,87 @@ const {
   ctaHref = '/contact',
   ctaLabel = 'Parler à un expert →',
 } = Astro.props;
+
+const methodStepsHtml = await Astro.slots.render('method-steps');
+const methodAsideHtml = await Astro.slots.render('method-aside');
+const deliverablesHtml = await Astro.slots.render('deliverables');
+const deliverablesAsideHtml = await Astro.slots.render('deliverables-aside');
+const proofQuoteHtml = await Astro.slots.render('proof-quote');
+const proofAttrHtml = await Astro.slots.render('proof-attr');
+const proofMetricsHtml = await Astro.slots.render('proof-metrics');
+
+const stripHtml = (html: string) =>
+  html
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const extract = (html: string, selectorClass: string) => {
+  const match = html.match(new RegExp(`<[^>]*class=["'][^"']*${selectorClass}[^"']*["'][^>]*>([\\s\\S]*?)<\\/[^>]+>`, 'i'));
+  return match ? stripHtml(match[1] ?? '') : '';
+};
+
+const extractTag = (html: string, tag: string) => {
+  const match = html.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i'));
+  return match ? stripHtml(match[1] ?? '') : '';
+};
+
+const methodEvents = methodStepsHtml
+  .split(/<div class=["']step["'][^>]*>/)
+  .slice(1)
+  .map((block) => ({
+    num: extract(block, 'step-n'),
+    meta: extract(block, 'step-k'),
+    title: extractTag(block, 'h3'),
+    body: extractTag(block, 'p'),
+  }))
+  .filter((event) => event.title && event.body);
+
+const deliverables = deliverablesHtml
+  .split(/<div class=["']del-card["'][^>]*>/)
+  .slice(1)
+  .map((block) => ({
+    title: extractTag(block, 'h3'),
+    body: extractTag(block, 'p'),
+    tag: extract(block, 'del-tag'),
+  }))
+  .filter((item) => item.title && item.body);
+
+const proofMetrics = Array.from(
+  proofMetricsHtml.matchAll(/<div>\s*<div class=["']metric-v["']>([\s\S]*?)<\/div>\s*<div class=["']metric-l["']>([\s\S]*?)<\/div>\s*<\/div>/g)
+).map((match) => ({
+  value: stripHtml(match[1] ?? ''),
+  label: stripHtml(match[2] ?? ''),
+}));
+
+const deliverableClasses = [
+  'col-7 start-1 deliverable deliverable-large',
+  'col-4 start-9 deliverable deliverable-aside',
+  'col-5 start-2 deliverable',
+  'col-7 start-6 deliverable deliverable-wide',
+  'col-4 start-1 deliverable',
+  'col-6 start-7 deliverable',
+];
+
+const metricPlacements = [
+  { class: 'col-3 start-1', size: 'lg', align: 'left', variant: 'default' },
+  { class: 'col-3 start-5', size: 'lg', align: 'center', variant: 'default' },
+  { class: 'col-3 start-9', size: 'hero', align: 'right', variant: 'accent' },
+  { class: 'col-3 start-2', size: 'md', align: 'left', variant: 'default' },
+  { class: 'col-3 start-7', size: 'md', align: 'right', variant: 'default' },
+  { class: 'col-3 start-10', size: 'md', align: 'right', variant: 'default' },
+] as const;
 ---
 <Base {title} {description}>
     {/* ────────── 1. HERO ────────── */}
-    <section class="off-hero" data-screen-label="01 Hero">
+    <section class="off-hero reveal" data-screen-label="01 Hero">
       <svg class="off-hero-geo" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <circle cx="1200" cy="120" r="340" fill="none" stroke="currentColor" stroke-width=".6" opacity=".18"/>
         <circle cx="1200" cy="120" r="220" fill="none" stroke="var(--accent)" stroke-width=".4" opacity=".25"/>
         <line x1="0" y1="400" x2="1440" y2="280" stroke="currentColor" stroke-width=".4" opacity=".12"/>
       </svg>
-      <div class="wrap">
+      <div class="wrap g12 g12--full">
         <nav class="off-hero-bc" aria-label="Fil d'Ariane">
           <a href="/offres">Offres</a>
           <span aria-hidden="true">/</span>
@@ -85,64 +161,123 @@ const {
     </section>
 
     {/* ────────── 2. PROBLEM ────────── */}
-    <section class="off-sec" data-screen-label="02 Problem">
-      <div class="wrap wrap-tight">
-        <div class="off-problem-statement"><slot name="problem-statement" /></div>
-        <div class="off-problem-annotations"><slot name="problem-annotations" /></div>
+    <section class="off-sec off-problem reveal-stagger" data-screen-label="02 Problem">
+      <div class="wrap wrap-tight g12 g12--standard">
+        <div class="off-problem-statement col-prose">
+          <DropCap variant="mono">§</DropCap>
+          <slot name="problem-statement" />
+        </div>
+        <div class="off-problem-annotations col-12"><slot name="problem-annotations" /></div>
       </div>
     </section>
 
     {/* ────────── 3. METHOD ────────── */}
-    <section class="off-sec off-sec-paper" data-screen-label="03 Method">
-      <div class="wrap">
-        <div class="off-sec-hd">
-          <div>
-            <div class="kicker">Notre approche</div>
-            <h2><i>Méthode</i><br/>Waimia</h2>
-          </div>
-          <p class="off-aside"><slot name="method-aside" /></p>
+    <section class="off-sec off-sec-paper off-method reveal-stagger" data-screen-label="03 Method">
+      <div class="wrap g12 g12--full">
+        <header class="off-sec-hd col-prose">
+          <span class="eyebrow">§ Méthode</span>
+          <h2><i>Méthode</i><br/>Waimia</h2>
+        </header>
+        {methodAsideHtml.trim() && (
+          <aside class="off-aside off-aside-callout col-aside">
+            <Callout variant="note" size="sm">
+              <Fragment set:html={methodAsideHtml} />
+            </Callout>
+          </aside>
+        )}
+        <div class="off-steps col-prose">
+          {methodEvents.length > 0 ? (
+            <Timeline events={methodEvents} numbered={true} orientation="vertical" />
+          ) : (
+            <Fragment set:html={methodStepsHtml} />
+          )}
         </div>
-        <div class="off-steps"><slot name="method-steps" /></div>
       </div>
     </section>
 
     {/* ────────── 4. DELIVERABLES ────────── */}
-    <section class="off-sec" data-screen-label="04 Deliverables">
-      <div class="wrap">
-        <div class="off-sec-hd">
-          <div>
-            <div class="kicker">Ce que vous recevez</div>
-            <h2><i>Livrables</i></h2>
-          </div>
-          <p class="off-aside"><slot name="deliverables-aside" /></p>
+    <section class="off-sec off-deliverables reveal-stagger" data-screen-label="04 Deliverables">
+      <div class="wrap g12 g12--full">
+        <header class="off-sec-hd col-7 start-1">
+          <span class="eyebrow">§ Livrables</span>
+          <h2>Ce qu'on<br/><i>dépose</i> chez vous</h2>
+        </header>
+        {deliverablesAsideHtml.trim() && (
+          <aside class="off-aside off-aside-callout col-4 start-9">
+            <Callout variant="info" size="sm">
+              <Fragment set:html={deliverablesAsideHtml} />
+            </Callout>
+          </aside>
+        )}
+        <div class="off-del-grid col-12 g12">
+          {deliverables.length > 0 ? (
+            deliverables.map((item, index) => (
+              <article class={deliverableClasses[index % deliverableClasses.length]}>
+                <span class="del-tag">{item.tag}</span>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </article>
+            ))
+          ) : (
+            <Fragment set:html={deliverablesHtml} />
+          )}
         </div>
-        <div class="off-del-grid"><slot name="deliverables" /></div>
       </div>
     </section>
 
     {/* ────────── 5. PROOF ────────── */}
-    <section class="off-sec off-sec-paper" data-screen-label="05 Proof">
-      <div class="wrap wrap-tight">
-        <div class="off-proof-band">
-          <div class="off-proof-main">
-            <div class="kicker">Signal terrain</div>
-            <div class="off-proof-quote"><slot name="proof-quote" /></div>
-            <div class="off-proof-attr"><slot name="proof-attr" /></div>
+    <section class="off-sec off-sec-paper off-proof reveal-stagger" data-screen-label="05 Proof">
+      <div class="wrap g12 g12--full">
+        <header class="off-sec-hd col-12">
+          <span class="eyebrow">§ Avant / Après</span>
+          <h2>Signal<br/><i>terrain</i></h2>
+        </header>
+        <div class="off-proof-band col-12 g12">
+          <div class="off-proof-main col-5 start-1">
+            <PullQuote attribution={stripHtml(proofAttrHtml)} variant="inline">
+              <Fragment set:html={proofQuoteHtml} />
+            </PullQuote>
           </div>
-          <div class="off-proof-div" aria-hidden="true"></div>
-          <div class="off-proof-aside">
-            <div class="kicker">Métriques clés</div>
-            <div class="off-proof-metrics"><slot name="proof-metrics" /></div>
+          <div class="off-proof-aside col-7 start-6">
+            <div class="off-proof-metrics g12">
+              {proofMetrics.length > 0 ? (
+                proofMetrics.map((metric, index) => {
+                  const placement = metricPlacements[index % metricPlacements.length];
+                  return (
+                    <>
+                      {index === 3 && (
+                        <div class="col-12">
+                          <Dingbat variant="rule" size="lg" />
+                        </div>
+                      )}
+                      <div class={placement.class}>
+                        <KeyMetric
+                          value={metric.value}
+                          label={metric.label}
+                          size={placement.size}
+                          align={placement.align}
+                          variant={placement.variant}
+                        />
+                      </div>
+                    </>
+                  );
+                })
+              ) : (
+                <Fragment set:html={proofMetricsHtml} />
+              )}
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     {/* ────────── 6. RELATED (optionnel) ────────── */}
-    <slot name="related" />
+    <div class="off-related">
+      <slot name="related" />
+    </div>
 
     {/* ────────── 7. CTA ────────── */}
-    <section class="off-sec off-sec-dark" data-screen-label="07 CTA">
+    <section class="off-sec off-sec-dark reveal" data-screen-label="07 CTA">
       <div class="wrap wrap-tight">
         <div class="off-cta-final">
           <h2><i><slot name="cta-title">Prêt à<br/>déployer ?</slot></i></h2>
@@ -165,6 +300,16 @@ const {
     padding: clamp(80px, 10vw, 140px) 0 clamp(64px, 8vw, 120px);
     overflow: hidden;
     color: var(--ink);
+  }
+  .off-hero .wrap {
+    position: relative;
+    z-index: 1;
+  }
+  .off-hero-bc,
+  .off-hero-tier,
+  .off-hero-title,
+  .off-hero-sub {
+    grid-column: 1 / -1;
   }
   .off-hero-geo {
     position: absolute; inset: 0; width: 100%; height: 100%;
@@ -221,7 +366,7 @@ const {
     padding: 14px 24px;
     background: var(--ink);
     color: var(--paper);
-    border-radius: 999px;
+    border-radius: 2px;
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
@@ -238,16 +383,17 @@ const {
   }
 
   /* ───── Sec common ───── */
-  .off-sec { padding: clamp(72px, 8vw, 120px) 0; position: relative; }
-  .off-sec-paper { background: var(--paper-2, #EFEBE2); }
+  .off-sec { padding: var(--section-base) 0; position: relative; }
+  .off-sec + .off-sec,
+  .off-related + .off-sec { margin-block-start: 0; }
+  .off-method,
+  .off-proof { padding-block: var(--section-loose); }
+  .off-sec-dark { margin-block-start: var(--section-grand); }
+  .off-sec-paper { background: var(--paper-2, #EFEBE2); border-block: 1px solid var(--hairline); }
   .off-sec-dark { background: var(--ink); color: var(--paper); }
   .off-sec-dark :global(.kicker) { color: var(--accent); }
   .off-sec-hd {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(24px, 4vw, 80px);
-    margin-bottom: clamp(40px, 5vw, 64px);
-    align-items: end;
+    margin-bottom: clamp(32px, 4vw, 56px);
   }
   .off-sec-hd h2 {
     font-family: var(--font-display);
@@ -258,6 +404,18 @@ const {
     margin: 8px 0 0;
   }
   .off-sec-hd :global(i) { color: var(--accent); font-style: italic; }
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: var(--text-eyebrow);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono);
+    color: var(--accent);
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--accent);
+  }
   .off-aside {
     font-family: var(--font-display);
     font-size: clamp(15px, 1.3vw, 17px);
@@ -267,8 +425,17 @@ const {
     max-width: 480px;
     margin: 0;
   }
+  .off-aside-callout {
+    align-self: end;
+  }
+  .off-aside-callout :global(.callout) {
+    margin: 0;
+  }
 
   /* ───── Problem ───── */
+  .off-problem .wrap-tight {
+    max-width: var(--col-full);
+  }
   .off-problem-statement {
     font-family: var(--font-display);
     font-size: clamp(28px, 4.6vw, 64px);
@@ -279,13 +446,23 @@ const {
     margin-bottom: clamp(24px, 3vw, 40px);
     text-wrap: balance;
   }
+  .off-problem-statement :global(.drop-cap) {
+    margin-right: 0.16em;
+  }
   .off-problem-statement :global(em) { color: var(--accent); font-style: italic; }
   .off-problem-annotations {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 24px;
-    margin-top: 32px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: var(--space-8);
+    border-top: 1px solid var(--hairline-strong);
+    border-bottom: 1px solid var(--hairline);
   }
+  .off-problem-annotations :global(> div) {
+    padding: var(--space-6) var(--space-5);
+    border-right: 1px solid var(--hairline);
+  }
+  .off-problem-annotations :global(> div:last-child) { border-right: none; }
   .off-problem-annotations :global(.ann-value) {
     font-family: var(--font-display);
     font-size: clamp(40px, 4vw, 56px);
@@ -305,11 +482,9 @@ const {
 
   /* ───── Steps (Method) ───── */
   .off-steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: clamp(24px, 3vw, 48px);
-    counter-reset: step;
+    margin-top: var(--space-3);
   }
+  .off-steps :global(.timeline-vertical) { margin: 0; }
   .off-steps :global(.step) {
     counter-increment: step;
     padding-top: 32px;
@@ -343,44 +518,64 @@ const {
 
   /* ───── Deliverables ───── */
   .off-del-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: clamp(20px, 2.5vw, 32px);
+    margin-top: var(--space-8);
   }
+  .deliverable,
   .off-del-grid :global(.del-card) {
-    padding: 28px;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 12px;
+    padding: clamp(24px, 3vw, 40px) 0 clamp(28px, 3.4vw, 48px);
+    border-top: 1px solid var(--hairline-strong);
+    border-radius: 0;
     background: var(--paper);
-    transition: border-color 220ms var(--ease), transform 220ms var(--ease);
+    transition: color 220ms var(--ease), transform 320ms var(--ease);
   }
-  .off-del-grid :global(.del-card:hover) { border-color: var(--accent); transform: translateY(-2px); }
+  .deliverable:hover,
+  .off-del-grid :global(.del-card:hover) {
+    color: var(--accent);
+    transform: translateY(-3px);
+  }
+  .deliverable-large {
+    padding-top: clamp(36px, 4vw, 56px);
+    border-top-color: var(--ink);
+  }
+  .deliverable h3,
   .off-del-grid :global(.del-card h3) {
     font-family: var(--font-display);
-    font-size: 21px;
-    line-height: 1.2;
-    margin: 16px 0 8px;
+    font-size: clamp(24px, 2.6vw, 40px);
+    line-height: 1.08;
+    margin: var(--space-4) 0 var(--space-3);
     font-weight: 400;
+    color: inherit;
+    text-wrap: balance;
   }
-  .off-del-grid :global(.del-card p) { font-size: 14.5px; line-height: 1.55; color: var(--ink); margin: 0 0 16px; }
+  .deliverable p,
+  .off-del-grid :global(.del-card p) {
+    font-family: var(--font-display);
+    font-size: var(--text-body-md);
+    line-height: var(--leading-loose);
+    color: var(--ink-2);
+    margin: 0;
+    max-width: 48ch;
+  }
+  .del-tag,
   .off-del-grid :global(.del-tag) {
     font-family: var(--font-mono);
     font-size: 10.5px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--accent);
-    padding: 6px 10px;
-    background: rgba(201,79,46,0.08);
-    border-radius: 4px;
+    padding: 0 0 var(--space-2);
+    background: transparent;
+    border-bottom: 1px solid currentColor;
+    border-radius: 0;
     display: inline-block;
   }
 
   /* ───── Proof ───── */
   .off-proof-band {
-    display: grid;
-    grid-template-columns: 1.6fr auto 1fr;
-    gap: clamp(24px, 3vw, 48px);
-    align-items: stretch;
+    align-items: start;
+  }
+  .off-proof-main :global(.pull-quote) {
+    margin: 0;
   }
   .off-proof-quote {
     font-family: var(--font-display);
@@ -399,11 +594,11 @@ const {
   }
   .off-proof-div { width: 1px; background: rgba(0,0,0,0.1); }
   .off-proof-metrics {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px 24px;
-    margin-top: 12px;
+    row-gap: var(--space-5);
+    align-items: end;
+    margin-top: 0;
   }
+  .off-proof-metrics :global(.dingbat-rule) { margin-block: var(--space-5); }
   .off-proof-metrics :global(.metric-v) {
     font-family: var(--font-display);
     font-size: clamp(28px, 3vw, 40px);
@@ -419,6 +614,96 @@ const {
     letter-spacing: 0.1em;
     color: var(--muted);
     line-height: 1.3;
+  }
+
+  /* ───── Related slotted polish ───── */
+  .off-related {
+    position: relative;
+  }
+  .off-related :global(section) {
+    border-block: 1px solid var(--hairline);
+  }
+  .off-related :global(section + section) {
+    border-top: none;
+  }
+  .off-related :global(table) {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-family: var(--font-display) !important;
+    font-feature-settings: 'tnum' 1, 'lnum' 1 !important;
+  }
+  .off-related :global(th) {
+    font-family: var(--font-mono) !important;
+    font-size: var(--text-eyebrow) !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: var(--tracking-mono) !important;
+    color: var(--muted) !important;
+    padding-block: var(--space-3) !important;
+    border-bottom: 1.5px solid var(--ink) !important;
+  }
+  .off-related :global(td) {
+    font-size: var(--text-body-md) !important;
+    color: var(--ink-2) !important;
+    padding-block: var(--space-4) !important;
+    border-bottom: 1px solid var(--hairline) !important;
+  }
+  .off-related :global(td:first-child) {
+    font-family: var(--font-mono) !important;
+    font-size: var(--text-eyebrow) !important;
+    text-transform: uppercase !important;
+    letter-spacing: var(--tracking-mono) !important;
+    color: var(--muted) !important;
+    white-space: nowrap !important;
+  }
+  .off-related :global(details) {
+    border-bottom: 1px solid var(--hairline-strong) !important;
+    padding: var(--space-5) 0 !important;
+  }
+  .off-related :global(summary) {
+    cursor: pointer !important;
+    list-style: none !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    gap: var(--space-4) !important;
+    align-items: baseline !important;
+    padding: 0 !important;
+    font-family: var(--font-display) !important;
+    font-size: clamp(18px, 1.6vw, 22px) !important;
+    line-height: 1.25 !important;
+    font-weight: 400 !important;
+    color: var(--ink) !important;
+    transition: color var(--dur-fast) var(--ease) !important;
+  }
+  .off-related :global(summary::-webkit-details-marker) { display: none !important; }
+  .off-related :global(summary span:last-child) { display: none !important; }
+  .off-related :global(summary::after) {
+    content: '+' !important;
+    font-family: var(--font-mono) !important;
+    font-size: 1.4em !important;
+    color: var(--accent) !important;
+    transition: transform var(--dur-base) var(--ease) !important;
+  }
+  .off-related :global(details[open] summary) { color: var(--accent) !important; }
+  .off-related :global(details[open] summary::after) { content: '−' !important; }
+  .off-related :global(details > div) {
+    padding-top: var(--space-4) !important;
+    font-family: var(--font-display) !important;
+    font-size: var(--text-body-md) !important;
+    line-height: var(--leading-loose) !important;
+    color: var(--ink-2) !important;
+    max-width: 640px !important;
+  }
+  .off-related :global(ul[style*='list-style:none'] li) {
+    border-bottom: 1px solid var(--hairline) !important;
+    padding-block: var(--space-3) !important;
+    font-family: var(--font-display) !important;
+    font-size: clamp(18px, 1.5vw, 24px) !important;
+    line-height: 1.3 !important;
+  }
+  .off-related :global(ul[style*='list-style:none'] li span:first-child) {
+    font-family: var(--font-mono) !important;
+    color: var(--accent) !important;
   }
 
   /* ───── CTA final dark ───── */
@@ -449,7 +734,7 @@ const {
     padding: 14px 28px;
     background: var(--accent);
     color: var(--paper);
-    border-radius: 999px;
+    border-radius: 2px;
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
@@ -463,7 +748,7 @@ const {
     background: transparent;
     color: var(--paper);
     border: 1px solid rgba(246,241,232,0.3);
-    border-radius: 999px;
+    border-radius: 2px;
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
@@ -479,11 +764,24 @@ const {
     padding: 0 clamp(20px, 4vw, 48px);
   }
   .wrap-tight { max-width: 880px; }
+  .start-9 { grid-column-start: 9; }
+  .start-10 { grid-column-start: 10; }
 
   @media (max-width: 800px) {
     .off-hero-sub { grid-template-columns: 1fr; }
-    .off-sec-hd { grid-template-columns: 1fr; }
-    .off-proof-band { grid-template-columns: 1fr; }
+    .off-problem-annotations { grid-template-columns: 1fr; }
+    .off-problem-annotations :global(> div) {
+      border-right: none;
+      border-bottom: 1px solid var(--hairline);
+      padding-inline: 0;
+    }
+    .off-problem-annotations :global(> div:last-child) { border-bottom: none; }
     .off-proof-div { display: none; }
+    .deliverable,
+    .off-del-grid :global(.del-card) {
+      grid-column: 1 / -1;
+    }
+    .start-9,
+    .start-10 { grid-column-start: auto; }
   }
 </style>

@@ -1,0 +1,59 @@
+---
+interface Props {
+  variant?: 'mono' | 'accent' | 'inverted';
+  size?: number;
+  label?: string;
+}
+
+const { variant = 'accent', size = 48, label } = Astro.props;
+const accentColor = 'var(--waimia-accent, #C94F2E)';
+const isInverted = variant === 'inverted';
+const dotFill = variant === 'accent' ? accentColor : 'currentColor';
+const markFill = isInverted ? 'var(--paper, #F6F1E8)' : 'currentColor';
+const dotColor = isInverted ? 'var(--paper, #F6F1E8)' : dotFill;
+---
+
+<svg
+  viewBox="0 0 48 48"
+  width={size}
+  height={size}
+  class:list={['waimia-mark', `waimia-mark-${variant}`]}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  {isInverted && <rect x="0" y="0" width="48" height="48" fill="currentColor" />}
+  <text
+    x="5"
+    y="35"
+    font-family="Instrument Serif, Georgia, serif"
+    font-style="italic"
+    font-size="34"
+    letter-spacing="-1"
+    fill={markFill}
+  >
+    W
+  </text>
+  <circle cx="38" cy="34" r="3.6" fill={dotColor} />
+  <path
+    d="M9 39 H33"
+    fill="none"
+    stroke={markFill}
+    stroke-width="1.2"
+    stroke-linecap="round"
+    vector-effect="non-scaling-stroke"
+    opacity="0.72"
+  />
+</svg>
+
+<style>
+  .waimia-mark {
+    display: inline-block;
+    color: var(--ink, #0c0b09);
+    vertical-align: middle;
+  }
+
+  .waimia-mark-inverted {
+    color: var(--ink, #0c0b09);
+  }
+</style>

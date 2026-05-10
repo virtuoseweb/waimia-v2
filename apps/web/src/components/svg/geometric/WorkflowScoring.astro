@@ -1,0 +1,151 @@
+---
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+const accentColor = 'var(--waimia-accent, #C94F2E)';
+const nodes = [
+  { title: 'Lead entrant', detail: 'CRM / formulaire / email', y: 28 },
+  { title: 'Enrichissement', detail: 'data publique + scraping', y: 156 },
+  { title: 'Scoring continu', detail: 'modèle Claude Sonnet', y: 284 },
+  { title: 'Action', detail: 'séquence email | call task', y: 600 },
+];
+---
+
+<svg
+  viewBox="0 0 400 720"
+  preserveAspectRatio="xMidYMid meet"
+  class:list={['workflow-scoring', compact && 'workflow-scoring-compact']}
+  role="img"
+  aria-label="Workflow scoring : Lead entrant, enrichissement, scoring continu, décision, action"
+>
+  <path
+    d="M200 104 L200 146 M200 232 L200 274 M200 360 L200 405"
+    fill="none"
+    stroke={accentColor}
+    stroke-width="1.5"
+    stroke-linecap="round"
+    vector-effect="non-scaling-stroke"
+  />
+  <path
+    d="M200 515 L200 590"
+    fill="none"
+    stroke={accentColor}
+    stroke-width="1.5"
+    stroke-linecap="round"
+    vector-effect="non-scaling-stroke"
+  />
+  <path
+    d="M156 478 H78 V636 H94"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+    opacity="0.26"
+  />
+  <path
+    d="M244 478 H322 V636 H306"
+    fill="none"
+    stroke={accentColor}
+    stroke-width="1.2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  />
+  <path d="M194 140 L200 150 L206 140" fill="none" stroke={accentColor} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+  <path d="M194 268 L200 278 L206 268" fill="none" stroke={accentColor} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+  <path d="M194 399 L200 409 L206 399" fill="none" stroke={accentColor} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+  <path d="M194 584 L200 594 L206 584" fill="none" stroke={accentColor} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+  <path d="M300 630 L306 636 L300 642" fill="none" stroke={accentColor} stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+  <path d="M100 630 L94 636 L100 642" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" opacity="0.26" />
+
+  {
+    nodes.map((node) => (
+      <g>
+        <rect
+          x="58"
+          y={node.y}
+          width="284"
+          height="76"
+          rx="0"
+          fill="var(--paper-2, #F6F1E8)"
+          stroke="currentColor"
+          stroke-width="1"
+          vector-effect="non-scaling-stroke"
+        />
+        <text
+          x="82"
+          y={node.y + 30}
+          font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace"
+          font-size="11"
+          letter-spacing="1.1"
+          fill="currentColor"
+        >
+          {node.title}
+        </text>
+        <text
+          x="82"
+          y={node.y + 58}
+          font-family="Instrument Serif, Georgia, serif"
+          font-style="italic"
+          font-size="20"
+          fill="currentColor"
+        >
+          {node.detail}
+        </text>
+      </g>
+    ))
+  }
+
+  <g>
+    <path
+      d="M200 408 L286 478 L200 548 L114 478 Z"
+      fill="var(--paper-2, #F6F1E8)"
+      stroke={accentColor}
+      stroke-width="1.5"
+      stroke-linejoin="round"
+      vector-effect="non-scaling-stroke"
+    />
+    <text
+      x="200"
+      y="462"
+      text-anchor="middle"
+      font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace"
+      font-size="11"
+      letter-spacing="1.1"
+      fill="currentColor"
+    >
+      Décision
+    </text>
+    <text
+      x="200"
+      y="490"
+      text-anchor="middle"
+      font-family="Instrument Serif, Georgia, serif"
+      font-style="italic"
+      font-size="19"
+      fill="currentColor"
+    >
+      score &gt; X
+    </text>
+    <text x="54" y="624" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="9" letter-spacing="0.8" fill="currentColor" opacity="0.46">nurture</text>
+    <text x="310" y="624" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="9" letter-spacing="0.8" fill={accentColor}>SDR</text>
+  </g>
+</svg>
+
+<style>
+  .workflow-scoring {
+    display: block;
+    width: 100%;
+    max-width: 440px;
+    margin-inline: auto;
+    color: var(--ink, #0c0b09);
+  }
+
+  .workflow-scoring-compact {
+    max-width: 360px;
+  }
+</style>

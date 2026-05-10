@@ -1,0 +1,102 @@
+---
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+const layers = [
+  { title: 'Frontend', items: 'Astro / Next' },
+  { title: 'Models', items: 'Claude Sonnet · Haiku · Opus' },
+  { title: 'CRM', items: 'HubSpot / Salesforce / Pipedrive' },
+  { title: 'Email', items: 'Resend / Postmark' },
+];
+const accentColor = 'var(--waimia-accent, #C94F2E)';
+---
+
+<svg
+  viewBox="0 0 600 540"
+  preserveAspectRatio="xMidYMid meet"
+  class:list={['stack-diagram', compact && 'stack-diagram-compact']}
+  role="img"
+  aria-label="Stack IA Waimia : Frontend, Models, CRM, Email"
+>
+  <line
+    x1="300"
+    y1="74"
+    x2="300"
+    y2="466"
+    stroke="currentColor"
+    stroke-width="1"
+    stroke-linecap="round"
+    vector-effect="non-scaling-stroke"
+    opacity="0.18"
+  />
+
+  {
+    layers.map((layer, idx) => {
+      const y = 42 + idx * 122;
+      const isModelLayer = idx === 1;
+
+      return (
+        <g>
+          {idx > 0 && (
+            <circle
+              cx="300"
+              cy={y - 18}
+              r="3"
+              fill={idx === 1 ? accentColor : 'currentColor'}
+              opacity={idx === 1 ? '1' : '0.32'}
+            />
+          )}
+          <rect
+            x="96"
+            y={y}
+            width="408"
+            height="86"
+            rx="0"
+            fill="var(--paper-2, #F6F1E8)"
+            stroke={isModelLayer ? accentColor : 'currentColor'}
+            stroke-width={isModelLayer ? '1.5' : '1'}
+            vector-effect="non-scaling-stroke"
+            opacity="0.96"
+          />
+          <text
+            x="124"
+            y={y + 28}
+            font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace"
+            font-size="11"
+            letter-spacing="1.4"
+            text-transform="uppercase"
+            fill={isModelLayer ? accentColor : 'currentColor'}
+          >
+            {layer.title}
+          </text>
+          <text
+            x="124"
+            y={y + 60}
+            font-family="Instrument Serif, Georgia, serif"
+            font-style="italic"
+            font-size="25"
+            fill="currentColor"
+          >
+            {layer.items}
+          </text>
+        </g>
+      );
+    })
+  }
+</svg>
+
+<style>
+  .stack-diagram {
+    display: block;
+    width: 100%;
+    max-width: 680px;
+    margin-inline: auto;
+    color: var(--ink, #0c0b09);
+  }
+
+  .stack-diagram-compact {
+    max-width: 520px;
+  }
+</style>

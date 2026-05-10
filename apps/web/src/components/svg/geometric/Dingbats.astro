@@ -1,0 +1,75 @@
+---
+interface Props {
+  glyph: 'dot-trio' | 'diamond' | 'arrow-right' | 'parallel' | 'aperture' | 'crossroads';
+  size?: number;
+  accent?: boolean;
+}
+
+const { glyph, size = 24, accent = false } = Astro.props;
+const accentColor = 'var(--waimia-accent, #C94F2E)';
+const detailColor = accent ? accentColor : 'currentColor';
+---
+
+{
+  glyph === 'dot-trio' && (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" class="dingbat">
+      <circle cx="6" cy="12" r="1.2" fill="currentColor" />
+      <circle cx="12" cy="12" r="1.2" fill={detailColor} />
+      <circle cx="18" cy="12" r="1.2" fill="currentColor" />
+    </svg>
+  )
+}
+
+{
+  glyph === 'diamond' && (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" class="dingbat">
+      <path d="M12 4 L20 12 L12 20 L4 12 Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+      <circle cx="12" cy="12" r="1.25" fill={detailColor} />
+    </svg>
+  )
+}
+
+{
+  glyph === 'arrow-right' && (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" class="dingbat">
+      <path d="M7 5 V15 H18" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+      <path d="M14 11 L18 15 L14 19" fill="none" stroke={detailColor} stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+    </svg>
+  )
+}
+
+{
+  glyph === 'parallel' && (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" class="dingbat">
+      <path d="M8 5 L8 19" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+      <path d="M16 5 L16 19" fill="none" stroke={detailColor} stroke-width="1.2" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+    </svg>
+  )
+}
+
+{
+  glyph === 'aperture' && (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" class="dingbat">
+      <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+      <path d="M12 8 L15.5 14 H8.5 Z" fill="none" stroke={detailColor} stroke-width="1.2" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+    </svg>
+  )
+}
+
+{
+  glyph === 'crossroads' && (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" class="dingbat">
+      <path d="M12 4 V20 M4 12 H20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
+      <circle cx="12" cy="12" r="2" fill="var(--paper, #F6F1E8)" stroke={detailColor} stroke-width="1.2" vector-effect="non-scaling-stroke" />
+    </svg>
+  )
+}
+
+<style>
+  .dingbat {
+    display: inline-block;
+    flex: 0 0 auto;
+    color: currentColor;
+    vertical-align: middle;
+  }
+</style>
