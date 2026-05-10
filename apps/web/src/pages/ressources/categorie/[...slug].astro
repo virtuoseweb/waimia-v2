@@ -1,0 +1,157 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import { CATEGORIES } from '../../../data/taxonomies';
+
+type ResourceEntry =
+  | CollectionEntry<'blog'>
+  | CollectionEntry<'cookbooks'>
+  | CollectionEntry<'livresBlancs'>
+  | CollectionEntry<'veilleIA'>
+  | CollectionEntry<'cases'>;
+
+type Item = {
+  id: string;
+  type: string;
+  data: ResourceEntry['data'];
+  href: string;
+};
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/404');
+if (!CATEGORIES[slug]) return Astro.redirect('/404');
+
+const cat = CATEGORIES[slug];
+
+const [blog, cookbooks, livresBlancs, veilleIA, cas] = await Promise.all([
+  getCollection('blog'),
+  getCollection('cookbooks'),
+  getCollection('livresBlancs'),
+  getCollection('veilleIA'),
+  getCollection('cases'),
+]);
+
+const items: Item[] = [
+  ...blog
+    .filter((e) => e.data.category === slug)
+    .map((e) => ({ id: e.id, type: 'blog', data: e.data, href: `/ressources/blog/${e.id}` })),
+  ...cookbooks
+    .filter((e) => e.data.category === slug)
+    .map((e) => ({ id: e.id, type: 'cookbook', data: e.data, href: `/ressources/cookbooks/${e.id}` })),
+  ...livresBlancs
+    .filter((e) => e.data.category === slug)
+    .map((e) => ({ id: e.id, type: 'livre-blanc', data: e.data, href: `/ressources/livres-blancs/${e.id}` })),
+  ...veilleIA
+    .filter((e) => e.data.category === slug)
+    .map((e) => ({ id: e.id, type: 'veille', data: e.data, href: `/ressources/veille-ia/${e.id}` })),
+  ...cas
+    .filter((e) => e.data.category === slug)
+    .map((e) => ({ id: e.id, type: 'cas', data: e.data, href: `/cas/${e.id}` })),
+].sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://waimia.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Ressources', item: 'https://waimia.com/ressources' },
+    { '@type': 'ListItem', position: 3, name: cat.label.fr },
+  ],
+};
+
+const collectionPageLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `${cat.label.fr} · Waimia`,
+  description: cat.description.fr,
+};
+---
+
+<Base
+  title={`${cat.label.fr} · ${items.length} ressources · Waimia`}
+  description={cat.description.fr}
+  jsonLd={[breadcrumbLd, collectionPageLd]}
+>
+  <section class="cat-mast">
+    <div class="wrap-tight">
+      <Kicker class="cat-kicker">§ Catégorie · {items.length} {items.length > 1 ? 'ressources' : 'ressource'}</Kicker>
+      <h1 class="cat-h1">{cat.label.fr}</h1>
+      <p class="cat-lede">{cat.description.fr}</p>
+    </div>
+  </section>
+
+  <section class="cat-list-sec">
+    <div class="wrap-tight">
+      <ul class="cat-list">
+        {items.map((it) => (
+          <li>
+            <a href={it.href}>
+              <span class="cat-type">{it.type}</span>
+              <span class="cat-title">{it.data.title_fr}</span>
+              <span class="cat-date">{new Date(it.data.publishedAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'short' })}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      {items.length === 0 && <p class="cat-empty">Aucune ressource pour cette catégorie pour le moment.</p>}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cat-mast { padding: clamp(80px, 10vw, 140px) 0 clamp(40px, 5vw, 64px); }
+  :global(.cat-kicker) { color: var(--accent); margin-bottom: 24px; }
+  .cat-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 9vw, 120px);
+    line-height: .92;
+    letter-spacing: -.028em;
+    font-weight: 400;
+    margin: 0 0 32px;
+  }
+  .cat-lede {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.55;
+    color: var(--muted);
+    font-style: italic;
+    max-width: 680px;
+  }
+  .cat-list-sec { padding: clamp(40px, 5vw, 80px) 0 clamp(80px, 10vw, 140px); }
+  .cat-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid rgba(0,0,0,.12); }
+  .cat-list li { border-bottom: 1px solid rgba(0,0,0,.08); }
+  .cat-list a {
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 24px;
+    padding: 18px 0;
+    color: var(--ink);
+    text-decoration: none;
+    align-items: baseline;
+    transition: padding 220ms;
+  }
+  .cat-list a:hover { padding-left: 8px; color: var(--accent); }
+  .cat-type {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .cat-title {
+    font-family: var(--font-display);
+    font-size: clamp(17px, 1.5vw, 21px);
+    line-height: 1.35;
+  }
+  .cat-date {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .cat-empty { font-family: var(--font-display); font-style: italic; color: var(--muted); padding: 32px 0; }
+  .wrap-tight { max-width: 880px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+</style>

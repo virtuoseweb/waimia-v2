@@ -30,11 +30,63 @@ const baseFields = {
   faq_en: faqArray,
 };
 
+// ─── Mixin taxonomies ───
+const taxonomyFields = {
+  /** Catégorie business (1 par contenu) */
+  category: z
+    .enum([
+      'acquisition',
+      'crm',
+      'contenu-seo-geo',
+      'productivite',
+      'support',
+      'pilotage',
+      'data',
+      'gouvernance',
+    ])
+    .optional(),
+
+  /** Cluster / silo (groupe d'articles autour d'un pillar) */
+  cluster: z
+    .string()
+    .regex(/^[a-z0-9-]+$/, 'kebab-case')
+    .optional(),
+
+  /** Tags libres (3-5 typiquement) */
+  tags: z.array(z.string().regex(/^[a-z0-9-]+$/, 'kebab-case')).default([]),
+
+  /** Sources d'autorité citées (3+ pour articles pillar) */
+  sources: z
+    .array(
+      z.object({
+        name: z.string(),
+        url: z.string().url(),
+        type: z.enum([
+          'state',
+          'university',
+          'journal',
+          'enterprise',
+          'research',
+        ]),
+        publishedAt: z.coerce.date().optional(),
+        author: z.string().optional(),
+      }),
+    )
+    .default([]),
+
+  /** Liens cross-collection (auto-related) */
+  relatedSolutions: z.array(z.string()).default([]),
+  relatedOffres: z.array(z.string()).default([]),
+  relatedCases: z.array(z.string()).default([]),
+  relatedSecteurs: z.array(z.string()).default([]),
+};
+
 // ─── Cases ───
 const cases = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/cases' }),
   schema: z.object({
     ...baseFields,
+    ...taxonomyFields,
     client: z.string(),
     sector_fr: z.string(),
     sector_en: z.string(),
@@ -126,12 +178,18 @@ const blog = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/blog' }),
   schema: z.object({
     ...baseFields,
-    category: z.enum(['Field Note', 'Case', 'Essay', 'Cookbook', 'Tutorial']),
+    ...taxonomyFields,
+    editorialType: z.enum([
+      'Field Note',
+      'Case',
+      'Essay',
+      'Cookbook',
+      'Tutorial',
+    ]),
     author: reference('authors'),
     contributors: z.array(reference('authors')).default([]),
     readingTime: z.number().optional(),
     heroImage: z.string().optional(),
-    tags: z.array(z.string()).default([]),
     relatedPosts: z.array(z.string()).default([]),
   }),
 });
@@ -185,6 +243,7 @@ const livresBlancs = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/livres-blancs' }),
   schema: z.object({
     ...baseFields,
+    ...taxonomyFields,
     pages: z.number().int().positive(),
     audience_fr: z.string(),
     audience_en: z.string(),
@@ -193,7 +252,6 @@ const livresBlancs = defineCollection({
     pdfUrl: z.string().optional(),
     requireEmail: z.boolean().default(true),
     apiSlug: z.string().regex(/^[a-z0-9-]+$/),
-    relatedOffres: z.array(z.string()).default([]),
     coverUrl: z.string().optional(),
     format_fr: z.string(),
     format_en: z.string(),
@@ -207,6 +265,7 @@ const cookbooks = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/cookbooks' }),
   schema: z.object({
     ...baseFields,
+    ...taxonomyFields,
     duration_fr: z.string(),
     duration_en: z.string(),
     difficulty: z.enum(['Débutant', 'Intermédiaire', 'Avancé']),
@@ -214,7 +273,6 @@ const cookbooks = defineCollection({
     prerequisites_en: z.array(z.string()).default([]),
     steps: z.number().int().positive(),
     technologies: z.array(z.string()).default([]),
-    tags: z.array(z.string()).default([]),
     author: reference('authors'),
     contributors: z.array(reference('authors')).default([]),
     relatedCookbooks: z.array(z.string()).default([]),
@@ -280,22 +338,13 @@ const veilleIA = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/veille-ia' }),
   schema: z.object({
     ...baseFields,
+    ...taxonomyFields,
     date: z.coerce.date(),
     impact_fr: z.string().min(40).max(280),
     impact_en: z.string().min(40).max(280),
-    sources: z
-      .array(
-        z.object({
-          name: z.string(),
-          url: z.string().url(),
-          publishedAt: z.coerce.date().optional(),
-        }),
-      )
-      .default([]),
     sectors: z.array(z.string()).default([]),
     author: reference('authors'),
     contributors: z.array(reference('authors')).default([]),
-    tags: z.array(z.string()).default([]),
   }),
 });
 

@@ -1,0 +1,101 @@
+---
+import { SOURCE_TYPES } from '../../../data/taxonomies';
+
+type SourceType = keyof typeof SOURCE_TYPES;
+
+interface Source {
+  name: string;
+  url: string;
+  type: SourceType;
+  publishedAt?: Date | string;
+  author?: string;
+}
+
+interface Props {
+  sources?: Source[];
+}
+
+const { sources = [] } = Astro.props;
+
+if (sources.length === 0) return null;
+---
+
+<aside class="sources-sec" id="sources">
+  <h2 class="sources-h2">Sources</h2>
+  <ol class="sources-list">
+    {
+      sources.map((source, idx) => (
+        <li id={`source-${idx + 1}`}>
+          <a href={source.url} target="_blank" rel="noopener noreferrer">
+            <span class={`source-type source-type-${source.type}`}>
+              {SOURCE_TYPES[source.type].label.fr}
+            </span>
+            <span class="source-name">{source.name}</span>
+            {source.publishedAt && (
+              <span class="source-date">
+                {new Date(source.publishedAt).getFullYear()}
+              </span>
+            )}
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</aside>
+
+<style>
+  .sources-sec {
+    padding: 32px 0;
+    margin: 48px 0;
+    border-top: 1px solid rgba(0,0,0,.12);
+    border-bottom: 1px solid rgba(0,0,0,.12);
+  }
+  .sources-h2 {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 24px;
+  }
+  .sources-list { list-style: none; padding: 0; margin: 0; counter-reset: src; }
+  .sources-list li { counter-increment: src; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,.06); }
+  .sources-list li:last-child { border-bottom: 0; }
+  .sources-list li::before {
+    content: counter(src) '.';
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-right: 8px;
+  }
+  .sources-list a {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .sources-list a:hover { color: var(--accent); }
+  .source-type {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: var(--paper);
+    background: var(--ink);
+  }
+  .source-type-state { background: #1e40af; }
+  .source-type-university { background: #7c3aed; }
+  .source-type-journal { background: #374151; }
+  .source-type-enterprise { background: var(--accent); }
+  .source-type-research { background: #ea580c; }
+  .source-name { font-family: var(--font-display); font-size: 15px; line-height: 1.4; }
+  .source-date {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+</style>

@@ -64,8 +64,8 @@ const sortByDate = <T extends { data: { publishedAt: Date } }>(items: T[]) =>
   );
 
 const blogByAuthor = sortByDate(allBlog.filter(matchAuthor));
-const essays = blogByAuthor.filter((contentEntry) => contentEntry.data.category === 'Essay');
-const shortPosts = blogByAuthor.filter((contentEntry) => contentEntry.data.category === 'Field Note');
+const essays = blogByAuthor.filter((contentEntry) => contentEntry.data.editorialType === 'Essay');
+const shortPosts = blogByAuthor.filter((contentEntry) => contentEntry.data.editorialType === 'Field Note');
 const cookbooks = sortByDate(allCookbooks.filter(matchAuthor));
 const livresBlancs = sortByDate(allLivresBlancs.filter(matchAuthor));
 const veilleIA = sortByDate(allVeille.filter(matchAuthor));

@@ -1,0 +1,130 @@
+---
+import { getCollection } from 'astro:content';
+import { CATEGORIES } from '../../../data/taxonomies';
+
+interface Props {
+  category?: string;
+  excludeId?: string;
+  limit?: number;
+}
+
+interface CategoryData {
+  category?: string;
+  publishedAt: Date | string;
+  title_fr: string;
+}
+
+interface Item {
+  id: string;
+  type: string;
+  data: CategoryData;
+  href: string;
+}
+
+const { category, excludeId, limit = 5 } = Astro.props;
+
+if (!category || !CATEGORIES[category]) return null;
+
+const [blog, cookbooks, livresBlancs, veilleIA] = await Promise.all([
+  getCollection('blog'),
+  getCollection('cookbooks'),
+  getCollection('livresBlancs'),
+  getCollection('veilleIA'),
+]);
+
+const items: Item[] = [
+  ...blog
+    .filter((entry) => entry.data.category === category && entry.id !== excludeId)
+    .map((entry) => ({
+      id: entry.id,
+      type: 'blog',
+      data: entry.data,
+      href: `/ressources/blog/${entry.id}`,
+    })),
+  ...cookbooks
+    .filter((entry) => entry.data.category === category && entry.id !== excludeId)
+    .map((entry) => ({
+      id: entry.id,
+      type: 'cookbook',
+      data: entry.data,
+      href: `/ressources/cookbooks/${entry.id}`,
+    })),
+  ...livresBlancs
+    .filter((entry) => entry.data.category === category && entry.id !== excludeId)
+    .map((entry) => ({
+      id: entry.id,
+      type: 'livre-blanc',
+      data: entry.data,
+      href: `/ressources/livres-blancs/${entry.id}`,
+    })),
+  ...veilleIA
+    .filter((entry) => entry.data.category === category && entry.id !== excludeId)
+    .map((entry) => ({
+      id: entry.id,
+      type: 'veille',
+      data: entry.data,
+      href: `/ressources/veille-ia/${entry.id}`,
+    })),
+]
+  .sort(
+    (a, b) =>
+      new Date(b.data.publishedAt).getTime() -
+      new Date(a.data.publishedAt).getTime(),
+  )
+  .slice(0, limit);
+
+if (items.length === 0) return null;
+
+const cat = CATEGORIES[category];
+---
+
+<aside class="latest-cat">
+  <div class="latest-kicker">§ Derniers · {cat.label.fr}</div>
+  <ul>
+    {
+      items.map((it) => (
+        <li>
+          <a href={it.href}>
+            <span class="latest-title">{it.data.title_fr}</span>
+            <span class="latest-date">
+              {new Date(it.data.publishedAt).toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'short',
+              })}
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <a href={`/ressources/categorie/${category}`} class="latest-cta"
+    >Tout {cat.label.fr.toLowerCase()} →</a
+  >
+</aside>
+
+<style>
+  .latest-cat { padding: 24px 0; }
+  .latest-kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .latest-cat ul { list-style: none; padding: 0; margin: 0 0 16px; border-top: 1px solid rgba(0,0,0,.12); }
+  .latest-cat li { border-bottom: 1px solid rgba(0,0,0,.08); }
+  .latest-cat a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 12px 0;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .latest-cat a:hover { color: var(--accent); }
+  .latest-title { font-family: var(--font-display); font-size: 14.5px; line-height: 1.4; }
+  .latest-date { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); flex-shrink: 0; }
+  .latest-cta { font-family: var(--font-mono); font-size: 11px; color: var(--accent); text-decoration: none; }
+</style>
