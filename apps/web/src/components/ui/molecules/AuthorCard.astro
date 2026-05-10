@@ -1,0 +1,146 @@
+---
+/**
+ * AuthorCard · carte auteur — photo + nom + role + bio courte + social links
+ *
+ * Usage :
+ *   <AuthorCard authorSlug="simon-beros" variant="full" />
+ *   <AuthorCard authorSlug="simon-beros" variant="mini" />
+ */
+import { getEntry } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  authorSlug?: string;
+  variant?: 'mini' | 'full';
+}
+
+const { authorSlug, variant = 'full' } = Astro.props;
+
+let author: CollectionEntry<'authors'> | undefined;
+if (authorSlug) {
+  try {
+    author = await getEntry('authors', authorSlug);
+  } catch {
+    // Fallback gracieux : ne rien rendre si l'auteur n'est pas disponible.
+  }
+}
+---
+
+{author && variant === 'mini' && (
+  <a href={`/equipe/${author.id}`} class="acard-mini">
+    {author.data.photo && (
+      <img src={author.data.photo} alt={author.data.photoAlt_fr ?? author.data.title_fr} class="acard-mini-photo" />
+    )}
+    <div>
+      <div class="acard-mini-name">{author.data.title_fr}</div>
+      <div class="acard-mini-role">{author.data.role_fr}</div>
+    </div>
+  </a>
+)}
+
+{author && variant === 'full' && (
+  <aside class="acard-full">
+    <div class="acard-full-header">
+      {author.data.photo && (
+        <a href={`/equipe/${author.id}`} class="acard-full-photo-link">
+          <img src={author.data.photo} alt={author.data.photoAlt_fr ?? author.data.title_fr} class="acard-full-photo" />
+        </a>
+      )}
+      <div>
+        <div class="acard-full-kicker">§ Écrit par</div>
+        <a href={`/equipe/${author.id}`} class="acard-full-name">{author.data.title_fr}</a>
+        <div class="acard-full-role">{author.data.role_fr}</div>
+      </div>
+    </div>
+    <p class="acard-full-bio">{author.data.description_fr}</p>
+    <div class="acard-full-social">
+      {author.data.social?.linkedin && <a href={author.data.social.linkedin}>LinkedIn →</a>}
+      {author.data.social?.x && <a href={author.data.social.x}>X →</a>}
+      {author.data.social?.github && <a href={author.data.social.github}>GitHub →</a>}
+      <a href={`/equipe/${author.id}`} class="acard-full-cta">Voir le profil →</a>
+    </div>
+  </aside>
+)}
+
+<style>
+  /* Mini variant */
+  .acard-mini {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .acard-mini-photo {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .acard-mini-name { font-family: var(--font-display); font-size: 14px; }
+  .acard-mini-role { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+
+  /* Full variant */
+  .acard-full {
+    background: var(--paper-2, #EFEBE2);
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 48px 0;
+    max-width: 720px;
+  }
+  .acard-full-header { display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
+  .acard-full-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .acard-full-kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .acard-full-name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--ink);
+    text-decoration: none;
+    line-height: 1.2;
+    display: block;
+  }
+  .acard-full-role {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .acard-full-bio {
+    font-family: var(--font-display);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+    font-style: italic;
+    margin: 0 0 16px;
+  }
+  .acard-full-social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .acard-full-social a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0,0,0,.2);
+    padding-bottom: 1px;
+  }
+  .acard-full-social a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .acard-full-cta { color: var(--accent); border-bottom-color: var(--accent); }
+</style>

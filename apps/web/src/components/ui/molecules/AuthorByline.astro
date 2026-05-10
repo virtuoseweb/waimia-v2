@@ -1,0 +1,101 @@
+---
+/**
+ * AuthorByline · top d'article — photo + nom + date + reading time + lien profil
+ *
+ * Usage :
+ *   <AuthorByline authorSlug="simon-beros" date={publishedAt} readingTime="7 min" />
+ *
+ * Auto-fetch l'auteur depuis collection authors. Robust : si slug undefined ou
+ * auteur introuvable, rend un fallback minimal sans casser la page.
+ */
+import { getEntry } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { langFromPath } from '../../../lib/i18n';
+
+interface Props {
+  authorSlug?: string;
+  date?: Date | string;
+  readingTime?: string;
+}
+
+const { authorSlug, date, readingTime } = Astro.props;
+const lang = langFromPath(Astro.url.pathname);
+
+let author: CollectionEntry<'authors'> | undefined;
+if (authorSlug) {
+  try {
+    author = await getEntry('authors', authorSlug);
+  } catch {
+    // Fallback gracieux : la page garde date / reading time si disponibles.
+  }
+}
+
+const dateFormatted = date
+  ? new Date(date).toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  : null;
+---
+
+{author && (
+  <div class="byline">
+    {author.data.photo && (
+      <a href={`/equipe/${author.id}`} class="byline-photo-link">
+        <img src={author.data.photo} alt={author.data.photoAlt_fr ?? author.data.title_fr} class="byline-photo" />
+      </a>
+    )}
+    <div class="byline-meta">
+      <a href={`/equipe/${author.id}`} class="byline-name">{author.data.title_fr}</a>
+      <div class="byline-info">
+        {dateFormatted && <span>{dateFormatted}</span>}
+        {dateFormatted && readingTime && <span aria-hidden> · </span>}
+        {readingTime && <span>{readingTime}</span>}
+      </div>
+    </div>
+  </div>
+)}
+
+{!author && (dateFormatted || readingTime) && (
+  <div class="byline byline-anon">
+    {dateFormatted && <span>{dateFormatted}</span>}
+    {dateFormatted && readingTime && <span aria-hidden> · </span>}
+    {readingTime && <span>{readingTime}</span>}
+  </div>
+)}
+
+<style>
+  .byline {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 24px 0 32px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .byline-photo-link { line-height: 0; }
+  .byline-photo {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .byline-meta { display: flex; flex-direction: column; gap: 2px; }
+  .byline-name {
+    font-family: var(--font-display);
+    font-size: 15px;
+    color: var(--ink);
+    font-style: italic;
+    text-decoration: none;
+  }
+  .byline-name:hover { color: var(--accent); }
+  .byline-info {
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .byline-anon { font-style: italic; }
+</style>

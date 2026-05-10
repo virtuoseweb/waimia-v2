@@ -1,7 +1,7 @@
 // Waimia · content collections · Zod schemas
 // Cf docs/03-content-models.md pour le rationale de chaque champ.
 
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, reference, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 // ─── Mixin commun (SEO/GEO/AIO) ───
@@ -54,6 +54,8 @@ const cases = defineCollection({
     ndaProtected: z.boolean().default(false),
     featured: z.boolean().default(false),
     heroImage: z.string().optional(),
+    author: reference('authors').optional(),
+    contributors: z.array(reference('authors')).default([]),
   }),
 });
 
@@ -125,12 +127,8 @@ const blog = defineCollection({
   schema: z.object({
     ...baseFields,
     category: z.enum(['Field Note', 'Case', 'Essay', 'Cookbook', 'Tutorial']),
-    author: z.object({
-      name: z.string(),
-      url: z.string().url().optional(),
-      bio_fr: z.string().optional(),
-      bio_en: z.string().optional(),
-    }),
+    author: reference('authors'),
+    contributors: z.array(reference('authors')).default([]),
     readingTime: z.number().optional(),
     heroImage: z.string().optional(),
     tags: z.array(z.string()).default([]),
@@ -199,6 +197,8 @@ const livresBlancs = defineCollection({
     coverUrl: z.string().optional(),
     format_fr: z.string(),
     format_en: z.string(),
+    author: reference('authors'),
+    contributors: z.array(reference('authors')).default([]),
   }),
 });
 
@@ -215,11 +215,8 @@ const cookbooks = defineCollection({
     steps: z.number().int().positive(),
     technologies: z.array(z.string()).default([]),
     tags: z.array(z.string()).default([]),
-    author: z.object({
-      name: z.string(),
-      role: z.string().optional(),
-      url: z.string().url().optional(),
-    }),
+    author: reference('authors'),
+    contributors: z.array(reference('authors')).default([]),
     relatedCookbooks: z.array(z.string()).default([]),
   }),
 });
@@ -296,10 +293,8 @@ const veilleIA = defineCollection({
       )
       .default([]),
     sectors: z.array(z.string()).default([]),
-    author: z.object({
-      name: z.string(),
-      url: z.string().url().optional(),
-    }),
+    author: reference('authors'),
+    contributors: z.array(reference('authors')).default([]),
     tags: z.array(z.string()).default([]),
   }),
 });

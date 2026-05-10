@@ -1,6 +1,24 @@
 ---
 import { getEntry, render } from 'astro:content';
 import LeadMagnetTemplate from '../../../components/templates/LeadMagnetTemplate.astro';
+import AuthorByline from '../../../components/ui/molecules/AuthorByline.astro';
+import AuthorCard from '../../../components/ui/molecules/AuthorCard.astro';
+
+const slugifyAuthorName = (name: string) =>
+  name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+const getAuthorSlug = (author: unknown): string | undefined => {
+  if (!author) return undefined;
+  if (typeof author === 'string') return author;
+  if (typeof author !== 'object') return undefined;
+
+  const ref = author as { id?: unknown; slug?: unknown; url?: unknown; name?: unknown };
+  if (typeof ref.id === 'string') return ref.id;
+  if (typeof ref.slug === 'string') return ref.slug;
+  if (typeof ref.url === 'string') return ref.url.split('/').filter(Boolean).at(-1);
+  if (typeof ref.name === 'string') return slugifyAuthorName(ref.name);
+  return undefined;
+};
 
 const { slug } = Astro.params;
 if (!slug) return Astro.redirect('/404');
@@ -9,6 +27,7 @@ if (!entry) return Astro.redirect('/404');
 if (entry.data.seo?.noindex) return Astro.redirect('/404');
 const { Content } = await render(entry);
 const d = entry.data;
+const authorSlug = getAuthorSlug(d.author);
 
 const toc = d.chapters_fr.map((c, i) => ({
   num: String(i + 1).padStart(2, '0'),
@@ -27,5 +46,9 @@ const toc = d.chapters_fr.map((c, i) => ({
 >
   <Fragment slot="headline">{d.title_fr}</Fragment>
   <Fragment slot="lede">{d.description_fr}</Fragment>
-  <Fragment slot="extra"><Content /></Fragment>
+  <Fragment slot="extra">
+    <AuthorByline authorSlug={authorSlug} date={d.publishedAt} />
+    <Content />
+    <AuthorCard authorSlug={authorSlug} variant="full" />
+  </Fragment>
 </LeadMagnetTemplate>

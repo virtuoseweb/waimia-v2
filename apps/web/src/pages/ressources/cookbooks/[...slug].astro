@@ -1,6 +1,36 @@
 ---
 import { getCollection, getEntry, render } from 'astro:content';
 import EssayTemplate from '../../../components/templates/EssayTemplate.astro';
+import AuthorByline from '../../../components/ui/molecules/AuthorByline.astro';
+import AuthorCard from '../../../components/ui/molecules/AuthorCard.astro';
+
+const slugifyAuthorName = (name: string) =>
+  name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+const getAuthorSlug = (author: unknown): string | undefined => {
+  if (!author) return undefined;
+  if (typeof author === 'string') return author;
+  if (typeof author !== 'object') return undefined;
+
+  const ref = author as { id?: unknown; slug?: unknown; url?: unknown; name?: unknown };
+  if (typeof ref.id === 'string') return ref.id;
+  if (typeof ref.slug === 'string') return ref.slug;
+  if (typeof ref.url === 'string') return ref.url.split('/').filter(Boolean).at(-1);
+  if (typeof ref.name === 'string') return slugifyAuthorName(ref.name);
+  return undefined;
+};
+
+const getAuthorLabel = (author: unknown): string | undefined => {
+  if (!author) return undefined;
+  if (typeof author === 'string') return author.split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+  if (typeof author !== 'object') return undefined;
+
+  const ref = author as { name?: unknown; id?: unknown; slug?: unknown };
+  if (typeof ref.name === 'string') return ref.name;
+  if (typeof ref.id === 'string') return getAuthorLabel(ref.id);
+  if (typeof ref.slug === 'string') return getAuthorLabel(ref.slug);
+  return undefined;
+};
 
 const { slug } = Astro.params;
 if (!slug) return Astro.redirect('/404');
@@ -11,6 +41,8 @@ const { Content } = await render(entry);
 const d = entry.data;
 
 const dateStr = d.publishedAt.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+const authorSlug = getAuthorSlug(d.author);
+const authorLabel = getAuthorLabel(d.author) ?? 'Waimia';
 
 const allCookbooks = await getCollection('cookbooks');
 const relatedCards = d.relatedCookbooks.length > 0
@@ -32,10 +64,14 @@ const relatedCards = d.relatedCookbooks.length > 0
   description={d.description_fr}
   kicker={`§ Cookbook · ${d.difficulty} · ${d.duration_fr}`}
   date={dateStr}
-  author={d.author.name}
+  author={authorLabel}
   relatedCards={relatedCards}
 >
   <Fragment slot="headline">{d.title_fr}</Fragment>
   <Fragment slot="lede">{d.description_fr}</Fragment>
-  <Fragment slot="body"><Content /></Fragment>
+  <Fragment slot="body">
+    <AuthorByline authorSlug={authorSlug} date={d.publishedAt} />
+    <Content />
+    <AuthorCard authorSlug={authorSlug} variant="full" />
+  </Fragment>
 </EssayTemplate>

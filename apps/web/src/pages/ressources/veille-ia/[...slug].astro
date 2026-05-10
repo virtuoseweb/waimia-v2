@@ -9,6 +9,7 @@ if (!entry) return Astro.redirect('/404');
 if (entry.data.seo?.noindex) return Astro.redirect('/404');
 const { Content } = await render(entry);
 const d = entry.data;
+const authorEntry = d.author ? await getEntry('authors', d.author.id) : null;
 
 const dateStr = d.date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
 const dateDisplay = d.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -18,7 +19,7 @@ const dateDisplay = d.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 
   description={d.description_fr}
   kicker={`§ Veille · ${dateStr}`}
   date={dateDisplay}
-  author={d.author.name}
+  author={authorEntry?.data.title_fr ?? ''}
   readingTime="3 min lecture"
   relatedCards={[]}
 >

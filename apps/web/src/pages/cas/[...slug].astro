@@ -1,6 +1,24 @@
 ---
 import { getCollection, getEntry, render } from 'astro:content';
 import CaseStudyTemplate from '../../components/templates/CaseStudyTemplate.astro';
+import AuthorByline from '../../components/ui/molecules/AuthorByline.astro';
+import AuthorCard from '../../components/ui/molecules/AuthorCard.astro';
+
+const slugifyAuthorName = (name: string) =>
+  name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+const getAuthorSlug = (author: unknown): string | undefined => {
+  if (!author) return undefined;
+  if (typeof author === 'string') return author;
+  if (typeof author !== 'object') return undefined;
+
+  const ref = author as { id?: unknown; slug?: unknown; url?: unknown; name?: unknown };
+  if (typeof ref.id === 'string') return ref.id;
+  if (typeof ref.slug === 'string') return ref.slug;
+  if (typeof ref.url === 'string') return ref.url.split('/').filter(Boolean).at(-1);
+  if (typeof ref.name === 'string') return slugifyAuthorName(ref.name);
+  return undefined;
+};
 
 const { slug } = Astro.params;
 if (!slug) return Astro.redirect('/404');
@@ -9,6 +27,7 @@ if (!entry) return Astro.redirect('/404');
 if (entry.data.seo?.noindex) return Astro.redirect('/404');
 const { Content } = await render(entry);
 const d = entry.data;
+const authorSlug = getAuthorSlug(d.author);
 
 const allCases = await getCollection('cases');
 const idx = allCases.findIndex((c) => c.id === entry.id);
@@ -22,7 +41,6 @@ const specs = [
 
 const proofMetrics = (d.metrics ?? []).map((m) => ({ k: m.value, label_fr: m.label_fr, label_en: m.label_en }));
 
-const allCases = await getCollection('cases');
 const relatedCards = allCases
   .filter((c) => c.id !== entry.id)
   .slice(0, 3)
@@ -50,7 +68,11 @@ const relatedCards = allCases
   relatedCards={relatedCards}
 >
   <Fragment slot="headline">{d.title_fr}</Fragment>
-  <Fragment slot="context"><Content /></Fragment>
+  <Fragment slot="context">
+    <AuthorByline authorSlug={authorSlug} date={d.publishedAt} />
+    <Content />
+    <AuthorCard authorSlug={authorSlug} variant="full" />
+  </Fragment>
   <Fragment slot="approach-headline">Ce qu'on a câblé.</Fragment>
   <Fragment slot="stack-lead">{d.impact_fr}</Fragment>
 </CaseStudyTemplate>
