@@ -30,8 +30,7 @@
  *   </SolutionsDetailTemplate>
  */
 import Base from '../../layouts/Base.astro';
-import Header from '../header/Header.astro';
-import Footer from '../footer/Footer.astro';
+
 
 interface Props {
   /** SEO meta · title de la page (browser tab) */
@@ -61,9 +60,6 @@ const {
 } = Astro.props;
 ---
 <Base {title} {description}>
-  <Header />
-
-  <main id="main">
     {/* ────────── 1. HERO DEPARTMENT ────────── */}
     <section class="sol-hero" data-screen-label="01 Hero Department">
       <svg class="sol-hero-geo" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -187,9 +183,6 @@ const {
         </div>
       </div>
     </section>
-  </main>
-
-  <Footer />
 </Base>
 
 <style>

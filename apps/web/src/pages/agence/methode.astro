@@ -1,0 +1,204 @@
+---
+// Page · /agence/methode · Méthode Waimia · Process Intelligence
+//
+// Documente comment Waimia travaille — pas un produit, pas un OS marketing.
+// VirtuoseOS y apparaît comme framework interne, pas comme proposition commerciale.
+
+import UtilityTemplate from '../../components/templates/UtilityTemplate.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+
+const phases = [
+  {
+    n: '01',
+    label_fr: 'Cartographie',
+    body_fr: "On regarde votre métier. Pas vos slides. Vos vrais workflows, vos vrais outils, vos vrais bouchons. Le mardi on observe, le vendredi on chiffre.",
+  },
+  {
+    n: '02',
+    label_fr: 'Priorisation',
+    body_fr: "On classe les workflows par ROI. Pas par sophistication technique. Le quick win passe en premier. Le reste — on planifie.",
+  },
+  {
+    n: '03',
+    label_fr: 'Câblage',
+    body_fr: "On câble les agents IA dans vos outils existants — Excel, HubSpot, Outlook, votre ERP. Pas de migration. Pas de rebuild. Connecter ce qui marche.",
+  },
+  {
+    n: '04',
+    label_fr: 'Mesure',
+    body_fr: "Chaque workflow a sa métrique avant/après. Si ça ne mesure rien, ça n'existe pas. Le vendredi, on lit les chiffres.",
+  },
+  {
+    n: '05',
+    label_fr: 'Passation',
+    body_fr: "Vous prenez la main. Documentation, runbook, formation. Pas de boîte noire, pas de captivité. Vous pouvez nous virer.",
+  },
+];
+---
+<UtilityTemplate
+  title="Notre méthode · Process Intelligence · Waimia"
+  description="Cinq phases. Audit, priorisation, câblage, mesure, passation. Pas de slide deck. Pas de POC. Le mardi on câble, le vendredi on mesure."
+  kicker="§ Notre méthode · Process Intelligence"
+  align="left"
+  showCta={true}
+>
+  <Fragment slot="headline">Cinq <i>phases</i>. Pas de <i>slide deck</i>.</Fragment>
+  <Fragment slot="lede">
+    On a une méthode. On l'écrit, on la mesure, on la corrige. Pas un secret de cabinet — un protocole reproductible.
+  </Fragment>
+
+  <Fragment slot="body">
+    {/* ── PHASES ── */}
+    <div class="meth-phases">
+      {phases.map((p) => (
+        <div class="meth-phase reveal-up">
+          <div class="meth-phase-n">{p.n}</div>
+          <div class="meth-phase-content">
+            <h3 class="meth-phase-label">{p.label_fr}</h3>
+            <p class="meth-phase-body">{p.body_fr}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* ── MENTION VIRTUOSEOS ── */}
+    <div class="meth-os reveal">
+      <Kicker class="meth-os-kicker">§ Sous le capot</Kicker>
+      <h2 class="meth-os-h2">VirtuoseOS · le <i>framework</i> qu'on a construit pour ça.</h2>
+      <p class="meth-os-body">
+        Cinq ans à câbler des systèmes IA pour PME nous ont appris une chose : sans framework, chaque mission redémarre à zéro. VirtuoseOS est notre kernel multi-workspace — un système qui orchestre les agents, audite les actions, et garde la trace.
+      </p>
+      <p class="meth-os-body">
+        Vous n'avez pas à l'acheter. Vous n'avez pas à le voir. Il tourne sous chaque mission Waimia. C'est tout.
+      </p>
+    </div>
+
+    {/* ── CTA INLINE ── */}
+    <div class="meth-cta reveal">
+      <h2 class="meth-cta-h2">Cinq phases. Quarante-cinq minutes pour démarrer.</h2>
+      <a href="/contact" class="meth-cta-btn" data-mag="0.15">Démarrer →</a>
+    </div>
+  </Fragment>
+</UtilityTemplate>
+
+<style>
+  /* ── Phases liste verticale ── */
+  .meth-phases {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--hairline);
+    margin-bottom: clamp(72px, 9vw, 120px);
+  }
+
+  .meth-phase {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: clamp(20px, 3.5vw, 56px);
+    padding: clamp(28px, 3.5vw, 44px) 0;
+    border-bottom: 1px solid var(--hairline);
+    align-items: start;
+    transition: background 220ms var(--ease);
+  }
+  .meth-phase:hover { background: var(--paper-2); border-radius: 4px; }
+
+  .meth-phase-n {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 6vw, 88px);
+    line-height: 0.9;
+    color: var(--accent);
+    font-style: italic;
+    letter-spacing: -0.03em;
+  }
+
+  .meth-phase-label {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.2vw, 48px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin: 0 0 16px;
+    text-wrap: balance;
+  }
+
+  .meth-phase-body {
+    color: var(--muted);
+    font-size: clamp(15px, 1.4vw, 17px);
+    line-height: 1.65;
+    margin: 0;
+    max-width: 680px;
+  }
+
+  /* ── Section VirtuoseOS ── */
+  .meth-os {
+    background: var(--paper-2);
+    border: 1px solid var(--hairline);
+    padding: clamp(36px, 4.5vw, 64px);
+    margin-bottom: clamp(72px, 9vw, 120px);
+  }
+
+  :global(.meth-os-kicker) { display: block; margin-bottom: 20px; }
+
+  .meth-os-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 52px);
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    line-height: 1.05;
+    margin: 0 0 28px;
+    text-wrap: balance;
+  }
+  .meth-os-h2 :global(i) { font-style: italic; color: var(--accent); }
+
+  .meth-os-body {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0 0 14px;
+    max-width: 680px;
+  }
+  .meth-os-body:last-child { margin-bottom: 0; }
+
+  /* ── CTA final ── */
+  .meth-cta {
+    text-align: left;
+    border-top: 1px solid var(--hairline);
+    padding-top: clamp(48px, 6vw, 72px);
+    display: flex;
+    align-items: center;
+    gap: clamp(28px, 4vw, 56px);
+    flex-wrap: wrap;
+  }
+
+  .meth-cta-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 52px);
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    line-height: 1.1;
+    margin: 0;
+    flex: 1 1 360px;
+    text-wrap: balance;
+  }
+
+  .meth-cta-btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 16px 36px;
+    border: 1px solid var(--ink);
+    transition: background 220ms var(--ease), border-color 220ms var(--ease);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .meth-cta-btn:hover { background: var(--accent); border-color: var(--accent); }
+
+  @media (max-width: 700px) {
+    .meth-phase { grid-template-columns: 72px 1fr; }
+    .meth-os { padding-inline: 24px; }
+    .meth-cta { flex-direction: column; align-items: flex-start; }
+  }
+</style>

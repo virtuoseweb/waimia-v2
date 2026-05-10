@@ -32,8 +32,7 @@
  *   </TechnologiesDetailTemplate>
  */
 import Base from '../../layouts/Base.astro';
-import Header from '../header/Header.astro';
-import Footer from '../footer/Footer.astro';
+
 
 interface Props {
   /** SEO meta · title de la page */
@@ -72,9 +71,6 @@ const {
 } = Astro.props;
 ---
 <Base {title} {description}>
-  <Header />
-
-  <main id="main">
     {/* ────────── 1. HERO LAYER ────────── */}
     <section class={`tech-hero tech-hero--${layerType}`} data-screen-label="01 Hero Layer">
       <svg class="tech-hero-geo" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -239,9 +235,6 @@ const {
         </div>
       </div>
     </section>
-  </main>
-
-  <Footer />
 </Base>
 
 <style>
