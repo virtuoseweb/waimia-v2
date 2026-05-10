@@ -324,56 +324,148 @@ export type FooterCol = {
 };
 
 export const FOOTER_COLS: FooterCol[] = [
+  // Col 1 — L'Agence
   {
     heading: { en: 'The Agency', fr: "L'Agence" },
     items: [
-      { href: '/agence/about', label: { en: 'About', fr: 'À propos' } },
-      { href: '/agence/methode', label: { en: 'Our method', fr: 'Notre méthode' } },
-      { href: '/agence/trust-center', label: { en: 'Trust Center', fr: 'Trust Center' } },
+      { href: '/agence/about', label: { en: 'About Waimia', fr: 'À propos' } },
+      {
+        href: '/agence/methode',
+        label: {
+          en: 'Our method · Process Intelligence',
+          fr: 'Notre méthode · Process Intelligence',
+        },
+      },
+      {
+        href: '/agence/trust-center',
+        label: { en: 'Trust Center', fr: 'Trust Center' },
+      },
       { href: '/agence/careers', label: { en: 'Careers', fr: 'Carrières' } },
-      { href: '/contact', label: { en: 'Contact', fr: 'Contact' } },
+      { href: '/contact', label: { en: 'Contact', fr: 'Nous contacter' } },
     ],
   },
+  // Col 2 — Solutions
   {
     heading: { en: 'Solutions', fr: 'Solutions' },
     items: [
-      { href: '/solutions/acquisition-ia', label: { en: 'AI Acquisition', fr: 'Acquisition IA' } },
-      { href: '/solutions/crm-relances-ia', label: { en: 'CRM & AI follow-ups', fr: 'CRM & relances IA' } },
-      { href: '/solutions/contenu-seo-geo-ia', label: { en: 'SEO/GEO Content', fr: 'Contenu SEO/GEO' } },
-      { href: '/solutions/productivite-ia', label: { en: 'AI Productivity', fr: 'Productivité IA' } },
-      { href: '/solutions/support-client-ia', label: { en: 'AI Customer Support', fr: 'Support client IA' } },
-      { href: '/secteurs', label: { en: 'Adapted to your industry →', fr: 'Adapté à votre secteur →' } },
+      {
+        href: '/solutions/acquisition-ia',
+        label: { en: 'AI Acquisition', fr: 'Acquisition IA' },
+      },
+      {
+        href: '/solutions/crm-relances-ia',
+        label: { en: 'CRM & AI follow-ups', fr: 'CRM & relances IA' },
+      },
+      {
+        href: '/solutions/contenu-seo-geo-ia',
+        label: { en: 'SEO/GEO content with AI', fr: 'Contenu SEO/GEO IA' },
+      },
+      {
+        href: '/solutions/productivite-ia',
+        label: { en: 'AI Productivity', fr: 'Productivité IA' },
+      },
+      {
+        href: '/solutions/support-client-ia',
+        label: { en: 'AI Customer Support', fr: 'Support client IA' },
+      },
+      { href: '/secteurs', label: { en: 'By sector →', fr: 'Par secteur →' } },
     ],
   },
+  // Col 3 — Offres
   {
     heading: { en: 'Services', fr: 'Offres' },
     items: [
-      { href: '/offres/growth-system-ia', label: { en: 'AI Growth System', fr: 'Growth System IA' } },
-      { href: '/offres/growth-intelligence', label: { en: 'Growth Intelligence', fr: 'Growth Intelligence' } },
-      { href: '/offres/productivite-operationnelle-ia', label: { en: 'Operational Productivity', fr: 'Productivité Opérationnelle' } },
-      { href: '/offres/activation-ia', label: { en: 'AI Activation · 1 week', fr: 'Activation IA · 1 semaine' } },
-      { href: '/offres/infrastructure-ia', label: { en: 'AI Infrastructure · Enterprise', fr: 'Infrastructure IA · ETI' } },
+      {
+        href: '/offres/growth-system-ia',
+        label: { en: 'AI Growth System', fr: 'Growth System IA' },
+      },
+      {
+        href: '/offres/growth-intelligence',
+        label: { en: 'Growth Intelligence', fr: 'Growth Intelligence' },
+      },
+      {
+        href: '/offres/productivite-operationnelle-ia',
+        label: { en: 'Operational AI', fr: 'Productivité Opérationnelle IA' },
+      },
+      {
+        href: '/offres/activation-ia',
+        label: {
+          en: 'AI Activation · 1 week',
+          fr: 'Activation IA · 1 semaine',
+        },
+      },
+      {
+        href: '/offres/infrastructure-ia',
+        label: {
+          en: 'AI Infrastructure · Enterprise',
+          fr: 'Infrastructure IA · ETI',
+        },
+      },
     ],
   },
+  // Col 4 — Ressources (enrichie : ajout outils + newsletter + veille)
   {
     heading: { en: 'Resources', fr: 'Ressources' },
     items: [
       { href: '/cas', label: { en: 'Case studies', fr: 'Cas clients' } },
-      { href: '/ressources/blog', label: { en: 'Blog', fr: 'Blog' } },
-      { href: '/ressources/outils/roi-calculator', label: { en: 'ROI Calculator', fr: 'Calculateur ROI' } },
-      { href: '/ressources/livres-blancs/ai-act-readiness', label: { en: 'AI Act white paper', fr: 'Livre blanc AI Act' } },
-      { href: '/ressources/newsletter', label: { en: 'Newsletter', fr: 'Newsletter' } },
+      {
+        href: '/ressources/blog',
+        label: { en: 'Blog · 2026', fr: 'Blog · 2026' },
+      },
+      {
+        href: '/ressources/cookbooks',
+        label: { en: 'Cookbooks · guides', fr: 'Cookbooks · guides' },
+      },
+      {
+        href: '/ressources/livres-blancs',
+        label: { en: 'White papers', fr: 'Livres blancs' },
+      },
+      {
+        href: '/ressources/outils',
+        label: { en: 'Free tools', fr: 'Outils gratuits' },
+      },
+      {
+        href: '/ressources/veille-ia',
+        label: { en: 'AI watch', fr: 'Veille IA' },
+      },
+      {
+        href: '/ressources/newsletter',
+        label: { en: 'Newsletter', fr: 'Newsletter' },
+      },
     ],
   },
+  // Col 5 — Légal & Archive
   {
     heading: { en: 'Trust & Legal', fr: 'Légal & Archive' },
     shield: true,
     items: [
-      { href: '/agence/trust-center', label: { en: 'Trust Center', fr: 'Trust Center' } },
-      { href: '/agence/trust-center#ai-act', label: { en: 'AI Act · GDPR · LPD', fr: 'AI Act · RGPD · LPD' } },
-      { href: '/trust#cgv', label: { en: 'Legal notice', fr: 'Mentions légales' } },
-      { href: '/trust#cookies', label: { en: 'Cookies', fr: 'Cookies' } },
-      { href: '/archive', label: { en: 'Site archive', fr: 'Archive du site' } },
+      {
+        href: '/agence/trust-center',
+        label: {
+          en: 'Trust Center · AI Act, GDPR, ISO',
+          fr: 'Trust Center · AI Act, RGPD, ISO',
+        },
+      },
+      {
+        href: '/agence/trust-center#ai-act',
+        label: { en: 'AI Act · GDPR · LPD', fr: 'AI Act · RGPD · LPD' },
+      },
+      {
+        href: '/agence/trust-center#privacy',
+        label: { en: 'Privacy policy', fr: 'Politique de confidentialité' },
+      },
+      {
+        href: '/agence/trust-center#cgv',
+        label: { en: 'Terms & conditions', fr: 'Mentions légales & CGV' },
+      },
+      {
+        href: '/agence/trust-center#cookies',
+        label: { en: 'Cookie settings', fr: 'Gestion des cookies' },
+      },
+      {
+        href: '/archive',
+        label: { en: 'Site archive', fr: 'Archive du site' },
+      },
     ],
   },
 ];

@@ -150,4 +150,210 @@ const fieldNotes = defineCollection({
   }),
 });
 
-export const collections = { cases, offres, solutions, technologies, blog, fieldNotes };
+// ─── Secteurs (pillar SEO/GEO par industrie) ───
+const secteurs = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/secteurs' }),
+  schema: z.object({
+    ...baseFields,
+    icp_fr: z.string(),
+    icp_en: z.string(),
+    icpSize: z.object({
+      min: z.number().int().positive(),
+      max: z.number().int().positive(),
+    }),
+    pains_fr: z.array(z.string()).min(3).max(6),
+    pains_en: z.array(z.string()).min(3).max(6),
+    workflowsCible: z.array(z.string()).default([]),
+    kpis_fr: z.array(z.string()).default([]),
+    kpis_en: z.array(z.string()).default([]),
+    metricsHero: z
+      .array(
+        z.object({
+          label_fr: z.string(),
+          label_en: z.string(),
+          value: z.string(),
+        }),
+      )
+      .default([]),
+    caseRef: z.string().optional(),
+    visible: z.boolean().default(true),
+    ctaPrimary_fr: z.string(),
+    ctaPrimary_en: z.string(),
+  }),
+});
+
+// ─── Livres blancs (lead magnets gated) ───
+const livresBlancs = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/livres-blancs' }),
+  schema: z.object({
+    ...baseFields,
+    pages: z.number().int().positive(),
+    audience_fr: z.string(),
+    audience_en: z.string(),
+    chapters_fr: z.array(z.string()).min(3),
+    chapters_en: z.array(z.string()).min(3),
+    pdfUrl: z.string().optional(),
+    requireEmail: z.boolean().default(true),
+    apiSlug: z.string().regex(/^[a-z0-9-]+$/),
+    relatedOffres: z.array(z.string()).default([]),
+    coverUrl: z.string().optional(),
+    format_fr: z.string(),
+    format_en: z.string(),
+  }),
+});
+
+// ─── Cookbooks (guides techniques actionnables) ───
+const cookbooks = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/cookbooks' }),
+  schema: z.object({
+    ...baseFields,
+    duration_fr: z.string(),
+    duration_en: z.string(),
+    difficulty: z.enum(['Débutant', 'Intermédiaire', 'Avancé']),
+    prerequisites_fr: z.array(z.string()).default([]),
+    prerequisites_en: z.array(z.string()).default([]),
+    steps: z.number().int().positive(),
+    technologies: z.array(z.string()).default([]),
+    tags: z.array(z.string()).default([]),
+    author: z.object({
+      name: z.string(),
+      role: z.string().optional(),
+      url: z.string().url().optional(),
+    }),
+    relatedCookbooks: z.array(z.string()).default([]),
+  }),
+});
+
+// ─── Outils (calculateurs, checklists, templates) ───
+const outils = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/outils' }),
+  schema: z.object({
+    ...baseFields,
+    type: z.enum(['calculator', 'checklist', 'template', 'audit']),
+    inputs: z
+      .array(
+        z.object({
+          key: z.string().regex(/^[a-z][a-zA-Z0-9]*$/),
+          label_fr: z.string(),
+          label_en: z.string(),
+          type: z.enum(['number', 'text', 'select', 'currency']),
+          unit: z.string().optional(),
+          defaultValue: z.union([z.number(), z.string()]).optional(),
+          min: z.number().optional(),
+          max: z.number().optional(),
+          options: z
+            .array(
+              z.object({
+                value: z.string(),
+                label_fr: z.string(),
+                label_en: z.string(),
+              }),
+            )
+            .optional(),
+        }),
+      )
+      .default([]),
+    outputs: z
+      .array(
+        z.object({
+          key: z.string(),
+          formula: z.string(),
+          label_fr: z.string(),
+          label_en: z.string(),
+          unit: z.string().optional(),
+          format: z
+            .enum(['integer', 'decimal2', 'currency-eur', 'percent'])
+            .optional(),
+        }),
+      )
+      .default([]),
+    captureEmail: z.boolean().default(false),
+    apiSlug: z
+      .string()
+      .regex(/^[a-z0-9-]+$/)
+      .optional(),
+    relatedPages: z.array(z.string()).default([]),
+    category_fr: z.string().optional(),
+    category_en: z.string().optional(),
+  }),
+});
+
+// ─── Veille IA (posts marché courts) ───
+const veilleIA = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/veille-ia' }),
+  schema: z.object({
+    ...baseFields,
+    date: z.coerce.date(),
+    impact_fr: z.string().min(40).max(280),
+    impact_en: z.string().min(40).max(280),
+    sources: z
+      .array(
+        z.object({
+          name: z.string(),
+          url: z.string().url(),
+          publishedAt: z.coerce.date().optional(),
+        }),
+      )
+      .default([]),
+    sectors: z.array(z.string()).default([]),
+    author: z.object({
+      name: z.string(),
+      url: z.string().url().optional(),
+    }),
+    tags: z.array(z.string()).default([]),
+  }),
+});
+
+// ─── Pages standalone (about, contact, manifesto, etc.) ───
+const pages = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/pages' }),
+  schema: z.object({
+    ...baseFields,
+    template: z.enum(['utility', 'trust-legal', 'welcome', 'essay']),
+    kicker_fr: z.string().optional(),
+    kicker_en: z.string().optional(),
+    align: z.enum(['left', 'centered']).default('left'),
+    showCta: z.boolean().default(true),
+    sections: z
+      .array(
+        z.object({
+          id: z.string(),
+          label_fr: z.string(),
+          label_en: z.string(),
+        }),
+      )
+      .optional(),
+    revisedAt: z.coerce.date().optional(),
+    version: z.string().optional(),
+    nextSteps: z
+      .array(
+        z.object({
+          number: z.string(),
+          label_fr: z.string(),
+          label_en: z.string(),
+          body_fr: z.string(),
+          body_en: z.string(),
+          ctaLabel_fr: z.string().optional(),
+          ctaLabel_en: z.string().optional(),
+          ctaHref: z.string().optional(),
+        }),
+      )
+      .optional(),
+  }),
+});
+
+export const collections = {
+  cases,
+  offres,
+  solutions,
+  technologies,
+  blog,
+  fieldNotes,
+  // NEW v1
+  secteurs,
+  livresBlancs,
+  cookbooks,
+  outils,
+  veilleIA,
+  pages,
+};

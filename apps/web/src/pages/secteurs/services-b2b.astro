@@ -1,0 +1,622 @@
+---
+import Base from '../../layouts/Base.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+import CtaBand from '../../components/ui/organisms/CtaBand.astro';
+
+const faqItems = [
+  {
+    q: "Comment un cabinet de conseil peut automatiser ses relances commerciales ?",
+    a: "Un agent IA analyse votre CRM, identifie les leads dormants et rédige des relances personnalisées selon le contexte — secteur, taille, dernière interaction. Il envoie dans HubSpot ou Pipedrive directement. Pas de séquence générique : chaque message s'appuie sur l'historique réel. Déploiement en 10 jours. Aucun changement de CRM requis.",
+  },
+  {
+    q: "Combien coûte un système d'acquisition IA pour une agence B2B ?",
+    a: "De 3 500€ à 12 000€ selon la complexité du stack et les workflows à câbler. Nos offres Starter, Growth et Scale couvrent 1 à 5 systèmes. Le ROI médian observé est 4,1× sur 12 mois — soit un break-even entre 3 et 5 mois pour la majorité des cabinets.",
+  },
+  {
+    q: "Combien de temps pour automatiser les propositions commerciales d'un cabinet ?",
+    a: "3 à 4 semaines pour le premier workflow opérationnel. Semaine 1 : audit et connexion CRM. Semaine 2 : entraînement sur vos templates historiques. Semaine 3 : pilote sur 5 proposals réelles. Semaine 4 : ajustements et mise en production. Votre équipe valide chaque proposal avant envoi.",
+  },
+  {
+    q: "Que se passe-t-il si on veut reprendre la main sur le système ?",
+    a: "Tout est documenté et transférable. Pas de boîte noire. À la fin du contrat, vous disposez du code source, des prompts, des connecteurs et d'une formation équipe. Vous faites évoluer vous-mêmes. C'est un principe non-négociable chez Waimia : souveraineté totale sur vos systèmes.",
+  },
+  {
+    q: "Comment l'IA améliore-t-elle la rentabilité d'un cabinet de conseil ?",
+    a: "En réduisant le temps non-facturable. Les proposals, reportings et relances consomment 30 à 40% du temps d'un consultant senior. Automatiser ces tâches libère de la capacité facturable. Sur 10 consultants, c'est l'équivalent de 3 postes récupérés. Le dashboard marge live permet d'ajuster les staffings en temps réel.",
+  },
+  {
+    q: "Faut-il changer de CRM pour utiliser des agents IA ?",
+    a: "Non. On s'adapte à votre stack — HubSpot, Salesforce, Pipedrive, Notion ou simple Excel. Les connecteurs MCP permettent de brancher les agents à vos outils existants sans migration. Changer de CRM au moment du déploiement IA est l'erreur classique qui fait échouer les projets.",
+  },
+  {
+    q: "Quels résultats sur 90 jours pour une PME services B2B ?",
+    a: "Médiane observée : 840K€ de pipeline reconnecté, 3 meetings qualifiés/semaine supplémentaires, −80% temps proposals, −3h par deliverable. Ces chiffres sont mesurés sur les clients qui ont déployé les 3 systèmes — acquisition, proposals et productivité. Audit gratuit avant engagement.",
+  },
+];
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Services B2B · IA pour cabinets, agences et conseil · Waimia",
+    "description": "Système IA pour cabinets de conseil, agences et ESN 20-200 personnes. Proposals en −80%, pipeline toujours actif, marge live. ROI 4,1× sur 12 mois.",
+    "url": "https://waimia.fr/secteurs/services-b2b",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map((item) => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.a,
+      },
+    })),
+  },
+];
+---
+
+<Base
+  title="Services B2B · IA pour cabinets, agences et conseil · Waimia"
+  description="Système IA pour cabinets de conseil, agences et ESN 20-200 personnes. Proposals en −80%, pipeline toujours actif, marge live. ROI 4,1× sur 12 mois."
+  jsonLd={jsonLd}
+>
+
+  <!-- HERO -->
+  <section class="sec-hero">
+    <div class="wrap">
+      <Kicker tone="accent">§ Secteur · Services B2B</Kicker>
+      <h1 class="hero-h1">Le pipeline qui tient. <i>Pas le commercial.</i></h1>
+      <p class="hero-sub">Acquisition, proposals et pilotage marge pour cabinets, agences et ESN 20-200 personnes.</p>
+      <div class="hero-metrics">
+        <div class="metric">
+          <span class="metric-val">−80%</span>
+          <span class="metric-lbl">temps proposals</span>
+        </div>
+        <div class="metric">
+          <span class="metric-val">+€840K</span>
+          <span class="metric-lbl">pipeline reconnecté</span>
+        </div>
+        <div class="metric">
+          <span class="metric-val">8/mois</span>
+          <span class="metric-lbl">articles GEO</span>
+        </div>
+        <div class="metric">
+          <span class="metric-val">4,1×</span>
+          <span class="metric-lbl">ROI 12 mois</span>
+        </div>
+      </div>
+      <a class="cta-primary" href="/contact">Démarrer un audit acquisition →</a>
+      <p class="icp-signal">Pour PME B2B 20-200 personnes — cabinets · agences · ESN</p>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="sec-problem">
+    <div class="wrap">
+      <Kicker tone="muted">Problème</Kicker>
+      <h2 class="sec-h2">Pourquoi les cabinets de conseil perdent des leads faute de <a href="/solutions/acquisition-ia">système d'acquisition</a> ?</h2>
+      <p class="answer-chunk">Le pipeline d'un cabinet repose sur 2-3 commerciaux et les recommandations. Quand un associé part, 40% du pipeline disparaît. LinkedIn sans automation : 3-4 posts par mois, aucun suivi systématique. Les propositions prennent 8-15 heures chacune. Résultat : des prospects qualifiés laissés sans réponse pendant des semaines, livrés à la concurrence.</p>
+      <div class="pain-grid">
+        <div class="pain-card">
+          <div class="pain-num">01</div>
+          <h3 class="pain-title">Pipeline sur 2 noms</h3>
+          <p class="pain-body">Dépendance aux référents = volatilité. 3 clients représentent en moyenne 65% du CA d'un cabinet 30 personnes.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-num">02</div>
+          <h3 class="pain-title">Proposals à 12h/pièce</h3>
+          <p class="pain-body">Copier-coller depuis anciennes versions, mise en forme, reformulation selon client. Coût réel : 12h × 80€ = 960€ par proposal.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-num">03</div>
+          <h3 class="pain-title">Reporting client bricolé</h3>
+          <p class="pain-body">Excel assemblé à la main pour chaque livrable. 2-3h perdues par deliverable, par projet, par consultant.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-num">04</div>
+          <h3 class="pain-title">Thought-leadership à zéro</h3>
+          <p class="pain-body">«&nbsp;Il faudrait écrire un article.&nbsp;» 6 mois plus tard : 0 publié. Pendant ce temps, un concurrent est cité par Perplexity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGITATION -->
+  <section class="sec-agitation">
+    <div class="wrap">
+      <Kicker tone="dim">Risque</Kicker>
+      <h2 class="sec-h2">Sans système IA, voici votre cabinet dans 12 mois.</h2>
+      <ul class="agit-list">
+        <li>Un concurrent automatise ses <a href="/solutions/crm-relances-ia">relances pipeline</a> : il contacte vos prospects 48h avant vous. Pas parce qu'il a plus de ressources. Parce qu'il a un système.</li>
+        <li>Recruter un SDR pour compenser : 80 k€/an brut. Départ moyen en 18 mois. Et on recommence.</li>
+        <li>Selon McKinsey AI Survey 2026 : 67% des PME services sans acquisition systématisée perdent 15-25% de parts de marché en 24 mois face aux concurrents équipés.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SOLUTION -->
+  <section class="sec-solution">
+    <div class="wrap">
+      <Kicker tone="accent">Solution</Kicker>
+      <h2 class="sec-h2">Comment Waimia automatise l'acquisition pour un cabinet de conseil ?</h2>
+      <p class="answer-chunk">On audite votre stack existante — CRM, boîte mail, LinkedIn, base de données prospects. On câble 3 à 5 agents IA directement dans vos outils. Pas de migration. Un agent score les leads, un autre rédige les relances personnalisées selon le contexte, un troisième génère les proposals depuis vos templates historiques. Résultat en 90 jours : pipeline actif 24/7 sans recruter, sans changer vos outils. <a href="/solutions/productivite-ia">Productivité</a> et acquisition en parallèle.</p>
+      <table class="workflows-table">
+        <thead>
+          <tr>
+            <th>Workflow</th>
+            <th>Gain</th>
+            <th>Comment</th>
+            <th>Outils</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Génération proposals</td>
+            <td>−80% temps</td>
+            <td>Brief client → proposal complète depuis base historique</td>
+            <td>Claude Sonnet + Google Docs</td>
+          </tr>
+          <tr>
+            <td>Scoring + <a href="/solutions/crm-relances-ia">relances pipeline</a></td>
+            <td>3× leads travaillés</td>
+            <td>Qualification continue, relances contextuelles</td>
+            <td>Claude Haiku + HubSpot/Pipedrive</td>
+          </tr>
+          <tr>
+            <td><a href="/solutions/contenu-seo-geo-ia">Contenu SEO/GEO</a> mensuel</td>
+            <td>8 articles/mois</td>
+            <td>Articles pillar citables par Perplexity et ChatGPT</td>
+            <td>Claude Opus + CMS</td>
+          </tr>
+          <tr>
+            <td>Dashboards marge live</td>
+            <td>Marge visible J+1</td>
+            <td>Par projet, par consultant, par client</td>
+            <td>Claude Opus + data layer</td>
+          </tr>
+          <tr>
+            <td>Livrables automatisés</td>
+            <td>−3h/deliverable</td>
+            <td>Rapports clients, comptes-rendus, synthèses</td>
+            <td>Claude Sonnet + Office</td>
+          </tr>
+          <tr>
+            <td>Knowledge base interne</td>
+            <td>0 doublon</td>
+            <td>Réutiliser l'existant, arrêter de réinventer</td>
+            <td>Claude Sonnet + Notion</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PROOF -->
+  <section class="sec-proof">
+    <div class="wrap">
+      <Kicker tone="muted">Résultats</Kicker>
+      <h2 class="sec-h2">Résultats observés sur PME services B2B</h2>
+      <div class="proof-metrics">
+        <div class="proof-cell">
+          <span class="proof-val">840K€</span>
+          <span class="proof-lbl">pipeline reconnecté (médiane 90j)</span>
+        </div>
+        <div class="proof-cell">
+          <span class="proof-val">−80%</span>
+          <span class="proof-lbl">temps production proposals</span>
+        </div>
+        <div class="proof-cell">
+          <span class="proof-val">4,1×</span>
+          <span class="proof-lbl">ROI 12 mois</span>
+        </div>
+        <div class="proof-cell">
+          <span class="proof-val">48h</span>
+          <span class="proof-lbl">déploiement premier système</span>
+        </div>
+      </div>
+      <blockquote>
+        "On a arrêté de recruter un SDR senior. Avec Waimia, le pipeline tourne la nuit — 3 meetings qualifiés par semaine sans LinkedIn manuel."
+        <cite>— Directeur associé, cabinet M&A 40 personnes, Paris</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec-faq">
+    <div class="wrap">
+      <Kicker tone="muted">FAQ</Kicker>
+      <h2 class="sec-h2">Questions fréquentes</h2>
+      <div class="faq-list">
+        {faqItems.map((item) => (
+          <details>
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="sec-cta-final">
+    <div class="wrap">
+      <h2 class="sec-h2">Câbler votre acquisition. Maintenant.</h2>
+      <p>Votre pipeline ne peut pas attendre un consultant en poste. Il peut attendre 90 jours pour un système qui tourne sans vous.</p>
+      <a class="cta-primary" href="/contact">Démarrer un audit →</a>
+      <a class="cta-secondary" href="/solutions">Voir les solutions →</a>
+    </div>
+  </section>
+
+  <CtaBand />
+
+</Base>
+
+<style>
+/* HERO */
+.sec-hero {
+  padding: clamp(110px, 14vw, 180px) var(--gut) clamp(60px, 8vw, 100px);
+  background: var(--paper);
+}
+.wrap {
+  max-width: var(--wrap);
+  margin: 0 auto;
+}
+.hero-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 10vw, 148px);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  font-weight: 400;
+  margin: 24px 0 28px;
+}
+.hero-h1 i {
+  font-style: italic;
+  color: var(--accent);
+}
+.hero-sub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(18px, 2vw, 24px);
+  color: var(--ink-2);
+  max-width: 680px;
+  line-height: 1.4;
+  margin: 0 0 36px;
+}
+.hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 0;
+  border: 1px solid var(--hairline);
+  width: fit-content;
+  margin-bottom: 36px;
+}
+.metric {
+  padding: 16px 28px;
+  border-right: 1px solid var(--hairline);
+  min-width: 120px;
+}
+.metric:last-child {
+  border-right: none;
+}
+.metric-val {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-style: italic;
+  color: var(--accent);
+  line-height: 1;
+  display: block;
+}
+.metric-lbl {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-top: 4px;
+}
+.cta-primary {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 180ms var(--ease);
+  margin-right: 12px;
+}
+.cta-primary:hover {
+  background: var(--ink-2);
+}
+.cta-secondary {
+  color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--ink) 30%, transparent);
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  display: inline-block;
+}
+.icp-signal {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  margin-top: 20px;
+}
+/* PROBLEM */
+.sec-problem {
+  padding: clamp(80px, 10vw, 128px) var(--gut);
+  background: var(--paper-2);
+}
+.sec-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 64px);
+  line-height: 0.96;
+  letter-spacing: -0.024em;
+  font-weight: 400;
+  margin: 20px 0 24px;
+  max-width: 900px;
+}
+.answer-chunk {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 720px;
+  margin: 0 0 48px;
+}
+.pain-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+}
+.pain-card {
+  background: var(--paper);
+  padding: clamp(24px, 2.5vw, 36px);
+}
+.pain-num {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-style: italic;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.pain-title {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.5vw, 32px);
+  font-weight: 400;
+  margin: 0 0 12px;
+}
+.pain-body {
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 15px;
+  margin: 0;
+}
+/* AGITATION */
+.sec-agitation {
+  padding: clamp(80px, 10vw, 128px) var(--gut);
+  background: var(--ink);
+  color: var(--paper);
+}
+.sec-agitation .sec-h2 {
+  color: var(--paper);
+}
+.agit-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 800px;
+}
+.agit-list li {
+  padding-left: 24px;
+  border-left: 2px solid var(--accent);
+  color: color-mix(in srgb, var(--paper) 80%, transparent);
+  line-height: 1.6;
+  font-size: 17px;
+}
+.agit-list a {
+  color: color-mix(in srgb, var(--paper) 80%, transparent);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+}
+/* SOLUTION */
+.sec-solution {
+  padding: clamp(80px, 10vw, 128px) var(--gut);
+}
+.workflows-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 36px;
+  font-size: 15px;
+}
+.workflows-table th {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--hairline);
+  text-align: left;
+}
+.workflows-table td {
+  padding: 16px 16px;
+  border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.workflows-table tr:last-child td {
+  border-bottom: none;
+}
+.workflows-table td:first-child {
+  font-weight: 500;
+  color: var(--ink);
+}
+.workflows-table td:nth-child(2) {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--accent);
+  font-size: 17px;
+}
+/* PROOF */
+.sec-proof {
+  padding: clamp(80px, 10vw, 128px) var(--gut);
+  background: var(--paper-2);
+}
+.proof-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+  margin: 36px 0 48px;
+}
+.proof-cell {
+  background: var(--paper);
+  padding: clamp(20px, 2.5vw, 32px);
+}
+.proof-val {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 72px);
+  font-style: italic;
+  color: var(--accent);
+  line-height: 1;
+  display: block;
+}
+.proof-lbl {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-top: 8px;
+}
+blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 24px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(18px, 2.2vw, 26px);
+  line-height: 1.45;
+  color: var(--ink-2);
+  max-width: 740px;
+}
+blockquote cite {
+  display: block;
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-style: normal;
+}
+/* FAQ */
+.sec-faq {
+  padding: clamp(80px, 10vw, 128px) var(--gut);
+}
+.faq-list {
+  margin-top: 36px;
+  border: 1px solid var(--hairline);
+}
+details {
+  border-bottom: 1px solid var(--hairline);
+}
+details:last-child {
+  border-bottom: none;
+}
+summary {
+  cursor: pointer;
+  padding: 20px 24px;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--ink);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+summary::after {
+  content: "+";
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+details[open] summary::after {
+  content: "−";
+}
+details p {
+  padding: 0 24px 24px;
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 15px;
+  margin: 0;
+}
+/* CTA FINAL */
+.sec-cta-final {
+  padding: clamp(80px, 10vw, 128px) var(--gut);
+  text-align: center;
+  background: var(--paper);
+  border-top: 1px solid var(--hairline);
+}
+.sec-cta-final .sec-h2 {
+  margin: 0 auto 20px;
+  text-align: center;
+}
+.sec-cta-final p {
+  color: var(--muted);
+  max-width: 560px;
+  margin: 0 auto 36px;
+  line-height: 1.6;
+}
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero-metrics {
+    grid-template-columns: repeat(2, auto);
+  }
+  .pain-grid {
+    grid-template-columns: 1fr;
+  }
+  .proof-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .hero-metrics {
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+  }
+  .proof-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .workflows-table {
+    font-size: 13px;
+  }
+  .workflows-table th,
+  .workflows-table td {
+    padding: 12px 10px;
+  }
+}
+</style>
