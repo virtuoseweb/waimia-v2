@@ -1,0 +1,66 @@
+---
+/**
+ * /solutions/crm-relances-ia · Cas d'usage horizontal CRM & relances IA.
+ *
+ * Page FR M2 consommant SolutionsDetailTemplate sans modifier le template.
+ */
+import SolutionsDetailTemplate from '../../components/templates/SolutionsDetailTemplate.astro';
+---
+<SolutionsDetailTemplate
+  dept="CRM & RELANCES"
+  deptLabel="CRM & relances IA"
+  meta="Direction commerciale · RevOps · Sales Ops"
+  title="CRM & relances IA — Pipeline qui ne dort jamais"
+  description="Pipeline commercial qui ne dort jamais. Données CRM nettoyées, relances automatisées, qualification continue."
+>
+  <Fragment slot="title"><i>CRM</i><br/>&amp; relances IA</Fragment>
+  <Fragment slot="lead">
+    Le CRM qui fait son travail à votre place.
+    <span>Données propres, relances justes, pipeline qui avance même la nuit.</span>
+  </Fragment>
+  <Fragment slot="tags">
+    <span class="sol-tag">Nettoyage CRM</span><span class="sol-tag">Relances</span><span class="sol-tag">Qualification continue</span><span class="sol-tag">Pipeline IA</span><span class="sol-tag">Sales enablement</span>
+  </Fragment>
+
+  <Fragment slot="pains">
+    <div class="pain-card"><div class="pn">01</div><div class="pk">Données moisies, fiches doublonnées</div><h3>CRM en<br/>jachère</h3><p>Le CRM contient 12 000 contacts mais 35% sont obsolètes. Doublons partout, emails morts, postes changés. Personne n'a le temps de nettoyer. Les commerciaux contournent et travaillent dans Excel.</p></div>
+    <div class="pain-card"><div class="pn">02</div><div class="pk">Le lead chaud devient froid</div><h3>Relances<br/>oubliées</h3><p>Le commercial promet de relancer, l'oublie, le lead refroidit. Selon InsideSales, 80% des leads B2B sont perdus par défaut de relance dans les 5 jours. Le pipeline saigne en silence.</p></div>
+    <div class="pain-card"><div class="pn">03</div><div class="pk">Forecast au doigt mouillé</div><h3>Pilotage à<br/>l'aveugle</h3><p>Le forecast pipeline tient sur les sentiments des commerciaux. Le CODIR demande une revue mensuelle, on bricole en Excel pendant 4 jours. Le résultat arrive obsolète.</p></div>
+  </Fragment>
+
+  <Fragment slot="workflows">
+    <div class="wf-row"><div class="wf-n">01</div><div class="wf-name"><span class="wf-k">Hygiène CRM</span><h3>Nettoyage continu des fiches</h3></div><div class="wf-model">Claude Haiku 4.5<br/>+ CRM MCP</div><div class="wf-gain">−35%</div><div class="wf-how">Détection des doublons, fusion automatique avec validation humaine sur cas ambigus, mise à jour des emails morts via enrichissement.</div></div>
+    <div class="wf-row"><div class="wf-n">02</div><div class="wf-name"><span class="wf-k">Relances</span><h3>Séquences contextuelles</h3></div><div class="wf-model">Claude Sonnet 4.6<br/>+ Email</div><div class="wf-gain">+67%</div><div class="wf-how">Relances qui adaptent le ton, le moment et l'angle au comportement du lead. Pas de templates aveugles.</div></div>
+    <div class="wf-row"><div class="wf-n">03</div><div class="wf-name"><span class="wf-k">Qualification</span><h3>Scoring continu pipeline</h3></div><div class="wf-model">Claude Sonnet 4.6<br/>+ CRM</div><div class="wf-gain">3×</div><div class="wf-how">Chaque interaction ré-évalue le score et change la priorité dans le pipeline du commercial.</div></div>
+    <div class="wf-row"><div class="wf-n">04</div><div class="wf-name"><span class="wf-k">Pilotage</span><h3>Forecast IA temps réel</h3></div><div class="wf-model">Claude Opus 4.7<br/>+ Data layer</div><div class="wf-gain">−89%</div><div class="wf-how">Le forecast pipeline se met à jour en continu. Le CODIR voit où on en est sans demander.</div></div>
+  </Fragment>
+
+  <Fragment slot="roi">
+    <div class="roi-cell"><div class="roi-v">3×</div><div class="roi-l">vélocité pipeline<br/>lead → opportunité</div></div>
+    <div class="roi-cell"><div class="roi-v">+67%</div><div class="roi-l">taux de réponse<br/>aux relances</div></div>
+    <div class="roi-cell"><div class="roi-v">−35%</div><div class="roi-l">taux de doublon<br/>CRM</div></div>
+    <div class="roi-cell"><div class="roi-v">4,3×</div><div class="roi-l">ROI mesuré<br/>à 9 mois</div></div>
+  </Fragment>
+
+  <Fragment slot="case-kicker">Cas client · Fintech B2B</Fragment>
+  <Fragment slot="case-title">Northbound, fintech EU.<br/><i>Conversion SQL</i><br/>multipliée par 3,1.</Fragment>
+  <Fragment slot="case-body">Northbound avait un CRM Salesforce de 47 000 contacts dont 40% obsolètes. Les SDR perdaient 2 heures par jour à requalifier. Waimia a déployé un système de nettoyage continu + scoring automatique + séquences nurturing IA. En 14 semaines, le taux de conversion lead → SQL est passé de 4,1% à 12,8%.</Fragment>
+  <Fragment slot="case-cta-label">Voir le cas complet →</Fragment>
+  <Fragment slot="case-results">
+    <div class="res-row"><div class="res-v">×3,1</div><div class="res-l">conversion<br/>SQL</div></div>
+    <div class="res-row"><div class="res-v">−2h/j</div><div class="res-l">temps requalification<br/>SDR</div></div>
+    <div class="res-row"><div class="res-v">4,3×</div><div class="res-l">ROI<br/>9 mois</div></div>
+  </Fragment>
+
+  <Fragment slot="stack">
+    <div class="stack-card"><span class="stack-k">Modèle raisonnement</span><h3>Claude Sonnet 4.6</h3><p>Scoring nuancé, écriture de relances et priorisation commerciale.</p><span class="stack-pill primary">Anthropic · primary</span></div>
+    <div class="stack-card"><span class="stack-k">Modèle volume</span><h3>Claude Haiku 4.5</h3><p>Nettoyage masse, déduplication, enrichissement et qualification continue.</p><span class="stack-pill primary">Anthropic · primary</span></div>
+    <div class="stack-card"><span class="stack-k">CRM connecté</span><h3>HubSpot · Salesforce · Pipedrive</h3><p>Pas de migration imposée, on travaille avec votre CRM.</p><span class="stack-pill secondary">Intégrations · secondary</span></div>
+    <div class="stack-card"><span class="stack-k">Email infra</span><h3>Resend · Postmark · SendGrid</h3><p>Délivrabilité enterprise, tracking complet et relances mesurées.</p><span class="stack-pill secondary">Intégrations · secondary</span></div>
+    <div class="stack-card"><span class="stack-k">Enrichissement</span><h3>Apollo · Clearbit · Cognism</h3><p>Pour récupérer les données manquantes en silence.</p><span class="stack-pill secondary">Intégrations · secondary</span></div>
+    <div class="stack-card"><span class="stack-k">Workflow durable</span><h3>LangGraph</h3><p>Séquences longues qui reprennent après échec.</p><span class="stack-pill open">Open source</span></div>
+  </Fragment>
+
+  <Fragment slot="cta-title">Votre CRM,<br/>au travail.</Fragment>
+  <Fragment slot="cta-body">Cadrage en 45 minutes. Nous analysons votre CRM actuel et proposons les 3 workflows à fort ROI — sans engagement.</Fragment>
+</SolutionsDetailTemplate>

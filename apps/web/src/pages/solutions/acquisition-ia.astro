@@ -1,0 +1,109 @@
+---
+/**
+ * /solutions/acquisition-ia · Cas d'usage horizontal Acquisition IA.
+ *
+ * Page FR M2 consommant SolutionsDetailTemplate sans modifier le template.
+ */
+import SolutionsDetailTemplate from '../../components/templates/SolutionsDetailTemplate.astro';
+---
+<SolutionsDetailTemplate
+  dept="ACQUISITION"
+  deptLabel="Acquisition IA"
+  meta="Marketing · Sales Dev · Fondateur"
+  title="Acquisition IA — Plus de leads qualifiés sans recruter"
+  description="Plus de leads qualifiés sans recruter. Landing pages IA, contenu SEO/GEO, qualification automatisée. Le pipeline qui ne dort jamais."
+>
+  <Fragment slot="title"><i>Acquisition</i><br/>IA</Fragment>
+  <Fragment slot="lead">
+    Plus de leads qualifiés. Sans recruter, sans inonder LinkedIn.
+    <span>Le système qui transforme votre acquisition en machine prévisible.</span>
+  </Fragment>
+  <Fragment slot="tags">
+    <span class="sol-tag">Landing IA</span>
+    <span class="sol-tag">SEO / GEO</span>
+    <span class="sol-tag">Lead scoring</span>
+    <span class="sol-tag">Qualification</span>
+    <span class="sol-tag">Nurturing</span>
+  </Fragment>
+
+  <Fragment slot="pains">
+    <div class="pain-card">
+      <div class="pn">01</div>
+      <div class="pk">Dépendance commerciale, vide périodique</div>
+      <h3>Pipeline qui<br/>s'assèche</h3>
+      <p>Le pipeline tient sur 1-2 commerciaux. Quand l'un d'eux part en vacances, en arrêt ou en démission, les leads s'évaporent. Recruter un SDR coûte 60-80 k€/an, met 4 mois à monter en charge, et part au bout de 18 mois.</p>
+    </div>
+    <div class="pain-card">
+      <div class="pn">02</div>
+      <div class="pk">Beaucoup d'articles, peu de leads</div>
+      <h3>Le contenu<br/>invisible</h3>
+      <p>Les articles publiés par réflexe SEO restent enfouis page 4 de Google. Les IA génératives ne citent pas votre marque. Vous payez pour produire un contenu que personne ne trouve.</p>
+    </div>
+    <div class="pain-card">
+      <div class="pn">03</div>
+      <div class="pk">Volume sans tri, perte de temps</div>
+      <h3>Leads non<br/>qualifiés</h3>
+      <p>Les leads entrants ne sont pas filtrés. Les commerciaux passent 40% de leur temps à qualifier mauvais ICP, mauvais timing ou mauvais budget avant même d'engager une vraie conversation. Le coût d'opportunité est massif.</p>
+    </div>
+  </Fragment>
+
+  <Fragment slot="workflows">
+    <div class="wf-row">
+      <div class="wf-n">01</div>
+      <div class="wf-name"><span class="wf-k">Acquisition</span><h3>Landing IA personnalisée</h3></div>
+      <div class="wf-model">Claude Sonnet 4.6<br/>+ HubSpot MCP</div>
+      <div class="wf-gain">×2,4</div>
+      <div class="wf-how">Une landing par persona, générée et déployée en 24h. Variations testées automatiquement, copy optimisé continu.</div>
+    </div>
+    <div class="wf-row">
+      <div class="wf-n">02</div>
+      <div class="wf-name"><span class="wf-k">Contenu</span><h3>Articles SEO / GEO indexés</h3></div>
+      <div class="wf-model">Claude Opus 4.7<br/>+ Search APIs</div>
+      <div class="wf-gain">8/sem</div>
+      <div class="wf-how">Pipeline éditorial qui produit 8 articles/sem optimisés pour Google et pour la citation par les IA génératives.</div>
+    </div>
+    <div class="wf-row">
+      <div class="wf-n">03</div>
+      <div class="wf-name"><span class="wf-k">Qualification</span><h3>Scoring automatique des leads</h3></div>
+      <div class="wf-model">Claude Haiku 4.5<br/>+ CRM</div>
+      <div class="wf-gain">−62%</div>
+      <div class="wf-how">Chaque lead entrant est scoré sur ICP, intent, budget, timing avant même d'arriver chez le commercial. Les déchets sont écartés en silence.</div>
+    </div>
+    <div class="wf-row">
+      <div class="wf-n">04</div>
+      <div class="wf-name"><span class="wf-k">Nurturing</span><h3>Séquences personnalisées</h3></div>
+      <div class="wf-model">Claude Sonnet 4.6<br/>+ Email infra</div>
+      <div class="wf-gain">×3,1</div>
+      <div class="wf-how">Séquences qui s'adaptent au comportement plutôt qu'au calendrier. Les leads froids redeviennent chauds en silence.</div>
+    </div>
+  </Fragment>
+
+  <Fragment slot="roi">
+    <div class="roi-cell"><div class="roi-v">×2,4</div><div class="roi-l">leads qualifiés<br/>par mois</div></div>
+    <div class="roi-cell"><div class="roi-v">−62%</div><div class="roi-l">temps de qualification<br/>commercial</div></div>
+    <div class="roi-cell"><div class="roi-v">8/sem</div><div class="roi-l">articles SEO/GEO<br/>publiés</div></div>
+    <div class="roi-cell"><div class="roi-v">4,1×</div><div class="roi-l">ROI mesuré<br/>à 12 mois</div></div>
+  </Fragment>
+
+  <Fragment slot="case-kicker">Cas client · SaaS B2B</Fragment>
+  <Fragment slot="case-title">Plateau, SaaS B2B.<br/><i>Pipeline reconnecté</i><br/>en 10 semaines.</Fragment>
+  <Fragment slot="case-body">Plateau avait 4 commerciaux et un pipeline qui dormait. Plus de 3 200 leads collectés sur 18 mois mais jamais qualifiés. Waimia a déployé un système de scoring + séquences nurturing + landing par persona. En 10 semaines, le pipeline qualifié est passé de 480 à 1 720 opportunités, et 2,4 M€ de pipeline historique a été reconnecté.</Fragment>
+  <Fragment slot="case-cta-label">Voir le cas complet →</Fragment>
+  <Fragment slot="case-results">
+    <div class="res-row"><div class="res-v">9→3j</div><div class="res-l">lead → premier<br/>RDV</div></div>
+    <div class="res-row"><div class="res-v">+€2,4M</div><div class="res-l">pipeline<br/>reconnecté</div></div>
+    <div class="res-row"><div class="res-v">4,1×</div><div class="res-l">ROI mesuré<br/>12 mois</div></div>
+  </Fragment>
+
+  <Fragment slot="stack">
+    <div class="stack-card"><span class="stack-k">Modèle raisonnement</span><h3>Claude Sonnet 4.6</h3><p>Scoring nuancé, séquences contextualisées pour prioriser les opportunités commerciales.</p><span class="stack-pill primary">Anthropic · primary</span></div>
+    <div class="stack-card"><span class="stack-k">Modèle volume</span><h3>Claude Haiku 4.5</h3><p>Qualification masse, déduplication, enrichissement des leads entrants.</p><span class="stack-pill primary">Anthropic · primary</span></div>
+    <div class="stack-card"><span class="stack-k">Modèle créatif</span><h3>Claude Opus 4.7</h3><p>Articles longs, landing pages, copywriting et variations de messages.</p><span class="stack-pill primary">Anthropic · primary</span></div>
+    <div class="stack-card"><span class="stack-k">CRM connecté</span><h3>HubSpot · Salesforce · Pipedrive</h3><p>Connecteurs natifs vers les CRM du marché PME, sans migration imposée.</p><span class="stack-pill secondary">Intégrations · secondary</span></div>
+    <div class="stack-card"><span class="stack-k">Search &amp; GEO</span><h3>Search APIs · Indexation IA</h3><p>Indexation pour Google + citations dans les IA génératives du marché.</p><span class="stack-pill secondary">Intégrations · secondary</span></div>
+    <div class="stack-card"><span class="stack-k">Workflow durable</span><h3>LangGraph</h3><p>Orchestration des séquences longues, reprise après échec, validation humaine intégrée.</p><span class="stack-pill open">Open source</span></div>
+  </Fragment>
+
+  <Fragment slot="cta-title">Votre pipeline,<br/>relancé.</Fragment>
+  <Fragment slot="cta-body">Cadrage en 45 minutes. Nous analysons votre acquisition actuelle et proposons les 3 workflows à fort ROI — sans engagement.</Fragment>
+</SolutionsDetailTemplate>

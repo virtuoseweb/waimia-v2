@@ -1,0 +1,53 @@
+---
+// Page · /offres/infrastructure-ia · Niveau ETI Infrastructure IA
+// Mission M3 · 3 piliers + 2 niveaux · FR uniquement
+
+import OffresDetailTemplate from '../../components/templates/OffresDetailTemplate.astro';
+---
+<OffresDetailTemplate
+  tier="§ NIVEAU 02 · ETI"
+  tierLabel="Infrastructure IA · ETI"
+  meta="Niveau 02 · 25 à 150 k€+ · délai 12 sem +"
+  title="Offres · Infrastructure IA · ETI"
+  description="Systèmes connectés à grande échelle. Multi-équipes, multi-sites, gouvernance, sécurité. Pour les ETI qui industrialisent l'IA."
+>
+  <Fragment slot="title"><i>Infrastructure</i><br/>IA · ETI</Fragment>
+  <Fragment slot="lead">
+    Quand l'IA dépasse une équipe et touche plusieurs métiers, plusieurs sites, plusieurs pays.
+    <span>Le système qui tient à l'échelle, sans casser ce qui marche.</span>
+  </Fragment>
+  <Fragment slot="problem-statement">Vous avez 3 ou 4 pilotes IA dans des équipes différentes. Aucun ne se parle, chacun a son outil, ses données, sa gouvernance. <em>L'IA s'éparpille au lieu de s'industrialiser.</em></Fragment>
+  <Fragment slot="problem-annotations">
+    <div><div class="ann-value">4-7</div><div class="ann-label">pilotes IA en silos dans une ETI moyenne</div></div>
+    <div><div class="ann-value">0%</div><div class="ann-label">des projets pilotes industrialisés (médiane)</div></div>
+    <div><div class="ann-value">+€2,4M</div><div class="ann-label">valeur dormante des données ETI moyennes</div></div>
+  </Fragment>
+  <Fragment slot="method-aside">Trois mois minimum pour cabler une infrastructure IA qui tient — pas un mois de moins.</Fragment>
+  <Fragment slot="method-steps">
+    <div class="step"><div class="step-n">01</div><div class="step-k">Architecture</div><h3>Cartographier l'existant et la cible</h3><p>3 semaines de cadrage technique et organisationnel. Cartographie pilots existants, contraintes sécurité, RGPD, AI Act. Architecture cible.</p></div>
+    <div class="step"><div class="step-n">02</div><div class="step-k">Couches centralisées</div><h3>Une infra commune, des outils libres</h3><p>Mise en place d'une couche IA centralisée (data, modèles, observabilité, gouvernance). Les équipes gardent leurs outils métiers.</p></div>
+    <div class="step"><div class="step-n">03</div><div class="step-k">Industrialisation pilots</div><h3>Industrialiser ce qui marche déjà</h3><p>Refonte des 3-4 pilots existants pour qu'ils tournent sur l'infra commune. Mesure d'impact, gouvernance, sécurité.</p></div>
+    <div class="step"><div class="step-n">04</div><div class="step-k">Adoption multi-équipes</div><h3>Le système devient le standard</h3><p>Formation par fonction, documentation, support continu. Vous reprenez la main avec une équipe interne autonome.</p></div>
+  </Fragment>
+  <Fragment slot="deliverables-aside">Tout est documenté, transmissible — y compris la gouvernance et la sécurité.</Fragment>
+  <Fragment slot="deliverables">
+    <div class="del-card"><h3>Architecture cible</h3><p>Document technique + organisationnel détaillé. Sécurité, RGPD, AI Act.</p><span class="del-tag">PDF + ATELIER</span></div>
+    <div class="del-card"><h3>Couche IA centralisée</h3><p>Data layer, model gateway, observabilité. Auto-hébergeable ou cloud.</p><span class="del-tag">CODE</span></div>
+    <div class="del-card"><h3>Pilots industrialisés</h3><p>3 à 5 pilots existants refondus sur l'infra commune.</p><span class="del-tag">CODE</span></div>
+    <div class="del-card"><h3>Gouvernance & sécurité</h3><p>Politique d'usage, traçabilité, conformité AI Act. Documentée et opérationnelle.</p><span class="del-tag">POLICY</span></div>
+    <div class="del-card"><h3>Observabilité business</h3><p>Tableau de pilotage IA (coûts, usage, qualité).</p><span class="del-tag">DASHBOARD</span></div>
+    <div class="del-card"><h3>Centre de compétence IA</h3><p>Formation d'une équipe interne (3-5 personnes) qui prend le relais.</p><span class="del-tag">ATELIER + DOC</span></div>
+  </Fragment>
+  <Fragment slot="proof-quote">"On avait 7 pilots IA dans des silos. Waimia nous a aidés à industrialiser, à mettre en place une infrastructure commune et à former une équipe IA interne. 18 mois plus tard, l'IA est dans toutes les fonctions et l'équipe gère sans nous."</Fragment>
+  <Fragment slot="proof-attr">Direction transformation · ETI industrielle (1 800 personnes)</Fragment>
+  <Fragment slot="proof-metrics">
+    <div><div class="metric-v">7→1</div><div class="metric-l">infrastructures pilots → infra commune</div></div>
+    <div><div class="metric-v">5</div><div class="metric-l">fonctions adressées simultanément</div></div>
+    <div><div class="metric-v">+€4,2M</div><div class="metric-l">valeur dormante débloquée année 1</div></div>
+    <div><div class="metric-v">100%</div><div class="metric-l">conformité AI Act + RGPD</div></div>
+    <div><div class="metric-v">−72%</div><div class="metric-l">coût d'infra IA total (mutualisation)</div></div>
+    <div><div class="metric-v">3,1×</div><div class="metric-l">ROI mesuré à 18 mois</div></div>
+  </Fragment>
+  <Fragment slot="cta-title"><i>Industrialiser</i><br/>l'IA à l'échelle.</Fragment>
+  <Fragment slot="cta-body">Cadrage 90 minutes avec votre direction technique et opérationnelle. On audite vos pilots et on propose une architecture cible — sans engagement.</Fragment>
+</OffresDetailTemplate>

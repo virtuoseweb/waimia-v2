@@ -1,101 +1,96 @@
 ---
-// Homepage · Direction 1 · refonte enrichie · FR
-// Pacing : 5 actes + 4 intercalaires .5 qui amplifient chaque acte sans le diluer.
-//   1   Hero (statique, ancré)
-//   2   TrustMarquee (intercalaire · social proof)
-//   3   ACTE I — Why AI stalls (4 FIG)
-//   3.5 HowWeShip (intercalaire · comment on adresse le problème, sticky pin signature)
-//   4   ACTE II — Six services taught by doing (3×2)
-//   4.5 Pyramid (intercalaire · l'architecture 4 paliers Claude-native)
-//   5   ¶ Manifeste (anti-théâtre IA)
-//   6   ACTE III — Operating layer DARK (console VirtuoseOS)
-//   6.5 Departments (intercalaire · qui ça sert, dans quel métier)
-//   7   ACTE IV — Four files (cases)
-//   8   § Writing — Slow notes from the floor
-//   8.5 Offices (intercalaire · ancrage Paris-Genève)
-//   9   § FAQ (GEO/AIO)
-//   10  ACTE V — Book a working session
-//   11  Sig band
-// Cf docs/04-motion-system.md pour le mapping motion par section.
-
+/**
+ * Homepage · refonte business-first PME/ETI · FR
+ *
+ * Pivot du récit manifeste vers conversion. 8 organisms scannables.
+ * Le visiteur PME comprend en 5s : ce qu'on fait, pour quel ROI, pour qui.
+ *
+ * Organisms retirés de la home (sortis du parcours principal) :
+ *   - WhyAIStalls + HowWeShip → réservés à /agence/methode
+ *   - Manifesto → réservé à /manifesto
+ *   - OperatingLayer → réservé à /agence/methode
+ *   - WritingNotes → réservé à /ressources/blog
+ *   - Offices → réservé à /agence/about
+ */
 import Base from '../layouts/Base.astro';
 import BootSplash from '../components/motion/BootSplash.tsx';
 
 import Hero            from '../components/ui/organisms/Hero.astro';
 import TrustMarquee    from '../components/ui/organisms/TrustMarquee.astro';
-import WhyAIStalls     from '../components/ui/organisms/WhyAIStalls.astro';
-import HowWeShip       from '../components/ui/organisms/HowWeShip.astro';
 import SixServices     from '../components/ui/organisms/SixServices.astro';
 import Pyramid         from '../components/ui/organisms/Pyramid.astro';
-import Manifesto       from '../components/ui/organisms/Manifesto.astro';
-import OperatingLayer  from '../components/ui/organisms/OperatingLayer.astro';
 import Departments     from '../components/ui/organisms/Departments.astro';
 import Cases           from '../components/ui/organisms/Cases.astro';
-import WritingNotes    from '../components/ui/organisms/WritingNotes.astro';
-import Offices         from '../components/ui/organisms/Offices.astro';
 import FAQ             from '../components/seo/FAQ.astro';
 import BookSession     from '../components/ui/organisms/BookSession.astro';
 import SigBand         from '../components/ui/organisms/SigBand.astro';
 
 import { faqPage } from '../lib/seo';
 
-// FAQ visible + JSON-LD pour GEO/AIO (cf docs/02-geo-aio-strategy.md)
+// FAQ PME-first · 6 questions max · scannables (réponse en 2-3 phrases)
 const faqItems = [
   {
-    q: "Qu'est-ce qu'une « agence IA experte Claude » et en quoi ça diffère d'une agence IA généraliste ?",
-    a: "Nous concentrons 100 % de notre R&D sur l'écosystème Anthropic — Opus 4.7, Sonnet 4.6, Haiku 4.5, Skills, MCP, Managed Agents — et sur les frameworks open-source compatibles. Cela se voit en time-to-production : 6 semaines médian pour un agent en prod, contre 14+ pour des équipes généralistes. Nous écrivons en français, lisons la documentation Stripe, livrons du code le mardi et mesurons le pipeline le vendredi.",
+    q: "Combien coûte un premier engagement avec Waimia ?",
+    a: "Activation IA · 1 semaine démarre à 1 500 € HT (audit + formation). Growth System IA, notre offre vedette, démarre à 5 000 € HT. La plupart des PME entrent par Activation IA pour mesurer un premier impact en 5 jours, puis enchaînent sur un système complet.",
   },
   {
-    q: "Quelle est la différence entre Claude Skills et MCP ?",
-    a: "Une Claude Skill est un comportement défini — un workflow précis (ex : « générer un mémo finance »), avec ses étapes, contraintes, formats de sortie. MCP (Model Context Protocol) est le standard ouvert qui connecte un modèle à des sources de données et des outils externes (Notion, Drive, Slack, HubSpot). Skills = comportement réutilisable. MCP = connectivité standardisée. Les deux se complètent dans chaque agent Waimia.",
+    q: "Quelles PME accompagnez-vous concrètement ?",
+    a: "PME et ETI françaises et suisses, 20 à 500 collaborateurs, qui veulent automatiser leur acquisition, leur CRM, leur productivité ou leur support — sans devenir une boîte techno. Nos meilleurs clients sont les services B2B, l'industrie, et les cabinets finance/compta.",
   },
   {
-    q: "Pouvez-vous déployer en self-hosted, sans dépendance Anthropic ?",
-    a: "Oui. Nous déployons des modèles open-source (Llama 4, DeepSeek V3.2, Qwen 3.5, GLM-5) sur infrastructure cliente via vLLM ou Ollama, orchestrés avec LangGraph ou CrewAI. Cette voie est recommandée quand les contraintes RGPD, ACPR, SecNumCloud ou HIPAA imposent que la donnée ne quitte jamais votre périmètre. Nous documentons toujours le coût total et la trajectoire de migration éventuelle.",
+    q: "En combien de temps voit-on un retour sur investissement ?",
+    a: "Activation IA · 1 semaine livre un workflow en production en 5 jours. Growth System IA livre un système complet en 6 à 10 semaines, avec un ROI mesuré entre 3,4× et 4,1× à 12 mois sur la base de nos cas clients PME.",
   },
   {
-    q: "Combien coûte un premier engagement ?",
-    a: "Un audit Process Intelligence démarre à 12 000 € HT sur 5 jours. Un sprint MVP de 4 semaines (1 agent en production, audit trail complet, métriques avant/après) démarre à 24 000 € HT. Pour une enveloppe précise, utilisez notre calculateur TCO ou réservez 45 minutes d'échange — on revient avec un problème diagnostiqué, ou on ne relance pas.",
+    q: "Que se passe-t-il si on veut reprendre la main en interne ?",
+    a: "Tout est documenté, ouvert, transmissible. Pas de boîte noire, pas de captivité. Nous formons votre équipe pendant l'engagement (2 à 3 jours) et livrons un runbook complet. Vous gardez la plateforme quand on part.",
   },
   {
-    q: "Êtes-vous une agence Anthropic certifiée ?",
-    a: "Notre dossier de partenariat Anthropic est en cours d'instruction (T3 2026). Nos architectes sont Claude Certified et nous sommes Activateur Francenum (expert IA reconnu par l'État français). Tous les chiffres et certifications sont sur notre Trust Center.",
+    q: "Comment garantissez-vous la conformité RGPD et AI Act ?",
+    a: "Chaque système inclut par défaut : journalisation des actions, export CSV/JSON, possibilité de rollback, classification du niveau de risque AI Act. Pour les engagements ETI, nous menons un PIA (Privacy Impact Assessment) avant le sprint.",
   },
   {
-    q: "Comment garantissez-vous la conformité AI Act et RGPD ?",
-    a: "Chaque agent inclut par défaut : log signé de toutes les actions (AI Act Art. 12), export CSV/JSON, possibilité de rollback, classification automatique du niveau de risque. Pour la conformité RGPD/LPD, nous menons un PIA (Privacy Impact Assessment) avant le sprint MVP. Notre Trust Center détaille la liste complète des contrôles.",
-  },
-  {
-    q: "Qu'est-ce que VirtuoseOS et faut-il l'acheter pour travailler avec vous ?",
-    a: "VirtuoseOS est notre plateforme interne — le kernel multi-workspace qui se trouve sous chaque mission Waimia. Vous n'avez pas à l'acheter pour travailler avec nous. Pour les engagements Enterprise, nous le proposons en self-hosted sur votre infra ou en SaaS managé avec parité française.",
+    q: "Travaillez-vous avec notre stack actuelle (HubSpot, Salesforce, Excel, etc.) ?",
+    a: "Oui — nous nous branchons sur votre stack existante (HubSpot, Salesforce, Pipedrive, Notion, Excel, Office, ERP) sans imposer de migration. Si vous n'avez pas de CRM, nous en proposons un adapté à votre volume — généralement HubSpot pour les PME B2B.",
   },
 ];
 ---
 <Base
-  title="Waimia · Architectes de systèmes agentiques · Claude-native · Paris · Genève"
-  description="Agence IA experte Claude (Opus, Sonnet, Haiku) pour les opérations revenue. On déploie stratégie, opérations et VirtuoseOS comme une seule couche continue. Sans le théâtre."
+  title="Waimia · Systèmes IA pour PME et ETI · Acquisition · CRM · Pilotage"
+  description="Nous aidons les PME à automatiser leur acquisition et leurs opérations grâce à des systèmes IA connectés à leurs outils. Activation 1 semaine, Growth System IA, Productivité Opérationnelle. Paris · Genève."
   jsonLd={faqPage(faqItems)}
 >
-  {/* Splash · respiration cinématique 1.1s */}
+  {/* Splash · respiration cinématique 1.1s · garde le signal premium */}
   <BootSplash client:only="react" lang="fr" />
 
+  {/* 1 — Hero recadré business · phrase canonique + 4 metrics */}
   <Hero />
+
+  {/* 2 — TrustMarquee · logos clients = preuve sociale immédiate */}
   <TrustMarquee />
-  <WhyAIStalls />
-  <HowWeShip />          {/* 3.5 — comment on adresse le problème · sticky pin signature */}
+
+  {/* 3 — SixServices · 6 leviers business (recadrés M1) */}
   <SixServices />
-  <Pyramid />            {/* 4.5 — l'architecture 4 paliers qui sous-tend les 6 services */}
-  <Manifesto />            {/* Viewport unique sur la home (paper) — ManifestoAccent terracotta réservé à /manifesto pour éviter doublon */}
-  <OperatingLayer />
-  <Departments />        {/* 6.5 — pour qui, dans quel métier · 6 cells */}
+
+  {/* 4 — Pyramid · 3 piliers + 2 niveaux (recadré M1) */}
+  <Pyramid />
+
+  {/* 5 — Departments · 5 cas d'usage horizontaux (RECADRÉ M4) */}
+  <Departments />
+
+  {/* 6 — Cases · 4-5 cas vedettes (CASE_FEED recadré M1) */}
   <Cases />
-  <WritingNotes />
-  <Offices />            {/* 8.5 — ancrage géographique Paris-Genève */}
+
+  {/* 7 — FAQ · 6 questions PME-first */}
   <FAQ
     items={faqItems}
-    heading="Questions qu'on nous pose"
-    intro="Sept réponses honnêtes — celles qu'on donne par mail avant le premier rendez-vous."
+    heading="Questions fréquentes"
+    intro="Six réponses honnêtes — celles qu'on donne par mail avant le premier rendez-vous."
   />
+
+  {/* 8 — BookSession · CTA principal vers /contact */}
   <BookSession />
+
+  {/* SigBand · signature pré-footer */}
   <SigBand />
 </Base>

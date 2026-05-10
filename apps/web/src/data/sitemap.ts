@@ -39,115 +39,132 @@ export type MegaMenu = {
 
 export type SimpleNav = { key: string; label: BiText; href: string; simple: true };
 
-// ─── MEGA-MENU 1 · OFFRES (pyramide 4 niveaux)
-export const MM_OFFRES: MegaMenu = {
-  key: 'offres',
-  label: { en: 'Services', fr: 'Offres' },
-  href: '/offres',
-  lead: {
-    en: 'From process audit to hosted sovereign infrastructure — four tiers, one continuous layer.',
-    fr: "De l'audit process à l'infrastructure souveraine — quatre paliers, une couche continue.",
-  },
-  cols: [
-    {
-      kicker: { en: '01 · ADVISORY', fr: '01 · CONSEIL' },
-      label: { en: 'Consulting & Audit', fr: 'Conseil & Audit' },
-      tint: '#C94F2E',
-      items: [
-        { href: '/offres/conseil', label: { en: 'Consulting hub · 7 services', fr: 'Hub Conseil · 7 services' }, lead: { en: 'The full advisory catalogue.', fr: 'Le catalogue conseil complet.' }, featured: true },
-        { href: '/offres/audit-maturite-ia', label: { en: 'AI Readiness Assessment · 10 days', fr: 'Audit de maturité IA · 10 jours' }, lead: { en: 'Data, tooling, team, governance scorecard.', fr: 'Data, outillage, équipe, gouvernance — un scorecard.' } },
-        { href: '/offres/audit-process-intelligence', label: { en: 'Process Intelligence Audit', fr: 'Audit Process Intelligence' }, lead: { en: 'Map the SOPs before the agents.', fr: 'Cartographier les SOPs avant les agents.' } },
-        { href: '/offres/conformite-ai-act', label: { en: 'AI Act · GDPR · LPD Compliance', fr: 'Conformité AI Act · RGPD · LPD' }, lead: { en: 'Audit + remediation + dossier.', fr: 'Audit + remédiation + dossier.' } },
-        { href: '/offres/architecture-hybride', label: { en: 'Hybrid Architecture Strategy', fr: "Stratégie d'architecture hybride" }, lead: { en: 'Claude + open-source · the split.', fr: "Claude + open-source · l'équilibre." } },
-        { href: '/offres/diagnostic-maturite', label: { en: 'AI Readiness Diagnostic · 5 days', fr: 'Diagnostic maturité IA · 5 jours' } },
-      ],
-    },
-    {
-      kicker: { en: '02 · LIGHT DEPLOYMENT', fr: '02 · DÉPLOIEMENT LIGHT' },
-      label: { en: 'Claude at every desk', fr: 'Claude sur chaque poste' },
-      tint: '#C94F2E',
-      items: [
-        { href: '/offres/claude-cowork', label: { en: 'Claude Cowork & Artifacts Rollout', fr: 'Déploiement Claude Cowork & Artifacts' }, lead: { en: 'Team-wide rollout with adoption scripts.', fr: "Rollout équipe avec scripts d'adoption." } },
-        { href: '/offres/claude-skills', label: { en: 'Custom Claude Skills', fr: 'Claude Skills sur-mesure' }, lead: { en: 'One skill per recurrent workflow.', fr: 'Un skill par workflow récurrent.' } },
-        { href: '/offres/mcp-connectors', label: { en: 'MCP Connectors · Notion · Drive · Slack', fr: 'Connecteurs MCP · Notion · Drive · Slack' } },
-        { href: '/offres/routines-plugins', label: { en: 'Routines · Plugins · Chrome integration', fr: 'Routines · Plugins · intégration Chrome' } },
-      ],
-    },
-    {
-      kicker: { en: '03 · ORCHESTRATION', fr: '03 · ORCHESTRATION' },
-      label: { en: 'Autonomous agents & MVP', fr: 'Agents autonomes & MVP' },
-      tint: '#C94F2E',
-      items: [
-        { href: '/offres/revops', label: { en: 'RevOps Rebuild · Claude-native', fr: 'Refonte RevOps · Claude-native' }, lead: { en: 'Funnel, handoffs, attribution — agents in the CRM.', fr: 'Funnel, passations, attribution — agents dans le CRM.' }, featured: true },
-        { href: '/offres/agents-metiers', label: { en: 'Custom Business Agents', fr: 'Agents métiers autonomes' }, lead: { en: 'One job, one agent, audit trail.', fr: 'Un job, un agent, trace auditable.' } },
-        { href: '/offres/multi-agents', label: { en: 'Multi-Agent Systems · LangGraph / CrewAI', fr: 'Systèmes multi-agents · LangGraph / CrewAI' } },
-        { href: '/offres/tiered-routing', label: { en: 'Tiered Routing', fr: 'Tiered Routing · routage dynamique' }, lead: { en: 'Route to Haiku, escalate to Opus.', fr: 'Router vers Haiku, escalader vers Opus.' } },
-        { href: '/offres/poc-mvp-sprint', label: { en: '4-Week POC / MVP Sprint', fr: 'Sprint POC / MVP · 4 semaines' } },
-      ],
-    },
-    {
-      kicker: { en: '04 · ENTERPRISE', fr: '04 · ENTERPRISE' },
-      label: { en: 'Scale & sovereignty', fr: 'Scale & souveraineté' },
-      tint: '#C94F2E',
-      items: [
-        { href: '/offres/site-web-ia', label: { en: 'AI-Native Website Build', fr: 'Site web IA-native' }, lead: { en: 'Production-grade, GEO-ready, sovereign.', fr: 'Production-ready, GEO-aware, souverain.' }, featured: true },
-        { href: '/offres/managed-agents', label: { en: 'Claude Managed Agents · async cloud', fr: 'Claude Managed Agents · cloud async' }, lead: { en: 'Anthropic-hosted, long-running agents.', fr: 'Agents longs hébergés Anthropic.' } },
-        { href: '/offres/self-hosted', label: { en: 'Self-Hosted Infrastructure', fr: 'Infrastructure Self-Hosted' }, lead: { en: 'On your hardware · total governance.', fr: 'Sur votre infra · gouvernance totale.' } },
-        { href: '/offres/open-source', label: { en: 'Open-Source Model Deployment', fr: 'Déploiement modèles open-source' }, lead: { en: 'Llama 4 · DeepSeek · Qwen · GLM.', fr: 'Llama 4 · DeepSeek · Qwen · GLM.' } },
-        { href: '/offres/maintenance-sre', label: { en: 'Maintenance & SRE · 24/7', fr: 'Maintenance & SRE · 24/7' } },
-      ],
-    },
-  ],
-  featured: {
-    kicker: { en: 'FEATURED · PYRAMID', fr: 'À LA UNE · PYRAMIDE' },
-    label: { en: 'The 4-tier service pyramid', fr: 'La pyramide des services IA' },
-    body: { en: 'From audit to sovereign scale — the shape of every Waimia engagement.', fr: "De l'audit au scale souverain — la forme de chaque intervention Waimia." },
-    cta: { en: 'See pricing grid →', fr: 'Voir la grille tarifaire →' },
-    href: '/offres',
-  },
-};
-
-// ─── MEGA-MENU 2 · SOLUTIONS
-export const MM_SOLUTIONS: MegaMenu = {
+// ─── MEGA-MENU 1 · SOLUTIONS
+export const MM_SOLUTIONS_NEW: MegaMenu = {
   key: 'solutions',
   label: { en: 'Solutions', fr: 'Solutions' },
   href: '/solutions',
   lead: {
-    en: 'Agentic AI for every department — from finance to legal — and the industry constraints that frame it.',
-    fr: "IA agentique pour chaque département — de la finance au juridique — et les contraintes d'industrie qui l'encadrent.",
+    en: 'Five AI systems built around recurring SMB pain points — acquisition, customer relations, productivity, intelligence, operations.',
+    fr: "Cinq systèmes IA qui adressent les douleurs récurrentes des PME — acquisition, relation client, productivité, pilotage, opérations.",
   },
   cols: [
     {
-      kicker: { en: 'BY DEPARTMENT', fr: 'PAR MÉTIER' },
-      label: { en: 'Use cases that ship', fr: "Cas d'usage qui livrent" },
+      kicker: { en: 'BY PROBLEM', fr: 'PAR PROBLÈME' },
+      label: { en: 'Business use cases', fr: "Cas d'usage business" },
       items: [
-        { href: '/solutions/finance', label: { en: 'Finance & Accounting', fr: 'Finance & Comptabilité' }, lead: { en: 'Reconciliation · memos · Claude for Excel.', fr: 'Réconciliation · mémos · Claude for Excel.' } },
-        { href: '/solutions/ventes-marketing', label: { en: 'Sales & Marketing', fr: 'Ventes & Marketing' }, lead: { en: 'Lead scoring · content · Claude Design.', fr: 'Lead scoring · contenu · Claude Design.' } },
-        { href: '/solutions/support', label: { en: 'Customer Support', fr: 'Support Client' }, lead: { en: 'N1 triage · N2 resolution agents.', fr: 'Triage N1 · agents de résolution N2.' } },
-        { href: '/solutions/juridique', label: { en: 'Legal', fr: 'Juridique' }, lead: { en: 'Contract review · Claude for Word.', fr: 'Revue de contrats · Claude for Word.' } },
-        { href: '/solutions/rh', label: { en: 'HR & Training', fr: 'RH & Formation' }, lead: { en: 'Onboarding · CV screening · SOP creation.', fr: 'Onboarding · tri CV · création SOPs.' } },
-        { href: '/solutions/it-engineering', label: { en: 'IT & Engineering', fr: 'IT & Ingénierie' }, lead: { en: 'Legacy modernization · Claude Code.', fr: 'Modernisation legacy · Claude Code.' } },
+        { href: '/solutions/acquisition-ia', label: { en: 'AI Acquisition', fr: 'Acquisition IA' }, lead: { en: 'More qualified leads, without hiring.', fr: 'Plus de leads qualifiés, sans recruter.' } },
+        { href: '/solutions/crm-relances-ia', label: { en: 'CRM & AI follow-ups', fr: 'CRM & relances IA' }, lead: { en: 'A sales pipeline that never sleeps.', fr: 'Pipeline commercial qui ne dort jamais.' } },
+        { href: '/solutions/contenu-seo-geo-ia', label: { en: 'SEO/GEO content with AI', fr: 'Contenu SEO / GEO IA' }, lead: { en: 'Content found by Google AND AI engines.', fr: 'Du contenu trouvé par Google ET les IA.' } },
+        { href: '/solutions/productivite-ia', label: { en: 'AI Productivity', fr: 'Productivité IA' }, lead: { en: 'Your Excel and Office teams, augmented.', fr: 'Vos équipes Excel et Office, augmentées.' } },
+        { href: '/solutions/support-client-ia', label: { en: 'AI Customer Support', fr: 'Support client IA' }, lead: { en: '24/7 answers, smart human escalation.', fr: 'Réponses 24/7, escalade humaine intelligente.' } },
       ],
     },
     {
-      kicker: { en: 'BY INDUSTRY', fr: 'PAR INDUSTRIE' },
-      label: { en: 'Security-framed', fr: 'Contraintes de sécurité' },
+      kicker: { en: 'BY SECTOR', fr: 'PAR SECTEUR' },
+      label: { en: 'Adapted to your industry', fr: 'Adapté à votre métier' },
       items: [
-        { href: '/solutions/fintech', label: { en: 'Fintech · Claude-native', fr: 'Fintech · Claude-native' }, lead: { en: 'KYC, fraud, AML — agents in compliance loops.', fr: 'KYC, fraude, AML — agents dans les boucles compliance.' }, featured: true },
-        { href: '/solutions/sante', label: { en: 'Healthcare & Life Sciences', fr: 'Santé & Sciences de la vie' }, lead: { en: 'HIPAA · LPD-ready deployments.', fr: 'Déploiements HIPAA · LPD-ready.' } },
-        { href: '/solutions/finance-industrie', label: { en: 'Banking, Finance & Insurance', fr: 'Banque, Finance & Assurance' }, lead: { en: 'ACPR · DORA · PCI-aware.', fr: 'ACPR · DORA · PCI.' } },
-        { href: '/solutions/secteur-public', label: { en: 'Public Sector & Defense', fr: 'Secteur Public & Défense' }, lead: { en: 'Sovereign self-hosted · SecNumCloud.', fr: 'Souverain self-hosted · SecNumCloud.' } },
-        { href: '/solutions/industrie', label: { en: 'Industry & Manufacturing', fr: 'Industrie & Manufacturing' } },
-        { href: '/solutions/retail', label: { en: 'Retail & E-commerce', fr: 'Retail & E-commerce' } },
+        { href: '/secteurs/services-b2b', label: { en: 'B2B Services', fr: 'Services B2B' }, lead: { en: 'Consulting, agencies, services firms.', fr: 'Cabinets, conseil, agences, prestataires.' } },
+        { href: '/secteurs/industrie', label: { en: 'Industry & manufacturing SMBs', fr: 'Industrie & PME industrielles' }, lead: { en: 'Connected ERP, maintenance, quality.', fr: 'ERP connecté, maintenance, qualité.' } },
+        { href: '/secteurs/finance-compta', label: { en: 'Finance & accounting firms', fr: 'Finance & cabinets comptables' }, lead: { en: 'Reconciliation, reporting, compliance.', fr: 'Réconciliation, reporting, conformité.' } },
+        { href: '/secteurs', label: { en: 'All sectors →', fr: 'Tous les secteurs →' } },
       ],
     },
   ],
   featured: {
-    kicker: { en: 'CASE FILE', fr: 'CAS CLIENT' },
-    label: { en: '€2.4M pipeline recovered · SaaS B2B', fr: '2,4 M€ pipeline récupéré · SaaS B2B' },
-    body: { en: 'Finance agents, CRM cleanup, multi-agent sequencing. 10 weeks.', fr: 'Agents finance, CRM nettoyé, multi-agent orchestré. 10 semaines.' },
-    cta: { en: 'Read the file →', fr: 'Lire le dossier →' },
-    href: '/ressources/cas/plateau',
+    kicker: { en: 'FEATURED CASE', fr: 'CAS CLIENT VEDETTE' },
+    label: { en: '+€2.4M pipeline recovered', fr: '+€2,4 M de pipeline récupéré' },
+    body: {
+      en: 'Sales pipeline reconnected, qualification automated, real-time visibility. B2B SaaS · 10 weeks.',
+      fr: 'Pipeline commercial reconnecté, qualification automatisée, visibilité temps réel. SaaS B2B · 10 semaines.',
+    },
+    cta: { en: 'Read the case →', fr: 'Lire le cas →' },
+    href: '/cas/plateau',
+  },
+};
+
+export const MM_SOLUTIONS: MegaMenu = MM_SOLUTIONS_NEW;
+
+// ─── MEGA-MENU 2 · OFFRES
+export const MM_OFFRES_NEW: MegaMenu = {
+  key: 'offres',
+  label: { en: 'Services', fr: 'Offres' },
+  href: '/offres',
+  lead: {
+    en: 'Three systems for the business levers — a starter format to activate quickly, an enterprise format for larger ambitions.',
+    fr: "Trois systèmes pour adresser les leviers business — un format starter pour activer rapidement, un format ETI quand l'ambition est plus forte.",
+  },
+  cols: [
+    {
+      kicker: { en: '01 · THE 3 PILLARS', fr: '01 · LES 3 PILIERS' },
+      label: { en: 'Business systems', fr: 'Systèmes business' },
+      tint: '#C94F2E',
+      items: [
+        { href: '/offres/growth-system-ia', label: { en: 'AI Growth System', fr: 'Growth System IA' }, lead: { en: 'Automated acquisition and conversion system. Site, CRM, follow-ups, dashboards — all connected.', fr: "Système d'acquisition et de conversion automatisé. Site, CRM, relances, dashboards — tout connecté." }, featured: true },
+        { href: '/offres/growth-intelligence', label: { en: 'Growth Intelligence', fr: 'Growth Intelligence' }, lead: { en: 'Real-time intelligence and data clarity for faster decisions.', fr: 'Pilotage temps réel et lisibilité des données pour décider plus vite.' } },
+        { href: '/offres/productivite-operationnelle-ia', label: { en: 'Operational AI', fr: 'Productivité Opérationnelle IA' }, lead: { en: 'Repetitive tasks automated, internal workflows streamlined.', fr: 'Tâches répétitives automatisées, workflows internes fluidifiés.' } },
+      ],
+    },
+    {
+      kicker: { en: '02 · TIERS', fr: '02 · NIVEAUX' },
+      label: { en: 'Activation & infrastructure', fr: 'Activation & infrastructure' },
+      items: [
+        { href: '/offres/activation-ia', label: { en: 'AI Activation · 1 week', fr: 'Activation IA · 1 semaine' }, lead: { en: 'Audit + team training. The fast-track entry point.', fr: "Audit + formation des équipes. La porte d'entrée pour activer rapidement." } },
+        { href: '/offres/infrastructure-ia', label: { en: 'AI Infrastructure · Enterprise', fr: 'Infrastructure IA · ETI' }, lead: { en: 'Connected systems at scale, multi-team, multi-site.', fr: 'Systèmes connectés à grande échelle, multi-équipes, multi-sites.' } },
+      ],
+    },
+  ],
+  featured: {
+    kicker: { en: 'FLAGSHIP SERVICE', fr: 'OFFRE PHARE' },
+    label: { en: 'AI Growth System', fr: 'Growth System IA' },
+    body: {
+      en: 'An automated acquisition and conversion system. Site, CRM, follow-ups, dashboards — connected and AI-driven. €5–20k.',
+      fr: "Un système d'acquisition et de conversion automatisé. Site, CRM, relances, dashboards — connectés et pilotés par l'IA. 5 à 20 k€.",
+    },
+    cta: { en: 'See the system →', fr: 'Découvrir le système →' },
+    href: '/offres/growth-system-ia',
+  },
+};
+
+export const MM_OFFRES: MegaMenu = MM_OFFRES_NEW;
+
+// ─── MEGA-MENU 3 · CAS CLIENTS
+export const MM_CASES_NEW: MegaMenu = {
+  key: 'cas',
+  label: { en: 'Case studies', fr: 'Cas clients' },
+  href: '/cas',
+  lead: {
+    en: 'Pipelines reconnected, qualification automated, operations streamlined. Measured ROI, not promised.',
+    fr: 'Pipelines reconnectés, qualifications automatisées, opérations fluidifiées. ROI mesurés, pas promis.',
+  },
+  cols: [
+    {
+      kicker: { en: 'BY PAIN POINT', fr: 'PAR DOULEUR' },
+      label: { en: 'Flagship cases', fr: 'Cas vedettes' },
+      items: [
+        { href: '/cas/plateau', label: { en: 'Plateau · +€2.4M pipeline recovered', fr: 'Plateau · +€2,4M pipeline récupéré' }, lead: { en: 'B2B SaaS · 10 weeks · qualification + automated follow-ups.', fr: 'SaaS B2B · 10 semaines · qualification + relances automatisées.' }, featured: true },
+        { href: '/cas/halcyon', label: { en: 'Halcyon · −38% triage time', fr: 'Halcyon · −38% temps de triage' }, lead: { en: 'Healthtech · 6 weeks · AI request routing.', fr: 'Santé-tech · 6 semaines · routage IA des demandes.' } },
+        { href: '/cas/northbound', label: { en: 'Northbound · ×3.1 SQL conversion', fr: 'Northbound · ×3,1 conversion SQL' }, lead: { en: 'EU Fintech · 14 weeks · automated lead scoring.', fr: 'Fintech EU · 14 semaines · lead scoring automatisé.' } },
+        { href: '/cas/caserne', label: { en: 'Caserne · 1,200 hours/year saved', fr: 'Caserne · 1 200 h/an récupérées' }, lead: { en: 'FR Industry · 8 weeks · back-office automation.', fr: 'Industrie FR · 8 semaines · automatisation back-office.' } },
+      ],
+    },
+    {
+      kicker: { en: 'BY SECTOR', fr: 'PAR SECTEUR' },
+      label: { en: 'Similar profiles', fr: 'Profils similaires' },
+      items: [
+        { href: '/cas?secteur=services-b2b', label: { en: 'B2B Services', fr: 'Services B2B' } },
+        { href: '/cas?secteur=industrie', label: { en: 'Industry', fr: 'Industrie' } },
+        { href: '/cas?secteur=finance', label: { en: 'Finance & accounting', fr: 'Finance & compta' } },
+        { href: '/cas', label: { en: 'See all cases →', fr: 'Voir tous les cas →' } },
+      ],
+    },
+  ],
+  featured: {
+    kicker: { en: 'TESTIMONIAL', fr: 'TÉMOIGNAGE' },
+    label: { en: 'How Plateau doubled its follow-up rate', fr: 'Comment Plateau a doublé son taux de relance' },
+    body: { en: 'Before: 12% of leads followed up. After: 67%. Without hiring.', fr: 'Avant : 12% des leads relancés. Après : 67%. Sans recrutement.' },
+    cta: { en: 'Read the story →', fr: "Lire l'histoire →" },
+    href: '/cas/plateau',
   },
 };
 
@@ -209,8 +226,8 @@ export const MM_RESOURCES: MegaMenu = {
   label: { en: 'Resources', fr: 'Ressources' },
   href: '/ressources',
   lead: {
-    en: 'Field notes · proofs · free tools. Built for GEO and for humans in equal parts.',
-    fr: 'Notes de terrain · preuves · outils libres. Pensés pour le GEO et pour les humains à parts égales.',
+    en: 'Business insights, proof, and practical tools for SMBs adopting AI without theatre.',
+    fr: 'Insights business, preuves et outils pratiques pour les PME qui activent l’IA sans théâtre.',
   },
   cols: [
     {
@@ -223,14 +240,12 @@ export const MM_RESOURCES: MegaMenu = {
       ],
     },
     {
-      kicker: { en: 'LEARNING', fr: 'APPRENTISSAGE' },
-      label: { en: 'Blog · cookbooks · masterclass', fr: 'Blog · cookbooks · masterclass' },
+      kicker: { en: 'BUSINESS INSIGHTS', fr: 'INSIGHTS BUSINESS' },
+      label: { en: 'SMB/SME applied AI', fr: 'IA appliquée PME/ETI' },
       items: [
-        { href: '/ressources/cookbooks/claude-skills-tutorial', label: { en: 'Cookbook · Build a Claude Skill', fr: 'Cookbook · Créer une Claude Skill' }, lead: { en: 'Step-by-step, code included.', fr: "Pas-à-pas, avec le code." }, featured: true },
-        { href: '/ressources/blog', label: { en: 'Blog · agentic insights', fr: 'Blog · insights agentiques' } },
-        { href: '/ressources/cookbooks', label: { en: 'Cookbooks & tutorials', fr: 'Cookbooks & tutoriels' }, lead: { en: 'How to build a Claude Skill.', fr: 'Créer une Claude Skill.' } },
-        { href: '/ressources/academy', label: { en: 'Academy · Claude masterclass', fr: 'Academy · masterclass Claude' } },
-        { href: '/ressources/webinaires', label: { en: 'Webinars & masterclass', fr: 'Webinaires & masterclass' } },
+        { href: '/ressources/cookbooks/relances-commerciales-ia', label: { en: 'Guide · Automate sales follow-ups in 4 weeks', fr: 'Guide · Automatiser les relances commerciales en 4 semaines' }, lead: { en: 'A practical route from dormant leads to active pipeline.', fr: 'Une route concrète des leads dormants au pipeline actif.' }, featured: true },
+        { href: '/ressources/blog', label: { en: 'Blog · business insights', fr: 'Blog · insights business' } },
+        { href: '/ressources/cookbooks', label: { en: 'Cookbooks & tutorials', fr: 'Cookbooks & tutoriels' }, lead: { en: 'Practical automation patterns for SMB teams.', fr: 'Patterns d’automatisation concrets pour équipes PME.' } },
         { href: '/ressources/newsletter', label: { en: 'Newsletter · Intelligence Opérationnelle', fr: 'Newsletter · Intelligence Opérationnelle' } },
       ],
     },
@@ -240,28 +255,65 @@ export const MM_RESOURCES: MegaMenu = {
       tint: '#C94F2E',
       items: [
         { href: '/ressources/livres-blancs/ai-act-readiness', label: { en: 'White paper · AI Act Readiness', fr: "Livre blanc · Préparation à l'AI Act" }, lead: { en: 'The compliance dossier · downloadable.', fr: 'Le dossier de conformité · téléchargeable.' }, featured: true },
-        { href: '/ressources/outils/tco-calculator', label: { en: 'AI Agent TCO Calculator', fr: 'Calculateur coût TCO agents' }, lead: { en: 'Model your true agent cost.', fr: 'Modéliser le vrai coût agent.' } },
-        { href: '/ressources/outils/roi-calculator', label: { en: 'ROI & Time-saved Calculator', fr: 'Calculateur ROI & temps gagné' } },
+        { href: '/ressources/outils/roi-calculator', label: { en: 'ROI & Time-saved Calculator', fr: 'Calculateur ROI & temps gagné' }, lead: { en: 'Estimate saved hours and revenue impact.', fr: 'Estimer les heures gagnées et l’impact revenu.' } },
+        { href: '/ressources/outils/tco-calculator', label: { en: 'Automation cost calculator', fr: 'Calculateur coût automatisation' } },
         { href: '/ressources/outils/ai-act-checklist', label: { en: 'AI Act Readiness Checklist', fr: "Checklist prêt pour l'AI Act" } },
       ],
     },
   ],
   featured: {
     kicker: { en: 'FREE TOOL', fr: 'OUTIL GRATUIT' },
-    label: { en: 'AI Agent TCO Calculator', fr: "Calculateur TCO d'un agent IA" },
-    body: { en: 'The real cost, end-to-end · inference + orchestration + ops + retries.', fr: 'Le coût réel, bout-en-bout · inférence + orchestration + ops + retries.' },
+    label: { en: 'AI ROI Calculator for SMBs', fr: 'Calculateur ROI IA pour PME' },
+    body: { en: 'Estimate hours saved, pipeline reactivated, and payback window before launching the project.', fr: 'Estimez les heures gagnées, le pipeline relancé et le délai de retour avant de lancer le projet.' },
     cta: { en: 'Open the calculator →', fr: 'Ouvrir le calculateur →' },
-    href: '/ressources/outils/tco-calculator',
+    href: '/ressources/outils/roi-calculator',
+  },
+};
+
+// ─── MEGA-MENU 5 · AGENCE
+export const MM_AGENCY_NEW: MegaMenu = {
+  key: 'agence',
+  label: { en: 'The Agency', fr: "L'Agence" },
+  href: '/agence',
+  lead: {
+    en: 'A team based in Paris and Geneva. An anti-theatre method. A Trust Center that details everything.',
+    fr: 'Une équipe basée à Paris et Genève. Une méthode anti-théâtre. Un Trust Center qui détaille tout.',
+  },
+  cols: [
+    {
+      kicker: { en: 'THE TEAM', fr: "L'ÉQUIPE" },
+      label: { en: 'Who we are', fr: 'Qui nous sommes' },
+      items: [
+        { href: '/agence/about', label: { en: 'About Waimia', fr: 'À propos de Waimia' } },
+        { href: '/agence/methode', label: { en: 'Our method · Process Intelligence', fr: 'Notre méthode · Process Intelligence' }, lead: { en: 'Audit, deployment, measurement — no PowerPoint.', fr: 'Audit, déploiement, mesure — pas de PowerPoint.' }, featured: true },
+        { href: '/agence/careers', label: { en: 'Careers', fr: 'Carrières' } },
+      ],
+    },
+    {
+      kicker: { en: 'TRUST', fr: 'CONFIANCE' },
+      label: { en: 'Guarantees & legal', fr: 'Garanties & légal' },
+      items: [
+        { href: '/agence/trust-center', label: { en: 'Trust Center · AI Act, GDPR, ISO', fr: 'Trust Center · AI Act, RGPD, ISO' }, lead: { en: 'All controls, in plain text.', fr: 'Tous les contrôles, en clair.' } },
+        { href: '/contact', label: { en: 'Contact us · 45 min', fr: 'Nous contacter · 45 min' }, lead: { en: 'Free scoping, honest audit, or nothing.', fr: 'Cadrage gratuit, audit honnête, ou rien.' } },
+      ],
+    },
+  ],
+  featured: {
+    kicker: { en: 'LOCATION', fr: 'ANCRAGE' },
+    label: { en: 'Paris · Geneva', fr: 'Paris · Genève' },
+    body: { en: 'Two offices. One method. French and Swiss parity.', fr: 'Deux bureaux. Une seule méthode. Parité française et helvétique.' },
+    cta: { en: 'See the offices →', fr: 'Voir les bureaux →' },
+    href: '/agence/about#bureaux',
   },
 };
 
 // ─── PRIMARY NAV
 export const PRIMARY_NAV: Array<MegaMenu | SimpleNav> = [
-  MM_OFFRES,
-  MM_SOLUTIONS,
-  MM_TECH,
+  MM_SOLUTIONS_NEW,
+  MM_OFFRES_NEW,
+  MM_CASES_NEW,
   MM_RESOURCES,
-  { key: 'agence', label: { en: 'The Agency', fr: "L'Agence" }, href: '/agence', simple: true },
+  MM_AGENCY_NEW,
 ];
 
 // ─── FOOTER (5 colonnes)
@@ -275,55 +327,53 @@ export const FOOTER_COLS: FooterCol[] = [
   {
     heading: { en: 'The Agency', fr: "L'Agence" },
     items: [
-      { href: '/agence', label: { en: 'About Waimia', fr: 'À propos' } },
-      { href: '/agence#vision', label: { en: 'Our vision · Process Intelligence', fr: 'Notre vision · Process Intelligence' } },
-      { href: '/agence#certifications', label: { en: 'Partnerships & certifications', fr: 'Partenariats & certifications' } },
-      { href: '/careers', label: { en: 'Careers', fr: 'Carrières' } },
-      { href: '/agence#bureaux', label: { en: 'Offices · Paris · Geneva', fr: 'Bureaux · Paris · Genève' } },
-      { href: '/contact', label: { en: 'Contact', fr: 'Nous contacter' } },
+      { href: '/agence/about', label: { en: 'About', fr: 'À propos' } },
+      { href: '/agence/methode', label: { en: 'Our method', fr: 'Notre méthode' } },
+      { href: '/agence/trust-center', label: { en: 'Trust Center', fr: 'Trust Center' } },
+      { href: '/agence/careers', label: { en: 'Careers', fr: 'Carrières' } },
+      { href: '/contact', label: { en: 'Contact', fr: 'Contact' } },
+    ],
+  },
+  {
+    heading: { en: 'Solutions', fr: 'Solutions' },
+    items: [
+      { href: '/solutions/acquisition-ia', label: { en: 'AI Acquisition', fr: 'Acquisition IA' } },
+      { href: '/solutions/crm-relances-ia', label: { en: 'CRM & AI follow-ups', fr: 'CRM & relances IA' } },
+      { href: '/solutions/contenu-seo-geo-ia', label: { en: 'SEO/GEO Content', fr: 'Contenu SEO/GEO' } },
+      { href: '/solutions/productivite-ia', label: { en: 'AI Productivity', fr: 'Productivité IA' } },
+      { href: '/solutions/support-client-ia', label: { en: 'AI Customer Support', fr: 'Support client IA' } },
+      { href: '/secteurs', label: { en: 'Adapted to your industry →', fr: 'Adapté à votre secteur →' } },
     ],
   },
   {
     heading: { en: 'Services', fr: 'Offres' },
     items: [
-      { href: '/offres/audit-process-intelligence', label: { en: 'Process Intelligence Audit', fr: 'Audit Process Intelligence' } },
-      { href: '/offres/claude-cowork', label: { en: 'Claude Cowork · Skills', fr: 'Claude Cowork · Skills' } },
-      { href: '/offres/agents-metiers', label: { en: 'Agent Orchestration · MVP', fr: "Orchestration d'agents · MVP" } },
-      { href: '/offres/managed-agents', label: { en: 'Claude Managed Agents', fr: 'Claude Managed Agents' } },
-      { href: '/offres/self-hosted', label: { en: 'Self-Hosted Infrastructure', fr: 'Infrastructure Self-Hosted' } },
-      { href: '/offres/maintenance-sre', label: { en: 'Maintenance & AI Act', fr: 'Maintenance & AI Act' } },
-    ],
-  },
-  {
-    heading: { en: 'Use Cases', fr: "Cas d'usage" },
-    items: [
-      { href: '/solutions/finance', label: { en: 'AI for Finance', fr: 'IA pour la Finance' } },
-      { href: '/solutions/support', label: { en: 'AI for Support', fr: 'IA pour le Service Client' } },
-      { href: '/solutions/ventes-marketing', label: { en: 'AI for Sales & Marketing', fr: 'IA pour Ventes & Marketing' } },
-      { href: '/solutions/rh', label: { en: 'AI for HR', fr: 'IA pour les RH' } },
-      { href: '/solutions/it-engineering', label: { en: 'AI for IT & Code', fr: "IA pour l'IT & le code" } },
-      { href: '/solutions/juridique', label: { en: 'AI for Legal', fr: 'IA pour le Juridique' } },
+      { href: '/offres/growth-system-ia', label: { en: 'AI Growth System', fr: 'Growth System IA' } },
+      { href: '/offres/growth-intelligence', label: { en: 'Growth Intelligence', fr: 'Growth Intelligence' } },
+      { href: '/offres/productivite-operationnelle-ia', label: { en: 'Operational Productivity', fr: 'Productivité Opérationnelle' } },
+      { href: '/offres/activation-ia', label: { en: 'AI Activation · 1 week', fr: 'Activation IA · 1 semaine' } },
+      { href: '/offres/infrastructure-ia', label: { en: 'AI Infrastructure · Enterprise', fr: 'Infrastructure IA · ETI' } },
     ],
   },
   {
     heading: { en: 'Resources', fr: 'Ressources' },
     items: [
-      { href: '/ressources/blog', label: { en: 'Blog · 2026', fr: 'Le Blog IA 2026' } },
-      { href: '/ressources/outils/roi-calculator', label: { en: 'ROI Calculator', fr: 'Calculateur ROI IA' } },
-      { href: '/ressources/cookbooks', label: { en: 'Cookbooks & tutorials', fr: 'Cookbooks & tutoriels' } },
-      { href: '/ressources/cas', label: { en: 'Case studies', fr: 'Études de cas chiffrées' } },
+      { href: '/cas', label: { en: 'Case studies', fr: 'Cas clients' } },
+      { href: '/ressources/blog', label: { en: 'Blog', fr: 'Blog' } },
+      { href: '/ressources/outils/roi-calculator', label: { en: 'ROI Calculator', fr: 'Calculateur ROI' } },
+      { href: '/ressources/livres-blancs/ai-act-readiness', label: { en: 'AI Act white paper', fr: 'Livre blanc AI Act' } },
       { href: '/ressources/newsletter', label: { en: 'Newsletter', fr: 'Newsletter' } },
     ],
   },
   {
-    heading: { en: 'Trust & Legal', fr: 'Confiance & Légal' },
+    heading: { en: 'Trust & Legal', fr: 'Légal & Archive' },
     shield: true,
     items: [
-      { href: '/trust', label: { en: 'Trust Center', fr: 'Centre de confiance' } },
-      { href: '/trust#ai-act', label: { en: 'AI Act · GDPR · LPD', fr: 'AI Act · RGPD · LPD' } },
-      { href: '/trust#privacy', label: { en: 'Privacy policy', fr: 'Politique de confidentialité' } },
-      { href: '/trust#cgv', label: { en: 'Terms & conditions', fr: 'Mentions légales & CGV' } },
-      { href: '/trust#cookies', label: { en: 'Cookie settings', fr: 'Gestion des cookies' } },
+      { href: '/agence/trust-center', label: { en: 'Trust Center', fr: 'Trust Center' } },
+      { href: '/agence/trust-center#ai-act', label: { en: 'AI Act · GDPR · LPD', fr: 'AI Act · RGPD · LPD' } },
+      { href: '/trust#cgv', label: { en: 'Legal notice', fr: 'Mentions légales' } },
+      { href: '/trust#cookies', label: { en: 'Cookies', fr: 'Cookies' } },
+      { href: '/archive', label: { en: 'Site archive', fr: 'Archive du site' } },
     ],
   },
 ];
@@ -348,62 +398,61 @@ export const CLIENT_LOGOS = [
 
 // ─── HOMEPAGE · core content
 export const HERO_METRICS = [
-  { k: '04', n: '120+', label: { en: 'enterprise agents shipped', fr: 'agents enterprise livrés' } },
-  { k: '03', n: '6 wk', label: { en: 'median time-to-production', fr: 'time-to-prod médian' } },
-  { k: '02', n: '€14M', label: { en: 'pipeline recovered · 2025',  fr: 'pipeline récupéré · 2025' } },
-  { k: '01', n: '4.2×', label: { en: 'avg. ROI year 1', fr: 'ROI moyen année 1' } },
+  { k: '01', n: '12h/sem', label: { en: 'reclaimed per team weekly', fr: 'récupérées par équipe en moyenne' } },
+  { k: '02', n: '23', label: { en: 'workflows automated on average', fr: 'workflows automatisés en moyenne' } },
+  { k: '03', n: '+€840K', label: { en: 'pipeline reactivated · median', fr: 'pipeline relancé · médiane' } },
+  { k: '04', n: '3,4×', label: { en: 'measured ROI at 12 months', fr: 'ROI mesuré à 12 mois' } },
 ];
 
 export const PYRAMID_TIERS = [
   {
     n: 'I',
-    tag: { en: 'CONSULTING', fr: 'CONSEIL' },
-    label: { en: 'Audit & Strategy', fr: 'Audit & Stratégie' },
-    lead: { en: 'Map the SOPs before you buy any model.', fr: "Cartographier les SOPs avant d'acheter un modèle." },
-    items: ['Process Intelligence', 'AI Act · RGPD', 'Hybrid architecture'],
+    tag: { en: 'ACTIVATION', fr: 'ACTIVATION' },
+    label: { en: 'Fast activation', fr: 'Activation rapide' },
+    lead: { en: 'One week to identify the lever, train the team, and ship the first quick win.', fr: "Une semaine pour identifier le levier, former l'équipe et livrer le premier quick win." },
+    items: ['Audit process · 5j', 'Formation équipe · 1 sem', 'Quick win Excel'],
     href: '/offres#tier-1',
   },
   {
     n: 'II',
-    tag: { en: 'LIGHT', fr: 'LIGHT' },
-    label: { en: 'Claude at every desk', fr: 'Claude sur chaque poste' },
-    lead: { en: 'Cowork · Skills · MCP · Routines. Adoption over deployment.', fr: "Cowork · Skills · MCP · Routines. L'adoption avant le déploiement." },
-    items: ['Claude Cowork rollout', 'Custom Skills', 'MCP connectors', 'Routines & plugins'],
+    tag: { en: 'PRODUCTIVITY', fr: 'PRODUCTIVITÉ' },
+    label: { en: 'Operational productivity', fr: 'Productivité opérationnelle' },
+    lead: { en: 'Remove recurring tasks and make internal workflows run without daily chasing.', fr: 'Supprimer les tâches récurrentes et fluidifier les workflows internes.' },
+    items: ['Workflows métiers', 'Tâches répétitives', 'Support client'],
     href: '/offres#tier-2',
   },
   {
     n: 'III',
-    tag: { en: 'ORCHESTRATION', fr: 'ORCHESTRATION' },
-    label: { en: 'Autonomous agents & MVPs', fr: 'Agents autonomes & MVPs' },
-    lead: { en: 'One job, one agent, one audit trail humans can read.', fr: 'Un job, un agent, une trace auditable lisible.' },
-    items: ['Business agents', 'Multi-agent (LangGraph/CrewAI)', 'Tiered routing', '4-wk MVP sprint'],
+    tag: { en: 'GROWTH', fr: 'ACQUISITION' },
+    label: { en: 'Acquisition & intelligence', fr: 'Acquisition & pilotage' },
+    lead: { en: 'Connect site, CRM, follow-ups, content, and business visibility into one growth system.', fr: 'Connecter site, CRM, relances, contenu et visibilité business dans un même système.' },
+    items: ["Système d'acquisition", 'Pipeline commercial', 'Dashboards pilotage', 'Contenu SEO/GEO'],
     href: '/offres#tier-3',
   },
   {
     n: 'IV',
-    tag: { en: 'ENTERPRISE', fr: 'ENTERPRISE' },
-    label: { en: 'Scale & sovereignty', fr: 'Scale & souveraineté' },
-    lead: { en: 'Anthropic-managed async · or fully self-hosted on your hardware.', fr: 'Async managé Anthropic · ou self-hosted sur votre hardware.' },
-    items: ['Claude Managed Agents', 'Self-hosted (vLLM, Ollama)', 'Open-source models', 'SRE · 24/7'],
+    tag: { en: 'ENTERPRISE', fr: 'ETI' },
+    label: { en: 'Enterprise infrastructure', fr: 'Infrastructure ETI' },
+    lead: { en: 'Connected systems for larger teams, stricter governance, and multi-site operations.', fr: 'Systèmes connectés pour équipes élargies, gouvernance stricte et opérations multi-sites.' },
+    items: ['Architecture connectée', 'Sécurité & gouvernance', 'Multi-équipes & multi-sites'],
     href: '/offres#tier-4',
   },
 ];
 
 export const DEPARTMENTS_GRID = [
-  { slug: 'finance',          label: { en: 'Finance', fr: 'Finance' },                     tag: { en: 'Reconciliation · memos · Excel', fr: 'Réconciliation · mémos · Excel' } },
-  { slug: 'ventes-marketing', label: { en: 'Sales & Marketing', fr: 'Ventes & Marketing' }, tag: { en: 'Lead scoring · content · Design', fr: 'Lead scoring · contenu · Design' } },
-  { slug: 'support',          label: { en: 'Customer Support', fr: 'Support Client' },     tag: { en: 'Triage · resolution agents', fr: 'Triage · agents de résolution' } },
-  { slug: 'juridique',        label: { en: 'Legal', fr: 'Juridique' },                     tag: { en: 'Contract review · Word', fr: 'Revue contrats · Word' } },
-  { slug: 'rh',               label: { en: 'HR', fr: 'RH' },                                tag: { en: 'Onboarding · CV · SOPs', fr: 'Onboarding · CV · SOPs' } },
-  { slug: 'it-engineering',   label: { en: 'IT & Engineering', fr: 'IT & Ingénierie' },    tag: { en: 'Legacy · Claude Code', fr: 'Legacy · Claude Code' } },
+  { slug: 'acquisition-ia', label: { en: 'Acquisition', fr: 'Acquisition' }, tag: { en: 'Leads · landing · GEO', fr: 'Leads · landing · GEO' } },
+  { slug: 'crm-relances-ia', label: { en: 'CRM & Follow-ups', fr: 'CRM & Relances' }, tag: { en: 'Pipeline · qualification · nurturing', fr: 'Pipeline · qualification · nurturing' } },
+  { slug: 'contenu-seo-geo-ia', label: { en: 'SEO/GEO Content', fr: 'Contenu SEO/GEO' }, tag: { en: 'Articles · landings · AI indexing', fr: 'Articles · landing · indexation IA' } },
+  { slug: 'productivite-ia', label: { en: 'Productivity', fr: 'Productivité' }, tag: { en: 'Excel · Office · internal workflows', fr: 'Excel · Office · workflows internes' } },
+  { slug: 'support-client-ia', label: { en: 'Customer Support', fr: 'Support client' }, tag: { en: 'Triage · resolution · escalation', fr: 'Triage · résolution · escalade' } },
 ];
 
 export const CASE_FEED = [
-  { slug: 'plateau',    client: 'Plateau',        sector: { en: 'SaaS B2B',         fr: 'SaaS B2B' },         duration: '10 wk',     stack: 'Claude · HubSpot · dbt',         impact: { en: '+€2.4M pipeline recovered', fr: '+2,4 M€ pipeline récupéré' } },
-  { slug: 'halcyon',    client: 'Halcyon Health', sector: { en: 'Healthtech',       fr: 'Santé-tech' },       duration: '6 wk',      stack: 'Claude · Snowflake',             impact: { en: '−38% triage time', fr: '−38% temps de triage' } },
-  { slug: 'northbound', client: 'Northbound',     sector: { en: 'Fintech · EU',     fr: 'Fintech · EU' },     duration: '14 wk',     stack: 'Claude · Segment · dbt',         impact: { en: '×3.1 SQL conversion', fr: '×3,1 conversion SQL' } },
-  { slug: 'caserne',    client: 'Caserne',        sector: { en: 'Industry · FR',    fr: 'Industrie · FR' },   duration: '8 wk',      stack: 'Claude · custom RAG · SAP',      impact: { en: '1 200 h/year reclaimed', fr: '1 200 h/an récupérées' } },
-  { slug: 'virtuoseos', client: 'VirtuoseOS',     sector: { en: 'Internal blueprint', fr: 'Blueprint interne' }, duration: 'ongoing', stack: 'Claude · open-source · multi-agent', impact: { en: 'The OS under every shipment', fr: "L'OS sous chaque livraison" }, featured: true },
+  { slug: 'plateau',    client: 'Plateau',        sector: { en: 'B2B SaaS',         fr: 'SaaS B2B' },         duration: '10 wk',     stack: 'Claude · HubSpot · dbt',         impact: { en: '+€2.4M pipeline reactivated · automated qualification', fr: '+€2,4 M de pipeline récupéré · qualification automatisée' } },
+  { slug: 'halcyon',    client: 'Halcyon Health', sector: { en: 'Healthtech',       fr: 'Santé-tech' },       duration: '6 wk',      stack: 'Claude · Snowflake',             impact: { en: '−38% triage time · 24/7 response', fr: '−38% de temps de triage · réponse 24/7' } },
+  { slug: 'northbound', client: 'Northbound',     sector: { en: 'Fintech · EU',     fr: 'Fintech · UE' },     duration: '14 wk',     stack: 'Claude · Segment · dbt',         impact: { en: '×3.1 conversion · automated scoring', fr: '×3,1 conversion · scoring automatisé' } },
+  { slug: 'caserne',    client: 'Caserne',        sector: { en: 'Industry · FR',    fr: 'Industrie · FR' },   duration: '8 wk',      stack: 'Claude · custom RAG · SAP',      impact: { en: '1,200 h/year saved · streamlined back office', fr: '1 200 h/an récupérées · back-office fluidifié' } },
+  { slug: 'virtuoseos', client: 'VirtuoseOS',     sector: { en: 'Internal blueprint', fr: 'Blueprint interne' }, duration: 'ongoing', stack: 'Claude · open-source · multi-agent', impact: { en: 'The operating system under every delivery', fr: 'Le système opérationnel sous chaque livraison' }, featured: true },
 ];
 
 export const FIELD_NOTES = [
@@ -416,20 +465,20 @@ export const FIELD_NOTES = [
 
 // ─── 6 services taught by doing — Acte II
 export const SIX_SERVICES = [
-  { k: '01', label: { en: 'AI strategy',          fr: 'Stratégie IA' },        body: { en: "Six-week diagnostic that separates theatre from leverage. Ships an ordered backlog, not a slide deck.",  fr: 'Diagnostic de six semaines qui sépare le théâtre du levier. Livre un backlog ordonné, pas un PowerPoint.' } },
-  { k: '02', label: { en: 'RevOps rebuild',       fr: 'Refonte RevOps' },      body: { en: "Funnel, handoffs, attribution. We touch the CRM ourselves.",                                              fr: 'Funnel, passations, attribution. On met les mains dans le CRM.' } },
-  { k: '03', label: { en: 'HubSpot operations',   fr: 'HubSpot opérations' },  body: { en: "Certified partner work — data model, automations, custom objects, GDPR-clean.",                          fr: 'Partenaire certifié — modèle de données, automatisations, objets custom, RGPD propre.' } },
-  { k: '04', label: { en: 'Data foundation',      fr: 'Fondation data' },      body: { en: "Warehouse, semantic layer, lineage. The layer every AI claim sits on.",                                  fr: 'Entrepôt, couche sémantique, lignée. La couche sur laquelle repose chaque promesse d’IA.' } },
-  { k: '05', label: { en: 'AI automation',        fr: 'Automatisation IA' },   body: { en: "Agents that do one job well, with audit trails humans can read.",                                        fr: 'Des agents qui font une seule chose bien, avec des traces auditables.' } },
-  { k: '06', label: { en: 'Platform engineering', fr: 'Plateforme produit' },  body: { en: "We build custom tooling when the market doesn’t. See VirtuoseOS.",                                  fr: 'On construit l’outil quand le marché n’existe pas. Voir VirtuoseOS.' } },
+  { k: '01', label: { en: '30-min diagnostic', fr: 'Diagnostic 30 min' }, body: { en: 'We identify the business lever before the technology.', fr: 'On identifie le levier business avant la techno.' } },
+  { k: '02', label: { en: 'Acquisition system', fr: "Système d'acquisition" }, body: { en: 'Pipeline reconnected, qualification automated.', fr: 'Pipeline reconnecté, qualification automatisée.' } },
+  { k: '03', label: { en: 'Augmented CRM', fr: 'CRM augmenté' }, body: { en: 'The CRM that does its work for you.', fr: 'Le CRM qui fait son travail à votre place.' } },
+  { k: '04', label: { en: 'Data clarity', fr: 'Lisibilité des données' }, body: { en: 'Clear reporting, faster decisions.', fr: 'Reporting clair, décision rapide.' } },
+  { k: '05', label: { en: 'Repetitive tasks removed', fr: 'Tâches répétitives éliminées' }, body: { en: 'Workflows that run without you.', fr: 'Workflows qui tournent sans vous.' } },
+  { k: '06', label: { en: 'Enterprise custom build', fr: 'Sur-mesure ETI' }, body: { en: 'When the market stack is not enough.', fr: 'Quand la stack du marché ne suffit pas.' } },
 ];
 
 // ─── 4 FIG rows — Acte I · Why AI stalls
 export const WHY_AI_STALLS = [
-  { fig: 'FIG 1.1', text: { en: 'The average RevOps stack holds 43 tools. Fewer than 9 touch the same customer record consistently.',           fr: 'La stack RevOps moyenne compte 43 outils. Moins de 9 touchent le même enregistrement client de manière cohérente.' } },
-  { fig: 'FIG 1.2', text: { en: 'A generative model without a clean warehouse is a very expensive guess.',                                       fr: 'Un modèle génératif sans entrepôt propre est une conjecture très coûteuse.' } },
-  { fig: 'FIG 1.3', text: { en: 'Agents shipped under 6 weeks succeed four times as often as those shipped under 6 months.',                     fr: 'Les agents livrés en moins de 6 semaines réussissent quatre fois plus que ceux livrés en moins de 6 mois.' } },
-  { fig: 'FIG 1.4', text: { en: "The replatforming instinct is almost always wrong. The question is rarely which stack. It is which handoff.", fr: 'L’instinct de refonte a presque toujours tort. La question n’est pas quelle stack. C’est quelle passation.' } },
+  { fig: 'FIG 1.1', text: { en: 'A growing SMB rarely lacks tools. It lacks continuity between the CRM, inboxes, spreadsheets, and the site.', fr: 'Une PME en croissance manque rarement d’outils. Elle manque de continuité entre CRM, boîtes mail, tableurs et site.' } },
+  { fig: 'FIG 1.2', text: { en: 'AI without structured business data turns every answer into an expensive guess.', fr: 'L’IA sans données métier structurées transforme chaque réponse en pari coûteux.' } },
+  { fig: 'FIG 1.3', text: { en: 'Projects that reach production in less than 8 weeks keep momentum. After that, adoption usually becomes the real risk.', fr: 'Les projets livrés en moins de 8 semaines gardent l’élan. Après, le vrai risque devient l’adoption.' } },
+  { fig: 'FIG 1.4', text: { en: "The rebuild reflex is usually wrong. The money leaks in handoffs: lead to CRM, CRM to sales, sales to delivery.", fr: 'Le réflexe de tout refaire trompe souvent. L’argent fuit dans les passations : lead vers CRM, CRM vers vente, vente vers livraison.' } },
 ];
 
 // ─── i18n helper · tire la chaîne dans la langue active

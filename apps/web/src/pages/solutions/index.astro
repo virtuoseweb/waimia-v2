@@ -1,103 +1,101 @@
 ---
-// Page · /solutions · Hub landing Solutions
-// Source : waimia-handoff2 / solutions.html (414 LoC)
-//
-// Composition directe d'organismes existants : Hero light + Departments
-// + Cases + Industry split + CtaBand.
+// Page · /solutions · Hub des 5 cas d'usage business horizontaux.
+// M2 : recadrage FR autour des douleurs PME récurrentes, sans créer les pages secteurs.
 
 import Base from '../../layouts/Base.astro';
 import Kicker from '../../components/ui/atoms/Kicker.astro';
-import Departments from '../../components/ui/organisms/Departments.astro';
 import Cases from '../../components/ui/organisms/Cases.astro';
 import CtaBand from '../../components/ui/organisms/CtaBand.astro';
-import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
 
-const industries = [
-  { kicker: 'INDUSTRY · 01', title_fr: 'Fintech & Banque',     title_en: 'Fintech & Banking',
-    lead_fr: 'ACPR · LCB-FT · KYC →', lead_en: 'ACPR · AML · KYC →', href: '/solutions/fintech' },
-  { kicker: 'INDUSTRY · 02', title_fr: 'Santé',                title_en: 'Healthcare',
-    lead_fr: 'HIPAA · données patient →', lead_en: 'HIPAA · patient data →', href: '/solutions/sante' },
-  { kicker: 'INDUSTRY · 03', title_fr: 'Industrie',            title_en: 'Industry',
-    lead_fr: 'OT · SCADA · maintenance prédictive →', lead_en: 'OT · SCADA · predictive maintenance →', href: '/solutions/industrie' },
+const horizontalSolutions = [
+  { num: '01', kicker: 'PROBLÈME · ACQUISITION',
+    title_fr: 'Acquisition IA', sub_fr: 'Plus de leads qualifiés, sans recruter',
+    lead_fr: 'Landing IA, contenu SEO/GEO, qualification automatisée. Le pipeline qui ne dort jamais.',
+    href: '/solutions/acquisition-ia' },
+  { num: '02', kicker: 'PROBLÈME · CRM & RELANCES',
+    title_fr: 'CRM & relances IA', sub_fr: 'Pipeline qui ne dort jamais',
+    lead_fr: 'Données nettoyées, relances contextuelles, qualification continue.',
+    href: '/solutions/crm-relances-ia' },
+  { num: '03', kicker: 'PROBLÈME · CONTENU',
+    title_fr: 'Contenu SEO / GEO IA', sub_fr: 'Trouvé par Google et les IA',
+    lead_fr: 'Articles SEO premium, fiches GEO-ready, indexation sur les assistants IA.',
+    href: '/solutions/contenu-seo-geo-ia' },
+  { num: '04', kicker: 'PROBLÈME · PRODUCTIVITÉ',
+    title_fr: 'Productivité IA', sub_fr: 'Excel et Office augmentés',
+    lead_fr: 'Reporting auto, formules à la voix, lisibilité retrouvée. Le temps qui change la décision.',
+    href: '/solutions/productivite-ia' },
+  { num: '05', kicker: 'PROBLÈME · SUPPORT CLIENT',
+    title_fr: 'Support client IA', sub_fr: 'Réponses 24/7, escalade intelligente',
+    lead_fr: "Triage automatique, premier niveau résolu, l'équipe humaine sur les vrais sujets.",
+    href: '/solutions/support-client-ia' },
 ];
 
-const flagshipSolutions = [
-  { num: '01', kicker: 'SOLUTION · MÉTIER',
-    title_fr: 'Finance & Comptabilité',
-    sub_fr: 'Réconciliation · mémos · reporting',
-    lead_fr: 'Agents Claude branchés sur la donnée comptable. Réconciliation bancaire, mémos auto, reporting board en J+3.',
-    href: '/solutions/finance' },
-  { num: '02', kicker: 'SOLUTION · INDUSTRIE',
-    title_fr: 'Fintech',
-    sub_fr: 'Conformité ACPR + agents IA',
-    lead_fr: 'Pile conforme ACPR / LCB-FT / KYC. Stack open-source souverain quand la donnée ne peut pas sortir.',
-    href: '/solutions/fintech' },
+const sectorSatellites = [
+  { kicker: 'SECTEUR · 01', title_fr: 'Services B2B', lead_fr: 'Cabinets, conseil, agences, prestataires →', href: '/secteurs/services-b2b' },
+  { kicker: 'SECTEUR · 02', title_fr: 'Industrie & PME industrielles', lead_fr: 'ERP, maintenance, qualité →', href: '/secteurs/industrie' },
+  { kicker: 'SECTEUR · 03', title_fr: 'Finance & cabinets comptables', lead_fr: 'Réconciliation, reporting, conformité →', href: '/secteurs/finance-compta' },
 ];
 ---
 <Base
-  title="Solutions · Par métier et par industrie · Waimia"
-  description="Les solutions IA Waimia organisées par métier (Finance, Ventes, Support, Juridique, RH, IT) et par industrie (Fintech, Santé, Industrie, Public)."
+  title="Solutions · 5 cas d'usage business · Waimia"
+  description="Cinq systèmes IA pour les douleurs récurrentes des PME : acquisition, CRM, contenu, productivité, support."
 >
-  {/* MASTHEAD */}
   <section class="hub-mast">
     <div class="wrap-wide">
-      <Kicker class="hub-kicker">§ Solutions · 6 métiers · 4 industries</Kicker>
-      <h1 class="hub-h1">Six <i>métiers</i>. Quatre <i>industries</i>. Une méthode.</h1>
+      <Kicker class="hub-kicker">§ Solutions · 5 cas d'usage horizontaux</Kicker>
+      <h1 class="hub-h1">Cinq <i>problèmes</i> business. Une <i>méthode</i>.</h1>
       <p class="hub-lede">
-        Chaque métier a ses contraintes — réglementation, données, culture interne. Notre méthode reste la même : process, agent, audit, mesure.
+        Acquisition, CRM, contenu, productivité, support — les douleurs récurrentes des PME. La méthode reste la même : audit, système, mesure.
+      </p>
+      <p class="hub-canonical">
+        Nous aidons les PME à <strong>piloter</strong> leur acquisition et leurs opérations grâce à des systèmes IA connectés à leurs données.
       </p>
     </div>
   </section>
 
-  {/* DEPARTMENTS · 6 métiers · réutilisation organisme homepage */}
-  <Departments />
+  <section class="hub-solutions wrap-wide" aria-label="Solutions horizontales">
+    {horizontalSolutions.map((sol) => (
+      <a href={sol.href} class="hub-sol-card">
+        <div class="hub-sol-num">{sol.num}</div>
+        <div class="hub-sol-kicker">{sol.kicker}</div>
+        <h3 class="hub-sol-title">{sol.title_fr}</h3>
+        <p class="hub-sol-sub">{sol.sub_fr}</p>
+        <p class="hub-sol-lead">{sol.lead_fr}</p>
+        <span class="hub-sol-cta">Voir la solution →</span>
+      </a>
+    ))}
+  </section>
 
-  {/* SOLUTIONS PHARES · 2 cards vers vraies sub-pages détaillées */}
-  <section class="hub-flagship">
+  <section class="hub-sectors">
     <div class="wrap-wide">
-      <Kicker tone="accent" class="hub-flagship-k">§ Solutions phares · pages détaillées</Kicker>
-      <h2 class="hub-flagship-h2">Deux <i>terrains</i> qu'on connaît à fond.</h2>
-      <p class="hub-flagship-lead">
-        Les autres métiers sont disponibles sur demande — ces deux-là sont écrits noir sur blanc parce que c'est là qu'on a livré le plus.
+      <Kicker>§ Adapté à votre secteur</Kicker>
+      <h2 class="hub-h2">Une méthode, votre <i>vocabulaire</i>.</h2>
+      <p class="hub-lede">
+        Mêmes systèmes, adaptés au métier — services B2B, industrie, finance & compta. Le reste à venir.
       </p>
-      <ol class="hub-flagship-list">
-        {flagshipSolutions.map((s) => (
-          <li class="hub-flagship-row">
-            <a class="hub-flagship-link" href={s.href}>
-              <span class="hub-flagship-num">{s.num}</span>
-              <span class="hub-flagship-body">
-                <span class="hub-flagship-kicker">{s.kicker}</span>
-                <span class="hub-flagship-title">{s.title_fr} <i>· {s.sub_fr}</i></span>
-                <span class="hub-flagship-text">{s.lead_fr}</span>
-              </span>
-              <span class="hub-flagship-arr" aria-hidden>→</span>
-            </a>
-          </li>
+      <div class="hub-sector-grid">
+        {sectorSatellites.map((s) => (
+          <a href={s.href} class="hub-sector-card">
+            <div class="hub-sector-kicker">{s.kicker}</div>
+            <h4>{s.title_fr}</h4>
+            <p>{s.lead_fr}</p>
+          </a>
         ))}
-      </ol>
+        <a href="/secteurs" class="hub-sector-card hub-sector-card--all">
+          <div class="hub-sector-kicker">TOUS</div>
+          <h4>Tous les secteurs</h4>
+          <p>L'index complet, à venir →</p>
+        </a>
+      </div>
     </div>
   </section>
 
-  {/* CASES · cas réels par métier · réutilisation organisme homepage */}
   <Cases />
-
-  {/* INDUSTRY · 3 industries · molécule RelatedCards */}
-  <section class="hub-industry">
-    <div class="wrap-wide">
-      <Kicker tone="accent" class="hub-industry-k">§ Par industrie · contraintes spécifiques</Kicker>
-      <h2 class="hub-industry-h2">Quand le <i>secteur</i> dicte la grammaire.</h2>
-      <p class="hub-industry-lead">
-        Au-delà du métier, certaines industries imposent leurs propres règles — conformité, sécurité, vocabulaire. On adapte sans réinventer.
-      </p>
-      <RelatedCards cards={industries} />
-    </div>
-  </section>
-
   <CtaBand />
 </Base>
 
 <style>
-  .hub-mast { padding: 140px 32px clamp(40px, 5vw, 72px); }
+  .hub-mast { padding: 140px 32px clamp(44px, 6vw, 84px); }
   :global(.hub-kicker) { display: block; margin-bottom: 24px; }
   .hub-h1 {
     font-family: var(--font-display);
@@ -119,104 +117,151 @@ const flagshipSolutions = [
     line-height: 1.4;
     text-wrap: pretty;
   }
-
-  .hub-flagship { padding: clamp(80px, 10vw, 120px) 32px; background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
-  :global(.hub-flagship-k) { display: block; margin-bottom: 18px; }
-  .hub-flagship-h2 {
-    font-family: var(--font-display);
-    font-size: clamp(40px, 6vw, 88px);
-    line-height: 0.96;
-    letter-spacing: -0.024em;
-    margin: 0 0 24px;
-    text-wrap: balance;
-    font-weight: 400;
-  }
-  .hub-flagship-h2 :global(i) { font-style: italic; color: var(--accent); }
-  .hub-flagship-lead {
-    font-family: var(--font-display);
-    font-size: clamp(17px, 1.8vw, 22px);
+  .hub-canonical {
+    max-width: 720px;
+    margin: 22px 0 0;
     color: var(--muted);
-    max-width: 760px;
-    margin: 0 0 clamp(40px, 5vw, 64px);
-    line-height: 1.45;
+    font-size: 15px;
+    line-height: 1.6;
   }
-  .hub-flagship-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border-top: 1px solid var(--ink);
+  .hub-canonical strong {
+    color: var(--accent);
+    font-weight: 500;
   }
-  .hub-flagship-row { border-bottom: 1px solid var(--hairline); }
-  .hub-flagship-link {
+
+  .hub-solutions {
     display: grid;
-    grid-template-columns: 80px 1fr 60px;
-    gap: clamp(20px, 3vw, 40px);
-    padding: clamp(28px, 3vw, 44px) 0;
-    align-items: start;
-    color: inherit;
-    transition: background 240ms var(--ease);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1px;
+    padding: 0 32px clamp(80px, 10vw, 128px);
   }
-  .hub-flagship-link:hover { background: rgba(0, 0, 0, 0.02); }
-  .hub-flagship-num {
+  .hub-sol-card {
+    min-height: 440px;
+    padding: clamp(24px, 2.5vw, 34px);
+    border: 1px solid var(--hairline);
+    background: var(--paper);
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: background 220ms var(--ease), border-color 220ms var(--ease), transform 220ms var(--ease);
+  }
+  .hub-sol-card:hover {
+    background: var(--paper-2);
+    border-color: color-mix(in srgb, var(--accent) 48%, var(--hairline));
+    transform: translateY(-4px);
+  }
+  .hub-sol-num {
     font-family: var(--font-display);
-    font-size: clamp(40px, 5vw, 72px);
+    font-size: clamp(42px, 4.5vw, 72px);
     line-height: 0.9;
     color: var(--accent);
     font-style: italic;
+    margin-bottom: auto;
   }
-  .hub-flagship-body { display: flex; flex-direction: column; gap: 8px; }
-  .hub-flagship-kicker {
+  .hub-sol-kicker,
+  .hub-sector-kicker {
     font-family: var(--font-mono);
     font-size: 11px;
-    color: var(--accent);
     letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
   }
-  .hub-flagship-title {
+  .hub-sol-title {
     font-family: var(--font-display);
-    font-size: clamp(24px, 3vw, 40px);
-    line-height: 1.05;
+    font-size: clamp(27px, 3vw, 42px);
+    line-height: 1;
     letter-spacing: -0.02em;
     font-weight: 400;
+    margin: 18px 0 10px;
     text-wrap: balance;
   }
-  .hub-flagship-title :global(i) { font-style: italic; color: var(--muted); font-size: 0.7em; }
-  .hub-flagship-text {
-    font-size: clamp(14px, 1.4vw, 16px);
-    line-height: 1.55;
+  .hub-sol-sub {
+    font-family: var(--font-display);
+    font-size: 18px;
+    line-height: 1.25;
+    color: var(--ink);
+    margin: 0 0 18px;
+    text-wrap: balance;
+  }
+  .hub-sol-lead {
     color: var(--muted);
-    max-width: 720px;
-    text-wrap: pretty;
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0 0 28px;
   }
-  .hub-flagship-arr {
+  .hub-sol-cta {
     font-family: var(--font-mono);
-    font-size: 28px;
+    font-size: 12px;
     color: var(--accent);
-    align-self: center;
-    text-align: right;
-  }
-  @media (max-width: 700px) {
-    .hub-flagship-link { grid-template-columns: 56px 1fr; }
-    .hub-flagship-arr { display: none; }
+    margin-top: auto;
   }
 
-  .hub-industry { padding: clamp(80px, 10vw, 120px) 32px; background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
-  :global(.hub-industry-k) { display: block; margin-bottom: 18px; }
-  .hub-industry-h2 {
+  .hub-sectors {
+    padding: clamp(80px, 10vw, 120px) 32px;
+    background: var(--paper-2);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .hub-h2 {
     font-family: var(--font-display);
     font-size: clamp(40px, 6vw, 88px);
     line-height: 0.96;
     letter-spacing: -0.024em;
-    margin: 0 0 24px;
+    margin: 18px 0 0;
     text-wrap: balance;
     font-weight: 400;
   }
-  .hub-industry-h2 :global(i) { font-style: italic; color: var(--accent); }
-  .hub-industry-lead {
+  .hub-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-sector-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin-top: clamp(40px, 5vw, 72px);
+    border: 1px solid var(--hairline);
+    background: var(--hairline);
+  }
+  .hub-sector-card {
+    min-height: 230px;
+    background: var(--paper);
+    color: inherit;
+    padding: clamp(24px, 2.6vw, 34px);
+    display: flex;
+    flex-direction: column;
+    transition: background 220ms var(--ease), color 220ms var(--ease);
+  }
+  .hub-sector-card:hover { background: var(--ink); color: var(--paper); }
+  .hub-sector-card:hover .hub-sector-kicker,
+  .hub-sector-card:hover p { color: color-mix(in srgb, var(--paper) 72%, var(--accent)); }
+  .hub-sector-card h4 {
     font-family: var(--font-display);
-    font-size: clamp(17px, 1.8vw, 22px);
+    font-size: clamp(24px, 2.5vw, 34px);
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    font-weight: 400;
+    margin: auto 0 16px;
+    text-wrap: balance;
+  }
+  .hub-sector-card p {
     color: var(--muted);
-    max-width: 760px;
-    margin: 0 0 clamp(40px, 5vw, 72px);
     line-height: 1.45;
+    margin: 0;
+  }
+  .hub-sector-card--all { background: var(--ink); color: var(--paper); }
+  .hub-sector-card--all .hub-sector-kicker,
+  .hub-sector-card--all p { color: color-mix(in srgb, var(--paper) 72%, var(--accent)); }
+
+  @media (max-width: 1180px) {
+    .hub-solutions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .hub-sector-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 700px) {
+    .hub-mast { padding-top: 96px; }
+    .hub-solutions {
+      grid-template-columns: 1fr;
+      padding-inline: 20px;
+    }
+    .hub-sol-card { min-height: 330px; }
+    .hub-sectors { padding-inline: 20px; }
+    .hub-sector-grid { grid-template-columns: 1fr; }
   }
 </style>

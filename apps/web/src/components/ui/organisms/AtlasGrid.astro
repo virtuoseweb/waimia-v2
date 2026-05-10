@@ -1,10 +1,10 @@
 ---
-// Section · Atlas grid 2×2 · 4 piliers Waimia
-// Variant : Grid 2×2 monumentale + tilt 3D au hover (signature Atlas)
-// Motion : .reveal-stagger + tilt 3D inline JS
-// Mémorable : « Une cartographie en quatre quadrants — chaque case est une porte. »
-//
-// Composé de · SectionHeader (refactor atomic-deep)
+/**
+ * Section · Atlas grid 2×2 · 4 piliers Waimia
+ *
+ * M4 nettoie les libellés visibles pour remplacer le vocabulaire technique
+ * par des trajectoires business-first réutilisables hors home.
+ */
 
 import SectionHeader from '../molecules/SectionHeader.astro';
 import { langFromPath, localizeHref } from '../../../lib/i18n';
@@ -25,27 +25,27 @@ const pillars = [
     n: 'II',
     label_fr: 'Adoption',
     label_en: 'Adoption',
-    lead_fr: 'Claude sur chaque poste. Skills, MCP, Cowork — adoption avant déploiement.',
-    lead_en: 'Claude at every desk. Skills, MCP, Cowork — adoption before deployment.',
-    items: ['Cowork rollout', 'Custom Skills', 'MCP connectors'],
+    lead_fr: 'Former les équipes, cadrer les usages, installer les bons réflexes avant de déployer.',
+    lead_en: 'Train teams, frame use cases, install the right habits before rollout.',
+    items: ['Formation équipe', 'Guides opérationnels', 'Connexions outils'],
     href: '/offres#tier-2',
   },
   {
     n: 'III',
-    label_fr: 'Orchestration',
-    label_en: 'Orchestration',
-    lead_fr: 'Agents autonomes, multi-agents, tiered routing. Un job, un agent, un audit.',
-    lead_en: 'Autonomous agents, multi-agent systems, tiered routing. One job, one agent, one audit.',
-    items: ['Business agents', 'LangGraph / CrewAI', '4-week MVP sprint'],
+    label_fr: 'Automatisation',
+    label_en: 'Automation',
+    lead_fr: 'Un workflow critique, des règles claires, une mesure avant/après.',
+    lead_en: 'One critical workflow, clear rules, before/after measurement.',
+    items: ['Relances CRM', 'Qualification pipeline', 'Sprint 4 semaines'],
     href: '/offres#tier-3',
   },
   {
     n: 'IV',
     label_fr: 'Souveraineté',
     label_en: 'Sovereignty',
-    lead_fr: 'Claude managé, self-hosted, modèles open-source. Le scale qui respecte la donnée.',
-    lead_en: 'Managed Claude, self-hosted, open-source models. Scale that respects your data.',
-    items: ['Managed Agents', 'Self-hosted (vLLM, Ollama)', 'SRE 24/7'],
+    lead_fr: 'Gouvernance, sécurité, traçabilité. Le système respecte vos données et vos contraintes.',
+    lead_en: 'Governance, security, traceability. The system respects your data and constraints.',
+    items: ['Gouvernance données', 'Traçabilité', 'Support production'],
     href: '/offres#tier-4',
   },
 ];

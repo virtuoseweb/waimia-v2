@@ -1,0 +1,247 @@
+---
+/**
+ * /archive · Index complet des pages legacy Waimia
+ *
+ * Garde la trace de toutes les pages historiques pour préserver SEO + contexte
+ * agents IA. Catégorisé par section. Pas de narratif, c'est un atlas.
+ */
+import Base from '../layouts/Base.astro';
+import Header from '../components/header/Header.astro';
+import Footer from '../components/footer/Footer.astro';
+
+interface ArchiveItem {
+  href: string;
+  label: string;
+  note?: string;
+}
+
+const sections: { title: string; kicker: string; items: ArchiveItem[] }[] = [
+  {
+    title: 'Offres historiques',
+    kicker: '01 · OFFRES',
+    items: [
+      { href: '/offres/audit-maturite-ia', label: 'Audit de maturité IA · 10 jours', note: 'remplacée par Activation IA · 1 semaine' },
+      { href: '/offres/claude-cowork', label: 'Déploiement Claude Cowork & Artifacts' },
+      { href: '/offres/conseil', label: 'Hub Conseil · 7 services' },
+      { href: '/offres/revops', label: 'Refonte RevOps · Claude-native', note: 'absorbée par Growth System IA' },
+      { href: '/offres/site-web-ia', label: 'Site web IA-native', note: 'incluse dans Growth System IA' },
+    ],
+  },
+  {
+    title: 'Solutions par verticale',
+    kicker: '02 · SOLUTIONS LEGACY',
+    items: [
+      { href: '/solutions/finance', label: 'Finance & Comptabilité', note: 'à migrer vers /secteurs/finance-compta' },
+      { href: '/solutions/fintech', label: 'Fintech · Claude-native', note: 'à migrer vers /secteurs/fintech' },
+    ],
+  },
+  {
+    title: 'Stack technique',
+    kicker: '03 · TECHNOLOGIES',
+    items: [
+      { href: '/technologies', label: 'Hub Technologies · stack complète' },
+      { href: '/technologies/claude-models', label: 'Claude Models · modèles Anthropic' },
+      { href: '/technologies/virtuoseos', label: 'VirtuoseOS · système opérationnel IA' },
+    ],
+  },
+  {
+    title: 'Agence — pages internes',
+    kicker: '04 · AGENCE LEGACY',
+    items: [
+      { href: '/agence/design-system', label: 'Design System Waimia' },
+      { href: '/agence/docs', label: 'Documentation interne' },
+      { href: '/agence/governance', label: 'Gouvernance & engagements' },
+    ],
+  },
+  {
+    title: 'Pages racine historiques',
+    kicker: '05 · PAGES RACINE',
+    items: [
+      { href: '/atlas', label: "Atlas · cartographie de l'agence" },
+      { href: '/console', label: 'Console · interface VirtuoseOS' },
+      { href: '/manifesto', label: 'Manifesto · anti-théâtre IA' },
+    ],
+  },
+  {
+    title: 'Ressources legacy',
+    kicker: '06 · RESSOURCES LEGACY',
+    items: [
+      { href: '/ressources/changelog', label: 'Changelog VirtuoseOS' },
+      { href: '/ressources/academy', label: 'Academy · masterclass Claude' },
+    ],
+  },
+];
+---
+
+<Base
+  title="Archive du site · Waimia"
+  description="Index complet des pages historiques de Waimia. Préservé pour SEO et contexte agents IA. Le parcours commercial actuel est sous Solutions, Offres et Cas clients."
+>
+  <Header />
+
+  <main id="main">
+    <section class="arc-hero">
+      <div class="wrap-tight">
+        <div class="arc-kicker">§ Archive · index complet</div>
+        <h1 class="arc-h1">L'<i>atlas</i> Waimia.</h1>
+        <p class="arc-lede">
+          Toutes les pages historiques du site. Préservées pour les moteurs de recherche, pour les IA génératives,
+          et pour les visiteurs curieux. Le parcours commercial actuel passe par <a href="/solutions">Solutions</a>,
+          <a href="/offres">Offres</a> et <a href="/cas">Cas clients</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="arc-sections">
+      <div class="wrap">
+        {sections.map((sec) => (
+          <div class="arc-section">
+            <div class="arc-section-kicker">{sec.kicker}</div>
+            <h2 class="arc-section-h2">{sec.title}</h2>
+            <ul class="arc-section-list">
+              {sec.items.map((it) => (
+                <li>
+                  <a href={it.href} class="arc-link">
+                    <span class="arc-link-label">{it.label}</span>
+                    {it.note && <span class="arc-link-note">— {it.note}</span>}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .arc-hero {
+    padding: clamp(80px, 10vw, 140px) 0 clamp(48px, 6vw, 80px);
+  }
+
+  .arc-kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .arc-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 9vw, 120px);
+    line-height: 0.92;
+    letter-spacing: -0.028em;
+    font-weight: 400;
+    margin: 0 0 32px;
+  }
+
+  .arc-h1 i {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .arc-lede {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.5;
+    color: var(--muted);
+    font-style: italic;
+    max-width: 680px;
+  }
+
+  .arc-lede a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .arc-lede a:hover {
+    text-decoration: underline;
+  }
+
+  .arc-sections {
+    padding: clamp(48px, 6vw, 80px) 0 clamp(80px, 10vw, 140px);
+    background: var(--paper-2, #EFEBE2);
+  }
+
+  .arc-section {
+    padding: clamp(32px, 4vw, 56px) 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  .arc-section:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .arc-section-kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .arc-section-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    font-weight: 400;
+    margin: 0 0 24px;
+  }
+
+  .arc-section-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 12px 32px;
+  }
+
+  .arc-link {
+    display: block;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    color: var(--ink);
+    text-decoration: none;
+    transition:
+      padding 220ms var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)),
+      color 220ms var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+  }
+
+  .arc-link:hover {
+    padding-left: 8px;
+    color: var(--accent);
+  }
+
+  .arc-link-label {
+    font-family: var(--font-display);
+    font-size: 16px;
+  }
+
+  .arc-link-note {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: 8px;
+  }
+
+  .wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 48px);
+  }
+
+  .wrap-tight {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 48px);
+  }
+</style>

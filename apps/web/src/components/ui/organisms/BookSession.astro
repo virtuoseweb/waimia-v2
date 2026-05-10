@@ -1,10 +1,10 @@
 ---
-// Section · Acte V — Book a working session / Une séance de travail
-// Variant : centered, scale-in border-radius morph + magnetic CTA · 45 min framing
-// Motion : .scale-in + magnetic + border-radius morph
-// Mémorable : « Le CTA est honnête : 45 min, un problème diagnostiqué — sinon on ne relance pas. »
-//
-// Composé de · ChapterLabel + Button (refactor atomic-components)
+/**
+ * Section · CTA diagnostic
+ *
+ * M4 remplace le ton « working session » par un cadrage business-first :
+ * diagnostic de 45 minutes, plan d'action concret, sans engagement.
+ */
 
 import ChapterLabel from '../atoms/ChapterLabel.astro';
 import Button from '../atoms/Button.astro';
@@ -25,7 +25,7 @@ const email = lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr';
 
     <h2 id="book-h2" class="book-h2">
       {lang === 'fr' ? (
-        <>Une <i>séance de travail</i>.<br />Pas un pitch.</>
+        <>Prêt à <i>activer</i><br />votre système IA&nbsp;?</>
       ) : (
         <>Book a <i>working session</i>.<br />Not a pitch.</>
       )}
@@ -33,13 +33,13 @@ const email = lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr';
 
     <p class="book-lede">
       {lang === 'fr'
-        ? "45 minutes. On revient avec un problème diagnostiqué, ou on ne relance pas. Les deux conviennent."
+        ? "Cadrage en 45 minutes. On audite votre contexte et on revient avec un plan d'action concret — sans engagement."
         : "45 minutes. We bring one diagnosed problem back, or we don't follow up. Either is fine."}
     </p>
 
     <div class="book-ctas">
       <Button href={ctaHref} variant="primary" size="lg" mag={0.22}>
-        {lang === 'fr' ? 'Prendre 45 min →' : 'Book 45 min →'}
+        {lang === 'fr' ? 'Réserver mon diagnostic →' : 'Book 45 min →'}
       </Button>
       <Button href={`mailto:${email}`} variant="ghost" size="lg">
         {email}

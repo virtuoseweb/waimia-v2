@@ -1,114 +1,99 @@
 ---
-// Page · /offres · Hub landing Offres
-// Source : waimia-handoff2 / offres.html (797 LoC)
-//
-// Composition directe d'organismes existants — PAS de nouveau template.
-// (Pattern recommandé : reproduire l'approche /src/pages/index.astro)
+// Page · /offres · Hub Offres M3
+// Mission M3 · 3 piliers + 2 niveaux · Growth System IA en vedette
 
 import Base from '../../layouts/Base.astro';
 import Kicker from '../../components/ui/atoms/Kicker.astro';
 import Pyramid from '../../components/ui/organisms/Pyramid.astro';
 import CtaBand from '../../components/ui/organisms/CtaBand.astro';
-import FitColumns from '../../components/ui/molecules/FitColumns.astro';
 
-const offreCards = [
-  { num: '01', kicker: 'OFFRE · CONSEIL',
-    title_fr: 'Conseil & Audit',
-    sub_fr: 'Cartographier avant d\'agir',
-    lead_fr: 'Diagnostic process, audit de maturité, choix de stack — la phase qui évite les pivots à 6 mois.',
-    href: '/offres/conseil' },
-  { num: '02', kicker: 'OFFRE · AUDIT IA',
-    title_fr: 'Audit de maturité IA',
-    sub_fr: '10 jours · lu par un board',
-    lead_fr: 'Scorecard 47 critères, livrable signé, recommandations chiffrées. Bloc indépendant ou tremplin Light.',
-    href: '/offres/audit-maturite-ia' },
-  { num: '03', kicker: 'OFFRE · REVOPS',
-    title_fr: 'RevOps Rebuild',
-    sub_fr: 'Reconstruction du funnel',
-    lead_fr: 'Lead scoring, séquences, attribution. On reconstruit la machine revenue avec agents Claude branchés.',
-    href: '/offres/revops' },
-  { num: '04', kicker: 'OFFRE · WEB',
-    title_fr: 'Site web IA-native',
-    sub_fr: 'Astro + React · 95% IA',
-    lead_fr: 'Site éditorial conçu et écrit avec IA, design custom, déploiement Vercel — livré en 4 à 6 semaines.',
-    href: '/offres/site-web-ia' },
-  { num: '05', kicker: 'OFFRE · COWORK',
-    title_fr: 'Claude Cowork & Artifacts',
-    sub_fr: 'Déploiement light · 2 semaines',
-    lead_fr: 'Plugin Claude pour vos équipes : skills, artifacts, MCP custom. Déployé, formé, monitoré — sans IT lourde.',
-    href: '/offres/claude-cowork' },
+const offresHero = {
+  num: '01',
+  kicker: 'OFFRE PHARE · 5 à 20 k€',
+  title_fr: 'Growth System IA',
+  sub_fr: "Système d'acquisition et de conversion automatisé",
+  lead_fr: "Site, CRM, relances, dashboards — tout connecté. Le wedge d'entrée qui transforme votre acquisition en machine.",
+  href: '/offres/growth-system-ia',
+};
+
+const offresPiliers = [
+  { num: '02', kicker: 'PILIER · 8 à 35 k€',
+    title_fr: 'Growth Intelligence', sub_fr: 'Pilotage temps réel',
+    lead_fr: 'KPI commerciaux et opérationnels en temps réel. La lisibilité qui change la décision.',
+    href: '/offres/growth-intelligence' },
+  { num: '03', kicker: 'PILIER · 6 à 25 k€',
+    title_fr: 'Productivité Opérationnelle IA', sub_fr: 'Tâches répétitives éliminées',
+    lead_fr: 'Excel augmenté, Office connecté, workflows internes fluidifiés.',
+    href: '/offres/productivite-operationnelle-ia' },
 ];
 
-const fitYesItems = [
-  "Vous avez 50–500 employés et un moteur revenue qui doit livrer",
-  "Vous voulez un audit avant un devis, toujours",
-  "Vous gardez la plateforme quand on part — pas de captivité SaaS",
-  "Vos équipes parlent FR et EN avec parité stricte",
-];
-const fitNoItems = [
-  "Vous cherchez un atelier de cadrage de 6 mois",
-  "Vous voulez un chatbot retail en 48 h",
-  "Vous prévoyez un appel d'offres avec 12 finalistes",
-  "Vous refusez de signer un agreement DPA",
+const offresNiveaux = [
+  { kicker: 'STARTER · 1 à 5 k€',
+    title_fr: 'Activation IA · 1 semaine',
+    lead_fr: "Audit + formation. La porte d'entrée pour démarrer sans risque.",
+    href: '/offres/activation-ia' },
+  { kicker: 'ETI · 25 à 150 k€+',
+    title_fr: 'Infrastructure IA · ETI',
+    lead_fr: "Multi-équipes, multi-sites, gouvernance. Quand l'IA dépasse une équipe.",
+    href: '/offres/infrastructure-ia' },
 ];
 ---
 <Base
-  title="Offres · 4 paliers d'engagement · Waimia"
-  description="Les quatre paliers d'engagement Waimia — Conseil, Light, Orchestration, Enterprise. Un audit avant chaque devis, toujours."
+  title="Offres · 3 piliers + 2 niveaux · Waimia"
+  description="Trois systèmes pour les leviers business des PME — Growth System IA, Growth Intelligence, Productivité Opérationnelle. Plus deux niveaux : Activation 1 semaine, Infrastructure ETI."
 >
-  {/* MASTHEAD */}
   <section class="hub-mast">
     <div class="wrap-wide">
-      <Kicker class="hub-kicker">§ Offres · Pyramide d'engagement · 4 paliers</Kicker>
-      <h1 class="hub-h1">Quatre <i>paliers</i>. Une seule architecture.</h1>
+      <Kicker class="hub-kicker">§ Offres · 3 piliers + 2 niveaux</Kicker>
+      <h1 class="hub-h1">Trois <i>systèmes</i>. Deux <i>niveaux</i>. Une <i>méthode</i>.</h1>
       <p class="hub-lede">
-        Du diagnostic process à l'infrastructure souveraine — chaque palier prépare le suivant. Vous montez quand vous êtes prêt, jamais avant.
+        Trois systèmes pour adresser les leviers business — un format starter pour activer rapidement, un format ETI quand l'ambition est plus forte.
       </p>
     </div>
   </section>
 
-  {/* PYRAMID · 4 tiers · réutilisation de l'organisme homepage */}
+  <section class="hub-hero-offre wrap-wide">
+    <a href={offresHero.href} class="hub-hero-card">
+      <div class="hub-hero-num">{offresHero.num}</div>
+      <div class="hub-hero-kicker">{offresHero.kicker}</div>
+      <h2 class="hub-hero-title">{offresHero.title_fr}</h2>
+      <p class="hub-hero-sub">{offresHero.sub_fr}</p>
+      <p class="hub-hero-lead">{offresHero.lead_fr}</p>
+      <span class="hub-hero-cta">Découvrir le système →</span>
+    </a>
+  </section>
+
+  <section class="hub-piliers wrap-wide">
+    <Kicker>§ Les autres piliers</Kicker>
+    <h3 class="hub-h3">Pilotage et productivité, complémentaires.</h3>
+    <div class="hub-pilier-grid">
+      {offresPiliers.map((p) => (
+        <a href={p.href} class="hub-pilier-card">
+          <div class="hub-pilier-num">{p.num}</div>
+          <div class="hub-pilier-kicker">{p.kicker}</div>
+          <h4>{p.title_fr}</h4>
+          <p class="hub-pilier-sub">{p.sub_fr}</p>
+          <p class="hub-pilier-lead">{p.lead_fr}</p>
+          <span class="hub-pilier-cta">Voir l'offre →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
   <Pyramid />
 
-  {/* OFFRES EN DÉTAIL · 5 cards vers vraies sub-pages */}
-  <section class="hub-offres-detail">
-    <div class="wrap-wide">
-      <Kicker tone="accent" class="hub-od-k">§ Offres en détail · 5 entrées concrètes</Kicker>
-      <h2 class="hub-od-h2">Cinq <i>portes d'entrée</i>. Aucune ne se vend seule.</h2>
-      <p class="hub-od-lead">
-        Chaque offre se lit en 4 minutes — scope, durée, livrables, prix. Pas de plaquette commerciale.
-      </p>
-      <ol class="hub-od-list">
-        {offreCards.map((o) => (
-          <li class="hub-od-row">
-            <a class="hub-od-link" href={o.href}>
-              <span class="hub-od-num">{o.num}</span>
-              <span class="hub-od-body">
-                <span class="hub-od-kicker">{o.kicker}</span>
-                <span class="hub-od-title">{o.title_fr} <i>· {o.sub_fr}</i></span>
-                <span class="hub-od-text">{o.lead_fr}</span>
-              </span>
-              <span class="hub-od-arr" aria-hidden>→</span>
-            </a>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  {/* FIT GUIDE */}
-  <section class="hub-fit">
-    <div class="wrap-wide">
-      <Kicker tone="dim" class="hub-fit-k">§ Fit · pour qui ces offres sont conçues</Kicker>
-      <h2 class="hub-fit-h2">Pour les équipes qui <i>livrent</i>. Pas pour les comités.</h2>
-      <FitColumns
-        yesTitleFr="Vous êtes fait pour nous si"
-        yesTitleEn="You're a fit if"
-        yesItems={fitYesItems}
-        noTitleFr="On refusera si"
-        noTitleEn="We'll say no if"
-        noItems={fitNoItems}
-      />
+  <section class="hub-niveaux wrap-wide">
+    <Kicker>§ Niveaux d'engagement</Kicker>
+    <h3 class="hub-h3">Une porte d'entrée. Un toit.</h3>
+    <div class="hub-niveau-grid">
+      {offresNiveaux.map((n) => (
+        <a href={n.href} class="hub-niveau-card">
+          <div class="hub-niveau-kicker">{n.kicker}</div>
+          <h4>{n.title_fr}</h4>
+          <p>{n.lead_fr}</p>
+          <span class="hub-niveau-cta">→</span>
+        </a>
+      ))}
     </div>
   </section>
 
@@ -116,7 +101,7 @@ const fitNoItems = [
 </Base>
 
 <style>
-  .hub-mast { padding: 140px 32px clamp(40px, 5vw, 72px); }
+  .hub-mast { padding: 140px 32px clamp(48px, 6vw, 88px); }
   :global(.hub-kicker) { display: block; margin-bottom: 24px; }
   .hub-h1 {
     font-family: var(--font-display);
@@ -139,98 +124,192 @@ const fitNoItems = [
     text-wrap: pretty;
   }
 
-  .hub-offres-detail { padding: clamp(80px, 10vw, 120px) 32px; background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
-  :global(.hub-od-k) { display: block; margin-bottom: 18px; }
-  .hub-od-h2 {
+  .hub-hero-offre { padding: 0 32px clamp(88px, 10vw, 132px); }
+  .hub-hero-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(96px, 0.18fr) 1fr minmax(220px, 0.34fr);
+    gap: clamp(24px, 4vw, 72px);
+    padding: clamp(36px, 5vw, 72px);
+    background: var(--ink);
+    color: var(--paper);
+    border: 2px solid var(--accent);
+    min-height: clamp(420px, 48vw, 620px);
+    align-items: end;
+    overflow: hidden;
+    transition: transform 260ms var(--ease), box-shadow 260ms var(--ease);
+  }
+  .hub-hero-card::before {
+    content: "";
+    position: absolute;
+    inset: 24px;
+    border: 1px solid rgba(246, 241, 232, 0.14);
+    pointer-events: none;
+  }
+  .hub-hero-card:hover { transform: translateY(-4px); box-shadow: 0 24px 80px rgba(12, 11, 9, 0.18); }
+  .hub-hero-num {
+    font-family: var(--font-display);
+    font-size: clamp(88px, 11vw, 176px);
+    line-height: 0.8;
+    color: var(--accent);
+    font-style: italic;
+    z-index: 1;
+  }
+  .hub-hero-kicker,
+  .hub-pilier-kicker,
+  .hub-niveau-kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .hub-hero-kicker {
+    position: absolute;
+    top: clamp(28px, 4vw, 52px);
+    left: clamp(36px, 5vw, 72px);
+    color: var(--accent);
+  }
+  .hub-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 8vw, 136px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    margin: 0 0 22px;
+    text-wrap: balance;
+  }
+  .hub-hero-sub {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.4vw, 34px);
+    font-style: italic;
+    line-height: 1.15;
+    color: var(--accent);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .hub-hero-lead {
+    font-size: clamp(16px, 1.6vw, 21px);
+    line-height: 1.55;
+    color: rgba(246, 241, 232, 0.78);
+    margin: 0 0 28px;
+  }
+  .hub-hero-cta,
+  .hub-pilier-cta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .hub-piliers,
+  .hub-niveaux { padding: clamp(88px, 10vw, 128px) 32px; }
+  .hub-h3 {
     font-family: var(--font-display);
     font-size: clamp(40px, 6vw, 88px);
     line-height: 0.96;
     letter-spacing: -0.024em;
-    margin: 0 0 24px;
-    text-wrap: balance;
     font-weight: 400;
+    margin: 18px 0 clamp(36px, 5vw, 64px);
+    text-wrap: balance;
   }
-  .hub-od-h2 :global(i) { font-style: italic; color: var(--accent); }
-  .hub-od-lead {
-    font-family: var(--font-display);
-    font-size: clamp(17px, 1.8vw, 22px);
-    color: var(--muted);
-    max-width: 760px;
-    margin: 0 0 clamp(40px, 5vw, 64px);
-    line-height: 1.45;
-  }
-  .hub-od-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border-top: 1px solid var(--ink);
-  }
-  .hub-od-row {
-    border-bottom: 1px solid var(--hairline);
-  }
-  .hub-od-link {
+  .hub-h3 :global(i) { color: var(--accent); font-style: italic; }
+  .hub-pilier-grid,
+  .hub-niveau-grid {
     display: grid;
-    grid-template-columns: 80px 1fr 60px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(20px, 3vw, 40px);
-    padding: clamp(28px, 3vw, 44px) 0;
-    align-items: start;
-    color: inherit;
-    transition: background 240ms var(--ease);
   }
-  .hub-od-link:hover { background: rgba(0, 0, 0, 0.02); }
-  .hub-od-num {
+  .hub-pilier-card {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: clamp(20px, 3vw, 36px);
+    min-height: 320px;
+    padding: clamp(28px, 4vw, 44px);
+    background: var(--paper-2);
+    border: 1px solid var(--hairline-strong);
+    color: var(--ink);
+    transition: border-color 240ms var(--ease), transform 240ms var(--ease);
+  }
+  .hub-pilier-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .hub-pilier-num {
     font-family: var(--font-display);
-    font-size: clamp(40px, 5vw, 72px);
+    font-size: clamp(48px, 6vw, 88px);
     line-height: 0.9;
     color: var(--accent);
     font-style: italic;
   }
-  .hub-od-body { display: flex; flex-direction: column; gap: 8px; }
-  .hub-od-kicker {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 0.14em;
-  }
-  .hub-od-title {
+  .hub-pilier-kicker { color: var(--accent); margin-bottom: 18px; }
+  .hub-pilier-card h4,
+  .hub-niveau-card h4 {
     font-family: var(--font-display);
-    font-size: clamp(24px, 3vw, 40px);
-    line-height: 1.05;
+    font-size: clamp(30px, 3.4vw, 52px);
+    line-height: 1;
     letter-spacing: -0.02em;
     font-weight: 400;
+    margin: 0 0 14px;
     text-wrap: balance;
   }
-  .hub-od-title :global(i) { font-style: italic; color: var(--muted); font-size: 0.7em; }
-  .hub-od-text {
-    font-size: clamp(14px, 1.4vw, 16px);
-    line-height: 1.55;
-    color: var(--muted);
-    max-width: 720px;
-    text-wrap: pretty;
-  }
-  .hub-od-arr {
-    font-family: var(--font-mono);
-    font-size: 28px;
+  .hub-pilier-sub {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.8vw, 24px);
+    font-style: italic;
     color: var(--accent);
-    align-self: center;
-    text-align: right;
+    line-height: 1.2;
+    margin: 0 0 18px;
   }
-  @media (max-width: 700px) {
-    .hub-od-link { grid-template-columns: 56px 1fr; }
-    .hub-od-arr { display: none; }
+  .hub-pilier-lead {
+    color: var(--muted);
+    line-height: 1.55;
+    max-width: 520px;
+    margin: 0 0 28px;
   }
 
-  .hub-fit { padding: clamp(80px, 10vw, 120px) 32px; background: var(--ink); color: var(--paper); }
-  :global(.hub-fit-k) { display: block; margin-bottom: 24px; }
-  .hub-fit-h2 {
-    font-family: var(--font-display);
-    font-size: clamp(40px, 6vw, 88px);
-    line-height: 0.96;
-    letter-spacing: -0.024em;
-    color: var(--paper);
-    margin: 0 0 60px;
-    text-wrap: balance;
-    font-weight: 400;
+  .hub-niveaux {
+    background: var(--paper);
+    border-top: 1px solid var(--hairline);
   }
-  .hub-fit-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-niveau-card {
+    position: relative;
+    min-height: 220px;
+    padding: clamp(24px, 3vw, 36px);
+    border: 1px solid var(--hairline);
+    background: transparent;
+    color: var(--ink);
+    transition: background 220ms var(--ease), border-color 220ms var(--ease);
+  }
+  .hub-niveau-card:hover { background: var(--paper-2); border-color: var(--accent); }
+  .hub-niveau-kicker { color: var(--muted); margin-bottom: 18px; }
+  .hub-niveau-card p {
+    color: var(--muted);
+    line-height: 1.55;
+    max-width: 520px;
+    margin: 0;
+  }
+  .hub-niveau-cta {
+    position: absolute;
+    right: 28px;
+    bottom: 24px;
+    font-family: var(--font-mono);
+    color: var(--accent);
+    font-size: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .hub-hero-card {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      padding-top: 96px;
+    }
+    .hub-pilier-grid,
+    .hub-niveau-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .hub-mast,
+    .hub-hero-offre,
+    .hub-piliers,
+    .hub-niveaux { padding-left: 20px; padding-right: 20px; }
+    .hub-pilier-card { grid-template-columns: 1fr; }
+    .hub-hero-card::before { inset: 14px; }
+  }
 </style>

@@ -1,8 +1,10 @@
 ---
-// Section · PersonaSwitcher · 3 personas pour entrée auto-sélectionnée
-// Variant : Sélecteur de chemin (CEO PME · DSI · CTO scale-up) — switch fade
-// Motion : fade clip-path sur changement persona
-// Mémorable : « Une page qui te demande qui tu es avant de te montrer ce qu'elle a. »
+/**
+ * Section · PersonaSwitcher · 3 personas pour entrée auto-sélectionnée
+ *
+ * M4 recadre les chemins visibles en langage PME : acquisition, CRM,
+ * productivité et gouvernance, sans jargon technique en surface.
+ */
 
 import { langFromPath, localizeHref } from '../../../lib/i18n';
 
@@ -16,9 +18,9 @@ const personas = [
     pitch_fr: "Vous voulez un ROI mesuré en 6 semaines, pas une roadmap de 18 mois.",
     pitch_en: 'You want a measured ROI in 6 weeks, not an 18-month roadmap.',
     paths: [
-      { fr: 'Audit Process Intelligence · 5 jours', en: 'Process Intelligence Audit · 5 days', href: '/offres/audit-process-intelligence' },
-      { fr: "Sprint MVP · 4 semaines · 1 agent en prod", en: 'MVP Sprint · 4 weeks · 1 agent live', href: '/offres/poc-mvp-sprint' },
-      { fr: 'Calculateur ROI agents', en: 'Agent ROI calculator', href: '/ressources/outils/roi-calculator' },
+      { fr: 'Activation IA · 1 semaine', en: 'AI Activation · 1 week', href: '/offres/activation-ia' },
+      { fr: "Growth System IA · acquisition + CRM", en: 'AI Growth System · acquisition + CRM', href: '/offres/growth-system-ia' },
+      { fr: 'Calculateur ROI & temps gagné', en: 'ROI & time-saved calculator', href: '/ressources/outils/roi-calculator' },
     ],
   },
   {
@@ -28,8 +30,8 @@ const personas = [
     pitch_fr: "Vous voulez la trace, la souveraineté, la conformité — avant le sprint MVP.",
     pitch_en: 'You want the audit trail, sovereignty, compliance — before the MVP sprint.',
     paths: [
-      { fr: 'Conformité AI Act · RGPD · LPD', en: 'AI Act · GDPR · LPD compliance', href: '/offres/conformite-ai-act' },
-      { fr: 'Self-hosted · vLLM · Ollama', en: 'Self-hosted · vLLM · Ollama', href: '/offres/self-hosted' },
+      { fr: 'Infrastructure IA · ETI', en: 'AI Infrastructure · enterprise', href: '/offres/infrastructure-ia' },
+      { fr: 'Gouvernance données · sécurité', en: 'Data governance · security', href: '/offres/infrastructure-ia' },
       { fr: 'Trust Center · contrôles', en: 'Trust Center · controls', href: '/trust' },
     ],
   },
@@ -37,11 +39,11 @@ const personas = [
     k: 'cto',
     label_fr: 'CTO / Tech lead',
     label_en: 'CTO / Tech lead',
-    pitch_fr: "Vous voulez le code, les skills, les MCP, l'orchestration multi-agents.",
-    pitch_en: 'You want the code, the skills, the MCPs, the multi-agent orchestration.',
+    pitch_fr: "Vous voulez connecter les outils, fiabiliser les workflows et garder la main sur l'exploitation.",
+    pitch_en: 'You want to connect tools, harden workflows, and keep control of operations.',
     paths: [
-      { fr: "Claude Skills sur-mesure", en: 'Custom Claude Skills', href: '/offres/claude-skills' },
-      { fr: 'Multi-agents · LangGraph · CrewAI', en: 'Multi-agent · LangGraph · CrewAI', href: '/offres/multi-agents' },
+      { fr: "Productivité Opérationnelle IA", en: 'Operational AI', href: '/offres/productivite-operationnelle-ia' },
+      { fr: 'CRM & relances IA', en: 'CRM & AI follow-ups', href: '/solutions/crm-relances-ia' },
       { fr: 'Cookbooks & tutoriels', en: 'Cookbooks & tutorials', href: '/ressources/cookbooks' },
     ],
   },
