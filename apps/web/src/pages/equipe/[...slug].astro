@@ -1,0 +1,83 @@
+---
+/**
+ * Template loader · /equipe/[...slug] · CMS git-based phase auteurs
+ *
+ * SSR mode (output: 'server') : getEntry depuis Astro.params.slug.
+ * Auto-jointure : récupère tous les contenus de cet auteur depuis blog,
+ * cookbooks, livresBlancs, veilleIA. Filtre + tri par publishedAt desc.
+ */
+import { getCollection, getEntry, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import AuthorPageTemplate from '../../components/templates/AuthorPageTemplate.astro';
+
+type AuthorLinkedEntry =
+  | CollectionEntry<'blog'>
+  | CollectionEntry<'cookbooks'>
+  | CollectionEntry<'livresBlancs'>
+  | CollectionEntry<'veilleIA'>;
+
+type AuthorRef = string | { id?: string; slug?: string; name?: string };
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/404');
+
+const entry = await getEntry('authors', slug);
+if (!entry) return Astro.redirect('/404');
+if (entry.data.seo?.noindex) return Astro.redirect('/404');
+
+const { Content } = await render(entry);
+
+// Auto-jointure : tous les contenus de cet auteur, triés par date desc
+const [allBlog, allCookbooks, allLivresBlancs, allVeille] = await Promise.all([
+  getCollection('blog'),
+  getCollection('cookbooks'),
+  getCollection('livresBlancs'),
+  getCollection('veilleIA'),
+]);
+
+// Filtre par auteur — la ref `author: reference('authors')` n'est pas encore appliquée
+// dans toutes les collections (B4 le fera). Pour l'instant, on tente plusieurs patterns
+// pour rester robuste : entry.data.author?.id (ref) ou entry.data.author?.slug ou
+// entry.data.author?.name === entry.data.title_fr (legacy string author).
+const getAuthor = (contentEntry: AuthorLinkedEntry): AuthorRef | undefined => {
+  if (!('author' in contentEntry.data)) return undefined;
+  return contentEntry.data.author as AuthorRef | undefined;
+};
+
+const matchAuthor = (contentEntry: AuthorLinkedEntry) => {
+  const author = getAuthor(contentEntry);
+  if (!author) return false;
+  // Pattern reference (post-B4)
+  if (typeof author === 'object' && author.id === slug) return true;
+  if (typeof author === 'object' && author.slug === slug) return true;
+  // Pattern legacy { name, url }
+  if (typeof author === 'object' && author.name === entry.data.title_fr) return true;
+  // Pattern string slug direct
+  if (typeof author === 'string' && author === slug) return true;
+  return false;
+};
+
+const sortByDate = <T extends { data: { publishedAt: Date } }>(items: T[]) =>
+  [...items].sort(
+    (a, b) =>
+      new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime(),
+  );
+
+const blogByAuthor = sortByDate(allBlog.filter(matchAuthor));
+const essays = blogByAuthor.filter((contentEntry) => contentEntry.data.category === 'Essay');
+const shortPosts = blogByAuthor.filter((contentEntry) => contentEntry.data.category === 'Field Note');
+const cookbooks = sortByDate(allCookbooks.filter(matchAuthor));
+const livresBlancs = sortByDate(allLivresBlancs.filter(matchAuthor));
+const veilleIA = sortByDate(allVeille.filter(matchAuthor));
+---
+
+<AuthorPageTemplate
+  author={entry.data}
+  essays={essays}
+  shortPosts={shortPosts}
+  cookbooks={cookbooks}
+  livresBlancs={livresBlancs}
+  veilleIA={veilleIA}
+>
+  <Content />
+</AuthorPageTemplate>

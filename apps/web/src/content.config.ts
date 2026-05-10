@@ -342,6 +342,79 @@ const pages = defineCollection({
   }),
 });
 
+// ─── Authors (CV intégré, social, bibliographie) ───
+const authors = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/authors' }),
+  schema: z.object({
+    ...baseFields,
+    role_fr: z.string(),
+    role_en: z.string(),
+    bio_fr: z.string().min(120),
+    bio_en: z.string().min(120),
+    photo: z.string().optional(),
+    photoAlt_fr: z.string().optional(),
+    photoAlt_en: z.string().optional(),
+    education: z
+      .array(
+        z.object({
+          year: z.string(),
+          institution: z.string(),
+          degree_fr: z.string(),
+          degree_en: z.string(),
+          url: z.string().url().optional(),
+        }),
+      )
+      .default([]),
+    experience: z
+      .array(
+        z.object({
+          year: z.string(),
+          role_fr: z.string(),
+          role_en: z.string(),
+          company: z.string(),
+          companyUrl: z.string().url().optional(),
+          summary_fr: z.string().optional(),
+          summary_en: z.string().optional(),
+        }),
+      )
+      .default([]),
+    publications: z
+      .array(
+        z.object({
+          title: z.string(),
+          url: z.string().url(),
+          venue: z.string(),
+          year: z.string(),
+          type: z.enum(['paper', 'talk', 'book', 'podcast', 'press']).optional(),
+        }),
+      )
+      .default([]),
+    awards: z
+      .array(
+        z.object({
+          year: z.string(),
+          label_fr: z.string(),
+          label_en: z.string(),
+        }),
+      )
+      .default([]),
+    expertise: z.array(z.string()).default([]),
+    social: z
+      .object({
+        x: z.string().url().optional(),
+        linkedin: z.string().url().optional(),
+        github: z.string().url().optional(),
+        website: z.string().url().optional(),
+        email: z.string().email().optional(),
+        bluesky: z.string().url().optional(),
+        mastodon: z.string().url().optional(),
+      })
+      .default({}),
+    status: z.enum(['active', 'alumni', 'guest']).default('active'),
+    featured: z.boolean().default(false),
+  }),
+});
+
 export const collections = {
   cases,
   offres,
@@ -356,4 +429,5 @@ export const collections = {
   outils,
   veilleIA,
   pages,
+  authors,
 };
