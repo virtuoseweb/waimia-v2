@@ -1,0 +1,114 @@
+---
+// Page · /cas/plateau · Cas Plateau SaaS B2B — route principale nav
+
+import CaseStudyTemplate from '../../components/templates/CaseStudyTemplate.astro';
+
+const specs = [
+  { label_fr: 'Secteur',     label_en: 'Sector',      value: 'SaaS B2B' },
+  { label_fr: 'Durée',       label_en: 'Duration',    value: '10 semaines' },
+  { label_fr: 'Douleur',     label_en: 'Pain point',  value: '3 200 leads dormants' },
+  { label_fr: 'Livré',       label_en: 'Delivered',   value: '×3,4 vélocité pipeline' },
+  { label_fr: 'ROI 12 mois', label_en: 'ROI 12 mo',  value: '4,1×' },
+];
+
+const steps = [
+  {
+    sn: '01', kicker_fr: 'Audit', kicker_en: 'Audit',
+    title_fr: 'On a lu le CRM avant de toucher quoi que ce soit.',
+    title_en: 'We read the CRM before touching anything.',
+    body_fr: "3 200 leads dorment depuis 18 mois. 4 commerciaux les requalifient à la main — 2 jours par semaine chacun. L'équipe sait que le pipeline est là. Personne ne sait qui appeler.",
+    body_en: "3,200 leads dormant for 18 months. 4 reps requalifying manually — 2 days/week each. The team knows the pipeline is there. Nobody knows who to call.",
+  },
+  {
+    sn: '02', kicker_fr: 'Scoring', kicker_en: 'Scoring',
+    title_fr: 'Un score continu. Pas un filtre statique.',
+    title_en: 'Continuous scoring. Not a static filter.',
+    body_fr: "On a câblé un scoring automatisé qui tourne en continu sur les signaux comportementaux et firmographiques. Le mardi, chaque commercial a une liste de 10 leads à appeler — classés, contextualisés, prêts.",
+    body_en: "We wired continuous automated scoring on behavioral and firmographic signals. Every Tuesday, each rep gets a list of 10 leads — ranked, contextualized, ready.",
+  },
+  {
+    sn: '03', kicker_fr: 'Nurturing', kicker_en: 'Nurturing',
+    title_fr: 'Séquences personnalisées par persona. Pas de blast.',
+    title_en: 'Persona-specific sequences. No blast.',
+    body_fr: "Trois personas, trois parcours automatisés. Chaque séquence s'adapte au comportement : un clic sur une fonctionnalité déclenche un message différent d'une ouverture d'email. Le pipeline travaille la nuit.",
+    body_en: "Three personas, three automated journeys. Each sequence adapts to behavior: a feature click triggers a different message than an email open. The pipeline works at night.",
+  },
+  {
+    sn: '04', kicker_fr: 'Mesure', kicker_en: 'Measure',
+    title_fr: 'Dashboard pipeline temps réel. La finance voit ce que les commerciaux voient.',
+    title_en: 'Real-time pipeline dashboard. Finance sees what sales sees.',
+    body_fr: "Le vendredi, on mesure. Pipeline ouvert par segment, vélocité par persona, taux de conversion landing. Aucune réunion de chiffres — tout le monde lit le même tableau.",
+    body_en: "Every Friday, we measure. Open pipeline by segment, velocity by persona, landing conversion rates. No number meetings — everyone reads the same board.",
+  },
+];
+
+const proofMetrics = [
+  { k: '+€2,4 M', label_fr: 'Pipeline récupéré', label_en: 'Pipeline recovered' },
+  { k: '×3,4',   label_fr: 'Vélocité pipeline',  label_en: 'Pipeline velocity' },
+  { k: '−62 %',  label_fr: 'Temps qualification', label_en: 'Qualification time' },
+  { k: '4,1×',   label_fr: 'ROI 12 mois',         label_en: 'ROI 12 months' },
+];
+
+const techPills = [
+  { label: 'Scoring IA continu', kind: 'primary' as const },
+  { label: 'HubSpot', kind: 'neutral' as const },
+  { label: 'dbt', kind: 'open' as const },
+  { label: 'Séquences automatisées', kind: 'primary' as const },
+  { label: 'Dashboard pipeline', kind: 'open' as const },
+];
+
+const relatedCards = [
+  { kicker: 'CAS 02', title_fr: 'Halcyon · triage automatisé', title_en: 'Halcyon · automated triage',
+    lead_fr: '−38 % de temps de triage. CSAT +14 pts.', lead_en: '−38% triage time. +14 CSAT pts.',
+    href: '/cas/halcyon' },
+  { kicker: 'CAS 03', title_fr: 'Northbound · scoring continu', title_en: 'Northbound · continuous scoring',
+    lead_fr: '×3,1 conversion lead → SQL.', lead_en: '×3.1 lead → SQL conversion.',
+    href: '/cas/northbound' },
+  { kicker: 'CAS 04', title_fr: 'Caserne · finance fluidifiée', title_en: 'Caserne · finance streamlined',
+    lead_fr: '1 200 h/an récupérées.', lead_en: '1,200 h/year reclaimed.',
+    href: '/cas/caserne' },
+];
+---
+<CaseStudyTemplate
+  title="Cas · Plateau · +€2,4 M de pipeline récupéré · Waimia"
+  description="Pas de marketing. 3 200 leads dormants, 10 semaines, +€2,4 M récupérés. Ce qu'on a câblé."
+  caseNum="01"
+  specs={specs}
+  steps={steps}
+  proofQuoteFr="Le pipeline tourne maintenant tout seul. On en avait pas besoin pour conclure — on en avait besoin pour identifier ceux qui valent un appel."
+  proofQuoteEn="The pipeline now runs on its own. We didn't need it to close — we needed it to identify who's worth a call."
+  proofAttrFr="Co-fondateur · SaaS B2B"
+  proofAttrEn="Co-founder · B2B SaaS"
+  proofMetrics={proofMetrics}
+  techPills={techPills}
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">
+    <i>SaaS B2B.</i><br/>+€2,4 M de pipeline<br/>que personne n'appelait.
+  </Fragment>
+  <Fragment slot="context">
+    <p>Le pipeline tient sur 1 ou 2 commerciaux. L'un part en vacances ? Les leads s'évaporent. On a regardé : <i>3 200 contacts qui avaient manifesté de l'intérêt dormaient depuis 18 mois</i>. Personne ne les avait retouchés.</p>
+    <p>Pas de démo. Pas d'atelier. On a audité, câblé le scoring, branché les séquences. <i>Le mardi, les commerciaux avaient une liste. Le vendredi, on mesurait.</i></p>
+  </Fragment>
+  <Fragment slot="approach-headline">
+    Pas un atelier. Un <i>chantier</i> de 10 semaines.
+  </Fragment>
+  <Fragment slot="approach-aside">
+    Audit → scoring continu → séquences persona → dashboard pipeline. Aucun outil rajouté : on a câblé sur ce qui existait.
+  </Fragment>
+  <Fragment slot="stack-lead">
+    Scoring automatisé continu, séquences multi-persona, dashboard pipeline. <i>Zéro outil supplémentaire.</i> On a câblé sur HubSpot + dbt.
+  </Fragment>
+</CaseStudyTemplate>
+
+<style is:global>
+  .case-context-grid p {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.32;
+    letter-spacing: -0.012em;
+    margin: 0 0 24px;
+    text-wrap: pretty;
+  }
+  .case-context-grid p i { font-style: italic; color: var(--accent); }
+</style>

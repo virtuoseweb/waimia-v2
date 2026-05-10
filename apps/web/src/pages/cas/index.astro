@@ -1,0 +1,146 @@
+---
+// Page · /cas · Hub cas clients Waimia
+// Route principale de la nav — liste des 4 cas business.
+
+import Base from '../../layouts/Base.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+import { langFromPath, t } from '../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+
+const featuredCases = [
+  {
+    slug: 'plateau',
+    sector: { fr: 'SaaS B2B', en: 'B2B SaaS' },
+    title: { fr: 'Plateau · pipeline reconnecté', en: 'Plateau · pipeline reconnected' },
+    headline: { fr: '+€2,4 M de pipeline récupéré.', en: '+€2.4M pipeline recovered.' },
+    duration: '10 sem',
+  },
+  {
+    slug: 'halcyon',
+    sector: { fr: 'Santé-tech', en: 'Healthtech' },
+    title: { fr: 'Halcyon · triage automatisé', en: 'Halcyon · automated triage' },
+    headline: { fr: '−38 % de temps de triage. CSAT +14 points.', en: '−38% triage time. +14 CSAT pts.' },
+    duration: '6 sem',
+  },
+  {
+    slug: 'northbound',
+    sector: { fr: 'Fintech EU', en: 'EU Fintech' },
+    title: { fr: 'Northbound · scoring continu', en: 'Northbound · continuous scoring' },
+    headline: { fr: '×3,1 conversion lead → SQL.', en: '×3.1 lead → SQL conversion.' },
+    duration: '14 sem',
+  },
+  {
+    slug: 'caserne',
+    sector: { fr: 'Industrie FR', en: 'French Industry' },
+    title: { fr: 'Caserne · finance fluidifiée', en: 'Caserne · finance streamlined' },
+    headline: { fr: '1 200 h/an récupérées.', en: '1,200 hours/year reclaimed.' },
+    duration: '8 sem',
+  },
+];
+---
+<Base
+  title={lang === 'fr' ? "Cas clients · pipelines reconnectés, opérations fluidifiées · Waimia" : "Case studies · pipelines reconnected, operations streamlined · Waimia"}
+  description={lang === 'fr' ? "Pas de marketing. Des chiffres, des problèmes, ce qu'on a câblé. Ce qui a tenu." : "No marketing. Numbers, problems, what we shipped. What held."}
+>
+  <section class="hub-mast">
+    <div class="wrap-wide">
+      <Kicker>§ Cas clients · ROI mesurés, pas promis</Kicker>
+      <h1 class="hub-h1">
+        {lang === 'fr'
+          ? <><span>Pas de <i>marketing</i>.</span><br/><span>Des chiffres.</span></>
+          : <><span>No <i>marketing</i>.</span><br/><span>Numbers.</span></>
+        }
+      </h1>
+      <p class="hub-lede">
+        {lang === 'fr'
+          ? "Quatre cas. Quatre douleurs PME. Ce qu'on a câblé, ce qui a tenu, ce que ça a livré. Pas de témoignages mis en scène."
+          : "Four cases. Four SMB pain points. What we shipped, what held, what it delivered. No staged testimonials."}
+      </p>
+    </div>
+  </section>
+
+  <section class="cas-grid wrap-wide">
+    {featuredCases.map((c) => (
+      <a href={`/cas/${c.slug}`} class="cas-card">
+        <div class="cas-card-sector">{t(c.sector, lang)} · {c.duration}</div>
+        <h2 class="cas-card-title">{t(c.title, lang)}</h2>
+        <p class="cas-card-headline">{t(c.headline, lang)}</p>
+        <span class="cas-card-cta">{lang === 'fr' ? 'Lire le cas →' : 'Read case →'}</span>
+      </a>
+    ))}
+  </section>
+</Base>
+
+<style>
+  .hub-mast { padding: 140px 32px 60px; }
+  .hub-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 10vw, 160px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    margin: 20px 0 32px;
+    text-wrap: balance;
+  }
+  .hub-h1 i { font-style: italic; color: var(--accent); }
+  .hub-lede {
+    font-size: clamp(15px, 1.5vw, 18px);
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.55;
+  }
+
+  .cas-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    margin: 40px auto 120px;
+  }
+  .cas-card {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 36px 36px;
+    background: var(--paper);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s;
+    gap: 12px;
+  }
+  .cas-card:hover { background: var(--paper-2); }
+  .cas-card-sector {
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .cas-card-title {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.6vw, 36px);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    margin: 4px 0 0;
+  }
+  .cas-card-headline {
+    font-size: clamp(13px, 1.3vw, 15px);
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .cas-card-cta {
+    font-size: 13px;
+    color: var(--accent);
+    font-family: var(--font-mono, monospace);
+    letter-spacing: 0.04em;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 700px) {
+    .cas-grid { grid-template-columns: 1fr; }
+  }
+</style>

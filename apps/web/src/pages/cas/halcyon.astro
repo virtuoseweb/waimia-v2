@@ -1,0 +1,114 @@
+---
+// Page · /cas/halcyon · Cas Halcyon Santé-tech — route principale nav
+
+import CaseStudyTemplate from '../../components/templates/CaseStudyTemplate.astro';
+
+const specs = [
+  { label_fr: 'Secteur',     label_en: 'Sector',      value: 'Santé-tech' },
+  { label_fr: 'Durée',       label_en: 'Duration',    value: '6 semaines' },
+  { label_fr: 'Douleur',     label_en: 'Pain point',  value: '240 demandes/jour · 8 agents' },
+  { label_fr: 'Livré',       label_en: 'Delivered',   value: '60 % résolution sans humain' },
+  { label_fr: 'ROI 9 mois',  label_en: 'ROI 9 mo',   value: '4,6×' },
+];
+
+const steps = [
+  {
+    sn: '01', kicker_fr: 'Audit', kicker_en: 'Audit',
+    title_fr: '240 demandes par jour. 8 agents. 60 % de FAQ.',
+    title_en: '240 requests per day. 8 agents. 60% FAQ.',
+    body_fr: "On a typologisé 3 mois de tickets. 60 % des demandes : FAQ documentées. Pourtant chaque ticket passait par un humain. Les agents passaient leur temps à copier-coller la même réponse.",
+    body_en: "We categorized 3 months of tickets. 60% of requests: documented FAQ. Yet every ticket went through a human. Agents spent their time copy-pasting the same answer.",
+  },
+  {
+    sn: '02', kicker_fr: 'Triage IA', kicker_en: 'AI triage',
+    title_fr: 'Triage automatique. Priorité calculée, pas ressentie.',
+    title_en: 'Automatic triage. Calculated priority, not felt.',
+    body_fr: "On a câblé un triage prioritaire automatisé : urgence médicale, délai, complexité. Le mardi de déploiement, les agents ne traitaient plus que les vrais problèmes — pas les rappels de rendez-vous.",
+    body_en: "We wired automated priority triage: medical urgency, delay, complexity. By deployment Tuesday, agents only handled real problems — not appointment reminders.",
+  },
+  {
+    sn: '03', kicker_fr: 'Niveau 1', kicker_en: 'Level 1',
+    title_fr: 'Premier niveau automatisé sur FAQ. Réponse en < 2 min.',
+    title_en: 'Automated first level on FAQ. Response in < 2 min.',
+    body_fr: "Les FAQ documentées sont maintenant traitées automatiquement, 24/7, en < 2 minutes. Chaque réponse est tracée. Si la confiance est insuffisante, le dossier remonte à N2 avec contexte complet.",
+    body_en: "Documented FAQ are now handled automatically, 24/7, in < 2 minutes. Every response is traced. If confidence is insufficient, the file escalates to N2 with full context.",
+  },
+  {
+    sn: '04', kicker_fr: 'Knowledge', kicker_en: 'Knowledge',
+    title_fr: "La knowledge base s'enrichit de chaque ticket résolu.",
+    title_en: 'Knowledge base enriches with every resolved ticket.',
+    body_fr: "Chaque résolution valide par un humain alimente la base. Le vendredi, on mesure le taux de couverture. Le système devient plus précis chaque semaine — sans intervention manuelle.",
+    body_en: "Every human-validated resolution feeds the base. Every Friday, we measure coverage rate. The system becomes more precise each week — without manual intervention.",
+  },
+];
+
+const proofMetrics = [
+  { k: '−38 %', label_fr: 'Temps de triage',       label_en: 'Triage time' },
+  { k: '60 %',  label_fr: 'Résolution sans humain', label_en: 'Resolution without human' },
+  { k: '+14 pts', label_fr: 'CSAT',                 label_en: 'CSAT' },
+  { k: '4,6×',  label_fr: 'ROI 9 mois',             label_en: 'ROI 9 months' },
+];
+
+const techPills = [
+  { label: 'Triage IA prioritaire', kind: 'primary' as const },
+  { label: 'Routage N1/N2 automatisé', kind: 'primary' as const },
+  { label: 'Knowledge base auto-enrichie', kind: 'open' as const },
+  { label: 'Snowflake', kind: 'neutral' as const },
+  { label: 'Tableau de bord CSAT', kind: 'open' as const },
+];
+
+const relatedCards = [
+  { kicker: 'CAS 01', title_fr: 'Plateau · pipeline reconnecté', title_en: 'Plateau · pipeline reconnected',
+    lead_fr: '+€2,4 M de pipeline récupéré.', lead_en: '+€2.4M pipeline recovered.',
+    href: '/cas/plateau' },
+  { kicker: 'CAS 03', title_fr: 'Northbound · scoring continu', title_en: 'Northbound · continuous scoring',
+    lead_fr: '×3,1 conversion lead → SQL.', lead_en: '×3.1 lead → SQL conversion.',
+    href: '/cas/northbound' },
+  { kicker: 'CAS 04', title_fr: 'Caserne · finance fluidifiée', title_en: 'Caserne · finance streamlined',
+    lead_fr: '1 200 h/an récupérées.', lead_en: '1,200 h/year reclaimed.',
+    href: '/cas/caserne' },
+];
+---
+<CaseStudyTemplate
+  title="Cas · Halcyon · −38 % de temps de triage · Waimia"
+  description="240 demandes/jour, 8 agents, 60 % de FAQ. Ce qu'on a câblé en 6 semaines. CSAT +14 pts."
+  caseNum="02"
+  specs={specs}
+  steps={steps}
+  proofQuoteFr="On avait peur que l'IA fasse fuir les patients. C'est l'inverse. Ils nous remercient des réponses la nuit."
+  proofQuoteEn="We were afraid AI would drive patients away. It's the opposite. They thank us for the night-time responses."
+  proofAttrFr="Direction service patient · Santé-tech"
+  proofAttrEn="Head of patient services · Healthtech"
+  proofMetrics={proofMetrics}
+  techPills={techPills}
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">
+    <i>Santé-tech.</i><br/>−38 % de triage.<br/>CSAT +14 points.
+  </Fragment>
+  <Fragment slot="context">
+    <p>8 personnes pour 240 demandes par jour. Les délais explosaient. Les agents passaient leurs journées sur des <i>FAQ que tout le monde savait déjà</i>. Les vrais problèmes attendaient.</p>
+    <p>On a regardé 3 mois de tickets. Puis on a câblé. <i>En 6 semaines, 60 % des demandes ne passent plus par un humain.</i> Les agents s'occupent de ce qui compte.</p>
+  </Fragment>
+  <Fragment slot="approach-headline">
+    6 semaines. Triage <i>câblé</i>, pas promis.
+  </Fragment>
+  <Fragment slot="approach-aside">
+    Audit typologique → triage automatisé → niveau 1 FAQ → knowledge auto-enrichie. Zéro recrutement. Mêmes agents, meilleures décisions.
+  </Fragment>
+  <Fragment slot="stack-lead">
+    Triage IA prioritaire, routage N1/N2 automatisé, knowledge base auto-enrichie. <i>Chaque semaine plus précis</i> sans intervention.
+  </Fragment>
+</CaseStudyTemplate>
+
+<style is:global>
+  .case-context-grid p {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.32;
+    letter-spacing: -0.012em;
+    margin: 0 0 24px;
+    text-wrap: pretty;
+  }
+  .case-context-grid p i { font-style: italic; color: var(--accent); }
+</style>

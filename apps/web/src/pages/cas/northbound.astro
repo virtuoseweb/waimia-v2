@@ -1,0 +1,114 @@
+---
+// Page · /cas/northbound · Cas Northbound Fintech EU — route principale nav
+
+import CaseStudyTemplate from '../../components/templates/CaseStudyTemplate.astro';
+
+const specs = [
+  { label_fr: 'Secteur',     label_en: 'Sector',      value: 'Fintech · UE' },
+  { label_fr: 'Durée',       label_en: 'Duration',    value: '14 semaines' },
+  { label_fr: 'Douleur',     label_en: 'Pain point',  value: '47 000 contacts · 40 % obsolètes' },
+  { label_fr: 'Livré',       label_en: 'Delivered',   value: '×3,1 conversion SQL' },
+  { label_fr: 'ROI 9 mois',  label_en: 'ROI 9 mo',   value: '4,3×' },
+];
+
+const steps = [
+  {
+    sn: '01', kicker_fr: 'Audit CRM', kicker_en: 'CRM audit',
+    title_fr: '47 000 contacts. 40 % obsolètes. 2h/jour gaspillées.',
+    title_en: '47,000 contacts. 40% obsolete. 2h/day wasted.',
+    body_fr: "On a analysé le CRM : 40 % des contacts n'avaient plus d'activité depuis 12 mois. Les SDR passaient 2 heures par jour à requalifier manuellement ce qui aurait pu être automatisé. Taux de conversion : 4,1 %.",
+    body_en: "We analyzed the CRM: 40% of contacts had no activity in 12 months. SDRs spent 2 hours a day manually requalifying what could have been automated. Conversion rate: 4.1%.",
+  },
+  {
+    sn: '02', kicker_fr: 'Nettoyage', kicker_en: 'Cleanup',
+    title_fr: 'CRM nettoyé en continu. Pas un projet one-shot.',
+    title_en: 'CRM cleaned continuously. Not a one-shot project.',
+    body_fr: "On a câblé un pipeline de nettoyage continu : dédoublonnage automatique, enrichissement, désactivation des contacts sans signal. En 3 semaines, le taux de doublon est passé de 40 % à 5 %.",
+    body_en: "We wired a continuous cleanup pipeline: automatic deduplication, enrichment, deactivation of contacts without signal. In 3 weeks, the duplicate rate dropped from 40% to 5%.",
+  },
+  {
+    sn: '03', kicker_fr: 'Scoring', kicker_en: 'Scoring',
+    title_fr: "Scoring continu sur signaux d'achat. Mis à jour chaque nuit.",
+    title_en: 'Continuous scoring on buying signals. Updated nightly.',
+    body_fr: "Chaque contact reçoit un score calculé sur ses signaux comportementaux + firmographiques. Le mardi matin, les SDR ont une liste de leads chauds. Plus de requalification manuelle — que des appels qui valaient.",
+    body_en: "Every contact gets a score calculated on behavioral + firmographic signals. Tuesday morning, SDRs get a list of warm leads. No more manual requalification — only calls that were worth it.",
+  },
+  {
+    sn: '04', kicker_fr: 'Forecast', kicker_en: 'Forecast',
+    title_fr: 'Forecast pipeline en temps réel. Le RevOps pilote, pas la finance.',
+    title_en: 'Real-time pipeline forecast. RevOps drives, not finance.',
+    body_fr: "Le vendredi, le forecast est calculé automatiquement. Taux de conversion par segment, pipeline pondéré, alertes de dérive. La finance reçoit les mêmes chiffres que le commercial — au même moment.",
+    body_en: "Every Friday, the forecast is automatically calculated. Conversion rates by segment, weighted pipeline, drift alerts. Finance receives the same numbers as sales — at the same time.",
+  },
+];
+
+const proofMetrics = [
+  { k: '×3,1',  label_fr: 'Conversion SQL',        label_en: 'SQL conversion' },
+  { k: '−35 %', label_fr: 'Taux doublon CRM',       label_en: 'CRM duplicate rate' },
+  { k: '−2 h/j', label_fr: 'Temps requalification', label_en: 'Requalification time' },
+  { k: '4,3×',  label_fr: 'ROI 9 mois',             label_en: 'ROI 9 months' },
+];
+
+const techPills = [
+  { label: 'Scoring continu', kind: 'primary' as const },
+  { label: 'Nettoyage CRM automatisé', kind: 'primary' as const },
+  { label: 'Segment', kind: 'neutral' as const },
+  { label: 'dbt', kind: 'open' as const },
+  { label: 'Forecast IA', kind: 'open' as const },
+];
+
+const relatedCards = [
+  { kicker: 'CAS 01', title_fr: 'Plateau · pipeline reconnecté', title_en: 'Plateau · pipeline reconnected',
+    lead_fr: '+€2,4 M de pipeline récupéré.', lead_en: '+€2.4M pipeline recovered.',
+    href: '/cas/plateau' },
+  { kicker: 'CAS 02', title_fr: 'Halcyon · triage automatisé', title_en: 'Halcyon · automated triage',
+    lead_fr: '−38 % de temps de triage.', lead_en: '−38% triage time.',
+    href: '/cas/halcyon' },
+  { kicker: 'CAS 04', title_fr: 'Caserne · finance fluidifiée', title_en: 'Caserne · finance streamlined',
+    lead_fr: '1 200 h/an récupérées.', lead_en: '1,200 h/year reclaimed.',
+    href: '/cas/caserne' },
+];
+---
+<CaseStudyTemplate
+  title="Cas · Northbound · ×3,1 conversion lead → SQL · Waimia"
+  description="47 000 contacts CRM dont 40 % obsolètes. 14 semaines. ×3,1 conversion SQL. Ce qu'on a câblé."
+  caseNum="03"
+  specs={specs}
+  steps={steps}
+  proofQuoteFr="Le CRM faisait notre travail. Nous, on faisait des appels qui valaient."
+  proofQuoteEn="The CRM was doing our job. We were making calls that were worth it."
+  proofAttrFr="RevOps · Fintech EU"
+  proofAttrEn="RevOps · EU Fintech"
+  proofMetrics={proofMetrics}
+  techPills={techPills}
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">
+    <i>Fintech EU.</i><br/>×3,1 conversion.<br/>Le CRM qui travaille seul.
+  </Fragment>
+  <Fragment slot="context">
+    <p>47 000 contacts. 40 % sans activité depuis un an. Les SDR requalifiaient à la main — <i>2 heures par jour par personne</i>. Le taux de conversion stagnait à 4,1 %.</p>
+    <p>On a nettoyé, scoré, automatisé. <i>Le mardi, les appels valaient la peine. Le vendredi, on mesurait la dérive.</i> En 9 mois : ×3,1 conversion.</p>
+  </Fragment>
+  <Fragment slot="approach-headline">
+    14 semaines. CRM <i>câblé</i>, SDR libérés.
+  </Fragment>
+  <Fragment slot="approach-aside">
+    Audit CRM → nettoyage continu → scoring comportemental → forecast automatisé. Même stack. Zéro outil ajouté.
+  </Fragment>
+  <Fragment slot="stack-lead">
+    Scoring continu, nettoyage CRM automatisé, forecast IA. <i>Même équipe. ×3,1 conversion.</i>
+  </Fragment>
+</CaseStudyTemplate>
+
+<style is:global>
+  .case-context-grid p {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.32;
+    letter-spacing: -0.012em;
+    margin: 0 0 24px;
+    text-wrap: pretty;
+  }
+  .case-context-grid p i { font-style: italic; color: var(--accent); }
+</style>
