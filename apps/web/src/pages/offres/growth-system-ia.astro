@@ -3,6 +3,20 @@
 // Mission M3 · 3 piliers + 2 niveaux · FR uniquement
 
 import OffresDetailTemplate from '../../components/templates/OffresDetailTemplate.astro';
+import { buildFAQPage } from '../../lib/seo/schema-builder';
+
+const faqGrowthItems = [
+  { q: "Combien de temps avant le premier lead qualifié supplémentaire ?", a: "Les premiers leads supplémentaires arrivent généralement entre la semaine 4 et la semaine 6 après le lancement, une fois les premières landing pages en ligne et le tracking configuré. Le pipeline éditorial commence à générer du trafic qualifié à partir de la semaine 6-8. Le pic de performance est atteint entre le mois 3 et le mois 6, quand les articles SEO/GEO commencent à se positionner durablement." },
+  { q: "Quelle est votre meilleure cohorte de résultats sur 12 mois ?", a: "Notre meilleure cohorte sur 12 mois : ×4,1 ROI mesuré (pipeline généré / investissement), ×2,4 leads qualifiés mensuels par rapport à la baseline, +€2,4M de pipeline historique reconnecté (base dormante), réduction de 62 % du temps de qualification commercial. Ces chiffres sont la médiane sur les clients actifs depuis 12 mois, pas le cas exceptionnel." },
+  { q: "Que se passe-t-il si on n'aime pas un livrable ?", a: "Chaque livrable est validé par une session de feedback avant la livraison suivante. Si une landing page ou un article ne vous convient pas, on le réécrit — inclus dans le forfait, sans surcoût. Ce n'est pas la norme : nos taux de satisfaction livrable sont supérieurs à 92 % au premier jet. Mais la garantie existe et elle est réelle." },
+  { q: "Vous travaillez sur quels CRM exactement ?", a: "Nous déployons sur HubSpot (notre préférence pour les PME B2B), Salesforce (pour les structures plus grandes) et Pipedrive (pour les équipes commerciales agiles). Si vous utilisez un autre CRM (Zoho, Freshsales, Monday CRM), nous évaluons la faisabilité en phase de cadrage — certains ont des APIs limitées. La migration vers un nouveau CRM n'est pas incluse dans le forfait standard." },
+  { q: "Et si on a déjà un site qui marche ?", a: "Alors on ne le refond pas. On commence par un audit de 5 jours pour comprendre ce qui génère du pipeline et ce qui est invisible. Si le site actuel est déjà performant sur certaines pages, on l'optimise — on ne casse pas ce qui marche. La refonte complète n'est recommandée que si l'architecture technique bloque le pipeline éditorial (CMS sans API, pas de tracking configurable, etc.)." },
+  { q: "Combien de personnes en interne doivent être impliquées ?", a: "Minimum : 1 interlocuteur côté client (DG ou responsable marketing) disponible 2 heures par semaine pour les validations. La phase de cadrage (semaine 1) demande 3 à 4 heures d'ateliers avec les décideurs. Ensuite, le système tourne de manière largement autonome. La validation éditoriale hebdomadaire prend 30 minutes : vous lisez les articles produits et signez ou demandez un ajustement." },
+  { q: "Acceptez-vous les missions avec NDA strict (concurrentiel) ?", a: "Oui. Nous signons les NDA nécessaires avant de démarrer. Notre base de clients inclut des entreprises dans des secteurs concurrentiels (fintech, SaaS B2B, cabinet conseil). Les cas clients que nous publions (comme Plateau) sont signés par le client avant publication. Vous avez un veto absolu sur toute mention de votre nom dans nos références." },
+  { q: "Quelle est la durée du contrat / engagement ?", a: "Le forfait Growth System IA est un engagement à durée déterminée : 6 à 10 semaines selon le périmètre. Pas d'abonnement mensuel, pas de reconduction automatique. À la fin de la mission, vous disposez d'un système qui fonctionne de manière autonome. Si vous souhaitez poursuivre avec un accompagnement mensuel (production éditoriale, optimisation continue), une offre de retainer est disponible — mais elle n'est pas obligatoire." },
+];
+
+const faqGrowthSchema = buildFAQPage(faqGrowthItems);
 ---
 <OffresDetailTemplate
   tier="§ 01 · PILIER VEDETTE"
@@ -52,4 +66,151 @@ import OffresDetailTemplate from '../../components/templates/OffresDetailTemplat
   </Fragment>
   <Fragment slot="cta-title"><i>Câbler le système.<br/>Mesurer vendredi.</i></Fragment>
   <Fragment slot="cta-body">45 minutes. On regarde votre acquisition, on chiffre les fuites, on revient avec un plan. Si on n'a rien à proposer, on le dit. On ne relance pas.</Fragment>
+  <Fragment slot="related">
+    <script type="application/ld+json" set:html={JSON.stringify(faqGrowthSchema)}></script>
+
+    <!-- Section 1 : Site comme machine d'acquisition -->
+    <section style="padding: clamp(72px,8vw,120px) 0; background: var(--paper-2, #EFEBE2);">
+      <div style="max-width:1240px; margin:0 auto; padding:0 clamp(20px,4vw,48px);">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;">Inclus dans le forfait</div>
+        <div style="display:grid; grid-template-columns:1fr 1.6fr; gap:clamp(32px,5vw,80px); align-items:start;">
+          <div>
+            <h2 style="font-family:var(--font-display); font-size:clamp(32px,4vw,56px); line-height:.96; letter-spacing:-.018em; font-weight:400; margin:0;"><i style="color:var(--accent); font-style:italic;">Le site</i><br/>comme machine</h2>
+          </div>
+          <div>
+            <p style="font-family:var(--font-display); font-size:clamp(15px,1.3vw,17px); line-height:1.5; color:var(--muted); font-style:italic; margin:0 0 32px;">Le site web IA-native est intégré au Growth System IA — pas en option, pas à part. C'est la première brique du système d'acquisition.</p>
+            <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:16px;">
+              <li style="display:grid; grid-template-columns:20px 1fr; gap:12px; align-items:start; font-size:15px; line-height:1.5; color:var(--ink);"><span style="color:var(--accent); font-weight:700; margin-top:2px;">✓</span><span><strong>Refonte ou création selon l'état actuel</strong> — audit de l'existant en phase 01, décision partagée</span></li>
+              <li style="display:grid; grid-template-columns:20px 1fr; gap:12px; align-items:start; font-size:15px; line-height:1.5; color:var(--ink);"><span style="color:var(--accent); font-weight:700; margin-top:2px;">✓</span><span><strong>Landing pages par persona (3 à 5)</strong> — copy, offre et CTA adaptés à chaque profil décideur</span></li>
+              <li style="display:grid; grid-template-columns:20px 1fr; gap:12px; align-items:start; font-size:15px; line-height:1.5; color:var(--ink);"><span style="color:var(--accent); font-weight:700; margin-top:2px;">✓</span><span><strong>Pipeline éditorial SEO/GEO (8 articles/mois)</strong> — production automatisée avec passage de relais à votre équipe</span></li>
+              <li style="display:grid; grid-template-columns:20px 1fr; gap:12px; align-items:start; font-size:15px; line-height:1.5; color:var(--ink);"><span style="color:var(--accent); font-weight:700; margin-top:2px;">✓</span><span><strong>Tracking complet GA4 + CRM</strong> — attribution multi-touch, zéro point aveugle</span></li>
+              <li style="display:grid; grid-template-columns:20px 1fr; gap:12px; align-items:start; font-size:15px; line-height:1.5; color:var(--ink);"><span style="color:var(--accent); font-weight:700; margin-top:2px;">✓</span><span><strong>Schema.org optimisé</strong> — Service, Article, FAQPage, BreadcrumbList sur toutes les pages</span></li>
+              <li style="display:grid; grid-template-columns:20px 1fr; gap:12px; align-items:start; font-size:15px; line-height:1.5; color:var(--ink);"><span style="color:var(--accent); font-weight:700; margin-top:2px;">✓</span><span><strong>Variations testées automatiquement</strong> — A/B testing sur les landing pages, copy optimisé en continu</span></li>
+            </ul>
+            <p style="margin:28px 0 0; font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);">Cas d'usage isolé : <a href="/solutions/site-web-ia-pme" style="color:var(--accent); text-decoration:none; border-bottom:1px solid currentColor;">Site web IA · PME B2B →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2 : App dédiée -->
+    <section style="padding: clamp(48px,5vw,72px) 0;">
+      <div style="max-width:880px; margin:0 auto; padding:0 clamp(20px,4vw,48px);">
+        <div style="padding:28px 32px; border:1px solid rgba(0,0,0,.1); border-radius:12px; background:var(--paper-2, #EFEBE2); display:grid; grid-template-columns:1.4fr 1fr; gap:24px; align-items:center;">
+          <div>
+            <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Besoin d'aller plus loin ?</div>
+            <p style="font-family:var(--font-display); font-size:clamp(16px,1.4vw,19px); line-height:1.45; color:var(--ink); margin:0;">Pour les cas d'usage qui nécessitent une <strong>app IA propriétaire</strong> — interfaces dédiées, données privées, workflow métier spécifique — notre offre prend le relais.</p>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-family:var(--font-display); font-size:clamp(22px,2vw,28px); color:var(--accent); font-weight:400; margin-bottom:4px;">15–50 k€</div>
+            <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;">12–16 semaines</div>
+            <a href="/offres/application-ia-pme" style="display:inline-block; padding:12px 22px; background:var(--ink); color:var(--paper); border-radius:999px; font-size:13px; font-weight:500; text-decoration:none; letter-spacing:-.005em;">Application IA · PME →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3 : Outils IA transparence -->
+    <section style="padding: clamp(72px,8vw,120px) 0; background: var(--paper-2, #EFEBE2);">
+      <div style="max-width:1240px; margin:0 auto; padding:0 clamp(20px,4vw,48px);">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;">Transparence totale</div>
+        <h2 style="font-family:var(--font-display); font-size:clamp(32px,4vw,56px); line-height:.96; letter-spacing:-.018em; font-weight:400; margin:0 0 40px;"><i style="color:var(--accent); font-style:italic;">Outils</i><br/>utilisés</h2>
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:14.5px;">
+            <thead>
+              <tr style="border-bottom:2px solid rgba(0,0,0,.12);">
+                <th style="text-align:left; padding:12px 16px 12px 0; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:400;">Catégorie</th>
+                <th style="text-align:left; padding:12px 16px; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:400;">Outil</th>
+                <th style="text-align:left; padding:12px 0 12px 16px; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:400;">Rôle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(0,0,0,.06);"><td style="padding:14px 16px 14px 0; color:var(--muted); font-size:13px;">Modèle raisonnement</td><td style="padding:14px 16px; font-weight:500;">Claude Sonnet 4.6</td><td style="padding:14px 0 14px 16px; color:var(--ink);">Scoring, séquences, articles</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,.06);"><td style="padding:14px 16px 14px 0; color:var(--muted); font-size:13px;">Modèle volume</td><td style="padding:14px 16px; font-weight:500;">Claude Haiku 4.5</td><td style="padding:14px 0 14px 16px; color:var(--ink);">Qualification, déduplication</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,.06);"><td style="padding:14px 16px 14px 0; color:var(--muted); font-size:13px;">Modèle créatif</td><td style="padding:14px 16px; font-weight:500;">Claude Opus 4.7</td><td style="padding:14px 0 14px 16px; color:var(--ink);">Articles longs, landing</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,.06);"><td style="padding:14px 16px 14px 0; color:var(--muted); font-size:13px;">CRM</td><td style="padding:14px 16px; font-weight:500;">HubSpot / Salesforce / Pipedrive</td><td style="padding:14px 0 14px 16px; color:var(--ink);">Au choix client</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,.06);"><td style="padding:14px 16px 14px 0; color:var(--muted); font-size:13px;">Email</td><td style="padding:14px 16px; font-weight:500;">Resend / Postmark / SendGrid</td><td style="padding:14px 0 14px 16px; color:var(--ink);">Délivrabilité</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,.06);"><td style="padding:14px 16px 14px 0; color:var(--muted); font-size:13px;">Search</td><td style="padding:14px 16px; font-weight:500;">Google Search Console + APIs</td><td style="padding:14px 0 14px 16px; color:var(--ink);">Indexation</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,.06);"><td style="padding:14px 16px 14px 0; color:var(--muted); font-size:13px;">Analytics</td><td style="padding:14px 16px; font-weight:500;">GA4 + Mixpanel</td><td style="padding:14px 0 14px 16px; color:var(--ink);">Conversion</td></tr>
+              <tr style="border-bottom:1px solid rgba(0,0,0,.06);"><td style="padding:14px 16px 14px 0; color:var(--muted); font-size:13px;">Workflow</td><td style="padding:14px 16px; font-weight:500;">LangGraph open-source</td><td style="padding:14px 0 14px 16px; color:var(--ink);">Orchestration</td></tr>
+              <tr><td style="padding:14px 16px 14px 0; color:var(--muted); font-size:13px;">Hébergement</td><td style="padding:14px 16px; font-weight:500;">Vercel / Cloudflare</td><td style="padding:14px 0 14px 16px; color:var(--ink);">Performance</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin:24px 0 0; font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);">Vous gardez la stack quand on part. Pas de captivité.</p>
+      </div>
+    </section>
+
+    <!-- Section 4 : Ce qui n'est PAS inclus -->
+    <section style="padding: clamp(72px,8vw,120px) 0;">
+      <div style="max-width:1240px; margin:0 auto; padding:0 clamp(20px,4vw,48px);">
+        <div style="display:grid; grid-template-columns:1fr 1.6fr; gap:clamp(32px,5vw,80px); align-items:start;">
+          <div>
+            <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;">Anti-bullshit</div>
+            <h2 style="font-family:var(--font-display); font-size:clamp(32px,4vw,56px); line-height:.96; letter-spacing:-.018em; font-weight:400; margin:0;"><i style="color:var(--accent); font-style:italic;">Ce qui</i><br/>n'est<br/>pas inclus</h2>
+          </div>
+          <div>
+            <p style="font-family:var(--font-display); font-size:clamp(15px,1.3vw,17px); line-height:1.5; color:var(--muted); font-style:italic; margin:0 0 28px;">On préfère être clairs sur ce que l'on ne fait pas que de vous vendre quelque chose qui ne fonctionne pas.</p>
+            <ul style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px;">
+              <li style="display:grid; grid-template-columns:20px 1fr; gap:12px; align-items:start; font-size:15px; line-height:1.5; color:var(--ink); padding-bottom:14px; border-bottom:1px solid rgba(0,0,0,.06);"><span style="color:rgba(180,50,30,.7); margin-top:2px;">✕</span><span>SEO black hat ou link farm — liens achetés, PBN, spam de contenu</span></li>
+              <li style="display:grid; grid-template-columns:20px 1fr; gap:12px; align-items:start; font-size:15px; line-height:1.5; color:var(--ink); padding-bottom:14px; border-bottom:1px solid rgba(0,0,0,.06);"><span style="color:rgba(180,50,30,.7); margin-top:2px;">✕</span><span>Bot Twitter/LinkedIn/Reddit pour faux engagement</span></li>
+              <li style="display:grid; grid-template-columns:20px 1fr; gap:12px; align-items:start; font-size:15px; line-height:1.5; color:var(--ink); padding-bottom:14px; border-bottom:1px solid rgba(0,0,0,.06);"><span style="color:rgba(180,50,30,.7); margin-top:2px;">✕</span><span>Fake reviews ou témoignages inventés</span></li>
+              <li style="display:grid; grid-template-columns:20px 1fr; gap:12px; align-items:start; font-size:15px; line-height:1.5; color:var(--ink); padding-bottom:14px; border-bottom:1px solid rgba(0,0,0,.06);"><span style="color:rgba(180,50,30,.7); margin-top:2px;">✕</span><span>Landing pages qui mentent sur les fonctionnalités du produit</span></li>
+              <li style="display:grid; grid-template-columns:20px 1fr; gap:12px; align-items:start; font-size:15px; line-height:1.5; color:var(--ink); padding-bottom:14px; border-bottom:1px solid rgba(0,0,0,.06);"><span style="color:rgba(180,50,30,.7); margin-top:2px;">✕</span><span>Promesse de positionnement Google #1 sur mot-clé arbitraire</span></li>
+              <li style="display:grid; grid-template-columns:20px 1fr; gap:12px; align-items:start; font-size:15px; line-height:1.5; color:var(--ink); padding-bottom:14px; border-bottom:1px solid rgba(0,0,0,.06);"><span style="color:rgba(180,50,30,.7); margin-top:2px;">✕</span><span>Refonte qui casse votre tracking historique (export complet avant toute migration)</span></li>
+              <li style="display:grid; grid-template-columns:20px 1fr; gap:12px; align-items:start; font-size:15px; line-height:1.5; color:var(--ink);"><span style="color:rgba(180,50,30,.7); margin-top:2px;">✕</span><span>Migration CRM sans export complet de l'ancien — vos données vous appartiennent</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5 : Avant/Après Plateau -->
+    <section style="padding: clamp(72px,8vw,120px) 0; background: var(--paper-2, #EFEBE2);">
+      <div style="max-width:1240px; margin:0 auto; padding:0 clamp(20px,4vw,48px);">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;">Cas concret · SaaS B2B</div>
+        <h2 style="font-family:var(--font-display); font-size:clamp(32px,4vw,56px); line-height:.96; letter-spacing:-.018em; font-weight:400; margin:0 0 48px;"><i style="color:var(--accent); font-style:italic;">Plateau</i><br/>Avant / Après</h2>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:2px; border-radius:12px; overflow:hidden;">
+          <div style="padding:40px; background:var(--paper);">
+            <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:20px;">Avant · Growth System IA</div>
+            <div style="display:flex; flex-direction:column; gap:20px;">
+              <div><div style="font-family:var(--font-display); font-size:clamp(32px,3vw,44px); color:rgba(0,0,0,.25); font-weight:400; line-height:1; margin-bottom:6px;">480</div><div style="font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted);">leads qualifiés dans le pipeline</div></div>
+              <div><div style="font-family:var(--font-display); font-size:clamp(32px,3vw,44px); color:rgba(0,0,0,.25); font-weight:400; line-height:1; margin-bottom:6px;">9 jours</div><div style="font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted);">lead → premier RDV</div></div>
+              <div><div style="font-family:var(--font-display); font-size:clamp(32px,3vw,44px); color:rgba(0,0,0,.25); font-weight:400; line-height:1; margin-bottom:6px;">3 200</div><div style="font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted);">leads dormants non qualifiés</div></div>
+              <div><div style="font-family:var(--font-display); font-size:clamp(32px,3vw,44px); color:rgba(0,0,0,.25); font-weight:400; line-height:1; margin-bottom:6px;">1 blog</div><div style="font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted);">article par mois, trafic anémique</div></div>
+            </div>
+          </div>
+          <div style="padding:40px; background:var(--ink); color:var(--paper);">
+            <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:20px;">Après · 10 semaines</div>
+            <div style="display:flex; flex-direction:column; gap:20px;">
+              <div><div style="font-family:var(--font-display); font-size:clamp(32px,3vw,44px); color:var(--accent); font-weight:400; line-height:1; margin-bottom:6px;">1 720</div><div style="font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:rgba(246,241,232,.6);">leads qualifiés dans le pipeline</div></div>
+              <div><div style="font-family:var(--font-display); font-size:clamp(32px,3vw,44px); color:var(--accent); font-weight:400; line-height:1; margin-bottom:6px;">3 jours</div><div style="font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:rgba(246,241,232,.6);">lead → premier RDV</div></div>
+              <div><div style="font-family:var(--font-display); font-size:clamp(32px,3vw,44px); color:var(--accent); font-weight:400; line-height:1; margin-bottom:6px;">+€2,4M</div><div style="font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:rgba(246,241,232,.6);">pipeline reconnecté sur la base dormante</div></div>
+              <div><div style="font-family:var(--font-display); font-size:clamp(32px,3vw,44px); color:var(--accent); font-weight:400; line-height:1; margin-bottom:6px;">8/sem</div><div style="font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:rgba(246,241,232,.6);">articles SEO/GEO publiés automatiquement</div></div>
+            </div>
+          </div>
+        </div>
+        <p style="margin:24px 0 0; text-align:center;"><a href="/cas/plateau" style="font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); text-decoration:none; border-bottom:1px solid currentColor; padding-bottom:2px;">Voir le cas complet Plateau →</a></p>
+      </div>
+    </section>
+
+    <!-- Section 6 : FAQ étendue -->
+    <section style="padding: clamp(72px,8vw,120px) 0;">
+      <div style="max-width:880px; margin:0 auto; padding:0 clamp(20px,4vw,48px);">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:16px;">Questions fréquentes</div>
+        <h2 style="font-family:var(--font-display); font-size:clamp(32px,4vw,56px); line-height:.96; letter-spacing:-.018em; font-weight:400; margin:0 0 48px;"><i style="color:var(--accent); font-style:italic;">FAQ</i><br/>Growth System IA</h2>
+        <div style="border-top:1px solid rgba(0,0,0,.12);">
+          {faqGrowthItems.map(item => (
+            <details style="border-bottom:1px solid rgba(0,0,0,.08);">
+              <summary style="font-family:var(--font-display); font-size:clamp(17px,1.5vw,20px); line-height:1.3; font-weight:400; padding:24px 0; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:16px;">
+                {item.q}
+                <span style="font-family:var(--font-display); font-size:24px; color:var(--accent); flex-shrink:0;">+</span>
+              </summary>
+              <div style="font-size:15px; line-height:1.6; color:var(--ink); padding:0 0 24px; max-width:720px;">{item.a}</div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </Fragment>
 </OffresDetailTemplate>
