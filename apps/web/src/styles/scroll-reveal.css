@@ -1,0 +1,111 @@
+/* Waimia · scroll-reveal.css
+   Animation reveal editorial — text-blur + y-offset + opacity stagger.
+   Active via .reveal et .reveal-stagger sur n'importe quel element.
+   IntersectionObserver bascule .is-visible.
+*/
+
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(8px);
+  transition:
+    opacity var(--dur-slow, 800ms) var(--ease, cubic-bezier(0.22, 1, 0.36, 1)),
+    transform var(--dur-slow, 800ms) var(--ease, cubic-bezier(0.22, 1, 0.36, 1)),
+    filter var(--dur-slow, 800ms) var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+  will-change: opacity, transform, filter;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Stagger children · delai progressif 60ms par enfant */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(8px);
+  filter: blur(4px);
+  transition:
+    opacity var(--dur-base, 400ms) var(--ease, cubic-bezier(0.22, 1, 0.36, 1)),
+    transform var(--dur-base, 400ms) var(--ease, cubic-bezier(0.22, 1, 0.36, 1)),
+    filter var(--dur-base, 400ms) var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+.reveal-stagger.is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Stagger delais · 1 a 12 enfants */
+.reveal-stagger.is-visible > *:nth-child(1)  { transition-delay: 0ms; }
+.reveal-stagger.is-visible > *:nth-child(2)  { transition-delay: 60ms; }
+.reveal-stagger.is-visible > *:nth-child(3)  { transition-delay: 120ms; }
+.reveal-stagger.is-visible > *:nth-child(4)  { transition-delay: 180ms; }
+.reveal-stagger.is-visible > *:nth-child(5)  { transition-delay: 240ms; }
+.reveal-stagger.is-visible > *:nth-child(6)  { transition-delay: 300ms; }
+.reveal-stagger.is-visible > *:nth-child(7)  { transition-delay: 360ms; }
+.reveal-stagger.is-visible > *:nth-child(8)  { transition-delay: 420ms; }
+.reveal-stagger.is-visible > *:nth-child(9)  { transition-delay: 480ms; }
+.reveal-stagger.is-visible > *:nth-child(10) { transition-delay: 540ms; }
+.reveal-stagger.is-visible > *:nth-child(11) { transition-delay: 600ms; }
+.reveal-stagger.is-visible > *:nth-child(12) { transition-delay: 660ms; }
+
+/* Variants */
+.reveal-fade { transform: none; }      /* opacity + blur seulement */
+.reveal-slide { filter: none; }        /* opacity + translateY seulement */
+.reveal-snap {                         /* version rapide pour items secondaires */
+  transition-duration: var(--dur-base, 400ms);
+}
+
+/* Reduced motion · bypass total */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-stagger > * {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
+/* Hairline grow on hover · liens editoriaux */
+a.link-editorial,
+a.link-editorial:visited {
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 1px;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size var(--dur-fast, 200ms) var(--ease-out, cubic-bezier(0.16, 1, 0.30, 1));
+}
+
+a.link-editorial:hover,
+a.link-editorial:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Underline a hairline default · grow strong sur hover */
+a.link-hairline {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--hairline-strong);
+  padding-bottom: 1px;
+  transition: border-color var(--dur-fast, 200ms) var(--ease, ease-out);
+}
+
+a.link-hairline:hover,
+a.link-hairline:focus-visible {
+  border-bottom-color: var(--accent);
+}
+
+/* Focus visible · accent terracotta + lift */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 1px;
+}

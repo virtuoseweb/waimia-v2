@@ -1,0 +1,63 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'mono';
+}
+
+const { size = 'md', variant = 'default' } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 480 320"
+  preserveAspectRatio="xMidYMid meet"
+  class={`sumie-sector sumie-sector-${size}`}
+  role="img"
+  aria-label="Graphes financiers en encre sumi-e"
+>
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M77 254 C127 258 183 250 236 247 C293 244 347 251 408 237" stroke-width="0.8" stroke-dasharray="44 18" />
+    <path d="M116 214 L116 162 C116 154 120 151 126 155 C132 159 134 167 133 177 L129 213" stroke-width="1.65" />
+    <path d="M179 230 L181 129 C182 121 187 118 193 124 C200 132 201 145 199 157 L195 228" stroke-width="2.1" />
+    <path d="M252 218 L255 176 C256 168 261 165 267 170 C273 176 276 187 274 197 L270 219" stroke-width="1.25" />
+    <path d="M330 207 L333 103 C334 94 340 92 347 100 C354 108 356 123 354 137 L350 206" stroke-width="2.45" />
+    <path
+      d="M83 225 C120 210 148 198 173 172 C204 139 225 155 246 168 C279 189 301 158 321 126 C343 91 369 104 401 82"
+      stroke-width="2.8"
+    />
+    <path
+      d="M83 225 C125 211 150 197 176 171 C205 142 226 155 249 169 C280 187 302 156 321 126"
+      stroke-width="1.15"
+      stroke-dasharray="96 26"
+    />
+    <path d="M397 82 C391 80 386 79 381 81" stroke-width="1.1" />
+    <path d="M401 82 C398 88 396 93 396 98" stroke-width="1.1" />
+    <path d="M101 247 C144 239 201 236 243 241" stroke-width="0.7" stroke-dasharray="24 14" />
+  </g>
+  {
+    variant === 'default' && (
+      <path
+        d="M319 125 C324 119 334 121 337 128 C333 136 322 137 317 130 C316 128 317 126 319 125 Z"
+        fill="#C94F2E"
+      />
+    )
+  }
+</svg>
+
+<style>
+  .sumie-sector {
+    display: block;
+    color: var(--ink-2);
+  }
+
+  .sumie-sector-sm {
+    width: 180px;
+  }
+
+  .sumie-sector-md {
+    width: 360px;
+  }
+
+  .sumie-sector-lg {
+    width: 480px;
+  }
+</style>

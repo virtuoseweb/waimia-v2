@@ -1,0 +1,67 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'mono';
+}
+
+const { size = 'md', variant = 'default' } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 480 320"
+  preserveAspectRatio="xMidYMid meet"
+  class={`sumie-sector sumie-sector-${size}`}
+  role="img"
+  aria-label="Atelier industriel et opérateur en trait sumi-e"
+>
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M70 224 C126 210 197 211 272 218 C328 223 375 218 425 205" stroke-width="1.2" stroke-dasharray="74 25" />
+    <path d="M94 181 C154 168 225 168 292 178" stroke-width="0.9" stroke-dasharray="58 18" />
+    <path d="M116 141 C169 134 227 137 279 149" stroke-width="0.75" stroke-dasharray="40 14" />
+    <path
+      d="M137 121 L303 116 C315 116 322 123 321 134 L316 211 C315 221 307 226 296 225 L126 218 C116 218 110 211 113 201 L128 134 C130 126 132 123 137 121 Z"
+      stroke-width="2.35"
+    />
+    <path d="M151 153 C186 145 242 147 291 157" stroke-width="1.4" />
+    <path d="M158 189 L291 195" stroke-width="2.9" />
+    <path d="M203 122 C197 149 195 176 201 207" stroke-width="1" stroke-dasharray="42 12" />
+    <path d="M319 134 C344 140 360 160 362 190 C363 209 354 224 337 230" stroke-width="1.6" />
+    <path d="M370 107 C360 105 352 112 352 122 C353 133 363 139 374 136 C385 133 390 122 385 114 C382 110 377 108 370 107" stroke-width="1.5" />
+    <path d="M365 139 C349 156 341 178 340 207" stroke-width="2.2" />
+    <path d="M356 165 C339 174 323 181 305 184" stroke-width="1.05" />
+    <path d="M374 164 C388 180 394 199 391 219" stroke-width="1.25" />
+    <path d="M139 226 C137 241 134 253 126 267" stroke-width="1.1" />
+    <path d="M293 227 C299 242 305 253 316 263" stroke-width="1.1" />
+  </g>
+  {
+    variant === 'default' && (
+      <path
+        d="M330 151 L338 143 M332 144 L337 151 M328 147 C333 145 337 145 342 148"
+        fill="none"
+        stroke="#C94F2E"
+        stroke-width="1.65"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    )
+  }
+</svg>
+
+<style>
+  .sumie-sector {
+    display: block;
+    color: var(--ink-2);
+  }
+
+  .sumie-sector-sm {
+    width: 180px;
+  }
+
+  .sumie-sector-md {
+    width: 360px;
+  }
+
+  .sumie-sector-lg {
+    width: 480px;
+  }
+</style>

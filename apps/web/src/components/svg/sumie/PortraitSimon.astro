@@ -1,0 +1,66 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'mono';
+}
+
+const { size = 'md', variant = 'default' } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 240 320"
+  preserveAspectRatio="xMidYMid meet"
+  class={`portrait-simon portrait-${size}`}
+  role="img"
+  aria-label="Portrait Simon Beros, fondateur Waimia"
+>
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path
+      d="M135 54 C109 57 86 75 77 105 C67 141 74 184 96 216 C111 239 134 254 156 243 C181 231 192 200 190 166 C188 127 179 92 158 69 C151 61 145 56 135 54"
+      stroke-width="2.2"
+    />
+    <path
+      d="M82 128 C72 157 76 193 92 219 C101 234 115 248 132 252"
+      stroke-width="1.15"
+      stroke-dasharray="82 22"
+    />
+    <path d="M108 71 C121 49 148 42 169 57" stroke-width="3" />
+    <path d="M92 88 C112 70 140 67 161 74" stroke-width="2.1" />
+    <path d="M132 58 C146 47 169 46 183 63" stroke-width="1.45" />
+    <path d="M100 103 C113 96 129 96 140 104" stroke-width="1.1" />
+    <path d="M157 111 C165 117 169 128 168 139" stroke-width="1.3" />
+    <path d="M118 176 C130 182 144 181 154 174" stroke-width="1" stroke-dasharray="18 9" />
+    <path d="M86 244 C113 260 148 263 177 247" stroke-width="1.65" />
+  </g>
+  {
+    variant === 'default' && (
+      <path
+        d="M145 127 C151 125 156 127 160 131"
+        fill="none"
+        stroke="#C94F2E"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    )
+  }
+</svg>
+
+<style>
+  .portrait-simon {
+    display: block;
+    color: var(--ink-2);
+  }
+
+  .portrait-sm {
+    width: 80px;
+  }
+
+  .portrait-md {
+    width: 180px;
+  }
+
+  .portrait-lg {
+    width: 280px;
+  }
+</style>

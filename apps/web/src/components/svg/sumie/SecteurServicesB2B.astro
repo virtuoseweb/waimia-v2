@@ -1,0 +1,67 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'mono';
+}
+
+const { size = 'md', variant = 'default' } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 480 320"
+  preserveAspectRatio="xMidYMid meet"
+  class={`sumie-sector sumie-sector-${size}`}
+  role="img"
+  aria-label="Consultants en réunion autour d'une table, services B2B"
+>
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path
+      d="M114 176 C155 141 246 130 333 145 C380 153 401 176 370 198 C331 226 237 232 159 213 C115 202 91 191 114 176"
+      stroke-width="2.4"
+    />
+    <path
+      d="M151 186 C190 171 268 166 328 178 C346 182 358 188 363 195"
+      stroke-width="1"
+      stroke-dasharray="68 20"
+    />
+    <path d="M224 154 L275 160 L286 183 L231 177 Z" stroke-width="1.45" />
+    <path d="M228 154 C239 151 258 153 274 159" stroke-width="0.85" />
+    <path d="M143 119 C133 116 123 121 121 132 C119 143 128 151 139 149 C149 147 155 139 153 129 C152 124 149 121 143 119" stroke-width="1.7" />
+    <path d="M137 151 C123 162 116 177 115 197" stroke-width="2.15" />
+    <path d="M151 162 C166 169 178 178 184 190" stroke-width="1.2" />
+    <path d="M314 107 C301 107 292 118 295 131 C298 143 312 147 323 140 C333 133 333 119 324 112 C321 109 318 108 314 107" stroke-width="1.5" />
+    <path d="M307 144 C291 158 285 175 286 198" stroke-width="2.55" />
+    <path d="M321 152 C337 158 348 169 354 184" stroke-width="1.05" />
+    <path d="M235 222 C224 219 214 225 212 236 C211 247 222 254 234 251 C245 248 250 239 247 230 C245 226 241 223 235 222" stroke-width="1.35" />
+    <path d="M229 254 C222 266 221 279 226 291" stroke-width="1.85" />
+    <path d="M242 253 C257 247 271 237 281 225" stroke-width="1" stroke-dasharray="30 11" />
+    <path d="M96 226 C128 247 190 261 250 260" stroke-width="0.85" stroke-dasharray="34 16" />
+  </g>
+  {
+    variant === 'default' && (
+      <path
+        d="M291 178 C297 174 307 177 309 184 C304 190 294 190 289 184 C288 182 289 180 291 178 Z"
+        fill="#C94F2E"
+      />
+    )
+  }
+</svg>
+
+<style>
+  .sumie-sector {
+    display: block;
+    color: var(--ink-2);
+  }
+
+  .sumie-sector-sm {
+    width: 180px;
+  }
+
+  .sumie-sector-md {
+    width: 360px;
+  }
+
+  .sumie-sector-lg {
+    width: 480px;
+  }
+</style>
