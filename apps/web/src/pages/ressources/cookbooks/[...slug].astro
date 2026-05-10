@@ -1,0 +1,44 @@
+---
+import { getCollection, render } from 'astro:content';
+import EssayTemplate from '../../../components/templates/EssayTemplate.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('cookbooks');
+  return entries
+    .filter((e) => !e.data.seo?.noindex)
+    .map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const dateStr = d.publishedAt.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const allCookbooks = await getCollection('cookbooks');
+const relatedCards = d.relatedCookbooks.length > 0
+  ? d.relatedCookbooks
+      .map((id) => allCookbooks.find((c) => c.id === id))
+      .filter(Boolean)
+      .map((c) => ({
+        kicker: `§ Cookbook · ${c!.data.difficulty}`,
+        title_fr: c!.data.title_fr,
+        title_en: c!.data.title_en,
+        lead_fr: c!.data.description_fr,
+        lead_en: c!.data.description_en,
+        href: `/ressources/cookbooks/${c!.id}`,
+      }))
+  : [];
+---
+<EssayTemplate
+  title={`${d.title_fr} · Cookbook Waimia`}
+  description={d.description_fr}
+  kicker={`§ Cookbook · ${d.difficulty} · ${d.duration_fr}`}
+  date={dateStr}
+  author={d.author.name}
+  relatedCards={relatedCards}
+>
+  <Fragment slot="headline">{d.title_fr}</Fragment>
+  <Fragment slot="lede">{d.description_fr}</Fragment>
+  <Fragment slot="body"><Content /></Fragment>
+</EssayTemplate>

@@ -1,0 +1,33 @@
+---
+import { getCollection, render } from 'astro:content';
+import EssayTemplate from '../../../components/templates/EssayTemplate.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('outils');
+  return entries
+    .filter((e) => !e.data.seo?.noindex)
+    .map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const dateStr = d.publishedAt.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+const categoryKicker = d.category_fr ? ` · ${d.category_fr}` : '';
+---
+<EssayTemplate
+  title={`${d.title_fr} · Outils Waimia`}
+  description={d.description_fr}
+  kicker={`§ Outil · ${d.type}${categoryKicker}`}
+  date={dateStr}
+  author="Waimia"
+  relatedCards={[]}
+>
+  <Fragment slot="headline">{d.title_fr}</Fragment>
+  <Fragment slot="lede">{d.description_fr}</Fragment>
+  <Fragment slot="body">
+    {/* TODO A2-bis: si d.type === 'calculator', monter une island React <CalculatorIsland inputs={d.inputs} outputs={d.outputs} client:visible /> */}
+    <Content />
+  </Fragment>
+</EssayTemplate>

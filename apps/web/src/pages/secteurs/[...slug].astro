@@ -1,0 +1,48 @@
+---
+import { getCollection, render } from 'astro:content';
+import SolutionsDetailTemplate from '../../components/templates/SolutionsDetailTemplate.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('secteurs');
+  return entries
+    .filter((e) => e.data.visible && !e.data.seo?.noindex)
+    .map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+<SolutionsDetailTemplate
+  title={`${d.title_fr} · Waimia`}
+  description={d.description_fr}
+  dept={`SECTEUR · ${d.title_fr.toUpperCase()}`}
+  deptLabel={d.title_fr}
+  meta={d.icp_fr}
+  ctaHref="/contact"
+  ctaLabel={d.ctaPrimary_fr}
+>
+  <Fragment slot="title">{d.title_fr}</Fragment>
+  <Fragment slot="lead"><p>{d.description_fr}</p></Fragment>
+  <Fragment slot="tags">
+    {d.kpis_fr.map((k) => <span class="sol-tag">{k}</span>)}
+  </Fragment>
+  <Fragment slot="pains">
+    {d.pains_fr.map((p, i) => (
+      <div class="pain-card">
+        <div class="pn">{String(i + 1).padStart(2, '0')}</div>
+        <h3>{p}</h3>
+      </div>
+    ))}
+  </Fragment>
+  <Fragment slot="workflows"><Content /></Fragment>
+  <Fragment slot="roi">
+    {d.metricsHero.map((m) => (
+      <div class="roi-cell">
+        <div class="roi-v">{m.value}</div>
+        <div class="roi-l">{m.label_fr}</div>
+      </div>
+    ))}
+  </Fragment>
+  <Fragment slot="cta-title">Votre secteur {d.title_fr},<br/>câblé.</Fragment>
+</SolutionsDetailTemplate>

@@ -1,0 +1,31 @@
+---
+import { getCollection, render } from 'astro:content';
+import EssayTemplate from '../../../components/templates/EssayTemplate.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('veilleIA');
+  return entries
+    .filter((e) => !e.data.seo?.noindex)
+    .map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const dateStr = d.date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+const dateDisplay = d.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<EssayTemplate
+  title={`${d.title_fr} · Veille IA Waimia`}
+  description={d.description_fr}
+  kicker={`§ Veille · ${dateStr}`}
+  date={dateDisplay}
+  author={d.author.name}
+  readingTime="3 min lecture"
+  relatedCards={[]}
+>
+  <Fragment slot="headline">{d.title_fr}</Fragment>
+  <Fragment slot="lede">{d.impact_fr}</Fragment>
+  <Fragment slot="body"><Content /></Fragment>
+</EssayTemplate>

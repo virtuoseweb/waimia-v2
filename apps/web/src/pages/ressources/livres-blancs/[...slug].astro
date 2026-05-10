@@ -1,0 +1,34 @@
+---
+import { getCollection, render } from 'astro:content';
+import LeadMagnetTemplate from '../../../components/templates/LeadMagnetTemplate.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('livresBlancs');
+  return entries
+    .filter((e) => !e.data.seo?.noindex)
+    .map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const toc = d.chapters_fr.map((c, i) => ({
+  num: String(i + 1).padStart(2, '0'),
+  title: c,
+}));
+---
+<LeadMagnetTemplate
+  title={`${d.title_fr} · Livre blanc Waimia`}
+  description={d.description_fr}
+  slug={d.apiSlug}
+  kicker={`§ Livre blanc · ${d.pages} pages · ${d.format_fr}`}
+  format={d.format_fr}
+  publishedAt={d.publishedAt.toISOString().slice(0, 10)}
+  toc={toc}
+  coverUrl={d.coverUrl}
+>
+  <Fragment slot="headline">{d.title_fr}</Fragment>
+  <Fragment slot="lede">{d.description_fr}</Fragment>
+  <Fragment slot="extra"><Content /></Fragment>
+</LeadMagnetTemplate>
