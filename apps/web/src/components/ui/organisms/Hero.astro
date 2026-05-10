@@ -21,7 +21,7 @@ const offerHref = localizeHref('/offres/growth-system-ia', lang);
 // Le MetricStrip prend des `label: string` · on résout les BiText ici
 const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lang) }));
 ---
-<section class="hero-a" aria-labelledby="hero-heading">
+<section class="hero-a home-hero" aria-labelledby="hero-heading">
   <div class="signature-grid"></div>
 
   <div class="wrap-wide">
@@ -31,7 +31,7 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
     </div>
 
     {/* Headline · ancré, statique */}
-    <h1 id="hero-heading" class="hero-headline">
+    <h1 id="hero-heading" class="hero-headline reveal">
       {lang === 'fr' ? (
         <>
           L'<i class="acc">IA</i><br />

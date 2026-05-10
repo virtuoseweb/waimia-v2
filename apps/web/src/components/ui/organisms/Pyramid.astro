@@ -33,7 +33,7 @@ const lang = langFromPath(Astro.url.pathname);
       </Fragment>
     </SectionHeader>
 
-    <div class="ec-grid cols-4 reveal-stagger">
+    <div class="ec-grid cols-4 pyramid-asym reveal-stagger">
       {PYRAMID_TIERS.map((tier) => (
         <a class="editorial-cell lift" href={tier.href}>
           <span class="e-num">{tier.n}</span>
@@ -49,3 +49,21 @@ const lang = langFromPath(Astro.url.pathname);
     </div>
   </div>
 </section>
+
+<style>
+  .pyramid-asym {
+    grid-template-columns: 7fr 5fr 4fr 8fr;
+  }
+
+  @media (max-width: 900px) {
+    .pyramid-asym {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .pyramid-asym {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
