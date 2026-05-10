@@ -1,15 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
+import { getEntry } from 'astro:content';
 import WelcomeTemplate from '../../components/templates/WelcomeTemplate.astro';
 
-export async function getStaticPaths() {
-  const entries = await getCollection('pages');
-  return entries
-    .filter((e) => e.data.template === 'welcome' && !e.data.seo?.noindex)
-    .map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
-}
-
-const { entry } = Astro.props;
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/404');
+const entry = await getEntry('pages', slug);
+if (!entry) return Astro.redirect('/404');
+if (entry.data.template !== 'welcome' || entry.data.seo?.noindex) return Astro.redirect('/404');
 const d = entry.data;
 
 // Mapper nextSteps Zod (number: string, label_fr/label_en) vers NextStep WelcomeTemplate (num, title_fr/title_en)

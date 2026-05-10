@@ -1,17 +1,17 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import CaseStudyTemplate from '../../components/templates/CaseStudyTemplate.astro';
 
-export async function getStaticPaths() {
-  const entries = await getCollection('cases');
-  return entries
-    .filter((e) => !e.data.seo?.noindex)
-    .map((entry, idx) => ({ params: { slug: entry.id }, props: { entry, idx } }));
-}
-
-const { entry, idx } = Astro.props;
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/404');
+const entry = await getEntry('cases', slug);
+if (!entry) return Astro.redirect('/404');
+if (entry.data.seo?.noindex) return Astro.redirect('/404');
 const { Content } = await render(entry);
 const d = entry.data;
+
+const allCases = await getCollection('cases');
+const idx = allCases.findIndex((c) => c.id === entry.id);
 
 const specs = [
   { label_fr: 'Client', label_en: 'Client', value: d.ndaProtected ? 'Confidentiel' : d.client },

@@ -1,15 +1,12 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getEntry, render } from 'astro:content';
 import SolutionsDetailTemplate from '../../components/templates/SolutionsDetailTemplate.astro';
 
-export async function getStaticPaths() {
-  const entries = await getCollection('secteurs');
-  return entries
-    .filter((e) => e.data.visible && !e.data.seo?.noindex)
-    .map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
-}
-
-const { entry } = Astro.props;
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/404');
+const entry = await getEntry('secteurs', slug);
+if (!entry) return Astro.redirect('/404');
+if (!entry.data.visible || entry.data.seo?.noindex) return Astro.redirect('/404');
 const { Content } = await render(entry);
 const d = entry.data;
 ---

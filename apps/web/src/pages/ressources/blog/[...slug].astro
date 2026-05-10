@@ -1,15 +1,12 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import EssayTemplate from '../../../components/templates/EssayTemplate.astro';
 
-export async function getStaticPaths() {
-  const entries = await getCollection('blog');
-  return entries
-    .filter((e) => !e.data.seo?.noindex)
-    .map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
-}
-
-const { entry } = Astro.props;
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect('/404');
+const entry = await getEntry('blog', slug);
+if (!entry) return Astro.redirect('/404');
+if (entry.data.seo?.noindex) return Astro.redirect('/404');
 const { Content } = await render(entry);
 const d = entry.data;
 

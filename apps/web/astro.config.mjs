@@ -38,6 +38,13 @@ export default defineConfig({
     // Exemples (à dé-commenter si rename) :
     // '/ancienne-url': '/nouvelle-url',
     // '/old-blog-slug': { status: 301, destination: '/ressources/blog/new-slug' },
+    // A4 cleanup 2026-05-10 · /ressources/cas/* → /cas/* (canonical) — doublon SEO supprimé
+    '/ressources/cas': '/cas',
+    '/ressources/cas/plateau': '/cas/plateau',
+    '/ressources/cas/halcyon': '/cas/halcyon',
+    '/ressources/cas/northbound': '/cas/northbound',
+    '/ressources/cas/caserne': '/cas/caserne',
+    '/ressources/cas/virtuoseos': { status: 301, destination: '/archive' },
   },
   integrations: [
     react(),
