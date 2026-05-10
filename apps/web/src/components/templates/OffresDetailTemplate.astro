@@ -34,6 +34,7 @@ import DropCap from '../editorial/DropCap.astro';
 import PullQuote from '../editorial/PullQuote.astro';
 import Timeline from '../editorial/Timeline.astro';
 import KeyMetric from '../editorial/KeyMetric.astro';
+import EditorialTable from '../editorial/EditorialTable.astro';
 import Dingbat from '../editorial/Dingbat.astro';
 
 interface Props {
@@ -133,6 +134,18 @@ const metricPlacements = [
   { class: 'col-3 start-7', size: 'md', align: 'right', variant: 'default' },
   { class: 'col-3 start-10', size: 'md', align: 'right', variant: 'default' },
 ] as const;
+
+const growthToolRows = [
+  ['Modèle raisonnement', 'Claude Sonnet 4.6', 'Scoring, séquences, articles'],
+  ['Modèle volume', 'Claude Haiku 4.5', 'Qualification, déduplication'],
+  ['Modèle créatif', 'Claude Opus 4.7', 'Articles longs, landing'],
+  ['CRM', 'HubSpot / Salesforce / Pipedrive', 'Au choix client'],
+  ['Email', 'Resend / Postmark / SendGrid', 'Délivrabilité'],
+  ['Search', 'Google Search Console + APIs', 'Indexation'],
+  ['Analytics', 'GA4 + Mixpanel', 'Conversion'],
+  ['Workflow', 'LangGraph open-source', 'Orchestration'],
+  ['Hébergement', 'Vercel / Cloudflare', 'Performance'],
+];
 ---
 <Base {title} {description}>
     {/* ────────── 1. HERO ────────── */}
@@ -272,6 +285,26 @@ const metricPlacements = [
     </section>
 
     {/* ────────── 6. RELATED (optionnel) ────────── */}
+    {tierLabel === 'Growth System IA' && (
+      <section class="off-tools off-sec off-sec-paper reveal" data-screen-label="06 Tools">
+        <div class="wrap g12 g12--full">
+          <header class="off-sec-hd col-5 start-1">
+            <span class="eyebrow">§ Outils</span>
+            <h2><i>Stack</i><br/>déployée</h2>
+          </header>
+          <div class="col-7 start-6">
+            <EditorialTable
+              caption="Stack outils déployés"
+              columns={['Catégorie', 'Outil', 'Rôle']}
+              rows={growthToolRows}
+              align="left"
+              variant="editorial"
+            />
+            <p class="off-tools-note">Vous gardez la stack quand on part. Pas de captivité.</p>
+          </div>
+        </div>
+      </section>
+    )}
     <div class="off-related">
       <slot name="related" />
     </div>
@@ -623,6 +656,9 @@ const metricPlacements = [
   .off-related :global(section) {
     border-block: 1px solid var(--hairline);
   }
+  .off-related :global(section:has(table)) {
+    display: none;
+  }
   .off-related :global(section + section) {
     border-top: none;
   }
@@ -705,6 +741,17 @@ const metricPlacements = [
     font-family: var(--font-mono) !important;
     color: var(--accent) !important;
   }
+  .off-tools :global(.ed-table-figure) {
+    margin: 0;
+  }
+  .off-tools-note {
+    margin: var(--space-5) 0 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-eyebrow);
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    color: var(--muted);
+  }
 
   /* ───── CTA final dark ───── */
   .off-cta-final {
@@ -781,6 +828,10 @@ const metricPlacements = [
     .off-del-grid :global(.del-card) {
       grid-column: 1 / -1;
     }
+    .start-9,
+    .start-10 { grid-column-start: auto; }
+  }
+  @media (min-width: 768px) and (max-width: 1100px) {
     .start-9,
     .start-10 { grid-column-start: auto; }
   }

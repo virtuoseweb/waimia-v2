@@ -66,13 +66,13 @@ const {
   ctaLabel = 'Parler à un expert →',
 } = Astro.props;
 
-const painHtml = await Astro.slots.render('pains');
-const painAsideHtml = await Astro.slots.render('pain-aside');
-const workflowsHtml = await Astro.slots.render('workflows');
-const workflowsAsideHtml = await Astro.slots.render('workflows-aside');
-const roiHtml = await Astro.slots.render('roi');
-const stackHtml = await Astro.slots.render('stack');
-const stackAsideHtml = await Astro.slots.render('stack-aside');
+const painHtml = (await Astro.slots.render('pains')) ?? '';
+const painAsideHtml = (await Astro.slots.render('pain-aside')) ?? '';
+const workflowsHtml = (await Astro.slots.render('workflows')) ?? '';
+const workflowsAsideHtml = (await Astro.slots.render('workflows-aside')) ?? '';
+const roiHtml = (await Astro.slots.render('roi')) ?? '';
+const stackHtml = (await Astro.slots.render('stack')) ?? '';
+const stackAsideHtml = (await Astro.slots.render('stack-aside')) ?? '';
 
 const stripHtml = (html: string) =>
   html
@@ -106,7 +106,7 @@ const frictionPoints = splitCards(painHtml, 'pain-card')
       meta,
       title,
       body,
-      variant: index === 0 ? 'highlight' : 'default',
+      variant: index === 0 ? ('highlight' as const) : ('default' as const),
     };
   })
   .filter((event) => event.title && event.body);

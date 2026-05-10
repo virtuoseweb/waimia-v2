@@ -1,6 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Kicker from '../ui/atoms/Kicker.astro';
+import Callout from '../editorial/Callout.astro';
+import Timeline from '../editorial/Timeline.astro';
+import MethodeProcessDiagram from '../svg/geometric/MethodeProcessDiagram.astro';
+import PortraitSimon from '../svg/sumie/PortraitSimon.astro';
 import { langFromPath, localizeHref, t } from '../../lib/i18n';
 
 type AuthorStatus = 'active' | 'alumni' | 'guest';
@@ -80,6 +83,7 @@ interface ContentItem {
     title_en: string;
     publishedAt: Date;
     description_fr?: string;
+    description_en?: string;
   };
 }
 
@@ -99,10 +103,9 @@ const displayName = lang === 'fr' ? author.title_fr : author.title_en;
 const role = lang === 'fr' ? author.role_fr : author.role_en;
 const description = lang === 'fr' ? author.description_fr : author.description_en;
 const bio = lang === 'fr' ? author.bio_fr : author.bio_en;
-const photoAlt = lang === 'fr'
-  ? (author.photoAlt_fr ?? displayName)
-  : (author.photoAlt_en ?? displayName);
 const teamHref = localizeHref('/equipe', lang);
+const contactHref = localizeHref('/contact', lang);
+const resourcesHref = localizeHref('/ressources', lang);
 
 const socialUrls = [
   author.social?.linkedin,
@@ -161,6 +164,7 @@ const breadcrumbLd = {
 
 const jsonLd = [personLd, profilePageLd, breadcrumbLd];
 const bioParagraphs = bio.trim().split(/\n\s*\n/).filter(Boolean);
+const lede = (bioParagraphs[0] ?? description).replace(/\*\*/g, '');
 
 const accentLastWord = (value: string) => {
   const parts = value.trim().split(/\s+/);
@@ -175,611 +179,834 @@ const formatDate = (date: Date) => new Date(date).toLocaleDateString(locale, {
 });
 
 const titleFor = (item: ContentItem) => lang === 'fr' ? item.data.title_fr : item.data.title_en;
+const excerptFor = (item: ContentItem) => lang === 'fr'
+  ? item.data.description_fr
+  : (item.data.description_en ?? item.data.description_fr);
 const hrefFor = (base: string, id: string) => localizeHref(`${base}/${id}`, lang);
 
-const contentGroups = [
+const method = [
   {
-    id: 'essays',
-    items: essays,
-    kicker: t({ fr: '§ Essays · long-form', en: '§ Essays · long-form' }, lang),
-    titleParts: accentLastWord(t({ fr: 'Essays', en: 'Essays' }, lang)),
-    hrefBase: '/ressources/blog',
-    paper: false,
+    name: t({ fr: 'Cartographie', en: 'Mapping' }, lang),
+    description: t({
+      fr: 'On regarde le métier réel, les frictions, les outils, les dépendances et les décisions déjà prises hors système.',
+      en: 'We inspect the real work, friction, tools, dependencies and decisions already made outside the system.',
+    }, lang),
   },
   {
-    id: 'short-posts',
+    name: t({ fr: 'Priorisation', en: 'Prioritisation' }, lang),
+    description: t({
+      fr: 'On classe les workflows par ROI, risque opérationnel, temps de retour et capacité interne à les maintenir.',
+      en: 'We rank workflows by ROI, operational risk, payback time and internal ability to maintain them.',
+    }, lang),
+  },
+  {
+    name: t({ fr: 'Câblage', en: 'Wiring' }, lang),
+    description: t({
+      fr: "On connecte l'IA aux outils existants : CRM, inbox, tableurs, bases métier, reporting, sans théâtre technique.",
+      en: 'We connect AI to the existing tools: CRM, inbox, spreadsheets, business data and reporting, without technical theatre.',
+    }, lang),
+  },
+  {
+    name: t({ fr: 'Mesure', en: 'Measurement' }, lang),
+    description: t({
+      fr: 'Chaque workflow a sa métrique avant/après : temps gagné, pipeline reconnecté, coûts évités, qualité produite.',
+      en: 'Every workflow gets a before/after metric: time saved, pipeline reconnected, costs avoided, quality produced.',
+    }, lang),
+  },
+  {
+    name: t({ fr: 'Passation', en: 'Handover' }, lang),
+    description: t({
+      fr: 'Les équipes reprennent la main avec une documentation courte, des rituels de pilotage et une stack compréhensible.',
+      en: 'Teams take control with short documentation, management rituals and a stack they can understand.',
+    }, lang),
+  },
+];
+
+const curriculumEvents = [
+  ...author.experience.map((item) => ({
+    num: item.year,
+    title: lang === 'fr' ? item.role_fr : item.role_en,
+    meta: item.company,
+    body: lang === 'fr'
+      ? (item.summary_fr ?? item.company)
+      : (item.summary_en ?? item.company),
+  })),
+  ...author.education.map((item) => ({
+    num: item.year,
+    title: lang === 'fr' ? item.degree_fr : item.degree_en,
+    meta: item.institution,
+    body: item.institution,
+  })),
+  ...author.awards.map((item) => ({
+    num: item.year,
+    title: lang === 'fr' ? item.label_fr : item.label_en,
+    meta: t({ fr: 'Distinction', en: 'Award' }, lang),
+    body: lang === 'fr' ? item.label_fr : item.label_en,
+  })),
+];
+
+const resourceGroups = [
+  {
+    label: t({ fr: 'Notes', en: 'Notes' }, lang),
+    hrefBase: '/ressources/blog',
     items: shortPosts,
-    kicker: t({ fr: '§ Notes · short posts', en: '§ Notes · short posts' }, lang),
-    titleParts: accentLastWord(t({ fr: 'Short posts', en: 'Short posts' }, lang)),
-    hrefBase: '/ressources/blog',
-    paper: false,
   },
   {
-    id: 'cookbooks',
-    items: cookbooks,
-    kicker: t({ fr: '§ Cookbooks · guides actionnables', en: '§ Cookbooks · actionable guides' }, lang),
-    titleParts: accentLastWord(t({ fr: 'Cookbooks', en: 'Cookbooks' }, lang)),
+    label: t({ fr: 'Cookbooks', en: 'Cookbooks' }, lang),
     hrefBase: '/ressources/cookbooks',
-    paper: true,
+    items: cookbooks,
   },
   {
-    id: 'livres-blancs',
-    items: livresBlancs,
-    kicker: t({ fr: '§ Livres blancs · lead magnets', en: '§ White papers · lead magnets' }, lang),
-    titleParts: accentLastWord(t({ fr: 'Livres blancs', en: 'White papers' }, lang)),
+    label: t({ fr: 'Livres blancs', en: 'White papers' }, lang),
     hrefBase: '/ressources/livres-blancs',
-    paper: false,
+    items: livresBlancs,
   },
   {
-    id: 'veille-ia',
-    items: veilleIA,
-    kicker: t({ fr: '§ Veille IA · notes mensuelles', en: '§ AI watch · monthly notes' }, lang),
-    titleParts: accentLastWord(t({ fr: 'Veille IA', en: 'AI watch' }, lang)),
+    label: t({ fr: 'Veille IA', en: 'AI watch' }, lang),
     hrefBase: '/ressources/veille-ia',
-    paper: true,
+    items: veilleIA,
   },
-] as const;
+].filter((group) => group.items.length > 0);
+
+const socialItems = [
+  author.social.linkedin && { key: 'linkedin', label: 'LinkedIn', url: author.social.linkedin, external: true },
+  author.social.x && { key: 'x', label: 'X', url: author.social.x, external: true },
+  author.social.github && { key: 'github', label: 'GitHub', url: author.social.github, external: true },
+  author.social.website && { key: 'site', label: t({ fr: 'Site', en: 'Site' }, lang), url: author.social.website, external: true },
+  author.social.email && { key: 'email', label: 'Email', url: `mailto:${author.social.email}`, external: false },
+  author.social.bluesky && { key: 'site', label: 'Bluesky', url: author.social.bluesky, external: true },
+  author.social.mastodon && { key: 'site', label: 'Mastodon', url: author.social.mastodon, external: true },
+].filter((item): item is { key: string; label: string; url: string; external: boolean } => Boolean(item));
+
+const iconFor = (key: string) => {
+  const attrs = 'viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"';
+  const icons: Record<string, string> = {
+    linkedin: `<svg ${attrs}><rect x="2.2" y="5.4" width="2.2" height="6.4"/><circle cx="3.3" cy="2.8" r="1"/><path d="M7.1 11.8V7.4c0-1.2.7-2 1.9-2 1.3 0 2.1.9 2.1 2.4v4"/></svg>`,
+    x: `<svg ${attrs}><path d="M3 3l8 8"/><path d="M11 3L3 11"/></svg>`,
+    github: `<svg ${attrs}><circle cx="7" cy="7" r="4.8"/><path d="M5.4 11V9.8c0-.7.5-1.2 1.6-1.2s1.6.5 1.6 1.2V11"/><path d="M4.9 4.7c.5-.4.9-.4 1.4-.1.5-.1.9-.1 1.4 0 .5-.3.9-.3 1.4.1"/></svg>`,
+    site: `<svg ${attrs}><circle cx="7" cy="7" r="5"/><path d="M2.5 7h9"/><path d="M7 2.2c1.2 1.3 1.8 2.9 1.8 4.8S8.2 10.5 7 11.8"/><path d="M7 2.2C5.8 3.5 5.2 5.1 5.2 7s.6 3.5 1.8 4.8"/></svg>`,
+    email: `<svg ${attrs}><path d="M2.2 4.2h9.6v6.4H2.2z"/><path d="M2.6 4.6L7 8l4.4-3.4"/></svg>`,
+  };
+  return icons[key] ?? icons.site;
+};
 ---
+
 <Base
   title={`${displayName} · ${role} · Waimia`}
   description={description}
   jsonLd={jsonLd}
 >
-  {/* 1 -- HERO Author */}
-  <section class="auth-hero">
-    <div class="wrap auth-hero-grid">
-      <div class="auth-hero-copy">
-        <nav class="auth-bc" aria-label={t({ fr: "Fil d'Ariane", en: 'Breadcrumb' }, lang)}>
+  <div class="author-page">
+    <section class="author-hero g12 g12--full reveal">
+      <div class="author-hero-copy col-7">
+        <nav class="author-breadcrumb" aria-label={t({ fr: "Fil d'Ariane", en: 'Breadcrumb' }, lang)}>
           <a href={teamHref}>{t({ fr: "L'équipe", en: 'The team' }, lang)}</a>
           <span aria-hidden="true">/</span>
           <span>{displayName}</span>
         </nav>
-
-        <Kicker class="auth-kicker" tone="accent">§ {role}</Kicker>
-        <h1 class="auth-name">
-          {nameParts.lead && <>{nameParts.lead} </>}<i>{nameParts.accent}</i>
+        <span class="eyebrow">§ {role}</span>
+        <h1 class="author-h1">
+          {nameParts.lead && <>{nameParts.lead}</>}<em>{nameParts.accent}</em>
         </h1>
-
-        <div class="auth-bio">
-          {bioParagraphs.map((paragraph) => <p>{paragraph}</p>)}
-        </div>
+        <p class="author-lede col-prose">{lede}</p>
       </div>
 
-      {author.photo && (
-        <figure class="auth-photo-frame">
-          <img src={author.photo} alt={photoAlt} class="auth-photo" loading="eager" decoding="async" />
-        </figure>
-      )}
-    </div>
-  </section>
+      <figure class="author-portrait col-4 start-9" aria-label={t({ fr: 'Portrait signature', en: 'Signature portrait' }, lang)}>
+        <PortraitSimon size="lg" variant="default" />
+      </figure>
+    </section>
 
-  {/* 2 -- ESSAYS, 3 -- SHORT POSTS, 4 -- COOKBOOKS, 5 -- LIVRES BLANCS, 6 -- VEILLE IA */}
-  {contentGroups.map((group) => group.items.length > 0 && (
-    <section class:list={['auth-list-sec', { 'auth-paper-2': group.paper }]} id={group.id}>
-      <div class="wrap-tight">
-        <Kicker>{group.kicker}</Kicker>
-        <h2 class="auth-list-h2">
-          {group.titleParts.lead && <>{group.titleParts.lead} </>}<i>{group.titleParts.accent}</i>
-        </h2>
-        <ul class="auth-list">
-          {group.items.map((item) => (
-            <li>
-              <a href={hrefFor(group.hrefBase, item.id)}>
-                <span class="auth-list-title">{titleFor(item)}</span>
-                <time class="auth-list-date" datetime={new Date(item.data.publishedAt).toISOString()}>
-                  {formatDate(item.data.publishedAt)}
-                </time>
-              </a>
+    {author.expertise.length > 0 && (
+      <section class="author-pills g12 g12--full reveal-stagger" aria-label={t({ fr: 'Expertise', en: 'Expertise' }, lang)}>
+        <ul class="pills-row col-prose">
+          {author.expertise.map((label) => <li class="pill">{label}</li>)}
+        </ul>
+      </section>
+    )}
+
+    <section class="author-why g12 g12--full reveal">
+      <header class="col-3 section-eyebrow">
+        <span class="eyebrow">§ {t({ fr: 'Pourquoi Waimia', en: 'Why Waimia' }, lang)}</span>
+      </header>
+      <div class="author-prose col-prose">
+        <slot />
+      </div>
+    </section>
+
+    {essays.length > 0 && (
+      <section class="author-essays g12 g12--full">
+        <header class="col-12 section-eyebrow reveal">
+          <span class="eyebrow">§ Essays · Long form</span>
+          <h2 class="display-md">{t({ fr: 'Ce que je publie', en: 'What I publish' }, lang)}</h2>
+        </header>
+        <ul class="essays-list col-prose">
+          {essays.map((essay) => (
+            <li class="essay-item reveal">
+              <time class="essay-date" datetime={new Date(essay.data.publishedAt).toISOString()}>
+                {formatDate(essay.data.publishedAt)}
+              </time>
+              <div>
+                <a href={hrefFor('/ressources/blog', essay.id)} class="essay-link">
+                  <h3 class="essay-title">{titleFor(essay)}</h3>
+                </a>
+                {excerptFor(essay) && <p class="essay-excerpt">{excerptFor(essay)}</p>}
+              </div>
             </li>
           ))}
         </ul>
+      </section>
+    )}
+
+    <section class="author-method g12 g12--full reveal">
+      <header class="col-12 section-eyebrow">
+        <span class="eyebrow">§ {t({ fr: 'Méthode', en: 'Method' }, lang)}</span>
+        <h2 class="display-md">{t({ fr: 'Comment je travaille', en: 'How I work' }, lang)}</h2>
+      </header>
+      <div class="author-method-diagram col-12">
+        <MethodeProcessDiagram />
       </div>
+      <ul class="author-method-list col-prose reveal-stagger">
+        {method.map((phase, idx) => (
+          <li class="method-item">
+            <span class="method-num">{String(idx + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 class="method-title">{phase.name}</h3>
+              <p class="method-body">{phase.description}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
     </section>
-  ))}
 
-  {/* 7 -- BIO LONG-FORM (Content slot from MDX body) */}
-  <section class="auth-content-sec">
-    <div class="wrap-tight auth-prose">
-      <slot />
-    </div>
-  </section>
+    {curriculumEvents.length > 0 && (
+      <section class="author-curriculum g12 g12--full reveal">
+        <header class="col-12 section-eyebrow">
+          <span class="eyebrow">§ Curriculum</span>
+          <h2 class="display-md"><em>Curriculum</em></h2>
+        </header>
+        <div class="col-prose curriculum-wrap">
+          <Timeline events={curriculumEvents} numbered={false} />
+        </div>
+      </section>
+    )}
 
-  {/* 8 -- CV (Education + Experience) */}
-  {(author.education.length > 0 || author.experience.length > 0 || author.awards.length > 0) && (
-    <section class="auth-cv-sec auth-paper-2">
-      <div class="wrap-tight">
-        <Kicker>§ Curriculum</Kicker>
-        <h2 class="auth-list-h2"><i>Curriculum</i></h2>
+    <section class="author-publications g12 g12--full reveal">
+      <header class="col-12 section-eyebrow">
+        <span class="eyebrow">§ Publications</span>
+        <h2 class="display-md">{t({ fr: 'Articles, notes, manifestes', en: 'Articles, notes, manifestos' }, lang)}</h2>
+      </header>
 
-        {author.experience.length > 0 && (
-          <div class="auth-cv-block">
-            <h3 class="auth-cv-h3">{t({ fr: 'Expérience', en: 'Experience' }, lang)}</h3>
-            <ul class="auth-cv-list">
-              {author.experience.map((item) => (
-                <li class="auth-cv-row">
-                  <span class="auth-cv-year">{item.year}</span>
-                  <div class="auth-cv-content">
-                    <div class="auth-cv-role">
-                      {lang === 'fr' ? item.role_fr : item.role_en}
-                      {item.companyUrl ? (
-                        <>{' · '}<a href={item.companyUrl}>{item.company}</a></>
-                      ) : (
-                        <>{' · '}{item.company}</>
-                      )}
-                    </div>
-                    {(lang === 'fr' ? item.summary_fr : item.summary_en) && (
-                      <p class="auth-cv-summary">{lang === 'fr' ? item.summary_fr : item.summary_en}</p>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {author.education.length > 0 && (
-          <div class="auth-cv-block">
-            <h3 class="auth-cv-h3">{t({ fr: 'Formation', en: 'Education' }, lang)}</h3>
-            <ul class="auth-cv-list">
-              {author.education.map((item) => (
-                <li class="auth-cv-row">
-                  <span class="auth-cv-year">{item.year}</span>
-                  <div class="auth-cv-content">
-                    <div class="auth-cv-role">
-                      {lang === 'fr' ? item.degree_fr : item.degree_en}
-                      {item.url ? (
-                        <>{' · '}<a href={item.url}>{item.institution}</a></>
-                      ) : (
-                        <>{' · '}{item.institution}</>
-                      )}
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {author.awards.length > 0 && (
-          <div class="auth-cv-block">
-            <h3 class="auth-cv-h3">{t({ fr: 'Distinctions', en: 'Awards' }, lang)}</h3>
-            <ul class="auth-cv-list">
-              {author.awards.map((item) => (
-                <li class="auth-cv-row">
-                  <span class="auth-cv-year">{item.year}</span>
-                  <div class="auth-cv-content">
-                    <div class="auth-cv-role">{lang === 'fr' ? item.label_fr : item.label_en}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+      <div class="publication-manifesto col-prose">
+        <Callout variant="manifesto" align="center">
+          {t({ fr: 'Pas une stack. Un système. Pas un agent. Une équipe.', en: 'Not a stack. A system. Not an agent. A team.' }, lang)}
+          <br />
+          {t({ fr: 'Pas une démo. Une mise en production.', en: 'Not a demo. A production release.' }, lang)}
+        </Callout>
       </div>
-    </section>
-  )}
 
-  {/* 9 -- PUBLICATIONS EXTERNES */}
-  {author.publications.length > 0 && (
-    <section class="auth-list-sec">
-      <div class="wrap-tight">
-        <Kicker>{t({ fr: '§ Publications · papers, conférences, podcasts', en: '§ Publications · papers, talks, podcasts' }, lang)}</Kicker>
-        <h2 class="auth-list-h2"><i>Publications</i></h2>
-        <ul class="auth-list">
+      {author.publications.length > 0 && (
+        <ul class="publication-list col-prose">
           {author.publications.map((publication) => (
-            <li>
-              <a href={publication.url}>
-                <span class="auth-list-title">{publication.title}</span>
-                <span class="auth-list-date">{publication.venue} · {publication.year}</span>
+            <li class="publication-item reveal">
+              <a href={publication.url} class="publication-link">
+                <span class="publication-title">{publication.title}</span>
+                <span class="publication-meta">{publication.venue} · {publication.year}</span>
               </a>
             </li>
           ))}
         </ul>
-      </div>
-    </section>
-  )}
+      )}
 
-  {/* 10 -- EXPERTISE */}
-  {author.expertise.length > 0 && (
-    <section class="auth-pills-sec">
-      <div class="wrap-tight">
-        <Kicker>§ Expertise</Kicker>
-        <div class="auth-pills">
-          {author.expertise.map((item) => <span class="auth-pill">{item}</span>)}
+      {resourceGroups.length > 0 && (
+        <div class="resource-groups col-prose reveal-stagger">
+          {resourceGroups.map((group) => (
+            <section class="resource-group">
+              <h3 class="resource-label">{group.label}</h3>
+              <ul class="resource-list">
+                {group.items.slice(0, 3).map((item) => (
+                  <li>
+                    <a href={hrefFor(group.hrefBase, item.id)} class="resource-link">
+                      <span>{titleFor(item)}</span>
+                      <time datetime={new Date(item.data.publishedAt).toISOString()}>{formatDate(item.data.publishedAt)}</time>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
         </div>
+      )}
+
+      <a href={resourcesHref} class="resources-all col-prose link-hairline">
+        {t({ fr: 'Voir toutes les ressources', en: 'See all resources' }, lang)}
+      </a>
+    </section>
+
+    {socialItems.length > 0 && (
+      <section class="author-social g12 g12--full reveal">
+        <header class="col-12 section-eyebrow">
+          <span class="eyebrow">§ {t({ fr: 'Suivre', en: 'Follow' }, lang)}</span>
+        </header>
+        <ul class="social-row col-prose">
+          {socialItems.map((item) => (
+            <li>
+              <a
+                href={item.url}
+                class="social-link link-hairline"
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noopener' : undefined}
+              >
+                <span class="social-icon" aria-hidden="true" set:html={iconFor(item.key)} />
+                <span>{item.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="author-cta g12 g12--full">
+      <div class="col-prose author-cta-inner reveal">
+        <span class="eyebrow">§ {t({ fr: 'Travailler ensemble', en: 'Work together' }, lang)}</span>
+        <h2 class="display-lg">
+          {t({ fr: 'Le mardi on câble.', en: 'On Tuesday we wire.' }, lang)}
+          <em>{t({ fr: ' Le vendredi on mesure.', en: ' On Friday we measure.' }, lang)}</em>
+        </h2>
+        <a href={contactHref} class="btn btn-primary">
+          {t({ fr: 'Câbler mon système →', en: 'Wire my system →' }, lang)}
+        </a>
       </div>
     </section>
-  )}
-
-  {/* 11 -- SOCIAL ROW */}
-  <section class="auth-social-sec">
-    <div class="wrap-tight">
-      <Kicker>{t({ fr: '§ Suivre', en: '§ Follow' }, lang)}</Kicker>
-      <div class="auth-social">
-        {author.social.linkedin && <a href={author.social.linkedin} class="auth-social-link">LinkedIn -></a>}
-        {author.social.x && <a href={author.social.x} class="auth-social-link">X -></a>}
-        {author.social.github && <a href={author.social.github} class="auth-social-link">GitHub -></a>}
-        {author.social.bluesky && <a href={author.social.bluesky} class="auth-social-link">Bluesky -></a>}
-        {author.social.mastodon && <a href={author.social.mastodon} class="auth-social-link">Mastodon -></a>}
-        {author.social.website && <a href={author.social.website} class="auth-social-link">{t({ fr: 'Site personnel', en: 'Personal site' }, lang)} -></a>}
-        {author.social.email && <a href={`mailto:${author.social.email}`} class="auth-social-link">{author.social.email}</a>}
-      </div>
-    </div>
-  </section>
+  </div>
 </Base>
 
 <style>
-  .auth-hero {
-    padding: clamp(80px, 10vw, 140px) 0 clamp(48px, 6vw, 80px);
-    color: var(--ink);
+  .author-page {
     background: var(--paper);
+    color: var(--ink);
   }
 
-  .wrap {
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: 0 clamp(20px, 4vw, 48px);
+  .author-hero,
+  .author-pills,
+  .author-why,
+  .author-essays,
+  .author-method,
+  .author-curriculum,
+  .author-publications,
+  .author-social,
+  .author-cta {
+    padding-inline: clamp(20px, 4vw, 48px);
   }
 
-  .wrap-tight {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 0 clamp(20px, 4vw, 48px);
+  .author-hero {
+    padding-top: clamp(92px, 12vw, 164px);
+    padding-bottom: clamp(28px, 5vw, 72px);
+    align-items: start;
   }
 
-  .auth-hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 880px) minmax(220px, 320px);
-    gap: clamp(36px, 6vw, 96px);
-    align-items: end;
-  }
-
-  .auth-hero-copy {
-    min-width: 0;
-  }
-
-  .auth-bc {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
+  .author-breadcrumb {
     display: flex;
     gap: 8px;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: var(--space-5, 24px);
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-md, 11px);
+    letter-spacing: var(--tracking-mono, 0.12em);
+    text-transform: uppercase;
+    color: var(--muted);
   }
 
-  .auth-bc a {
-    color: var(--muted);
+  .author-breadcrumb a {
+    color: inherit;
     text-decoration: none;
   }
 
-  .auth-bc a:hover {
+  .author-breadcrumb a:hover {
     color: var(--accent);
   }
 
-  :global(.auth-kicker) {
-    margin-bottom: 24px;
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-md, 11px);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--accent);
   }
 
-  .auth-name {
+  .author-h1 {
     font-family: var(--font-display);
-    font-size: clamp(56px, 9vw, 128px);
+    font-size: clamp(72px, 9vw, 148px);
+    font-weight: 400;
     line-height: 0.92;
-    letter-spacing: -0.028em;
-    font-weight: 400;
-    margin: 0 0 32px;
+    letter-spacing: var(--tracking-display, -0.03em);
+    margin: var(--space-3, 12px) 0 var(--space-6, 32px);
+    color: var(--ink);
     text-wrap: balance;
   }
 
-  .auth-name i,
-  .auth-list-h2 i,
-  .auth-prose :global(h2 i) {
-    color: var(--accent);
+  .author-h1 em,
+  .display-md em,
+  .display-lg em {
     font-style: italic;
-  }
-
-  .auth-bio {
-    font-family: var(--font-display);
-    font-size: clamp(18px, 1.6vw, 22px);
-    line-height: 1.55;
-    color: var(--ink);
-    max-width: 720px;
-  }
-
-  .auth-bio p {
-    margin: 0 0 18px;
-  }
-
-  .auth-bio p:last-child {
-    margin: 0;
-  }
-
-  .auth-photo-frame {
-    margin: 0;
-    justify-self: end;
-  }
-
-  .auth-photo {
-    display: block;
-    width: clamp(200px, 24vw, 320px);
-    height: auto;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-  }
-
-  .auth-list-sec {
-    padding: clamp(72px, 8vw, 120px) 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-    background: var(--paper);
-  }
-
-  .auth-paper-2 {
-    background: var(--paper-2, #efebe2);
-    border-top: 0;
-  }
-
-  .auth-list-h2 {
-    font-family: var(--font-display);
-    font-size: clamp(36px, 5vw, 64px);
-    line-height: 0.96;
-    letter-spacing: -0.018em;
-    font-weight: 400;
-    margin: 8px 0 32px;
-    text-wrap: balance;
-  }
-
-  .auth-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
-  }
-
-  .auth-list li {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  }
-
-  .auth-list a {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 24px;
-    padding: 18px 0;
-    color: var(--ink);
-    text-decoration: none;
-    transition:
-      padding 220ms var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)),
-      color 220ms var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
-  }
-
-  .auth-list a:hover {
-    padding-left: 8px;
     color: var(--accent);
   }
 
-  .auth-list-title {
+  .author-lede {
     font-family: var(--font-display);
-    font-size: clamp(18px, 1.6vw, 22px);
-    line-height: 1.35;
-  }
-
-  .auth-list-date {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    flex-shrink: 0;
-  }
-
-  .auth-content-sec,
-  .auth-cv-sec,
-  .auth-pills-sec {
-    padding: clamp(72px, 8vw, 120px) 0;
-  }
-
-  .auth-content-sec {
-    background: var(--paper);
-  }
-
-  .auth-prose {
-    font-family: var(--font-display);
-    font-size: clamp(17px, 1.4vw, 19px);
-    line-height: 1.65;
-    color: var(--ink);
-  }
-
-  .auth-prose :global(h2) {
-    font-size: clamp(28px, 3vw, 40px);
-    line-height: 1.1;
-    letter-spacing: -0.012em;
-    margin: 48px 0 16px;
-    font-weight: 400;
-    text-wrap: balance;
-  }
-
-  .auth-prose :global(h3) {
-    font-size: clamp(20px, 1.8vw, 24px);
-    margin: 32px 0 12px;
-    font-weight: 400;
-  }
-
-  .auth-prose :global(p) {
-    margin: 0 0 18px;
-  }
-
-  .auth-prose :global(ul),
-  .auth-prose :global(ol) {
-    margin: 0 0 24px 24px;
-  }
-
-  .auth-prose :global(li) {
-    margin-bottom: 8px;
-  }
-
-  .auth-prose :global(strong) {
-    color: var(--accent);
-  }
-
-  .auth-prose :global(a) {
-    color: var(--accent);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.16em;
-  }
-
-  .auth-prose :global(blockquote) {
-    border-left: 3px solid var(--accent);
-    padding-left: 24px;
-    margin: 32px 0;
-    font-style: italic;
-    color: var(--muted);
-  }
-
-  .auth-cv-block {
-    margin-bottom: 48px;
-  }
-
-  .auth-cv-block:last-child {
-    margin-bottom: 0;
-  }
-
-  .auth-cv-h3 {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin: 0 0 20px;
-  }
-
-  .auth-cv-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .auth-cv-row {
-    display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 24px;
-    padding: 16px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    align-items: baseline;
-  }
-
-  .auth-cv-year {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  .auth-cv-content {
-    font-family: var(--font-display);
-  }
-
-  .auth-cv-role {
-    font-size: 17px;
+    font-size: var(--text-lede, clamp(21px, 2vw, 30px));
     line-height: 1.45;
+    color: var(--ink-2);
+    max-width: 540px;
+    margin: 0;
   }
 
-  .auth-cv-role a {
-    color: var(--accent);
-    text-decoration: none;
+  .author-lede :global(strong) {
+    color: var(--ink);
   }
 
-  .auth-cv-role a:hover {
-    text-decoration: underline;
+  .author-portrait {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 0;
+    padding-top: var(--space-7, 40px);
+    color: var(--ink);
   }
 
-  .auth-cv-summary {
-    font-size: 15px;
-    color: var(--muted);
-    line-height: 1.5;
-    margin: 8px 0 0;
-    font-style: italic;
+  .author-portrait::before {
+    content: '';
+    position: absolute;
+    width: min(28vw, 360px);
+    aspect-ratio: 3 / 4;
+    border: 1px solid var(--hairline);
+    transform: translate(18px, 18px);
+    pointer-events: none;
   }
 
-  .auth-pills {
+  .author-portrait :global(svg) {
+    position: relative;
+    width: min(100%, 280px);
+  }
+
+  .author-pills {
+    padding-top: 0;
+    padding-bottom: clamp(52px, 7vw, 92px);
+  }
+
+  .pills-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 16px;
+    gap: var(--space-3, 12px);
+    list-style: none;
+    padding: 0;
+    margin: var(--space-6, 32px) 0 0;
   }
 
-  .auth-pill {
+  .pill {
     font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
+    font-size: var(--text-mono-md, 11px);
     text-transform: uppercase;
-    padding: 8px 14px;
-    background: rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--ink-2);
+    padding: 6px 14px;
+    border: 1px solid var(--hairline-strong);
     border-radius: 999px;
-    color: var(--ink);
     transition:
-      border-color 220ms,
-      color 220ms;
+      border-color var(--dur-fast, 180ms) var(--ease, ease),
+      color var(--dur-fast, 180ms) var(--ease, ease);
   }
 
-  .auth-pill:hover {
+  .pill:hover {
     border-color: var(--accent);
     color: var(--accent);
   }
 
-  .auth-social-sec {
-    padding: clamp(72px, 8vw, 120px) 0 clamp(80px, 10vw, 140px);
-    background: var(--paper);
+  .author-why,
+  .author-essays,
+  .author-method,
+  .author-curriculum,
+  .author-publications,
+  .author-social,
+  .author-cta {
+    padding-top: clamp(76px, 9vw, 128px);
+    padding-bottom: clamp(76px, 9vw, 128px);
+    border-top: 1px solid var(--hairline);
   }
 
-  .auth-social {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    margin-top: 16px;
+  .author-method,
+  .author-curriculum {
+    background: var(--paper-2);
   }
 
-  .auth-social-link {
+  .section-eyebrow {
+    margin-bottom: var(--space-6, 32px);
+  }
+
+  .display-md {
     font-family: var(--font-display);
-    font-size: 18px;
+    font-size: clamp(38px, 5vw, 72px);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: var(--tracking-display, -0.03em);
+    margin: var(--space-2, 8px) 0 0;
+    text-wrap: balance;
+  }
+
+  .display-lg {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 6.4vw, 96px);
+    font-weight: 400;
+    line-height: 0.96;
+    letter-spacing: var(--tracking-display, -0.03em);
+    margin: var(--space-3, 12px) 0 var(--space-6, 32px);
+    text-wrap: balance;
+  }
+
+  .author-prose {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.45vw, 21px);
+    line-height: 1.62;
+    color: var(--ink-2);
+  }
+
+  .author-prose :global(h2) {
+    font-size: clamp(30px, 3.6vw, 48px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: var(--tracking-display, -0.02em);
+    color: var(--ink);
+    margin: 0 0 var(--space-4, 16px);
+    text-wrap: balance;
+  }
+
+  .author-prose :global(h2:not(:first-child)) {
+    margin-top: var(--space-8, 48px);
+  }
+
+  .author-prose :global(h3) {
+    font-size: clamp(22px, 2vw, 28px);
+    font-weight: 400;
+    color: var(--ink);
+    margin: var(--space-6, 32px) 0 var(--space-2, 8px);
+  }
+
+  .author-prose :global(p) {
+    margin: 0 0 var(--space-4, 16px);
+  }
+
+  .author-prose :global(strong) {
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  .author-prose :global(a) {
+    color: var(--accent);
+    text-underline-offset: 0.18em;
+  }
+
+  .author-prose :global(ol),
+  .author-prose :global(ul) {
+    margin: 0 0 var(--space-6, 32px) 1.1em;
+    padding: 0;
+  }
+
+  .author-prose :global(li) {
+    margin-bottom: var(--space-2, 8px);
+  }
+
+  .essays-list,
+  .publication-list,
+  .resource-list,
+  .social-row,
+  .author-method-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .essays-list {
+    margin: 0;
+  }
+
+  .essay-item {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: var(--space-5, 24px);
+    padding: var(--space-6, 32px) 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .essay-item:first-child {
+    border-top: 1px solid var(--hairline-strong);
+  }
+
+  .essay-item:last-child {
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  .essay-date {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-md, 11px);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--muted);
+    padding-top: 0.4em;
+  }
+
+  .essay-link {
+    text-decoration: none;
+  }
+
+  .essay-title {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.2vw, 32px);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--ink);
+    margin: 0;
+    transition: color var(--dur-fast, 180ms) var(--ease, ease);
+  }
+
+  .essay-link:hover .essay-title {
+    color: var(--accent);
+  }
+
+  .essay-excerpt {
+    font-family: var(--font-display);
+    font-size: var(--text-body-md, 17px);
+    line-height: var(--leading-loose, 1.55);
+    color: var(--ink-2);
+    margin: var(--space-2, 8px) 0 0;
+    max-width: 60ch;
+  }
+
+  .author-method-diagram {
+    overflow-x: auto;
+    padding: var(--space-4, 16px) 0 var(--space-8, 48px);
+  }
+
+  .author-method-list {
+    margin: 0;
+    border-top: 1px solid var(--hairline-strong);
+  }
+
+  .method-item {
+    display: grid;
+    grid-template-columns: 58px 1fr;
+    gap: var(--space-4, 16px);
+    padding: var(--space-5, 24px) 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .method-num {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-md, 11px);
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--accent);
+  }
+
+  .method-title {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 2.2vw, 34px);
+    font-weight: 400;
+    line-height: 1;
+    margin: 0 0 var(--space-2, 8px);
+  }
+
+  .method-body {
+    font-family: var(--font-display);
+    font-size: var(--text-body-md, 17px);
+    line-height: var(--leading-loose, 1.55);
+    color: var(--ink-2);
+    margin: 0;
+  }
+
+  .curriculum-wrap :global(.timeline-vertical) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .publication-manifesto {
+    margin-bottom: var(--space-6, 32px);
+  }
+
+  .publication-list {
+    margin: 0 0 var(--space-7, 40px);
+    border-top: 1px solid var(--hairline-strong);
+  }
+
+  .publication-item {
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .publication-link {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-4, 16px);
+    align-items: baseline;
+    padding: var(--space-4, 16px) 0;
     color: var(--ink);
     text-decoration: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    padding-bottom: 2px;
     transition:
-      color 220ms,
-      border-color 220ms;
+      color var(--dur-fast, 180ms) var(--ease, ease),
+      padding-left var(--dur-fast, 180ms) var(--ease, ease);
   }
 
-  .auth-social-link:hover {
+  .publication-link:hover {
     color: var(--accent);
-    border-bottom-color: var(--accent);
+    padding-left: 8px;
+  }
+
+  .publication-title {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 1.8vw, 26px);
+  }
+
+  .publication-meta,
+  .resource-link time {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-md, 11px);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--muted);
+  }
+
+  .resource-groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6, 32px) var(--space-7, 40px);
+    margin-bottom: var(--space-6, 32px);
+  }
+
+  .resource-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-md, 11px);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--accent);
+    margin: 0 0 var(--space-3, 12px);
+  }
+
+  .resource-list {
+    margin: 0;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .resource-link {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-3, 12px);
+    padding: var(--space-3, 12px) 0;
+    border-bottom: 1px solid var(--hairline);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .resource-link:hover span {
+    color: var(--accent);
+  }
+
+  .resources-all {
+    display: inline-flex;
+    width: fit-content;
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-md, 11px);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .social-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5, 24px);
+    margin: 0;
+  }
+
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2, 8px);
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-md, 11px);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .social-icon,
+  .social-icon :global(svg) {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+  }
+
+  .author-cta {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .author-cta .eyebrow {
+    color: var(--accent);
+  }
+
+  .author-cta .display-lg {
+    color: var(--paper);
+  }
+
+  .author-cta-inner {
+    max-width: 820px;
   }
 
   @media (max-width: 900px) {
-    .auth-hero-grid {
-      grid-template-columns: 1fr;
-      align-items: start;
+    .author-hero-copy,
+    .author-portrait,
+    .section-eyebrow,
+    .author-prose,
+    .essays-list,
+    .author-method-list,
+    .curriculum-wrap,
+    .publication-manifesto,
+    .publication-list,
+    .resource-groups,
+    .resources-all,
+    .social-row,
+    .author-cta-inner {
+      grid-column: 1 / -1;
+  }
+
+    .author-portrait {
+      justify-content: flex-start;
+      padding-top: var(--space-4, 16px);
     }
 
-    .auth-photo-frame {
-      justify-self: start;
+    .author-portrait::before {
+      width: min(72vw, 320px);
     }
   }
 
-  @media (max-width: 700px) {
-    .auth-cv-row {
-      grid-template-columns: 1fr;
-      gap: 4px;
+  @media (max-width: 768px) {
+    .author-h1 {
+      font-size: clamp(64px, 18vw, 92px);
     }
 
-    .auth-list a {
-      flex-direction: column;
-      gap: 4px;
-      align-items: flex-start;
+    .essay-item,
+    .method-item,
+    .publication-link,
+    .resource-link {
+      grid-template-columns: 1fr;
+      gap: var(--space-2, 8px);
+    }
+
+    .resource-groups {
+      grid-template-columns: 1fr;
+    }
+
+    .publication-meta,
+    .resource-link time {
+      justify-self: start;
     }
   }
 </style>
