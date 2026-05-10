@@ -1,0 +1,58 @@
+---
+/* Waimia · DropCap
+   Initiale magnifiée alignée sur 4 lignes du paragraphe (style éditorial NYT/FT).
+   Wrap autour avec float. Le paragraphe d'ouverture utilise <DropCap>X</DropCap>texte.
+   Usage MDX :
+     <p><DropCap>L</DropCap>e marché de l'IA en 2026...</p>
+   Variants :
+     serif  — Instrument Serif italique terracotta (défaut)
+     mono   — JetBrains Mono encadré
+     accent — Instrument Serif ink magnifié
+*/
+
+interface Props {
+  variant?: 'serif' | 'mono' | 'accent';
+}
+
+const { variant = 'serif' } = Astro.props;
+---
+
+<span class={`drop-cap drop-cap-${variant}`} aria-hidden="false">
+  <slot />
+</span>
+
+<style>
+  .drop-cap {
+    float: left;
+    font-family: var(--font-display);
+    font-size: var(--text-drop-cap, clamp(64px, 8vw, 96px));
+    line-height: 0.85;
+    margin: 0.05em 0.08em -0.05em 0;
+    padding: 0;
+    color: var(--accent);
+    font-style: italic;
+    user-select: none;
+  }
+
+  .drop-cap-mono {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: calc(var(--text-drop-cap, clamp(64px, 8vw, 96px)) * 0.78);
+    color: var(--ink);
+    line-height: 1;
+    margin-top: 0.12em;
+  }
+
+  .drop-cap-accent {
+    color: var(--ink);
+    font-style: italic;
+    font-size: calc(var(--text-drop-cap, clamp(64px, 8vw, 96px)) * 1.08);
+  }
+
+  @media (max-width: 768px) {
+    .drop-cap {
+      font-size: calc(var(--text-drop-cap, clamp(64px, 8vw, 96px)) * 0.7);
+      margin-right: 0.06em;
+    }
+  }
+</style>

@@ -1,0 +1,131 @@
+---
+/* Waimia · Callout
+   Encadré éditorial avec hairline accent terracotta gauche.
+   Variants : info | quote | note | warn | manifesto
+   Usage MDX :
+     import Callout from '../../components/editorial/Callout.astro';
+     <Callout variant="quote" cite="McKinsey 2025">...</Callout>
+*/
+
+interface Props {
+  variant?: 'info' | 'quote' | 'note' | 'warn' | 'manifesto';
+  cite?: string;
+  align?: 'left' | 'center';
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { variant = 'note', cite, align = 'left', size = 'md' } = Astro.props;
+---
+
+<aside class={`callout callout-${variant} callout-${size} callout-${align}`}>
+  <div class="callout-body">
+    <slot />
+  </div>
+  {cite && (
+    <footer class="callout-cite">
+      <span class="callout-cite-mark">↳</span>
+      <span class="callout-cite-text">{cite}</span>
+    </footer>
+  )}
+</aside>
+
+<style>
+  .callout {
+    margin: var(--space-7, 40px) 0;
+    padding: var(--space-5, 24px) var(--space-6, 32px);
+    border-left: 2px solid var(--accent);
+    background: transparent;
+    font-family: var(--font-display);
+    color: var(--ink-2);
+  }
+
+  .callout-body {
+    font-size: var(--text-body-md, 17px);
+    line-height: var(--leading-loose, 1.55);
+  }
+
+  .callout-info {
+    border-left-color: var(--ink-3);
+    color: var(--ink-2);
+  }
+
+  .callout-quote {
+    border-left-color: var(--accent);
+    font-style: italic;
+  }
+
+  .callout-quote .callout-body {
+    font-size: clamp(18px, 1.6vw, 22px);
+  }
+
+  .callout-note {
+    border-left-color: var(--hairline-strong);
+    color: var(--muted);
+    font-family: var(--font-sans);
+  }
+
+  .callout-note .callout-body {
+    font-size: var(--text-body-sm, 14px);
+  }
+
+  .callout-warn {
+    border-left-color: var(--accent);
+    background: var(--paper-2);
+  }
+
+  .callout-manifesto {
+    border-left: none;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: var(--space-7, 40px) 0;
+    text-align: center;
+  }
+
+  .callout-manifesto .callout-body {
+    font-size: clamp(22px, 2.2vw, 32px);
+    font-style: italic;
+  }
+
+  .callout-sm {
+    padding: var(--space-4, 16px) var(--space-5, 24px);
+    margin: var(--space-5, 24px) 0;
+  }
+
+  .callout-lg {
+    padding: var(--space-7, 40px) var(--space-8, 48px);
+    margin: var(--space-9, 64px) 0;
+  }
+
+  .callout-center {
+    text-align: center;
+    padding-inline: var(--space-8, 48px);
+  }
+
+  .callout-cite {
+    margin-top: var(--space-3, 12px);
+    padding-top: var(--space-3, 12px);
+    border-top: 1px solid var(--hairline);
+    display: flex;
+    gap: var(--space-2, 8px);
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-md, 11px);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--muted);
+  }
+
+  .callout-cite-mark {
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .callout {
+      padding: var(--space-4, 16px) var(--space-5, 24px);
+    }
+
+    .callout-quote .callout-body {
+      font-size: var(--text-body-md, 17px);
+    }
+  }
+</style>

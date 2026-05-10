@@ -104,6 +104,94 @@
   --tracking-label:   0.14em;
 }
 
+/* ─── SPACING SCALE · 8pt grid ─── */
+:root {
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 48px;
+  --space-9: 64px;
+  --space-10: 80px;
+  --space-11: 96px;
+  --space-12: 120px;
+  --space-13: 160px;
+  --space-14: 200px;
+  --space-15: 256px;
+  --space-16: 320px;
+
+  /* Section rhythm · respiration éditoriale différenciée */
+  --section-tight: var(--space-8); /* 48px — sections collées */
+  --section-base: var(--space-11); /* 96px — défaut */
+  --section-loose: var(--space-13); /* 160px — ouverture chapitre */
+  --section-grand: var(--space-15); /* 256px — breakout signature */
+}
+
+/* ─── ANIMATION DURATIONS · granulaires ─── */
+:root {
+  --dur-instant: 0ms;
+  --dur-snap: 120ms;
+  --dur-fast: 200ms;
+  --dur-base: 400ms;
+  --dur-slow: 800ms;
+  --dur-deliberate: 1200ms;
+  --dur-cinematic: 1800ms;
+}
+
+/* ─── TYPE SCALE · enrichi ─── */
+:root {
+  /* Eyebrow / Section markers · mono caps */
+  --text-eyebrow: 11px; /* uppercase tracking-label */
+  --text-eyebrow-lg: 12px;
+  /* Lede · paragraphe d'ouverture surdimensionné */
+  --text-lede: clamp(20px, 1.7vw, 24px);
+  /* Pull quote · breakout citation */
+  --text-pull-quote: clamp(28px, 3.4vw, 44px);
+  /* Drop cap · initiale magnifiée */
+  --text-drop-cap: clamp(64px, 6vw, 96px);
+  /* Caption · légende fine */
+  --text-caption: 12px;
+}
+
+/* ─── GRID 12-COL · breakouts éditoriaux ─── */
+:root {
+  --grid-cols: 12;
+  --grid-gutter: var(--gut);
+  /* Container max-widths */
+  --col-extra-narrow: 480px; /* texte focused */
+  --col-narrow: 640px; /* lecture optimale */
+  --col-standard: 880px; /* prose article */
+  --col-wide: 1120px; /* layout principal */
+  --col-full: var(--wrap); /* 1440px */
+  --col-grand: var(--wrap-wide); /* 1560px */
+}
+
+/* ─── Z-INDEX SCALE ─── */
+:root {
+  --z-base: 1;
+  --z-sticky: 10;
+  --z-overlay: 100;
+  --z-modal: 1000;
+  --z-toast: 2000;
+  --z-cursor: 9999;
+}
+
+/* ─── SHADOWS éditoriaux subtils ─── */
+:root {
+  /* Pas de drop-shadow lourd — uniquement du subtle pour différencier les surfaces */
+  --shadow-hairline: 0 0 0 1px var(--hairline);
+  --shadow-paper-lift:
+    0 1px 0 var(--hairline), 0 12px 28px -16px rgba(12, 11, 9, 0.07);
+  --shadow-card-rest: 0 0 0 1px var(--hairline);
+  --shadow-card-hover:
+    0 0 0 1px var(--hairline-strong), 0 8px 24px -16px rgba(12, 11, 9, 0.1);
+  --shadow-cta: 0 1px 0 var(--ink), 0 12px 24px -8px rgba(201, 79, 46, 0.18);
+}
+
 /* ─── @theme · expose les tokens à Tailwind v4 ─── */
 @theme {
   --color-paper:    #F6F1E8;

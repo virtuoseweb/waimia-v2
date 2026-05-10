@@ -1,0 +1,177 @@
+/* Waimia · grid.css
+   Système 12 colonnes éditorial swiss + breakouts NYT/FT
+   Usage : <div class="g12 g12--standard"> */
+
+.g12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gut);
+  row-gap: var(--space-6);
+  width: 100%;
+}
+
+/* Containers · max-width centrés */
+.g12--narrow {
+  max-width: var(--col-narrow);
+  margin-inline: auto;
+}
+.g12--standard {
+  max-width: var(--col-standard);
+  margin-inline: auto;
+}
+.g12--wide {
+  max-width: var(--col-wide);
+  margin-inline: auto;
+}
+.g12--full {
+  max-width: var(--col-full);
+  margin-inline: auto;
+  padding-inline: var(--gut);
+}
+.g12--grand {
+  max-width: var(--col-grand);
+  margin-inline: auto;
+  padding-inline: var(--gut);
+}
+
+/* Span helpers · positionnement explicite */
+.col-1 {
+  grid-column: span 1;
+}
+.col-2 {
+  grid-column: span 2;
+}
+.col-3 {
+  grid-column: span 3;
+}
+.col-4 {
+  grid-column: span 4;
+}
+.col-5 {
+  grid-column: span 5;
+}
+.col-6 {
+  grid-column: span 6;
+}
+.col-7 {
+  grid-column: span 7;
+}
+.col-8 {
+  grid-column: span 8;
+}
+.col-9 {
+  grid-column: span 9;
+}
+.col-10 {
+  grid-column: span 10;
+}
+.col-11 {
+  grid-column: span 11;
+}
+.col-12 {
+  grid-column: span 12;
+}
+
+/* Start positions · décalages asymétriques signature */
+.start-1 {
+  grid-column-start: 1;
+}
+.start-2 {
+  grid-column-start: 2;
+}
+.start-3 {
+  grid-column-start: 3;
+}
+.start-4 {
+  grid-column-start: 4;
+}
+.start-5 {
+  grid-column-start: 5;
+}
+.start-6 {
+  grid-column-start: 6;
+}
+.start-7 {
+  grid-column-start: 7;
+}
+.start-8 {
+  grid-column-start: 8;
+}
+
+/* Breakouts éditoriaux · décalages signature */
+.col-prose {
+  grid-column: 2 / span 7;
+} /* 7 cols, début col 2 — texte article */
+.col-aside {
+  grid-column: 9 / span 3;
+} /* 3 cols, début col 9 — sidenote/marginalia */
+.col-pull-left {
+  grid-column: 1 / span 5;
+} /* breakout citation gauche */
+.col-pull-right {
+  grid-column: 8 / span 5;
+} /* breakout citation droite */
+.col-full-bleed {
+  grid-column: 1 / -1;
+} /* déborde gutters */
+
+/* Mobile fallback · stack en 1 col sous 768px */
+@media (max-width: 768px) {
+  .g12 {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-5);
+  }
+  .col-1,
+  .col-2,
+  .col-3,
+  .col-4,
+  .col-5,
+  .col-6,
+  .col-7,
+  .col-8,
+  .col-9,
+  .col-10,
+  .col-11,
+  .col-12,
+  .col-prose,
+  .col-aside,
+  .col-pull-left,
+  .col-pull-right,
+  .col-full-bleed {
+    grid-column: 1 / -1;
+  }
+  .start-1,
+  .start-2,
+  .start-3,
+  .start-4,
+  .start-5,
+  .start-6,
+  .start-7,
+  .start-8 {
+    grid-column-start: auto;
+  }
+  /* Aside : passe sous le prose en mobile, plus discret */
+  .col-aside {
+    font-size: var(--text-body-sm);
+    opacity: 0.85;
+  }
+}
+
+/* Tablet · 768-1100px : 8-col grid simplifiée */
+@media (min-width: 768px) and (max-width: 1100px) {
+  .g12 {
+    grid-template-columns: repeat(8, 1fr);
+  }
+  .col-prose {
+    grid-column: 1 / span 8;
+  }
+  .col-aside {
+    grid-column: 1 / span 8;
+    opacity: 0.85;
+    font-size: var(--text-body-sm);
+  }
+  .col-pull-left,
+  .col-pull-right {
+    grid-column: 1 / span 8;
+  }
+}

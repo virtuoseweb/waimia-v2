@@ -1,0 +1,92 @@
+---
+/* Waimia · Dingbat
+   Ornement typographique inline ou block (entre sections, fin chapitre).
+   Inspiration : fleurons, pied-de-mouches éditoriaux NYT/FT.
+   Usage :
+     <Dingbat />                       <!-- entre paragraphes -->
+     <Dingbat variant="section" />     <!-- séparateur fort -->
+     <Dingbat variant="end" />         <!-- fin d'article -->
+*/
+
+interface Props {
+  variant?: 'default' | 'section' | 'end' | 'rule' | 'asterism';
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { variant = 'default', size = 'md' } = Astro.props;
+---
+
+{variant === 'rule' && <hr class={`dingbat-rule dingbat-rule-${size}`} />}
+
+{variant === 'default' && (
+  <div class={`dingbat dingbat-default dingbat-${size}`} aria-hidden="true">
+    <span class="dingbat-glyph">·&nbsp;·&nbsp;·</span>
+  </div>
+)}
+
+{variant === 'section' && (
+  <div class={`dingbat dingbat-section dingbat-${size}`} aria-hidden="true">
+    <span class="dingbat-line"></span>
+    <span class="dingbat-glyph">§</span>
+    <span class="dingbat-line"></span>
+  </div>
+)}
+
+{variant === 'end' && (
+  <div class={`dingbat dingbat-end dingbat-${size}`} aria-hidden="true">
+    <span class="dingbat-glyph">— ◆ —</span>
+  </div>
+)}
+
+{variant === 'asterism' && (
+  <div class={`dingbat dingbat-asterism dingbat-${size}`} aria-hidden="true">
+    <span class="dingbat-glyph">⁂</span>
+  </div>
+)}
+
+<style>
+  .dingbat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4, 16px);
+    margin: var(--space-9, 64px) 0;
+    color: var(--muted, #6B6560);
+    font-family: var(--font-display, 'Instrument Serif', serif);
+    user-select: none;
+  }
+  .dingbat-sm { margin: var(--space-6, 32px) 0; font-size: 14px; }
+  .dingbat-md { font-size: 18px; }
+  .dingbat-lg { margin: var(--space-12, 120px) 0; font-size: 24px; }
+  .dingbat-glyph {
+    color: var(--accent, #C94F2E);
+    line-height: 1;
+    letter-spacing: 0.3em;
+  }
+  .dingbat-section .dingbat-line {
+    flex: 1;
+    height: 1px;
+    background: var(--hairline-strong, rgba(12,11,9,0.18));
+    max-width: 240px;
+  }
+  .dingbat-section .dingbat-glyph {
+    font-style: italic;
+    color: var(--accent, #C94F2E);
+    font-size: 1.4em;
+  }
+  .dingbat-asterism .dingbat-glyph { font-size: 1.8em; }
+  .dingbat-end .dingbat-glyph {
+    font-size: 0.9em;
+    color: var(--ink-3, rgba(12,11,9,0.45));
+    letter-spacing: 0.4em;
+  }
+  .dingbat-rule {
+    border: none;
+    height: 1px;
+    background: var(--hairline-strong, rgba(12,11,9,0.18));
+    margin: var(--space-8, 48px) 0;
+    width: 100%;
+  }
+  .dingbat-rule-sm { margin: var(--space-5, 24px) 0; }
+  .dingbat-rule-lg { margin: var(--space-10, 80px) 0; background: var(--ink, #0C0B09); }
+</style>

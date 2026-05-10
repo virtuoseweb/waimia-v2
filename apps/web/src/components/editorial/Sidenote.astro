@@ -1,0 +1,100 @@
+---
+/* Waimia · Sidenote
+   Note marginale alignée à droite du texte principal (desktop only).
+   En mobile : devient inline italique. Inspiration : Tufte CSS, Edward Tufte essays.
+   Usage MDX dans .col-prose :
+     <p>Le pipeline tient sur 1 ou 2 commerciaux<Sidenote num="1">
+       Pattern dominant en cabinet conseil 50-200 personnes.
+     </Sidenote>. L'un part en vacances...</p>
+*/
+
+interface Props {
+  num?: string | number;
+  align?: 'right' | 'left';
+}
+
+const { num, align = 'right' } = Astro.props;
+---
+
+<span class="sidenote-anchor">
+  {num && <sup class="sidenote-num">{num}</sup>}
+  <span class={`sidenote sidenote-${align}`}>
+    {num && <span class="sidenote-mark" aria-hidden="true">{num}</span>}
+    <span class="sidenote-content"><slot /></span>
+  </span>
+</span>
+
+<style>
+  .sidenote-anchor {
+    position: relative;
+  }
+
+  .sidenote-num {
+    font-family: var(--font-mono);
+    font-size: 0.7em;
+    color: var(--accent);
+    cursor: help;
+    margin: 0 0.12em;
+    font-weight: 500;
+  }
+
+  .sidenote {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-md, 11px);
+    line-height: 1.55;
+    color: var(--muted);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* Desktop · marginalia */
+  @media (min-width: 1100px) {
+    .sidenote-right {
+      position: absolute;
+      top: 0;
+      right: calc(-1 * (var(--col-aside, 240px) - var(--space-4, 16px)));
+      width: 220px;
+      padding-left: var(--space-4, 16px);
+      border-left: 1px solid var(--accent);
+      display: block;
+    }
+
+    .sidenote-left {
+      position: absolute;
+      top: 0;
+      left: calc(-220px - var(--space-4, 16px));
+      width: 220px;
+      padding-right: var(--space-4, 16px);
+      border-right: 1px solid var(--accent);
+      text-align: right;
+      display: block;
+    }
+
+    .sidenote-mark {
+      color: var(--accent);
+      font-weight: 500;
+      margin-right: var(--space-1, 4px);
+    }
+  }
+
+  /* Mobile / tablette · italique inline */
+  @media (max-width: 1099px) {
+    .sidenote {
+      display: inline;
+      font-style: italic;
+      color: var(--ink-3);
+    }
+
+    .sidenote::before {
+      content: " (";
+    }
+
+    .sidenote::after {
+      content: ")";
+    }
+
+    .sidenote-mark {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,163 @@
+---
+/* Waimia · Timeline
+   Frise verticale éditoriale avec axe gauche, points, dates, titres et descriptions.
+   Idéal : méthode N phases, parcours cas client, planning chantier.
+   Inspiration : NYT election timeline, FT Visual & Data Journalism.
+   Usage :
+     <Timeline events={[
+       { num: '01', title: 'Cartographie', meta: '5 jours', body: 'On lit le CRM existant.' },
+       { num: '02', title: 'Priorisation', meta: '2 sem', body: 'On classe par ROI.' }
+     ]} />
+*/
+
+interface TimelineEvent {
+  num?: string;
+  title: string;
+  meta?: string;
+  body: string;
+  variant?: 'default' | 'highlight';
+}
+
+interface Props {
+  events: TimelineEvent[];
+  orientation?: 'vertical' | 'horizontal';
+  numbered?: boolean;
+}
+
+const { events, orientation = 'vertical', numbered = true } = Astro.props;
+---
+
+<ol class={`timeline timeline-${orientation}`}>
+  {events.map((evt, idx) => (
+    <li class={`timeline-item timeline-item-${evt.variant ?? 'default'}`}>
+      <div class="timeline-marker" aria-hidden="true">
+        {numbered && evt.num && <span class="timeline-num">{evt.num}</span>}
+        <span class="timeline-dot"></span>
+      </div>
+      <div class="timeline-content">
+        <header class="timeline-header">
+          <h3 class="timeline-title">{evt.title}</h3>
+          {evt.meta && <span class="timeline-meta">{evt.meta}</span>}
+        </header>
+        <p class="timeline-body">{evt.body}</p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .timeline-vertical {
+    list-style: none;
+    margin: var(--space-9, 64px) 0;
+    padding: 0;
+    position: relative;
+  }
+  .timeline-vertical::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--space-5, 24px);
+    width: 1px;
+    background: var(--hairline-strong, rgba(12,11,9,0.18));
+  }
+  .timeline-item {
+    position: relative;
+    padding: 0 0 var(--space-8, 48px) var(--space-9, 64px);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3, 12px);
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--space-9, 64px);
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2, 8px);
+  }
+  .timeline-num {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: var(--text-mono-md, 11px);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--accent, #C94F2E);
+    min-width: 22px;
+  }
+  .timeline-dot {
+    position: absolute;
+    left: calc(var(--space-5, 24px) - 4px);
+    top: 0.55em;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--paper, #F6F1E8);
+    border: 1.5px solid var(--accent, #C94F2E);
+  }
+  .timeline-item-highlight .timeline-dot { background: var(--accent, #C94F2E); }
+  .timeline-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3, 12px);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-2, 8px);
+  }
+  .timeline-title {
+    font-family: var(--font-display, 'Instrument Serif', serif);
+    font-size: clamp(20px, 1.8vw, 26px);
+    font-weight: 400;
+    color: var(--ink, #0C0B09);
+    margin: 0;
+    line-height: 1.2;
+  }
+  .timeline-meta {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: var(--text-mono-md, 11px);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--muted, #6B6560);
+    padding: 2px 8px;
+    border: 1px solid var(--hairline, rgba(12,11,9,0.09));
+  }
+  .timeline-body {
+    font-family: var(--font-display, 'Instrument Serif', serif);
+    font-size: var(--text-body-md, 17px);
+    line-height: var(--leading-loose, 1.55);
+    color: var(--ink-2, rgba(12,11,9,0.75));
+    margin: 0;
+    max-width: 60ch;
+  }
+  .timeline-horizontal {
+    list-style: none;
+    display: flex;
+    gap: var(--space-7, 40px);
+    overflow-x: auto;
+    padding: var(--space-5, 24px) 0;
+    margin: var(--space-9, 64px) 0;
+    scroll-snap-type: x mandatory;
+  }
+  .timeline-horizontal .timeline-item {
+    flex: 0 0 280px;
+    padding: var(--space-5, 24px) 0 0 0;
+    border-top: 1px solid var(--hairline-strong, rgba(12,11,9,0.18));
+    scroll-snap-align: start;
+  }
+  .timeline-horizontal .timeline-marker {
+    position: static;
+    width: auto;
+    margin-bottom: var(--space-3, 12px);
+  }
+  .timeline-horizontal .timeline-dot {
+    position: absolute;
+    top: -5px;
+    left: 0;
+  }
+  @media (max-width: 600px) {
+    .timeline-vertical::before { left: var(--space-4, 16px); }
+    .timeline-item { padding-left: var(--space-7, 40px); }
+    .timeline-dot { left: calc(var(--space-4, 16px) - 4px); }
+  }
+</style>

@@ -1,0 +1,133 @@
+---
+/* Waimia · PullQuote
+   Citation breakout · italique large + signature alignée à droite.
+   Position breakout (déborde la colonne prose).
+   Inspiration : NYT magazine, dario amodei essays.
+   Usage MDX :
+     <PullQuote attribution="DG cabinet conseil 80 personnes">
+       Le pipeline tourne maintenant tout seul.
+     </PullQuote>
+*/
+
+interface Props {
+  attribution?: string;
+  source?: string;
+  variant?: 'breakout' | 'inline' | 'centered';
+}
+
+const { attribution, source, variant = 'breakout' } = Astro.props;
+---
+
+<figure class={`pull-quote pull-quote-${variant}`}>
+  <span class="pull-quote-mark" aria-hidden="true">&ldquo;</span>
+  <blockquote class="pull-quote-body">
+    <slot />
+  </blockquote>
+  {(attribution || source) && (
+    <figcaption class="pull-quote-cite">
+      {attribution && <span class="pull-quote-attr">— {attribution}</span>}
+      {source && <span class="pull-quote-src">{source}</span>}
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  .pull-quote {
+    margin: var(--space-9, 64px) 0;
+    padding: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pull-quote-body {
+    font-family: var(--font-display);
+    font-size: var(--text-pull-quote, clamp(28px, 3.4vw, 44px));
+    font-style: italic;
+    line-height: 1.18;
+    letter-spacing: var(--tracking-display, -0.025em);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    quotes: none;
+  }
+
+  .pull-quote-mark {
+    position: absolute;
+    top: -0.2em;
+    left: -0.5em;
+    font-family: var(--font-display);
+    font-size: 2.2em;
+    color: var(--accent);
+    line-height: 0.8;
+    user-select: none;
+    opacity: 0.6;
+  }
+
+  .pull-quote-cite {
+    margin-top: var(--space-5, 24px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1, 4px);
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-md, 11px);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--muted);
+    padding-left: var(--space-2, 8px);
+    border-left: 2px solid var(--accent);
+    align-self: flex-start;
+  }
+
+  .pull-quote-attr {
+    color: var(--ink-2);
+    font-weight: 500;
+  }
+
+  /* Variant breakout · déborde colonne prose */
+  .pull-quote-breakout {
+    margin-inline: calc(-1 * var(--space-7, 40px));
+    max-width: calc(100% + var(--space-13, 88px));
+  }
+
+  /* Variant inline · reste dans le flow */
+  .pull-quote-inline {
+    padding-left: var(--space-6, 32px);
+    border-left: 2px solid var(--accent);
+  }
+
+  .pull-quote-inline .pull-quote-mark {
+    display: none;
+  }
+
+  /* Variant centered · disposition signature */
+  .pull-quote-centered {
+    text-align: center;
+    margin-inline: auto;
+    max-width: 880px;
+    align-items: center;
+  }
+
+  .pull-quote-centered .pull-quote-mark {
+    position: static;
+    display: block;
+    margin: 0 auto var(--space-2, 8px);
+  }
+
+  .pull-quote-centered .pull-quote-cite {
+    margin-inline: auto;
+    align-self: center;
+  }
+
+  @media (max-width: 768px) {
+    .pull-quote-breakout {
+      margin-inline: 0;
+      max-width: 100%;
+    }
+
+    .pull-quote-mark {
+      font-size: 1.6em;
+      left: -0.3em;
+    }
+  }
+</style>

@@ -1,0 +1,143 @@
+---
+/* Waimia · EditorialTable
+   Tableau éditorial style FT/NYT data journalism.
+   Hairlines fines · alternance subtle paper-2 · hover row · alignement chiffres tabular.
+   Usage :
+     <EditorialTable
+       columns={['Catégorie', 'Outil', 'Rôle']}
+       rows={[
+         ['Modèle raisonnement', 'Claude Sonnet 4.6', 'Scoring, séquences'],
+         ['CRM', 'HubSpot / Salesforce', 'Au choix client']
+       ]}
+     />
+*/
+
+interface Props {
+  columns: string[];
+  rows: (string | number)[][];
+  caption?: string;
+  align?: 'left' | 'mixed';
+  variant?: 'default' | 'compact' | 'editorial';
+}
+
+const {
+  columns,
+  rows,
+  caption,
+  align = 'left',
+  variant = 'editorial'
+} = Astro.props;
+---
+
+<figure class={`ed-table-figure ed-table-figure-${variant}`}>
+  {caption && <figcaption class="ed-table-caption">{caption}</figcaption>}
+  <table class={`ed-table ed-table-${variant} ed-table-${align}`}>
+    <thead>
+      <tr>
+        {columns.map((col, i) => (
+          <th scope="col" class={`ed-table-th ${i === columns.length - 1 && align === 'mixed' ? 'ed-table-th-right' : ''}`}>
+            {col}
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr class="ed-table-tr">
+          {row.map((cell, i) => (
+            <td class={`ed-table-td ${i === row.length - 1 && align === 'mixed' ? 'ed-table-td-right' : ''}`}>
+              {cell}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</figure>
+
+<style>
+  .ed-table-figure {
+    margin: var(--space-9, 64px) 0;
+  }
+  .ed-table-caption {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: var(--text-mono-md, 11px);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--muted, #6B6560);
+    margin-bottom: var(--space-4, 16px);
+    padding-bottom: var(--space-3, 12px);
+    border-bottom: 1px solid var(--hairline-strong, rgba(12,11,9,0.18));
+  }
+  .ed-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-display, 'Instrument Serif', serif);
+    font-feature-settings: 'tnum' 1, 'lnum' 1;
+  }
+  .ed-table-th {
+    text-align: left;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: var(--text-mono-md, 11px);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--muted, #6B6560);
+    padding: var(--space-3, 12px) var(--space-4, 16px) var(--space-3, 12px) 0;
+    border-bottom: 1.5px solid var(--ink, #0C0B09);
+    vertical-align: bottom;
+  }
+  .ed-table-th-right { text-align: right; }
+  .ed-table-tr {
+    transition: background 200ms ease-out;
+  }
+  .ed-table-tr:hover { background: var(--paper-2, rgba(12,11,9,0.03)); }
+  .ed-table-td {
+    font-size: var(--text-body-md, 17px);
+    color: var(--ink-2, rgba(12,11,9,0.75));
+    padding: var(--space-4, 16px) var(--space-4, 16px) var(--space-4, 16px) 0;
+    border-bottom: 1px solid var(--hairline, rgba(12,11,9,0.09));
+    vertical-align: top;
+  }
+  .ed-table-td-right {
+    text-align: right;
+    font-feature-settings: 'tnum' 1, 'lnum' 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .ed-table-tr:last-child .ed-table-td { border-bottom: 1.5px solid var(--ink, #0C0B09); }
+  .ed-table-compact .ed-table-td { padding: var(--space-3, 12px) var(--space-3, 12px) var(--space-3, 12px) 0; font-size: var(--text-body-sm, 14px); }
+  .ed-table-editorial .ed-table-td:first-child {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: var(--text-mono-md, 11px);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono, 0.12em);
+    color: var(--muted, #6B6560);
+    width: 1%;
+    white-space: nowrap;
+    padding-right: var(--space-6, 32px);
+  }
+  @media (max-width: 768px) {
+    .ed-table thead { display: none; }
+    .ed-table, .ed-table tbody, .ed-table-tr, .ed-table-td { display: block; width: 100%; }
+    .ed-table-tr {
+      padding: var(--space-4, 16px) 0;
+      border-bottom: 1px solid var(--hairline, rgba(12,11,9,0.09));
+    }
+    .ed-table-td {
+      padding: var(--space-1, 4px) 0;
+      border: none;
+      font-size: var(--text-body-sm, 14px);
+    }
+    .ed-table-tr .ed-table-td:first-child {
+      font-weight: 500;
+      color: var(--ink, #0C0B09);
+      font-family: var(--font-display, 'Instrument Serif', serif);
+      font-size: var(--text-body-md, 17px);
+      text-transform: none;
+      letter-spacing: 0;
+      margin-bottom: var(--space-1, 4px);
+      width: auto;
+      white-space: normal;
+    }
+  }
+</style>
