@@ -14,6 +14,7 @@
  */
 import Base from '../layouts/Base.astro';
 import BootSplash from '../components/motion/BootSplash.tsx';
+import ScrollProgress from '../components/ui/atoms/ScrollProgress.astro';
 
 import Hero            from '../components/ui/organisms/Hero.astro';
 import TrustMarquee    from '../components/ui/organisms/TrustMarquee.astro';
@@ -93,4 +94,14 @@ const faqItems = [
 
   {/* SigBand · signature pré-footer */}
   <SigBand />
+
+  <ScrollProgress />
+  <script>
+    import { initHomepageNarrative } from '../lib/animations/signature/homepage-narrative';
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHomepageNarrative);
+    } else {
+      initHomepageNarrative();
+    }
+  </script>
 </Base>

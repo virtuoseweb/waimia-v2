@@ -2,6 +2,7 @@
 // Page · /cas/plateau · Cas Plateau SaaS B2B — route principale nav
 
 import CaseStudyTemplate from '../../components/templates/CaseStudyTemplate.astro';
+import ScrollProgress from '../../components/ui/atoms/ScrollProgress.astro';
 
 const specs = [
   { label_fr: 'Secteur',     label_en: 'Sector',      value: 'SaaS B2B' },
@@ -89,6 +90,67 @@ const relatedCards = [
   <Fragment slot="context">
     <p>Le pipeline tient sur 1 ou 2 commerciaux. L'un part en vacances ? Les leads s'évaporent. On a regardé : <i>3 200 contacts qui avaient manifesté de l'intérêt dormaient depuis 18 mois</i>. Personne ne les avait retouchés.</p>
     <p>Pas de démo. Pas d'atelier. On a audité, câblé le scoring, branché les séquences. <i>Le mardi, les commerciaux avaient une liste. Le vendredi, on mesurait.</i></p>
+
+    <div class="plateau-timeline">
+      <span class="plateau-kicker">§ Timeline · 10 semaines</span>
+      <table class="plateau-table">
+        <thead>
+          <tr>
+            <th>Semaine</th>
+            <th>Phase</th>
+            <th>Livrable mesuré</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>S1–2</td>
+            <td>Cartographie pipeline</td>
+            <td>Audit complet CRM + scoring leads existants</td>
+          </tr>
+          <tr>
+            <td>S3–4</td>
+            <td>Setup scoring continu</td>
+            <td>Modèle Claude Sonnet branché, premier batch traité</td>
+          </tr>
+          <tr>
+            <td>S5–6</td>
+            <td>Séquences personnalisées</td>
+            <td>12 séquences par persona déployées</td>
+          </tr>
+          <tr>
+            <td>S7–8</td>
+            <td>Dashboard pipeline temps réel</td>
+            <td>Reporting live + alertes commerciaux</td>
+          </tr>
+          <tr>
+            <td>S9–10</td>
+            <td>Passation + monitoring</td>
+            <td>Handover technique + 4 semaines support inclus</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="plateau-retex">
+      <span class="plateau-kicker">§ Ce qu'on a appris</span>
+      <p class="plateau-retex-intro">Pas une success story propre. Trois leçons opérationnelles :</p>
+      <ol class="plateau-lessons">
+        <li>
+          <strong>Le CRM n'était pas le problème.</strong> Le problème était l'absence de
+          règle de relance. Le scoring l'a révélé en 48 h.
+        </li>
+        <li>
+          <strong>Les commerciaux n'ont pas perdu d'autonomie.</strong> Ils ont gagné
+          3 jours de travail propre par semaine — passés sur les leads
+          qui valaient vraiment l'appel.
+        </li>
+        <li>
+          <strong>Le ROI n'est pas dans le chiffre brut.</strong> +€2,4 M c'est lisible en
+          comité, mais le vrai gain est la prédictibilité : on sait maintenant ce qui
+          arrive J+30, J+60, J+90. Plus de surprise de fin de trimestre.
+        </li>
+      </ol>
+    </div>
   </Fragment>
   <Fragment slot="approach-headline">
     Pas un atelier. Un <i>chantier</i> de 10 semaines.
@@ -98,6 +160,17 @@ const relatedCards = [
   </Fragment>
   <Fragment slot="stack-lead">
     Scoring automatisé continu, séquences multi-persona, dashboard pipeline. <i>Zéro outil supplémentaire.</i> On a câblé sur HubSpot + dbt.
+  </Fragment>
+  <Fragment slot="body-end">
+    <ScrollProgress />
+    <script>
+      import { initCaseStorytelling } from '../../lib/animations/signature/case-storytelling';
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCaseStorytelling);
+      } else {
+        initCaseStorytelling();
+      }
+    </script>
   </Fragment>
 </CaseStudyTemplate>
 
@@ -111,4 +184,102 @@ const relatedCards = [
     text-wrap: pretty;
   }
   .case-context-grid p i { font-style: italic; color: var(--accent); }
+
+  /* ── Timeline 10 semaines ── */
+  .plateau-kicker {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .plateau-timeline {
+    margin-top: clamp(48px, 6vw, 80px);
+    margin-bottom: clamp(48px, 6vw, 80px);
+  }
+
+  .plateau-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-display);
+    font-size: clamp(14px, 1.3vw, 16px);
+    line-height: 1.5;
+  }
+
+  .plateau-table th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    padding: 0 16px 12px 0;
+    border-bottom: 1px solid var(--hairline-strong);
+    font-weight: 400;
+  }
+
+  .plateau-table td {
+    padding: 14px 16px 14px 0;
+    border-bottom: 1px solid var(--hairline);
+    vertical-align: top;
+    color: var(--ink-2);
+  }
+
+  .plateau-table td:first-child {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    white-space: nowrap;
+    padding-right: 24px;
+  }
+
+  .plateau-table td:nth-child(2) {
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  /* ── Ce qu'on a appris ── */
+  .plateau-retex {
+    margin-top: clamp(48px, 6vw, 80px);
+    padding-top: clamp(36px, 4vw, 56px);
+    border-top: 1px solid var(--hairline);
+  }
+
+  .plateau-retex-intro {
+    font-family: var(--font-display) !important;
+    font-size: clamp(16px, 1.4vw, 19px) !important;
+    line-height: 1.55 !important;
+    color: var(--muted) !important;
+    margin: 0 0 24px !important;
+    letter-spacing: 0 !important;
+  }
+
+  .plateau-lessons {
+    list-style: decimal;
+    padding-left: 1.2em;
+    margin: 0;
+  }
+
+  .plateau-lessons li {
+    font-family: var(--font-display);
+    font-size: clamp(16px, 1.4vw, 19px);
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin-bottom: 18px;
+    padding-left: 8px;
+  }
+
+  .plateau-lessons li strong {
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  @media (max-width: 700px) {
+    .plateau-table th:last-child,
+    .plateau-table td:last-child { display: none; }
+  }
 </style>

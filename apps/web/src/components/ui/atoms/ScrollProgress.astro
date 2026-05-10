@@ -1,0 +1,37 @@
+---
+/* Waimia · ScrollProgress
+   Hairline terracotta en haut de page — activé sur pages signature uniquement.
+*/
+---
+<div class="scroll-progress-wrap" aria-hidden="true">
+  <div class="scroll-progress"></div>
+</div>
+
+<style>
+  .scroll-progress-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: var(--z-sticky, 900);
+    pointer-events: none;
+  }
+  .scroll-progress {
+    height: 100%;
+    width: 100%;
+    background: var(--accent, #c07046);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+  @supports (animation-timeline: scroll()) {
+    .scroll-progress {
+      animation: sp-progress linear;
+      animation-timeline: scroll();
+    }
+    @keyframes sp-progress {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+  }
+</style>

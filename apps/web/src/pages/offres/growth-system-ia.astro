@@ -3,6 +3,7 @@
 // Mission M3 · 3 piliers + 2 niveaux · FR uniquement
 
 import OffresDetailTemplate from '../../components/templates/OffresDetailTemplate.astro';
+import ScrollProgress from '../../components/ui/atoms/ScrollProgress.astro';
 import { buildFAQPage } from '../../lib/seo/schema-builder';
 
 const faqGrowthItems = [
@@ -66,6 +67,17 @@ const faqGrowthSchema = buildFAQPage(faqGrowthItems);
   </Fragment>
   <Fragment slot="cta-title"><i>Câbler le système.<br/>Mesurer vendredi.</i></Fragment>
   <Fragment slot="cta-body">45 minutes. On regarde votre acquisition, on chiffre les fuites, on revient avec un plan. Si on n'a rien à proposer, on le dit. On ne relance pas.</Fragment>
+  <Fragment slot="body-end">
+    <ScrollProgress />
+    <script>
+      import { initGrowthMethodSticky } from '../../lib/animations/signature/growth-method-sticky';
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initGrowthMethodSticky);
+      } else {
+        initGrowthMethodSticky();
+      }
+    </script>
+  </Fragment>
   <Fragment slot="related">
     <script type="application/ld+json" set:html={JSON.stringify(faqGrowthSchema)}></script>
 
