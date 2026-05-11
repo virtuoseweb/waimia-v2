@@ -7,6 +7,8 @@
 
 import TrustLegalTemplate from '../../components/templates/TrustLegalTemplate.astro';
 import Bi from '../../components/ui/atoms/Bi.astro';
+import Callout from '../../components/editorial/Callout.astro';
+import EditorialTable from '../../components/editorial/EditorialTable.astro';
 
 const sections = [
   { id: 'gdpr',   title_fr: 'Règlement Général sur la Protection des Données', title_en: 'GDPR · General Data Protection Regulation' },
@@ -47,7 +49,7 @@ const sections = [
         <li><Bi fr="Consentement explicite (newsletter, contact)." en="Explicit consent (newsletter, contact)." /></li>
       </ul>
       <h3><Bi fr="Vos droits" en="Your rights" /></h3>
-      <p><Bi fr="Accès, rectification, effacement, portabilité, opposition. Délai de réponse 30 jours. Contact" en="Access, rectification, erasure, portability, objection. 30-day response time. Contact" /> <a href="mailto:dpo@waimia.com">dpo@waimia.com</a>.</p>
+      <Callout variant="info"><p><Bi fr="Accès, rectification, effacement, portabilité, opposition. Délai de réponse 30 jours. Contact" en="Access, rectification, erasure, portability, objection. 30-day response time. Contact" /> <a href="mailto:dpo@waimia.com">dpo@waimia.com</a>.</p></Callout>
     </section>
 
     <section id="ai-act">
@@ -57,12 +59,12 @@ const sections = [
         en="VirtuoseOS classifies every shipped agent under an AI Act category (prohibited / high-risk / limited / minimal). High-risk agents embed the matching obligations: audit trail, human validation, signed technical documentation."
       /></p>
       <h3><Bi fr="Obligations haut risque" en="High-risk obligations" /></h3>
-      <ul>
+      <Callout variant="warn"><ul>
         <li><Bi fr="Documentation technique signée (Annexe IV)." en="Signed technical documentation (Annex IV)." /></li>
         <li><Bi fr="Système de gestion de la qualité." en="Quality management system." /></li>
         <li><Bi fr="Traçabilité automatique (trail audit re-rejouable)." en="Automatic traceability (replayable audit trail)." /></li>
         <li><Bi fr="Surveillance humaine sur décisions critiques." en="Human oversight on critical decisions." /></li>
-      </ul>
+      </ul></Callout>
     </section>
 
     <section id="iso">
@@ -91,6 +93,16 @@ const sections = [
       <p><Bi fr="Chaque agent reçoit le minimum de données nécessaires à son rôle. Documenté, signé, audité." en="Each agent receives the minimum data necessary for its role. Documented, signed, audited." /></p>
       <h3><Bi fr={"Résidence configurable"} en={"Configurable residency"} /></h3>
       <p><Bi fr="EU-Frankfurt par défaut. CH-Zurich pour clients suisses. US si explicitement choisi." en="EU-Frankfurt by default. CH-Zurich for Swiss clients. US if explicitly chosen." /></p>
+      <EditorialTable
+        caption="Sous-traitants de traitement"
+        columns={['Sous-traitant', 'Rôle', 'Zone']}
+        rows={[
+          ['Anthropic', 'Modèles LLM', 'EU (no-retention)'],
+          ['Vercel', 'Hébergement web', 'EU/US'],
+          ['Resend', 'Emails transactionnels', 'EU'],
+        ]}
+        variant="default"
+      />
     </section>
 
     <section id="design">

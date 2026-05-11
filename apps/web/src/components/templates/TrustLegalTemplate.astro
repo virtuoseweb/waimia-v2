@@ -47,13 +47,16 @@ const { title, description, kickerFr, kickerEn, revisedAt, version, sections } =
   <section class="trust-hd">
     <div class="wrap-wide">
       <Kicker class="trust-kicker"><Bi fr={kickerFr} en={kickerEn} /></Kicker>
-      <h1 class="trust-h1"><slot name="headline" /></h1>
-      <p class="trust-lede"><slot name="lede" /></p>
+      <h1 class="trust-h1 reveal"><slot name="headline" /></h1>
+      <p class="trust-lede reveal"><slot name="lede" /></p>
       <div class="trust-meta">
         <Bi fr="Dernière révision" en="Last revised" /> ·
         <time datetime={revisedAt}>{revisedAt}</time>
         {version && <><span aria-hidden> · </span><span>{version}</span></>}
       </div>
+      <footer class="trust-legal-footer">
+        <Bi fr="Document" en="Document" /> — <slot name="footer-legal" />{version && <><span aria-hidden="true"> · </span><span class="trust-footer-version">{version}</span></>}
+      </footer>
     </div>
   </section>
 
@@ -61,7 +64,7 @@ const { title, description, kickerFr, kickerEn, revisedAt, version, sections } =
   <div class="trust-body">
     <div class="wrap-wide trust-grid">
       {/* TOC sticky */}
-      <aside class="trust-toc" aria-label="Table of contents">
+      <aside class="trust-toc reveal-stagger" aria-label="Table of contents">
         <Kicker class="trust-toc-k"><Bi fr="Sommaire" en="Contents" /></Kicker>
         <ol>
           {sections.map((s, i) => (
@@ -76,7 +79,7 @@ const { title, description, kickerFr, kickerEn, revisedAt, version, sections } =
       </aside>
 
       {/* Sections */}
-      <article class="trust-sections">
+      <article class="trust-sections reveal-stagger">
         <slot name="sections" />
       </article>
     </div>
@@ -118,6 +121,16 @@ const { title, description, kickerFr, kickerEn, revisedAt, version, sections } =
     color: var(--muted);
     text-transform: uppercase;
   }
+  .trust-legal-footer {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--hairline);
+    letter-spacing: 0.08em;
+  }
+  .trust-footer-version { color: var(--muted); }
 
   .trust-body { padding: clamp(60px, 8vw, 100px) 32px; }
   .trust-grid {

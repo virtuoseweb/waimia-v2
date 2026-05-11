@@ -6,6 +6,7 @@
 
 import TrustLegalTemplate from '../../components/templates/TrustLegalTemplate.astro';
 import Bi from '../../components/ui/atoms/Bi.astro';
+import Callout from '../../components/editorial/Callout.astro';
 
 const sections = [
   { id: 'getting-started', title_fr: 'Démarrage rapide',          title_en: 'Quick start' },
@@ -36,13 +37,15 @@ const sections = [
     <section id="getting-started">
       <h2><Bi fr={"Démarrage"} en={"Quick"} /> <i><Bi fr="rapide" en="start" /></i></h2>
       <p><Bi fr="VirtuoseOS s'installe en deux modes : managé (Anthropic + zone EU choisie) ou self-hosted (vLLM/Ollama sur votre infra). Le mode managé démarre en 30 minutes avec un agreement DPA signé. Le self-hosted nécessite un cluster Kubernetes 1.28+ et 4 GPU minimum." en="VirtuoseOS installs in two modes: managed (Anthropic + chosen EU zone) or self-hosted (vLLM/Ollama on your infra). Managed mode starts in 30 minutes with a signed DPA. Self-hosted needs a Kubernetes 1.28+ cluster and 4 GPU minimum." /></p>
-      <h3><Bi fr={"Pré-requis"} en={"Prerequisites"} /></h3>
-      <ul>
-        <li><Bi fr="Compte cloud (AWS, GCP, OVH, Scaleway, ou bare-metal)" en="Cloud account (AWS, GCP, OVH, Scaleway, or bare-metal)" /></li>
-        <li><Bi fr="Accès admin à votre CRM (HubSpot, Salesforce)" en="Admin access to your CRM (HubSpot, Salesforce)" /></li>
-        <li><Bi fr="Entrepôt SQL (dbt + Snowflake/BigQuery/Postgres)" en="SQL warehouse (dbt + Snowflake/BigQuery/Postgres)" /></li>
-        <li><Bi fr="Email DPO + référent technique nommés" en="DPO email + named tech lead" /></li>
-      </ul>
+      <Callout variant="info">
+        <h3><Bi fr={"Pré-requis"} en={"Prerequisites"} /></h3>
+        <ul>
+          <li><Bi fr="Compte cloud (AWS, GCP, OVH, Scaleway, ou bare-metal)" en="Cloud account (AWS, GCP, OVH, Scaleway, or bare-metal)" /></li>
+          <li><Bi fr="Accès admin à votre CRM (HubSpot, Salesforce)" en="Admin access to your CRM (HubSpot, Salesforce)" /></li>
+          <li><Bi fr="Entrepôt SQL (dbt + Snowflake/BigQuery/Postgres)" en="SQL warehouse (dbt + Snowflake/BigQuery/Postgres)" /></li>
+          <li><Bi fr="Email DPO + référent technique nommés" en="DPO email + named tech lead" /></li>
+        </ul>
+      </Callout>
     </section>
 
     <section id="architecture">
@@ -68,7 +71,7 @@ const sections = [
 
     <section id="self-hosted">
       <h2><i><Bi fr={"Self-hosting"} en={"Self-hosting"} /></i></h2>
-      <p><Bi fr="Pour les contraintes ACPR / SecNumCloud / HIPAA, VirtuoseOS s'auto-héberge avec vLLM (modèles open-source : Llama 4, DeepSeek R1, Qwen 3) ou Ollama (dev). Toute la stack reste dans votre datacenter. Aucune donnée sortante. Performances : 80-90 % de Claude Sonnet sur la plupart des cas RevOps." en="For ACPR / SecNumCloud / HIPAA constraints, VirtuoseOS self-hosts with vLLM (open-source models: Llama 4, DeepSeek R1, Qwen 3) or Ollama (dev). The entire stack stays in your datacenter. No outgoing data. Performance: 80-90% of Claude Sonnet on most RevOps cases." /></p>
+      <Callout variant="warn"><p><Bi fr="Pour les contraintes ACPR / SecNumCloud / HIPAA, VirtuoseOS s'auto-héberge avec vLLM (modèles open-source : Llama 4, DeepSeek R1, Qwen 3) ou Ollama (dev). Toute la stack reste dans votre datacenter. Aucune donnée sortante. Performances : 80-90 % de Claude Sonnet sur la plupart des cas RevOps." en="For ACPR / SecNumCloud / HIPAA constraints, VirtuoseOS self-hosts with vLLM (open-source models: Llama 4, DeepSeek R1, Qwen 3) or Ollama (dev). The entire stack stays in your datacenter. No outgoing data. Performance: 80-90% of Claude Sonnet on most RevOps cases." /></p></Callout>
     </section>
   </Fragment>
 </TrustLegalTemplate>

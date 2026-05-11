@@ -6,6 +6,7 @@
 
 import TrustLegalTemplate from '../../components/templates/TrustLegalTemplate.astro';
 import Bi from '../../components/ui/atoms/Bi.astro';
+import Callout from '../../components/editorial/Callout.astro';
 
 const sections = [
   { id: 'structure',    title_fr: 'Structure capitalistique',         title_en: 'Capital structure' },
@@ -45,7 +46,7 @@ const sections = [
 
     <section id="ethics">
       <h2><Bi fr={"Comité"} en={"AI ethics"} /> <i><Bi fr="éthique IA" en="committee" /></i></h2>
-      <p><Bi fr="Comité de 3 personnes (CEO + responsable Compliance + 1 membre tournant). Saisi automatiquement pour : agents impactant des décisions humaines, données sensibles santé/finance, ou cas avec biais potentiels. Avis bloquant — pas consultatif." en="3-person committee (CEO + Compliance lead + 1 rotating member). Auto-triggered for: agents impacting human decisions, sensitive health/finance data, cases with potential biases. Blocking opinion — not advisory." /></p>
+      <Callout variant="warn"><p><Bi fr="Comité de 3 personnes (CEO + responsable Compliance + 1 membre tournant). Saisi automatiquement pour : agents impactant des décisions humaines, données sensibles santé/finance, ou cas avec biais potentiels. Avis bloquant — pas consultatif." en="3-person committee (CEO + Compliance lead + 1 rotating member). Auto-triggered for: agents impacting human decisions, sensitive health/finance data, cases with potential biases. Blocking opinion — not advisory." /></p></Callout>
     </section>
 
     <section id="sourcing">
@@ -55,12 +56,12 @@ const sections = [
 
     <section id="incidents">
       <h2><Bi fr={"Gestion"} en={"Incident"} /> <i><Bi fr="incidents" en="management" /></i></h2>
-      <p><Bi fr="Tout agent en production a un humain d'astreinte nommé. Incident P1 = réveil joignable sous 15 min, communication client sous 1 h, post-mortem écrit sous 5 jours ouvrés. Documents internes archivés 7 ans." en="Every production agent has a named on-call human. P1 incident = reachable on call within 15 min, client communication within 1h, written post-mortem within 5 business days. Internal documents archived 7 years." /></p>
+      <Callout variant="info"><p><Bi fr="Tout agent en production a un humain d'astreinte nommé. Incident P1 = réveil joignable sous 15 min, communication client sous 1 h, post-mortem écrit sous 5 jours ouvrés. Documents internes archivés 7 ans." en="Every production agent has a named on-call human. P1 incident = reachable on call within 15 min, client communication within 1h, written post-mortem within 5 business days. Internal documents archived 7 years." /></p></Callout>
     </section>
 
     <section id="whistleblower">
       <h2><Bi fr={"Lanceurs"} en={"Whistleblowing"} /> <i><Bi fr="d'alerte" en="" /></i></h2>
-      <p><Bi fr="Conformément à la directive UE 2019/1937. Adresse confidentielle : alerte@waimia.com (PGP key publiée). Anonymat protégé · pas de retours négatifs · réponse sous 7 jours." en="In accordance with EU directive 2019/1937. Confidential address: alerte@waimia.com (PGP key published). Anonymity protected · no retaliation · response within 7 days." /></p>
+      <Callout variant="warn"><p><Bi fr="Conformément à la directive UE 2019/1937. Adresse confidentielle : alerte@waimia.com (PGP key publiée). Anonymat protégé · pas de retours négatifs · réponse sous 7 jours." en="In accordance with EU directive 2019/1937. Confidential address: alerte@waimia.com (PGP key published). Anonymity protected · no retaliation · response within 7 days." /></p></Callout>
     </section>
   </Fragment>
 </TrustLegalTemplate>
