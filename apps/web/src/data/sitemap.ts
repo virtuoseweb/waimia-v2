@@ -264,6 +264,7 @@ export const MM_RESOURCES: MegaMenu = {
         { href: '/ressources/blog/brain-circuit', label: { en: 'Essay · Brain circuit', fr: 'Essai · Brain circuit' }, lead: { en: 'How operational AI rewires the company.', fr: "Comment l'IA opérationnelle recâble l'entreprise." } },
         { href: '/ressources/livres-blancs', label: { en: 'All white papers', fr: 'Tous les livres blancs' } },
         { href: '/ressources/veille-ia', label: { en: 'AI watch · weekly briefs', fr: 'Veille IA · synthèses hebdo' } },
+        { href: '/technologies', label: { en: 'Technologies archive · the stack', fr: 'Archives technologies · la stack' }, lead: { en: 'Claude ecosystem + open-source + frameworks.', fr: "Écosystème Claude + open-source + frameworks." } },
       ],
     },
   ],
@@ -320,7 +321,6 @@ export const MM_AGENCY_NEW: MegaMenu = {
 export const PRIMARY_NAV: Array<MegaMenu | SimpleNav> = [
   MM_SOLUTIONS_NEW,
   MM_OFFRES_NEW,
-  MM_TECH,
   MM_CASES_NEW,
   MM_RESOURCES,
   MM_AGENCY_NEW,
