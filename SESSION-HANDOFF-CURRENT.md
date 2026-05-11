@@ -98,10 +98,37 @@ curl -s -I https://waimia.com/offres/site-web-ia | grep -iE "x-vercel-cache|age"
 Codex reset 12 mai 1:51 AM. Sonnet rate-limit court 5h. Le reset Anthropic
 hebdo etait a 40% en debut de session.
 
-### 4. Pages éventuellement à completer V8-H
-Si certaines pages content ont ete oubliees par Sonnet (rate-limited en cours),
-faire `grep -L "export const prerender" src/pages/**/*.astro` pour identifier
-celles sans prerender (a verifier au cas par cas).
+### 4. V8-I optionnel — migrer 12 pages dynamiques [...slug] vers SSG
+V8-H a laisse 12 pages `[...slug].astro` en SSR car aucune n'a `getStaticPaths()` :
+- src/pages/bienvenue/[...slug].astro
+- src/pages/cas/[...slug].astro
+- src/pages/equipe/[...slug].astro
+- src/pages/ressources/blog/[...slug].astro
+- src/pages/ressources/categorie/[...slug].astro
+- src/pages/ressources/cookbooks/[...slug].astro
+- src/pages/ressources/livres-blancs/[...slug].astro
+- src/pages/ressources/outils/[...slug].astro
+- src/pages/ressources/silo/[...slug].astro
+- src/pages/ressources/tag/[...slug].astro
+- src/pages/ressources/veille-ia/[...slug].astro
+- src/pages/secteurs/[...slug].astro
+
+Pour les migrer en SSG : ajouter `getStaticPaths()` qui itere sur la
+collection associee et retourne `params: { slug }` pour chaque entry.
+Pattern :
+```ts
+export const prerender = true;
+export async function getStaticPaths() {
+  const entries = await getCollection('blog');
+  return entries.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+```
+
+Gain potentiel : ~30-50 pages dynamiques content (blog posts, cas, cookbooks,
+livres-blancs, veille-ia) toutes prerenderees au build = 100% du site en CDN edge.
 
 ## Commands rapides reprise
 
