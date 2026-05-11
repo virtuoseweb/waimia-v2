@@ -1,6 +1,13 @@
 ---
 // Page · /offres/site-web-ia · Tunnel de conversion offre flagship
 // Site web IA-native (Astro+React 95% IA · agent éditeur GEO · routine SEO)
+//
+// SSG via prerender = true. Contenu 100% statique (Props passees au render,
+// pas de logique runtime). Servie depuis CDN edge Vercel (TTFB ~30ms vs ~200ms
+// SSR). Le bug Vite/Tailwind/Rolldown qui empechait prerender a ete fixe en
+// V3-D (commit 367871f, retrait vite top-level dep).
+export const prerender = true;
+
 import ConversionFunnelTemplate from '../../components/templates/ConversionFunnelTemplate.astro';
 
 const heroStats = [
