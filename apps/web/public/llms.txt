@@ -17,9 +17,10 @@ Notre différence : nous livrons des agents qui exécutent en production, pas de
 - [Technologies](https://waimia.com/technologies): écosystème Claude + open-source souverain (vLLM, Ollama, Llama 4, DeepSeek, Qwen).
 - [Études de cas](https://waimia.com/ressources/cas): ROI mesuré, NDA-protected.
 - [Blog](https://waimia.com/ressources/blog): notes de terrain et essais.
-- [Calculateurs gratuits](https://waimia.com/ressources/outils): TCO d'agent, ROI, AI Act readiness.
+- [Livre blanc AI Act Readiness](https://waimia.com/ressources/livres-blancs/ai-act-readiness): dossier de conformité téléchargeable.
+- [Cookbooks Claude](https://waimia.com/ressources/cookbooks): patterns d'automatisation concrets pour équipes PME.
 - [L'Agence](https://waimia.com/agence): vision, équipe, certifications, bureaux.
-- [Trust Center](https://waimia.com/trust): AI Act, RGPD, LPD, ISO 27001.
+- [Trust Center](https://waimia.com/agence/trust-center): AI Act, RGPD, LPD, ISO 27001.
 
 ## Pages détaillées (modèles éditoriaux)
 
@@ -46,7 +47,7 @@ Notre différence : nous livrons des agents qui exécutent en production, pas de
 
 **Pouvez-vous déployer souverain ?** Oui — soit via Claude Managed Agents (cloud Anthropic dans la zone de votre choix), soit via self-hosted (vLLM/Ollama sur votre hardware avec modèles open-source). Le choix dépend de vos contraintes ACPR/SecNumCloud/HIPAA.
 
-**Combien coûte un agent ?** Voir notre [calculateur TCO](https://waimia.com/ressources/outils/tco-calculator). Un POC complet démarre généralement à 24 000 € HT sur 4 semaines.
+**Combien coûte un agent ?** Voir notre [livre blanc AI Act](https://waimia.com/ressources/livres-blancs/ai-act-readiness) pour le cadre méthodologique. Un POC complet démarre généralement à 24 000 € HT sur 4 semaines.
 
 **Êtes-vous une agence Anthropic certifiée ?** Partenariat en cours d'agrément. Nos architectes sont Claude Certified.
 
