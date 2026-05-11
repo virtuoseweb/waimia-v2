@@ -81,6 +81,12 @@ const pageLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" href="/favicon.ico" />
 
+    {/* Preconnect Google Fonts (gain LCP 200-500ms — fonts chargees via
+        @import dans tokens.css). DNS lookup + TLS handshake termine
+        avant que le CSS soit parse. */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     {/* JSON-LD baseline (Organization + WebSite) + custom blocks */}
     <JsonLd data={[...baseLd, ...pageLd]} />
 
