@@ -14,17 +14,22 @@
 //   - passer du contenu HTML riche (italic, br) sans sérialisation JSON
 //   - omettre un slot pour cacher la section (ex: pas de manifesto)
 //
-// Composé de · Kicker, Bi, ChapterLabel (atoms) · StatRow, ServiceCatalogRow,
-//              FitColumns, RelatedCards (molecules) · CtaBand (organism).
+// Composé de · Kicker, Bi, ChapterLabel (atoms) · KeyMetric, Callout,
+//              DropCap, PullQuote (editorial) · FitColumns, RelatedCards
+//              (molecules) · CtaBand (organism).
 
 import Base from '../../layouts/Base.astro';
 import Bi from '../ui/atoms/Bi.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
 import ChapterLabel from '../ui/atoms/ChapterLabel.astro';
-import StatRow from '../ui/molecules/StatRow.astro';
 import FitColumns from '../ui/molecules/FitColumns.astro';
 import RelatedCards from '../ui/molecules/RelatedCards.astro';
 import CtaBand from '../ui/organisms/CtaBand.astro';
+import Callout from '../editorial/Callout.astro';
+import KeyMetric from '../editorial/KeyMetric.astro';
+import DropCap from '../editorial/DropCap.astro';
+import PullQuote from '../editorial/PullQuote.astro';
+import { langFromPath } from '../../lib/i18n';
 
 interface Stat {
   k: string;
@@ -69,6 +74,9 @@ const {
   fitNoTitleFr, fitNoTitleEn, fitNoItems,
   relatedKickerFr, relatedKickerEn, relatedCards,
 } = Astro.props;
+
+const lang = langFromPath(Astro.url.pathname);
+const isFr = lang === 'fr';
 ---
 <Base title={title} description={description}>
   {/* MASTHEAD */}
@@ -78,16 +86,26 @@ const {
         <Bi fr={metaKickerFr} en={metaKickerEn} />
       </Kicker>
       <Kicker tone="accent" class="hub-num">§ {hubNum}</Kicker>
-      <h1 class="hub-h1">
+      <h1 class="hub-h1 reveal">
         <slot name="headline" />
       </h1>
-      <p class="hub-lede">
-        <slot name="lede" />
-      </p>
+      <div class="hub-lede reveal">
+        <p>
+          <DropCap variant="mono">§</DropCap>
+          <slot name="lede" />
+        </p>
+      </div>
 
       {stats && stats.length > 0 && (
-        <div class="hub-stats">
-          <StatRow stats={stats} />
+        <div class="hub-stats reveal-stagger">
+          {stats.map((stat, index) => (
+            <KeyMetric
+              value={stat.k}
+              label={isFr ? stat.label_fr : stat.label_en}
+              size={index === 0 ? 'lg' : 'md'}
+              variant={index === 1 ? 'accent' : 'default'}
+            />
+          ))}
         </div>
       )}
     </div>
@@ -96,10 +114,12 @@ const {
   {/* MANIFESTO PULL (optionnel) */}
   {Astro.slots.has('manifesto') && (
     <section class="hub-manifesto">
-      <div class="wrap-wide hub-manifesto-grid">
+      <div class="wrap-wide hub-manifesto-grid reveal-stagger">
         <ChapterLabel num={`§ ${hubNum}.0`} title="Stance" />
         <div class="hub-manifesto-text">
-          <slot name="manifesto" />
+          <Callout variant="manifesto" size="lg">
+            <slot name="manifesto" />
+          </Callout>
         </div>
       </div>
     </section>
@@ -112,7 +132,9 @@ const {
         <ChapterLabel num={`FIG ${hubNum}.S`} title="Catalogue" />
         <Kicker><slot name="catalog-meta" /></Kicker>
       </header>
-      <slot name="catalog" />
+      <div class="hub-catalog-list reveal-stagger">
+        <slot name="catalog" />
+      </div>
     </div>
   </section>
 
@@ -123,7 +145,16 @@ const {
       <h2 class="hub-fit-h2">
         <slot name="fit-headline" />
       </h2>
+      <div class="hub-fit-callout reveal">
+        <Callout variant="info" size="sm">
+          <Bi>
+            <Fragment slot="fr">Le bon engagement tient en deux colonnes&nbsp;: ce que l'on peut rendre opérable, et ce que l'on doit refuser avant de diluer la mission.</Fragment>
+            <Fragment slot="en">A good engagement fits in two columns: what can become operational, and what must be refused before the mission gets diluted.</Fragment>
+          </Bi>
+        </Callout>
+      </div>
       <FitColumns
+        class="hub-fit-cols reveal-stagger"
         yesTitleFr={fitYesTitleFr} yesTitleEn={fitYesTitleEn} yesItems={fitYesItems}
         noTitleFr={fitNoTitleFr} noTitleEn={fitNoTitleEn} noItems={fitNoItems}
       />
@@ -134,7 +165,18 @@ const {
   <section class="hub-related">
     <div class="wrap-wide">
       <Kicker class="hub-related-kicker">§ {hubNum}.C · <Bi fr={relatedKickerFr} en={relatedKickerEn} /></Kicker>
-      <RelatedCards cards={relatedCards} />
+      <RelatedCards cards={relatedCards} class="hub-related-grid reveal-stagger" />
+    </div>
+  </section>
+
+  <section class="hub-closing">
+    <div class="wrap-wide">
+      <PullQuote variant="centered" attribution="Waimia">
+        <Bi>
+          <Fragment slot="fr">Le livrable final n'est pas un effet d'annonce. C'est une couche que vos équipes peuvent relire, reprendre et exploiter.</Fragment>
+          <Fragment slot="en">The final deliverable is not theatre. It is an operating layer your teams can read, own, and use.</Fragment>
+        </Bi>
+      </PullQuote>
     </div>
   </section>
 
@@ -165,7 +207,22 @@ const {
     color: var(--muted);
     text-wrap: balance;
   }
-  .hub-stats { margin-top: 70px; }
+  .hub-lede p { margin: 0; }
+  .hub-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 70px;
+    border-top: 1px solid var(--hairline-strong);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .hub-stats :global(.key-metric) {
+    min-height: 100%;
+    padding: clamp(24px, 3vw, 36px) clamp(14px, 2vw, 22px);
+    border-right: 1px solid var(--hairline);
+  }
+  .hub-stats :global(.key-metric:last-child) { border-right: none; }
+  .hub-stats :global(.key-metric-value) { font-style: normal; }
 
   .hub-manifesto {
     padding: clamp(80px, 10vw, 100px) 32px;
@@ -187,6 +244,15 @@ const {
     text-wrap: balance;
   }
   .hub-manifesto-text :global(i) { font-style: italic; color: var(--accent); }
+  .hub-manifesto-text :global(.callout) { margin: 0; }
+  .hub-manifesto-text :global(.callout-manifesto) {
+    border-color: var(--hairline-strong);
+    padding-block: clamp(24px, 4vw, 48px);
+  }
+  .hub-manifesto-text :global(.callout-body) {
+    font-size: inherit;
+    line-height: inherit;
+  }
 
   .hub-catalog { padding: clamp(80px, 10vw, 120px) 32px; }
   .hub-catalog-hd {
@@ -198,6 +264,22 @@ const {
     border-bottom: 1px solid var(--ink);
     flex-wrap: wrap;
     gap: 14px;
+  }
+  .hub-catalog-list {
+    border-top: 1px solid var(--hairline-strong);
+  }
+  .hub-catalog-list :global(.svc-row) {
+    border-top: 1px solid var(--hairline-strong);
+    transition:
+      background 240ms var(--ease),
+      padding-left 320ms var(--ease),
+      padding-right 320ms var(--ease),
+      transform 320ms var(--ease);
+  }
+  .hub-catalog-list :global(.svc-row:first-child) { border-top: none; }
+  .hub-catalog-list :global(.svc-row:hover) {
+    background: var(--paper-2);
+    transform: translateY(-2px);
   }
 
   .hub-fit {
@@ -217,12 +299,58 @@ const {
     font-weight: 400;
   }
   .hub-fit-h2 :global(i) { font-style: italic; }
+  .hub-fit-callout {
+    max-width: 760px;
+    margin-bottom: clamp(36px, 5vw, 56px);
+  }
+  .hub-fit-callout :global(.callout) {
+    color: rgba(246, 241, 232, 0.72);
+    border-left-color: rgba(246, 241, 232, 0.28);
+    margin: 0;
+  }
+  .hub-fit-callout :global(.callout-body) { font-family: var(--font-sans); }
+  :global(.hub-fit-cols) {
+    border-top: 1px solid rgba(246, 241, 232, 0.18);
+  }
+  :global(.hub-fit-cols .fit-col) {
+    border-top: 1px solid rgba(246, 241, 232, 0.18);
+    transition: background 240ms var(--ease), transform 320ms var(--ease);
+  }
+  :global(.hub-fit-cols .fit-col:hover) {
+    background: rgba(246, 241, 232, 0.04);
+    transform: translateY(-2px);
+  }
 
   .hub-related { padding: clamp(80px, 10vw, 120px) 32px; }
   :global(.hub-related-kicker) { display: block; margin-bottom: 30px; }
+  :global(.hub-related-grid .related-card) {
+    border-top: 1px solid var(--hairline-strong);
+    transition: background 240ms var(--ease), transform 320ms var(--ease);
+  }
+  :global(.hub-related-grid .related-card:hover) {
+    background: var(--paper-2);
+    transform: translateY(-2px);
+  }
+
+  .hub-closing {
+    padding: clamp(24px, 5vw, 56px) 32px clamp(80px, 10vw, 120px);
+    border-top: 1px solid var(--hairline);
+  }
+  .hub-closing :global(.pull-quote) { margin-block: 0; }
 
   @media (max-width: 900px) {
     .hub-masthead { padding-top: 100px; }
     .hub-manifesto-grid { grid-template-columns: 1fr; }
+    .hub-stats { grid-template-columns: repeat(2, 1fr); }
+    .hub-stats :global(.key-metric:nth-child(2n)) { border-right: none; }
+  }
+
+  @media (max-width: 640px) {
+    .hub-stats { grid-template-columns: 1fr; }
+    .hub-stats :global(.key-metric) {
+      border-right: none;
+      border-bottom: 1px solid var(--hairline);
+    }
+    .hub-stats :global(.key-metric:last-child) { border-bottom: none; }
   }
 </style>
