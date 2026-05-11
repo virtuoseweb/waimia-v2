@@ -13,6 +13,7 @@ import ProgressBar from '../components/ui/atoms/ProgressBar.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import { organization, website } from '../lib/seo';
 import { langFromPath, alternateHref, HREFLANG } from '../lib/i18n';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -86,6 +87,7 @@ const pageLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     {/* Sitemap & RSS */}
     <link rel="sitemap" href="/sitemap-index.xml" />
 
+    <ClientRouter />
     <slot name="head" />
   </head>
   <body>
