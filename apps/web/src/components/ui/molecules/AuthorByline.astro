@@ -43,7 +43,7 @@ const dateFormatted = date
   <div class="byline">
     {author.data.photo && (
       <a href={`/equipe/${author.id}`} class="byline-photo-link">
-        <img src={author.data.photo} alt={author.data.photoAlt_fr ?? author.data.title_fr} class="byline-photo" />
+        <img src={author.data.photo} alt={author.data.photoAlt_fr ?? author.data.title_fr} class="byline-photo" loading="lazy" decoding="async" />
       </a>
     )}
     <div class="byline-meta">

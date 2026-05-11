@@ -128,6 +128,8 @@ const collectionPageLd = {
                   src={author.data.photo}
                   alt={author.data.photoAlt_fr ?? author.data.title_fr}
                   class="eq-card-photo"
+                  loading="lazy"
+                  decoding="async"
                 />
               )}
               <div class="eq-card-body">
