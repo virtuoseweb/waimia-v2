@@ -32,7 +32,11 @@
  *   </TechnologiesDetailTemplate>
  */
 import Base from '../../layouts/Base.astro';
-
+import Callout from '../editorial/Callout.astro';
+import KeyMetric from '../editorial/KeyMetric.astro';
+import Timeline from '../editorial/Timeline.astro';
+import EditorialTable from '../editorial/EditorialTable.astro';
+import Dingbat from '../editorial/Dingbat.astro';
 
 interface Props {
   /** SEO meta · title de la page */
@@ -69,6 +73,83 @@ const {
   ctaHref = '/contact',
   ctaLabel = 'Parler architecture →',
 } = Astro.props;
+
+const renderFirstSlot = async (names: string[]) => {
+  for (const name of names) {
+    if (Astro.slots.has(name)) {
+      return (await Astro.slots.render(name)) ?? '';
+    }
+  }
+
+  return '';
+};
+
+const positioningStatementHtml = await renderFirstSlot(['positioning-statement']);
+const capabilitiesHtml = await renderFirstSlot(['capabilities-grid', 'capabilities']);
+const modelsRowsHtml = await renderFirstSlot(['models-rows']);
+const whenUseHtml = await renderFirstSlot(['when-to-use', 'when-use']);
+const whenAvoidHtml = await renderFirstSlot(['when-not-to-use', 'when-avoid']);
+const integrationHtml = await renderFirstSlot(['integration-flow', 'integration-nodes']);
+const ecosystemHtml = await renderFirstSlot(['ecosystem-grid', 'ecosystem']);
+
+const stripHtml = (html: string) =>
+  html
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const extract = (html: string, selectorClass: string) => {
+  const match = html.match(new RegExp(`<[^>]*class=["'][^"']*${selectorClass}[^"']*["'][^>]*>([\\s\\S]*?)<\\/[^>]+>`, 'i'));
+  return match ? stripHtml(match[1] ?? '') : '';
+};
+
+const extractTag = (html: string, tag: string) => {
+  const match = html.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i'));
+  return match ? stripHtml(match[1] ?? '') : '';
+};
+
+const splitBlocks = (html: string, selectorClass: string) =>
+  html
+    .split(new RegExp(`<[^>]*class=["'][^"']*${selectorClass}[^"']*["'][^>]*>`, 'i'))
+    .slice(1);
+
+const capabilities = splitBlocks(capabilitiesHtml, 'cap-card')
+  .map((block) => ({
+    kicker: extract(block, 'cap-ck') || extract(block, 'kicker'),
+    title: extractTag(block, 'h3'),
+    body: extractTag(block, 'p'),
+    value: extract(block, 'cap-v') || extract(block, 'cap-value'),
+  }))
+  .filter((item) => item.title && item.body);
+
+const modelRows = Array.from(modelsRowsHtml.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi))
+  .map((rowMatch) =>
+    Array.from((rowMatch[1] ?? '').matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi))
+      .map((cellMatch) => stripHtml(cellMatch[1] ?? ''))
+  )
+  .filter((row) => row.length > 0);
+
+const integrationEvents = splitBlocks(integrationHtml, 'flow-node')
+  .map((block) => ({
+    num: extract(block, 'flow-layer').split('·')[0]?.trim(),
+    meta: extract(block, 'flow-layer').split('·').slice(1).join('·').trim(),
+    title: extractTag(block, 'h3'),
+    body: extract(block, 'flow-body') || extractTag(block, 'p'),
+    variant: /flow-node--active/.test(block) ? 'highlight' as const : 'default' as const,
+  }))
+  .filter((event) => event.title && event.body);
+
+const placeholderIntegrationEvents = splitBlocks(integrationHtml, 'node')
+  .map((block) => ({
+    num: extract(block, 'node-k'),
+    title: extract(block, 'node-l'),
+    body: 'Phase de cadrage architecture Waimia.',
+    variant: 'default' as const,
+  }))
+  .filter((event) => event.title);
+
+const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeholderIntegrationEvents;
 ---
 <Base {title} {description}>
     {/* ────────── 1. HERO LAYER ────────── */}
@@ -87,9 +168,9 @@ const {
           <span>{layerLabel}</span>
         </nav>
         <div class={`tech-hero-layer tech-hero-layer--${layerType}`}>{layer}</div>
-        <h1 class="tech-hero-title"><slot name="title" /></h1>
+        <h1 class="tech-hero-title reveal"><slot name="title" /></h1>
         <div class="tech-hero-sub">
-          <p class="tech-hero-lead"><slot name="lead" /></p>
+          <p class="tech-hero-lead reveal"><slot name="lead" /></p>
           <div class="tech-hero-actions">
             <a class="tech-hero-cta" href={ctaHref}>{ctaLabel}</a>
             {meta && <div class="tech-hero-meta">{meta}</div>}
@@ -99,7 +180,7 @@ const {
     </section>
 
     {/* ────────── 2. POSITIONING SPLIT (signature) ────────── */}
-    <section class="tech-sec tech-sec-paper" data-screen-label="02 Positioning">
+    <section class="tech-sec tech-sec-paper tech-positioning reveal-stagger" data-screen-label="02 Positioning">
       <div class="wrap">
         <div class="tech-pos-split">
           <div class="tech-pos-left">
@@ -108,7 +189,9 @@ const {
             <p class="tech-aside"><slot name="positioning-aside" /></p>
           </div>
           <div class="tech-pos-right">
-            <div class="tech-pos-statement"><slot name="positioning-statement" /></div>
+            <Callout variant="manifesto" size="lg">
+              <div class="tech-pos-statement" set:html={positioningStatementHtml} />
+            </Callout>
             <div class="tech-pos-facts"><slot name="positioning-facts" /></div>
           </div>
         </div>
@@ -125,7 +208,20 @@ const {
           </div>
           <p class="tech-aside"><slot name="capabilities-aside" /></p>
         </div>
-        <div class="tech-cap-grid"><slot name="capabilities" /></div>
+        <div class="tech-cap-grid reveal-stagger">
+          {capabilities.length > 0 ? (
+            capabilities.map((item) => (
+              <article class="cap-card">
+                {item.kicker && <div class="cap-ck">{item.kicker}</div>}
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+                {item.value && <KeyMetric value={item.value} label={item.kicker || 'Signature'} size="sm" variant="accent" />}
+              </article>
+            ))
+          ) : (
+            <Fragment set:html={capabilitiesHtml} />
+          )}
+        </div>
       </div>
     </section>
 
@@ -140,21 +236,29 @@ const {
             </div>
             <p class="tech-aside"><slot name="models-aside" /></p>
           </div>
-          <div class="tech-models-table-wrap">
-            <table class="tech-models-table">
-              <thead>
-                <tr>
-                  <th scope="col">Modèle</th>
-                  <th scope="col">Profil</th>
-                  <th scope="col">Coût</th>
-                  <th scope="col">Contexte</th>
-                  <th scope="col">Usages</th>
-                </tr>
-              </thead>
-              <tbody>
-                <slot name="models-rows" />
-              </tbody>
-            </table>
+          <div class="tech-models-table-wrap reveal-stagger">
+            {modelRows.length > 0 ? (
+              <EditorialTable
+                columns={['Modèle', 'Profil', 'Coût', 'Contexte', 'Usages']}
+                rows={modelRows}
+                caption="Modèles Claude · profil de tâche"
+                variant="editorial"
+              />
+            ) : (
+              <table class="tech-models-table">
+                <caption>Modèles Claude · profil de tâche</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Modèle</th>
+                    <th scope="col">Profil</th>
+                    <th scope="col">Coût</th>
+                    <th scope="col">Contexte</th>
+                    <th scope="col">Usages</th>
+                  </tr>
+                </thead>
+                <tbody set:html={modelsRowsHtml} />
+              </table>
+            )}
           </div>
         </div>
       </section>
@@ -165,22 +269,23 @@ const {
       <div class="wrap">
         <div class="tech-sec-hd">
           <div>
+            <div class="eyebrow">§ Decision</div>
             <div class="kicker">Aide décision</div>
             <h2><slot name="when-title"><i>Quand</i><br/>l'utiliser ?</slot></h2>
           </div>
           <p class="tech-aside"><slot name="when-aside" /></p>
         </div>
-        <div class="tech-when-dual">
+        <div class="tech-when-dual reveal-stagger">
           <div class="tech-when-col tech-when-col--use">
             <div class="kicker tech-when-kicker">Utiliser quand</div>
             <ul class="tech-when-list tech-when-list--use">
-              <slot name="when-use" />
+              <Fragment set:html={whenUseHtml} />
             </ul>
           </div>
           <div class="tech-when-col tech-when-col--avoid">
             <div class="kicker tech-when-kicker">Considérer autre chose quand</div>
             <ul class="tech-when-list tech-when-list--avoid">
-              <slot name="when-avoid" />
+              <Fragment set:html={whenAvoidHtml} />
             </ul>
           </div>
         </div>
@@ -197,7 +302,14 @@ const {
           </div>
           <p class="tech-aside"><slot name="integration-aside" /></p>
         </div>
-        <div class="tech-int-flow"><slot name="integration-nodes" /></div>
+        <div class="tech-int-flow reveal-stagger">
+          <Dingbat variant="section" size="sm" />
+          {timelineEvents.length > 0 ? (
+            <Timeline events={timelineEvents} orientation="vertical" numbered={true} />
+          ) : (
+            <Fragment set:html={integrationHtml} />
+          )}
+        </div>
       </div>
     </section>
 
@@ -212,7 +324,7 @@ const {
             </div>
             <p class="tech-aside"><slot name="ecosystem-aside" /></p>
           </div>
-          <div class="tech-eco-grid"><slot name="ecosystem" /></div>
+          <div class="tech-eco-grid reveal-stagger" set:html={ecosystemHtml} />
         </div>
       </section>
     )}
@@ -336,6 +448,15 @@ const {
   .tech-sec-paper { background: var(--paper-2, #EFEBE2); }
   .tech-sec-dark { background: var(--ink); color: var(--paper); }
   .tech-sec-dark :global(.kicker) { color: var(--accent); }
+  .eyebrow {
+    display: block;
+    margin-bottom: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
   .tech-sec-hd {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -369,6 +490,22 @@ const {
     gap: clamp(32px, 5vw, 80px);
     align-items: start;
   }
+  .tech-pos-right {
+    position: relative;
+    padding-left: clamp(24px, 3vw, 48px);
+  }
+  .tech-pos-right::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    background: var(--hairline-strong, rgba(12,11,9,0.18));
+  }
+  .tech-pos-right :global(.callout) {
+    margin-top: 0;
+  }
   .tech-pos-title {
     font-family: var(--font-display);
     font-size: clamp(36px, 5vw, 64px);
@@ -385,7 +522,7 @@ const {
     letter-spacing: -0.012em;
     color: var(--ink);
     font-style: italic;
-    margin-bottom: clamp(28px, 4vw, 48px);
+    margin-bottom: 0;
     text-wrap: balance;
   }
   .tech-pos-statement :global(em) { color: var(--accent); font-style: italic; }
@@ -435,14 +572,19 @@ const {
   .tech-cap-grid :global(.cap-card) {
     padding: 32px 28px;
     border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 12px;
+    border-radius: 8px;
     background: var(--paper);
-    transition: border-color 220ms var(--ease), transform 220ms var(--ease);
+    box-shadow: inset 0 1px 0 rgba(12,11,9,0.04);
+    transition: background 220ms var(--ease), border-color 220ms var(--ease), box-shadow 220ms var(--ease), transform 220ms var(--ease);
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
-  .tech-cap-grid :global(.cap-card:hover) { border-color: var(--accent); transform: translateY(-2px); }
+  .tech-cap-grid :global(.cap-card:hover) {
+    border-color: var(--hairline-strong, rgba(12,11,9,0.18));
+    box-shadow: inset 0 2px 0 var(--accent);
+    transform: translateY(-2px);
+  }
   .tech-cap-grid :global(.cap-ck) {
     font-family: var(--font-mono);
     font-size: 11px;
@@ -472,14 +614,23 @@ const {
     font-weight: 400;
     margin-top: auto;
   }
+  .tech-cap-grid :global(.key-metric) {
+    margin-top: auto;
+    padding-bottom: 0;
+  }
+  .tech-cap-grid :global(.key-metric-value) {
+    font-size: clamp(30px, 3vw, 44px);
+  }
 
   /* ───── Models Comparison Table ───── */
   .tech-models-table-wrap {
     overflow-x: auto;
     border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 12px;
+    border-radius: 8px;
     background: var(--paper);
+    padding: clamp(18px, 3vw, 32px);
   }
+  .tech-models-table-wrap :global(.ed-table-figure) { margin: 0; min-width: 760px; }
   .tech-models-table {
     width: 100%;
     border-collapse: collapse;
@@ -587,19 +738,17 @@ const {
 
   /* ───── Integration Flow (signature) ───── */
   .tech-int-flow {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: clamp(12px, 1.5vw, 24px);
-    counter-reset: flow;
+    display: block;
+    max-width: 820px;
     position: relative;
+    margin: 0 auto;
   }
-  .tech-int-flow::before {
-    content: '';
-    position: absolute;
-    top: 14px; left: 5%; right: 5%;
-    height: 1px;
-    background: rgba(0,0,0,0.12);
-    z-index: 0;
+  .tech-int-flow :global(.dingbat) { margin-top: 0; }
+  .tech-int-flow :global(.timeline-vertical) { margin-bottom: 0; }
+  .tech-int-flow :global(.timeline-item-highlight .timeline-content) {
+    padding: 18px 22px;
+    border-top: 1px solid var(--accent);
+    background: rgba(201,79,46,0.06);
   }
   .tech-int-flow :global(.flow-node) {
     position: relative;
@@ -658,11 +807,15 @@ const {
   .tech-eco-grid :global(.eco-card) {
     padding: 28px;
     border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 12px;
+    border-top: 2px solid var(--hairline-strong, rgba(12,11,9,0.18));
+    border-radius: 8px;
     background: var(--paper);
-    transition: border-color 220ms var(--ease);
+    transition: background 220ms var(--ease), border-color 220ms var(--ease);
   }
-  .tech-eco-grid :global(.eco-card:hover) { border-color: var(--accent); }
+  .tech-eco-grid :global(.eco-card:hover) {
+    background: var(--paper-2, #EFEBE2);
+    border-color: var(--accent);
+  }
   .tech-eco-grid :global(.eco-card h3) {
     font-family: var(--font-display);
     font-size: 21px;
@@ -749,8 +902,13 @@ const {
 
   @media (max-width: 900px) {
     .tech-pos-split { grid-template-columns: 1fr; }
-    .tech-int-flow { grid-template-columns: repeat(2, 1fr); }
-    .tech-int-flow::before { display: none; }
+    .tech-pos-right { padding-left: 0; padding-top: 28px; }
+    .tech-pos-right::before {
+      top: 0;
+      bottom: auto;
+      width: 100%;
+      height: 1px;
+    }
   }
   @media (max-width: 800px) {
     .tech-hero-sub { grid-template-columns: 1fr; }
@@ -762,6 +920,6 @@ const {
     }
   }
   @media (max-width: 600px) {
-    .tech-int-flow { grid-template-columns: 1fr; }
+    .tech-models-table-wrap { padding: 16px; }
   }
 </style>
