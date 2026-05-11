@@ -102,10 +102,19 @@ const faqItems = [
   <ScrollProgress />
   <script>
     import { initHomepageNarrative } from '../lib/animations/signature/homepage-narrative';
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initHomepageNarrative);
-    } else {
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+    function bootstrap() {
+      // Kill anciens ScrollTriggers (evite leak + double-init apres ClientRouter)
+      ScrollTrigger.getAll().forEach((t) => t.kill());
       initHomepageNarrative();
     }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootstrap);
+    } else {
+      bootstrap();
+    }
+    document.addEventListener('astro:page-load', bootstrap);
   </script>
 </Base>

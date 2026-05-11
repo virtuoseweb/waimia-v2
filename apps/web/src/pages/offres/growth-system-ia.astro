@@ -72,15 +72,21 @@ const faqGrowthSchema = buildFAQPage(faqGrowthItems);
     <script>
       import { initGrowthMethodSticky } from '../../lib/animations/signature/growth-method-sticky';
       import { initOffresRich } from '../../lib/animations/signature/offres-rich';
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-          initGrowthMethodSticky();
-          initOffresRich();
-        });
-      } else {
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      function bootstrap() {
+        // Kill anciens ScrollTriggers (evite leak + double-init apres ClientRouter)
+        ScrollTrigger.getAll().forEach((t) => t.kill());
         initGrowthMethodSticky();
         initOffresRich();
       }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bootstrap);
+      } else {
+        bootstrap();
+      }
+      document.addEventListener('astro:page-load', bootstrap);
     </script>
   </Fragment>
   <Fragment slot="related">

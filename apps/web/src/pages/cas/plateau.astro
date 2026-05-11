@@ -165,11 +165,20 @@ const relatedCards = [
     <ScrollProgress />
     <script>
       import { initCaseStorytelling } from '../../lib/animations/signature/case-storytelling';
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initCaseStorytelling);
-      } else {
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      function bootstrap() {
+        // Kill anciens ScrollTriggers (evite leak + double-init apres ClientRouter)
+        ScrollTrigger.getAll().forEach((t) => t.kill());
         initCaseStorytelling();
       }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bootstrap);
+      } else {
+        bootstrap();
+      }
+      document.addEventListener('astro:page-load', bootstrap);
     </script>
   </Fragment>
 </CaseStudyTemplate>
