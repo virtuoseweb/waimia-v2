@@ -103,6 +103,8 @@ export const MM_OFFRES_NEW: MegaMenu = {
         { href: '/offres/growth-system-ia', label: { en: 'AI Growth System', fr: 'Growth System IA' }, lead: { en: 'Automated acquisition and conversion system. Site, CRM, follow-ups, dashboards — all connected.', fr: "Système d'acquisition et de conversion automatisé. Site, CRM, relances, dashboards — tout connecté." }, featured: true },
         { href: '/offres/growth-intelligence', label: { en: 'Growth Intelligence', fr: 'Growth Intelligence' }, lead: { en: 'Real-time intelligence and data clarity for faster decisions.', fr: 'Pilotage temps réel et lisibilité des données pour décider plus vite.' } },
         { href: '/offres/productivite-operationnelle-ia', label: { en: 'Operational AI', fr: 'Productivité Opérationnelle IA' }, lead: { en: 'Repetitive tasks automated, internal workflows streamlined.', fr: 'Tâches répétitives automatisées, workflows internes fluidifiés.' } },
+        { href: '/offres/site-web-ia', label: { en: 'AI website', fr: 'Site web IA' }, lead: { en: 'Astro + AI site · showcase + acquisition.', fr: 'Site Astro + IA · vitrine + acquisition.' } },
+        { href: '/offres/revops', label: { en: 'RevOps Rebuild', fr: 'RevOps Rebuild' }, lead: { en: 'CRM + warehouse + billing reconciled · 10 wks.', fr: 'CRM + entrepôt + billing réconciliés · 10 sem.' } },
       ],
     },
     {
@@ -111,6 +113,8 @@ export const MM_OFFRES_NEW: MegaMenu = {
       items: [
         { href: '/offres/activation-ia', label: { en: 'AI Activation · 1 week', fr: 'Activation IA · 1 semaine' }, lead: { en: 'Audit + team training. The fast-track entry point.', fr: "Audit + formation des équipes. La porte d'entrée pour activer rapidement." } },
         { href: '/offres/infrastructure-ia', label: { en: 'AI Infrastructure · Enterprise', fr: 'Infrastructure IA · ETI' }, lead: { en: 'Connected systems at scale, multi-team, multi-site.', fr: 'Systèmes connectés à grande échelle, multi-équipes, multi-sites.' } },
+        { href: '/offres/application-ia-pme', label: { en: 'AI Application for SMBs', fr: 'Application IA pour PME' }, lead: { en: 'Dedicated app 8–12 wks. ETI/SMB.', fr: 'App dédiée 8–12 sem. ETI/PME.' } },
+        { href: '/offres/conseil', label: { en: 'AI Consulting & audit', fr: 'Conseil & audit IA' }, lead: { en: '7 audit/roadmap/governance services.', fr: '7 services audit/roadmap/gouvernance.' } },
       ],
     },
   ],
@@ -237,6 +241,8 @@ export const MM_RESOURCES: MegaMenu = {
         { href: '/ressources/cas', label: { en: 'Case studies · measured ROI', fr: 'Études de cas · ROI mesuré' } },
         { href: '/ressources/temoignages', label: { en: 'Client testimonials', fr: 'Témoignages clients' } },
         { href: '/ressources/cas/virtuoseos', label: { en: 'VirtuoseOS · blueprint case', fr: 'VirtuoseOS · cas blueprint' }, featured: true },
+        { href: '/ressources/academy', label: { en: 'Academy · Claude training', fr: 'Academy · formations Claude' }, lead: { en: 'Technical Claude + agents sessions.', fr: 'Sessions techniques Claude + agents.' } },
+        { href: '/ressources/changelog', label: { en: 'Changelog · Claude versions', fr: 'Changelog · versions Claude' }, lead: { en: 'Anthropic product releases watch.', fr: 'Veille produit Anthropic releases.' } },
       ],
     },
     {
@@ -287,6 +293,7 @@ export const MM_AGENCY_NEW: MegaMenu = {
         { href: '/agence/about', label: { en: 'About Waimia', fr: 'À propos de Waimia' } },
         { href: '/agence/methode', label: { en: 'Our method · Process Intelligence', fr: 'Notre méthode · Process Intelligence' }, lead: { en: 'Audit, deployment, measurement — no PowerPoint.', fr: 'Audit, déploiement, mesure — pas de PowerPoint.' }, featured: true },
         { href: '/agence/careers', label: { en: 'Careers', fr: 'Carrières' } },
+        { href: '/equipe/simon-beros', label: { en: 'Simon Beros · Founder CV', fr: 'Simon Beros · CV Founder' }, lead: { en: 'Agentic systems architecture.', fr: 'Architecture systèmes agentiques.' } },
       ],
     },
     {
@@ -295,6 +302,8 @@ export const MM_AGENCY_NEW: MegaMenu = {
       items: [
         { href: '/agence/trust-center', label: { en: 'Trust Center · AI Act, GDPR, ISO', fr: 'Trust Center · AI Act, RGPD, ISO' }, lead: { en: 'All controls, in plain text.', fr: 'Tous les contrôles, en clair.' } },
         { href: '/contact', label: { en: 'Contact us · 45 min', fr: 'Nous contacter · 45 min' }, lead: { en: 'Free scoping, honest audit, or nothing.', fr: 'Cadrage gratuit, audit honnête, ou rien.' } },
+        { href: '/agence/governance', label: { en: 'Governance · ethics committee', fr: 'Gouvernance · ethics committee' }, lead: { en: 'AI ethics committee + whistleblowing.', fr: 'Comité ethics IA + whistleblowing.' } },
+        { href: '/agence/docs', label: { en: 'Technical documentation', fr: 'Documentation technique' }, lead: { en: 'Our stack + integrations.', fr: 'Notre stack + intégrations.' } },
       ],
     },
   ],
@@ -311,6 +320,7 @@ export const MM_AGENCY_NEW: MegaMenu = {
 export const PRIMARY_NAV: Array<MegaMenu | SimpleNav> = [
   MM_SOLUTIONS_NEW,
   MM_OFFRES_NEW,
+  MM_TECH,
   MM_CASES_NEW,
   MM_RESOURCES,
   MM_AGENCY_NEW,
