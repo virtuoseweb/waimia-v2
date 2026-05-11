@@ -12,15 +12,15 @@ import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
 import Button from '../../components/ui/atoms/Button.astro';
 
 const tools = [
-  { kicker: 'OUTIL · 01', title_fr: 'Calculateur TCO agent', title_en: 'Agent TCO calculator',
-    lead_fr: 'Coût total possession 1 agent · 36 mois →', lead_en: 'Total cost of ownership 1 agent · 36 months →',
-    href: '/ressources/outils/tco-calculator' },
-  { kicker: 'OUTIL · 02', title_fr: 'Calculateur ROI', title_en: 'ROI calculator',
-    lead_fr: 'Valeur récupérée vs coût engagement →', lead_en: 'Value recovered vs engagement cost →',
-    href: '/ressources/outils/roi-calculator' },
-  { kicker: 'OUTIL · 03', title_fr: 'Checklist AI Act', title_en: 'AI Act checklist',
-    lead_fr: 'Conformité par cas d\'usage · 47 critères →', lead_en: 'Compliance per use case · 47 criteria →',
-    href: '/ressources/outils/ai-act-checklist' },
+  { kicker: 'LIVRE BLANC · 01', title_fr: "Préparation à l'AI Act", title_en: 'AI Act Readiness',
+    lead_fr: 'Dossier conformité · téléchargeable →', lead_en: 'Compliance dossier · downloadable →',
+    href: '/ressources/livres-blancs/ai-act-readiness' },
+  { kicker: 'ESSAI · 02', title_fr: 'Brain circuit', title_en: 'Brain circuit',
+    lead_fr: "Comment l'IA opérationnelle recâble l'entreprise →", lead_en: 'How operational AI rewires the company →',
+    href: '/ressources/blog/brain-circuit' },
+  { kicker: 'VEILLE · 03', title_fr: 'Veille IA · hebdo', title_en: 'AI watch · weekly',
+    lead_fr: 'Synthèses signées Waimia, sans bruit →', lead_en: 'Signed Waimia briefs, no noise →',
+    href: '/ressources/veille-ia' },
 ];
 
 const cookbookCards = [
@@ -88,8 +88,8 @@ const livresBlancsCards = [
   {/* FEATURED TOOLS */}
   <section class="hub-tools">
     <div class="wrap-wide">
-      <Kicker tone="accent" class="hub-tools-k">§ Outils · calculateurs gratuits sans sign-up</Kicker>
-      <h2 class="hub-tools-h2">Trois <i>calculateurs</i>. Pas de funnel commercial.</h2>
+      <Kicker tone="accent" class="hub-tools-k">§ Lectures · trois entrées gratuites sans sign-up</Kicker>
+      <h2 class="hub-tools-h2">Trois <i>lectures</i>. Pas de funnel commercial.</h2>
       <RelatedCards cards={tools} />
     </div>
   </section>
