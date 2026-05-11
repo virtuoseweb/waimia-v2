@@ -67,29 +67,7 @@ export function initOffresRich(): void {
     });
   }
 
-  /* Effect 3 : Stagger reveal livrables */
-  const delivGrid = document.querySelector<HTMLElement>('.off-del-grid');
-  if (delivGrid) {
-    const items = delivGrid.querySelectorAll<HTMLElement>('.deliverable');
-    items.forEach((item, i) => {
-      const fromX = i % 2 === 0 ? -32 : 32;
-      gsap.fromTo(
-        item,
-        { opacity: 0, x: fromX },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.7,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 88%',
-          },
-          delay: (i % 2) * 0.12,
-        }
-      );
-    });
-  }
+  /* Effect 3 : Stagger reveal livrables — delegue a .reveal-stagger CSS du parent .off-deliverables */
 
   /* Effect 4 : Scroll progress bar si pas deja present */
   const pageProgress = document.querySelector<HTMLElement>('.scroll-progress');
