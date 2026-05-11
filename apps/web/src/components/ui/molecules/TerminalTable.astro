@@ -1,17 +1,21 @@
 ---
-// Molécule · EditorialTable
-// Frame de table éditoriale terminal-style · header (mono uppercase) + slot pour rows.
+// Molécule · TerminalTable
+// Frame de table terminal-style (console) · header (mono uppercase) + slot pour rows.
 // Border 1px solid ink + radius 10px + head bg paper-2.
 //
 // Unifie les 2 tables de /console : `c-services-tbl` (4 cols) et `c-cases-tbl` (7 cols).
 // Le pattern grid est paramétré via `cols` pour réutilisation.
 //
+// Renommee depuis EditorialTable pour eviter collision avec
+// src/components/editorial/EditorialTable.astro (data-journalism FT/NYT).
+// Atomic design ferme : 1 nom = 1 API distincte.
+//
 // Composition rigoureuse Atomic Design : chaque header est rendu via Kicker atom.
 //
 // Usage :
-//   <EditorialTable cols="60px 180px 1fr 120px" headers={['id','service','description','status']}>
+//   <TerminalTable cols="60px 180px 1fr 120px" headers={['id','service','description','status']}>
 //     <EditorialTableRow ...>...
-//   </EditorialTable>
+//   </TerminalTable>
 
 import Kicker from '../atoms/Kicker.astro';
 
