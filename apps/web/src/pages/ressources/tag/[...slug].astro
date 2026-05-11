@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import CtaBand from '../../../components/ui/organisms/CtaBand.astro';
 
 type ResourceEntry =
   | CollectionEntry<'blog'>
@@ -71,7 +72,7 @@ const breadcrumbLd = {
   <section class="tag-mast">
     <div class="wrap-tight">
       <Kicker class="tag-kicker">§ Tag · {items.length} {items.length > 1 ? 'ressources' : 'ressource'}</Kicker>
-      <h1 class="tag-h1">#{slug}</h1>
+      <h1 class="tag-h1 reveal">#{slug}</h1>
     </div>
   </section>
 
@@ -90,6 +91,7 @@ const breadcrumbLd = {
       </ul>
     </div>
   </section>
+  <CtaBand />
 </Base>
 
 <style>

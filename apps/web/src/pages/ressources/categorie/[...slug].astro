@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import Kicker from '../../../components/ui/atoms/Kicker.astro';
 import { CATEGORIES } from '../../../data/taxonomies';
+import CtaBand from '../../../components/ui/organisms/CtaBand.astro';
 
 type ResourceEntry =
   | CollectionEntry<'blog'>
@@ -77,7 +78,7 @@ const collectionPageLd = {
   <section class="cat-mast">
     <div class="wrap-tight">
       <Kicker class="cat-kicker">§ Catégorie · {items.length} {items.length > 1 ? 'ressources' : 'ressource'}</Kicker>
-      <h1 class="cat-h1">{cat.label.fr}</h1>
+      <h1 class="cat-h1 reveal">{cat.label.fr}</h1>
       <p class="cat-lede">{cat.description.fr}</p>
     </div>
   </section>
@@ -98,6 +99,7 @@ const collectionPageLd = {
       {items.length === 0 && <p class="cat-empty">Aucune ressource pour cette catégorie pour le moment.</p>}
     </div>
   </section>
+  <CtaBand />
 </Base>
 
 <style>

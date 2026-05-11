@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import Kicker from '../../../components/ui/atoms/Kicker.astro';
 import { CLUSTERS } from '../../../data/taxonomies';
+import CtaBand from '../../../components/ui/organisms/CtaBand.astro';
 
 type ResourceEntry =
   | CollectionEntry<'blog'>
@@ -79,7 +80,7 @@ const collectionPageLd = {
   <section class="silo-mast">
     <div class="wrap-tight">
       <Kicker class="silo-kicker">§ Silo · cluster éditorial · {items.length} ressources</Kicker>
-      <h1 class="silo-h1">{cluster.label.fr}</h1>
+      <h1 class="silo-h1 reveal">{cluster.label.fr}</h1>
     </div>
   </section>
 
@@ -113,6 +114,7 @@ const collectionPageLd = {
       {otherItems.length === 0 && <p class="silo-empty">Cluster en construction. Articles à venir.</p>}
     </div>
   </section>
+  <CtaBand />
 </Base>
 
 <style>
