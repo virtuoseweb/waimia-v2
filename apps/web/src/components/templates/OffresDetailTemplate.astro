@@ -211,17 +211,13 @@ const growthToolRows = [
     {/* ────────── 4. DELIVERABLES ────────── */}
     <section class="off-sec off-deliverables reveal-stagger" data-screen-label="04 Deliverables">
       <div class="wrap g12 g12--full">
-        <header class="off-sec-hd col-7 start-1">
+        <header class="off-sec-hd col-12">
           <span class="eyebrow">§ Livrables</span>
           <h2>Ce qu'on<br/><i>dépose</i> chez vous</h2>
+          {deliverablesAsideHtml.trim() && (
+            <p class="off-del-lead" set:html={deliverablesAsideHtml} />
+          )}
         </header>
-        {deliverablesAsideHtml.trim() && (
-          <aside class="off-aside off-aside-callout col-4 start-9">
-            <Callout variant="info" size="sm">
-              <Fragment set:html={deliverablesAsideHtml} />
-            </Callout>
-          </aside>
-        )}
         <div class="off-del-grid col-12 g12">
           {deliverables.length > 0 ? (
             deliverables.map((item, index) => (
@@ -288,11 +284,11 @@ const growthToolRows = [
     {tierLabel === 'Growth System IA' && (
       <section class="off-tools off-sec off-sec-paper reveal" data-screen-label="06 Tools">
         <div class="wrap g12 g12--full">
-          <header class="off-sec-hd col-5 start-1">
-            <span class="eyebrow">§ Outils</span>
+          <header class="off-sec-hd col-12">
+            <span class="eyebrow">§ Stack</span>
             <h2><i>Stack</i><br/>déployée</h2>
           </header>
-          <div class="col-7 start-6">
+          <div class="col-12 off-tools-inner">
             <EditorialTable
               caption="Stack outils déployés"
               columns={['Catégorie', 'Outil', 'Rôle']}
@@ -551,6 +547,15 @@ const growthToolRows = [
   .off-steps :global(.step p) { font-size: 15px; line-height: 1.55; color: var(--ink); margin: 0; }
 
   /* ───── Deliverables ───── */
+  .off-del-lead {
+    font-family: var(--font-display);
+    font-size: clamp(15px, 1.3vw, 17px);
+    line-height: 1.5;
+    color: var(--muted);
+    font-style: italic;
+    margin: var(--space-3) 0 0;
+    max-width: 520px;
+  }
   .off-del-grid {
     margin-top: var(--space-4);
   }
@@ -741,6 +746,10 @@ const growthToolRows = [
   .off-related :global(ul[style*='list-style:none'] li span:first-child) {
     font-family: var(--font-mono) !important;
     color: var(--accent) !important;
+  }
+  .off-tools-inner {
+    max-width: 1080px;
+    margin-inline: auto;
   }
   .off-tools :global(.ed-table-figure) {
     margin: 0;
