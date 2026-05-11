@@ -15,6 +15,12 @@
 import Base from '../../layouts/Base.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
 import Button from '../ui/atoms/Button.astro';
+import Callout from '../editorial/Callout.astro';
+import KeyMetric from '../editorial/KeyMetric.astro';
+import Timeline from '../editorial/Timeline.astro';
+import DropCap from '../editorial/DropCap.astro';
+import PullQuote from '../editorial/PullQuote.astro';
+import Dingbat from '../editorial/Dingbat.astro';
 
 interface ToCItem { num: string; title: string; }
 
@@ -35,6 +41,57 @@ interface Props {
   coverUrl?: string;
 }
 const { title, description, slug, kicker, format, publishedAt, toc, coverUrl } = Astro.props as Props;
+
+const headlineHtml = Astro.slots.has('headline') ? await Astro.slots.render('headline') : title;
+const ledeHtml = Astro.slots.has('lede') ? await Astro.slots.render('lede') : description;
+const extraHtml = Astro.slots.has('extra') ? await Astro.slots.render('extra') : '';
+
+const stripHtml = (html: string) =>
+  html
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const abstractText = stripHtml(ledeHtml || description);
+const abstractFirst = abstractText.charAt(0);
+const abstractRest = abstractText.slice(1);
+
+const metricSource = [title, description, format, ...toc.map((item) => item.title)].join(' ');
+const metricDefs = [
+  {
+    pattern: /(\d+)\s*crit[eè]res?/i,
+    label: 'critères de contrôle',
+  },
+  {
+    pattern: /(\d+)\s*mois/i,
+    label: 'mois de feuille de route',
+  },
+  {
+    pattern: /(\d+)\s*pages?/i,
+    label: 'pages opérationnelles',
+  },
+  {
+    pattern: /(\d+)\s*questions?/i,
+    label: 'questions de cadrage',
+  },
+];
+
+const keyMetrics = metricDefs
+  .map((metric) => {
+    const match = metricSource.match(metric.pattern);
+    return match?.[1] ? { value: match[1], label: metric.label } : undefined;
+  })
+  .filter((metric): metric is { value: string; label: string } => Boolean(metric))
+  .slice(0, 3);
+
+const tocEvents = toc.map((item, index) => ({
+  num: item.num,
+  title: item.title,
+  meta: index === 0 ? 'Ouverture' : `Chapitre ${item.num}`,
+  body: 'Repère inclus dans le dossier téléchargeable, avec méthode et points de contrôle.',
+  variant: index === 0 ? 'highlight' as const : 'default' as const,
+}));
 ---
 <Base title={title} description={description}>
   {/* HERO · titre + cover */}
@@ -42,8 +99,8 @@ const { title, description, slug, kicker, format, publishedAt, toc, coverUrl } =
     <div class="wrap-wide lm-hero-grid">
       <div class="lm-hero-text">
         <Kicker tone="accent" class="lm-kicker">{kicker}</Kicker>
-        <h1 class="lm-h1"><slot name="headline" /></h1>
-        <p class="lm-lede"><slot name="lede" /></p>
+        <h1 class="lm-h1 reveal" set:html={headlineHtml} />
+        <p class="lm-lede reveal" set:html={ledeHtml} />
         <div class="lm-meta">
           <span>{format}</span>
           <span aria-hidden>·</span>
@@ -52,11 +109,37 @@ const { title, description, slug, kicker, format, publishedAt, toc, coverUrl } =
           <span>Gratuit</span>
         </div>
       </div>
-      {coverUrl && (
-        <div class="lm-cover" aria-hidden>
-          <img src={coverUrl} alt="" loading="eager" />
+      <aside class="lm-hero-panel reveal-stagger" aria-label="Résumé du livre blanc">
+        {coverUrl && (
+          <div class="lm-cover" aria-hidden>
+            <img src={coverUrl} alt="" loading="eager" />
+          </div>
+        )}
+        <div class="lm-download-card">
+          <span class="lm-download-label">Dossier gated</span>
+          <a class="lm-download-link" href="#lead-magnet-form">Recevoir le PDF</a>
         </div>
-      )}
+      </aside>
+    </div>
+  </section>
+
+  <section class="lm-abstract">
+    <div class="wrap-wide lm-abstract-grid reveal-stagger">
+      <div class="lm-abstract-copy">
+        <Kicker tone="accent">§ 00 · Résumé exécutif</Kicker>
+        <p class="lm-abstract-text">
+          {abstractFirst && <DropCap variant="serif">{abstractFirst}</DropCap>}{abstractRest}
+        </p>
+      </div>
+      <div class="lm-metrics" aria-label="Chiffres clés du livre blanc">
+        {keyMetrics.length > 0 ? (
+          keyMetrics.map((metric) => (
+            <KeyMetric value={metric.value} label={metric.label} size="sm" variant="accent" />
+          ))
+        ) : (
+          <KeyMetric value={String(toc.length)} label="chapitres structurés" size="sm" variant="accent" />
+        )}
+      </div>
     </div>
   </section>
 
@@ -64,7 +147,7 @@ const { title, description, slug, kicker, format, publishedAt, toc, coverUrl } =
   <section class="lm-body">
     <div class="wrap-wide lm-body-grid">
       {/* Form gated */}
-      <form class="lm-form" method="post" action="/api/lead-magnet" name="lead-magnet">
+      <form id="lead-magnet-form" class="lm-form reveal" method="post" action="/api/lead-magnet" name="lead-magnet">
         <input type="hidden" name="slug" value={slug} />
         <Kicker tone="accent" class="lm-form-k">§ 01 · Recevoir le PDF par email</Kicker>
         <h2 class="lm-form-h2">Trois <i>champs</i>. Le PDF dans 30 secondes.</h2>
@@ -92,18 +175,35 @@ const { title, description, slug, kicker, format, publishedAt, toc, coverUrl } =
       </form>
 
       {/* Preview ToC */}
-      <aside class="lm-toc">
+      <aside class="lm-toc reveal-stagger">
         <Kicker class="lm-toc-k">§ 02 · Au programme</Kicker>
-        <ol>
-          {toc.map((t) => (
-            <li>
-              <span class="lm-toc-num">{t.num}</span>
-              <span>{t.title}</span>
-            </li>
-          ))}
-        </ol>
-        <slot name="extra" />
+        <Timeline events={tocEvents} orientation="vertical" numbered={true} />
+        <Callout variant="manifesto" size="sm">
+          <p>Un document court, fait pour décider quoi auditer, quoi documenter et quoi corriger en premier.</p>
+        </Callout>
+        <Callout variant="warn" size="sm">
+          <p>À vérifier avant de diffuser un système IA&nbsp;: traçabilité, responsabilité humaine, données sources et preuve d’évaluation.</p>
+        </Callout>
+        {extraHtml && (
+          <>
+            <Dingbat variant="rule" size="sm" />
+            <div class="lm-extra-prose reveal" set:html={extraHtml} />
+          </>
+        )}
       </aside>
+    </div>
+  </section>
+
+  <section class="lm-footer-cta">
+    <div class="wrap-wide lm-footer-grid">
+      <PullQuote attribution="Waimia" variant="inline">
+        Le bon moment pour documenter un système IA, c’est avant que le risque devienne une question juridique.
+      </PullQuote>
+      <div class="lm-footer-action">
+        <Kicker>§ 03 · Prochaine étape</Kicker>
+        <h2>Téléchargez le dossier, puis cadrez votre conformité.</h2>
+        <Button href="#lead-magnet-form" variant="primary" size="lg" mag={0.18}>Recevoir le PDF →</Button>
+      </div>
     </div>
   </section>
 </Base>
@@ -112,7 +212,7 @@ const { title, description, slug, kicker, format, publishedAt, toc, coverUrl } =
   .lm-hero { padding: 140px 32px clamp(40px, 5vw, 72px); border-bottom: 1px solid var(--hairline); }
   .lm-hero-grid {
     display: grid;
-    grid-template-columns: 1.4fr 1fr;
+    grid-template-columns: minmax(0, 7fr) minmax(280px, 4fr);
     gap: clamp(32px, 5vw, 80px);
     align-items: center;
   }
@@ -147,6 +247,11 @@ const { title, description, slug, kicker, format, publishedAt, toc, coverUrl } =
     gap: 12px;
     flex-wrap: wrap;
   }
+  .lm-hero-panel {
+    display: grid;
+    gap: 16px;
+    align-self: stretch;
+  }
   .lm-cover {
     aspect-ratio: 3/4;
     border: 1px solid var(--hairline-strong);
@@ -155,6 +260,60 @@ const { title, description, slug, kicker, format, publishedAt, toc, coverUrl } =
     background: var(--paper-2);
   }
   .lm-cover img { width: 100%; height: 100%; object-fit: cover; }
+  .lm-download-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1px solid var(--hairline-strong);
+    border-bottom: 1px solid var(--hairline);
+    padding: 16px 0;
+  }
+  .lm-download-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .lm-download-link {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .lm-download-link:hover { color: var(--accent); }
+
+  .lm-abstract {
+    padding: clamp(52px, 7vw, 88px) 32px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .lm-abstract-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(240px, 4fr);
+    gap: clamp(32px, 6vw, 80px);
+    align-items: start;
+  }
+  .lm-abstract-copy {
+    max-width: 820px;
+  }
+  .lm-abstract-text {
+    margin: 20px 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.4vw, 34px);
+    line-height: 1.24;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+  .lm-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 16px;
+    border-top: 1px solid var(--hairline-strong);
+    padding-top: 8px;
+  }
 
   .lm-body { padding: clamp(60px, 8vw, 100px) 32px; }
   .lm-body-grid {
@@ -163,6 +322,11 @@ const { title, description, slug, kicker, format, publishedAt, toc, coverUrl } =
     gap: clamp(40px, 6vw, 80px);
   }
   .lm-form { display: flex; flex-direction: column; gap: 22px; }
+  .lm-form {
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--hairline-strong);
+    padding: clamp(24px, 4vw, 40px) 0;
+  }
   :global(.lm-form-k) { display: block; }
   .lm-form-h2 {
     font-family: var(--font-display);
@@ -188,14 +352,15 @@ const { title, description, slug, kicker, format, publishedAt, toc, coverUrl } =
   .form-row input {
     font-family: var(--font-display);
     font-size: 17px;
-    padding: 12px 14px;
-    border: 1px solid var(--hairline-strong);
-    border-radius: 6px;
+    padding: 14px 0;
+    border: 0;
+    border-bottom: 1px solid var(--hairline-strong);
+    border-radius: 0;
     background: var(--paper);
     color: var(--ink);
-    transition: border-color 200ms var(--ease);
+    transition: border-color 200ms var(--ease), background 200ms var(--ease);
   }
-  .form-row input:focus { outline: none; border-color: var(--accent); }
+  .form-row input:focus { outline: none; border-color: var(--accent); background: var(--paper-2); }
   .lm-foot { font-size: 12.5px; line-height: 1.5; color: var(--muted); margin: 8px 0 0; max-width: 540px; }
 
   .lm-toc {
@@ -206,34 +371,59 @@ const { title, description, slug, kicker, format, publishedAt, toc, coverUrl } =
     top: 100px;
   }
   :global(.lm-toc-k) { display: block; margin-bottom: 18px; }
-  .lm-toc ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  .lm-toc :global(.timeline-vertical) { margin: 28px 0 40px; }
+  .lm-toc :global(.timeline-title) { font-size: clamp(18px, 1.6vw, 23px); }
+  .lm-toc :global(.timeline-body) { font-size: 15px; }
+  .lm-toc :global(.callout) { margin-block: 24px; }
+  .lm-toc :global(.callout-manifesto) { text-align: left; }
+  .lm-toc :global(.callout-manifesto .callout-body) { font-size: clamp(20px, 2vw, 28px); }
+  .lm-toc :global(.callout p) { margin: 0; }
+  .lm-extra-prose {
+    margin-top: 32px;
+  }
+  .lm-extra-prose :global(blockquote) {
+    border-left: 2px solid var(--accent);
+    margin: 40px 0;
+    padding-left: 24px;
     font-family: var(--font-display);
-    font-size: 16px;
-    line-height: 1.4;
+    font-size: clamp(22px, 2.4vw, 34px);
+    font-style: italic;
+    line-height: 1.22;
+    color: var(--ink);
   }
-  .lm-toc li {
+
+  .lm-footer-cta {
+    padding: clamp(64px, 9vw, 112px) 32px;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .lm-footer-grid {
     display: grid;
-    grid-template-columns: 36px 1fr;
-    gap: 8px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--hairline);
+    grid-template-columns: minmax(0, 6fr) minmax(280px, 4fr);
+    gap: clamp(40px, 7vw, 96px);
+    align-items: center;
   }
-  .lm-toc-num {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
+  .lm-footer-cta :global(.pull-quote-body),
+  .lm-footer-cta :global(.pull-quote-attr) { color: var(--paper); }
+  .lm-footer-action {
+    display: grid;
+    gap: 22px;
+    justify-items: start;
+  }
+  .lm-footer-action h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: 400;
+    line-height: 1;
+    text-wrap: balance;
   }
 
   @media (max-width: 900px) {
     .lm-hero-grid { grid-template-columns: 1fr; }
+    .lm-abstract-grid { grid-template-columns: 1fr; }
     .lm-body-grid { grid-template-columns: 1fr; }
     .lm-toc { border-left: none; padding-left: 0; border-top: 1px solid var(--hairline); padding-top: 32px; position: static; }
+    .lm-footer-grid { grid-template-columns: 1fr; }
   }
 </style>
