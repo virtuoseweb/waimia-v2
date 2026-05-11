@@ -6,6 +6,8 @@
 
 import UtilityTemplate from '../../components/templates/UtilityTemplate.astro';
 import Kicker from '../../components/ui/atoms/Kicker.astro';
+import Timeline from '../../components/editorial/Timeline.astro';
+import MethodeProcessDiagram from '../../components/svg/geometric/MethodeProcessDiagram.astro';
 
 const phases = [
   {
@@ -34,6 +36,12 @@ const phases = [
     body_fr: "Vous prenez la main. Documentation, runbook, formation. Pas de boîte noire, pas de captivité. Vous pouvez nous virer.",
   },
 ];
+
+const timelineEvents = phases.map(p => ({
+  num: p.n,
+  title: p.label_fr,
+  body: p.body_fr,
+}));
 ---
 <UtilityTemplate
   title="Notre méthode · Process Intelligence · Waimia"
@@ -48,17 +56,12 @@ const phases = [
   </Fragment>
 
   <Fragment slot="body">
-    {/* ── PHASES ── */}
-    <div class="meth-phases">
-      {phases.map((p) => (
-        <div class="meth-phase reveal-up">
-          <div class="meth-phase-n">{p.n}</div>
-          <div class="meth-phase-content">
-            <h3 class="meth-phase-label">{p.label_fr}</h3>
-            <p class="meth-phase-body">{p.body_fr}</p>
-          </div>
-        </div>
-      ))}
+    {/* ── PHASES via Timeline ── */}
+    <Timeline events={timelineEvents} numbered={true} />
+
+    {/* ── DIAGRAM ── */}
+    <div class="meth-diagram reveal">
+      <MethodeProcessDiagram />
     </div>
 
     {/* ── MENTION VIRTUOSEOS ── */}
@@ -82,52 +85,6 @@ const phases = [
 </UtilityTemplate>
 
 <style>
-  /* ── Phases liste verticale ── */
-  .meth-phases {
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid var(--hairline);
-    margin-bottom: clamp(72px, 9vw, 120px);
-  }
-
-  .meth-phase {
-    display: grid;
-    grid-template-columns: 100px 1fr;
-    gap: clamp(20px, 3.5vw, 56px);
-    padding: clamp(28px, 3.5vw, 44px) 0;
-    border-bottom: 1px solid var(--hairline);
-    align-items: start;
-    transition: background 220ms var(--ease);
-  }
-  .meth-phase:hover { background: var(--paper-2); border-radius: 4px; }
-
-  .meth-phase-n {
-    font-family: var(--font-display);
-    font-size: clamp(52px, 6vw, 88px);
-    line-height: 0.9;
-    color: var(--accent);
-    font-style: italic;
-    letter-spacing: -0.03em;
-  }
-
-  .meth-phase-label {
-    font-family: var(--font-display);
-    font-size: clamp(28px, 3.2vw, 48px);
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    margin: 0 0 16px;
-    text-wrap: balance;
-  }
-
-  .meth-phase-body {
-    color: var(--muted);
-    font-size: clamp(15px, 1.4vw, 17px);
-    line-height: 1.65;
-    margin: 0;
-    max-width: 680px;
-  }
-
   /* ── Section VirtuoseOS ── */
   .meth-os {
     background: var(--paper-2);
@@ -197,8 +154,12 @@ const phases = [
   .meth-cta-btn:hover { background: var(--accent); border-color: var(--accent); }
 
   @media (max-width: 700px) {
-    .meth-phase { grid-template-columns: 72px 1fr; }
     .meth-os { padding-inline: 24px; }
     .meth-cta { flex-direction: column; align-items: flex-start; }
+  }
+
+  .meth-diagram {
+    margin: clamp(48px, 6vw, 80px) 0;
+    max-width: 900px;
   }
 </style>

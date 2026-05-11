@@ -21,7 +21,7 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
   </Fragment>
 
   <Fragment slot="body">
-    <div class="about-grid">
+    <div class="about-grid reveal-stagger">
       {/* Story · 60 % */}
       <article class="about-prose">
         <Kicker tone="accent" class="about-kicker">§ 01 · Origine</Kicker>
@@ -58,6 +58,13 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
           <div><dt>Volumes 2025</dt><dd>43 missions · €18M+ pipeline audité</dd></div>
         </dl>
       </aside>
+    </div>
+
+    {/* ── CTA FINAL ── */}
+    <div class="about-cta reveal">
+      <span class="about-cta-eyebrow">§ Travailler avec nous</span>
+      <h2 class="about-cta-h2">Quarante-cinq minutes<br/>pour voir si c'est <i>le bon fit</i>.</h2>
+      <a href="/contact" class="about-cta-btn">Démarrer un diagnostic →</a>
     </div>
   </Fragment>
 </UtilityTemplate>
@@ -133,4 +140,43 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
     .about-grid { grid-template-columns: 1fr; }
     .about-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--hairline); padding-top: 32px; position: static; }
   }
+
+  .about-cta {
+    border-top: 1px solid var(--hairline);
+    padding-top: clamp(48px, 6vw, 80px);
+    margin-top: clamp(64px, 8vw, 100px);
+  }
+  .about-cta-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .about-cta-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4.5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0 0 36px;
+  }
+  .about-cta-h2 i { font-style: italic; color: var(--accent); }
+  .about-cta-btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 16px 36px;
+    border: 1px solid var(--ink);
+    transition: background 220ms var(--ease), border-color 220ms var(--ease);
+    text-decoration: none;
+  }
+  .about-cta-btn:hover { background: var(--accent); border-color: var(--accent); }
 </style>
