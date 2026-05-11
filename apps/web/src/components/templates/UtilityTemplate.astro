@@ -35,14 +35,14 @@ const { title, description, kicker, align = 'left', showCta = true } = Astro.pro
   {/* MASTHEAD */}
   <section class:list={['util-hd', `util-hd-${align}`]}>
     <div class="wrap-wide">
-      {kicker && <Kicker class="util-kicker">{kicker}</Kicker>}
-      <h1 class="util-h1"><slot name="headline" /></h1>
-      <p class="util-lede"><slot name="lede" /></p>
+      {kicker && <Kicker class="util-kicker reveal">{kicker}</Kicker>}
+      <h1 class="util-h1 reveal"><slot name="headline" /></h1>
+      <p class="util-lede reveal"><slot name="lede" /></p>
     </div>
   </section>
 
   {/* BODY · slot libre (form, story, jobs list…) */}
-  <section class="util-body">
+  <section class="util-body reveal">
     <div class="wrap-wide">
       <slot name="body" />
     </div>
