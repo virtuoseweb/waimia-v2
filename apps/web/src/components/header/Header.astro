@@ -164,6 +164,11 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
    supplémentaire et fonctionne en local + prod identique.
    A11y · WCAG 2.4.5 (Multiple Ways) + 2.1.1 (Keyboard) + 4.1.2 (Name, Role, Value) */}
 <script is:inline>
+  // Encapsule toute la logique dans initHeader() pour pouvoir la re-executer
+  // a chaque navigation ClientRouter (astro:page-load fire au load initial
+  // ET a chaque transition). Sans ca, les event listeners sont attaches aux
+  // refs DOM remplacees par la navigation → mega-menu casse apres clic.
+  function initHeader() {
   // ─── 1. Refs · groupées en une passe DOM ───────────────────────────────
   const hdrEl = document.getElementById('hdr');
   if (hdrEl) {
@@ -309,6 +314,16 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
       link.addEventListener('click', () => setSheetOpen(false));
     }
   }
+  }
+
+  // Re-init a chaque navigation ClientRouter ET au load initial.
+  // astro:page-load fire dans les deux cas (Astro 6 + ViewTransitions).
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeader);
+  } else {
+    initHeader();
+  }
+  document.addEventListener('astro:page-load', initHeader);
 </script>
 
 {/* Styles `.mega` et `.mega.is-open` sont déjà dans src/styles/global.css.
