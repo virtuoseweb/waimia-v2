@@ -118,12 +118,12 @@ const proofMetrics = Array.from(
 }));
 
 const deliverableClasses = [
-  'col-6 start-1 deliverable',
-  'col-6 start-7 deliverable',
-  'col-6 start-1 deliverable',
-  'col-6 start-7 deliverable',
-  'col-6 start-1 deliverable',
-  'col-6 start-7 deliverable',
+  'deliverable',
+  'deliverable',
+  'deliverable',
+  'deliverable',
+  'deliverable',
+  'deliverable',
 ];
 
 const metricPlacements = [
@@ -218,7 +218,7 @@ const growthToolRows = [
             <p class="off-del-lead" set:html={deliverablesAsideHtml} />
           )}
         </header>
-        <div class="off-del-grid col-12 g12">
+        <div class="off-del-grid col-12">
           {deliverables.length > 0 ? (
             deliverables.map((item, index) => (
               <article class={deliverableClasses[index % deliverableClasses.length]}>
@@ -559,6 +559,15 @@ const growthToolRows = [
   .off-del-grid {
     margin-top: var(--space-4);
     counter-reset: deliverable-counter;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-7);
+  }
+  @media (max-width: 768px) {
+    .off-del-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
   }
   .deliverable,
   .off-del-grid :global(.del-card) {
