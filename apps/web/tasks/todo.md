@@ -1,5 +1,30 @@
 # Todo
 
+## V9-D-FR — Copywriting FR natif
+
+- [x] Lire les règles, leçons et todo avant modification
+- [x] Auditer les pages signature FR : home, manifeste, méthode, about
+- [x] Réécrire les pages offres FR sans toucher les champs `*_en`
+- [x] Améliorer les frontmatters FR disponibles dans `src/content/cases/*.mdx`
+- [x] Vérifier les composants partagés `Hero`, `Manifesto`, `SixServices` et les constantes rendues
+- [x] Préserver les bodies MDX et ne pas toucher `/en/*`
+- [x] Vérifier avec `pnpm exec astro check`
+- [x] Vérifier avec `pnpm build`
+- [x] Créer le marker `/tmp/codex-missions/waimia-v4/V9DF-DONE.md`
+
+## V9-M — Motion polish profond scroll-linked + micro-interactions
+
+- [x] Lire les règles, leçons et todo avant modification
+- [x] Enrichir `src/styles/scroll-reveal.css` avec `reveal-mask-up`, `reveal-split-letter`, `reveal-curtain`, `reveal-zoom-in` et `reveal-blur-clip`
+- [x] Ajouter le split letter GSAP lazy et le parallax scroll-linked léger sur `[data-par]`
+- [x] Ajouter les ViewTransitions nommées `hero-h1-*`, `hero-img-*` et `card-*` sur hubs/templates concernés
+- [x] Enrichir `CursorDot`, underline liens, Button loading/hover et hover cards deliverable/cas/equipe
+- [x] Préserver le pattern ScrollTrigger kill + réinit sur les 3 pages signature
+- [x] Vérifier `prefers-reduced-motion` sur CSS et via Playwright
+- [x] Vérifier avec `pnpm exec astro check`
+- [x] Vérifier avec `pnpm build`
+- [x] Créer le marker `/tmp/codex-missions/waimia-v4/V9M-DONE.md`
+
 ## V9-L — CRO copywriting + tunnel de conversion pages signature
 
 - [x] Lire les règles, leçons et todo avant modification

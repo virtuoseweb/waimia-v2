@@ -11,6 +11,7 @@ import PersonaSwitcher from '../components/ui/organisms/PersonaSwitcher.astro';
 import Cases           from '../components/ui/organisms/Cases.astro';
 import FieldNotes      from '../components/ui/organisms/FieldNotes.astro';
 import CtaBand         from '../components/ui/organisms/CtaBand.astro';
+import AtlasConnections from '../components/motion/AtlasConnections.astro';
 
 import { langFromPath, localizeHref } from '../lib/i18n';
 const lang = langFromPath(Astro.url.pathname);
@@ -49,6 +50,12 @@ const lang = langFromPath(Astro.url.pathname);
           {lang === 'fr' ? "← Voir l'accueil (direction 1)" : '← See the home (direction 1)'}
         </a>
       </div>
+    </div>
+  </section>
+
+  <section style="padding:0 clamp(20px,4vw,48px) clamp(32px,4vw,56px)">
+    <div style="max-width:1500px;margin:0 auto">
+      <AtlasConnections />
     </div>
   </section>
 

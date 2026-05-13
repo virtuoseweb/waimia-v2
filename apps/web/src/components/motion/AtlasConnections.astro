@@ -1,0 +1,126 @@
+---
+// AtlasConnections · connexions SVG animees entre les 4 piliers Atlas
+// Path drawing : stroke-dashoffset CSS + IntersectionObserver
+// Hover : scale pulse via CSS :hover (0 JS)
+// Composited : transform + opacity + stroke-dashoffset (GPU)
+
+interface Props {
+  class?: string;
+}
+const { class: cls = '' } = Astro.props;
+
+const pillars = [
+  { id: 'audit',         label: 'Audit',         x: 100, y: 60 },
+  { id: 'adoption',      label: 'Adoption',       x: 300, y: 60 },
+  { id: 'orchestration', label: 'Orchestration',  x: 500, y: 60 },
+  { id: 'souverainete',  label: 'Souveraineté',   x: 700, y: 60 },
+];
+
+const connections = [
+  { from: pillars[0], to: pillars[1] },
+  { from: pillars[1], to: pillars[2] },
+  { from: pillars[2], to: pillars[3] },
+  { from: pillars[0], to: pillars[3] },
+];
+---
+
+<div class:list={['atlas-conn-wrap', cls]} aria-hidden="true">
+  <svg
+    class="atlas-conn-svg"
+    viewBox="0 0 800 120"
+    preserveAspectRatio="xMidYMid meet"
+    role="presentation"
+  >
+    {connections.map((c, i) => (
+      <line
+        class="atlas-conn-line"
+        x1={c.from.x} y1={c.from.y}
+        x2={c.to.x}   y2={c.to.y}
+        stroke="var(--accent)"
+        stroke-width="1.5"
+        stroke-opacity="0.35"
+        style={`--line-index:${i}`}
+      />
+    ))}
+    {pillars.map(p => (
+      <g class="atlas-conn-node" data-pillar={p.id}>
+        <circle cx={p.x} cy={p.y} r="6" fill="var(--accent)" opacity="0.8" />
+        <circle cx={p.x} cy={p.y} r="6" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.5" class="atlas-conn-ring" />
+        <text x={p.x} y={p.y + 22} text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="currentColor" opacity="0.55" letter-spacing="0.1em">{p.label.toUpperCase()}</text>
+      </g>
+    ))}
+  </svg>
+</div>
+
+<script>
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var lines = document.querySelectorAll('.atlas-conn-line');
+    if (!lines.length) return;
+
+    lines.forEach(function (line) {
+      if (!(line instanceof SVGLineElement)) return;
+      var len = Math.hypot(
+        (line.x2.baseVal.value - line.x1.baseVal.value),
+        (line.y2.baseVal.value - line.y1.baseVal.value)
+      );
+      line.style.strokeDasharray = String(len);
+      line.style.strokeDashoffset = String(len);
+      line.style.transition = 'none';
+    });
+
+    var wrap = document.querySelector('.atlas-conn-wrap');
+    if (!wrap) return;
+
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        obs.unobserve(entry.target);
+        lines.forEach(function (line, i) {
+          if (!(line instanceof SVGLineElement)) return;
+          var delay = i * 180;
+          setTimeout(function () {
+            line.style.transition = 'stroke-dashoffset 0.9s cubic-bezier(0.22,1,0.36,1)';
+            line.style.strokeDashoffset = '0';
+          }, delay);
+        });
+      });
+    }, { threshold: 0.3 });
+
+    obs.observe(wrap);
+  })();
+</script>
+
+<style>
+  .atlas-conn-wrap {
+    width: 100%;
+    margin: clamp(32px, 4vw, 56px) 0;
+  }
+  .atlas-conn-svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .atlas-conn-node {
+    cursor: default;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  .atlas-conn-node:hover {
+    transform: scale(1.5);
+  }
+  .atlas-conn-ring {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: atlas-pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes atlas-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50%       { transform: scale(2); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .atlas-conn-ring { animation: none; }
+    .atlas-conn-node { transition: none; }
+  }
+</style>

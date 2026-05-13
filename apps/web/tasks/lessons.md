@@ -1,5 +1,12 @@
 # Lessons
 
+## V9-D-FR — Copywriting FR éditorial
+
+- Quand une mission demande de préserver les bodies MDX, limiter les changements content collections aux champs explicitement cités (`title_fr`, `description_fr`, `lead_fr`) et ne pas corriger les `<Bi fr=...>` ni les FAQ frontmatter hors périmètre.
+- Les pages Astro d'offres mélangent souvent `*_fr`, `*_en` et slots FR dans le même fichier : modifier uniquement les chaînes FR et laisser les champs `*_en` intacts, même quand un grep jargon remonte ces champs.
+- Les composants partagés peuvent afficher des textes venant de `src/data/sitemap.ts` plutôt que du composant lui-même ; vérifier les constantes rendues par `Hero`, `SixServices` et les sections home/offres avant de considérer l'audit terminé.
+- `astro check` et `pnpm build` peuvent rester verts avec des warnings/hints existants (collections MDX vides, `z` déprécié, import CSS) ; les noter comme hors périmètre si la mission ne touche que la copie.
+
 ## V9-M — Motion polish profond
 
 - Astro ViewTransitions exige un `transition:name` unique par page ; pour les continuités card → détail, utiliser `card-${slug}` sur la card source et sur le hero détail, puis réserver `hero-h1-${slug}` et `hero-img-${slug}` aux éléments hero internes.

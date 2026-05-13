@@ -17,6 +17,7 @@ export const prerender = true;
 
 import Base from '../layouts/Base.astro';
 import LiquidHero from '../components/motion/LiquidHero.tsx';
+import GrainOverlay from '../components/motion/GrainOverlay.astro';
 import ManifestoAccent from '../components/ui/organisms/ManifestoAccent.astro';
 import Button from '../components/ui/atoms/Button.astro';
 import Kicker from '../components/ui/atoms/Kicker.astro';
@@ -45,6 +46,7 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
 >
   {/* HERO · LiquidHero canvas */}
   <section style="position:relative;min-height:100vh;overflow:hidden;background:var(--ink)">
+    <GrainOverlay />
     <LiquidHero client:visible />
     <div style="position:relative;z-index:2;padding:160px clamp(20px,4vw,48px) 80px;color:var(--paper);min-height:100vh;display:flex;flex-direction:column;justify-content:space-between">
       {/* top meta */}
@@ -240,7 +242,7 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
       <Kicker class="manifesto-acte-v">
         <span style="color:var(--accent)">V.</span> {lang === 'fr' ? "Passer à l'action" : 'Act'}
       </Kicker>
-      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(72px,14vw,260px);line-height:.86;letter-spacing:-0.04em;text-wrap:balance;font-weight:400">
+      <h2 class="reveal manifesto-quote-reveal" style="font-family:var(--font-display);font-size:clamp(72px,14vw,260px);line-height:.86;letter-spacing:-0.04em;text-wrap:balance;font-weight:400">
         {lang === 'fr' ? (<>Arrêtez de <i style="color:var(--accent)">répéter</i>.<br />Livrez.</>) : (<>Stop <i style="color:var(--accent)">rehearsing</i>.<br />Ship.</>)}
       </h2>
       <div style="display:inline-flex;gap:14px;margin-top:60px;flex-wrap:wrap;justify-content:center">
@@ -253,6 +255,31 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
       </div>
     </div>
   </section>
+  <script>
+    // Text reveal Acte V — fade + slide up a l'entree dans le viewport
+    // Utilise IntersectionObserver + CSS transitions composited (transform + opacity)
+    // Aucun innerHTML — animation CSS pure via style properties
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const el = document.querySelector('.manifesto-quote-reveal');
+      if (!(el instanceof HTMLElement)) return;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1)';
+      el.style.transitionDelay = '0.2s';
+      const obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          obs.unobserve(entry.target);
+          var target = entry.target;
+          if (!(target instanceof HTMLElement)) return;
+          target.style.opacity = '1';
+          target.style.transform = 'translateY(0)';
+        });
+      }, { threshold: 0.2 });
+      obs.observe(el);
+    })();
+  </script>
 </Base>
 
 <style>

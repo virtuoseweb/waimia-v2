@@ -92,15 +92,9 @@ const METRICS = [
           bodyPadding={18}
           class="c-hero-term"
         >
-          <div style="color:rgba(246,241,232,.8)">
-            <div style="padding:8px 0"><span style="color:var(--accent)">$ </span>virtuose --version</div>
-            <div style="color:rgba(246,241,232,.55)">VirtuoseOS 2.4.1 · locale fr-FR · kernel ok</div>
-            <div style="padding:8px 0"><span style="color:var(--accent)">$ </span>virtuose ship pipeline.agent</div>
-            <div style="color:rgba(246,241,232,.55)">  → hubspot.sync ok · 482 contacts</div>
-            <div style="color:rgba(246,241,232,.55)">  → claude.triage ok · 14 handoffs</div>
-            <div style="color:rgba(246,241,232,.55)">  → audit.trail open</div>
-            <div style="padding:8px 0;color:var(--accent)">  ✓ pipeline shipped · +€ 19 540 pipeline</div>
-            <div style="padding:8px 0"><span style="color:var(--accent)">$ </span><span class="c-cursor"></span></div>
+          <div id="console-terminal-body" style="color:rgba(246,241,232,.8);font-family:var(--font-mono);font-size:13px;line-height:1.6;min-height:180px">
+            <div id="console-terminal-output"></div>
+            <div style="padding:4px 0"><span style="color:var(--accent)">$ </span><span id="console-terminal-cursor" class="c-cursor"></span></div>
           </div>
         </TerminalMockup>
       </div>
@@ -283,6 +277,106 @@ const METRICS = [
       </div>
     </div>
   </section>
+<script>
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var output = document.getElementById('console-terminal-output');
+    if (!output) return;
+
+    // Séquence de boot : [délai avant (ms), texte, estCommande]
+    var SEQUENCE = [
+      [400,  '$ virtuose --version',                         true],
+      [300,  'VirtuoseOS 2.4.1 · locale fr-FR · kernel ok', false],
+      [600,  '$ virtuose ship pipeline.agent',                true],
+      [200,  '  → hubspot.sync ok · 482 contacts',           false],
+      [120,  '  → claude.triage ok · 14 handoffs',           false],
+      [120,  '  → audit.trail open',                         false],
+      [200,  '  ✓ pipeline shipped · +€19 540 pipeline',     false],
+    ];
+
+    var CHAR_DELAY = 30;   // ms par caractère (lignes de commande)
+    var IDLE_RESET = 60000; // 60s sans interaction → relancer la séquence
+
+    var idleTimer = null;
+    var running   = false;
+
+    function makeRow(text, isCmd) {
+      var row = document.createElement('div');
+      row.style.padding = '4px 0';
+      if (isCmd) {
+        var prompt = document.createElement('span');
+        prompt.style.color = 'var(--accent)';
+        prompt.textContent = '$ ';
+        row.appendChild(prompt);
+      }
+      var content = document.createElement('span');
+      if (!isCmd) {
+        content.style.color = 'rgba(246,241,232,.55)';
+        content.textContent = text;
+      }
+      row.appendChild(content);
+      return { row: row, content: content, text: isCmd ? text.replace(/^\$ /, '') : text };
+    }
+
+    function typeText(contentEl, text, charDelay, cb) {
+      var i = 0;
+      function next() {
+        if (i >= text.length) { if (cb) cb(); return; }
+        contentEl.textContent += text[i];
+        i++;
+        setTimeout(next, charDelay);
+      }
+      next();
+    }
+
+    function runSequence() {
+      if (running) return;
+      running = true;
+      if (output) output.textContent = '';
+      var step = 0;
+
+      function runStep() {
+        if (step >= SEQUENCE.length) {
+          running = false;
+          scheduleIdle();
+          return;
+        }
+        var entry  = SEQUENCE[step];
+        var delay  = entry[0];
+        var text   = entry[1];
+        var isCmd  = entry[2];
+        step++;
+
+        setTimeout(function () {
+          if (!output) return;
+          var r = makeRow(text, isCmd);
+          output.appendChild(r.row);
+          if (isCmd) {
+            typeText(r.content, r.text, CHAR_DELAY, runStep);
+          } else {
+            runStep();
+          }
+        }, delay);
+      }
+
+      runStep();
+    }
+
+    function scheduleIdle() {
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(runSequence, IDLE_RESET);
+    }
+
+    function onUserActivity() { scheduleIdle(); }
+
+    runSequence();
+
+    document.addEventListener('mousemove', onUserActivity, { passive: true });
+    document.addEventListener('keydown',   onUserActivity, { passive: true });
+    document.addEventListener('scroll',    onUserActivity, { passive: true, capture: true });
+  })();
+</script>
 </Base>
 
 <style>
