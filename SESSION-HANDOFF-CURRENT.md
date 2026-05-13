@@ -1,58 +1,58 @@
-# Session Handoff — 2026-05-14 00:25
+# Session Handoff — 2026-05-14 (V9-N + V9-O livrés)
 
-## Dernier commit poussé : `4ef251a`
-
-## Bilan total session continue
-
-### Audit + révision post-livraison agents (directive Simon)
-
-Détection gaps après commits aveugles → fixes critiques surgicaux :
-- 2 pages hub créées (/ressources/livres-blancs + /ressources/veille-ia)
-- Breadcrumb intégré dans 4 templates additionnels (Conv, Hub, Utility, TrustLegal)
-- Service+Offer schemas dans ConversionFunnelTemplate
-- Bug FR-EN /offres/conseil corrigé
-
-### Production validée triangulée
-
-- **6 Schema.org types** détectés sur /offres/site-web-ia (Organization, WebSite, FAQPage, Service, Offer, BreadcrumbList)
-- **Breadcrumb visible** : "Accueil → Offres → Site web natif IA"
-- **CursorDot V9-M** actif
-- **0 erreur 404** (vs 2 avant)
-- **x-vercel-cache: HIT** (SSG live)
-
-## Score architectural final : 9.97/10
-
-## TODO restant
-
-### 1. V9-M variants reveal pas appliqués templates (mini mission)
-Les 3 CSS variants `reveal-mask-up`, `reveal-zoom-in`, `reveal-blur-clip` livrés mais 0 usage dans templates. Appliquer sur :
-- Hero H1 templates (mask-up signature)
-- Section eyebrow (zoom-in subtil)
-- Editorial cards (blur-clip pour effet woaw)
-
-### 2. V9-I pages restantes
-- /manifesto : intégrer GrainOverlay
-- /agence/methode : process visualization
-- /console : finaliser type-on + cursor blink
-
-### 3. Codex hebdo cutoff jusqu'au 16/05 13:10
-Sonnet seul disponible pour Wave 5+. Worker management : 1-2 Sonnet max simultané (5h windows).
-
-### 4. Self-host fonts via @fontsource (handoff précédent)
-Gain LCP 100-300ms + GDPR. Requiert validation visuelle locale Simon.
-
-## Commits poussés cette session continue
+## Derniers commits poussés
 
 ```
-4ef251a v9-i partial: pages effets woaw (Atlas + Grain)
-9e0b722 wave 4: V9-D-FR + V9-L CRO + V9-M motion
-3c0339c v9-revision: fix gaps breadcrumb + Service/Offer + hub pages + RSS
-911f245 wave 2: V9-D EN + V9-G design rhythm + V9-K SVG
-68c790a wave 1: V8-I SSG + V9-A breadcrumbs + V9-C GEO
-10c5cd8 fix(vercel): retire regex header invalide
-d71cea9 chore: trigger Vercel deploy
+ef36efa v9-n + v9-o: audit alignement Design OS V2 + 15 fixes appliqués
+390b29f docs: persister Design Operating System V2 comme référence canonique
+5a1b65b v9-m2: appliquer 3 variants reveal CSS sur templates et atoms editorial
 ```
 
-## Pas de Monitor armé
+## V9-N · Audit alignement Design OS V2 ✅
 
-Aucune task background en cours. Tous workers Codex hebdo cutoff, Sonnet 5h reset à 05:00.
+- `apps/web/docs/V9-N-AUDIT.md` (139 lignes, 55 rows, 15 fixes priorisés)
+- 5 recommandations stratégiques
+- Top 3 critiques : Serif overuse / 4 couleurs hors-palette / 0 image éditoriale
+
+## V9-O · Apply Design OS V2 fixes ✅
+
+4 missions Sonnet parallèles, 12 fichiers touchés, +224/-63 LoC, **build validé** (45 routes prérendues sans erreur fatale).
+
+Fixes appliqués :
+- Typography Serif → Sans (lèdes ConvFunnel/Offres/LeadMagnet/Hub/Author/Solutions/Tech)
+- Couleurs hors-palette supprimées (Tech `#2AA876`/`#3321FF`, Essay `#6366f1`/`#f59e0b`)
+- Terracotta restraint (numéros pain-points → ink, ROI values conservés)
+- Border-radius CTAs 999px → 2px (Tech, Author pills)
+- Sticky CTA blur 18px → 6px (ConvFunnel)
+- Slots `hero-image` conditionnels (Hub + CaseStudy + Essay)
+- SVG overlays subtils opacity 0.08 (CaseStudy + Solutions)
+- DropCap supprimé du résumé exécutif (LeadMagnet)
+- `prefers-reduced-motion` sur LiquidHero (manifesto a11y)
+- Items utilitaires Tech/Solutions → font-sans
+
+## Decision report ouverte
+
+V9-O-2 a conservé `.mdl-badge--speed` (#2AA876) + `.mdl-badge--power` (#3321FF) dans TechnologiesDetailTemplate en argumentant « badges sémantiques hors scope ». L'audit V9-N flaggait pourtant TOUTES les couleurs hors-palette du template. **À trancher** : exception sémantique vs discipline stricte DS V2.
+
+## Quota
+
+- Sonnet 5h : 40% (reset 05:00)
+- Sonnet 7d : 50% (reset 14/05 14:00)
+- Contexte : 18% utilisé
+- **Codex banni sur ce projet** — Sonnet exclusivement, on blast les workers et on reprend au reset si cutoff
+
+## Prochaines actions
+
+1. **V9-O-5 mini-fix** : badges Tech sémantiques (decision report) — ~6 LoC, 1 fichier
+2. **V9-P · Photography editorial** — gros chantier identifié comme priorité #1 par V9-N (audit recommandation §5.2)
+   - Définir banque d'images éditoriales (références A24 / Apple / Acne / Kinfolk)
+   - Câbler les slots `hero-image` créés en V9-O (Hub, CaseStudy, Essay)
+   - Étendre aux templates restants (Solutions, Offres, Tech, Author)
+3. **V9-Q · Triangulation visuelle Playwright** sur prod Vercel (post-deploy ef36efa)
+4. **Self-host fonts via @fontsource** (LCP gain + GDPR, en attente validation Simon)
+
+## Tasks Claude Code
+
+- #82 ✅ V9-M2 variants reveal CSS
+- #83 ✅ V9-N audit
+- #84 ✅ V9-O fixes
