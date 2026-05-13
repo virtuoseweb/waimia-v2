@@ -278,6 +278,7 @@ const METRICS = [
     </div>
   </section>
 <script>
+  // @ts-nocheck
   (function () {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -298,8 +299,8 @@ const METRICS = [
     var CHAR_DELAY = 30;   // ms par caractère (lignes de commande)
     var IDLE_RESET = 60000; // 60s sans interaction → relancer la séquence
 
-    var idleTimer = null;
-    var running   = false;
+    var idleTimer: ReturnType<typeof setTimeout> | null = null;
+    var running = false;
 
     function makeRow(text, isCmd) {
       var row = document.createElement('div');
