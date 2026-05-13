@@ -303,4 +303,9 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
   @keyframes b-slide{to{transform:translateX(-33.333%)}}
   @media (prefers-reduced-motion:reduce){.b-marquee-track{animation:none}}
 
+  @media (prefers-reduced-motion: reduce) {
+    :global(.liquid-hero canvas) { display: none !important; }
+    :global(.liquid-hero) { background: var(--ink); }
+  }
+
 </style>

@@ -70,7 +70,7 @@ export default function LiquidHero() {
         }
         ctx.globalAlpha = 1;
       }
-      raf = requestAnimationFrame(draw);
+      if (!reduced) raf = requestAnimationFrame(draw);
     };
     draw();
 
@@ -82,5 +82,9 @@ export default function LiquidHero() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block' }} />;
+  return (
+    <div className="liquid-hero" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+      <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block' }} />
+    </div>
+  );
 }

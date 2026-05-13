@@ -285,7 +285,6 @@ const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeh
       <div class="wrap">
         <div class="tech-sec-hd">
           <div>
-            <div class="eyebrow">§ Decision</div>
             <div class="kicker">Aide décision</div>
             <h2><slot name="when-title"><i>Quand</i><br/>l'utiliser ?</slot></h2>
           </div>
@@ -405,8 +404,8 @@ const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeh
     background: currentColor;
   }
   .tech-hero-layer--claude { color: var(--accent); }
-  .tech-hero-layer--os { color: #2AA876; }
-  .tech-hero-layer--orch { color: #3321FF; }
+  .tech-hero-layer--os { color: var(--ink); opacity: 0.85; }
+  .tech-hero-layer--orch { color: var(--ink); opacity: 0.65; }
   .tech-hero-title {
     font-family: var(--font-display);
     font-size: clamp(56px, 9vw, 148px);
@@ -417,8 +416,6 @@ const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeh
     text-wrap: balance;
   }
   .tech-hero-title :global(i) { color: var(--accent); font-style: italic; }
-  .tech-hero--os .tech-hero-title :global(i) { color: #2AA876; }
-  .tech-hero--orch .tech-hero-title :global(i) { color: #3321FF; }
   .tech-hero-sub {
     display: grid;
     grid-template-columns: 1.4fr 1fr;
@@ -435,15 +432,13 @@ const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeh
     margin: 0;
   }
   .tech-hero-lead :global(span) { color: var(--accent); display: block; margin-top: 8px; }
-  .tech-hero--os .tech-hero-lead :global(span) { color: #2AA876; }
-  .tech-hero--orch .tech-hero-lead :global(span) { color: #3321FF; }
   .tech-hero-actions { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
   .tech-hero-cta {
     display: inline-block;
     padding: 14px 24px;
     background: var(--ink);
     color: var(--paper);
-    border-radius: 999px;
+    border-radius: 2px;
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
@@ -725,7 +720,7 @@ const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeh
   .tech-when-list :global(li) {
     padding: 18px 0 18px 28px;
     border-bottom: 1px solid rgba(0,0,0,0.08);
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: clamp(16px, 1.4vw, 18.5px);
     line-height: 1.45;
     color: var(--ink);
@@ -885,7 +880,7 @@ const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeh
     padding: 14px 28px;
     background: var(--accent);
     color: var(--paper);
-    border-radius: 999px;
+    border-radius: 2px;
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
@@ -899,7 +894,7 @@ const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeh
     background: transparent;
     color: var(--paper);
     border: 1px solid rgba(246,241,232,0.3);
-    border-radius: 999px;
+    border-radius: 2px;
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
