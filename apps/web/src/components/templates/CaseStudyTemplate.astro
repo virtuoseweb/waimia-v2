@@ -21,6 +21,7 @@ import ProofBand from '../ui/molecules/ProofBand.astro';
 import TechPillRow from '../ui/molecules/TechPillRow.astro';
 import CtaBand from '../ui/organisms/CtaBand.astro';
 import KeyMetric from '../editorial/KeyMetric.astro';
+import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
 
 interface SpecItem {
   label_fr: string;
@@ -56,6 +57,8 @@ interface RelatedCard {
 interface Props {
   title: string;
   description: string;
+  /** Label personnalisé pour le breadcrumb. */
+  caseTitle?: string;
   /** Numéro éditorial (Case 04, Case 07…) */
   caseNum: string;
   /** Spec bar (5 items typiquement : Client, Sector, Duration, Stack, Services) */
@@ -72,15 +75,25 @@ interface Props {
   techPills: Pill[];
   /** Related cards (3 cas connexes) */
   relatedCards: RelatedCard[];
+  /** Offres liées (cross-collection) */
+  relatedOffresLinks?: Array<{ title: string; href: string }>;
 }
 const {
-  title, description, caseNum, specs, steps,
+  title, description, caseTitle, caseNum, specs, steps,
   proofQuoteFr, proofQuoteEn, proofAttrFr, proofAttrEn, proofMetrics,
-  techPills, relatedCards,
+  techPills, relatedCards, relatedOffresLinks,
 } = Astro.props;
 const lang = langFromPath(Astro.url.pathname);
 ---
 <Base title={title} description={description}>
+  <Breadcrumb
+    lang={lang}
+    items={[
+      { label: lang === 'fr' ? 'Accueil' : 'Home', href: lang === 'fr' ? '/' : '/en' },
+      { label: lang === 'fr' ? 'Cas clients' : 'Case studies', href: lang === 'fr' ? '/cas' : '/en/cas' },
+      { label: caseTitle ?? title },
+    ]}
+  />
   {/* MASTHEAD */}
   <section class="case-masthead">
     <svg class="case-hero-decoration" viewBox="0 0 600 500" aria-hidden="true" focusable="false">
@@ -176,6 +189,22 @@ const lang = langFromPath(Astro.url.pathname);
       <TechPillRow pills={techPills} />
     </div>
   </section>
+
+  {relatedOffresLinks && relatedOffresLinks.length > 0 && (
+    <section class="case-related-offres">
+      <p class="case-related-offres__label">
+        {lang === 'en' ? 'Service used' : 'Offre utilisée'}
+      </p>
+      <div class="case-related-offres__links">
+        {relatedOffresLinks.map(off => (
+          <a href={off.href} class="case-offre-link">
+            <span>{off.title}</span>
+            <span aria-hidden>→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 
   {/* RELATED */}
   <section class="case-related reveal-stagger">
@@ -314,6 +343,32 @@ const lang = langFromPath(Astro.url.pathname);
 
   .case-related { padding: clamp(56px, 6vw, 80px) 32px; }
   :global(.case-related-k) { display: block; margin-bottom: 30px; }
+  .case-related-offres {
+    margin: var(--space-6, 2rem) 0;
+    padding: var(--space-4, 1.5rem);
+    border: 1px solid var(--hairline-strong);
+    border-left: 3px solid var(--accent-offre, #f59e0b);
+  }
+  .case-related-offres__label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: var(--space-2, 0.75rem);
+  }
+  .case-offre-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2, 0.75rem) 0;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--hairline-strong);
+    transition: color 200ms var(--ease);
+  }
+  .case-offre-link:last-child { border-bottom: none; }
+  .case-offre-link:hover { color: var(--accent); }
 
   @media (max-width: 900px) {
     .case-context-grid,

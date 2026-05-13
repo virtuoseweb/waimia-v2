@@ -36,6 +36,9 @@ import Timeline from '../editorial/Timeline.astro';
 import KeyMetric from '../editorial/KeyMetric.astro';
 import EditorialTable from '../editorial/EditorialTable.astro';
 import Dingbat from '../editorial/Dingbat.astro';
+import { buildOffer, buildService } from '../../lib/seo/schema-builder';
+import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
+import { langFromPath } from '../../lib/i18n';
 
 interface Props {
   /** SEO meta · title de la page (browser tab) */
@@ -52,6 +55,8 @@ interface Props {
   ctaHref?: string;
   /** Label du CTA hero (default "Parler à un expert →") */
   ctaLabel?: string;
+  /** JSON-LD additionnel fourni par une page appelante. */
+  additionalJsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 const {
@@ -62,7 +67,46 @@ const {
   meta = '',
   ctaHref = '/contact',
   ctaLabel = 'Parler à un expert →',
+  additionalJsonLd,
 } = Astro.props;
+
+const lang = langFromPath(Astro.url.pathname);
+const parseMinPrice = (value: string) => {
+  const normalized = value
+    .replace(/\u00a0/g, ' ')
+    .replace(/\s+/g, ' ')
+    .toLowerCase();
+  const kMatch = normalized.match(/(\d+(?:[,.]\d+)?)\s*(?:à|-|–|—)?\s*\d*(?:[,.]\d+)?\s*k\s*€/);
+  if (kMatch) return Number(kMatch[1]?.replace(',', '.')) * 1000;
+  const euroMatch = normalized.match(/(\d[\d\s.,]*)\s*€/);
+  if (!euroMatch) return undefined;
+  const amount = Number(euroMatch[1]?.replace(/\s/g, '').replace(',', '.'));
+  return Number.isFinite(amount) ? amount : undefined;
+};
+
+const priceFrom = parseMinPrice(meta);
+const pageJsonLd = additionalJsonLd
+  ? (Array.isArray(additionalJsonLd) ? additionalJsonLd : [additionalJsonLd])
+  : [];
+const offreSchemas = [
+  buildService({
+    name: title,
+    description,
+    provider: { '@id': 'https://waimia.com/#organization' },
+    areaServed: ['FR', 'CH', 'BE', 'LU'],
+    serviceType: 'AI Integration',
+  }),
+  buildOffer({
+    name: title,
+    priceCurrency: 'EUR',
+    priceSpecification: {
+      '@type': 'PriceSpecification',
+      priceCurrency: 'EUR',
+      ...(priceFrom ? { minPrice: priceFrom } : {}),
+    },
+  }),
+  ...pageJsonLd,
+];
 
 const methodStepsHtml = await Astro.slots.render('method-steps');
 const methodAsideHtml = await Astro.slots.render('method-aside');
@@ -147,7 +191,15 @@ const growthToolRows = [
   ['Hébergement', 'Vercel / Cloudflare', 'Performance'],
 ];
 ---
-<Base {title} {description}>
+<Base {title} {description} additionalJsonLd={offreSchemas}>
+    <Breadcrumb
+      lang={lang}
+      items={[
+        { label: lang === 'fr' ? 'Accueil' : 'Home', href: lang === 'fr' ? '/' : '/en' },
+        { label: lang === 'fr' ? 'Offres' : 'Services', href: lang === 'fr' ? '/offres' : '/en/offres' },
+        { label: tierLabel },
+      ]}
+    />
     {/* ────────── 1. HERO ────────── */}
     <section class="off-hero reveal" data-screen-label="01 Hero">
       <svg class="off-hero-geo" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">

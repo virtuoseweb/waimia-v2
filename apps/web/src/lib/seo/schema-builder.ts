@@ -7,11 +7,48 @@
  *   // puis pass a <Base jsonLd={jsonLd}>
  */
 
-import type { CollectionEntry } from 'astro:content';
-
 const SITE_URL = 'https://waimia.com';
 
 type Lang = 'fr' | 'en';
+type JsonLdObject = Record<string, unknown>;
+
+interface BuildServiceInput {
+  name: string;
+  description: string;
+  provider?: JsonLdObject;
+  areaServed?: Array<string | JsonLdObject>;
+  serviceType?: string;
+  offers?: JsonLdObject | JsonLdObject[];
+}
+
+interface BuildOfferInput {
+  name: string;
+  price?: string | number;
+  priceCurrency?: string;
+  priceSpecification?: JsonLdObject;
+  availability?: string;
+  url?: string;
+}
+
+interface BuildArticleInput {
+  headline: string;
+  description: string;
+  image?: string | string[];
+  datePublished: string;
+  dateModified?: string;
+  author?: string | JsonLdObject;
+  mainEntityOfPage?: string | JsonLdObject;
+  publisher?: JsonLdObject;
+  articleSection?: string;
+  keywords?: string[];
+  citation?: string[];
+}
+
+interface BuildHowToInput {
+  name: string;
+  steps: Array<string | { name?: string; text: string; url?: string }>;
+  description?: string;
+}
 
 interface BuildContext {
   lang: Lang;
@@ -36,6 +73,7 @@ function buildOrganization() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': `${SITE_URL}/#organization`,
     name: 'Waimia',
     url: SITE_URL,
     logo: `${SITE_URL}/og/default.png`,
@@ -43,8 +81,8 @@ function buildOrganization() {
   };
 }
 
-function buildPersonFromAuthor(authorEntry: any, lang: Lang) {
-  if (!authorEntry) return null;
+function buildPersonFromAuthor(authorEntry: any, lang: Lang): JsonLdObject | undefined {
+  if (!authorEntry) return undefined;
   const a = authorEntry.data;
 
   return {
@@ -91,30 +129,180 @@ function buildFAQPage(faqItems: any[]) {
   };
 }
 
+function withContext(schema: JsonLdObject): JsonLdObject {
+  return { '@context': 'https://schema.org', ...schema };
+}
+
+function buildService(input: BuildServiceInput): JsonLdObject;
+function buildService(name: string, description: string, provider?: JsonLdObject, areaServed?: Array<string | JsonLdObject>): JsonLdObject;
+function buildService(
+  inputOrName: BuildServiceInput | string,
+  description?: string,
+  provider?: JsonLdObject,
+  areaServed?: Array<string | JsonLdObject>,
+): JsonLdObject {
+  const input =
+    typeof inputOrName === 'string'
+      ? { name: inputOrName, description: description ?? '', provider, areaServed }
+      : inputOrName;
+
+  return withContext({
+    '@type': 'Service',
+    name: input.name,
+    description: input.description,
+    provider: input.provider ?? { '@id': `${SITE_URL}/#organization` },
+    areaServed: input.areaServed ?? ['FR', 'CH', 'BE', 'LU'],
+    ...(input.serviceType ? { serviceType: input.serviceType } : {}),
+    ...(input.offers ? { offers: input.offers } : {}),
+  });
+}
+
+function buildOffer(input: BuildOfferInput): JsonLdObject;
+function buildOffer(price: string | number, priceCurrency: string, name: string): JsonLdObject;
+function buildOffer(
+  inputOrPrice: BuildOfferInput | string | number,
+  priceCurrency?: string,
+  name?: string,
+): JsonLdObject {
+  const input =
+    typeof inputOrPrice === 'object'
+      ? inputOrPrice
+      : { price: inputOrPrice, priceCurrency: priceCurrency ?? 'EUR', name: name ?? 'Waimia service' };
+
+  return withContext({
+    '@type': 'Offer',
+    name: input.name,
+    ...(input.price !== undefined ? { price: input.price } : {}),
+    priceCurrency: input.priceCurrency ?? 'EUR',
+    ...(input.priceSpecification ? { priceSpecification: input.priceSpecification } : {}),
+    availability: input.availability ?? 'https://schema.org/InStock',
+    ...(input.url ? { url: input.url } : {}),
+  });
+}
+
+function buildArticle(input: BuildArticleInput): JsonLdObject;
+function buildArticle(
+  headline: string,
+  description: string,
+  image: string | string[] | undefined,
+  datePublished: string,
+  author: string | JsonLdObject,
+): JsonLdObject;
+function buildArticle(
+  inputOrHeadline: BuildArticleInput | string,
+  description?: string,
+  image?: string | string[],
+  datePublished?: string,
+  author?: string | JsonLdObject,
+): JsonLdObject {
+  const input =
+    typeof inputOrHeadline === 'string'
+      ? {
+          headline: inputOrHeadline,
+          description: description ?? '',
+          image,
+          datePublished: datePublished ?? new Date().toISOString().split('T')[0],
+          author,
+        }
+      : inputOrHeadline;
+  const authorSchema =
+    typeof input.author === 'string'
+      ? { '@type': 'Person', name: input.author }
+      : input.author;
+
+  return withContext({
+    '@type': 'Article',
+    headline: input.headline,
+    description: input.description,
+    ...(input.image ? { image: Array.isArray(input.image) ? input.image : [input.image] } : {}),
+    datePublished: input.datePublished,
+    dateModified: input.dateModified ?? input.datePublished,
+    ...(authorSchema ? { author: authorSchema } : {}),
+    publisher:
+      input.publisher ??
+      {
+        '@type': 'Organization',
+        '@id': `${SITE_URL}/#organization`,
+        name: 'Waimia',
+        logo: { '@type': 'ImageObject', url: `${SITE_URL}/og/default.png` },
+      },
+    ...(input.mainEntityOfPage
+      ? {
+          mainEntityOfPage:
+            typeof input.mainEntityOfPage === 'string'
+              ? { '@type': 'WebPage', '@id': input.mainEntityOfPage }
+              : input.mainEntityOfPage,
+        }
+      : {}),
+    ...(input.articleSection ? { articleSection: input.articleSection } : {}),
+    ...(input.keywords && input.keywords.length > 0 ? { keywords: input.keywords } : {}),
+    ...(input.citation && input.citation.length > 0 ? { citation: input.citation } : {}),
+  });
+}
+
+function buildHowTo(input: BuildHowToInput): JsonLdObject;
+function buildHowTo(name: string, steps: BuildHowToInput['steps']): JsonLdObject;
+function buildHowTo(inputOrName: BuildHowToInput | string, steps?: BuildHowToInput['steps']): JsonLdObject {
+  const input = typeof inputOrName === 'string' ? { name: inputOrName, steps: steps ?? [] } : inputOrName;
+
+  return withContext({
+    '@type': 'HowTo',
+    name: input.name,
+    ...(input.description ? { description: input.description } : {}),
+    step: input.steps.map((step, index) => {
+      if (typeof step === 'string') {
+        return { '@type': 'HowToStep', position: index + 1, text: step };
+      }
+      return {
+        '@type': 'HowToStep',
+        position: index + 1,
+        ...(step.name ? { name: step.name } : {}),
+        text: step.text,
+        ...(step.url ? { url: step.url } : {}),
+      };
+    }),
+  });
+}
+
+function buildCollectionPage(name: string, description: string, items: Array<string | JsonLdObject> = []): JsonLdObject {
+  return withContext({
+    '@type': 'CollectionPage',
+    name,
+    description,
+    ...(items.length > 0
+      ? {
+          mainEntity: {
+            '@type': 'ItemList',
+            itemListElement: items.map((item, index) => ({
+              '@type': 'ListItem',
+              position: index + 1,
+              item,
+            })),
+          },
+        }
+      : {}),
+  });
+}
+
 function buildArticleSchema(entry: any, lang: Lang, url: string, authorEntry?: any) {
   const d = entry.data;
 
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
+  return buildArticle({
     headline: lang === 'fr' ? d.title_fr : d.title_en,
     description: lang === 'fr' ? d.description_fr : d.description_en,
     datePublished: new Date(d.publishedAt).toISOString().split('T')[0],
     dateModified: d.updatedAt ? new Date(d.updatedAt).toISOString().split('T')[0] : undefined,
-    author: authorEntry ? buildPersonFromAuthor(authorEntry, lang) : undefined,
-    publisher: {
-      '@type': 'Organization',
-      name: 'Waimia',
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/og/default.png` },
-    },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
-    ...(d.heroImage ? { image: [`${SITE_URL}${d.heroImage}`] } : {}),
+    author: authorEntry ? buildPersonFromAuthor(authorEntry, lang) ?? undefined : undefined,
+    mainEntityOfPage: url,
+    image: d.heroImage ? `${SITE_URL}${d.heroImage}` : undefined,
+    articleSection: lang === 'fr' ? d.category_fr ?? d.category : d.category_en ?? d.category,
+    keywords: d.tags,
     ...(d.sources && d.sources.length > 0
       ? {
           citation: d.sources.map((s: any) => s.url),
         }
       : {}),
-  };
+  });
 }
 
 function buildHowToSchema(entry: any, lang: Lang) {
@@ -212,12 +400,7 @@ function buildProfilePageSchema(personSchema: any) {
 }
 
 function buildCollectionPageSchema(name: string, description: string) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    name,
-    description,
-  };
+  return buildCollectionPage(name, description);
 }
 
 export function buildSchemaForPage(
@@ -405,8 +588,13 @@ export function buildSchemaForPage(
 
 export {
   buildBreadcrumbList,
+  buildArticle,
   buildCollectionPageSchema,
+  buildCollectionPage,
+  buildHowTo,
   buildOrganization,
+  buildOffer,
   buildPersonFromAuthor,
   buildFAQPage,
+  buildService,
 };

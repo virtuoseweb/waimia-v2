@@ -17,6 +17,8 @@ import Kicker from '../ui/atoms/Kicker.astro';
 import RelatedCards from '../ui/molecules/RelatedCards.astro';
 import AuthorCard from '../ui/molecules/AuthorCard.astro';
 import CtaBand from '../ui/organisms/CtaBand.astro';
+import { buildArticle } from '../../lib/seo/schema-builder';
+import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
 
 interface RelatedCard {
   kicker: string;
@@ -43,26 +45,83 @@ interface Props {
   authorSlug?: string;
   /** Sources bibliographiques (depuis frontmatter) */
   sources?: Array<{ name: string; url: string; type: string }>;
+  /** Image absolue ou relative pour Article schema. */
+  image?: string;
+  /** Date ISO optionnelle quand la date affichée est localisée. */
+  datePublished?: string;
+  /** Date de mise à jour ISO optionnelle. */
+  dateModified?: string;
+  /** Canonical absolue optionnelle. */
+  canonical?: string;
+  /** Catégorie éditoriale FR/EN. */
+  category?: string;
+  /** Tags SEO/GEO. */
+  tags?: string[];
+  /** Breadcrumb custom (si absent, calcule automatiquement depuis kicker) */
+  breadcrumbItems?: Array<{ label: string; href?: string }>;
+  /** Lang pour breadcrumb */
+  lang?: 'fr' | 'en';
+  /** Cas clients liés (cross-collection) */
+  relatedCasesData?: Array<{ id: string; title: string; href: string }>;
+  /** Offres liées (cross-collection) */
+  relatedOffresData?: Array<{ id: string; title: string; href: string }>;
 }
-const { title, description, kicker, date, author, readingTime, relatedCards, authorSlug, sources } = Astro.props as Props;
+const {
+  title,
+  description,
+  kicker,
+  date,
+  author,
+  readingTime,
+  relatedCards,
+  authorSlug,
+  sources,
+  image,
+  datePublished,
+  dateModified,
+  canonical,
+  category,
+  tags = [],
+  breadcrumbItems,
+  lang = 'fr',
+  relatedCasesData,
+  relatedOffresData,
+} = Astro.props as Props;
+
+const siteUrl = 'https://waimia.com';
+const canonicalUrl = canonical ?? Astro.url.href;
+const absoluteImage = image
+  ? (image.startsWith('http') ? image : `${siteUrl}${image}`)
+  : `${siteUrl}/og/default.png`;
+const articleSection = category ?? kicker.replace(/^§\s*/, '').split('·')[0]?.trim();
 
 // JSON-LD Article schema · GEO/AIO indexable par crawlers LLM
-const articleLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
+const articleLd = buildArticle({
   headline: title,
   description,
-  datePublished: date,
-  author: { '@type': 'Person', name: author },
+  image: absoluteImage,
+  datePublished: datePublished ?? date,
+  dateModified: dateModified ?? datePublished ?? date,
+  author: {
+    '@type': 'Person',
+    ...(authorSlug ? { '@id': `${siteUrl}/equipe/${authorSlug}#person`, url: `${siteUrl}/equipe/${authorSlug}` } : {}),
+    name: author,
+  },
   publisher: {
     '@type': 'Organization',
+    '@id': `${siteUrl}/#organization`,
     name: 'Waimia',
-    logo: { '@type': 'ImageObject', url: 'https://waimia.com/og/default.png' },
+    logo: { '@type': 'ImageObject', url: `${siteUrl}/og/default.png` },
   },
-  mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
-};
+  mainEntityOfPage: canonicalUrl,
+  articleSection,
+  keywords: tags,
+});
 ---
 <Base title={title} description={description} jsonLd={articleLd}>
+  {breadcrumbItems && breadcrumbItems.length > 0 && (
+    <Breadcrumb lang={lang ?? 'fr'} items={breadcrumbItems} />
+  )}
   <article class="essay">
     {/* MASTHEAD */}
     <header class="essay-hd">
@@ -112,6 +171,27 @@ const articleLd = {
       <div class="wrap-wide essay-footer-grid">
         <div class="essay-footer-related">
           <Kicker class="essay-related-k"><Bi fr="À lire ensuite" en="Related notes" /></Kicker>
+          {(relatedCasesData?.length || relatedOffresData?.length) && (
+            <section class="essay-related-cross">
+              <h2 class="essay-related-cross__title">
+                {lang === 'en' ? 'Related to this article' : 'En lien avec cet article'}
+              </h2>
+              <div class="essay-related-cross__grid">
+                {relatedCasesData?.map(cas => (
+                  <a href={cas.href} class="related-card related-card--case">
+                    <span class="kicker">{lang === 'en' ? '§ Customer case' : '§ Cas client'}</span>
+                    <h3>{cas.title}</h3>
+                  </a>
+                ))}
+                {relatedOffresData?.map(off => (
+                  <a href={off.href} class="related-card related-card--offre">
+                    <span class="kicker">{lang === 'en' ? '§ Service' : '§ Offre'}</span>
+                    <h3>{off.title}</h3>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
           <RelatedCards cards={relatedCards} />
         </div>
         {authorSlug && (
@@ -370,6 +450,52 @@ const articleLd = {
   letter-spacing: 0.08em;
   color: var(--muted);
 }
+
+.essay-related-cross {
+  margin: var(--space-8, 3rem) 0;
+  padding-top: var(--space-6, 2rem);
+  border-top: 1px solid var(--hairline-strong, rgba(255,255,255,0.15));
+}
+.essay-related-cross__title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--space-4, 1.5rem);
+}
+.essay-related-cross__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-3, 1rem);
+}
+.related-card {
+  display: block;
+  padding: var(--space-4, 1.5rem);
+  border: 1px solid var(--hairline-strong, rgba(255,255,255,0.15));
+  text-decoration: none;
+  transition: border-color 200ms var(--ease);
+}
+.related-card:hover {
+  border-color: var(--accent);
+}
+.related-card .kicker {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.related-card h3 {
+  font-size: 15px;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.3;
+}
+.related-card--case { border-left: 3px solid var(--accent-case, #6366f1); }
+.related-card--offre { border-left: 3px solid var(--accent-offre, #f59e0b); }
 
 /* ── Footer 3-col ─────────────────────────────────────── */
 .essay-footer {

@@ -1,8 +1,22 @@
 ---
-import { getEntry, render } from 'astro:content';
+export const prerender = true;
+
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import LeadMagnetTemplate from '../../../components/templates/LeadMagnetTemplate.astro';
 import AuthorByline from '../../../components/ui/molecules/AuthorByline.astro';
 import AuthorCard from '../../../components/ui/molecules/AuthorCard.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('livresBlancs');
+  return entries
+    .filter((entry) => !entry.data.seo?.noindex)
+    .map((entry) => ({
+      params: { slug: entry.id },
+      props: { entry },
+    }));
+}
+
+type Props = { entry: CollectionEntry<'livresBlancs'> };
 
 const slugifyAuthorName = (name: string) =>
   name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -20,11 +34,7 @@ const getAuthorSlug = (author: unknown): string | undefined => {
   return undefined;
 };
 
-const { slug } = Astro.params;
-if (!slug) return Astro.redirect('/404');
-const entry = await getEntry('livresBlancs', slug);
-if (!entry) return Astro.redirect('/404');
-if (entry.data.seo?.noindex) return Astro.redirect('/404');
+const { entry } = Astro.props as Props;
 const { Content } = await render(entry);
 const d = entry.data;
 const authorSlug = getAuthorSlug(d.author);

@@ -1,7 +1,21 @@
 ---
-import { getCollection, getEntry, render } from 'astro:content';
+export const prerender = true;
+
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import EssayTemplate from '../../../components/templates/EssayTemplate.astro';
 import AuthorByline from '../../../components/ui/molecules/AuthorByline.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('blog');
+  return entries
+    .filter((entry) => !entry.data.seo?.noindex)
+    .map((entry) => ({
+      params: { slug: entry.id },
+      props: { entry },
+    }));
+}
+
+type Props = { entry: CollectionEntry<'blog'> };
 
 const slugifyAuthorName = (name: string) =>
   name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -31,11 +45,7 @@ const getAuthorLabel = (author: unknown): string | undefined => {
   return undefined;
 };
 
-const { slug } = Astro.params;
-if (!slug) return Astro.redirect('/404');
-const entry = await getEntry('blog', slug);
-if (!entry) return Astro.redirect('/404');
-if (entry.data.seo?.noindex) return Astro.redirect('/404');
+const { entry } = Astro.props as Props;
 const { Content } = await render(entry);
 const d = entry.data;
 
@@ -45,6 +55,27 @@ const authorLabel = getAuthorLabel(d.author) ?? 'Waimia';
 const readingTime = d.readingTime ? `${d.readingTime} min lecture` : undefined;
 
 const allBlog = await getCollection('blog');
+const allCases = await getCollection('cases');
+const allOffres = await getCollection('offres');
+
+const relatedCasesData = (d.relatedCases ?? [])
+  .map((id) => allCases.find((c) => c.id === id))
+  .filter(Boolean)
+  .map((c) => ({
+    id: c!.id,
+    title: c!.data.title_fr,
+    href: `/cas/${c!.id}`,
+  }));
+
+const relatedOffresData = (d.relatedOffres ?? [])
+  .map((id) => allOffres.find((o) => o.id === id))
+  .filter(Boolean)
+  .map((o) => ({
+    id: o!.id,
+    title: o!.data.title_fr,
+    href: `/offres/${o!.id}`,
+  }));
+
 const relatedCards = d.relatedPosts.length > 0
   ? d.relatedPosts
       .map((id) => allBlog.find((b) => b.id === id))
@@ -69,6 +100,14 @@ const relatedCards = d.relatedPosts.length > 0
   relatedCards={relatedCards}
   authorSlug={authorSlug}
   sources={d.sources}
+  lang="fr"
+  breadcrumbItems={[
+    { label: 'Accueil', href: '/' },
+    { label: 'Blog', href: '/ressources/blog' },
+    { label: d.title_fr },
+  ]}
+  relatedCasesData={relatedCasesData}
+  relatedOffresData={relatedOffresData}
 >
   <Fragment slot="headline">{d.title_fr}</Fragment>
   <Fragment slot="lede">{d.description_fr}</Fragment>

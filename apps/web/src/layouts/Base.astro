@@ -20,6 +20,8 @@ interface Props {
   description: string;
   /** Bloc(s) JSON-LD spécifiques à la page (Service / Article / FAQ…). Organization+WebSite sont auto-injectés. */
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
+  /** Bloc(s) JSON-LD additionnels injectés par un template parent sans écraser jsonLd. */
+  additionalJsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
   /** OG image absolue */
   ogImage?: string;
   /** Pas d'index (pages WIP) */
@@ -34,6 +36,7 @@ const {
   title,
   description,
   jsonLd,
+  additionalJsonLd,
   ogImage = 'https://waimia.com/og/default.png',
   noindex = false,
   canonical,
@@ -48,6 +51,9 @@ const altUrl = `${siteUrl}${altPath}`;
 
 const baseLd = [organization(), website(lang)];
 const pageLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const additionalLd = additionalJsonLd
+  ? (Array.isArray(additionalJsonLd) ? additionalJsonLd : [additionalJsonLd])
+  : [];
 ---
 <!doctype html>
 <html lang={HREFLANG[lang]} data-lang={lang}>
@@ -90,7 +96,7 @@ const pageLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     {/* JSON-LD baseline (Organization + WebSite) + custom blocks */}
-    <JsonLd data={[...baseLd, ...pageLd]} />
+    <JsonLd data={[...baseLd, ...pageLd, ...additionalLd]} />
 
     {/* Sitemap & RSS */}
     <link rel="sitemap" href="/sitemap-index.xml" />

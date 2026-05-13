@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
@@ -19,37 +21,52 @@ type Item = {
   href: string;
 };
 
-const { slug } = Astro.params;
-if (!slug) return Astro.redirect('/404');
-if (!/^[a-z0-9-]+$/.test(slug)) return Astro.redirect('/404');
+export async function getStaticPaths() {
+  const collections = await Promise.all([
+    getCollection('blog'),
+    getCollection('cookbooks'),
+    getCollection('livresBlancs'),
+    getCollection('veilleIA'),
+    getCollection('cases'),
+  ]);
+  const [blog, cookbooks, livresBlancs, veilleIA, cas] = collections;
 
-const [blog, cookbooks, livresBlancs, veilleIA, cas] = await Promise.all([
-  getCollection('blog'),
-  getCollection('cookbooks'),
-  getCollection('livresBlancs'),
-  getCollection('veilleIA'),
-  getCollection('cases'),
-]);
+  const getItems = (slug: string): Item[] => [
+    ...blog
+      .filter((e) => !e.data.seo?.noindex && e.data.tags.includes(slug))
+      .map((e) => ({ id: e.id, type: 'blog', data: e.data, href: `/ressources/blog/${e.id}` })),
+    ...cookbooks
+      .filter((e) => !e.data.seo?.noindex && e.data.tags.includes(slug))
+      .map((e) => ({ id: e.id, type: 'cookbook', data: e.data, href: `/ressources/cookbooks/${e.id}` })),
+    ...livresBlancs
+      .filter((e) => !e.data.seo?.noindex && e.data.tags.includes(slug))
+      .map((e) => ({ id: e.id, type: 'livre-blanc', data: e.data, href: `/ressources/livres-blancs/${e.id}` })),
+    ...veilleIA
+      .filter((e) => !e.data.seo?.noindex && e.data.tags.includes(slug))
+      .map((e) => ({ id: e.id, type: 'veille', data: e.data, href: `/ressources/veille-ia/${e.id}` })),
+    ...cas
+      .filter((e) => !e.data.seo?.noindex && e.data.tags.includes(slug))
+      .map((e) => ({ id: e.id, type: 'cas', data: e.data, href: `/cas/${e.id}` })),
+  ].sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
 
-const items: Item[] = [
-  ...blog
-    .filter((e) => e.data.tags.includes(slug))
-    .map((e) => ({ id: e.id, type: 'blog', data: e.data, href: `/ressources/blog/${e.id}` })),
-  ...cookbooks
-    .filter((e) => e.data.tags.includes(slug))
-    .map((e) => ({ id: e.id, type: 'cookbook', data: e.data, href: `/ressources/cookbooks/${e.id}` })),
-  ...livresBlancs
-    .filter((e) => e.data.tags.includes(slug))
-    .map((e) => ({ id: e.id, type: 'livre-blanc', data: e.data, href: `/ressources/livres-blancs/${e.id}` })),
-  ...veilleIA
-    .filter((e) => e.data.tags.includes(slug))
-    .map((e) => ({ id: e.id, type: 'veille', data: e.data, href: `/ressources/veille-ia/${e.id}` })),
-  ...cas
-    .filter((e) => e.data.tags.includes(slug))
-    .map((e) => ({ id: e.id, type: 'cas', data: e.data, href: `/cas/${e.id}` })),
-].sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
+  const slugs = new Set<string>();
+  for (const collection of collections) {
+    for (const entry of collection) {
+      if (!entry.data.seo?.noindex) {
+        entry.data.tags.forEach((tag) => slugs.add(tag));
+      }
+    }
+  }
 
-if (items.length === 0) return Astro.redirect('/ressources');
+  return [...slugs].map((slug) => ({
+    params: { slug },
+    props: { slug, items: getItems(slug) },
+  }));
+}
+
+type Props = { slug: string; items: Item[] };
+
+const { slug, items } = Astro.props as Props;
 
 const tagDisplay = slug.replace(/-/g, ' ');
 

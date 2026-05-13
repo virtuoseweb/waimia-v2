@@ -1,0 +1,96 @@
+# Lessons
+
+## V9-C — GEO structured data + llms.txt
+
+- `astro.config.mjs` contient déjà `sitemap({ i18n: { defaultLocale: 'fr', locales: { fr: 'fr-FR', en: 'en-US' } } })` ; ne pas le modifier si la mission demande seulement de l'ajouter si manquant.
+- Les pages offres historiques ne passent pas toutes de JSON-LD au template ; `OffresDetailTemplate.astro` doit donc générer un `Service` + `Offer` minimal depuis ses props existantes et exposer `additionalJsonLd` sans toucher `src/pages/*`.
+- `EssayTemplate.astro` reçoit parfois une date déjà localisée depuis les routes dynamiques ; pour un Article schema plus précis, garder des props optionnelles `datePublished` / `dateModified` plutôt que forcer une conversion fragile.
+
+## V8-D — HubTemplate polish
+
+- `HubTemplate.astro` est consommé par `/offres/conseil` et `/technologies/virtuoseos` via les mêmes props et slots ; le polish doit donc rester dans le template, sans modifier les pages appelantes.
+- Pour remplacer `StatRow` par `KeyMetric` sans perdre la parité FR/EN, dériver le label avec `langFromPath(Astro.url.pathname)` plutôt que concaténer `label_fr` et `label_en`.
+- Les composants slottés `ServiceCatalogRow`, `FitColumns` et `RelatedCards` peuvent être polis depuis le parent avec des classes passées au wrapper et des sélecteurs `:global(...)`, ce qui évite de toucher les molécules déjà utilisées ailleurs.
+
+## V8-C — ConversionFunnelTemplate polish
+
+- `ConversionFunnelTemplate.astro` ne consomme pas `Astro.slots.render()` : les slots nommés doivent rester rendus en `<slot name="...">` pour préserver l'API des pages existantes.
+- Les props anglaises de preuve (`proofQuoteEn`, `proofAttrEn`) appartiennent toujours à l'interface publique même si le rendu actuel est francophone ; ne pas les retirer de `Props`.
+- Pour passer les étapes à `Timeline`, générer des événements dérivés depuis `steps` et typer `variant` avec `as const`, comme sur les autres templates polis.
+
+## V8-B — LeadMagnetTemplate polish
+
+- `LeadMagnetTemplate.astro` ne consommait que les slots `headline`, `lede` et `extra` ; les rendre via `Astro.slots.render()` permet d'ajouter des wrappers éditoriaux sans changer les props publiques ni perdre le rendu serveur du contenu slotté.
+- Le formulaire lead magnet est l'API critique du template : conserver `method="post"`, `action="/api/lead-magnet"`, `name="lead-magnet"` et les noms d'inputs (`slug`, `email`, `company`, `role`) avant toute retouche visuelle.
+- `Timeline.astro` exige un `body` pour chaque événement ; pour transformer le `toc` historique en timeline, fournir un corps court généré et typer `variant` en union littérale avec `as const`.
+
+## V8-A — TechnologiesDetailTemplate polish
+
+- `TechnologiesDetailTemplate.astro` consomme historiquement les slots `capabilities`, `when-use`, `when-avoid`, `integration-nodes` et `ecosystem` ; ajouter des alias (`capabilities-grid`, `when-to-use`, `when-not-to-use`, `integration-flow`, `ecosystem-grid`) côté template évite de casser les pages existantes.
+- `EditorialTable.astro` attend des lignes structurées en props, pas des `<tr>` slottés ; parser le slot `models-rows` permet de l'utiliser tout en conservant un fallback table HTML.
+- Pour convertir l'ancien flow horizontal en `Timeline`, typer explicitement `variant: 'highlight' as const` / `'default' as const` afin de satisfaire `astro check`.
+
+## V5-E — Polish hubs restants
+
+- Les hubs ressources dynamiques (`categorie`, `tag`, `silo`) n'importent pas tous `CtaBand` par défaut ; l'ajouter au frontmatter avant d'insérer le composant juste avant `</Base>`.
+- Pour les routes Astro avec `[...]` dans le chemin, protéger les chemins shell avec des guillemets afin d'éviter l'expansion Zsh.
+
+## V4-F3 — Author CV signature
+
+- Le frontmatter `bio_fr` / `bio_en` peut contenir du Markdown brut ; quand il est rendu hors pipeline MDX dans un template Astro, nettoyer au minimum les marqueurs `**` pour éviter qu'ils apparaissent dans le hero.
+- `Timeline.astro` type strictement `variant` en union littérale ; les tableaux construits par `.map()` doivent renvoyer `variant: 'highlight' as const` / `'default' as const` pour passer `astro check`.
+- `Base.astro` rend déjà le `<main id="main">` global ; les templates enfants doivent utiliser un wrapper neutre (`div`) et ne pas imbriquer un second `<main>`.
+
+## V4-F2 — SolutionsDetailTemplate polish
+
+- Les slots optionnels Astro doivent être normalisés avec `?? ''` avant parsing : `Astro.slots.render()` peut rendre `undefined` en runtime même quand `astro check` passe.
+- Les pages secteurs ne fournissent pas toujours de slot `stack` ; garder un fallback éditorial dans le template évite une section « Outils déployés » vide.
+
+## V4-F1 — OffresDetailTemplate polish
+
+- Les trois pages `offres/*` utilisent encore des slots HTML, pas des props structurées : parser les slots côté template permet d'adopter `Timeline`, `KeyMetric` et la grille 12 colonnes sans casser les instances.
+- Les sections ajoutées par le slot `related` doivent être polies via wrapper CSS global ou rendu conditionnel template ; ne pas supposer que le template peut transformer directement tout contenu slotté en composants.
+- Les offsets `start-9/start-10` ajoutés localement doivent être neutralisés sur tablette, car `grid.css` ne reset que `start-1` à `start-8`.
+
+## V4-E1 — SVG geometric
+
+- Dans les composants Astro SVG, éviter les objets spreadés pour les attributs SVG typés (`stroke-linecap`, `vector-effect`) : `astro check` infère souvent `string` trop large. Préférer les attributs explicites sur chaque primitive.
+- Les composants décoratifs réutilisables gardent `aria-hidden="true"` par défaut ; les diagrammes informatifs doivent porter `role="img"` et un `aria-label` complet.
+
+## V4-D — Scroll reveal motion
+
+- `Base.astro` contient deja un observer inline historique qui ajoute `.in` aux classes reveal existantes ; pour V4-D, ajouter le nouveau module `.is-visible` sans supprimer ce comportement hors perimetre.
+- Le test local `curl -s http://localhost:4321/ | grep -c "scroll-reveal"` attend la presence du nom dans le HTML servi, pas une inspection visuelle.
+
+## B9 — Skill article-add
+
+- Le schéma blog attend `author: reference('authors')` sous forme de slug nu, et `cluster` est optionnel : omettre le champ si aucun cluster n'est validé plutôt que générer `null`.
+- Les skills versionnés restent sous `apps/web/skills/` ; ne pas les copier automatiquement vers `~/.claude/skills/`.
+
+## M2 — Solutions horizontales
+
+- Le layout `Base.astro` rend déjà `Header` et `Footer`; les pages hub sous `Base` ne doivent pas les rendre une seconde fois.
+- `Departments.astro` porte encore un libellé « Six métiers » alors que `DEPARTMENTS_GRID` contient 5 entrées M1 ; ne pas le réutiliser dans le hub M2 tant que ce composant n'est pas recadré.
+- Les noms de modèles et outils techniques restent cantonnés aux colonnes `wf-model` et à la stack ; en surface, préférer « IA génératives » ou « assistants IA ».
+
+## M3 — Offres
+
+- Le layout `Base.astro` rend déjà `Header` et `Footer`; les hubs qui l'utilisent ne doivent pas les importer/rendre à nouveau, même si un snippet de mission montre ces composants explicitement.
+- `OffresDetailTemplate.astro` est traité comme fixe pour M3 : les nouvelles pages doivent adapter leur contenu aux slots existants plutôt que modifier le template.
+
+## M4 — Home business-first
+
+- `FAQ.astro` ne contient pas d'accordéon ni de compteur hardcodé ; le texte « Sept questions » venait de `index.astro`.
+- Le grep jargon M4 couvre tous les organisms, pas seulement ceux rendus par la home : `AtlasGrid.astro` et `PersonaSwitcher.astro` peuvent remonter même hors parcours principal.
+- `Departments.astro` doit rester indexé sur `DEPARTMENTS_GRID` et ses slugs `/solutions/*` ; ne plus réintroduire de wording « métier » dans ce composant.
+
+## B5 — Auteurs articles
+
+- Les loaders article doivent accepter les deux formes auteur pendant la transition B4 : `reference('authors')` via `id`/`slug`, legacy string, legacy `{ name, url }`.
+- `EssayTemplate`, `CaseStudyTemplate` et `LeadMagnetTemplate` ne doivent pas être modifiés pour les bylines : injecter dans les slots existants (`body`, `context`, `extra`).
+- `AuthorCard` doit rester silencieux si l'auteur n'est pas résolu ; `AuthorByline` garde au moins date / reading time quand disponibles.
+
+## B4 — Références auteurs
+
+- Avec `reference('authors')`, le frontmatter doit contenir le slug auteur nu (`author: simon-beros`), pas l'objet legacy `{ name, url, bio }`.
+- Les collections sans contenu MDX existant peuvent être migrées côté schéma sans migration de fichiers ; vérifier la liste via `find src/content -name "*.mdx" -not -name ".gitkeep"`.

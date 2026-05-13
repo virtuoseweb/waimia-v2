@@ -37,6 +37,8 @@ import KeyMetric from '../editorial/KeyMetric.astro';
 import Timeline from '../editorial/Timeline.astro';
 import EditorialTable from '../editorial/EditorialTable.astro';
 import Dingbat from '../editorial/Dingbat.astro';
+import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
+import { langFromPath } from '../../lib/i18n';
 
 interface Props {
   /** SEO meta · title de la page */
@@ -74,6 +76,7 @@ const {
   ctaLabel = 'Parler architecture →',
 } = Astro.props;
 
+const lang = langFromPath(Astro.url.pathname);
 const renderFirstSlot = async (names: string[]) => {
   for (const name of names) {
     if (Astro.slots.has(name)) {
@@ -152,6 +155,14 @@ const placeholderIntegrationEvents = splitBlocks(integrationHtml, 'node')
 const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeholderIntegrationEvents;
 ---
 <Base {title} {description}>
+    <Breadcrumb
+      lang={lang}
+      items={[
+        { label: lang === 'fr' ? 'Accueil' : 'Home', href: lang === 'fr' ? '/' : '/en' },
+        { label: lang === 'fr' ? 'Technologies' : 'Technologies', href: lang === 'fr' ? '/technologies' : '/en/technologies' },
+        { label: layerLabel },
+      ]}
+    />
     {/* ────────── 1. HERO LAYER ────────── */}
     <section class={`tech-hero tech-hero--${layerType}`} data-screen-label="01 Hero Layer">
       <svg class="tech-hero-geo" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">

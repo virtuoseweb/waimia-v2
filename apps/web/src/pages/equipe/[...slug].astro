@@ -2,13 +2,25 @@
 /**
  * Template loader · /equipe/[...slug] · CMS git-based phase auteurs
  *
- * SSR mode (output: 'server') : getEntry depuis Astro.params.slug.
+ * SSG mode : getStaticPaths() injecte l'entry auteur en props.
  * Auto-jointure : récupère tous les contenus de cet auteur depuis blog,
  * cookbooks, livresBlancs, veilleIA. Filtre + tri par publishedAt desc.
  */
-import { getCollection, getEntry, render } from 'astro:content';
+export const prerender = true;
+
+import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import AuthorPageTemplate from '../../components/templates/AuthorPageTemplate.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('authors');
+  return entries
+    .filter((entry) => !entry.data.seo?.noindex)
+    .map((entry) => ({
+      params: { slug: entry.id },
+      props: { entry },
+    }));
+}
 
 type AuthorLinkedEntry =
   | CollectionEntry<'blog'>
@@ -17,13 +29,10 @@ type AuthorLinkedEntry =
   | CollectionEntry<'veilleIA'>;
 
 type AuthorRef = string | { id?: string; slug?: string; name?: string };
+type Props = { entry: CollectionEntry<'authors'> };
 
-const { slug } = Astro.params;
-if (!slug) return Astro.redirect('/404');
-
-const entry = await getEntry('authors', slug);
-if (!entry) return Astro.redirect('/404');
-if (entry.data.seo?.noindex) return Astro.redirect('/404');
+const { entry } = Astro.props as Props;
+const slug = entry.id;
 
 const { Content } = await render(entry);
 

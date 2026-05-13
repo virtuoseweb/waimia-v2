@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
@@ -20,37 +22,43 @@ type Item = {
   href: string;
 };
 
-const { slug } = Astro.params;
-if (!slug) return Astro.redirect('/404');
-if (!CLUSTERS[slug]) return Astro.redirect('/404');
+export async function getStaticPaths() {
+  const [blog, cookbooks, livresBlancs, veilleIA, cas] = await Promise.all([
+    getCollection('blog'),
+    getCollection('cookbooks'),
+    getCollection('livresBlancs'),
+    getCollection('veilleIA'),
+    getCollection('cases'),
+  ]);
 
+  const getItems = (slug: string): Item[] => [
+    ...blog
+      .filter((e) => !e.data.seo?.noindex && e.data.cluster === slug)
+      .map((e) => ({ id: e.id, type: 'blog', data: e.data, href: `/ressources/blog/${e.id}` })),
+    ...cookbooks
+      .filter((e) => !e.data.seo?.noindex && e.data.cluster === slug)
+      .map((e) => ({ id: e.id, type: 'cookbook', data: e.data, href: `/ressources/cookbooks/${e.id}` })),
+    ...livresBlancs
+      .filter((e) => !e.data.seo?.noindex && e.data.cluster === slug)
+      .map((e) => ({ id: e.id, type: 'livre-blanc', data: e.data, href: `/ressources/livres-blancs/${e.id}` })),
+    ...veilleIA
+      .filter((e) => !e.data.seo?.noindex && e.data.cluster === slug)
+      .map((e) => ({ id: e.id, type: 'veille', data: e.data, href: `/ressources/veille-ia/${e.id}` })),
+    ...cas
+      .filter((e) => !e.data.seo?.noindex && e.data.cluster === slug)
+      .map((e) => ({ id: e.id, type: 'cas', data: e.data, href: `/cas/${e.id}` })),
+  ].sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
+
+  return Object.keys(CLUSTERS).map((slug) => ({
+    params: { slug },
+    props: { slug, items: getItems(slug) },
+  }));
+}
+
+type Props = { slug: string; items: Item[] };
+
+const { slug, items } = Astro.props as Props;
 const cluster = CLUSTERS[slug];
-
-const [blog, cookbooks, livresBlancs, veilleIA, cas] = await Promise.all([
-  getCollection('blog'),
-  getCollection('cookbooks'),
-  getCollection('livresBlancs'),
-  getCollection('veilleIA'),
-  getCollection('cases'),
-]);
-
-const items: Item[] = [
-  ...blog
-    .filter((e) => e.data.cluster === slug)
-    .map((e) => ({ id: e.id, type: 'blog', data: e.data, href: `/ressources/blog/${e.id}` })),
-  ...cookbooks
-    .filter((e) => e.data.cluster === slug)
-    .map((e) => ({ id: e.id, type: 'cookbook', data: e.data, href: `/ressources/cookbooks/${e.id}` })),
-  ...livresBlancs
-    .filter((e) => e.data.cluster === slug)
-    .map((e) => ({ id: e.id, type: 'livre-blanc', data: e.data, href: `/ressources/livres-blancs/${e.id}` })),
-  ...veilleIA
-    .filter((e) => e.data.cluster === slug)
-    .map((e) => ({ id: e.id, type: 'veille', data: e.data, href: `/ressources/veille-ia/${e.id}` })),
-  ...cas
-    .filter((e) => e.data.cluster === slug)
-    .map((e) => ({ id: e.id, type: 'cas', data: e.data, href: `/cas/${e.id}` })),
-].sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
 
 const pillar = cluster.pillarSlug ? items.find((it) => it.id === cluster.pillarSlug) : null;
 const otherItems = pillar ? items.filter((it) => it.id !== pillar.id) : items;

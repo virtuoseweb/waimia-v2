@@ -21,6 +21,8 @@ import Timeline from '../editorial/Timeline.astro';
 import DropCap from '../editorial/DropCap.astro';
 import PullQuote from '../editorial/PullQuote.astro';
 import Dingbat from '../editorial/Dingbat.astro';
+import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
+import { langFromPath } from '../../lib/i18n';
 
 interface ToCItem { num: string; title: string; }
 
@@ -39,8 +41,11 @@ interface Props {
   toc: ToCItem[];
   /** URL image cover (relatif /og/) ou ressource interne */
   coverUrl?: string;
+  /** Label personnalisé pour le breadcrumb. */
+  breadcrumbLabel?: string;
 }
-const { title, description, slug, kicker, format, publishedAt, toc, coverUrl } = Astro.props as Props;
+const { title, description, slug, kicker, format, publishedAt, toc, coverUrl, breadcrumbLabel } = Astro.props as Props;
+const lang = langFromPath(Astro.url.pathname);
 
 const headlineHtml = Astro.slots.has('headline') ? await Astro.slots.render('headline') : title;
 const ledeHtml = Astro.slots.has('lede') ? await Astro.slots.render('lede') : description;
@@ -94,6 +99,15 @@ const tocEvents = toc.map((item, index) => ({
 }));
 ---
 <Base title={title} description={description}>
+  <Breadcrumb
+    lang={lang}
+    items={[
+      { label: lang === 'fr' ? 'Accueil' : 'Home', href: lang === 'fr' ? '/' : '/en' },
+      { label: lang === 'fr' ? 'Ressources' : 'Resources', href: lang === 'fr' ? '/ressources' : '/en/ressources' },
+      { label: lang === 'fr' ? 'Livres blancs' : 'Whitepapers', href: lang === 'fr' ? '/ressources/livres-blancs' : '/en/ressources/livres-blancs' },
+      { label: breadcrumbLabel ?? title },
+    ]}
+  />
   {/* HERO · titre + cover */}
   <section class="lm-hero">
     <div class="wrap-wide lm-hero-grid">

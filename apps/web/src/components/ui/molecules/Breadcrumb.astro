@@ -1,0 +1,65 @@
+---
+interface Crumb {
+  label: string;
+  href?: string;
+}
+interface Props {
+  items: Crumb[];
+  lang?: 'fr' | 'en';
+}
+const { items, lang = 'fr' } = Astro.props;
+---
+<nav class="breadcrumb" aria-label={lang === 'fr' ? "Fil d'Ariane" : 'Breadcrumb'}>
+  <ol>
+    {items.map((c, i) => (
+      <li>
+        {c.href ? <a href={c.href}>{c.label}</a> : <span>{c.label}</span>}
+        {i < items.length - 1 && <span class="sep" aria-hidden>/</span>}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.label,
+    ...(c.href ? { item: `https://waimia.com${c.href}` } : {}),
+  })),
+})} />
+
+<style>
+  .breadcrumb {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: var(--space-4);
+  }
+  .breadcrumb ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .breadcrumb a {
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 200ms var(--ease), border-color 200ms var(--ease);
+  }
+  .breadcrumb a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .breadcrumb .sep {
+    color: var(--hairline-strong);
+  }
+</style>
