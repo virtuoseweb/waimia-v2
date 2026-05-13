@@ -9,6 +9,12 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
 import { langFromPath, t } from '../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
+const transitionIdFromHref = (href: string) =>
+  href
+    .replace(/^\/(?:en\/)?/, '')
+    .replace(/\/$/, '')
+    .replace(/[^a-z0-9]+/gi, '-')
+    .replace(/^-|-$/g, '') || 'home';
 
 const featuredCases = [
   {
@@ -54,7 +60,7 @@ const [featured, ...rest] = featuredCases;
   <section class="hub-mast reveal">
     <div class="wrap-wide">
       <Kicker>§ Cas clients · ROI mesurés, pas promis</Kicker>
-      <h1 class="hub-h1">
+      <h1 class="hub-h1" transition:name={`hero-h1-${transitionIdFromHref(Astro.url.pathname)}`}>
         {lang === 'fr'
           ? <><span>Pas de <i>marketing</i>.</span><br/><span>Des chiffres.</span></>
           : <><span>No <i>marketing</i>.</span><br/><span>Numbers.</span></>
@@ -70,7 +76,7 @@ const [featured, ...rest] = featuredCases;
 
   <section class="cas-grid-outer wrap-wide">
     <div class="cas-grid reveal-stagger">
-      <a href={`/cas/${featured.slug}`} class="cas-card cas-card--featured">
+      <a href={`/cas/${featured.slug}`} class="cas-card cas-card--featured" transition:name={`card-${transitionIdFromHref(`/cas/${featured.slug}`)}`}>
         <div class="cas-card-kicker">§ Case {featured.caseNum} · {t(featured.sector, lang)} · {featured.duration}</div>
         <h2 class="cas-card-title">{t(featured.title, lang)}</h2>
         <p class="cas-card-headline">{t(featured.headline, lang)}</p>
@@ -78,7 +84,7 @@ const [featured, ...rest] = featuredCases;
       </a>
       <div class="cas-secondary">
         {rest.map((c) => (
-          <a href={`/cas/${c.slug}`} class="cas-card">
+          <a href={`/cas/${c.slug}`} class="cas-card" transition:name={`card-${transitionIdFromHref(`/cas/${c.slug}`)}`}>
             <div class="cas-card-kicker">§ Case {c.caseNum} · {t(c.sector, lang)} · {c.duration}</div>
             <h2 class="cas-card-title">{t(c.title, lang)}</h2>
             <p class="cas-card-headline">{t(c.headline, lang)}</p>
@@ -144,14 +150,24 @@ const [featured, ...rest] = featuredCases;
     flex-direction: column;
     padding: 36px 32px 32px;
     background: var(--paper);
+    border-top: 1px solid transparent;
     text-decoration: none;
     color: inherit;
-    transition: background 0.15s var(--ease, ease);
+    transition:
+      background 180ms var(--ease),
+      border-top-color 220ms var(--ease),
+      box-shadow 220ms var(--ease),
+      transform 220ms var(--ease);
     gap: 10px;
     height: 100%;
     box-sizing: border-box;
   }
-  .cas-card:hover { background: var(--paper-2); }
+  .cas-card:hover {
+    background: var(--paper-2);
+    border-top-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 36px rgba(12, 11, 9, 0.06);
+  }
   .cas-card--featured {
     padding: 56px 48px 48px;
   }
@@ -179,6 +195,7 @@ const [featured, ...rest] = featuredCases;
     line-height: 1.05;
     margin: 4px 0 0;
     text-wrap: balance;
+    transition: transform 220ms var(--ease);
   }
   .cas-card-headline {
     font-size: clamp(13px, 1.2vw, 15px);
@@ -186,6 +203,7 @@ const [featured, ...rest] = featuredCases;
     margin: 0;
     line-height: 1.5;
     flex: 1;
+    transition: transform 220ms var(--ease);
   }
   .cas-card-cta {
     font-size: 13px;
@@ -193,6 +211,12 @@ const [featured, ...rest] = featuredCases;
     font-family: var(--font-mono, monospace);
     letter-spacing: 0.04em;
     margin-top: 16px;
+    transition: transform 220ms var(--ease);
+  }
+  .cas-card:hover .cas-card-title,
+  .cas-card:hover .cas-card-headline,
+  .cas-card:hover .cas-card-cta {
+    transform: translateX(1px);
   }
 
   .cas-cta {
@@ -248,5 +272,13 @@ const [featured, ...rest] = featuredCases;
   }
   @media (prefers-reduced-motion: reduce) {
     .hub-h1 { animation: none; }
+    .cas-card,
+    .cas-card-title,
+    .cas-card-headline,
+    .cas-card-cta {
+      transition: none !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
   }
 </style>

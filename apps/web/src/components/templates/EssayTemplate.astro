@@ -102,6 +102,11 @@ const {
 } = Astro.props as Props;
 
 const siteUrl = 'https://waimia.com';
+const pageTransitionId = Astro.url.pathname
+  .replace(/^\/(?:en\/)?/, '')
+  .replace(/\/$/, '')
+  .replace(/[^a-z0-9]+/gi, '-')
+  .replace(/^-|-$/g, '') || 'home';
 const canonicalUrl = canonical ?? Astro.url.href;
 const absoluteImage = image
   ? (image.startsWith('http') ? image : `${siteUrl}${image}`)
@@ -137,10 +142,10 @@ const articleLd = buildArticle({
   )}
   <article class="essay">
     {/* MASTHEAD */}
-    <header class="essay-hd">
+    <header class="essay-hd" transition:name={`card-${pageTransitionId}`}>
       <div class="wrap-wide">
         <Kicker class="essay-kicker">{kicker}</Kicker>
-        <h1 class="essay-h1">
+        <h1 class="essay-h1 reveal-split-letter" transition:name={`hero-h1-${pageTransitionId}`}>
           <slot name="headline" />
         </h1>
         <p class="essay-lede">

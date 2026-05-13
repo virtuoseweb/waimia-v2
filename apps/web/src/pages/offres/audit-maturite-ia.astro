@@ -11,25 +11,25 @@ import DetailMenuTemplate from '../../components/templates/DetailMenuTemplate.as
 const annotation = [
   { k: '10 j',  label_fr: 'durée fixe',                label_en: 'fixed duration' },
   { k: '47',    label_fr: 'critères évalués',          label_en: 'criteria evaluated' },
-  { k: '1',     label_fr: 'scorecard livré',           label_en: 'scorecard delivered' },
+  { k: '1',     label_fr: 'grille de score livrée',    label_en: 'scorecard delivered' },
 ];
 
 const steps = [
   { sn: '01', kicker_fr: 'J1-J2', kicker_en: 'D1-D2',
     title_fr: 'Cadrage initial', title_en: 'Initial scoping',
-    body_fr: "Demi-journée comité élargi. On lit votre stack, votre roadmap, votre comité IA actuel.",
+    body_fr: "Demi-journée comité élargi. On lit votre stack, votre feuille de route, votre comité IA actuel.",
     body_en: 'Half-day with extended committee. We read your stack, roadmap, current AI committee.' },
   { sn: '02', kicker_fr: 'J3-J6', kicker_en: 'D3-D6',
     title_fr: 'Audit terrain', title_en: 'Field audit',
-    body_fr: "Entretiens 1-1 avec 8-12 personnes (data, ops, GRC, finance, IT). Plus questionnaire async.",
+    body_fr: "Entretiens 1-1 avec 8-12 personnes (data, ops, GRC, finance, IT). Puis questionnaire asynchrone.",
     body_en: '1-on-1 interviews with 8-12 people (data, ops, GRC, finance, IT). Plus async survey.' },
   { sn: '03', kicker_fr: 'J7-J8', kicker_en: 'D7-D8',
     title_fr: 'Analyse', title_en: 'Analysis',
-    body_fr: "Scorecard 47 critères noté · cartographie des chantiers actionnables · estimation effort.",
+    body_fr: "Grille de 47 critères notée · cartographie des chantiers actionnables · estimation de l'effort.",
     body_en: '47-criteria scorecard scored · actionable workstream map · effort estimation.' },
   { sn: '04', kicker_fr: 'J9-J10', kicker_en: 'D9-D10',
     title_fr: 'Restitution', title_en: 'Debrief',
-    body_fr: "2 sessions : board (1h) + équipe technique (2h). Document final 30 pages signé.",
+    body_fr: "2 sessions : direction (1h) + équipe technique (2h). Document final 30 pages signé.",
     body_en: '2 sessions: board (1h) + tech team (2h). Final 30-page signed document.' },
 ];
 
@@ -47,8 +47,8 @@ const proofMetrics = [
 ];
 
 const relatedCards = [
-  { kicker: 'OFFRE 02.2', title_fr: 'Roadmap IA stratégique', title_en: 'Strategic AI Roadmap',
-    lead_fr: 'La suite naturelle d\'un audit →', lead_en: 'The natural follow-up to an audit →',
+  { kicker: 'OFFRE 02.2', title_fr: 'Feuille de route IA stratégique', title_en: 'Strategic AI Roadmap',
+    lead_fr: 'La suite naturelle après audit →', lead_en: 'The natural follow-up to an audit →',
     href: '/offres/roadmap-ia' },
   { kicker: 'OFFRE 02.3', title_fr: 'Audit gouvernance données', title_en: 'Data governance audit',
     lead_fr: 'Service complémentaire fréquent →', lead_en: 'Frequent companion service →',
@@ -60,13 +60,13 @@ const relatedCards = [
 ---
 <DetailMenuTemplate
   title="Audit de maturité IA · 10 jours · Waimia"
-  description="Un diagnostic IA en 10 jours fixes. 47 critères évalués sur data, outillage, équipe, gouvernance. Un scorecard lisible que le board peut signer."
+  description="Un diagnostic IA en 10 jours fixes. 47 critères évalués sur données, outillage, équipe, gouvernance. Une grille de score lisible par la direction."
   detailNum="02.1"
   parentKickerFr="Hub Conseil · Audit & Stratégie"
   parentKickerEn="Consulting Hub · Audit & Strategy"
   annotation={annotation}
   steps={steps}
-  proofQuoteFr="Un audit où on lit nos vrais workflows au lieu de débiter une slide template. La restitution a permis de couper deux chantiers fantômes immédiatement."
+  proofQuoteFr="Un audit où on lit nos vrais workflows au lieu de dérouler un modèle PowerPoint. La restitution a permis de couper deux chantiers fantômes immédiatement."
   proofQuoteEn="An audit where they actually read our workflows instead of running a template deck. The debrief killed two phantom workstreams immediately."
   proofAttrFr="Marie Cousin · COO Plateau"
   proofAttrEn="Marie Cousin · COO Plateau"
@@ -75,22 +75,22 @@ const relatedCards = [
   relatedCards={relatedCards}
 >
   <Fragment slot="headline">
-    Un <i>diagnostic IA</i> en 10 jours. Lu par un board, signé par nous.
+    Un <i>diagnostic IA</i> en 10 jours. Lu par la direction, signé par nous.
   </Fragment>
   <Fragment slot="lede">
-    Pas un atelier. Pas une slide template. 10 jours fixes pour évaluer 47 critères sur votre data, votre outillage, votre équipe, votre gouvernance — et livrer un scorecard que vos commissaires aux comptes peuvent signer.
+    Pas un atelier. Pas un modèle PowerPoint. 10 jours fixes pour évaluer 47 critères sur vos données, vos outils, votre équipe, votre gouvernance — et livrer une grille de score que vos commissaires aux comptes peuvent lire.
   </Fragment>
   <Fragment slot="problem">
-    La majorité des audits IA livrent un <i>72 slides deck</i> qui finit dans le SharePoint. Le board ne le lit pas. Les ingénieurs ne savent pas quoi en faire. Notre audit produit l'inverse : 30 pages denses, un scorecard signé, des actions priorisées par coût-de-correction.
+    La majorité des audits IA livrent <i>72 slides</i> qui finissent dans le SharePoint. La direction ne les lit pas. Les ingénieurs ne savent pas quoi en faire. Notre audit produit l'inverse : 30 pages denses, une grille signée, des actions priorisées par coût de correction.
   </Fragment>
   <Fragment slot="approach-headline">
     Dix <i>jours</i>. Pas onze. Pas neuf.
   </Fragment>
   <Fragment slot="approach-aside">
-    Le périmètre est volontairement borné. On audite ce qui est lisible en 10 jours — au-delà, c'est l'objet d'un autre service (Roadmap IA stratégique).
+    Le périmètre est volontairement borné. On audite ce qui est lisible en 10 jours — au-delà, c'est l'objet d'un autre service (feuille de route IA stratégique).
   </Fragment>
   <Fragment slot="deliverables-headline">
-    Un <i>scorecard</i>, un <i>document</i>, deux <i>restitutions</i>.
+    Une <i>grille de score</i>, un <i>document</i>, deux <i>restitutions</i>.
   </Fragment>
   <Fragment slot="deliverables-aside">
     Tout est signé par notre équipe et par votre référent technique. Aucun livrable « anonyme ».
@@ -98,19 +98,19 @@ const relatedCards = [
   <Fragment slot="deliverables">
     <div class="del-grid">
       <div class="del-card">
-        <div class="del-tag">SCORECARD</div>
+        <div class="del-tag">GRILLE</div>
         <h3>47 critères notés 0-3</h3>
-        <p>Notation pondérée par chantier · justifications inline · benchmark anonymisé secteur.</p>
+        <p>Notation pondérée par chantier · justifications dans le document · benchmark anonymisé secteur.</p>
       </div>
       <div class="del-card">
         <div class="del-tag">DOCUMENT</div>
         <h3>30 pages denses, signées</h3>
-        <p>Constats, hypothèses, recommandations priorisées par coût-de-correction · pas de fluff.</p>
+        <p>Constats, hypothèses, recommandations priorisées par coût de correction · pas de remplissage.</p>
       </div>
       <div class="del-card">
         <div class="del-tag">RESTITUTION</div>
-        <h3>2 sessions live</h3>
-        <p>Board (1h Q&amp;A board-friendly) + équipe technique (2h Q&amp;A approfondie).</p>
+        <h3>2 sessions en direct</h3>
+        <p>Direction (1h Q&amp;A lisible) + équipe technique (2h Q&amp;A approfondie).</p>
       </div>
     </div>
   </Fragment>

@@ -120,8 +120,10 @@ const additionalLd = additionalJsonLd
 
     <script>
       import { initScrollReveal } from '../lib/animations/scroll-reveal';
+      import { initSplitLetterReveal } from '../lib/animations/split-letter';
 
       initScrollReveal();
+      initSplitLetterReveal();
     </script>
 
     {/* IntersectionObserver léger pour activer les classes .reveal/.in */}
@@ -130,7 +132,7 @@ const additionalLd = additionalJsonLd
         if (typeof window === 'undefined') return;
         const reduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
         if (reduced) {
-          document.querySelectorAll('.reveal,.reveal-up,.reveal-fade,.reveal-stagger,.scale-in,.blur-in,.clip-up,.hair-draw,.row-lines').forEach((el) => el.classList.add('in'));
+          document.querySelectorAll('.reveal,.reveal-up,.reveal-fade,.reveal-slide,.reveal-snap,.reveal-stagger,.scale-in,.blur-in,.clip-up,.hair-draw,.row-lines,.reveal-mask-up,.reveal-zoom-in,.reveal-blur-clip,.reveal-curtain,.reveal-split-letter').forEach((el) => el.classList.add('in'));
           return;
         }
         const io = new IntersectionObserver(
@@ -144,7 +146,7 @@ const additionalLd = additionalJsonLd
           },
           { rootMargin: '0px 0px -10% 0px', threshold: 0.08 },
         );
-        const sels = '.reveal,.reveal-up,.reveal-fade,.reveal-stagger,.scale-in,.blur-in,.clip-up,.hair-draw,.row-lines';
+        const sels = '.reveal,.reveal-up,.reveal-fade,.reveal-slide,.reveal-snap,.reveal-stagger,.scale-in,.blur-in,.clip-up,.hair-draw,.row-lines,.reveal-mask-up,.reveal-zoom-in,.reveal-blur-clip,.reveal-curtain,.reveal-split-letter';
         document.querySelectorAll(sels).forEach((el) => io.observe(el));
       })();
     </script>

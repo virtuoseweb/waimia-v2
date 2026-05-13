@@ -100,7 +100,7 @@ export const MM_OFFRES_NEW: MegaMenu = {
       label: { en: 'Business systems', fr: 'Systèmes business' },
       tint: '#C94F2E',
       items: [
-        { href: '/offres/growth-system-ia', label: { en: 'AI Growth System', fr: 'Growth System IA' }, lead: { en: 'Automated acquisition and conversion system. Site, CRM, follow-ups, dashboards — all connected.', fr: "Système d'acquisition et de conversion automatisé. Site, CRM, relances, dashboards — tout connecté." }, featured: true },
+        { href: '/offres/growth-system-ia', label: { en: 'AI Growth System', fr: 'Growth System IA' }, lead: { en: 'Automated acquisition and conversion system. Site, CRM, follow-ups, dashboards — all connected.', fr: "Système d'acquisition et de conversion automatisé. Site, CRM, relances, tableaux — tout connecté." }, featured: true },
         { href: '/offres/growth-intelligence', label: { en: 'Growth Intelligence', fr: 'Growth Intelligence' }, lead: { en: 'Real-time intelligence and data clarity for faster decisions.', fr: 'Pilotage temps réel et lisibilité des données pour décider plus vite.' } },
         { href: '/offres/productivite-operationnelle-ia', label: { en: 'Operational AI', fr: 'Productivité Opérationnelle IA' }, lead: { en: 'Repetitive tasks automated, internal workflows streamlined.', fr: 'Tâches répétitives automatisées, workflows internes fluidifiés.' } },
         { href: '/offres/site-web-ia', label: { en: 'AI website', fr: 'Site web IA' }, lead: { en: 'Astro + AI site · showcase + acquisition.', fr: 'Site Astro + IA · vitrine + acquisition.' } },
@@ -114,7 +114,7 @@ export const MM_OFFRES_NEW: MegaMenu = {
         { href: '/offres/activation-ia', label: { en: 'AI Activation · 1 week', fr: 'Activation IA · 1 semaine' }, lead: { en: 'Audit + team training. The fast-track entry point.', fr: "Audit + formation des équipes. La porte d'entrée pour activer rapidement." } },
         { href: '/offres/infrastructure-ia', label: { en: 'AI Infrastructure · Enterprise', fr: 'Infrastructure IA · ETI' }, lead: { en: 'Connected systems at scale, multi-team, multi-site.', fr: 'Systèmes connectés à grande échelle, multi-équipes, multi-sites.' } },
         { href: '/offres/application-ia-pme', label: { en: 'AI Application for SMBs', fr: 'Application IA pour PME' }, lead: { en: 'Dedicated app 8–12 wks. ETI/SMB.', fr: 'App dédiée 8–12 sem. ETI/PME.' } },
-        { href: '/offres/conseil', label: { en: 'AI Consulting & audit', fr: 'Conseil & audit IA' }, lead: { en: '7 audit/roadmap/governance services.', fr: '7 services audit/roadmap/gouvernance.' } },
+        { href: '/offres/conseil', label: { en: 'AI Consulting & audit', fr: 'Conseil & audit IA' }, lead: { en: '7 audit/roadmap/governance services.', fr: '7 services audit/feuille de route/gouvernance.' } },
       ],
     },
   ],
@@ -123,7 +123,7 @@ export const MM_OFFRES_NEW: MegaMenu = {
     label: { en: 'AI Growth System', fr: 'Growth System IA' },
     body: {
       en: 'An automated acquisition and conversion system. Site, CRM, follow-ups, dashboards — connected and AI-driven. €5–20k.',
-      fr: "Un système d'acquisition et de conversion automatisé. Site, CRM, relances, dashboards — connectés et pilotés par l'IA. 5 à 20 k€.",
+      fr: "Un système d'acquisition et de conversion automatisé. Site, CRM, relances, tableaux — connectés et pilotés par l'IA. 5 à 20 k€.",
     },
     cta: { en: 'See the system →', fr: 'Découvrir le système →' },
     href: '/offres/growth-system-ia',
@@ -197,7 +197,7 @@ export const MM_TECH: MegaMenu = {
       kicker: { en: 'OPEN SOURCE · SOVEREIGN', fr: 'OPEN SOURCE · SOUVERAIN' },
       label: { en: 'Self-hosted', fr: 'Self-hosted' },
       items: [
-        { href: '/technologies/virtuoseos', label: { en: 'VirtuoseOS · sovereign agent runtime', fr: 'VirtuoseOS · runtime souverain' }, lead: { en: 'Our open agent OS · self-hosted, audit-ready.', fr: "Notre OS d'agents · self-hosted, traçable." }, featured: true },
+        { href: '/technologies/virtuoseos', label: { en: 'VirtuoseOS · sovereign agent runtime', fr: 'VirtuoseOS · runtime souverain' }, lead: { en: 'Our open agent OS · self-hosted, audit-ready.', fr: "Notre OS d'agents · auto-hébergé, traçable." }, featured: true },
         { href: '/technologies/inference', label: { en: 'vLLM · Ollama · Prem AI', fr: 'vLLM · Ollama · Prem AI' } },
         { href: '/technologies/open-source-models', label: { en: 'Qwen 3.5 · Llama 4 · DeepSeek V3.2 · GLM-5', fr: 'Qwen 3.5 · Llama 4 · DeepSeek V3.2 · GLM-5' } },
         { href: '/technologies/rag-prive', label: { en: 'Private RAG · vector DBs', fr: 'RAG privé · vector DBs' } },
@@ -511,8 +511,8 @@ export const PYRAMID_TIERS = [
     n: 'I',
     tag: { en: 'ACTIVATION', fr: 'ACTIVATION' },
     label: { en: 'Fast activation', fr: 'Activation rapide' },
-    lead: { en: 'One week to identify the lever, train the team, and ship the first quick win.', fr: "Une semaine pour identifier le levier, former l'équipe et livrer le premier quick win." },
-    items: ['Audit process · 5j', 'Formation équipe · 1 sem', 'Quick win Excel'],
+    lead: { en: 'One week to identify the lever, train the team, and ship the first quick win.', fr: "Une semaine pour identifier le levier, former l'équipe et livrer un premier gain mesurable." },
+    items: ['Audit process · 5j', 'Formation équipe · 1 sem', 'Gain rapide Excel'],
     href: '/offres#tier-1',
   },
   {
@@ -527,8 +527,8 @@ export const PYRAMID_TIERS = [
     n: 'III',
     tag: { en: 'GROWTH', fr: 'ACQUISITION' },
     label: { en: 'Acquisition & intelligence', fr: 'Acquisition & pilotage' },
-    lead: { en: 'Connect site, CRM, follow-ups, content, and business visibility into one growth system.', fr: 'Connecter site, CRM, relances, contenu et visibilité business dans un même système.' },
-    items: ["Système d'acquisition", 'Pipeline commercial', 'Dashboards pilotage', 'Contenu SEO/GEO'],
+    lead: { en: 'Connect site, CRM, follow-ups, content, and business visibility into one growth system.', fr: 'Connecter site, CRM, relances, contenu et pilotage dans un même système.' },
+    items: ["Système d'acquisition", 'Pipeline commercial', 'Tableaux de pilotage', 'Contenu SEO/GEO'],
     href: '/offres#tier-3',
   },
   {
@@ -559,20 +559,20 @@ export const CASE_FEED = [
 
 export const FIELD_NOTES = [
   { date: '04.2026', tag: { en: 'CASE',       fr: 'CAS' },     text: { en: 'Halcyon Health — AI triage routing in 6 weeks.',                                  fr: 'Halcyon Health — triage IA routé en 6 semaines.' } },
-  { date: '04.2026', tag: { en: 'RELEASE',    fr: 'RELEASE' }, text: { en: 'VirtuoseOS 2.4 — multi-workspace kernels, French locale.',                        fr: 'VirtuoseOS 2.4 — kernels multi-workspace, locale FR.' } },
-  { date: '03.2026', tag: { en: 'FIELD NOTE', fr: 'NOTE' },    text: { en: 'HubSpot + Claude: the unglamorous pattern that actually ships.',                  fr: 'HubSpot + Claude : le pattern sans relief qui livre vraiment.' } },
+  { date: '04.2026', tag: { en: 'RELEASE',    fr: 'RELEASE' }, text: { en: 'VirtuoseOS 2.4 — multi-workspace kernels, French locale.',                        fr: 'VirtuoseOS 2.4 — noyaux multi-workspace, locale FR.' } },
+  { date: '03.2026', tag: { en: 'FIELD NOTE', fr: 'NOTE' },    text: { en: 'HubSpot + Claude: the unglamorous pattern that actually ships.',                  fr: 'HubSpot + Claude : le pattern discret qui livre vraiment.' } },
   { date: '03.2026', tag: { en: 'ESSAY',      fr: 'ESSAI' },   text: { en: 'Against the brain-circuit aesthetic.',                                            fr: "Contre l'esthétique cerveau-circuit." } },
   { date: '02.2026', tag: { en: 'CASE',       fr: 'CAS' },     text: { en: 'Plateau SaaS — RevOps rebuild, €2.4M pipeline recovered.',                        fr: 'Plateau SaaS — refonte RevOps, 2,4 M€ de pipeline récupéré.' } },
 ];
 
 // ─── 6 services taught by doing — Acte II
 export const SIX_SERVICES = [
-  { k: '01', label: { en: '30-min diagnostic', fr: 'Diagnostic 30 min' }, body: { en: 'We identify the business lever before the technology.', fr: 'On identifie le levier business avant la techno.' } },
+  { k: '01', label: { en: '30-min diagnostic', fr: 'Diagnostic 30 min' }, body: { en: 'We identify the business lever before the technology.', fr: 'On identifie le levier métier avant la techno.' } },
   { k: '02', label: { en: 'Acquisition system', fr: "Système d'acquisition" }, body: { en: 'Pipeline reconnected, qualification automated.', fr: 'Pipeline reconnecté, qualification automatisée.' } },
   { k: '03', label: { en: 'Augmented CRM', fr: 'CRM augmenté' }, body: { en: 'The CRM that does its work for you.', fr: 'Le CRM qui fait son travail à votre place.' } },
-  { k: '04', label: { en: 'Data clarity', fr: 'Lisibilité des données' }, body: { en: 'Clear reporting, faster decisions.', fr: 'Reporting clair, décision rapide.' } },
+  { k: '04', label: { en: 'Data clarity', fr: 'Lisibilité des données' }, body: { en: 'Clear reporting, faster decisions.', fr: 'Tableaux clairs, décisions plus rapides.' } },
   { k: '05', label: { en: 'Repetitive tasks removed', fr: 'Tâches répétitives éliminées' }, body: { en: 'Workflows that run without you.', fr: 'Workflows qui tournent sans vous.' } },
-  { k: '06', label: { en: 'Enterprise custom build', fr: 'Sur-mesure ETI' }, body: { en: 'When the market stack is not enough.', fr: 'Quand la stack du marché ne suffit pas.' } },
+  { k: '06', label: { en: 'Enterprise custom build', fr: 'Sur-mesure ETI' }, body: { en: 'When the market stack is not enough.', fr: "Quand les outils du marché ne suffisent plus." } },
 ];
 
 // ─── 4 FIG rows — Acte I · Why AI stalls
@@ -580,7 +580,7 @@ export const WHY_AI_STALLS = [
   { fig: 'FIG 1.1', text: { en: 'A growing SMB rarely lacks tools. It lacks continuity between the CRM, inboxes, spreadsheets, and the site.', fr: 'Une PME en croissance manque rarement d’outils. Elle manque de continuité entre CRM, boîtes mail, tableurs et site.' } },
   { fig: 'FIG 1.2', text: { en: 'AI without structured business data turns every answer into an expensive guess.', fr: 'L’IA sans données métier structurées transforme chaque réponse en pari coûteux.' } },
   { fig: 'FIG 1.3', text: { en: 'Projects that reach production in less than 8 weeks keep momentum. After that, adoption usually becomes the real risk.', fr: 'Les projets livrés en moins de 8 semaines gardent l’élan. Après, le vrai risque devient l’adoption.' } },
-  { fig: 'FIG 1.4', text: { en: "The rebuild reflex is usually wrong. The money leaks in handoffs: lead to CRM, CRM to sales, sales to delivery.", fr: 'Le réflexe de tout refaire trompe souvent. L’argent fuit dans les passations : lead vers CRM, CRM vers vente, vente vers livraison.' } },
+  { fig: 'FIG 1.4', text: { en: "The rebuild reflex is usually wrong. The money leaks in handoffs: lead to CRM, CRM to sales, sales to delivery.", fr: 'Le réflexe de tout refaire trompe souvent. L’argent fuit dans les passations : lead vers CRM, CRM vers vente, vente vers livraison.' } },
 ];
 
 // ─── i18n helper · tire la chaîne dans la langue active

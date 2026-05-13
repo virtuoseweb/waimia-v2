@@ -77,13 +77,21 @@ interface Props {
   relatedCards: RelatedCard[];
   /** Offres liées (cross-collection) */
   relatedOffresLinks?: Array<{ title: string; href: string }>;
+  /** Slug pour ViewTransition (ex: "cas-plateau") */
+  transitionSlug?: string;
 }
 const {
   title, description, caseTitle, caseNum, specs, steps,
   proofQuoteFr, proofQuoteEn, proofAttrFr, proofAttrEn, proofMetrics,
-  techPills, relatedCards, relatedOffresLinks,
+  techPills, relatedCards, relatedOffresLinks, transitionSlug,
 } = Astro.props;
 const lang = langFromPath(Astro.url.pathname);
+const pageTransitionId = Astro.url.pathname
+  .replace(/^\/(?:en\/)?/, '')
+  .replace(/\/$/, '')
+  .replace(/[^a-z0-9]+/gi, '-')
+  .replace(/^-|-$/g, '') || 'home';
+const cardTransitionId = transitionSlug ?? pageTransitionId;
 ---
 <Base title={title} description={description}>
   <Breadcrumb
@@ -95,8 +103,8 @@ const lang = langFromPath(Astro.url.pathname);
     ]}
   />
   {/* MASTHEAD */}
-  <section class="case-masthead">
-    <svg class="case-hero-decoration" viewBox="0 0 600 500" aria-hidden="true" focusable="false">
+  <section class="case-masthead" transition:name={`card-${cardTransitionId}`}>
+    <svg class="case-hero-decoration reveal-blur-clip" viewBox="0 0 600 500" aria-hidden="true" focusable="false" transition:name={`hero-img-${pageTransitionId}`}>
       <circle cx="480" cy="80" r="220" fill="none" stroke="currentColor" stroke-width=".5" opacity=".12"/>
       <circle cx="460" cy="60" r="140" fill="none" stroke="var(--accent)" stroke-width=".4" opacity=".18"/>
       <line x1="0" y1="400" x2="600" y2="280" stroke="currentColor" stroke-width=".4" opacity=".1"/>
@@ -104,7 +112,7 @@ const lang = langFromPath(Astro.url.pathname);
     <div class="wrap-wide">
       <span class="eyebrow">§ Cas client</span>
       <Kicker class="case-num">§ Case {caseNum}</Kicker>
-      <h1 class="case-h1 reveal">
+      <h1 class="case-h1 reveal-split-letter" transition:name={`hero-h1-${pageTransitionId}`}>
         <slot name="headline" />
       </h1>
     </div>

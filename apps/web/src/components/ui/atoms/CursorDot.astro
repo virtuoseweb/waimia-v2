@@ -15,10 +15,32 @@
 <script>
   // Logique cursor — pure JS minimal (~40 LoC)
   // Pattern 2 (Astro + script interne) — cf docs/07-component-patterns.md
+  type CursorWindow = Window & { __waimiaCursorCleanup?: () => void };
+  const cursorWindow = window as CursorWindow;
+  cursorWindow.__waimiaCursorCleanup?.();
+
   const dot = document.querySelector<HTMLElement>('[data-cursor-dot]');
-  if (dot && window.matchMedia('(pointer:fine)').matches) {
+  const canRun =
+    window.matchMedia('(pointer:fine)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (dot && canRun) {
     let raf = 0;
-    let nx = 0, ny = 0;
+    let nx = 0;
+    let ny = 0;
+    let px = 0;
+    let py = 0;
+
+    const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+    const interactiveSelector = 'a,button,[role="button"],[data-cursor]';
+    const getInteractive = (target: EventTarget | null) =>
+      target instanceof Element ? target.closest<HTMLElement>(interactiveSelector) : null;
+
+    const isCta = (target: HTMLElement) =>
+      target.classList.contains('btn-primary') ||
+      target.classList.contains('btn-accent') ||
+      target.classList.contains('cta') ||
+      target.hasAttribute('data-cta');
 
     const onMove = (e: MouseEvent) => {
       nx = e.clientX;
@@ -26,7 +48,18 @@
       if (!raf) {
         raf = requestAnimationFrame(() => {
           raf = 0;
-          dot.style.transform = `translate(${nx}px,${ny}px)`;
+          const dx = nx - px;
+          const dy = ny - py;
+          px = nx;
+          py = ny;
+          const scale = dot.classList.contains('cta')
+            ? 1.35
+            : dot.classList.contains('hov')
+              ? 1.16
+              : 1;
+          const skewX = dot.classList.contains('hov') ? clamp(dx * 0.12, -10, 10) : 0;
+          const skewY = dot.classList.contains('hov') ? clamp(dy * -0.08, -7, 7) : 0;
+          dot.style.transform = `translate3d(${nx}px, ${ny}px, 0) translate(-50%, -50%) scale(${scale}) skew(${skewX}deg, ${skewY}deg)`;
           if (!dot.classList.contains('on')) dot.classList.add('on');
         });
       }
@@ -37,14 +70,30 @@
     document.addEventListener('mousemove', onMove, { passive: true });
 
     // Délégation : on attache au document pour capturer les éléments ajoutés dynamiquement
-    document.addEventListener('mouseover', (e) => {
-      const target = (e.target as HTMLElement)?.closest('a,button');
-      if (target) onEnter();
-    });
-    document.addEventListener('mouseout', (e) => {
-      const target = (e.target as HTMLElement)?.closest('a,button');
-      if (target) onLeave();
-    });
+    const onPointerOver = (e: PointerEvent) => {
+      const target = getInteractive(e.target);
+      const related = e.relatedTarget instanceof Node ? e.relatedTarget : null;
+      if (!target || target.contains(related)) return;
+      onEnter();
+      dot.classList.toggle('cta', isCta(target));
+    };
+    const onPointerOut = (e: PointerEvent) => {
+      const target = getInteractive(e.target);
+      const related = e.relatedTarget instanceof Node ? e.relatedTarget : null;
+      if (!target || target.contains(related)) return;
+      onLeave();
+      dot.classList.remove('cta');
+    };
+
+    document.addEventListener('pointerover', onPointerOver, { passive: true });
+    document.addEventListener('pointerout', onPointerOut, { passive: true });
+
+    cursorWindow.__waimiaCursorCleanup = () => {
+      if (raf) cancelAnimationFrame(raf);
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('pointerover', onPointerOver);
+      document.removeEventListener('pointerout', onPointerOut);
+    };
   }
 </script>
 
@@ -60,12 +109,29 @@
     pointer-events: none;
     mix-blend-mode: difference;
     z-index: 100;
-    transform: translate(-50%, -50%);
-    transition: width 280ms var(--ease), height 280ms var(--ease), opacity 200ms;
+    transform: translate3d(-50%, -50%, 0);
+    transform-origin: 50% 50%;
+    transition:
+      width 280ms var(--ease),
+      height 280ms var(--ease),
+      background 220ms var(--ease),
+      opacity 200ms;
     opacity: 0;
+    will-change: transform, width, height;
   }
   .u-cursor-dot.on { opacity: .9; }
-  .u-cursor-dot.hov { width: 44px; height: 44px; }
+  .u-cursor-dot.hov {
+    width: 44px;
+    height: 44px;
+  }
+
+  .u-cursor-dot.cta {
+    mix-blend-mode: normal;
+    opacity: 1;
+    background: var(--accent);
+    width: 52px;
+    height: 52px;
+  }
   @media (pointer: coarse) { .u-cursor-dot { display: none; } }
   @media (prefers-reduced-motion: reduce) { .u-cursor-dot { display: none; } }
 </style>

@@ -71,6 +71,11 @@ const {
 } = Astro.props;
 
 const lang = langFromPath(Astro.url.pathname);
+const pageTransitionId = Astro.url.pathname
+  .replace(/^\/(?:en\/)?/, '')
+  .replace(/\/$/, '')
+  .replace(/[^a-z0-9]+/gi, '-')
+  .replace(/^-|-$/g, '') || 'home';
 const parseMinPrice = (value: string) => {
   const normalized = value
     .replace(/\u00a0/g, ' ')
@@ -201,8 +206,8 @@ const growthToolRows = [
       ]}
     />
     {/* ────────── 1. HERO ────────── */}
-    <section class="off-hero reveal" data-screen-label="01 Hero">
-      <svg class="off-hero-geo" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <section class="off-hero reveal" data-screen-label="01 Hero" transition:name={`card-${pageTransitionId}`}>
+      <svg class="off-hero-geo reveal-blur-clip" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true" transition:name={`hero-img-${pageTransitionId}`}>
         <circle cx="1200" cy="120" r="340" fill="none" stroke="currentColor" stroke-width=".6" opacity=".18"/>
         <circle cx="1200" cy="120" r="220" fill="none" stroke="var(--accent)" stroke-width=".4" opacity=".25"/>
         <line x1="0" y1="400" x2="1440" y2="280" stroke="currentColor" stroke-width=".4" opacity=".12"/>
@@ -214,7 +219,7 @@ const growthToolRows = [
           <span>{tierLabel}</span>
         </nav>
         <div class="off-hero-tier">{tier}</div>
-        <h1 class="off-hero-title"><slot name="title" /></h1>
+        <h1 class="off-hero-title reveal-split-letter" transition:name={`hero-h1-${pageTransitionId}`}><slot name="title" /></h1>
         <div class="off-hero-sub">
           <p class="off-hero-lead"><slot name="lead" /></p>
           <div class="off-hero-actions">
@@ -273,7 +278,7 @@ const growthToolRows = [
         <div class="off-del-grid col-12">
           {deliverables.length > 0 ? (
             deliverables.map((item, index) => (
-              <article class={deliverableClasses[index % deliverableClasses.length]}>
+              <article class={`${deliverableClasses[index % deliverableClasses.length]} reveal-zoom-in`}>
                 <span class="del-tag">{item.tag}</span>
                 <h3>{item.title}</h3>
                 <p>{item.body}</p>
@@ -669,6 +674,7 @@ const growthToolRows = [
     font-weight: 400;
     color: var(--ink);
     text-wrap: balance;
+    transition: transform 220ms var(--ease);
   }
   .deliverable p,
   .off-del-grid :global(.del-card p) {
@@ -678,6 +684,7 @@ const growthToolRows = [
     color: var(--ink-2);
     margin: 0;
     max-width: 38ch;
+    transition: transform 220ms var(--ease);
   }
   .del-tag,
   .off-del-grid :global(.del-tag) {
@@ -692,6 +699,15 @@ const growthToolRows = [
     border-radius: 0;
     display: block;
     margin-bottom: var(--space-2);
+    transition: transform 220ms var(--ease), color 220ms var(--ease);
+  }
+  .deliverable:hover h3,
+  .deliverable:hover p,
+  .deliverable:hover .del-tag,
+  .off-del-grid :global(.del-card:hover h3),
+  .off-del-grid :global(.del-card:hover p),
+  .off-del-grid :global(.del-card:hover .del-tag) {
+    transform: translateX(1px);
   }
 
   /* ───── Proof ───── */
@@ -941,6 +957,17 @@ const growthToolRows = [
   }
   @media (prefers-reduced-motion: reduce) {
     .off-hero-title { animation: none; }
+    .deliverable,
+    .deliverable h3,
+    .deliverable p,
+    .del-tag,
+    .off-del-grid :global(.del-card),
+    .off-del-grid :global(.del-card h3),
+    .off-del-grid :global(.del-card p),
+    .off-del-grid :global(.del-tag) {
+      transform: none !important;
+      transition: none !important;
+    }
   }
 
   /* ── Offres method horizontal scroll wrap ── */

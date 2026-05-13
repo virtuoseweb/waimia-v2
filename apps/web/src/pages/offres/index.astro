@@ -13,7 +13,7 @@ const offresHero = {
   num: '01',
   kicker: 'OFFRE PHARE · 5 à 20 k€',
   title_fr: 'Growth System IA',
-  sub_fr: "Pas un site. Pas un CRM. Pas un dashboard. Un système.",
+  sub_fr: "Pas un site. Pas un CRM. Pas un tableau. Un système.",
   lead_fr: "Site, CRM, relances, pilotage — connectés et mesurés. Le mardi on câble. Le vendredi on mesure.",
   href: '/offres/growth-system-ia',
 };
@@ -21,11 +21,11 @@ const offresHero = {
 const offresPiliers = [
   { num: '02', kicker: 'PILIER · 8 à 35 k€',
     title_fr: 'Growth Intelligence', sub_fr: 'Pilotage temps réel',
-    lead_fr: 'KPI commerciaux et opérationnels en temps réel. La lisibilité qui change la décision.',
+    lead_fr: 'KPI commerciaux et opérationnels en temps réel. Des chiffres lisibles avant la réunion.',
     href: '/offres/growth-intelligence' },
   { num: '03', kicker: 'PILIER · 6 à 25 k€',
     title_fr: 'Productivité Opérationnelle IA', sub_fr: 'Tâches répétitives éliminées',
-    lead_fr: 'Excel augmenté, Office connecté, workflows internes fluidifiés.',
+    lead_fr: 'Excel augmenté, Office connecté, workflows internes qui tournent sans relance.',
     href: '/offres/productivite-operationnelle-ia' },
 ];
 
@@ -39,23 +39,30 @@ const offresNiveaux = [
     lead_fr: "Quand les pilotes IA s'éparpillent. Une infra commune, une gouvernance, une équipe interne formée.",
     href: '/offres/infrastructure-ia' },
 ];
+
+const transitionIdFromHref = (href: string) =>
+  href
+    .replace(/^\/(?:en\/)?/, '')
+    .replace(/\/$/, '')
+    .replace(/[^a-z0-9]+/gi, '-')
+    .replace(/^-|-$/g, '') || 'home';
 ---
 <Base
   title="Offres · 3 piliers + 2 niveaux · Waimia"
-  description="Trois systèmes pour les leviers business des PME — Growth System IA, Growth Intelligence, Productivité Opérationnelle. Plus deux niveaux : Activation 1 semaine, Infrastructure ETI."
+  description="Trois systèmes pour les leviers des PME — Growth System IA, Growth Intelligence, Productivité Opérationnelle. Plus deux niveaux : Activation 1 semaine, Infrastructure ETI."
 >
   <section class="hub-mast">
     <div class="wrap-wide">
       <Kicker class="hub-kicker">§ Offres · 3 piliers + 2 niveaux</Kicker>
-      <h1 class="hub-h1 reveal">Trois <i>systèmes</i>. Deux <i>niveaux</i>. Une <i>méthode</i>.</h1>
+      <h1 class="hub-h1 reveal" transition:name={`hero-h1-${transitionIdFromHref(Astro.url.pathname)}`}>Trois <i>systèmes</i>. Deux <i>niveaux</i>. Une <i>méthode</i>.</h1>
       <p class="hub-lede">
-        Pas un module. Pas un add-on. Trois systèmes complets, deux niveaux d'engagement. Le reste, ce sont des slides.
+        Pas un module. Pas une option collée au dernier moment. Trois systèmes complets, deux niveaux d'engagement. Le reste, ce sont des slides.
       </p>
     </div>
   </section>
 
   <section class="hub-hero-offre wrap-wide">
-    <a href={offresHero.href} class="hub-hero-card">
+    <a href={offresHero.href} class="hub-hero-card" transition:name={`card-${transitionIdFromHref(offresHero.href)}`}>
       <div class="hub-hero-num">{offresHero.num}</div>
       <div class="hub-hero-kicker">{offresHero.kicker}</div>
       <h2 class="hub-hero-title">{offresHero.title_fr}</h2>
@@ -67,10 +74,10 @@ const offresNiveaux = [
 
   <section class="hub-piliers wrap-wide">
     <Kicker>§ Les autres piliers</Kicker>
-    <h3 class="hub-h3">Voir clair. Travailler moins vite — et mieux.</h3>
+    <h3 class="hub-h3">Voir clair. Décider plus vite — et mieux.</h3>
     <div class="hub-pilier-grid">
       {offresPiliers.map((p) => (
-        <a href={p.href} class="hub-pilier-card">
+        <a href={p.href} class="hub-pilier-card" transition:name={`card-${transitionIdFromHref(p.href)}`}>
           <div class="hub-pilier-num">{p.num}</div>
           <div class="hub-pilier-kicker">{p.kicker}</div>
           <h4>{p.title_fr}</h4>
@@ -89,7 +96,7 @@ const offresNiveaux = [
     <h3 class="hub-h3">Une porte d'entrée. Un toit.</h3>
     <div class="hub-niveau-grid">
       {offresNiveaux.map((n) => (
-        <a href={n.href} class="hub-niveau-card">
+        <a href={n.href} class="hub-niveau-card" transition:name={`card-${transitionIdFromHref(n.href)}`}>
           <div class="hub-niveau-kicker">{n.kicker}</div>
           <h4>{n.title_fr}</h4>
           <p>{n.lead_fr}</p>

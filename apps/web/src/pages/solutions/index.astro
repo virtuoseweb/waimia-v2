@@ -37,6 +37,13 @@ const sectorSatellites = [
   { kicker: 'SECTEUR · 02', title_fr: 'Industrie & PME industrielles', lead_fr: 'ERP, maintenance, qualité →', href: '/secteurs/industrie' },
   { kicker: 'SECTEUR · 03', title_fr: 'Finance & cabinets comptables', lead_fr: 'Réconciliation, reporting, conformité →', href: '/secteurs/finance-compta' },
 ];
+
+const transitionIdFromHref = (href: string) =>
+  href
+    .replace(/^\/(?:en\/)?/, '')
+    .replace(/\/$/, '')
+    .replace(/[^a-z0-9]+/gi, '-')
+    .replace(/^-|-$/g, '') || 'home';
 ---
 <Base
   title="Solutions · 5 cas d'usage business · Waimia"
@@ -45,7 +52,7 @@ const sectorSatellites = [
   <section class="hub-mast">
     <div class="wrap-wide">
       <Kicker class="hub-kicker">§ Solutions · 5 cas d'usage horizontaux</Kicker>
-      <h1 class="hub-h1 reveal">Cinq <i>problèmes</i> business. Une <i>méthode</i>.</h1>
+      <h1 class="hub-h1 reveal" transition:name={`hero-h1-${transitionIdFromHref(Astro.url.pathname)}`}>Cinq <i>problèmes</i> business. Une <i>méthode</i>.</h1>
       <p class="hub-lede">
         Cinq douleurs récurrentes. Pas de slide sur l'IA — un système câblé à votre stack, mesuré dès la première semaine.
       </p>
@@ -57,7 +64,7 @@ const sectorSatellites = [
 
   <section class="hub-solutions wrap-wide" aria-label="Solutions horizontales">
     {horizontalSolutions.map((sol) => (
-      <a href={sol.href} class="hub-sol-card">
+      <a href={sol.href} class="hub-sol-card" transition:name={`card-${transitionIdFromHref(sol.href)}`}>
         <div class="hub-sol-num">{sol.num}</div>
         <div class="hub-sol-kicker">{sol.kicker}</div>
         <h3 class="hub-sol-title">{sol.title_fr}</h3>
@@ -77,7 +84,7 @@ const sectorSatellites = [
       </p>
       <div class="hub-sector-grid">
         {sectorSatellites.map((s) => (
-          <a href={s.href} class="hub-sector-card">
+          <a href={s.href} class="hub-sector-card" transition:name={`card-${transitionIdFromHref(s.href)}`}>
             <div class="hub-sector-kicker">{s.kicker}</div>
             <h4>{s.title_fr}</h4>
             <p>{s.lead_fr}</p>

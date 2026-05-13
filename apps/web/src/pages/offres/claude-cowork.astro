@@ -9,9 +9,9 @@ export const prerender = true;
 import OffresDetailTemplate from '../../components/templates/OffresDetailTemplate.astro';
 ---
 <OffresDetailTemplate
-  title="Claude Cowork & Artifacts · Déploiement Light · Waimia"
-  description="Pas une licence installée et oubliée. Claude déployé sur chaque poste, avec les scripts, les playbooks métier et la mesure d'usage. Adoption ≥ 80 % à J+30."
-  tier="§ 02 · DÉPLOIEMENT LIGHT"
+  title="Claude Cowork & Artifacts · Déploiement léger · Waimia"
+  description="Pas une licence installée et oubliée. Claude déployé sur chaque poste, avec les scripts, les guides métier et la mesure d'usage. Adoption ≥ 80 % à J+30."
+  tier="§ 02 · DÉPLOIEMENT LÉGER"
   tierLabel="Claude Cowork & Artifacts"
   meta="Palier 02 · à partir de 3 500 €"
   ctaHref="/contact"
@@ -20,7 +20,7 @@ import OffresDetailTemplate from '../../components/templates/OffresDetailTemplat
   <Fragment slot="title">Claude<br/>Cowork &amp;<br/>Artifacts</Fragment>
 
   <Fragment slot="lead">
-    Pas une licence installée et oubliée. Claude déployé sur chaque poste, avec les scripts, les playbooks métier et la mesure d'usage.<span>Adoption ≥ 80 % à J+30.</span>
+    Pas une licence installée et oubliée. Claude déployé sur chaque poste, avec les scripts, les guides métier et la mesure d'usage.<span>Adoption ≥ 80 % à J+30.</span>
   </Fragment>
 
   <Fragment slot="problem-statement">
@@ -35,16 +35,16 @@ import OffresDetailTemplate from '../../components/templates/OffresDetailTemplat
     </div>
     <div>
       <div class="ann-value">3-8×</div>
-      <div class="ann-label">d'écart d'usage entre power-users et adoption médiane.</div>
+      <div class="ann-label">d'écart d'usage entre utilisateurs avancés et adoption médiane.</div>
     </div>
     <div>
       <div class="ann-value">5 j</div>
-      <div class="ann-label">d'onboarding suffisent — quand le programme est conçu pour le métier.</div>
+      <div class="ann-label">d'accompagnement suffisent — quand le programme est conçu pour le métier.</div>
     </div>
   </Fragment>
 
   <Fragment slot="method-aside">
-    Quatre phases, un seul objectif : faire de Claude un réflexe de travail — pas un outil de plus à onboarder.
+    Quatre phases, un seul objectif : faire de Claude un réflexe de travail — pas un outil de plus à expliquer.
   </Fragment>
 
   <Fragment slot="method-steps">
@@ -52,17 +52,17 @@ import OffresDetailTemplate from '../../components/templates/OffresDetailTemplat
       <div class="step-n">01</div>
       <div class="step-k">Diagnostic d'usage</div>
       <h3>Mesurer ce que les équipes font déjà.</h3>
-      <p>Audit des 5 workflows les plus chronophages par métier. Logs Claude existants, entretiens 30 min × 6 personas, cartographie des SOPs.</p>
+      <p>Audit des 5 workflows les plus chronophages par métier. Logs Claude existants, entretiens 30 min × 6 profils, cartographie des procédures.</p>
     </div>
     <div class="step">
       <div class="step-n">02</div>
       <div class="step-k">Scripts d'adoption</div>
       <h3>Transformer chaque workflow en réflexe Claude.</h3>
-      <p>15-25 prompts pré-câblés par métier (vente, finance, RH, ops). Artifacts internes prêts à l'emploi. MCP servers connectant Notion / Drive / Slack.</p>
+      <p>15-25 prompts pré-câblés par métier (vente, finance, RH, ops). Artifacts internes prêts à l'emploi. Serveurs MCP connectés à Notion, Drive et Slack.</p>
     </div>
     <div class="step">
       <div class="step-n">03</div>
-      <div class="step-k">Onboarding équipes</div>
+      <div class="step-k">Accompagnement équipes</div>
       <h3>5 jours pour rendre Claude indispensable.</h3>
       <p>Sessions de 90 min × 4 par équipe. Pratique sur dossiers réels, pas sur exemples génériques. Champion désigné par département pour la suite.</p>
     </div>
@@ -70,12 +70,12 @@ import OffresDetailTemplate from '../../components/templates/OffresDetailTemplat
       <div class="step-n">04</div>
       <div class="step-k">Mesure & itération</div>
       <h3>Adoption mesurée, pas espérée.</h3>
-      <p>Dashboard d'usage par équipe, par workflow. Revue à J+15 et J+30. Itération sur les prompts qui ne tiennent pas la promesse.</p>
+      <p>Tableau d'usage par équipe, par workflow. Revue à J+15 et J+30. Itération sur les prompts qui ne tiennent pas la promesse.</p>
     </div>
   </Fragment>
 
   <Fragment slot="deliverables-aside">
-    Chaque livrable est opérationnel dès la remise — aucune dépendance à une ressource interne pour aller live.
+    Chaque livrable est opérationnel dès la remise — aucune dépendance à une ressource interne pour passer en production.
   </Fragment>
 
   <Fragment slot="deliverables">
@@ -90,24 +90,24 @@ import OffresDetailTemplate from '../../components/templates/OffresDetailTemplat
       <span class="del-tag">Notion + Skills</span>
     </div>
     <div class="del-card">
-      <h3>MCP connectors configurés</h3>
-      <p>Notion, Google Drive, Slack, GitHub, Linear — selon stack. Sécurité auth, logs, gouvernance.</p>
+      <h3>Connecteurs MCP configurés</h3>
+      <p>Notion, Google Drive, Slack, GitHub, Linear — selon stack. Authentification, logs, gouvernance.</p>
       <span class="del-tag">Stack technique</span>
     </div>
     <div class="del-card">
-      <h3>Playbooks métier</h3>
-      <p>Un guide opérationnel par département : Vente, Finance, RH, Ops, Marketing. PDF + Notion live.</p>
+      <h3>Guides métier</h3>
+      <p>Un guide opérationnel par département : Vente, Finance, RH, Ops, Marketing. PDF + Notion partagé.</p>
       <span class="del-tag">PDF · 6-8 par dept</span>
     </div>
     <div class="del-card">
-      <h3>Programme onboarding</h3>
-      <p>4 sessions × 90 min par équipe, supports Keynote + recordings, exercices pratiques sur leurs vrais dossiers.</p>
-      <span class="del-tag">Live + replay</span>
+      <h3>Programme d'accompagnement</h3>
+      <p>4 sessions × 90 min par équipe, supports Keynote + enregistrements, exercices pratiques sur leurs vrais dossiers.</p>
+      <span class="del-tag">Direct + replay</span>
     </div>
     <div class="del-card">
-      <h3>Dashboard d'adoption</h3>
-      <p>Métriques d'usage par équipe / workflow / personne. Alertes sur décrochage. Revue mensuelle avec champion.</p>
-      <span class="del-tag">Dashboard live</span>
+      <h3>Tableau d'adoption</h3>
+      <p>Métriques d'usage par équipe, workflow et personne. Alertes sur décrochage. Revue mensuelle avec un champion interne.</p>
+      <span class="del-tag">Tableau live</span>
     </div>
   </Fragment>
 
@@ -134,12 +134,12 @@ import OffresDetailTemplate from '../../components/templates/OffresDetailTemplat
     </div>
     <div>
       <div class="metric-v">6 sem</div>
-      <div class="metric-l">Du kickoff au full deployment</div>
+      <div class="metric-l">Du lancement au déploiement complet</div>
     </div>
   </Fragment>
 
-  <Fragment slot="cta-title">Prêt à<br/>déployer ?</Fragment>
+  <Fragment slot="cta-title">Prêt à<br/>déployer ?</Fragment>
   <Fragment slot="cta-body">
-    Cadrage en 45 minutes. Nous auditons votre contexte, vos outils existants et proposons un plan d'action concret — sans engagement.
+    Cadrage en 45 minutes. On lit votre contexte, vos outils existants et on propose un plan d'action concret — sans engagement.
   </Fragment>
 </OffresDetailTemplate>

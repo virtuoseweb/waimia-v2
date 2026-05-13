@@ -23,6 +23,12 @@ type AuthorLinkedEntry =
 type AuthorRef = string | { id?: string; slug?: string; name?: string };
 
 const lang = langFromPath(Astro.url.pathname);
+const transitionIdFromHref = (href: string) =>
+  href
+    .replace(/^\/(?:en\/)?/, '')
+    .replace(/\/$/, '')
+    .replace(/[^a-z0-9]+/gi, '-')
+    .replace(/^-|-$/g, '') || 'home';
 
 const allAuthors = await getCollection('authors');
 
@@ -97,7 +103,7 @@ const collectionPageLd = {
           ? t({ fr: 'auteurs', en: 'authors' }, lang)
           : t({ fr: 'auteur', en: 'author' }, lang)}
       </Kicker>
-      <h1 class="eq-h1 reveal">
+      <h1 class="eq-h1 reveal" transition:name={`hero-h1-${transitionIdFromHref(Astro.url.pathname)}`}>
         {lang === 'fr' ? (
           <>
             Qui <i>écrit</i>. Qui <i>cable</i>.
@@ -124,7 +130,7 @@ const collectionPageLd = {
           const count = countByAuthor(author.id, author.data.title_fr);
           const href = lang === 'fr' ? `/equipe/${author.id}` : `/en/equipe/${author.id}`;
           return (
-            <a href={href} class="eq-card">
+            <a href={href} class="eq-card" transition:name={`card-${transitionIdFromHref(href)}`}>
               {author.data.photo && (
                 <img
                   src={author.data.photo}
@@ -197,18 +203,21 @@ const collectionPageLd = {
   .eq-card {
     background: var(--paper);
     border: 1px solid rgba(0, 0, 0, .08);
+    border-top: 2px solid transparent;
     border-radius: 16px;
     padding: 32px;
     text-decoration: none;
     color: var(--ink);
-    transition: border-color 220ms, transform 220ms, box-shadow 220ms;
+    transition: border-color 220ms var(--ease), border-top-color 220ms var(--ease), transform 220ms var(--ease), box-shadow 220ms var(--ease), background 220ms var(--ease);
     display: flex;
     flex-direction: column;
     gap: 20px;
+    overflow: hidden;
   }
   .eq-card:hover {
     background: var(--paper-2);
     border-color: var(--accent);
+    border-top-color: var(--accent);
     transform: translateY(-2px);
     box-shadow: 0 12px 32px rgba(0, 0, 0, .06);
   }
@@ -217,6 +226,16 @@ const collectionPageLd = {
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 12px;
+    transition: transform 360ms var(--ease-out);
+  }
+  .eq-card-body {
+    transition: transform 220ms var(--ease);
+  }
+  .eq-card:hover .eq-card-photo {
+    transform: scale(1.02);
+  }
+  .eq-card:hover .eq-card-body {
+    transform: translateX(1px);
   }
   .eq-card-name {
     font-family: var(--font-display);
@@ -258,6 +277,16 @@ const collectionPageLd = {
     font-size: 15px;
     color: var(--accent);
     margin-top: 8px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eq-card,
+    .eq-card-photo,
+    .eq-card-body {
+      transition: none !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
   }
 
   .wrap {

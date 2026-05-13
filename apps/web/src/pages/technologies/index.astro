@@ -65,6 +65,13 @@ const ossPills = [
   { label: 'Ollama', kind: 'open' as const },
   { label: 'GLM-5', kind: 'open' as const },
 ];
+
+const transitionIdFromHref = (href: string) =>
+  href
+    .replace(/^\/(?:en\/)?/, '')
+    .replace(/\/$/, '')
+    .replace(/[^a-z0-9]+/gi, '-')
+    .replace(/^-|-$/g, '') || 'home';
 ---
 <Base
   title="Technologies · Claude + open-source + VirtuoseOS · Waimia"
@@ -74,7 +81,7 @@ const ossPills = [
   <section class="hub-mast">
     <div class="wrap-wide">
       <Kicker class="hub-kicker">§ Technologies · 3 layers · 1 OS</Kicker>
-      <h1 class="hub-h1">Trois <i>couches</i>. Une seule <i>OS</i>.</h1>
+      <h1 class="hub-h1" transition:name={`hero-h1-${transitionIdFromHref(Astro.url.pathname)}`}>Trois <i>couches</i>. Une seule <i>OS</i>.</h1>
       <p class="hub-lede">
         Claude pour la cognition. L'open-source pour la souveraineté. VirtuoseOS pour la décision. Trois choix techniques, une seule architecture.
       </p>
@@ -116,7 +123,7 @@ const ossPills = [
       <ol class="hub-flagship-list">
         {flagshipTechs.map((t) => (
           <li class="hub-flagship-row">
-            <a class="hub-flagship-link" href={t.href}>
+            <a class="hub-flagship-link" href={t.href} transition:name={`card-${transitionIdFromHref(t.href)}`}>
               <span class="hub-flagship-num">{t.num}</span>
               <span class="hub-flagship-body">
                 <span class="hub-flagship-kicker">{t.kicker}</span>

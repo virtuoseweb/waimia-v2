@@ -38,9 +38,9 @@ const STATS = [
 const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
 ---
 <Base
-  title={lang === 'fr' ? "Waimia · Manifesto · Construire du revenue, pas des démos" : 'Waimia · Manifesto · Build revenue, not demos'}
+  title={lang === 'fr' ? "Waimia · Manifeste · Construire du revenu, pas des démos" : 'Waimia · Manifesto · Build revenue, not demos'}
   description={lang === 'fr'
-    ? "Direction B · Variante Manifesto. Hero canvas terracotta + services asymétriques + manifeste full-bleed. Pour les équipes qui livrent."
+    ? "Le manifeste Waimia : des systèmes IA livrés, mesurés, documentés. Pas de théâtre IA, pas de démos qui meurent en comité."
     : 'Direction B · Manifesto variant. Terracotta canvas hero + asymmetric services + full-bleed manifesto. For teams that ship.'}
 >
   {/* HERO · LiquidHero canvas */}
@@ -57,11 +57,11 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
       {/* headline */}
       <div style="max-width:1600px">
         <Kicker class="b-hero-tag">
-          {lang === 'fr' ? (<>Une agence IA · <span style="color:var(--accent)">artisanat français, finition internationale</span></>) : (<>An AI agency · <span style="color:var(--accent)">French craft, international polish</span></>)}
+          {lang === 'fr' ? (<>Une agence IA · <span style="color:var(--accent)">française dans l'exécution, internationale dans la finition</span></>) : (<>An AI agency · <span style="color:var(--accent)">French craft, international polish</span></>)}
         </Kicker>
         <h1 style="font-family:var(--font-display);font-size:clamp(64px,13vw,220px);line-height:.88;letter-spacing:-0.035em;color:var(--paper);text-wrap:balance;font-weight:400;margin:0">
           {lang === 'fr' ? (
-            <>Construire du <i style="color:var(--accent)">revenue</i>,<br />pas des <i>démos</i>.</>
+            <>Construire du <i style="color:var(--accent)">revenu</i>,<br />pas des <i>démos</i>.</>
           ) : (
             <>Build <i style="color:var(--accent)">revenue</i>,<br />not <i>demos</i>.</>
           )}
@@ -72,7 +72,7 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:48px;align-items:end;max-width:1600px">
         <p style="font-family:var(--font-display);font-size:clamp(15px,1.4vw,22px);line-height:1.4;color:rgba(246,241,232,.85);max-width:380px;margin:0">
           {lang === 'fr'
-            ? "Une agence IA pour SaaS, fintech et industrie dont le moteur revenue doit livrer — pas répéter."
+            ? "Une agence IA pour SaaS, fintech et industrie. Pour les équipes dont le moteur commercial doit livrer — pas répéter."
             : 'An AI agency for SaaS, fintech and industry that want their revenue engine to ship — not to rehearse.'}
         </p>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -115,7 +115,7 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
         </div>
         <p class="reveal" style="font-family:var(--font-display);font-size:clamp(40px,6.5vw,104px);line-height:1.02;letter-spacing:-0.025em;color:var(--paper);text-wrap:balance;font-weight:400">
           {lang === 'fr' ? (
-            <>L'IA est <i style="color:var(--accent)">partout</i> et nulle part. Les stacks grossissent, les pipelines s'aplatissent. Le goulot n'est <i>jamais</i> le modèle.</>
+            <>L'IA est <i style="color:var(--accent)">partout</i> et nulle part. Les stacks grossissent. Les pipelines s'aplatissent. Le goulot n'est <i>jamais</i> le modèle.</>
           ) : (
             <>AI is <i style="color:var(--accent)">everywhere</i> and nowhere. Stacks grow, pipelines flatten. The bottleneck is <i>never</i> the model.</>
           )}
@@ -145,7 +145,7 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
       </div>
       <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(48px,8vw,148px);line-height:.94;letter-spacing:-0.03em;max-width:1400px;margin-bottom:clamp(80px,10vw,120px);text-wrap:balance;font-weight:400">
         {lang === 'fr' ? (
-          <>On fait la couche <i style="color:var(--accent)">sans relief</i>. Exprès.</>
+          <>On fait la couche <i style="color:var(--accent)">sans prestige</i>. Exprès.</>
         ) : (
           <>We do the <i style="color:var(--accent)">unglamorous</i> layer. On purpose.</>
         )}
@@ -173,13 +173,13 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
       </Kicker>
       <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(48px,8vw,128px);line-height:.94;letter-spacing:-0.03em;color:var(--paper);text-wrap:balance;font-weight:400;margin-bottom:32px">
         {lang === 'fr' ? (
-          <>Virtuose<i style="color:var(--accent)">OS</i>.<br />Le <i>kernel</i> sous chaque intervention.</>
+          <>Virtuose<i style="color:var(--accent)">OS</i>.<br />Le <i>noyau</i> sous chaque mission.</>
         ) : (
           <>Virtuose<i style="color:var(--accent)">OS</i>.<br />The <i>kernel</i> under every engagement.</>
         )}
       </h2>
       <PillCTA href={flh('/console', lang)} variant="accent-mono" mag={0.18}>
-        ▸ {lang === 'fr' ? 'Voir la Console (Direction C)' : 'See the Console (Direction C)'}
+        ▸ {lang === 'fr' ? 'Voir la console' : 'See the Console (Direction C)'}
       </PillCTA>
     </div>
   </section>

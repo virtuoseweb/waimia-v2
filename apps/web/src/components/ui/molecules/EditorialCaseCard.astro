@@ -42,9 +42,10 @@ interface Props {
 }
 
 const { idx, client, sector, stack, impact, duration, href, offset = 0, class: extraClass = '' } = Astro.props;
+const vtSlug = href.replace(/^\//, "").replace(/\//g, "-");
 const offsetStyle = offset ? `margin-top:${offset}px` : '';
 ---
-<a class={`u-case-card reveal lift ${extraClass}`.trim()} style={offsetStyle} href={href}>
+<a class={`u-case-card reveal lift ${extraClass}`.trim()} style={offsetStyle} href={href} transition:name={`card-${vtSlug}`}>
   <div class="u-case-card-hd">
     <Kicker as="span">CASE 0{idx} · {sector}</Kicker>
     <Kicker as="span">{duration}</Kicker>
@@ -63,15 +64,20 @@ const offsetStyle = offset ? `margin-top:${offset}px` : '';
 </a>
 
 <style>
-  .u-case-card{display:block;padding:clamp(24px,3vw,40px);background:var(--paper-2);border-radius:18px;border:1px solid var(--hairline);transition:border-color 280ms var(--ease),transform 280ms var(--ease);color:inherit}
-  .u-case-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+  .u-case-card{display:block;padding:clamp(24px,3vw,40px);background:var(--paper-2);border-radius:18px;border:1px solid var(--hairline);border-top:2px solid transparent;transition:border-color 280ms var(--ease),transform 280ms var(--ease),box-shadow 280ms var(--ease);color:inherit}
+  .u-case-card:hover{border-color:var(--accent);border-top-color:var(--accent);transform:translateY(-4px);box-shadow:0 12px 40px rgba(12,11,9,0.08)}
 
   .u-case-card-hd{display:flex;justify-content:space-between;align-items:baseline}
 
-  .u-case-card-client{font-family:var(--font-display);font-size:clamp(36px,5vw,72px);line-height:.95;letter-spacing:-0.025em;margin-top:18px}
+  .u-case-card-client{font-family:var(--font-display);font-size:clamp(36px,5vw,72px);line-height:.95;letter-spacing:-0.025em;margin-top:18px;transition:transform 220ms var(--ease)}
 
   .u-case-card-foot{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-top:20px;border-top:1px solid var(--hairline)}
   :global(.u-case-card-k){margin-bottom:6px}
   .u-case-card-v{font-size:13.5px}
+  .u-case-card-v,.u-case-card-impact{transition:transform 220ms var(--ease)}
   .u-case-card-impact{font-size:16px;color:var(--accent);font-weight:500}
+  .u-case-card:hover .u-case-card-client,
+  .u-case-card:hover .u-case-card-v,
+  .u-case-card:hover .u-case-card-impact{transform:translateX(1px)}
+  @media (prefers-reduced-motion: reduce){.u-case-card,.u-case-card-client,.u-case-card-v,.u-case-card-impact{transition:none!important;transform:none!important}}
 </style>

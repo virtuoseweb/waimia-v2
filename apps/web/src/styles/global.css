@@ -29,6 +29,11 @@ a {
   color: inherit;
   text-decoration: none;
 }
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
 button {
   font: inherit;
   color: inherit;
@@ -218,9 +223,13 @@ pre {
   background: var(--ink);
   color: var(--paper);
 }
+.btn:not(.btn-link):hover,
+.btn:not(.btn-link):focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(12, 11, 9, 0.10);
+}
 .btn-primary:hover {
   background: var(--accent);
-  transform: translateY(-1px);
   box-shadow: 0 14px 32px rgba(201, 79, 46, 0.22);
 }
 .btn-ghost {
@@ -231,7 +240,6 @@ pre {
 .btn-ghost:hover {
   background: var(--ink);
   color: var(--paper);
-  transform: translateY(-1px);
 }
 .btn-accent {
   background: var(--accent);
@@ -239,7 +247,6 @@ pre {
 }
 .btn-accent:hover {
   background: var(--accent-2);
-  transform: translateY(-1px);
   box-shadow: 0 14px 32px rgba(201, 79, 46, 0.28);
 }
 .btn-link {
@@ -265,6 +272,78 @@ pre {
 .on-dark .btn-primary:hover {
   background: var(--accent);
   color: var(--paper);
+}
+.btn-spinner {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  animation: btn-spinner-rotate 760ms linear infinite;
+}
+.btn-spinner circle {
+  stroke: currentColor;
+  stroke-dasharray: 34;
+  stroke-dashoffset: 10;
+  stroke-linecap: round;
+}
+.btn-label {
+  display: inline-block;
+}
+.btn--loading {
+  opacity: 0.72;
+  cursor: wait;
+  pointer-events: none;
+}
+@keyframes btn-spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  [data-mag],
+  .lift {
+    transition: none !important;
+  }
+  .btn:hover,
+  .btn:focus-visible,
+  .lift:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .btn-spinner {
+    animation: none;
+  }
+  .btn-spinner circle {
+    stroke-dashoffset: 16;
+  }
+}
+
+/* --- LINKS · hairline slide default dans prose/editorial --- */
+a:not([class]),
+.prose a,
+.editorial-body a,
+.case-body a {
+  color: inherit;
+  text-decoration: none;
+  background-image:
+    linear-gradient(var(--hairline-strong), var(--hairline-strong)),
+    linear-gradient(var(--accent), var(--accent));
+  background-size: 100% 1px, 0 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%, 100% 100%;
+  padding-bottom: 1px;
+  transition:
+    background-size 260ms var(--ease-out),
+    background-position 260ms var(--ease-out),
+    color 220ms var(--ease);
+}
+a:not([class]):hover,
+.prose a:hover,
+.editorial-body a:hover,
+.case-body a:hover {
+  color: var(--accent);
+  background-size: 100% 1px, 100% 1px;
+  background-position: 0 100%, 0 100%;
 }
 
 /* ─── SKIP-TO-CONTENT (WCAG 2.4.1 a11y) ─── */

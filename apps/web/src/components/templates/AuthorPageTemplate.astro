@@ -98,6 +98,11 @@ interface Props {
 
 const { author, essays, shortPosts, cookbooks, livresBlancs, veilleIA } = Astro.props as Props;
 const lang = langFromPath(Astro.url.pathname);
+const pageTransitionId = Astro.url.pathname
+  .replace(/^\/(?:en\/)?/, '')
+  .replace(/\/$/, '')
+  .replace(/[^a-z0-9]+/gi, '-')
+  .replace(/^-|-$/g, '') || 'home';
 const locale = lang === 'fr' ? 'fr-FR' : 'en-US';
 const displayName = lang === 'fr' ? author.title_fr : author.title_en;
 const role = lang === 'fr' ? author.role_fr : author.role_en;
@@ -297,7 +302,7 @@ const iconFor = (key: string) => {
   jsonLd={jsonLd}
 >
   <div class="author-page">
-    <section class="author-hero g12 g12--full reveal">
+    <section class="author-hero g12 g12--full reveal" transition:name={`card-${pageTransitionId}`}>
       <div class="author-hero-copy col-7">
         <nav class="author-breadcrumb" aria-label={t({ fr: "Fil d'Ariane", en: 'Breadcrumb' }, lang)}>
           <a href={teamHref}>{t({ fr: "L'équipe", en: 'The team' }, lang)}</a>
@@ -305,13 +310,13 @@ const iconFor = (key: string) => {
           <span>{displayName}</span>
         </nav>
         <span class="eyebrow">§ {role}</span>
-        <h1 class="author-h1">
+        <h1 class="author-h1 reveal-split-letter" transition:name={`hero-h1-${pageTransitionId}`}>
           {nameParts.lead && <>{nameParts.lead}</>}<em>{nameParts.accent}</em>
         </h1>
         <p class="author-lede col-prose">{lede}</p>
       </div>
 
-      <figure class="author-portrait col-4 start-9" aria-label={t({ fr: 'Portrait signature', en: 'Signature portrait' }, lang)}>
+      <figure class="author-portrait col-4 start-9 reveal-zoom-in" aria-label={t({ fr: 'Portrait signature', en: 'Signature portrait' }, lang)} transition:name={`hero-img-${pageTransitionId}`}>
         <PortraitSimon size="lg" variant="default" />
       </figure>
     </section>

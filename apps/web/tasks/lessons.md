@@ -1,5 +1,18 @@
 # Lessons
 
+## V9-M — Motion polish profond
+
+- Astro ViewTransitions exige un `transition:name` unique par page ; pour les continuités card → détail, utiliser `card-${slug}` sur la card source et sur le hero détail, puis réserver `hero-h1-${slug}` et `hero-img-${slug}` aux éléments hero internes.
+- Charger `gsap/SplitText` en lazy uniquement quand `.reveal-split-letter` existe évite de pousser SplitText dans le bundle initial ; en `prefers-reduced-motion`, ne pas importer SplitText et laisser les titres non splittés.
+- Avec l'adapter Vercel, `astro preview` est indisponible localement ; pour QA visuelle après `pnpm build`, utiliser `astro dev` ou servir `dist/client` en statique selon le besoin.
+- Le pattern V8-H `ScrollTrigger.getAll().forEach((t) => t.kill())` doit rester dans les trois pages signature avant chaque réinitialisation GSAP.
+
+## V9-L — CRO copywriting pages signature
+
+- Les routes `/en/offres/*` n'existent pas dans `apps/web` ; quand une mission demande à la fois de ne pas toucher `/en/*` et d'adapter le bilingue, garder les champs `*_en` déjà présents dans les pages FR, sans créer ni modifier de route `/en`.
+- `ConversionFunnelTemplate.astro` est dédié au flagship `/offres/site-web-ia` ; l'étendre avec des props optionnelles de href CTA et des slots nommés (`hero-benefits`, `hero-proof`) préserve les slots existants et évite un patch JavaScript sur les liens du hero.
+- Pour ajouter du CRO page-spécifique aux pages `OffresDetailTemplate`, privilégier les slots `related` et `body-end` avec des sections hairline autonomes ; ne pas toucher `Header`, `Footer` ou `Base` pour une mission de copywriting.
+
 ## V9-A — Navigation interne
 
 - `Breadcrumb.astro` injecte déjà le JSON-LD `BreadcrumbList` ; quand il est ajouté aux templates, éviter de supprimer les breadcrumbs hero historiques sans demande explicite afin de préserver le rendu existant.

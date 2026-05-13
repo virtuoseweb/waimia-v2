@@ -22,10 +22,14 @@ interface Props {
   as?: 'a' | 'button';
   /** Type pour `<button>` */
   type?: 'button' | 'submit' | 'reset';
+  /** Désactive l'action native. */
+  disabled?: boolean;
   /** Aria-label si l'enfant est ambigu (icône seule) */
   'aria-label'?: string;
   /** Classes additionnelles */
   class?: string;
+  /** Etat de chargement, avec spinner inline pour submit. */
+  loading?: boolean;
 }
 
 const {
@@ -35,25 +39,36 @@ const {
   mag,
   as = 'a',
   type = 'button',
+  disabled = false,
   class: extraClass = '',
+  loading = false,
   ...rest
 } = Astro.props;
 
+const showSpinner = loading && as === 'button' && type === 'submit';
 const classes = [
   'btn',
   `btn-${variant}`,
   size === 'lg' && 'btn-lg',
+  loading && 'btn--loading',
   extraClass,
 ].filter(Boolean).join(' ');
 
 const dataMag = mag !== undefined ? String(mag) : undefined;
+const ariaBusy = loading ? 'true' : undefined;
+const ariaDisabled = loading ? 'true' : undefined;
 ---
 {as === 'button' ? (
-  <button type={type} class={classes} data-mag={dataMag} {...rest}>
-    <slot />
+  <button type={type} class={classes} data-mag={dataMag} disabled={disabled || loading} aria-busy={ariaBusy} {...rest}>
+    {showSpinner && (
+      <svg class="btn-spinner" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+        <circle cx="8" cy="8" r="5.5" fill="none" stroke-width="2" />
+      </svg>
+    )}
+    <span class="btn-label"><slot /></span>
   </button>
 ) : (
-  <a href={href} class={classes} data-mag={dataMag} {...rest}>
-    <slot />
+  <a href={href} class={classes} data-mag={dataMag} aria-busy={ariaBusy} aria-disabled={ariaDisabled} {...rest}>
+    <span class="btn-label"><slot /></span>
   </a>
 )}

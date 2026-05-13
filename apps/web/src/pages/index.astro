@@ -34,12 +34,12 @@ import { faqPage } from '../lib/seo';
 // FAQ PME-first · 6 questions max · scannables (réponse en 2-3 phrases)
 const faqItems = [
   {
-    q: "Combien coûte un premier engagement avec Waimia ?",
-    a: "Activation IA · 1 semaine démarre à 1 500 € HT (audit + formation). Growth System IA, notre offre vedette, démarre à 5 000 € HT. La plupart des PME entrent par Activation IA pour mesurer un premier impact en 5 jours, puis enchaînent sur un système complet.",
+    q: "Combien coûte un premier engagement avec Waimia ?",
+    a: "Activation IA · 1 semaine démarre à 1 500 € HT : audit, formation, premier workflow livré. Growth System IA démarre à 5 000 € HT. La plupart des PME commencent petit, mesurent en 5 jours, puis câblent le système complet.",
   },
   {
     q: "Pour qui c'est fait — et pour qui ce n'est pas fait.",
-    a: "PME et ETI françaises et suisses, 20 à 500 collaborateurs. Pas les grands groupes avec une DSI — ils ont déjà leurs prestataires. Pas les startups early-stage — leur vitesse ne se marie pas avec notre méthode. Nos meilleurs clients : services B2B, industrie, cabinets finance/compta.",
+    a: "PME et ETI françaises et suisses, 20 à 500 collaborateurs. Pas les grands groupes déjà bardés de prestataires. Pas les startups trop jeunes, qui changent de cap toutes les semaines. Nos meilleurs clients : services B2B, industrie, cabinets finance et compta.",
   },
   {
     q: "En combien de temps voit-on un retour sur investissement ?",
@@ -47,21 +47,21 @@ const faqItems = [
   },
   {
     q: "Et si on veut reprendre la main en interne ?",
-    a: "Tout est documenté, ouvert, transmissible. Pas de boîte noire, pas de captivité. Nous formons votre équipe pendant l'engagement (2 à 3 jours) et livrons un runbook complet. Vous gardez la plateforme quand on part.",
+    a: "Tout est documenté, ouvert, transmissible. Pas de boîte noire, pas de captivité. On forme votre équipe pendant la mission (2 à 3 jours) et on livre le mode opératoire complet. Vous gardez la plateforme quand on part.",
   },
   {
     q: "Comment garantissez-vous la conformité RGPD et AI Act ?",
-    a: "Chaque système inclut par défaut : journalisation des actions, export CSV/JSON, possibilité de rollback, classification du niveau de risque AI Act. Pour les engagements ETI, nous menons un PIA (Privacy Impact Assessment) avant le sprint.",
+    a: "Chaque système inclut par défaut : journal des actions, export CSV/JSON, retour arrière possible, classification du risque AI Act. Pour les missions ETI, on mène un PIA avant le sprint.",
   },
   {
     q: "Travaillez-vous avec notre stack actuelle (HubSpot, Salesforce, Excel, etc.) ?",
-    a: "Oui — nous nous branchons sur votre stack existante (HubSpot, Salesforce, Pipedrive, Notion, Excel, Office, ERP) sans imposer de migration. Si vous n'avez pas de CRM, nous en proposons un adapté à votre volume — généralement HubSpot pour les PME B2B.",
+    a: "Oui — on se branche sur votre stack actuelle : HubSpot, Salesforce, Pipedrive, Notion, Excel, Office, ERP. Pas de migration imposée. Si vous n'avez pas de CRM, on en propose un adapté à votre volume, souvent HubSpot pour les PME B2B.",
   },
 ];
 ---
 <Base
   title="Waimia · Systèmes IA pour PME et ETI · Acquisition · CRM · Pilotage"
-  description="Nous aidons les PME à automatiser leur acquisition et leurs opérations grâce à des systèmes IA connectés à leurs outils. Activation 1 semaine, Growth System IA, Productivité Opérationnelle. Paris · Genève."
+  description="On câble l'IA dans les outils des PME : acquisition, CRM, relances, pilotage. Activation en 1 semaine, Growth System IA, Productivité Opérationnelle. Paris · Genève."
   jsonLd={faqPage(faqItems)}
 >
   {/* Splash · respiration cinématique 1.1s · garde le signal premium */}
@@ -89,7 +89,7 @@ const faqItems = [
   <FAQ
     items={faqItems}
     heading="Questions fréquentes"
-    intro="Six réponses honnêtes — pas des slides, pas du jargon. Ce qu'on dit par mail avant de se parler."
+    intro="Six réponses nettes — pas des slides, pas du jargon. Ce qu'on écrit par mail avant de se parler."
   />
 
   {/* 8 — BookSession · CTA principal vers /contact */}

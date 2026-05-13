@@ -77,6 +77,11 @@ const {
 } = Astro.props;
 
 const lang = langFromPath(Astro.url.pathname);
+const pageTransitionId = Astro.url.pathname
+  .replace(/^\/(?:en\/)?/, '')
+  .replace(/\/$/, '')
+  .replace(/[^a-z0-9]+/gi, '-')
+  .replace(/^-|-$/g, '') || 'home';
 const renderFirstSlot = async (names: string[]) => {
   for (const name of names) {
     if (Astro.slots.has(name)) {
@@ -164,8 +169,8 @@ const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeh
       ]}
     />
     {/* ────────── 1. HERO LAYER ────────── */}
-    <section class={`tech-hero tech-hero--${layerType}`} data-screen-label="01 Hero Layer">
-      <svg class="tech-hero-geo" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <section class={`tech-hero tech-hero--${layerType}`} data-screen-label="01 Hero Layer" transition:name={`card-${pageTransitionId}`}>
+      <svg class="tech-hero-geo reveal-blur-clip" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true" transition:name={`hero-img-${pageTransitionId}`}>
         {/* Triangles superposés — signature géométrique Technologies */}
         <polygon points="1100,80 1340,80 1220,300" fill="none" stroke="currentColor" stroke-width=".6" opacity=".18"/>
         <polygon points="1160,140 1320,140 1240,280" fill="none" stroke="var(--accent)" stroke-width=".4" opacity=".25"/>
@@ -179,7 +184,7 @@ const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeh
           <span>{layerLabel}</span>
         </nav>
         <div class={`tech-hero-layer tech-hero-layer--${layerType}`}>{layer}</div>
-        <h1 class="tech-hero-title reveal"><slot name="title" /></h1>
+        <h1 class="tech-hero-title reveal-split-letter" transition:name={`hero-h1-${pageTransitionId}`}><slot name="title" /></h1>
         <div class="tech-hero-sub">
           <p class="tech-hero-lead reveal"><slot name="lead" /></p>
           <div class="tech-hero-actions">

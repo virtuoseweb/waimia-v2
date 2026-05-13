@@ -52,21 +52,138 @@
 .reveal-stagger.is-visible > *:nth-child(11) { transition-delay: 600ms; }
 .reveal-stagger.is-visible > *:nth-child(12) { transition-delay: 660ms; }
 
-/* Variants */
+/* Variants baseline */
 .reveal-fade { transform: none; }      /* opacity + blur seulement */
 .reveal-slide { filter: none; }        /* opacity + translateY seulement */
 .reveal-snap {                         /* version rapide pour items secondaires */
   transition-duration: var(--dur-base, 400ms);
 }
 
+/* Variants editoriaux V9-M */
+.reveal-mask-up {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1200ms var(--ease-out, cubic-bezier(0.16, 1, 0.30, 1));
+  will-change: clip-path;
+}
+
+.reveal-mask-up.in,
+.reveal-mask-up.is-visible {
+  clip-path: inset(0 0 0 0);
+}
+
+.reveal-zoom-in {
+  opacity: 0;
+  transform: scale(0.95);
+  transition:
+    opacity 900ms var(--ease-out, cubic-bezier(0.16, 1, 0.30, 1)),
+    transform 900ms var(--ease-out, cubic-bezier(0.16, 1, 0.30, 1));
+  will-change: opacity, transform;
+}
+
+.reveal-zoom-in.in,
+.reveal-zoom-in.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.reveal-blur-clip {
+  opacity: 0;
+  filter: blur(12px);
+  clip-path: inset(0 0 24% 0);
+  transform: translateY(18px);
+  transition:
+    opacity 1200ms var(--ease-out, cubic-bezier(0.16, 1, 0.30, 1)),
+    filter 1200ms var(--ease-out, cubic-bezier(0.16, 1, 0.30, 1)),
+    clip-path 1200ms var(--ease-out, cubic-bezier(0.16, 1, 0.30, 1)),
+    transform 1200ms var(--ease-out, cubic-bezier(0.16, 1, 0.30, 1));
+  will-change: opacity, filter, clip-path, transform;
+}
+
+.reveal-blur-clip.in,
+.reveal-blur-clip.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  clip-path: inset(0 0 0 0);
+  transform: translateY(0);
+}
+
+.reveal-curtain {
+  position: relative;
+  overflow: hidden;
+  contain: paint;
+}
+
+.reveal-curtain::before,
+.reveal-curtain::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  width: 50%;
+  z-index: 2;
+  background: var(--paper);
+  pointer-events: none;
+  transform: scaleX(1);
+  transition: transform 1100ms var(--ease-out, cubic-bezier(0.16, 1, 0.30, 1));
+  will-change: transform;
+}
+
+.reveal-curtain::before {
+  left: 0;
+  transform-origin: left center;
+}
+
+.reveal-curtain::after {
+  right: 0;
+  transform-origin: right center;
+}
+
+.reveal-curtain.in::before,
+.reveal-curtain.is-visible::before,
+.reveal-curtain.in::after,
+.reveal-curtain.is-visible::after {
+  transform: scaleX(0);
+}
+
+.reveal-split-letter {
+  overflow: hidden;
+}
+
+.reveal-split-letter .s-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(105%);
+  transition:
+    opacity 520ms var(--ease-out, cubic-bezier(0.16, 1, 0.30, 1)),
+    transform 520ms var(--ease-out, cubic-bezier(0.16, 1, 0.30, 1));
+  will-change: opacity, transform;
+}
+
+.reveal-split-letter.in .s-char,
+.reveal-split-letter.is-visible .s-char {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Reduced motion · bypass total */
 @media (prefers-reduced-motion: reduce) {
   .reveal,
-  .reveal-stagger > * {
+  .reveal-stagger > *,
+  .reveal-mask-up,
+  .reveal-zoom-in,
+  .reveal-blur-clip,
+  .reveal-curtain,
+  .reveal-split-letter,
+  .reveal-split-letter .s-char {
     opacity: 1;
     transform: none;
     filter: none;
+    clip-path: none;
     transition: none;
+  }
+
+  .reveal-curtain::before,
+  .reveal-curtain::after {
+    display: none;
   }
 }
 

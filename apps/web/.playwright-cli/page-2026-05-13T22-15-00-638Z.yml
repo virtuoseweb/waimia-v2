@@ -1,0 +1,1367 @@
+- generic [active] [ref=e1]:
+  - link "Aller au contenu" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Waimia" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - text: Waimia.
+      - navigation "Navigation principale" [ref=e6]:
+        - button "Solutions ▾" [ref=e8] [cursor=pointer]:
+          - generic [ref=e9]: Solutions
+          - generic [ref=e10]: ▾
+        - button "Offres ▾" [ref=e12] [cursor=pointer]:
+          - generic [ref=e13]: Offres
+          - generic [ref=e14]: ▾
+        - button "Cas clients ▾" [ref=e16] [cursor=pointer]:
+          - generic [ref=e17]: Cas clients
+          - generic [ref=e18]: ▾
+        - button "Ressources ▾" [ref=e20] [cursor=pointer]:
+          - generic [ref=e21]: Ressources
+          - generic [ref=e22]: ▾
+        - button "L'Agence ▾" [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]: L'Agence
+          - generic [ref=e26]: ▾
+      - generic [ref=e27]:
+        - link "Switch to English" [ref=e28] [cursor=pointer]:
+          - /url: /en/offres/conseil
+          - generic [ref=e29]: FR
+          - generic [ref=e30]: /
+          - generic [ref=e31]: EN
+        - link "Réserver un audit →" [ref=e32] [cursor=pointer]:
+          - /url: /contact
+          - text: Réserver un audit
+          - generic [ref=e33]: →
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic: PAR PROBLÈME
+          - generic: Cas d'usage business
+        - list:
+          - listitem:
+            - link:
+              - /url: /solutions/acquisition-ia
+              - generic: Acquisition IA
+              - generic: Plus de leads qualifiés, sans recruter.
+          - listitem:
+            - link:
+              - /url: /solutions/crm-relances-ia
+              - generic: CRM & relances IA
+              - generic: Pipeline commercial qui ne dort jamais.
+          - listitem:
+            - link:
+              - /url: /solutions/contenu-seo-geo-ia
+              - generic: Contenu SEO / GEO IA
+              - generic: Du contenu trouvé par Google ET les IA.
+          - listitem:
+            - link:
+              - /url: /solutions/productivite-ia
+              - generic: Productivité IA
+              - generic: Vos équipes Excel et Office, augmentées.
+          - listitem:
+            - link:
+              - /url: /solutions/support-client-ia
+              - generic: Support client IA
+              - generic: Réponses 24/7, escalade humaine intelligente.
+      - generic:
+        - generic:
+          - generic: PAR SECTEUR
+          - generic: Adapté à votre métier
+        - list:
+          - listitem:
+            - link:
+              - /url: /secteurs/services-b2b
+              - generic: Services B2B
+              - generic: Cabinets, conseil, agences, prestataires.
+          - listitem:
+            - link:
+              - /url: /secteurs/industrie
+              - generic: Industrie & PME industrielles
+              - generic: ERP connecté, maintenance, qualité.
+          - listitem:
+            - link:
+              - /url: /secteurs/finance-compta
+              - generic: Finance & cabinets comptables
+              - generic: Réconciliation, reporting, conformité.
+          - listitem:
+            - link:
+              - /url: /secteurs
+              - generic: Tous les secteurs →
+      - generic:
+        - generic: CAS CLIENT VEDETTE
+        - generic: +€2,4 M de pipeline récupéré
+        - generic: Pipeline commercial reconnecté, qualification automatisée, visibilité temps réel. SaaS B2B · 10 semaines.
+        - link:
+          - /url: /cas/plateau
+        - link:
+          - /url: /cas/plateau
+          - text: Lire le cas →
+    - generic:
+      - generic: Cinq systèmes IA qui adressent les douleurs récurrentes des PME — acquisition, relation client, productivité, pilotage, opérations.
+      - link:
+        - /url: /solutions
+        - text: Voir le hub Solutions →
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic: 01 · LES 3 PILIERS
+          - generic: Systèmes business
+        - list:
+          - listitem:
+            - link:
+              - /url: /offres/growth-system-ia
+              - generic: Growth System IA
+              - generic: Système d'acquisition et de conversion automatisé. Site, CRM, relances, dashboards — tout connecté.
+          - listitem:
+            - link:
+              - /url: /offres/growth-intelligence
+              - generic: Growth Intelligence
+              - generic: Pilotage temps réel et lisibilité des données pour décider plus vite.
+          - listitem:
+            - link:
+              - /url: /offres/productivite-operationnelle-ia
+              - generic: Productivité Opérationnelle IA
+              - generic: Tâches répétitives automatisées, workflows internes fluidifiés.
+          - listitem:
+            - link:
+              - /url: /offres/site-web-ia
+              - generic: Site web IA
+              - generic: Site Astro + IA · vitrine + acquisition.
+          - listitem:
+            - link:
+              - /url: /offres/revops
+              - generic: RevOps Rebuild
+              - generic: CRM + entrepôt + billing réconciliés · 10 sem.
+      - generic:
+        - generic:
+          - generic: 02 · NIVEAUX
+          - generic: Activation & infrastructure
+        - list:
+          - listitem:
+            - link:
+              - /url: /offres/activation-ia
+              - generic: Activation IA · 1 semaine
+              - generic: Audit + formation des équipes. La porte d'entrée pour activer rapidement.
+          - listitem:
+            - link:
+              - /url: /offres/infrastructure-ia
+              - generic: Infrastructure IA · ETI
+              - generic: Systèmes connectés à grande échelle, multi-équipes, multi-sites.
+          - listitem:
+            - link:
+              - /url: /offres/application-ia-pme
+              - generic: Application IA pour PME
+              - generic: App dédiée 8–12 sem. ETI/PME.
+          - listitem:
+            - link:
+              - /url: /offres/conseil
+              - generic: Conseil & audit IA
+              - generic: 7 services audit/roadmap/gouvernance.
+      - generic:
+        - generic: OFFRE PHARE
+        - generic: Growth System IA
+        - generic: Un système d'acquisition et de conversion automatisé. Site, CRM, relances, dashboards — connectés et pilotés par l'IA. 5 à 20 k€.
+        - link:
+          - /url: /offres/growth-system-ia
+        - link:
+          - /url: /offres/growth-system-ia
+          - text: Découvrir le système →
+    - generic:
+      - generic: Trois systèmes pour adresser les leviers business — un format starter pour activer rapidement, un format ETI quand l'ambition est plus forte.
+      - link:
+        - /url: /offres
+        - text: Voir le hub Offres →
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic: PAR DOULEUR
+          - generic: Cas vedettes
+        - list:
+          - listitem:
+            - link:
+              - /url: /cas/plateau
+              - generic: Plateau · +€2,4M pipeline récupéré
+              - generic: SaaS B2B · 10 semaines · qualification + relances automatisées.
+          - listitem:
+            - link:
+              - /url: /cas/halcyon
+              - generic: Halcyon · −38% temps de triage
+              - generic: Santé-tech · 6 semaines · routage IA des demandes.
+          - listitem:
+            - link:
+              - /url: /cas/northbound
+              - generic: Northbound · ×3,1 conversion SQL
+              - generic: Fintech EU · 14 semaines · lead scoring automatisé.
+          - listitem:
+            - link:
+              - /url: /cas/caserne
+              - generic: Caserne · 1 200 h/an récupérées
+              - generic: Industrie FR · 8 semaines · automatisation back-office.
+      - generic:
+        - generic:
+          - generic: PAR SECTEUR
+          - generic: Profils similaires
+        - list:
+          - listitem:
+            - link:
+              - /url: /cas?secteur=services-b2b
+              - generic: Services B2B
+          - listitem:
+            - link:
+              - /url: /cas?secteur=industrie
+              - generic: Industrie
+          - listitem:
+            - link:
+              - /url: /cas?secteur=finance
+              - generic: Finance & compta
+          - listitem:
+            - link:
+              - /url: /cas
+              - generic: Voir tous les cas →
+      - generic:
+        - generic: TÉMOIGNAGE
+        - generic: Comment Plateau a doublé son taux de relance
+        - generic: "Avant : 12% des leads relancés. Après : 67%. Sans recrutement."
+        - link:
+          - /url: /cas/plateau
+        - link:
+          - /url: /cas/plateau
+          - text: Lire l'histoire →
+    - generic:
+      - generic: Pipelines reconnectés, qualifications automatisées, opérations fluidifiées. ROI mesurés, pas promis.
+      - link:
+        - /url: /cas
+        - text: Voir le hub Cas clients →
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic: PREUVES
+          - generic: Cas & témoignages
+        - list:
+          - listitem:
+            - link:
+              - /url: /ressources/cas
+              - generic: Études de cas · ROI mesuré
+          - listitem:
+            - link:
+              - /url: /ressources/temoignages
+              - generic: Témoignages clients
+          - listitem:
+            - link:
+              - /url: /ressources/cas/virtuoseos
+              - generic: VirtuoseOS · cas blueprint
+          - listitem:
+            - link:
+              - /url: /ressources/academy
+              - generic: Academy · formations Claude
+              - generic: Sessions techniques Claude + agents.
+          - listitem:
+            - link:
+              - /url: /ressources/changelog
+              - generic: Changelog · versions Claude
+              - generic: Veille produit Anthropic releases.
+      - generic:
+        - generic:
+          - generic: INSIGHTS BUSINESS
+          - generic: IA appliquée PME/ETI
+        - list:
+          - listitem:
+            - link:
+              - /url: /ressources/cookbooks/claude-cowork-rollout
+              - generic: Cookbook · Déploiement Claude Cowork
+              - generic: Déployer Claude dans une équipe sans perdre la semaine.
+          - listitem:
+            - link:
+              - /url: /ressources/blog
+              - generic: Blog · insights business
+          - listitem:
+            - link:
+              - /url: /ressources/cookbooks
+              - generic: Cookbooks & tutoriels
+              - generic: Patterns d’automatisation concrets pour équipes PME.
+          - listitem:
+            - link:
+              - /url: /ressources/livres-blancs
+              - generic: Livres blancs · études
+      - generic:
+        - generic:
+          - generic: LECTURES LONGUES
+          - generic: Livres blancs & essais
+        - list:
+          - listitem:
+            - link:
+              - /url: /ressources/livres-blancs/ai-act-readiness
+              - generic: Livre blanc · Préparation à l'AI Act
+              - generic: Le dossier de conformité · téléchargeable.
+          - listitem:
+            - link:
+              - /url: /ressources/blog/brain-circuit
+              - generic: Essai · Brain circuit
+              - generic: Comment l'IA opérationnelle recâble l'entreprise.
+          - listitem:
+            - link:
+              - /url: /ressources/livres-blancs
+              - generic: Tous les livres blancs
+          - listitem:
+            - link:
+              - /url: /ressources/veille-ia
+              - generic: Veille IA · synthèses hebdo
+          - listitem:
+            - link:
+              - /url: /technologies
+              - generic: Archives technologies · la stack
+              - generic: Écosystème Claude + open-source + frameworks.
+      - generic:
+        - generic: LIVRE BLANC
+        - generic: Dossier Préparation à l'AI Act
+        - generic: Le dossier de conformité complet pour anticiper l'AI Act avant de lancer un projet IA opérationnel.
+        - link:
+          - /url: /ressources/livres-blancs/ai-act-readiness
+        - link:
+          - /url: /ressources/livres-blancs/ai-act-readiness
+          - text: Ouvrir le livre blanc →
+    - generic:
+      - generic: Insights business, preuves et outils pratiques pour les PME qui activent l’IA sans théâtre.
+      - link:
+        - /url: /ressources
+        - text: Voir le hub Ressources →
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic: L'ÉQUIPE
+          - generic: Qui nous sommes
+        - list:
+          - listitem:
+            - link:
+              - /url: /agence/about
+              - generic: À propos de Waimia
+          - listitem:
+            - link:
+              - /url: /agence/methode
+              - generic: Notre méthode · Process Intelligence
+              - generic: Audit, déploiement, mesure — pas de PowerPoint.
+          - listitem:
+            - link:
+              - /url: /agence/careers
+              - generic: Carrières
+          - listitem:
+            - link:
+              - /url: /equipe/simon-beros
+              - generic: Simon Beros · CV Founder
+              - generic: Architecture systèmes agentiques.
+      - generic:
+        - generic:
+          - generic: CONFIANCE
+          - generic: Garanties & légal
+        - list:
+          - listitem:
+            - link:
+              - /url: /agence/trust-center
+              - generic: Trust Center · AI Act, RGPD, ISO
+              - generic: Tous les contrôles, en clair.
+          - listitem:
+            - link:
+              - /url: /contact
+              - generic: Nous contacter · 45 min
+              - generic: Cadrage gratuit, audit honnête, ou rien.
+          - listitem:
+            - link:
+              - /url: /agence/governance
+              - generic: Gouvernance · ethics committee
+              - generic: Comité ethics IA + whistleblowing.
+          - listitem:
+            - link:
+              - /url: /agence/docs
+              - generic: Documentation technique
+              - generic: Notre stack + intégrations.
+      - generic:
+        - generic: ANCRAGE
+        - generic: Paris · Genève
+        - generic: Deux bureaux. Une seule méthode. Parité française et helvétique.
+        - link:
+          - /url: /agence/about#bureaux
+        - link:
+          - /url: /agence/about#bureaux
+          - text: Voir les bureaux →
+    - generic:
+      - generic: Une équipe basée à Paris et Genève. Une méthode anti-théâtre. Un Trust Center qui détaille tout.
+      - link:
+        - /url: /agence
+        - text: Voir le hub L'Agence →
+  - generic [ref=e34]:
+    - generic [ref=e35]:
+      - generic [ref=e36]: Waimia.
+      - button [ref=e37] [cursor=pointer]: ×
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - button [ref=e40] [cursor=pointer]:
+          - generic [ref=e41]: "01"
+          - generic [ref=e42]: Solutions
+          - generic [ref=e43]: +
+        - generic [ref=e44]:
+          - generic [ref=e45]:
+            - generic [ref=e46]: PAR PROBLÈME
+            - generic [ref=e47]: Cas d'usage business
+            - link [ref=e48] [cursor=pointer]:
+              - /url: /solutions/acquisition-ia
+              - text: Acquisition IA
+            - link [ref=e49] [cursor=pointer]:
+              - /url: /solutions/crm-relances-ia
+              - text: CRM & relances IA
+            - link [ref=e50] [cursor=pointer]:
+              - /url: /solutions/contenu-seo-geo-ia
+              - text: Contenu SEO / GEO IA
+            - link [ref=e51] [cursor=pointer]:
+              - /url: /solutions/productivite-ia
+              - text: Productivité IA
+            - link [ref=e52] [cursor=pointer]:
+              - /url: /solutions/support-client-ia
+              - text: Support client IA
+          - generic [ref=e53]:
+            - generic [ref=e54]: PAR SECTEUR
+            - generic [ref=e55]: Adapté à votre métier
+            - link [ref=e56] [cursor=pointer]:
+              - /url: /secteurs/services-b2b
+              - text: Services B2B
+            - link [ref=e57] [cursor=pointer]:
+              - /url: /secteurs/industrie
+              - text: Industrie & PME industrielles
+            - link [ref=e58] [cursor=pointer]:
+              - /url: /secteurs/finance-compta
+              - text: Finance & cabinets comptables
+            - link [ref=e59] [cursor=pointer]:
+              - /url: /secteurs
+              - text: Tous les secteurs →
+      - generic [ref=e60]:
+        - button [ref=e61] [cursor=pointer]:
+          - generic [ref=e62]: "02"
+          - generic [ref=e63]: Offres
+          - generic [ref=e64]: +
+        - generic [ref=e65]:
+          - generic [ref=e66]:
+            - generic [ref=e67]: 01 · LES 3 PILIERS
+            - generic [ref=e68]: Systèmes business
+            - link [ref=e69] [cursor=pointer]:
+              - /url: /offres/growth-system-ia
+              - text: Growth System IA
+            - link [ref=e70] [cursor=pointer]:
+              - /url: /offres/growth-intelligence
+              - text: Growth Intelligence
+            - link [ref=e71] [cursor=pointer]:
+              - /url: /offres/productivite-operationnelle-ia
+              - text: Productivité Opérationnelle IA
+            - link [ref=e72] [cursor=pointer]:
+              - /url: /offres/site-web-ia
+              - text: Site web IA
+            - link [ref=e73] [cursor=pointer]:
+              - /url: /offres/revops
+              - text: RevOps Rebuild
+          - generic [ref=e74]:
+            - generic [ref=e75]: 02 · NIVEAUX
+            - generic [ref=e76]: Activation & infrastructure
+            - link [ref=e77] [cursor=pointer]:
+              - /url: /offres/activation-ia
+              - text: Activation IA · 1 semaine
+            - link [ref=e78] [cursor=pointer]:
+              - /url: /offres/infrastructure-ia
+              - text: Infrastructure IA · ETI
+            - link [ref=e79] [cursor=pointer]:
+              - /url: /offres/application-ia-pme
+              - text: Application IA pour PME
+            - link [ref=e80] [cursor=pointer]:
+              - /url: /offres/conseil
+              - text: Conseil & audit IA
+      - generic [ref=e81]:
+        - button [ref=e82] [cursor=pointer]:
+          - generic [ref=e83]: "03"
+          - generic [ref=e84]: Cas clients
+          - generic [ref=e85]: +
+        - generic [ref=e86]:
+          - generic [ref=e87]:
+            - generic [ref=e88]: PAR DOULEUR
+            - generic [ref=e89]: Cas vedettes
+            - link [ref=e90] [cursor=pointer]:
+              - /url: /cas/plateau
+              - text: Plateau · +€2,4M pipeline récupéré
+            - link [ref=e91] [cursor=pointer]:
+              - /url: /cas/halcyon
+              - text: Halcyon · −38% temps de triage
+            - link [ref=e92] [cursor=pointer]:
+              - /url: /cas/northbound
+              - text: Northbound · ×3,1 conversion SQL
+            - link [ref=e93] [cursor=pointer]:
+              - /url: /cas/caserne
+              - text: Caserne · 1 200 h/an récupérées
+          - generic [ref=e94]:
+            - generic [ref=e95]: PAR SECTEUR
+            - generic [ref=e96]: Profils similaires
+            - link [ref=e97] [cursor=pointer]:
+              - /url: /cas?secteur=services-b2b
+              - text: Services B2B
+            - link [ref=e98] [cursor=pointer]:
+              - /url: /cas?secteur=industrie
+              - text: Industrie
+            - link [ref=e99] [cursor=pointer]:
+              - /url: /cas?secteur=finance
+              - text: Finance & compta
+            - link [ref=e100] [cursor=pointer]:
+              - /url: /cas
+              - text: Voir tous les cas →
+      - generic [ref=e101]:
+        - button [ref=e102] [cursor=pointer]:
+          - generic [ref=e103]: "04"
+          - generic [ref=e104]: Ressources
+          - generic [ref=e105]: +
+        - generic [ref=e106]:
+          - generic [ref=e107]:
+            - generic [ref=e108]: PREUVES
+            - generic [ref=e109]: Cas & témoignages
+            - link [ref=e110] [cursor=pointer]:
+              - /url: /ressources/cas
+              - text: Études de cas · ROI mesuré
+            - link [ref=e111] [cursor=pointer]:
+              - /url: /ressources/temoignages
+              - text: Témoignages clients
+            - link [ref=e112] [cursor=pointer]:
+              - /url: /ressources/cas/virtuoseos
+              - text: VirtuoseOS · cas blueprint
+            - link [ref=e113] [cursor=pointer]:
+              - /url: /ressources/academy
+              - text: Academy · formations Claude
+            - link [ref=e114] [cursor=pointer]:
+              - /url: /ressources/changelog
+              - text: Changelog · versions Claude
+          - generic [ref=e115]:
+            - generic [ref=e116]: INSIGHTS BUSINESS
+            - generic [ref=e117]: IA appliquée PME/ETI
+            - link [ref=e118] [cursor=pointer]:
+              - /url: /ressources/cookbooks/claude-cowork-rollout
+              - text: Cookbook · Déploiement Claude Cowork
+            - link [ref=e119] [cursor=pointer]:
+              - /url: /ressources/blog
+              - text: Blog · insights business
+            - link [ref=e120] [cursor=pointer]:
+              - /url: /ressources/cookbooks
+              - text: Cookbooks & tutoriels
+            - link [ref=e121] [cursor=pointer]:
+              - /url: /ressources/livres-blancs
+              - text: Livres blancs · études
+          - generic [ref=e122]:
+            - generic [ref=e123]: LECTURES LONGUES
+            - generic [ref=e124]: Livres blancs & essais
+            - link [ref=e125] [cursor=pointer]:
+              - /url: /ressources/livres-blancs/ai-act-readiness
+              - text: Livre blanc · Préparation à l'AI Act
+            - link [ref=e126] [cursor=pointer]:
+              - /url: /ressources/blog/brain-circuit
+              - text: Essai · Brain circuit
+            - link [ref=e127] [cursor=pointer]:
+              - /url: /ressources/livres-blancs
+              - text: Tous les livres blancs
+            - link [ref=e128] [cursor=pointer]:
+              - /url: /ressources/veille-ia
+              - text: Veille IA · synthèses hebdo
+            - link [ref=e129] [cursor=pointer]:
+              - /url: /technologies
+              - text: Archives technologies · la stack
+      - generic [ref=e130]:
+        - button [ref=e131] [cursor=pointer]:
+          - generic [ref=e132]: "05"
+          - generic [ref=e133]: L'Agence
+          - generic [ref=e134]: +
+        - generic [ref=e135]:
+          - generic [ref=e136]:
+            - generic [ref=e137]: L'ÉQUIPE
+            - generic [ref=e138]: Qui nous sommes
+            - link [ref=e139] [cursor=pointer]:
+              - /url: /agence/about
+              - text: À propos de Waimia
+            - link [ref=e140] [cursor=pointer]:
+              - /url: /agence/methode
+              - text: Notre méthode · Process Intelligence
+            - link [ref=e141] [cursor=pointer]:
+              - /url: /agence/careers
+              - text: Carrières
+            - link [ref=e142] [cursor=pointer]:
+              - /url: /equipe/simon-beros
+              - text: Simon Beros · CV Founder
+          - generic [ref=e143]:
+            - generic [ref=e144]: CONFIANCE
+            - generic [ref=e145]: Garanties & légal
+            - link [ref=e146] [cursor=pointer]:
+              - /url: /agence/trust-center
+              - text: Trust Center · AI Act, RGPD, ISO
+            - link [ref=e147] [cursor=pointer]:
+              - /url: /contact
+              - text: Nous contacter · 45 min
+            - link [ref=e148] [cursor=pointer]:
+              - /url: /agence/governance
+              - text: Gouvernance · ethics committee
+            - link [ref=e149] [cursor=pointer]:
+              - /url: /agence/docs
+              - text: Documentation technique
+    - generic [ref=e150]:
+      - link [ref=e151] [cursor=pointer]:
+        - /url: /en/offres/conseil
+        - text: English →
+      - link [ref=e152] [cursor=pointer]:
+        - /url: /contact
+        - text: Réserver un audit →
+  - main [ref=e153]:
+    - navigation "Fil d'Ariane" [ref=e154]:
+      - list [ref=e155]:
+        - listitem [ref=e156]:
+          - link "Accueil" [ref=e157] [cursor=pointer]:
+            - /url: /
+          - text: /
+        - listitem [ref=e158]:
+          - link "Offres" [ref=e159] [cursor=pointer]:
+            - /url: /offres
+          - text: /
+        - listitem [ref=e160]: Conseil, audit & stratégie
+    - generic [ref=e162]:
+      - generic [ref=e163]: Hub · Pilier Entreprise · 7 services
+      - generic [ref=e164]: § 02
+      - heading "Avant les agents, il faut le bon diagnostic." [level=1] [ref=e165]
+      - paragraph [ref=e167]:
+        - generic [ref=e168]: §
+        - text: Le board veut décider, la DSI veut des preuves, les métiers veulent avancer. On choisit le service utile — données, gouvernance, coût, sécurité — puis on livre par écrit.
+      - generic [ref=e169]:
+        - generic [ref=e170]:
+          - generic [ref=e171]: "43"
+          - generic [ref=e172]: interventions
+        - generic [ref=e173]:
+          - generic [ref=e174]: 18 M€+
+          - generic [ref=e175]: pipeline audité
+        - generic [ref=e176]:
+          - generic [ref=e177]: "0"
+          - generic [ref=e178]: ateliers vendus
+        - generic [ref=e179]:
+          - generic [ref=e180]: "12"
+          - generic [ref=e181]: juridictions UE
+    - generic [ref=e183]:
+      - generic [ref=e184]:
+        - generic [ref=e186]: § 02.0
+        - generic [ref=e187]: ·
+        - generic [ref=e188]: Stance
+      - complementary [ref=e190]:
+        - generic [ref=e191]: Une mission de conseil n'est pas un diagnostic de 72 slides. C'est une décision prise plus tôt, un risque nommé et un livrable que l'équipe peut exploiter.
+    - generic [ref=e193]:
+      - generic [ref=e194]:
+        - generic [ref=e195]:
+          - generic [ref=e197]: FIG 02.S
+          - generic [ref=e198]: ·
+          - generic [ref=e199]: Catalogue
+        - generic [ref=e200]: 07 · TRIÉ DANS L'ORDRE D'UTILISATION
+      - generic [ref=e201]:
+        - link "§ 02.1 Audit de maturité IA Un diagnostic de 10 jours. Données, outillage, équipe, gouvernance. Une grille lisible. 10 j · 10 days ↗" [ref=e202] [cursor=pointer]:
+          - /url: /offres/audit-maturite-ia
+          - generic [ref=e203]: § 02.1
+          - generic [ref=e204]:
+            - generic [ref=e205]: Audit de maturité IA
+            - paragraph [ref=e206]: Un diagnostic de 10 jours. Données, outillage, équipe, gouvernance. Une grille lisible.
+          - generic [ref=e207]: 10 j · 10 days
+          - generic [ref=e208]: ↗
+        - link "§ 02.2 Cadrage & feuille de route IA On rédige le backlog ordonné qu'une direction peut approuver et qu'un tech lead peut livrer. 3–5 sem · 3–5 wks ↗" [ref=e209] [cursor=pointer]:
+          - /url: /offres/roadmap-ia
+          - generic [ref=e210]: § 02.2
+          - generic [ref=e211]:
+            - generic [ref=e212]: Cadrage & feuille de route IA
+            - paragraph [ref=e213]: On rédige le backlog ordonné qu'une direction peut approuver et qu'un tech lead peut livrer.
+          - generic [ref=e214]: 3–5 sem · 3–5 wks
+          - generic [ref=e215]: ↗
+        - link "§ 02.3 Audit gouvernance & qualité des données Là où l'entrepôt ment, là où le CRM ment, quel chiffre la finance peut croire. 4 sem · 4 wks ↗" [ref=e216] [cursor=pointer]:
+          - /url: /offres/gouvernance-donnees
+          - generic [ref=e217]: § 02.3
+          - generic [ref=e218]:
+            - generic [ref=e219]: Audit gouvernance & qualité des données
+            - paragraph [ref=e220]: Là où l'entrepôt ment, là où le CRM ment, quel chiffre la finance peut croire.
+          - generic [ref=e221]: 4 sem · 4 wks
+          - generic [ref=e222]: ↗
+        - link "§ 02.4 Audit dette technique pour l'IA Ce qui empêche les agents de partir en prod. Classé par coût de correction, pas par drame. 4 sem · 4 wks ↗" [ref=e223] [cursor=pointer]:
+          - /url: /offres/dette-technique-ia
+          - generic [ref=e224]: § 02.4
+          - generic [ref=e225]:
+            - generic [ref=e226]: Audit dette technique pour l'IA
+            - paragraph [ref=e227]: Ce qui empêche les agents de partir en prod. Classé par coût de correction, pas par drame.
+          - generic [ref=e228]: 4 sem · 4 wks
+          - generic [ref=e229]: ↗
+        - link "§ 02.5 Migration RPA → agents IA Lesquels de vos 200 bots RPA survivent en agents. Lesquels doivent mourir. Lesquels étaient du théâtre. 3 sem · 3 wks ↗" [ref=e230] [cursor=pointer]:
+          - /url: /offres/rpa-vers-agents
+          - generic [ref=e231]: § 02.5
+          - generic [ref=e232]:
+            - generic [ref=e233]: Migration RPA → agents IA
+            - paragraph [ref=e234]: Lesquels de vos 200 bots RPA survivent en agents. Lesquels doivent mourir. Lesquels étaient du théâtre.
+          - generic [ref=e235]: 3 sem · 3 wks
+          - generic [ref=e236]: ↗
+        - link "§ 02.6 AI FinOps — coûts LLM & cloud Tokenisation, lots, cache, routage. On coupe 40–70 % sur les factures LLM, sans grand discours. 2 sem · 2 wks ↗" [ref=e237] [cursor=pointer]:
+          - /url: /offres/finops-ia
+          - generic [ref=e238]: § 02.6
+          - generic [ref=e239]:
+            - generic [ref=e240]: AI FinOps — coûts LLM & cloud
+            - paragraph [ref=e241]: Tokenisation, lots, cache, routage. On coupe 40–70 % sur les factures LLM, sans grand discours.
+          - generic [ref=e242]: 2 sem · 2 wks
+          - generic [ref=e243]: ↗
+        - link "§ 02.7 Cybersécurité & pen test des systèmes IA Injection de prompt, exfil, jailbreaks, supply chain. On attaque d'abord, à l'écrit. 3–6 sem · 3–6 wks ↗" [ref=e244] [cursor=pointer]:
+          - /url: /offres/cybersecurite-ia
+          - generic [ref=e245]: § 02.7
+          - generic [ref=e246]:
+            - generic [ref=e247]: Cybersécurité & pen test des systèmes IA
+            - paragraph [ref=e248]: Injection de prompt, exfil, jailbreaks, supply chain. On attaque d'abord, à l'écrit.
+          - generic [ref=e249]: 3–6 sem · 3–6 wks
+          - generic [ref=e250]: ↗
+        - generic [ref=e251]:
+          - generic [ref=e252]: Comparateur services
+          - heading "Quel service pour quelle décision ?" [level=2] [ref=e253]:
+            - text: Quel service
+            - text: pour quelle décision ?
+          - figure "Lecture rapide du catalogue conseil" [ref=e254]:
+            - generic [ref=e255]: Lecture rapide du catalogue conseil
+            - table [ref=e256]:
+              - rowgroup [ref=e257]:
+                - row "Besoin Service Livrable de décision" [ref=e258]:
+                  - columnheader "Besoin" [ref=e259]
+                  - columnheader "Service" [ref=e260]
+                  - columnheader "Livrable de décision" [ref=e261]
+              - rowgroup [ref=e262]:
+                - row "Décider avant budget Audit de maturité IA Scorecard, risques, priorités, go / no-go en 10 jours" [ref=e263]:
+                  - cell "Décider avant budget" [ref=e264]
+                  - cell "Audit de maturité IA" [ref=e265]
+                  - cell "Scorecard, risques, priorités, go / no-go en 10 jours" [ref=e266]
+                - row "Obtenir un accord board Cadrage & feuille de route IA Backlog chiffré, séquencé, lisible par DSI et COMEX" [ref=e267]:
+                  - cell "Obtenir un accord board" [ref=e268]
+                  - cell "Cadrage & feuille de route IA" [ref=e269]
+                  - cell "Backlog chiffré, séquencé, lisible par DSI et COMEX" [ref=e270]
+                - row "Fiabiliser les chiffres Gouvernance & qualité des données Sources de vérité, ownership, contrôles et anomalies" [ref=e271]:
+                  - cell "Fiabiliser les chiffres" [ref=e272]
+                  - cell "Gouvernance & qualité des données" [ref=e273]
+                  - cell "Sources de vérité, ownership, contrôles et anomalies" [ref=e274]
+                - row "Préparer la production Dette technique pour l'IA Freins agents, APIs, sécurité, coûts de correction" [ref=e275]:
+                  - cell "Préparer la production" [ref=e276]
+                  - cell "Dette technique pour l'IA" [ref=e277]
+                  - cell "Freins agents, APIs, sécurité, coûts de correction" [ref=e278]
+                - row "Sortir du RPA fragile Migration RPA → agents IA Bots à garder, remplacer, arrêter ou documenter" [ref=e279]:
+                  - cell "Sortir du RPA fragile" [ref=e280]
+                  - cell "Migration RPA → agents IA" [ref=e281]
+                  - cell "Bots à garder, remplacer, arrêter ou documenter" [ref=e282]
+                - row "Réduire les coûts IA AI FinOps Routage modèles, cache, batching, garde-fous budget" [ref=e283]:
+                  - cell "Réduire les coûts IA" [ref=e284]
+                  - cell "AI FinOps" [ref=e285]
+                  - cell "Routage modèles, cache, batching, garde-fous budget" [ref=e286]
+                - row "Tester la surface de risque Cybersécurité IA Prompt injection, exfiltration, jailbreaks, supply chain" [ref=e287]:
+                  - cell "Tester la surface de risque" [ref=e288]
+                  - cell "Cybersécurité IA" [ref=e289]
+                  - cell "Prompt injection, exfiltration, jailbreaks, supply chain" [ref=e290]
+        - generic [ref=e292]:
+          - generic [ref=e293]:
+            - generic [ref=e294]: Arbre de décision
+            - heading "Quel service pour vous ?" [level=2] [ref=e295]:
+              - text: Quel service
+              - text: pour vous ?
+          - list [ref=e296]:
+            - listitem [ref=e297]:
+              - generic [ref=e298]: "01"
+              - generic [ref=e299]: "Vous ne savez pas par où commencer : Audit de maturité IA."
+            - listitem [ref=e300]:
+              - generic [ref=e301]: "02"
+              - generic [ref=e302]: "Vous devez faire valider un budget : Cadrage & feuille de route IA."
+            - listitem [ref=e303]:
+              - generic [ref=e304]: "03"
+              - generic [ref=e305]: "Vos données ou votre CRM ne sont pas fiables : Gouvernance & qualité des données."
+            - listitem [ref=e306]:
+              - generic [ref=e307]: "04"
+              - generic [ref=e308]: "Vos agents restent bloqués avant la production : Dette technique pour l'IA."
+            - listitem [ref=e309]:
+              - generic [ref=e310]: "05"
+              - generic [ref=e311]: "Vos bots RPA coûtent trop cher à maintenir : Migration RPA → agents IA."
+            - listitem [ref=e312]:
+              - generic [ref=e313]: "06"
+              - generic [ref=e314]: "La facture LLM grimpe sans contrôle : AI FinOps."
+            - listitem [ref=e315]:
+              - generic [ref=e316]: "07"
+              - generic [ref=e317]: "Le RSSI demande des preuves : Cybersécurité IA."
+        - 'img "Conseil Waimia : 7 expertises autour d''un centre de conseil stratégique" [ref=e319]':
+          - generic [ref=e327]: Audit
+          - generic [ref=e328]: "01"
+          - generic [ref=e330]: Roadmap
+          - generic [ref=e331]: "02"
+          - generic [ref=e333]: Gouvernance
+          - generic [ref=e334]: "03"
+          - generic [ref=e336]: Dette
+          - generic [ref=e337]: "04"
+          - generic [ref=e339]: RPA
+          - generic [ref=e340]: "05"
+          - generic [ref=e342]: FinOps
+          - generic [ref=e343]: "06"
+          - generic [ref=e345]: Cyber
+          - generic [ref=e346]: "07"
+          - generic [ref=e348]: CONSEIL
+          - generic [ref=e349]: Waimia
+    - generic [ref=e351]:
+      - generic [ref=e352]: § 02.F · Fit
+      - heading "Pour la DSI, la COO, le RSSI ou le head of RevOps — quand il faut décider sans théâtre." [level=2] [ref=e353]
+      - complementary [ref=e355]:
+        - generic [ref=e356]: "Le bon engagement tient en deux colonnes : ce que l'on peut rendre opérable, et ce que l'on doit refuser avant de diluer la mission."
+      - generic [ref=e357]:
+        - generic [ref=e358]:
+          - generic [ref=e359]: ◉ Vous êtes fait pour nous si
+          - list [ref=e360]:
+            - listitem [ref=e361]: Vous avez un CRM que personne ne croit et un entrepôt qui dit autre chose.
+            - listitem [ref=e362]: Votre équipe GRC réclame des traces d'audit que votre stack IA actuelle ne produit pas.
+            - listitem [ref=e363]: Vous avez essayé un cabinet piloté par ateliers — vous avez eu 72 slides.
+            - listitem [ref=e364]: Vous avez entre 50 et 500 collaborateurs en Europe et de vraies obligations de gouvernance.
+        - generic [ref=e365]:
+          - generic [ref=e366]: ◉ On refusera si
+          - list [ref=e367]:
+            - listitem [ref=e368]: Vous cherchez un logo pour votre rapport innovation.
+            - listitem [ref=e369]: Vous voulez un chatbot pour vendredi.
+            - listitem [ref=e370]: Vous voulez entraîner votre propre modèle de fondation.
+            - listitem [ref=e371]: Vous cherchez quelqu'un pour animer 12 ateliers.
+    - generic [ref=e373]:
+      - generic [ref=e374]: § 02.C · Cas issus de ce hub
+      - generic [ref=e375]:
+        - link "CASE 04 Plateau SaaS +2,4 M€ pipeline → →" [ref=e376] [cursor=pointer]:
+          - /url: /cas/plateau
+          - generic [ref=e377]: CASE 04
+          - heading "Plateau SaaS" [level=3] [ref=e378]
+          - paragraph [ref=e379]: +2,4 M€ pipeline →
+          - generic [ref=e380]: →
+        - link "CASE 07 Halcyon Health −38% temps de triage → →" [ref=e381] [cursor=pointer]:
+          - /url: /cas/halcyon
+          - generic [ref=e382]: CASE 07
+          - heading "Halcyon Health" [level=3] [ref=e383]
+          - paragraph [ref=e384]: −38% temps de triage →
+          - generic [ref=e385]: →
+        - link "CASE 09 Caserne Industrie 780 k€ FinOps économisés → →" [ref=e386] [cursor=pointer]:
+          - /url: /cas/caserne
+          - generic [ref=e387]: CASE 09
+          - heading "Caserne Industrie" [level=3] [ref=e388]
+          - paragraph [ref=e389]: 780 k€ FinOps économisés →
+          - generic [ref=e390]: →
+    - figure "— Waimia" [ref=e393]:
+      - generic [ref=e394]: “
+      - blockquote [ref=e395]: Le livrable final n'est pas un effet d'annonce. C'est une couche que vos équipes peuvent relire, reprendre et exploiter.
+      - generic [ref=e397]: — Waimia
+    - region "Prêt à livrer un agent, pas un slide deck ?" [ref=e398]:
+      - generic [ref=e399]:
+        - generic [ref=e400]: § Acte VIII — Pour ceux qui livrent
+        - heading "Prêt à livrer un agent, pas un slide deck ?" [level=2] [ref=e401]:
+          - text: Prêt à livrer un
+          - emphasis [ref=e402]: agent
+          - text: ","
+          - text: pas un slide deck ?
+        - paragraph [ref=e403]: Audit IA en 5 jours. Premier agent en production en 4 semaines. ROI mesuré, jamais estimé.
+        - generic [ref=e404]:
+          - link "Réserver un audit →" [ref=e405] [cursor=pointer]:
+            - /url: /contact
+            - text: Réserver un audit
+            - generic [ref=e406]: →
+          - link "Voir la pyramide" [ref=e407] [cursor=pointer]:
+            - /url: /offres
+          - generic [ref=e408]: ◉ Booking T3 2026 · 4 places
+  - contentinfo "Pied de page" [ref=e409]:
+    - heading "Pied de page" [level=2] [ref=e410]
+    - generic [ref=e411]:
+      - generic [ref=e412]:
+        - text: Waim
+        - generic [ref=e413]: i
+        - text: a
+        - generic [ref=e414]: .
+      - paragraph [ref=e415]: Systèmes IA pour PME et ETI. Acquisition. Opérations. Pilotage. Paris · Genève.
+    - generic [ref=e417]:
+      - generic [ref=e418]: Partenaire Anthropic · en cours
+      - generic [ref=e420]: Claude Certified Architect
+      - generic [ref=e422]: Activateur Francenum · expert IA
+      - generic [ref=e424]: AI Act ready
+      - generic [ref=e426]: RGPD
+      - generic [ref=e428]: ISO 27001 · aligné
+    - generic [ref=e431]:
+      - generic [ref=e432]:
+        - heading "L'Agence" [level=3] [ref=e433]
+        - list [ref=e434]:
+          - listitem [ref=e435]:
+            - link "À propos" [ref=e436] [cursor=pointer]:
+              - /url: /agence/about
+          - listitem [ref=e437]:
+            - link "Notre méthode · Process Intelligence" [ref=e438] [cursor=pointer]:
+              - /url: /agence/methode
+          - listitem [ref=e439]:
+            - link "Trust Center" [ref=e440] [cursor=pointer]:
+              - /url: /agence/trust-center
+          - listitem [ref=e441]:
+            - link "Carrières" [ref=e442] [cursor=pointer]:
+              - /url: /agence/careers
+          - listitem [ref=e443]:
+            - link "Nous contacter" [ref=e444] [cursor=pointer]:
+              - /url: /contact
+      - generic [ref=e445]:
+        - heading "Solutions" [level=3] [ref=e446]
+        - list [ref=e447]:
+          - listitem [ref=e448]:
+            - link "Acquisition IA" [ref=e449] [cursor=pointer]:
+              - /url: /solutions/acquisition-ia
+          - listitem [ref=e450]:
+            - link "CRM & relances IA" [ref=e451] [cursor=pointer]:
+              - /url: /solutions/crm-relances-ia
+          - listitem [ref=e452]:
+            - link "Contenu SEO/GEO IA" [ref=e453] [cursor=pointer]:
+              - /url: /solutions/contenu-seo-geo-ia
+          - listitem [ref=e454]:
+            - link "Productivité IA" [ref=e455] [cursor=pointer]:
+              - /url: /solutions/productivite-ia
+          - listitem [ref=e456]:
+            - link "Support client IA" [ref=e457] [cursor=pointer]:
+              - /url: /solutions/support-client-ia
+          - listitem [ref=e458]:
+            - link "Par secteur →" [ref=e459] [cursor=pointer]:
+              - /url: /secteurs
+      - generic [ref=e460]:
+        - heading "Offres" [level=3] [ref=e461]
+        - list [ref=e462]:
+          - listitem [ref=e463]:
+            - link "Growth System IA" [ref=e464] [cursor=pointer]:
+              - /url: /offres/growth-system-ia
+          - listitem [ref=e465]:
+            - link "Growth Intelligence" [ref=e466] [cursor=pointer]:
+              - /url: /offres/growth-intelligence
+          - listitem [ref=e467]:
+            - link "Productivité Opérationnelle IA" [ref=e468] [cursor=pointer]:
+              - /url: /offres/productivite-operationnelle-ia
+          - listitem [ref=e469]:
+            - link "Activation IA · 1 semaine" [ref=e470] [cursor=pointer]:
+              - /url: /offres/activation-ia
+          - listitem [ref=e471]:
+            - link "Infrastructure IA · ETI" [ref=e472] [cursor=pointer]:
+              - /url: /offres/infrastructure-ia
+      - generic [ref=e473]:
+        - heading "Ressources" [level=3] [ref=e474]
+        - list [ref=e475]:
+          - listitem [ref=e476]:
+            - link "Cas clients" [ref=e477] [cursor=pointer]:
+              - /url: /cas
+          - listitem [ref=e478]:
+            - link "Blog · 2026" [ref=e479] [cursor=pointer]:
+              - /url: /ressources/blog
+          - listitem [ref=e480]:
+            - link "Cookbooks · guides" [ref=e481] [cursor=pointer]:
+              - /url: /ressources/cookbooks
+          - listitem [ref=e482]:
+            - link "Livres blancs" [ref=e483] [cursor=pointer]:
+              - /url: /ressources/livres-blancs
+          - listitem [ref=e484]:
+            - link "Outils gratuits" [ref=e485] [cursor=pointer]:
+              - /url: /ressources/outils
+          - listitem [ref=e486]:
+            - link "Veille IA" [ref=e487] [cursor=pointer]:
+              - /url: /ressources/veille-ia
+          - listitem [ref=e488]:
+            - link "Newsletter" [ref=e489] [cursor=pointer]:
+              - /url: /ressources/newsletter
+      - generic [ref=e490]:
+        - heading "Légal & Archive" [level=3] [ref=e491]
+        - list [ref=e492]:
+          - listitem [ref=e493]:
+            - link "Trust Center · AI Act, RGPD, ISO" [ref=e494] [cursor=pointer]:
+              - /url: /agence/trust-center
+          - listitem [ref=e495]:
+            - link "AI Act · RGPD · LPD" [ref=e496] [cursor=pointer]:
+              - /url: /agence/trust-center#ai-act
+          - listitem [ref=e497]:
+            - link "Politique de confidentialité" [ref=e498] [cursor=pointer]:
+              - /url: /agence/trust-center#privacy
+          - listitem [ref=e499]:
+            - link "Mentions légales & CGV" [ref=e500] [cursor=pointer]:
+              - /url: /agence/trust-center#cgv
+          - listitem [ref=e501]:
+            - link "Gestion des cookies" [ref=e502] [cursor=pointer]:
+              - /url: /agence/trust-center#cookies
+          - listitem [ref=e503]:
+            - link "Archive du site" [ref=e504] [cursor=pointer]:
+              - /url: /archive
+    - generic [ref=e505]:
+      - generic [ref=e506]:
+        - generic [ref=e507]: ⌘ DEV INDEX
+        - generic [ref=e508]: Navigation complète · 8 templates · 25+ pages
+      - generic [ref=e509]:
+        - heading "A · Templates → page exemple" [level=4] [ref=e510]
+        - list [ref=e511]:
+          - listitem [ref=e512]:
+            - generic [ref=e513]: "01"
+            - generic [ref=e514]: HubTemplate
+            - generic [ref=e515]: Pillar page (hub d'offres)
+            - link "/offres/conseil ↗" [ref=e516] [cursor=pointer]:
+              - /url: /offres/conseil
+          - listitem [ref=e517]:
+            - generic [ref=e518]: "02"
+            - generic [ref=e519]: HubTemplate · variant
+            - generic [ref=e520]: Pillar produit
+            - link "/technologies/virtuoseos ↗" [ref=e521] [cursor=pointer]:
+              - /url: /technologies/virtuoseos
+          - listitem [ref=e522]:
+            - generic [ref=e523]: "03"
+            - generic [ref=e524]: ServiceDetailTemplate
+            - generic [ref=e525]: Service détaillé
+            - link "/offres/revops ↗" [ref=e526] [cursor=pointer]:
+              - /url: /offres/revops
+          - listitem [ref=e527]:
+            - generic [ref=e528]: "04"
+            - generic [ref=e529]: ServiceDetail · variant
+            - generic [ref=e530]: Solution industry
+            - link "/solutions/fintech ↗" [ref=e531] [cursor=pointer]:
+              - /url: /solutions/fintech
+          - listitem [ref=e532]:
+            - generic [ref=e533]: "05"
+            - generic [ref=e534]: DetailMenuTemplate
+            - generic [ref=e535]: Sous-page mega-menu
+            - link "/offres/audit-maturite-ia ↗" [ref=e536] [cursor=pointer]:
+              - /url: /offres/audit-maturite-ia
+          - listitem [ref=e537]:
+            - generic [ref=e538]: "06"
+            - generic [ref=e539]: CaseStudyTemplate
+            - generic [ref=e540]: Cas client long-form
+            - link "/ressources/cas/plateau ↗" [ref=e541] [cursor=pointer]:
+              - /url: /ressources/cas/plateau
+          - listitem [ref=e542]:
+            - generic [ref=e543]: "07"
+            - generic [ref=e544]: EssayTemplate
+            - generic [ref=e545]: Essai éditorial
+            - link "/ressources/blog/brain-circuit ↗" [ref=e546] [cursor=pointer]:
+              - /url: /ressources/blog/brain-circuit
+          - listitem [ref=e547]:
+            - generic [ref=e548]: "08"
+            - generic [ref=e549]: ListIndexTemplate
+            - generic [ref=e550]: Index cas (cards)
+            - link "/ressources/cas ↗" [ref=e551] [cursor=pointer]:
+              - /url: /ressources/cas
+          - listitem [ref=e552]:
+            - generic [ref=e553]: "09"
+            - generic [ref=e554]: ListIndex · variant
+            - generic [ref=e555]: Blog (rows)
+            - link "/ressources/blog ↗" [ref=e556] [cursor=pointer]:
+              - /url: /ressources/blog
+          - listitem [ref=e557]:
+            - generic [ref=e558]: "10"
+            - generic [ref=e559]: ListIndex · variant
+            - generic [ref=e560]: Cookbooks (cards)
+            - link "/ressources/cookbooks ↗" [ref=e561] [cursor=pointer]:
+              - /url: /ressources/cookbooks
+          - listitem [ref=e562]:
+            - generic [ref=e563]: "11"
+            - generic [ref=e564]: ListIndex · variant
+            - generic [ref=e565]: Changelog (timeline)
+            - link "/ressources/changelog ↗" [ref=e566] [cursor=pointer]:
+              - /url: /ressources/changelog
+          - listitem [ref=e567]:
+            - generic [ref=e568]: "12"
+            - generic [ref=e569]: TrustLegalTemplate
+            - generic [ref=e570]: Compliance & légal
+            - link "/agence/trust-center ↗" [ref=e571] [cursor=pointer]:
+              - /url: /agence/trust-center
+          - listitem [ref=e572]:
+            - generic [ref=e573]: "13"
+            - generic [ref=e574]: TrustLegal · variant
+            - generic [ref=e575]: Gouvernance interne
+            - link "/agence/governance ↗" [ref=e576] [cursor=pointer]:
+              - /url: /agence/governance
+          - listitem [ref=e577]:
+            - generic [ref=e578]: "14"
+            - generic [ref=e579]: TrustLegal · variant
+            - generic [ref=e580]: Documentation tech
+            - link "/agence/docs ↗" [ref=e581] [cursor=pointer]:
+              - /url: /agence/docs
+          - listitem [ref=e582]:
+            - generic [ref=e583]: "15"
+            - generic [ref=e584]: UtilityTemplate
+            - generic [ref=e585]: Contact (centered+form)
+            - link "/contact ↗" [ref=e586] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=e587]:
+            - generic [ref=e588]: "16"
+            - generic [ref=e589]: Utility · variant
+            - generic [ref=e590]: À propos (left+story)
+            - link "/agence/about ↗" [ref=e591] [cursor=pointer]:
+              - /url: /agence/about
+          - listitem [ref=e592]:
+            - generic [ref=e593]: "17"
+            - generic [ref=e594]: Utility · variant
+            - generic [ref=e595]: Carrières (left+jobs)
+            - link "/agence/careers ↗" [ref=e596] [cursor=pointer]:
+              - /url: /agence/careers
+          - listitem [ref=e597]:
+            - generic [ref=e598]: "18"
+            - generic [ref=e599]: Utility · variant
+            - generic [ref=e600]: Diagnostic (form 12Q)
+            - link "/ressources/academy ↗" [ref=e601] [cursor=pointer]:
+              - /url: /ressources/academy
+      - generic [ref=e602]:
+        - heading "B · Pages static (sans template, justifiées)" [level=4] [ref=e603]
+        - list [ref=e604]:
+          - listitem [ref=e605]:
+            - generic [ref=e606]: "19"
+            - generic [ref=e607]: 404.astro
+            - generic [ref=e608]: UX 4xx (1 instance/site)
+            - link "/404 ↗" [ref=e609] [cursor=pointer]:
+              - /url: /404
+          - listitem [ref=e610]:
+            - generic [ref=e611]: "20"
+            - generic [ref=e612]: design-system.astro
+            - generic [ref=e613]: Showcase atomes/molécules
+            - link "/agence/design-system ↗" [ref=e614] [cursor=pointer]:
+              - /url: /agence/design-system
+      - generic [ref=e615]:
+        - heading "C · Variantes homepage (4 directions)" [level=4] [ref=e616]
+        - list [ref=e617]:
+          - listitem [ref=e618]:
+            - generic [ref=e619]: "21"
+            - generic [ref=e620]: Direction A · Apparatus
+            - generic [ref=e621]: Manifeste 5 actes (home)
+            - link "/ ↗" [ref=e622] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e623]:
+            - generic [ref=e624]: "22"
+            - generic [ref=e625]: Direction B · Manifesto
+            - generic [ref=e626]: LiquidHero canvas + asym
+            - link "/manifesto ↗" [ref=e627] [cursor=pointer]:
+              - /url: /manifesto
+          - listitem [ref=e628]:
+            - generic [ref=e629]: "23"
+            - generic [ref=e630]: Direction C · Console
+            - generic [ref=e631]: Terminal + ProductReel
+            - link "/console ↗" [ref=e632] [cursor=pointer]:
+              - /url: /console
+          - listitem [ref=e633]:
+            - generic [ref=e634]: "24"
+            - generic [ref=e635]: ✦ Atlas
+            - generic [ref=e636]: Cartographie 4 piliers
+            - link "/atlas ↗" [ref=e637] [cursor=pointer]:
+              - /url: /atlas
+      - generic [ref=e638]:
+        - heading "D · Hub landings (composition d'organismes)" [level=4] [ref=e639]
+        - paragraph [ref=e640]: Ces 4 hubs sont des compositions directes d'organismes existants (Hero · Pyramid · Departments · TrustMarquee · Cases · WritingNotes · CtaBand) — pas de template intermédiaire (rigidifierait inutilement, chaque hub est unique).
+        - list [ref=e641]:
+          - listitem [ref=e642]:
+            - generic [ref=e643]: "25"
+            - generic [ref=e644]: /offres
+            - generic [ref=e645]: Hero + Pyramid + Fit + CTA
+            - link "/offres ↗" [ref=e646] [cursor=pointer]:
+              - /url: /offres
+          - listitem [ref=e647]:
+            - generic [ref=e648]: "26"
+            - generic [ref=e649]: /solutions
+            - generic [ref=e650]: Hero + Departments + Cases + Industry
+            - link "/solutions ↗" [ref=e651] [cursor=pointer]:
+              - /url: /solutions
+          - listitem [ref=e652]:
+            - generic [ref=e653]: "27"
+            - generic [ref=e654]: /technologies
+            - generic [ref=e655]: Hero + TrustMarquee + 3 layers + Frameworks
+            - link "/technologies ↗" [ref=e656] [cursor=pointer]:
+              - /url: /technologies
+          - listitem [ref=e657]:
+            - generic [ref=e658]: "28"
+            - generic [ref=e659]: /ressources
+            - generic [ref=e660]: Hero + Tools + Cases + Blog + Cookbooks + NL
+            - link "/ressources ↗" [ref=e661] [cursor=pointer]:
+              - /url: /ressources
+      - generic [ref=e662]:
+        - heading "F · Conversion + Resend + Cal (NEW)" [level=4] [ref=e663]
+        - paragraph [ref=e664]: Tunnel offre flagship, lead magnets, welcome pages, API routes Resend et Cal.com embed. Toute l'infra conversion d'agence web/IA.
+        - list [ref=e665]:
+          - listitem [ref=e666]:
+            - generic [ref=e667]: "29"
+            - generic [ref=e668]: ConversionFunnelTemplate
+            - generic [ref=e669]: Tunnel offre flagship · 8 sections
+            - link "/offres/site-web-ia ↗" [ref=e670] [cursor=pointer]:
+              - /url: /offres/site-web-ia
+          - listitem [ref=e671]:
+            - generic [ref=e672]: "30"
+            - generic [ref=e673]: LeadMagnetTemplate
+            - generic [ref=e674]: Download gated · form + ToC
+            - link "/livres-blancs/ai-act ↗" [ref=e675] [cursor=pointer]:
+              - /url: /ressources/livres-blancs/ai-act-readiness
+          - listitem [ref=e676]:
+            - generic [ref=e677]: "31"
+            - generic [ref=e678]: WelcomeTemplate · newsletter
+            - generic [ref=e679]: Post-signup confirmation
+            - link "/bienvenue/newsletter ↗" [ref=e680] [cursor=pointer]:
+              - /url: /bienvenue/newsletter
+          - listitem [ref=e681]:
+            - generic [ref=e682]: "32"
+            - generic [ref=e683]: WelcomeTemplate · livre blanc
+            - generic [ref=e684]: Post-download confirmation
+            - link "/bienvenue/livre-blanc ↗" [ref=e685] [cursor=pointer]:
+              - /url: /bienvenue/livre-blanc
+          - listitem [ref=e686]:
+            - generic [ref=e687]: "33"
+            - generic [ref=e688]: WelcomeTemplate · audit
+            - generic [ref=e689]: Post-RDV booké confirmation
+            - link "/bienvenue/audit ↗" [ref=e690] [cursor=pointer]:
+              - /url: /bienvenue/audit
+          - listitem [ref=e691]:
+            - generic [ref=e692]: "34"
+            - generic [ref=e693]: CalEmbed (molecule)
+            - generic [ref=e694]: Cal.com inline · /contact
+            - link "/contact (embed) ↗" [ref=e695] [cursor=pointer]:
+              - /url: /contact
+          - listitem [ref=e696]:
+            - generic [ref=e697]: "35"
+            - generic [ref=e698]: PricingTier (molecule)
+            - generic [ref=e699]: 3 tiers pricing dans funnel
+            - link "site-web-ia#pricing ↗" [ref=e700] [cursor=pointer]:
+              - /url: /offres/site-web-ia#pricing
+      - generic [ref=e701]:
+        - heading "G · API routes (POST · SSR Vercel)" [level=4] [ref=e702]
+        - paragraph [ref=e703]: 5 endpoints Astro SSR connectés à Resend (envoi emails + tags Automations). 6 templates React Email dans src/lib/emails/.
+        - list [ref=e704]:
+          - listitem [ref=e705]:
+            - generic [ref=e706]: "36"
+            - generic [ref=e707]: POST /api/contact
+            - generic [ref=e708]: Form contact → 2 emails (client+équipe)
+            - generic [ref=e709]: SSR · prerender:false
+          - listitem [ref=e710]:
+            - generic [ref=e711]: "37"
+            - generic [ref=e712]: POST /api/newsletter
+            - generic [ref=e713]: Newsletter signup → welcome
+            - generic [ref=e714]: SSR
+          - listitem [ref=e715]:
+            - generic [ref=e716]: "38"
+            - generic [ref=e717]: POST /api/lead-magnet
+            - generic [ref=e718]: Download → PDF + nurturing
+            - generic [ref=e719]: SSR
+          - listitem [ref=e720]:
+            - generic [ref=e721]: "39"
+            - generic [ref=e722]: POST /api/academy
+            - generic [ref=e723]: Diagnostic 12Q → scorecard
+            - generic [ref=e724]: SSR
+          - listitem [ref=e725]:
+            - generic [ref=e726]: "40"
+            - generic [ref=e727]: POST /api/devis
+            - generic [ref=e728]: Devis configurateur → récap
+            - generic [ref=e729]: SSR
+      - generic [ref=e730]:
+        - heading "E · Sous-routes encore en Stub" [level=4] [ref=e731]
+        - paragraph [ref=e732]: Ces routes existent dans la nav mais sont rendues par /pages/[...slug].astro (Stub éditorial). Elles suivront les templates dès que le contenu sera validé — instanciation mécanique.
+        - generic [ref=e733]:
+          - generic [ref=e734]:
+            - generic [ref=e735]: Hub agence (à composer)
+            - list [ref=e736]:
+              - listitem [ref=e737]:
+                - link "/agence (Stub)" [ref=e738] [cursor=pointer]:
+                  - /url: /agence
+          - generic [ref=e739]:
+            - generic [ref=e740]: Sous-pages /offres
+            - list [ref=e741]:
+              - listitem [ref=e742]:
+                - link "agents-metiers" [ref=e743] [cursor=pointer]:
+                  - /url: /offres/agents-metiers
+              - listitem [ref=e744]:
+                - link "poc-mvp-sprint" [ref=e745] [cursor=pointer]:
+                  - /url: /offres/poc-mvp-sprint
+              - listitem [ref=e746]:
+                - link "managed-agents" [ref=e747] [cursor=pointer]:
+                  - /url: /offres/managed-agents
+              - listitem [ref=e748]:
+                - link "self-hosted" [ref=e749] [cursor=pointer]:
+                  - /url: /offres/self-hosted
+              - listitem [ref=e750]: + 12 autres
+          - generic [ref=e751]:
+            - generic [ref=e752]: Sous-pages /solutions
+            - list [ref=e753]:
+              - listitem [ref=e754]:
+                - link "finance" [ref=e755] [cursor=pointer]:
+                  - /url: /solutions/finance
+              - listitem [ref=e756]:
+                - link "sante" [ref=e757] [cursor=pointer]:
+                  - /url: /solutions/sante
+              - listitem [ref=e758]:
+                - link "ventes-marketing" [ref=e759] [cursor=pointer]:
+                  - /url: /solutions/ventes-marketing
+              - listitem [ref=e760]:
+                - link "it-engineering" [ref=e761] [cursor=pointer]:
+                  - /url: /solutions/it-engineering
+              - listitem [ref=e762]: + 8 autres
+          - generic [ref=e763]:
+            - generic [ref=e764]: Sous-pages /technologies
+            - list [ref=e765]:
+              - listitem [ref=e766]:
+                - link "claude-models" [ref=e767] [cursor=pointer]:
+                  - /url: /technologies/claude-models
+              - listitem [ref=e768]:
+                - link "claude-code" [ref=e769] [cursor=pointer]:
+                  - /url: /technologies/claude-code
+              - listitem [ref=e770]:
+                - link "(via offres)" [ref=e771] [cursor=pointer]:
+                  - /url: /technologies/mcp-connectors
+              - listitem [ref=e772]:
+                - link "rag-prive" [ref=e773] [cursor=pointer]:
+                  - /url: /technologies/rag-prive
+              - listitem [ref=e774]: + 7 autres
+          - generic [ref=e775]:
+            - generic [ref=e776]: Cas restants
+            - list [ref=e777]:
+              - listitem [ref=e778]:
+                - link "halcyon" [ref=e779] [cursor=pointer]:
+                  - /url: /ressources/cas/halcyon
+              - listitem [ref=e780]:
+                - link "northbound" [ref=e781] [cursor=pointer]:
+                  - /url: /ressources/cas/northbound
+              - listitem [ref=e782]:
+                - link "caserne" [ref=e783] [cursor=pointer]:
+                  - /url: /ressources/cas/caserne
+              - listitem [ref=e784]:
+                - link "virtuoseos" [ref=e785] [cursor=pointer]:
+                  - /url: /ressources/cas/virtuoseos
+          - generic [ref=e786]:
+            - generic [ref=e787]: Outils & ressources
+            - list [ref=e788]:
+              - listitem [ref=e789]:
+                - link "cookbooks" [ref=e790] [cursor=pointer]:
+                  - /url: /ressources/cookbooks
+              - listitem [ref=e791]:
+                - link "blog" [ref=e792] [cursor=pointer]:
+                  - /url: /ressources/blog
+              - listitem [ref=e793]:
+                - link "livre blanc AI Act" [ref=e794] [cursor=pointer]:
+                  - /url: /ressources/livres-blancs/ai-act-readiness
+              - listitem [ref=e795]:
+                - link "academy" [ref=e796] [cursor=pointer]:
+                  - /url: /ressources/academy
+              - listitem [ref=e797]:
+                - link "changelog" [ref=e798] [cursor=pointer]:
+                  - /url: /ressources/changelog
+              - listitem [ref=e799]:
+                - link "toutes les ressources" [ref=e800] [cursor=pointer]:
+                  - /url: /ressources
+    - generic [ref=e801]:
+      - generic [ref=e802]: © 2026 Waimia · Partenaire Intégrateur IA
+      - generic [ref=e803]:
+        - link "LinkedIn" [ref=e804] [cursor=pointer]:
+          - /url: https://www.linkedin.com/company/waimia
+        - link "X" [ref=e805] [cursor=pointer]:
+          - /url: https://x.com/waimia_ai
+        - link "YouTube" [ref=e806] [cursor=pointer]:
+          - /url: https://www.youtube.com/@waimia
+  - generic [ref=e807]:
+    - complementary:
+      - generic:
+        - link:
+          - /url: /
+          - generic: A
+          - generic: Apparatus
+        - link:
+          - /url: /manifesto
+          - generic: B
+          - generic: Manifesto
+        - link:
+          - /url: /console
+          - generic: C
+          - generic: Console
+        - link:
+          - /url: /atlas
+          - generic: ✦
+          - generic: Atlas

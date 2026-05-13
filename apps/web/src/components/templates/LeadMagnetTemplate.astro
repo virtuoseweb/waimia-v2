@@ -46,6 +46,11 @@ interface Props {
 }
 const { title, description, slug, kicker, format, publishedAt, toc, coverUrl, breadcrumbLabel } = Astro.props as Props;
 const lang = langFromPath(Astro.url.pathname);
+const pageTransitionId = Astro.url.pathname
+  .replace(/^\/(?:en\/)?/, '')
+  .replace(/\/$/, '')
+  .replace(/[^a-z0-9]+/gi, '-')
+  .replace(/^-|-$/g, '') || 'home';
 
 const headlineHtml = Astro.slots.has('headline') ? await Astro.slots.render('headline') : title;
 const ledeHtml = Astro.slots.has('lede') ? await Astro.slots.render('lede') : description;
@@ -109,11 +114,11 @@ const tocEvents = toc.map((item, index) => ({
     ]}
   />
   {/* HERO · titre + cover */}
-  <section class="lm-hero">
+  <section class="lm-hero" transition:name={`card-${pageTransitionId}`}>
     <div class="wrap-wide lm-hero-grid">
       <div class="lm-hero-text">
         <Kicker tone="accent" class="lm-kicker">{kicker}</Kicker>
-        <h1 class="lm-h1 reveal" set:html={headlineHtml} />
+        <h1 class="lm-h1 reveal-split-letter" transition:name={`hero-h1-${pageTransitionId}`} set:html={headlineHtml} />
         <p class="lm-lede reveal" set:html={ledeHtml} />
         <div class="lm-meta">
           <span>{format}</span>
@@ -123,7 +128,7 @@ const tocEvents = toc.map((item, index) => ({
           <span>Gratuit</span>
         </div>
       </div>
-      <aside class="lm-hero-panel reveal-stagger" aria-label="Résumé du livre blanc">
+      <aside class="lm-hero-panel reveal-stagger" aria-label="Résumé du livre blanc" transition:name={`hero-img-${pageTransitionId}`}>
         {coverUrl && (
           <div class="lm-cover" aria-hidden>
             <img src={coverUrl} alt="" loading="eager" />

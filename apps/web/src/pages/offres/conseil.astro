@@ -9,11 +9,12 @@ export const prerender = true;
 
 import HubTemplate from '../../components/templates/HubTemplate.astro';
 import ServiceCatalogRow from '../../components/ui/molecules/ServiceCatalogRow.astro';
+import EditorialTable from '../../components/editorial/EditorialTable.astro';
 import ConseilAuditDiagram from '../../components/svg/geometric/ConseilAuditDiagram.astro';
 
 const stats = [
   { k: '43',    label_fr: 'interventions',   label_en: 'engagements' },
-  { k: '€18M+', label_fr: 'pipeline audité', label_en: 'pipeline audited' },
+  { k: '18 M€+', label_fr: 'pipeline audité', label_en: 'pipeline audited' },
   { k: '0',     label_fr: 'ateliers vendus', label_en: 'workshops sold' },
   { k: '12',    label_fr: 'juridictions UE', label_en: 'EU jurisdictions' },
 ];
@@ -22,11 +23,11 @@ const stats = [
 const services = [
   { num: '02.1', slug: 'audit-maturite-ia', meta: '10 j · 10 days',
     title_fr: 'Audit de maturité IA', title_en: 'AI Readiness Assessment',
-    desc_fr: "Un diagnostic de 10 jours. Data, outillage, équipe, gouvernance. Un scorecard lisible.",
+    desc_fr: "Un diagnostic de 10 jours. Données, outillage, équipe, gouvernance. Une grille lisible.",
     desc_en: "A 10-day diagnostic. Data, tooling, team, governance. One readable scorecard." },
   { num: '02.2', slug: 'roadmap-ia', meta: '3–5 sem · 3–5 wks',
     title_fr: "Cadrage & feuille de route IA", title_en: 'Strategic Scoping & AI Roadmap',
-    desc_fr: "On rédige le backlog ordonné qu'un board peut approuver et qu'un tech lead peut livrer.",
+    desc_fr: "On rédige le backlog ordonné qu'une direction peut approuver et qu'un lead technique peut livrer.",
     desc_en: "We write the ordered backlog a board can approve and an eng lead can ship against." },
   { num: '02.3', slug: 'gouvernance-donnees', meta: '4 sem · 4 wks',
     title_fr: 'Audit gouvernance & qualité des données', title_en: 'Data Governance & Quality Audit',
@@ -42,7 +43,7 @@ const services = [
     desc_en: 'Which of your 200 RPA bots survive as agents. Which should die. Which were always theatre.' },
   { num: '02.6', slug: 'finops-ia', meta: '2 sem · 2 wks',
     title_fr: 'AI FinOps — coûts LLM & cloud', title_en: 'AI FinOps — LLM & Cloud Cost Optimization',
-    desc_fr: "Tokenisation, batching, caching, routage. On coupe 40–70 % sur les factures LLM, sans l'annoncer.",
+    desc_fr: "Tokenisation, lots, cache, routage. On coupe 40–70 % sur les factures LLM, sans grand discours.",
     desc_en: 'Tokenization, batching, caching, model routing. We cut LLM bills by 40–70% without telling anyone.' },
   { num: '02.7', slug: 'cybersecurite-ia', meta: '3–6 sem · 3–6 wks',
     title_fr: "Cybersécurité & pen test des systèmes IA", title_en: 'AI Systems Cybersecurity & Pen Testing',
@@ -50,10 +51,30 @@ const services = [
     desc_en: 'Prompt injection, data exfil, jailbreaks, supply chain. We attack it first, in writing.' },
 ];
 
+const serviceComparisonRows = [
+  ['Décider avant budget', 'Audit de maturité IA', 'Grille de score, risques, priorités, feu vert ou arrêt en 10 jours'],
+  ['Obtenir un accord direction', 'Cadrage & feuille de route IA', 'Backlog chiffré, séquencé, lisible par DSI et COMEX'],
+  ['Fiabiliser les chiffres', 'Gouvernance & qualité des données', 'Sources de vérité, ownership, contrôles et anomalies'],
+  ['Préparer la production', "Dette technique pour l'IA", 'Freins agents, API, sécurité, coûts de correction'],
+  ['Sortir du RPA fragile', 'Migration RPA → agents IA', 'Bots à garder, remplacer, arrêter ou documenter'],
+  ['Réduire les coûts IA', 'AI FinOps', 'Routage modèles, cache, traitement par lots, garde-fous budget'],
+  ['Tester la surface de risque', 'Cybersécurité IA', 'Prompt injection, exfiltration, jailbreaks, supply chain'],
+];
+
+const decisionTreeItems = [
+  "Vous ne savez pas par où commencer : Audit de maturité IA.",
+  "Vous devez faire valider un budget : Cadrage & feuille de route IA.",
+  "Vos données ou votre CRM ne sont pas fiables : Gouvernance & qualité des données.",
+  "Vos agents restent bloqués avant la production : Dette technique pour l'IA.",
+  "Vos bots RPA coûtent trop cher à maintenir : Migration RPA → agents IA.",
+  "La facture LLM grimpe sans contrôle : AI FinOps.",
+  "Le RSSI demande des preuves : Cybersécurité IA.",
+];
+
 const fitYesItems = [
   "Vous avez un CRM que personne ne croit et un entrepôt qui dit autre chose.",
   "Votre équipe GRC réclame des traces d'audit que votre stack IA actuelle ne produit pas.",
-  "Vous avez essayé un cabinet de conseil piloté par ateliers — vous avez eu 72 slides.",
+  "Vous avez essayé un cabinet piloté par ateliers — vous avez eu 72 slides et aucune décision.",
   "Vous avez entre 50 et 500 collaborateurs en Europe et de vraies obligations de gouvernance.",
 ];
 const fitNoItems = [
@@ -65,19 +86,19 @@ const fitNoItems = [
 
 const relatedCards = [
   { kicker: 'CASE 04', title_fr: 'Plateau SaaS', title_en: 'Plateau SaaS',
-    lead_fr: '+€2.4M pipeline →', lead_en: '+€2.4M pipeline →',
-    href: '/ressources/cas/plateau' },
+    lead_fr: '+2,4 M€ pipeline →', lead_en: '+€2.4M pipeline →',
+    href: '/cas/plateau' },
   { kicker: 'CASE 07', title_fr: 'Halcyon Health', title_en: 'Halcyon Health',
     lead_fr: '−38% temps de triage →', lead_en: '−38% triage time →',
-    href: '/ressources/cas/halcyon' },
+    href: '/cas/halcyon' },
   { kicker: 'CASE 09', title_fr: 'Caserne Industrie', title_en: 'Caserne Industry',
-    lead_fr: '€780k FinOps économisés →', lead_en: '€780k FinOps saved →',
-    href: '/ressources/cas/caserne' },
+    lead_fr: '780 k€ FinOps économisés →', lead_en: '€780k FinOps saved →',
+    href: '/cas/caserne' },
 ];
 ---
 <HubTemplate
   title="Conseil, audit & stratégie · Waimia"
-  description="Sept services qui refondent le socle d'une intervention IA — données, gouvernance, coût, sécurité. Faits par nous-mêmes, par écrit."
+  description="Sept services pour solidifier une intervention IA : données, gouvernance, coût, sécurité. Faits par nous-mêmes, par écrit."
   hubNum="02"
   metaKickerFr="Hub · Pilier Entreprise · 7 services"
   metaKickerEn="Hub · Enterprise pillar · 7 services"
@@ -94,15 +115,15 @@ const relatedCards = [
 >
   {/* HEADLINE — méthode Slots Astro, JSX riche (italic, br) sans sérialisation */}
   <Fragment slot="headline">
-    La couche <i>sans relief</i>, avant que les agents ne touchent à quoi que ce soit.
+    Avant les agents, il faut le <i>bon diagnostic</i>.
   </Fragment>
   <Fragment slot="lede">
-    Sept prestations qui refondent le socle sur lequel repose une intervention IA — données, gouvernance, coût, sécurité. Faites par nous-mêmes, par écrit.
+    La direction veut décider, la DSI veut des preuves, les métiers veulent avancer. On choisit le service utile — données, gouvernance, coût, sécurité — puis on livre par écrit.
   </Fragment>
 
   {/* MANIFESTO PULL · stance éditorial */}
   <Fragment slot="manifesto">
-    Une mission de conseil n'est pas un <i>diagnostic de 72 slides</i>. C'est un schéma, un runbook, et un ingénieur d'astreinte nommé.
+    Une mission de conseil n'est pas un <i>diagnostic de 72 slides</i>. C'est une décision prise plus tôt, un risque nommé et un livrable que l'équipe peut exploiter.
   </Fragment>
 
   {/* CATALOGUE · 7 ServiceCatalogRow */}
@@ -117,6 +138,33 @@ const relatedCards = [
         href={`/offres/${s.slug}`}
       />
     ))}
+    <section style="padding: clamp(64px,7vw,96px) 0 0;">
+      <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;">Comparateur services</div>
+      <h2 style="font-family:var(--font-display); font-size:clamp(34px,4.5vw,64px); line-height:.96; font-weight:400; margin:0 0 28px;"><i style="color:var(--accent); font-style:italic;">Quel service</i><br/>pour quelle décision ?</h2>
+      <EditorialTable
+        caption="Lecture rapide du catalogue conseil"
+        columns={['Besoin', 'Service', 'Livrable de décision']}
+        rows={serviceComparisonRows}
+        align="left"
+        variant="editorial"
+      />
+    </section>
+    <section style="padding: clamp(48px,5vw,72px) 0 0;">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:clamp(28px,5vw,64px); border-top:1px solid rgba(0,0,0,.16); padding-top:32px;">
+        <div>
+          <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;">Arbre de décision</div>
+          <h2 style="font-family:var(--font-display); font-size:clamp(30px,3.8vw,54px); line-height:.98; font-weight:400; margin:0;"><i style="color:var(--accent); font-style:italic;">Quel service</i><br/>pour vous ?</h2>
+        </div>
+        <ol style="list-style:none; margin:0; padding:0; counter-reset:decision;">
+          {decisionTreeItems.map((item, index) => (
+            <li style="display:grid; grid-template-columns:48px 1fr; gap:18px; padding:18px 0; border-bottom:1px solid rgba(0,0,0,.08); color:var(--ink); font-size:16px; line-height:1.55;">
+              <span style="font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; color:var(--accent);">0{index + 1}</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
     <div style="padding: clamp(48px,6vw,80px) 0 0; max-width: 640px; margin-inline: auto;">
       <ConseilAuditDiagram />
     </div>
@@ -124,6 +172,6 @@ const relatedCards = [
 
   {/* FIT HEADLINE */}
   <Fragment slot="fit-headline">
-    Pour la DSI, la <i>COO</i>, le head of RevOps — pas pour la slide.
+    Pour la DSI, la <i>COO</i>, le RSSI ou le head of RevOps — quand il faut décider sans théâtre.
   </Fragment>
 </HubTemplate>

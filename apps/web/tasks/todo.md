@@ -1,5 +1,18 @@
 # Todo
 
+## V9-L — CRO copywriting + tunnel de conversion pages signature
+
+- [x] Lire les règles, leçons et todo avant modification
+- [x] Préserver le polish éditorial V8 sur les pages signature
+- [x] Restructurer `/offres/site-web-ia` avec hero PAS, bénéfices, preuve Plateau, risk reversal et CTA fixe
+- [x] Restructurer `/offres/growth-system-ia` avec pricing teaser, objection Activation IA et comparatif Avant Waimia / Avec Waimia
+- [x] Adapter `/offres/infrastructure-ia` au ton ETI avec SLA, audit trail, gouvernance et mention ISO
+- [x] Améliorer `/offres/conseil` avec comparateur services et arbre de décision
+- [x] Ne pas toucher `/en/*` : aucune route `/en/offres/*` n'existe dans ce dépôt
+- [x] Vérifier avec `pnpm exec astro check`
+- [x] Vérifier avec `pnpm build`
+- [x] Créer le marker `/tmp/codex-missions/waimia-v4/V9L-DONE.md`
+
 ## V9-A — Navigation interne + breadcrumbs + maillage cross-page
 
 - [x] Créer `src/components/ui/molecules/Breadcrumb.astro`

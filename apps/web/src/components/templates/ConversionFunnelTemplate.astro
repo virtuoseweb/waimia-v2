@@ -62,11 +62,24 @@ interface Props {
   relatedCards: RelatedCard[];
   /** Slug pour l'API devis */
   slug: string;
+  /** CTA hero principal (défaut historique : tarifs) */
+  heroPrimaryHref?: string;
+  /** CTA hero secondaire (défaut historique : démo) */
+  heroSecondaryHref?: string;
+  /** CTA fixe optionnel pour les offres signature */
+  stickyCtaHref?: string;
+  stickyCtaLabel?: string;
+  stickyCtaMeta?: string;
 }
 const {
   title, description, funnelNum, heroStats, steps, tiers, techPills,
   proofQuoteFr, proofAttrFr, proofMetrics,
   faq, relatedCards, slug,
+  heroPrimaryHref = '#pricing',
+  heroSecondaryHref = '#demo',
+  stickyCtaHref,
+  stickyCtaLabel = 'Réserver un audit 45 min',
+  stickyCtaMeta = 'Audit 45 min · diagnostic conversion',
 } = Astro.props as Props;
 
 const phaseMetas = ['Acquisition', 'Conversion', 'Activation', 'Optimisation', 'Transmission'];
@@ -148,11 +161,21 @@ const offerLd = {
         <span>Acquisition → conversion → activation</span>
         <span>Agent éditeur inclus</span>
       </div>
+      {Astro.slots.has('hero-benefits') && (
+        <div class="cf-hero-benefits reveal">
+          <slot name="hero-benefits" />
+        </div>
+      )}
+      {Astro.slots.has('hero-proof') && (
+        <p class="cf-hero-proof reveal">
+          <slot name="hero-proof" />
+        </p>
+      )}
       <div class="cf-hero-cta">
-        <Button href="#pricing" variant="primary" size="lg" mag={0.18}>
+        <Button href={heroPrimaryHref} variant="primary" size="lg" mag={0.18}>
           <slot name="cta-primary">Voir les tarifs ↓</slot>
         </Button>
-        <Button href="#demo" variant="ghost" size="lg">
+        <Button href={heroSecondaryHref} variant="ghost" size="lg">
           <slot name="cta-secondary">Voir la démo</slot>
         </Button>
       </div>
@@ -355,6 +378,13 @@ const offerLd = {
       <RelatedCards cards={relatedCards} />
     </div>
   </section>
+
+  {stickyCtaHref && (
+    <aside class="cf-sticky-cta" aria-label="Action principale">
+      <span class="cf-sticky-copy">{stickyCtaMeta}</span>
+      <a class="cf-sticky-link" href={stickyCtaHref}>{stickyCtaLabel}</a>
+    </aside>
+  )}
 </Base>
 
 <style>
@@ -397,6 +427,49 @@ const offerLd = {
     background: color-mix(in srgb, var(--paper) 86%, transparent);
   }
   .cf-hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 60px; }
+  .cf-hero-benefits {
+    max-width: 920px;
+    margin: 0 0 24px;
+  }
+  .cf-hero-benefits :global(ul) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px clamp(18px, 3vw, 34px);
+  }
+  .cf-hero-benefits :global(li) {
+    position: relative;
+    padding-left: 18px;
+    font-family: var(--font-display);
+    font-size: clamp(16px, 1.4vw, 19px);
+    line-height: 1.42;
+    color: var(--ink);
+  }
+  .cf-hero-benefits :global(li)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7em;
+    width: 7px;
+    height: 7px;
+    border-top: 1px solid var(--accent);
+    border-right: 1px solid var(--accent);
+    transform: rotate(45deg);
+  }
+  .cf-hero-proof {
+    margin: 0 0 28px;
+    max-width: 760px;
+    padding-top: 16px;
+    border-top: 1px solid var(--hairline);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.5;
+  }
   .cf-hero-stats {
     margin-top: 60px;
     display: grid;
@@ -623,9 +696,57 @@ const offerLd = {
 
   :global(.cf-related-k) { display: block; margin-bottom: 24px; }
 
+  .cf-sticky-cta {
+    position: fixed;
+    z-index: 60;
+    left: 50%;
+    bottom: 16px;
+    width: min(760px, calc(100% - 32px));
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 12px 14px 12px 18px;
+    border: 1px solid var(--hairline-strong);
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    box-shadow: 0 18px 50px rgba(12, 11, 9, 0.16);
+    backdrop-filter: blur(18px);
+  }
+  .cf-sticky-copy {
+    min-width: 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+  .cf-sticky-link {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 12px 18px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 2px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0;
+    transition: transform 220ms var(--ease), background 220ms var(--ease);
+  }
+  .cf-sticky-link:hover {
+    transform: translateY(-1px);
+    background: var(--accent);
+  }
+
   @media (max-width: 800px) {
     .cf-hero { padding-top: 104px; }
     .cf-hero-stats,
+    .cf-hero-benefits :global(ul),
     .cf-split,
     .cf-proof-grid,
     .cf-devis-grid,
@@ -637,6 +758,15 @@ const offerLd = {
     .cf-form { grid-template-columns: 1fr; }
     .cf-devis-grid {
       gap: 24px;
+    }
+    .cf-sticky-cta {
+      align-items: stretch;
+      flex-direction: column;
+      bottom: 10px;
+      padding: 12px;
+    }
+    .cf-sticky-link {
+      width: 100%;
     }
   }
 </style>
