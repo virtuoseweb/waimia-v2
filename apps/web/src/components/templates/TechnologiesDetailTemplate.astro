@@ -184,7 +184,7 @@ const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeh
           <span>{layerLabel}</span>
         </nav>
         <div class={`tech-hero-layer tech-hero-layer--${layerType}`}>{layer}</div>
-        <h1 class="tech-hero-title reveal-split-letter" transition:name={`hero-h1-${pageTransitionId}`}><slot name="title" /></h1>
+        <h1 class="tech-hero-title reveal-mask-up" transition:name={`hero-h1-${pageTransitionId}`}><slot name="title" /></h1>
         <div class="tech-hero-sub">
           <p class="tech-hero-lead reveal"><slot name="lead" /></p>
           <div class="tech-hero-actions">

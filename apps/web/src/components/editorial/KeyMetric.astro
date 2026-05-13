@@ -28,7 +28,7 @@ const {
 } = Astro.props;
 ---
 
-<div class={`key-metric key-metric-${size} key-metric-${align} key-metric-${variant}`}>
+<div class:list={["key-metric", `key-metric-${size}`, `key-metric-${align}`, `key-metric-${variant}`, "reveal-zoom-in"]}>
   <span class="key-metric-value">{value}</span>
   <span class="key-metric-label">{label}</span>
   {delta && (

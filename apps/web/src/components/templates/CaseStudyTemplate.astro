@@ -112,7 +112,7 @@ const cardTransitionId = transitionSlug ?? pageTransitionId;
     <div class="wrap-wide">
       <span class="eyebrow">§ Cas client</span>
       <Kicker class="case-num">§ Case {caseNum}</Kicker>
-      <h1 class="case-h1 reveal-split-letter" transition:name={`hero-h1-${pageTransitionId}`}>
+      <h1 class="case-h1 reveal-mask-up" transition:name={`hero-h1-${pageTransitionId}`}>
         <slot name="headline" />
       </h1>
     </div>
