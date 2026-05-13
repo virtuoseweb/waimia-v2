@@ -1,0 +1,41 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'mono';
+}
+const { size = 'md', variant = 'default' } = Astro.props;
+---
+<svg viewBox="0 0 480 320" preserveAspectRatio="xMidYMid meet"
+  class={`sumie-finance-compta sumie-finance-compta-${size}`}
+  role="img"
+  aria-label="Courbe de trésorerie et colonnes de documents comptables en encre sumi-e">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Colonnes verticales (factures/docs) -->
+    <path d="M92 258 L91 190" stroke-width="1.4" vector-effect="non-scaling-stroke"/>
+    <path d="M155 258 L154 153" stroke-width="2.0" vector-effect="non-scaling-stroke"/>
+    <path d="M220 258 L219 206" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+    <path d="M290 258 L289 170" stroke-width="1.85" vector-effect="non-scaling-stroke"/>
+    <path d="M358 258 L357 184" stroke-width="1.45" vector-effect="non-scaling-stroke"/>
+    <!-- Ligne de base horizontale -->
+    <path d="M72 258 C140 262 210 256 280 259 C340 262 380 257 408 260"
+      stroke-width="0.7" stroke-dasharray="40 16" vector-effect="non-scaling-stroke"/>
+    <!-- Courbe trésorerie principale -->
+    <path d="M80 220 C110 210 142 190 176 165 C200 147 218 172 240 180
+             C268 190 288 158 312 140 C338 121 362 148 400 132"
+      stroke-width="2.5" vector-effect="non-scaling-stroke"/>
+    <!-- Courbe secondaire légère -->
+    <path d="M80 224 C110 214 142 194 176 169 C200 151 218 176 240 184
+             C268 194 288 162 312 144 C338 125 362 152 400 136"
+      stroke-width="1.1" stroke-dasharray="80 24" opacity="0.45" vector-effect="non-scaling-stroke"/>
+    <!-- Accent terracotta pic de la courbe -->
+    {variant === 'default' && (
+      <circle cx="312" cy="140" r="3.5" fill="var(--waimia-accent, #C94F2E)" stroke="none"/>
+    )}
+  </g>
+</svg>
+<style>
+  .sumie-finance-compta { display: block; color: var(--ink-2); }
+  .sumie-finance-compta-sm { width: 180px; }
+  .sumie-finance-compta-md { width: 360px; }
+  .sumie-finance-compta-lg { width: 480px; }
+</style>

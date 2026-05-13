@@ -1,5 +1,16 @@
 # Lessons
 
+## V9-A — Navigation interne
+
+- `Breadcrumb.astro` injecte déjà le JSON-LD `BreadcrumbList` ; quand il est ajouté aux templates, éviter de supprimer les breadcrumbs hero historiques sans demande explicite afin de préserver le rendu existant.
+- Les routes ressources prerender avec `getStaticPaths()` doivent passer uniquement les arguments attendus par leurs helpers locaux ; `astro check` signale immédiatement les restes d’anciennes signatures.
+
+## V8-I — Migration SSG des routes content dynamiques
+
+- Dans un fichier Astro, `getStaticPaths()` est exécuté en contexte module : les helpers non exportés du frontmatter peuvent disparaître du chunk de pré-rendu. Garder les helpers nécessaires dans `getStaticPaths()` ou les exporter explicitement.
+- Les collections content vides (`cookbooks`, `livresBlancs`, `veilleIA`, `outils`, `pages`) peuvent déclencher des messages Astro pendant le build ; `getCollection()` retourne tout de même une liste exploitable et `getStaticPaths()` peut retourner `[]`.
+- Pour les routes agrégées catégorie/tag/silo, pré-calculer les `items` dans les props statiques évite de relire les collections au runtime et conserve le rendu HTML attendu.
+
 ## V9-C — GEO structured data + llms.txt
 
 - `astro.config.mjs` contient déjà `sitemap({ i18n: { defaultLocale: 'fr', locales: { fr: 'fr-FR', en: 'en-US' } } })` ; ne pas le modifier si la mission demande seulement de l'ajouter si manquant.

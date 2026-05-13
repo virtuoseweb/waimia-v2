@@ -1,5 +1,38 @@
 # Todo
 
+## V9-A — Navigation interne + breadcrumbs + maillage cross-page
+
+- [x] Créer `src/components/ui/molecules/Breadcrumb.astro`
+- [x] Ajouter Breadcrumb aux templates Offres, Solutions, Technologies, CaseStudy, Essay et LeadMagnet
+- [x] Ajouter les props optionnelles `caseTitle`, `breadcrumbItems`, `lang`, `relatedCasesData`, `relatedOffresData`, `breadcrumbLabel` et `relatedOffresLinks`
+- [x] Résoudre `relatedCases` et `relatedOffres` dans `src/pages/ressources/blog/[...slug].astro`
+- [x] Ajouter les blocs cross-collection Blog → Cas/Offres et CaseStudy → Offres
+- [x] Corriger l’erreur `astro check` hors périmètre direct dans `src/pages/ressources/tag/[...slug].astro`
+- [x] Vérifier avec `pnpm exec astro check`
+- [x] Vérifier avec `pnpm build`
+- [x] Créer le marker `/tmp/codex-missions/waimia-v4/V9A-DONE.md`
+
+## V8-I — Migration SSG 12 pages `[...slug]` dynamiques
+
+- [x] Migrer `src/pages/ressources/blog/[...slug].astro` en SSG via `getStaticPaths()`
+- [x] Migrer `src/pages/ressources/cookbooks/[...slug].astro` en SSG via `getStaticPaths()`
+- [x] Migrer `src/pages/ressources/livres-blancs/[...slug].astro` en SSG via `getStaticPaths()`
+- [x] Migrer `src/pages/ressources/veille-ia/[...slug].astro` en SSG via `getStaticPaths()`
+- [x] Migrer `src/pages/cas/[...slug].astro` en SSG via `getStaticPaths()`
+- [x] Migrer `src/pages/equipe/[...slug].astro` en SSG via `getStaticPaths()`
+- [x] Migrer `src/pages/secteurs/[...slug].astro` en SSG via `getStaticPaths()`
+- [x] Migrer `src/pages/ressources/categorie/[...slug].astro` en SSG via props statiques agrégées
+- [x] Migrer `src/pages/ressources/tag/[...slug].astro` en SSG via props statiques agrégées
+- [x] Migrer `src/pages/ressources/silo/[...slug].astro` en SSG via props statiques agrégées
+- [x] Migrer `src/pages/ressources/outils/[...slug].astro` en SSG, avec `[]` possible si collection vide
+- [x] Migrer `src/pages/bienvenue/[...slug].astro` en SSG sur les pages `template: welcome`
+- [x] Ne pas toucher `src/pages/[...slug].astro`
+- [x] Ne pas toucher `src/pages/api/**`
+- [x] Vérifier avec `pnpm exec astro check`
+- [x] Vérifier avec `pnpm build`
+- [x] Vérifier le nombre de routes pré-rendues : 105
+- [x] Créer le marker `/tmp/codex-missions/waimia-v4/V8I-DONE.md`
+
 ## V9-C — GEO structured data + llms.txt enrichi
 
 - [x] Lire les leçons existantes avant modification

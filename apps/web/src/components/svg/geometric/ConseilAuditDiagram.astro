@@ -1,0 +1,71 @@
+---
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+const accentColor = 'var(--waimia-accent, #C94F2E)';
+---
+<svg
+  viewBox="0 0 560 360"
+  preserveAspectRatio="xMidYMid meet"
+  class:list={['conseil-diagram', compact && 'conseil-diagram-compact']}
+  role="img"
+  aria-label="Conseil Waimia : 7 expertises autour d'un centre de conseil stratégique"
+>
+  <defs>
+    <style>
+      .cm { font-family: JetBrains Mono, ui-monospace, SFMono-Regular, monospace; }
+      .cs { font-family: Instrument Serif, Georgia, serif; font-style: italic; }
+    </style>
+  </defs>
+
+  <line x1="280" y1="200" x2="169" y2="264" stroke="currentColor" stroke-width="0.8" opacity="0.22" vector-effect="non-scaling-stroke"/>
+  <line x1="280" y1="200" x2="154" y2="178" stroke="currentColor" stroke-width="0.8" opacity="0.22" vector-effect="non-scaling-stroke"/>
+  <line x1="280" y1="200" x2="198" y2="102" stroke="currentColor" stroke-width="0.8" opacity="0.22" vector-effect="non-scaling-stroke"/>
+  <line x1="280" y1="200" x2="280" y2="72" stroke="currentColor" stroke-width="0.8" opacity="0.22" vector-effect="non-scaling-stroke"/>
+  <line x1="280" y1="200" x2="362" y2="102" stroke="currentColor" stroke-width="0.8" opacity="0.22" vector-effect="non-scaling-stroke"/>
+  <line x1="280" y1="200" x2="406" y2="178" stroke="currentColor" stroke-width="0.8" opacity="0.22" vector-effect="non-scaling-stroke"/>
+  <line x1="280" y1="200" x2="391" y2="264" stroke="currentColor" stroke-width="0.8" opacity="0.22" vector-effect="non-scaling-stroke"/>
+
+  <circle cx="169" cy="264" r="28" fill="var(--paper-2, #F6F1E8)" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <text x="169" y="268" text-anchor="middle" class="cm" font-size="9" letter-spacing="0.8" fill="currentColor">Audit</text>
+  <text x="169" y="308" text-anchor="middle" class="cm" font-size="8" letter-spacing="0.6" fill="currentColor" opacity="0.46">01</text>
+
+  <circle cx="154" cy="178" r="28" fill="var(--paper-2, #F6F1E8)" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <text x="154" y="182" text-anchor="middle" class="cm" font-size="9" letter-spacing="0.8" fill="currentColor">Roadmap</text>
+  <text x="104" y="178" text-anchor="middle" class="cm" font-size="8" letter-spacing="0.6" fill="currentColor" opacity="0.46">02</text>
+
+  <circle cx="198" cy="102" r="28" fill="var(--paper-2, #F6F1E8)" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <text x="198" y="106" text-anchor="middle" class="cm" font-size="9" letter-spacing="0.8" fill="currentColor">Gouvernance</text>
+  <text x="198" y="62" text-anchor="middle" class="cm" font-size="8" letter-spacing="0.6" fill="currentColor" opacity="0.46">03</text>
+
+  <circle cx="280" cy="72" r="28" fill="var(--paper-2, #F6F1E8)" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <text x="280" y="76" text-anchor="middle" class="cm" font-size="9" letter-spacing="0.8" fill="currentColor">Dette</text>
+  <text x="280" y="32" text-anchor="middle" class="cm" font-size="8" letter-spacing="0.6" fill="currentColor" opacity="0.46">04</text>
+
+  <circle cx="362" cy="102" r="28" fill="var(--paper-2, #F6F1E8)" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <text x="362" y="106" text-anchor="middle" class="cm" font-size="9" letter-spacing="0.8" fill="currentColor">RPA</text>
+  <text x="362" y="62" text-anchor="middle" class="cm" font-size="8" letter-spacing="0.6" fill="currentColor" opacity="0.46">05</text>
+
+  <circle cx="406" cy="178" r="28" fill="var(--paper-2, #F6F1E8)" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <text x="406" y="182" text-anchor="middle" class="cm" font-size="9" letter-spacing="0.8" fill="currentColor">FinOps</text>
+  <text x="456" y="178" text-anchor="middle" class="cm" font-size="8" letter-spacing="0.6" fill="currentColor" opacity="0.46">06</text>
+
+  <circle cx="391" cy="264" r="28" fill="var(--paper-2, #F6F1E8)" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <text x="391" y="268" text-anchor="middle" class="cm" font-size="9" letter-spacing="0.8" fill="currentColor">Cyber</text>
+  <text x="391" y="308" text-anchor="middle" class="cm" font-size="8" letter-spacing="0.6" fill="currentColor" opacity="0.46">07</text>
+
+  <circle cx="280" cy="200" r="44" fill="var(--paper-2, #F6F1E8)" stroke={accentColor} stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+  <text x="280" y="196" text-anchor="middle" class="cm" font-size="11" letter-spacing="1.4" fill={accentColor}>CONSEIL</text>
+  <text x="280" y="218" text-anchor="middle" class="cs" font-size="20" fill="currentColor">Waimia</text>
+</svg>
+<style>
+  .conseil-diagram {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    margin-inline: auto;
+    color: var(--ink, #0c0b09);
+  }
+  .conseil-diagram-compact { max-width: 480px; }
+</style>

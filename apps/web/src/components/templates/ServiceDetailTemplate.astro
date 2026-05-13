@@ -164,7 +164,7 @@ const hasProof = proofQuoteFr && proofQuoteEn && proofMetrics;
 
 <style>
   .svc-masthead { padding: 140px 32px 0; }
-  :global(.svc-num) { display: block; margin-bottom: 20px; }
+  :global(.svc-num) { display: block; margin-bottom: var(--space-5); }
   .svc-h1 {
     font-family: var(--font-display);
     font-size: clamp(56px, 9vw, 156px);
@@ -241,7 +241,7 @@ const hasProof = proofQuoteFr && proofQuoteEn && proofMetrics;
     margin: 0 0 clamp(28px, 3vw, 44px);
   }
 
-  :global(.svc-related-k) { display: block; margin-bottom: 30px; }
+  :global(.svc-related-k) { display: block; margin-bottom: var(--space-6); }
 
   @media (max-width: 900px) {
     .svc-section-hd { grid-template-columns: 1fr; }

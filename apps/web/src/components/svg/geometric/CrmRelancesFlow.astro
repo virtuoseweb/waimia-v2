@@ -1,0 +1,86 @@
+---
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+const accentColor = 'var(--waimia-accent, #C94F2E)';
+---
+<svg
+  viewBox="0 0 720 220"
+  preserveAspectRatio="xMidYMid meet"
+  class:list={['crm-relances-flow', compact && 'crm-relances-flow-compact']}
+  role="img"
+  aria-label="Flux CRM et relances : Lead, Scoring IA, Séquence email, Action humaine"
+>
+  <rect x="40" y="74" width="130" height="72" fill="var(--paper-2, #F6F1E8)"
+    stroke="currentColor" stroke-width="1"
+    vector-effect="non-scaling-stroke"/>
+  <text x="54" y="100"
+    font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace"
+    font-size="11" letter-spacing="1.4"
+    fill="currentColor">LEAD</text>
+  <text x="54" y="128"
+    font-family="Instrument Serif, Georgia, serif" font-style="italic"
+    font-size="18" fill="currentColor">entrant CRM</text>
+
+  <line x1="170" y1="110" x2="208" y2="110" stroke={accentColor} stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <path d="M204 106 L208 110 L204 114" fill="none" stroke={accentColor} stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+
+  <rect x="210" y="74" width="130" height="72" fill="var(--paper-2, #F6F1E8)"
+    stroke="currentColor" stroke-width="1"
+    vector-effect="non-scaling-stroke"/>
+  <text x="224" y="100"
+    font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace"
+    font-size="11" letter-spacing="1.4"
+    fill="currentColor">SCORING</text>
+  <text x="224" y="128"
+    font-family="Instrument Serif, Georgia, serif" font-style="italic"
+    font-size="18" fill="currentColor">modèle Claude</text>
+
+  <line x1="340" y1="110" x2="378" y2="110" stroke={accentColor} stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <path d="M374 106 L378 110 L374 114" fill="none" stroke={accentColor} stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+
+  <rect x="380" y="74" width="130" height="72" fill="var(--paper-2, #F6F1E8)"
+    stroke="currentColor" stroke-width="1"
+    vector-effect="non-scaling-stroke"/>
+  <text x="394" y="100"
+    font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace"
+    font-size="11" letter-spacing="1.4"
+    fill="currentColor">SÉQUENCE</text>
+  <text x="394" y="128"
+    font-family="Instrument Serif, Georgia, serif" font-style="italic"
+    font-size="18" fill="currentColor">email + tâche</text>
+
+  <line x1="510" y1="110" x2="548" y2="110" stroke={accentColor} stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <path d="M544 106 L548 110 L544 114" fill="none" stroke={accentColor} stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+
+  <rect x="550" y="74" width="130" height="72" fill="var(--paper-2, #F6F1E8)"
+    stroke={accentColor} stroke-width="1.5"
+    vector-effect="non-scaling-stroke"/>
+  <text x="564" y="100"
+    font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace"
+    font-size="11" letter-spacing="1.4"
+    fill={accentColor}>ACTION</text>
+  <text x="564" y="128"
+    font-family="Instrument Serif, Georgia, serif" font-style="italic"
+    font-size="18" fill="currentColor">humaine</text>
+
+  <path d="M615 146 C615 180 275 180 275 146"
+    fill="none" stroke="currentColor" stroke-width="0.8"
+    stroke-dasharray="4 3" stroke-linecap="round"
+    vector-effect="non-scaling-stroke" opacity="0.3"/>
+  <path d="M271 142 L275 146 L279 142" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.3"/>
+  <text x="445" y="196" text-anchor="middle"
+    font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace"
+    font-size="9" letter-spacing="0.8" fill="currentColor" opacity="0.35">feedback</text>
+</svg>
+<style>
+  .crm-relances-flow {
+    display: block;
+    width: 100%;
+    max-width: 800px;
+    margin-inline: auto;
+    color: var(--ink, #0c0b09);
+  }
+  .crm-relances-flow-compact { max-width: 640px; }
+</style>

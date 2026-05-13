@@ -1,0 +1,55 @@
+---
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+const accentColor = 'var(--waimia-accent, #C94F2E)';
+---
+<svg
+  viewBox="0 0 800 160"
+  preserveAspectRatio="xMidYMid meet"
+  class:list={['growth-diagram', compact && 'growth-diagram-compact']}
+  role="img"
+  aria-label="Pipeline de croissance Waimia : Site, CRM, Relances, Mesure"
+>
+  <line x1="60" y1="80" x2="680" y2="80" stroke="currentColor" stroke-width="0.8" opacity="0.18" vector-effect="non-scaling-stroke"/>
+
+  <rect x="60" y="42" width="140" height="76" fill="var(--paper-2, #F6F1E8)" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <text x="76" y="68" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="10" letter-spacing="1.4" fill="currentColor">SITE</text>
+  <text x="76" y="96" font-family="Instrument Serif, Georgia, serif" font-style="italic" font-size="18" fill="currentColor">capture &amp; tracking</text>
+  <text x="130" y="34" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="9" letter-spacing="1" fill="currentColor" opacity="0.5">01</text>
+
+  <path d="M200 80 L214 80" stroke="currentColor" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.4"/>
+  <path d="M210 76 L214 80 L210 84" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.4"/>
+
+  <rect x="220" y="42" width="140" height="76" fill="var(--paper-2, #F6F1E8)" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <text x="236" y="68" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="10" letter-spacing="1.4" fill="currentColor">CRM</text>
+  <text x="236" y="96" font-family="Instrument Serif, Georgia, serif" font-style="italic" font-size="18" fill="currentColor">segmentation IA</text>
+  <text x="290" y="34" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="9" letter-spacing="1" fill="currentColor" opacity="0.5">02</text>
+
+  <path d="M360 80 L374 80" stroke="currentColor" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.4"/>
+  <path d="M370 76 L374 80 L370 84" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.4"/>
+
+  <rect x="380" y="42" width="140" height="76" fill="var(--paper-2, #F6F1E8)" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <text x="396" y="68" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="10" letter-spacing="1.4" fill="currentColor">RELANCES</text>
+  <text x="396" y="96" font-family="Instrument Serif, Georgia, serif" font-style="italic" font-size="18" fill="currentColor">séquences auto</text>
+  <text x="450" y="34" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="9" letter-spacing="1" fill="currentColor" opacity="0.5">03</text>
+
+  <path d="M520 80 L534 80" stroke="currentColor" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.4"/>
+  <path d="M530 76 L534 80 L530 84" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.4"/>
+
+  <rect x="540" y="42" width="140" height="76" fill="var(--paper-2, #F6F1E8)" stroke={accentColor} stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <text x="556" y="68" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="10" letter-spacing="1.4" fill={accentColor}>MESURE</text>
+  <text x="556" y="96" font-family="Instrument Serif, Georgia, serif" font-style="italic" font-size="18" fill="currentColor">attribution ROI</text>
+  <text x="610" y="34" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="9" letter-spacing="1" fill={accentColor} opacity="0.5">04</text>
+</svg>
+<style>
+  .growth-diagram {
+    display: block;
+    width: 100%;
+    max-width: 880px;
+    margin-inline: auto;
+    color: var(--ink, #0c0b09);
+  }
+  .growth-diagram-compact { max-width: 640px; }
+</style>

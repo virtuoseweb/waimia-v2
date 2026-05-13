@@ -186,8 +186,8 @@ const isFr = lang === 'fr';
 <style>
   .hub-masthead { padding: 140px 32px 0; }
   /* :global parce que les Kicker sont rendus par sous-composants */
-  :global(.hub-meta) { display: inline-flex; gap: 8px; margin-bottom: 18px; }
-  :global(.hub-num) { display: block; margin-bottom: 20px; }
+  :global(.hub-meta) { display: inline-flex; gap: 8px; margin-bottom: var(--space-5); }
+  :global(.hub-num) { display: block; margin-bottom: var(--space-5); }
   .hub-h1 {
     font-family: var(--font-display);
     font-size: clamp(64px, 13vw, 200px);
@@ -259,7 +259,7 @@ const isFr = lang === 'fr';
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 30px;
+    margin-bottom: var(--space-6);
     padding-bottom: 14px;
     border-bottom: 1px solid var(--ink);
     flex-wrap: wrap;
@@ -287,7 +287,7 @@ const isFr = lang === 'fr';
     background: var(--ink);
     color: var(--paper);
   }
-  :global(.hub-fit-kicker) { display: block; margin-bottom: 30px; }
+  :global(.hub-fit-kicker) { display: block; margin-bottom: var(--space-6); }
   .hub-fit-h2 {
     font-family: var(--font-display);
     font-size: clamp(48px, 7vw, 112px);
@@ -322,7 +322,7 @@ const isFr = lang === 'fr';
   }
 
   .hub-related { padding: clamp(80px, 10vw, 120px) 32px; }
-  :global(.hub-related-kicker) { display: block; margin-bottom: 30px; }
+  :global(.hub-related-kicker) { display: block; margin-bottom: var(--space-6); }
   :global(.hub-related-grid .related-card) {
     border-top: 1px solid var(--hairline-strong);
     transition: background 240ms var(--ease), transform 320ms var(--ease);

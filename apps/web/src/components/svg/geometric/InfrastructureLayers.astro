@@ -1,0 +1,45 @@
+---
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+const accentColor = 'var(--waimia-accent, #C94F2E)';
+---
+<svg
+  viewBox="0 0 520 340"
+  preserveAspectRatio="xMidYMid meet"
+  class:list={['infra-diagram', compact && 'infra-diagram-compact']}
+  role="img"
+  aria-label="Infrastructure Waimia en 3 couches : Compute, Storage, Agents"
+>
+  <rect x="60" y="40" width="400" height="72" fill="var(--paper-2, #F6F1E8)" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <text x="88" y="66" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="11" letter-spacing="1.4" fill="currentColor">COMPUTE</text>
+  <text x="88" y="95" font-family="Instrument Serif, Georgia, serif" font-style="italic" font-size="20" fill="currentColor">infrastructure cloud</text>
+  <text x="432" y="60" text-anchor="end" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="9" letter-spacing="1" fill="currentColor" opacity="0.46">01</text>
+
+  <line x1="260" y1="112" x2="260" y2="150" stroke={accentColor} stroke-width="1" opacity="0.46" vector-effect="non-scaling-stroke"/>
+  <path d="M256 146 L260 150 L264 146" fill="none" stroke={accentColor} stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.46"/>
+
+  <rect x="60" y="150" width="400" height="72" fill="var(--paper-2, #F6F1E8)" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
+  <text x="88" y="176" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="11" letter-spacing="1.4" fill="currentColor">STORAGE</text>
+  <text x="88" y="205" font-family="Instrument Serif, Georgia, serif" font-style="italic" font-size="20" fill="currentColor">données &amp; mémoire</text>
+  <text x="432" y="170" text-anchor="end" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="9" letter-spacing="1" fill="currentColor" opacity="0.46">02</text>
+
+  <line x1="260" y1="222" x2="260" y2="260" stroke={accentColor} stroke-width="1" opacity="0.46" vector-effect="non-scaling-stroke"/>
+  <path d="M256 256 L260 260 L264 256" fill="none" stroke={accentColor} stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.46"/>
+
+  <rect x="60" y="260" width="400" height="72" fill="var(--paper-2, #F6F1E8)" stroke={accentColor} stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+  <text x="88" y="286" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="11" letter-spacing="1.4" fill={accentColor}>AGENTS</text>
+  <text x="88" y="315" font-family="Instrument Serif, Georgia, serif" font-style="italic" font-size="20" fill="currentColor">orchestration IA</text>
+  <text x="432" y="280" text-anchor="end" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace" font-size="9" letter-spacing="1" fill={accentColor} opacity="0.5">03</text>
+</svg>
+<style>
+  .infra-diagram {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    margin-inline: auto;
+    color: var(--ink, #0c0b09);
+  }
+  .infra-diagram-compact { max-width: 480px; }
+</style>
