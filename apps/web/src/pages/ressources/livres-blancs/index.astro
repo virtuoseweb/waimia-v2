@@ -1,0 +1,138 @@
+---
+// Hub /ressources/livres-blancs · liste les livres blancs publies + empty state
+export const prerender = true;
+
+import UtilityTemplate from '../../../components/templates/UtilityTemplate.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import Button from '../../../components/ui/atoms/Button.astro';
+import { langFromPath } from '../../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+
+// Livres blancs disponibles (page statique + futurs depuis collection)
+const livresBlancs = [
+  {
+    href: '/ressources/livres-blancs/ai-act-readiness',
+    kicker: 'LIVRE BLANC · 01',
+    title_fr: "Préparation à l'AI Act",
+    title_en: 'AI Act Readiness',
+    lead_fr: 'Dossier de conformité complet pour anticiper l\'AI Act avant de lancer un projet IA opérationnel.',
+    lead_en: 'Complete compliance dossier to anticipate the AI Act before launching an operational AI project.',
+    pages: '24 pages',
+  },
+];
+---
+
+<UtilityTemplate
+  title={lang === 'fr' ? 'Livres blancs · Waimia' : 'White papers · Waimia'}
+  description={lang === 'fr'
+    ? 'Dossiers de fond signés Waimia : conformité, gouvernance, méthode. Téléchargeables sans funnel commercial.'
+    : 'In-depth dossiers signed Waimia: compliance, governance, method. Downloadable without sales funnel.'}
+  kicker={lang === 'fr' ? '§ Hub · Livres blancs' : '§ Hub · White papers'}
+  align="left"
+>
+  <Fragment slot="headline">
+    {lang === 'fr' ? (
+      <>Des <i>dossiers</i>. Pas des brochures.</>
+    ) : (
+      <>Real <i>dossiers</i>. Not brochures.</>
+    )}
+  </Fragment>
+  <Fragment slot="lede">
+    {lang === 'fr'
+      ? 'Documents de fond, signés, datés. Vous repartez avec un PDF utile — pas avec une séquence email de relance.'
+      : 'In-depth documents, signed, dated. You leave with a useful PDF — not with a follow-up email sequence.'}
+  </Fragment>
+
+  <Fragment slot="body">
+    <ul class="lb-list">
+      {livresBlancs.map((lb) => (
+        <li class="lb-item">
+          <a href={lb.href} class="lb-link">
+            <span class="lb-kicker">{lb.kicker}</span>
+            <span class="lb-title">{lang === 'fr' ? lb.title_fr : lb.title_en}</span>
+            <span class="lb-lead">{lang === 'fr' ? lb.lead_fr : lb.lead_en}</span>
+            <span class="lb-meta">{lb.pages} · {lang === 'fr' ? 'Téléchargement gratuit' : 'Free download'} →</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="lb-empty">
+      <Kicker tone="accent" class="lb-empty-k">§ {lang === 'fr' ? 'En préparation' : 'In progress'}</Kicker>
+      <p class="lb-empty-text">
+        {lang === 'fr'
+          ? "D'autres dossiers arrivent : gouvernance des données, RPA-vers-agents, méthode Process Intelligence. Si un sujet vous intéresse, dites-le."
+          : 'More dossiers coming: data governance, RPA-to-agents, Process Intelligence method. If a topic interests you, say so.'}
+      </p>
+      <Button href={lang === 'fr' ? '/contact' : '/en/contact'} variant="ghost" size="md">
+        {lang === 'fr' ? 'Suggérer un sujet →' : 'Suggest a topic →'}
+      </Button>
+    </div>
+  </Fragment>
+</UtilityTemplate>
+
+<style>
+  .lb-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-8);
+    border-top: 1px solid var(--hairline-strong);
+  }
+  .lb-item {
+    border-bottom: 1px solid var(--hairline);
+  }
+  .lb-link {
+    display: grid;
+    gap: var(--space-2);
+    padding: var(--space-6) 0;
+    color: var(--ink);
+    text-decoration: none;
+    transition: padding-left 220ms var(--ease);
+  }
+  .lb-link:hover {
+    padding-left: var(--space-2);
+  }
+  .lb-kicker {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .lb-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.1;
+    font-style: italic;
+    color: var(--ink);
+  }
+  .lb-lead {
+    font-family: var(--font-display);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 60ch;
+  }
+  .lb-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-top: var(--space-1);
+  }
+  .lb-empty {
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--hairline);
+    max-width: 60ch;
+  }
+  .lb-empty-k { display: block; margin-bottom: var(--space-3); }
+  .lb-empty-text {
+    font-family: var(--font-display);
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    margin: 0 0 var(--space-4);
+    font-style: italic;
+  }
+</style>

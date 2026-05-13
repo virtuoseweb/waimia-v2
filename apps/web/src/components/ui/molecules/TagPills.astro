@@ -1,34 +1,57 @@
 ---
 interface Props {
   tags?: string[];
+  cluster?: string;
+  clusterLabel?: string;
+  lang?: 'fr' | 'en';
 }
 
-const { tags = [] } = Astro.props;
+const { tags = [], cluster, clusterLabel } = Astro.props;
 
-if (tags.length === 0) return null;
+if (!cluster && tags.length === 0) return Astro.redirect('');
 ---
 
 <div class="tag-pills">
-  {
-    tags.map((tag) => (
-      <a href={`/ressources/tag/${tag}`} class="tag-pill">#{tag}</a>
-    ))
-  }
+  {cluster && (
+    <a href={`/ressources/silo/${cluster}`} class="tag-pill tag-pill--cluster">
+      {clusterLabel ?? cluster}
+    </a>
+  )}
+  {tags.map((tag) => (
+    <a href={`/ressources/tag/${tag}`} class="tag-pill">#{tag}</a>
+  ))}
 </div>
 
 <style>
-  .tag-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; }
+  .tag-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 24px 0;
+  }
   .tag-pill {
     font-family: var(--font-mono);
     font-size: 11px;
-    letter-spacing: .08em;
+    letter-spacing: 0.08em;
     color: var(--muted);
-    background: rgba(0,0,0,.04);
-    border: 1px solid rgba(0,0,0,.08);
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 999px;
     padding: 6px 12px;
     text-decoration: none;
     transition: border-color 220ms, color 220ms;
   }
-  .tag-pill:hover { border-color: var(--accent); color: var(--accent); }
+  .tag-pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .tag-pill--cluster {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .tag-pill--cluster:hover {
+    background: transparent;
+    color: var(--accent);
+  }
 </style>

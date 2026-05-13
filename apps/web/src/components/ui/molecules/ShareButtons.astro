@@ -1,0 +1,100 @@
+---
+interface Props {
+  url: string;
+  title: string;
+  lang?: 'fr' | 'en';
+}
+
+const { url, title, lang = 'fr' } = Astro.props;
+const twitterHref = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
+const linkedinHref = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+const copyLabel = lang === 'en' ? 'Copy link' : 'Copier le lien';
+const shareLabel = lang === 'en' ? 'Share' : 'Partager';
+---
+
+<div class="share-wrap">
+  <span class="share-label">{shareLabel}</span>
+  <a
+    href={twitterHref}
+    class="share-link"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Partager sur Twitter"
+  >Twitter</a>
+  <a
+    href={linkedinHref}
+    class="share-link"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Partager sur LinkedIn"
+  >LinkedIn</a>
+  <button
+    class="share-copy"
+    data-url={url}
+    type="button"
+    aria-label={copyLabel}
+  >{copyLabel}</button>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.share-copy').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const shareUrl = btn.dataset.url ?? location.href;
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+      } catch {
+        const input = document.createElement('input');
+        input.value = shareUrl;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+      }
+      btn.classList.add('share-copy--copied');
+      const prev = btn.textContent ?? '';
+      btn.textContent = 'Copié !';
+      setTimeout(() => {
+        btn.classList.remove('share-copy--copied');
+        btn.textContent = prev;
+      }, 1800);
+    });
+  });
+</script>
+
+<style>
+  .share-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .share-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-right: 4px;
+  }
+  .share-link,
+  .share-copy {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--hairline);
+    padding: 6px 14px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 150ms, border-color 150ms;
+    line-height: 1;
+  }
+  .share-link:hover,
+  .share-copy:hover,
+  .share-copy--copied {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+</style>

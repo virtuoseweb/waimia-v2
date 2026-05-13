@@ -16,9 +16,11 @@
 // passées en prop). Si un autre template a besoin d'un TOC sticky, on extrait alors.
 
 import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
 import Bi from '../ui/atoms/Bi.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
 import CtaBand from '../ui/organisms/CtaBand.astro';
+import { langFromPath } from '../../lib/i18n';
 
 interface Section {
   /** Anchor id (slug) */
@@ -41,8 +43,19 @@ interface Props {
   sections: Section[];
 }
 const { title, description, kickerFr, kickerEn, revisedAt, version, sections } = Astro.props as Props;
+
+const lang = langFromPath(Astro.url.pathname);
+const isFr = lang === 'fr';
 ---
 <Base title={title} description={description}>
+  <Breadcrumb
+    lang={lang}
+    items={[
+      { label: isFr ? 'Accueil' : 'Home', href: isFr ? '/' : '/en' },
+      { label: isFr ? "L'Agence" : 'The Agency', href: isFr ? '/agence' : '/en/agence' },
+      { label: isFr ? kickerFr : kickerEn },
+    ]}
+  />
   {/* MASTHEAD */}
   <section class="trust-hd">
     <div class="wrap-wide">

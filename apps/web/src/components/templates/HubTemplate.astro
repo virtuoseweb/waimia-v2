@@ -19,6 +19,7 @@
 //              (molecules) · CtaBand (organism).
 
 import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
 import Bi from '../ui/atoms/Bi.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
 import ChapterLabel from '../ui/atoms/ChapterLabel.astro';
@@ -77,8 +78,26 @@ const {
 
 const lang = langFromPath(Astro.url.pathname);
 const isFr = lang === 'fr';
+
+// Derive parent section from URL (/technologies/* or /offres/*)
+const path = Astro.url.pathname;
+const isTech = path.includes('/technologies/');
+const parentLabel = isTech
+  ? (isFr ? 'Technologies' : 'Technologies')
+  : (isFr ? 'Offres' : 'Services');
+const parentHref = isTech
+  ? (isFr ? '/technologies' : '/en/technologies')
+  : (isFr ? '/offres' : '/en/offres');
 ---
 <Base title={title} description={description}>
+  <Breadcrumb
+    lang={lang}
+    items={[
+      { label: isFr ? 'Accueil' : 'Home', href: isFr ? '/' : '/en' },
+      { label: parentLabel, href: parentHref },
+      { label: title.split(' · ')[0] },
+    ]}
+  />
   {/* MASTHEAD */}
   <section class="hub-masthead">
     <div class="wrap-wide">

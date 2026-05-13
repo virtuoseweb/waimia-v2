@@ -7,6 +7,7 @@ export const prerender = true;
  * Page FR M2 consommant SolutionsDetailTemplate sans modifier le template.
  */
 import SolutionsDetailTemplate from '../../components/templates/SolutionsDetailTemplate.astro';
+import CrmRelancesFlow from '../../components/svg/geometric/CrmRelancesFlow.astro';
 ---
 <SolutionsDetailTemplate
   dept="CRM & RELANCES"
@@ -35,6 +36,12 @@ import SolutionsDetailTemplate from '../../components/templates/SolutionsDetailT
     <div class="wf-row"><div class="wf-n">02</div><div class="wf-name"><span class="wf-k">Relances</span><h3>Séquences contextuelles</h3></div><div class="wf-model">Claude Sonnet 4.6<br/>+ Email</div><div class="wf-gain">+67%</div><div class="wf-how">Relances qui adaptent le ton, le moment et l'angle au comportement du lead. Pas de templates aveugles.</div></div>
     <div class="wf-row"><div class="wf-n">03</div><div class="wf-name"><span class="wf-k">Qualification</span><h3>Scoring continu pipeline</h3></div><div class="wf-model">Claude Sonnet 4.6<br/>+ CRM</div><div class="wf-gain">3×</div><div class="wf-how">Chaque interaction ré-évalue le score et change la priorité dans le pipeline du commercial.</div></div>
     <div class="wf-row"><div class="wf-n">04</div><div class="wf-name"><span class="wf-k">Pilotage</span><h3>Forecast IA temps réel</h3></div><div class="wf-model">Claude Opus 4.7<br/>+ Data layer</div><div class="wf-gain">−89%</div><div class="wf-how">Le forecast pipeline se met à jour en continu. Le CODIR voit où on en est sans demander.</div></div>
+  </Fragment>
+
+  <Fragment slot="workflows-aside">
+    <div style="padding: clamp(24px,4vw,48px) 0; max-width: 800px; margin-inline: auto;">
+      <CrmRelancesFlow />
+    </div>
   </Fragment>
 
   <Fragment slot="roi">

@@ -7,6 +7,7 @@ export const prerender = true;
  * Page FR M2 consommant SolutionsDetailTemplate sans modifier le template.
  */
 import SolutionsDetailTemplate from '../../components/templates/SolutionsDetailTemplate.astro';
+import ContenuGeoMap from '../../components/svg/geometric/ContenuGeoMap.astro';
 ---
 <SolutionsDetailTemplate
   dept="CONTENU SEO / GEO"
@@ -35,6 +36,12 @@ import SolutionsDetailTemplate from '../../components/templates/SolutionsDetailT
     <div class="wf-row"><div class="wf-n">02</div><div class="wf-name"><span class="wf-k">GEO</span><h3>Fiches GEO-ready</h3></div><div class="wf-model">Claude Sonnet 4.6<br/>+ Schema.org</div><div class="wf-gain">+320%</div><div class="wf-how">Fiches structurées en JSON-LD, formats que les IA citent en source. Les pages où votre expertise rencontre les requêtes utilisateur.</div></div>
     <div class="wf-row"><div class="wf-n">03</div><div class="wf-name"><span class="wf-k">Indexation</span><h3>Soumission auto + monitoring</h3></div><div class="wf-model">Claude Haiku 4.5<br/>+ Search Console</div><div class="wf-gain">−85%</div><div class="wf-how">Soumission, suivi d'indexation, alerte sur déclassement, plan de correction. Pas de SEO oublié.</div></div>
     <div class="wf-row"><div class="wf-n">04</div><div class="wf-name"><span class="wf-k">Brand</span><h3>Mentions et citations</h3></div><div class="wf-model">Claude Sonnet 4.6<br/>+ Mentions APIs</div><div class="wf-gain">×2,8</div><div class="wf-how">Détection des opportunités de mention, génération de PR digitales, suivi de la couverture média et IA.</div></div>
+  </Fragment>
+
+  <Fragment slot="workflows-aside">
+    <div style="padding: clamp(24px,4vw,48px) 0; max-width: 560px; margin-inline: auto;">
+      <ContenuGeoMap />
+    </div>
   </Fragment>
 
   <Fragment slot="roi">

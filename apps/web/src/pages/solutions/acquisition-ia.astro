@@ -7,6 +7,7 @@ export const prerender = true;
  * Page FR M2 consommant SolutionsDetailTemplate sans modifier le template.
  */
 import SolutionsDetailTemplate from '../../components/templates/SolutionsDetailTemplate.astro';
+import AcquisitionFunnel from '../../components/svg/geometric/AcquisitionFunnel.astro';
 ---
 <SolutionsDetailTemplate
   dept="ACQUISITION"
@@ -77,6 +78,12 @@ import SolutionsDetailTemplate from '../../components/templates/SolutionsDetailT
       <div class="wf-model">Claude Sonnet 4.6<br/>+ Email infra</div>
       <div class="wf-gain">×3,1</div>
       <div class="wf-how">Séquences qui s'adaptent au comportement plutôt qu'au calendrier. Les leads froids redeviennent chauds en silence.</div>
+    </div>
+  </Fragment>
+
+  <Fragment slot="workflows-aside">
+    <div style="padding: clamp(24px,4vw,48px) 0; max-width: 540px; margin-inline: auto;">
+      <AcquisitionFunnel />
     </div>
   </Fragment>
 

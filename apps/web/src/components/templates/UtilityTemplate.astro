@@ -16,8 +16,15 @@
 // Composé de · Bi (atom) · Kicker (atom) · CtaBand (organism · optionnel)
 
 import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
 import CtaBand from '../ui/organisms/CtaBand.astro';
+import { langFromPath } from '../../lib/i18n';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
 
 interface Props {
   title: string;
@@ -28,10 +35,28 @@ interface Props {
   align?: 'left' | 'centered';
   /** Afficher CtaBand en fin de page · défaut true */
   showCta?: boolean;
+  /** Breadcrumb items (optionnel) · si absent, deduit du pathname */
+  breadcrumb?: Crumb[];
 }
-const { title, description, kicker, align = 'left', showCta = true } = Astro.props as Props;
+const { title, description, kicker, align = 'left', showCta = true, breadcrumb } = Astro.props as Props;
+
+const lang = langFromPath(Astro.url.pathname);
+
+// Auto-deduction breadcrumb si non fourni (segments URL → labels capitalises)
+const autoCrumbs: Crumb[] = breadcrumb ?? (() => {
+  const segments = Astro.url.pathname.split('/').filter(s => s && s !== 'en');
+  if (segments.length === 0) return [];
+  const home: Crumb = { label: lang === 'fr' ? 'Accueil' : 'Home', href: lang === 'fr' ? '/' : '/en' };
+  const intermediate = segments.slice(0, -1).map((s, i) => ({
+    label: s.charAt(0).toUpperCase() + s.slice(1).replace(/-/g, ' '),
+    href: (lang === 'fr' ? '/' : '/en/') + segments.slice(0, i + 1).join('/'),
+  }));
+  const last: Crumb = { label: title.split(' · ')[0] };
+  return [home, ...intermediate, last];
+})();
 ---
 <Base title={title} description={description}>
+  {autoCrumbs.length > 0 && <Breadcrumb lang={lang} items={autoCrumbs} />}
   {/* MASTHEAD */}
   <section class:list={['util-hd', `util-hd-${align}`]}>
     <div class="wrap-wide">

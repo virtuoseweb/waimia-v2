@@ -5,6 +5,7 @@ export const prerender = true;
 // Mission M3 · 3 piliers + 2 niveaux · FR uniquement
 
 import OffresDetailTemplate from '../../components/templates/OffresDetailTemplate.astro';
+import InfrastructureLayers from '../../components/svg/geometric/InfrastructureLayers.astro';
 ---
 <OffresDetailTemplate
   tier="§ NIVEAU 02 · ETI"
@@ -53,6 +54,9 @@ import OffresDetailTemplate from '../../components/templates/OffresDetailTemplat
   <Fragment slot="cta-title"><i>Industrialiser</i><br/>l'IA à l'échelle.</Fragment>
   <Fragment slot="cta-body">90 minutes avec votre direction technique et opérationnelle. On audite vos pilots, on propose une architecture. Si on n'a rien à proposer, on le dit. On ne vend pas d'infra pour vendre de l'infra.</Fragment>
   <Fragment slot="body-end">
+    <div style="padding: clamp(48px,6vw,80px) 0; max-width: 640px; margin-inline: auto; padding-inline: clamp(20px,4vw,48px);">
+      <InfrastructureLayers />
+    </div>
     <script>
       import { initOffresRich } from '../../lib/animations/signature/offres-rich';
       if (document.readyState === 'loading') {

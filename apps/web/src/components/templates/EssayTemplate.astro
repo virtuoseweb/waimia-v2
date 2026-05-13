@@ -19,6 +19,10 @@ import AuthorCard from '../ui/molecules/AuthorCard.astro';
 import CtaBand from '../ui/organisms/CtaBand.astro';
 import { buildArticle } from '../../lib/seo/schema-builder';
 import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
+import TableOfContents from '../ui/molecules/TableOfContents.astro';
+import ShareButtons from '../ui/molecules/ShareButtons.astro';
+import RelatedByCluster from '../ui/molecules/RelatedByCluster.astro';
+import TagPills from '../ui/molecules/TagPills.astro';
 
 interface RelatedCard {
   kicker: string;
@@ -65,6 +69,12 @@ interface Props {
   relatedCasesData?: Array<{ id: string; title: string; href: string }>;
   /** Offres liées (cross-collection) */
   relatedOffresData?: Array<{ id: string; title: string; href: string }>;
+  /** Headings pour la table des matières (issus de render() Astro MDX) */
+  headings?: Array<{ depth: number; slug: string; text: string }>;
+  /** Cluster éditorial pour RelatedByCluster */
+  cluster?: string;
+  /** ID de l'article courant (pour exclure de RelatedByCluster) */
+  articleId?: string;
 }
 const {
   title,
@@ -86,6 +96,9 @@ const {
   lang = 'fr',
   relatedCasesData,
   relatedOffresData,
+  headings,
+  cluster,
+  articleId,
 } = Astro.props as Props;
 
 const siteUrl = 'https://waimia.com';
@@ -144,9 +157,39 @@ const articleLd = buildArticle({
 
     {/* BODY */}
     <div class="essay-body">
-      <div class={`essay-layout ${sources && sources.length > 0 ? 'essay-layout--with-aside' : ''}`}>
+      {(() => {
+        const hasSources = sources && sources.length > 0;
+        const hasToc = headings && headings.filter((h) => h.depth === 2 || h.depth === 3).length >= 2;
+        const layoutClass = hasToc && hasSources
+          ? 'essay-layout--three-col'
+          : hasToc
+          ? 'essay-layout--with-toc'
+          : hasSources
+          ? 'essay-layout--with-aside'
+          : '';
+        return null;
+      })()}
+      {/* Layout calculé dans les attributs inline ci-dessous */}
+      <div class:list={['essay-layout', {
+        'essay-layout--three-col': headings && headings.filter((h) => h.depth === 2 || h.depth === 3).length >= 2 && sources && sources.length > 0,
+        'essay-layout--with-toc': headings && headings.filter((h) => h.depth === 2 || h.depth === 3).length >= 2 && !(sources && sources.length > 0),
+        'essay-layout--with-aside': !(headings && headings.filter((h) => h.depth === 2 || h.depth === 3).length >= 2) && sources && sources.length > 0,
+      }]}>
+        {headings && headings.filter((h) => h.depth === 2 || h.depth === 3).length >= 2 && (
+          <aside class="essay-toc">
+            <TableOfContents headings={headings} lang={lang} />
+          </aside>
+        )}
         <div class="essay-prose reveal">
           <slot name="body" />
+          <div class="essay-share-end">
+            <ShareButtons url={canonicalUrl} title={title} lang={lang} />
+          </div>
+          {tags.length > 0 && (
+            <div class="essay-tags-end">
+              <TagPills tags={tags} cluster={cluster} lang={lang} />
+            </div>
+          )}
         </div>
         {sources && sources.length > 0 && (
           <aside class="essay-sources">
@@ -165,6 +208,12 @@ const articleLd = buildArticle({
         )}
       </div>
     </div>
+
+    {cluster && (
+      <div class="wrap-wide essay-related-cluster">
+        <RelatedByCluster cluster={cluster} excludeId={articleId} limit={4} />
+      </div>
+    )}
 
     {/* FOOTER 3-COL · Related + Author + CTA */}
     <footer class="essay-footer reveal">
@@ -279,6 +328,40 @@ const articleLd = buildArticle({
   grid-template-columns: 1fr 260px;
   gap: clamp(40px, 5vw, 80px);
   align-items: start;
+}
+
+/* TOC sidebar layout */
+.essay-layout--with-toc {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: clamp(32px, 4vw, 64px);
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.essay-layout--three-col {
+  display: grid;
+  grid-template-columns: 220px 1fr 260px;
+  gap: clamp(32px, 4vw, 64px);
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.essay-toc {
+  position: sticky;
+  top: clamp(64px, 8vw, 100px);
+  align-self: start;
+}
+.essay-share-end {
+  margin: clamp(40px, 5vw, 64px) 0 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--hairline);
+}
+.essay-tags-end {
+  margin: 0;
+}
+.essay-related-cluster {
+  padding: 0 32px clamp(40px, 5vw, 64px);
 }
 
 /* ── Prose ────────────────────────────────────────────── */
@@ -563,6 +646,16 @@ const articleLd = buildArticle({
     padding-left: 0;
     padding-top: 24px;
     margin-top: 32px;
+  }
+  .essay-layout--with-toc,
+  .essay-layout--three-col {
+    grid-template-columns: 1fr;
+  }
+  .essay-toc {
+    position: static;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
   }
 }
 </style>

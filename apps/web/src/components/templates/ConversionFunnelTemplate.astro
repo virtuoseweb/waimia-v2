@@ -12,8 +12,10 @@
 // + briques éditoriales Callout · KeyMetric · Timeline · PullQuote · Dingbat.
 
 import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
 import Button from '../ui/atoms/Button.astro';
+import { langFromPath } from '../../lib/i18n';
 import PricingTier from '../ui/molecules/PricingTier.astro';
 import TechPillRow from '../ui/molecules/TechPillRow.astro';
 import RelatedCards from '../ui/molecules/RelatedCards.astro';
@@ -101,8 +103,40 @@ const faqLd = {
     acceptedAnswer: { '@type': 'Answer', text: item.a },
   })),
 };
+
+const lang = langFromPath(Astro.url.pathname);
+const offresHref = lang === 'fr' ? '/offres' : '/en/offres';
+const homeHref = lang === 'fr' ? '/' : '/en';
+
+// JSON-LD Service + Offer (GEO/AIO indexable par crawlers IA)
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: title.split(' · ')[0],
+  description,
+  provider: { '@id': 'https://waimia.com/#organization' },
+  areaServed: ['FR', 'CH', 'BE', 'LU'],
+  serviceType: 'AI Integration',
+};
+
+const offerLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Offer',
+  name: title.split(' · ')[0],
+  priceCurrency: 'EUR',
+  availability: 'https://schema.org/InStock',
+  url: 'https://waimia.com' + Astro.url.pathname,
+};
 ---
-<Base title={title} description={description} jsonLd={faqLd}>
+<Base title={title} description={description} jsonLd={[faqLd, serviceLd, offerLd]}>
+  <Breadcrumb
+    lang={lang}
+    items={[
+      { label: lang === 'fr' ? 'Accueil' : 'Home', href: homeHref },
+      { label: lang === 'fr' ? 'Offres' : 'Services', href: offresHref },
+      { label: title.split(' · ')[0] },
+    ]}
+  />
   {/* HERO MAGNÉTIQUE */}
   <section class="cf-hero">
     <div class="wrap-wide">

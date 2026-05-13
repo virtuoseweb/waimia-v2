@@ -4,6 +4,7 @@ export const prerender = true;
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import EssayTemplate from '../../../components/templates/EssayTemplate.astro';
 import AuthorByline from '../../../components/ui/molecules/AuthorByline.astro';
+import { computeReadingTime } from '../../../lib/seo/reading-time';
 
 export async function getStaticPaths() {
   const entries = await getCollection('blog');
@@ -46,13 +47,14 @@ const getAuthorLabel = (author: unknown): string | undefined => {
 };
 
 const { entry } = Astro.props as Props;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 const d = entry.data;
 
 const dateStr = d.publishedAt.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 const authorSlug = getAuthorSlug(d.author);
 const authorLabel = getAuthorLabel(d.author) ?? 'Waimia';
-const readingTime = d.readingTime ? `${d.readingTime} min lecture` : undefined;
+const computedMinutes = d.readingTime ?? computeReadingTime(entry.body ?? '');
+const readingTime = `${computedMinutes} min de lecture`;
 
 const allBlog = await getCollection('blog');
 const allCases = await getCollection('cases');
@@ -108,6 +110,9 @@ const relatedCards = d.relatedPosts.length > 0
   ]}
   relatedCasesData={relatedCasesData}
   relatedOffresData={relatedOffresData}
+  headings={headings}
+  cluster={d.cluster}
+  articleId={entry.id}
 >
   <Fragment slot="headline">{d.title_fr}</Fragment>
   <Fragment slot="lede">{d.description_fr}</Fragment>

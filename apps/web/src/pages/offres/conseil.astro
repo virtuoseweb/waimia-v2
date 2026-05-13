@@ -9,6 +9,7 @@ export const prerender = true;
 
 import HubTemplate from '../../components/templates/HubTemplate.astro';
 import ServiceCatalogRow from '../../components/ui/molecules/ServiceCatalogRow.astro';
+import ConseilAuditDiagram from '../../components/svg/geometric/ConseilAuditDiagram.astro';
 
 const stats = [
   { k: '43',    label_fr: 'interventions',   label_en: 'engagements' },
@@ -50,16 +51,16 @@ const services = [
 ];
 
 const fitYesItems = [
-  "You have a CRM nobody trusts and a warehouse that disagrees with it",
-  "Your GRC team needs audit trails your current AI stack can't produce",
-  "You tried a workshop-led consultancy and got a 72-slide deck",
-  "You have 50–500 EU employees and real governance obligations",
+  "Vous avez un CRM que personne ne croit et un entrepôt qui dit autre chose.",
+  "Votre équipe GRC réclame des traces d'audit que votre stack IA actuelle ne produit pas.",
+  "Vous avez essayé un cabinet de conseil piloté par ateliers — vous avez eu 72 slides.",
+  "Vous avez entre 50 et 500 collaborateurs en Europe et de vraies obligations de gouvernance.",
 ];
 const fitNoItems = [
-  "You want a logo for your innovation report",
-  "You need a chatbot by Friday",
-  "You want to train your own foundation model",
-  "You're looking for someone to run 12 workshops",
+  "Vous cherchez un logo pour votre rapport innovation.",
+  "Vous voulez un chatbot pour vendredi.",
+  "Vous voulez entraîner votre propre modèle de fondation.",
+  "Vous cherchez quelqu'un pour animer 12 ateliers.",
 ];
 
 const relatedCards = [
@@ -116,6 +117,9 @@ const relatedCards = [
         href={`/offres/${s.slug}`}
       />
     ))}
+    <div style="padding: clamp(48px,6vw,80px) 0 0; max-width: 640px; margin-inline: auto;">
+      <ConseilAuditDiagram />
+    </div>
   </Fragment>
 
   {/* FIT HEADLINE */}

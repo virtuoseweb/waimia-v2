@@ -1,0 +1,79 @@
+---
+// Hub /ressources/veille-ia · briefs hebdomadaires + empty state preuparation
+export const prerender = true;
+
+import UtilityTemplate from '../../../components/templates/UtilityTemplate.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import Button from '../../../components/ui/atoms/Button.astro';
+import { langFromPath } from '../../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+---
+
+<UtilityTemplate
+  title={lang === 'fr' ? 'Veille IA · synthèses hebdomadaires · Waimia' : 'AI watch · weekly briefs · Waimia'}
+  description={lang === 'fr'
+    ? "Veille IA signée Waimia : ce qui compte pour les PME chaque semaine. Sans bruit, sans hype, sans rappel commercial."
+    : 'AI watch signed Waimia: what matters for SMBs each week. No noise, no hype, no sales follow-up.'}
+  kicker={lang === 'fr' ? '§ Hub · Veille IA' : '§ Hub · AI watch'}
+  align="left"
+>
+  <Fragment slot="headline">
+    {lang === 'fr' ? (
+      <>Ce qui <i>compte</i>. Pas ce qui <i>buzz</i>.</>
+    ) : (
+      <>What <i>matters</i>. Not what <i>buzzes</i>.</>
+    )}
+  </Fragment>
+  <Fragment slot="lede">
+    {lang === 'fr'
+      ? 'Une lecture par semaine. Cinq minutes. Trois faits, une analyse, une action concrète à tester chez vous.'
+      : 'One read per week. Five minutes. Three facts, one analysis, one action to try at your shop.'}
+  </Fragment>
+
+  <Fragment slot="body">
+    <div class="vi-empty">
+      <Kicker tone="accent" class="vi-empty-k">§ {lang === 'fr' ? 'Lancement prochain' : 'Launching soon'}</Kicker>
+      <p class="vi-empty-text">
+        {lang === 'fr'
+          ? 'La veille hebdomadaire Waimia démarre bientôt. Pas de SaaS Notion partagé, pas de Twitter rerolled — une vraie synthèse écrite chaque vendredi pour les PME qui n\'ont pas le temps de tout suivre.'
+          : 'Waimia weekly watch starts soon. No shared Notion SaaS, no Twitter reroll — a real written synthesis every Friday for SMBs who don\'t have time to follow everything.'}
+      </p>
+      <p class="vi-empty-text">
+        {lang === 'fr'
+          ? 'En attendant, retrouvez nos essais et cookbooks longs format pour creuser un sujet en profondeur.'
+          : 'Meanwhile, find our essays and long-form cookbooks to dive deeper into a topic.'}
+      </p>
+      <div class="vi-cta-row">
+        <Button href={lang === 'fr' ? '/ressources/blog' : '/en/ressources/blog'} variant="primary" size="md">
+          {lang === 'fr' ? 'Lire le blog →' : 'Read the blog →'}
+        </Button>
+        <Button href={lang === 'fr' ? '/ressources/cookbooks' : '/en/ressources/cookbooks'} variant="ghost" size="md">
+          {lang === 'fr' ? 'Voir les cookbooks →' : 'See cookbooks →'}
+        </Button>
+      </div>
+    </div>
+  </Fragment>
+</UtilityTemplate>
+
+<style>
+  .vi-empty {
+    max-width: 60ch;
+    padding-top: var(--space-4);
+  }
+  .vi-empty-k { display: block; margin-bottom: var(--space-3); }
+  .vi-empty-text {
+    font-family: var(--font-display);
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0 0 var(--space-5);
+    font-style: italic;
+  }
+  .vi-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+</style>
