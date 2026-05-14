@@ -128,7 +128,7 @@ const tocEvents = toc.map((item, index) => ({
       <aside class="lm-hero-panel reveal-stagger" aria-label="Résumé du livre blanc" transition:name={`hero-img-${pageTransitionId}`}>
         {coverUrl && (
           <div class="lm-cover" aria-hidden>
-            <img src={coverUrl} alt="" loading="eager" />
+            <img src={coverUrl} alt="" loading="eager" fetchpriority="high" decoding="async" />
           </div>
         )}
         <div class="lm-download-card">

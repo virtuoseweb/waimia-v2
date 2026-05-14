@@ -1,0 +1,11 @@
+{
+  "name": "Waimia — Systèmes IA pour PME",
+  "short_name": "Waimia",
+  "description": "Agence IA française. Audit, activation, transformation par agents Claude.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F6F1E8",
+  "theme_color": "#0C0B09",
+  "lang": "fr",
+  "icons": []
+}

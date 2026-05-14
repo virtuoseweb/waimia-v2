@@ -96,7 +96,7 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
             <div class="badge">{t(item.featured.kicker, lang)}</div>
             <div class="ttl">{t(item.featured.label, lang)}</div>
             <div class="bd">{t(item.featured.body, lang)}</div>
-            <a class="img lift" href={item.featured.href} aria-hidden></a>
+            <a class="img lift" href={item.featured.href} aria-hidden="true" tabindex="-1"></a>
             <a class="cta" href={item.featured.href}>
               {t(item.featured.cta, lang)}
             </a>
@@ -125,12 +125,12 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
   <div class="m-sheet-body">
     {PRIMARY_NAV.map((item, idx) => isMega(item) ? (
       <div class="m-sheet-acc" data-acc={item.key}>
-        <button class="m-sheet-acc-head" data-acc-trigger={item.key} aria-expanded="false">
+        <button class="m-sheet-acc-head" data-acc-trigger={item.key} aria-expanded="false" aria-controls={`m-acc-body-${item.key}`}>
           <span class="num">0{idx + 1}</span>
           <span class="ttl">{t(item.label, lang)}</span>
-          <span class="plus" aria-hidden>+</span>
+          <span class="plus" aria-hidden="true">+</span>
         </button>
-        <div class="m-sheet-acc-body">
+        <div class="m-sheet-acc-body" id={`m-acc-body-${item.key}`}>
           <div class="m-sheet-acc-inner">
             {item.cols.map((col) => (
               <div class="m-sheet-acc-col">

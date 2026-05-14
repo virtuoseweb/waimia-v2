@@ -5,6 +5,7 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
+Disallow: /api/
 
 # AI / LLM crawlers · explicitement autorisés
 User-agent: GPTBot

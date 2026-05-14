@@ -83,17 +83,25 @@ const additionalLd = additionalJsonLd
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content="Waimia" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    {/* Favicons */}
+    {/* Favicons + PWA manifest */}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
 
-    {/* Preconnect Google Fonts (gain LCP 200-500ms — fonts chargees via
-        @import dans tokens.css). DNS lookup + TLS handshake termine
-        avant que le CSS soit parse. */}
+    {/* Google Fonts · stratégie 3 couches pour LCP optimal :
+        1. preconnect : DNS + TLS anticipés sur les 2 origines
+        2. preload as="style" : browser démarre le fetch dès le parse HTML
+           avant de voir le <link rel="stylesheet"> (découverte ~200-400ms plus tôt)
+        3. stylesheet : chargement standard, parallèle au CSS bundle Astro
+        L'@import url() a été retiré de tokens.css — chaîne CSS → découverte tardive éliminée. */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" />
 
     {/* JSON-LD baseline (Organization + WebSite) + custom blocks */}
     <JsonLd data={[...baseLd, ...pageLd, ...additionalLd]} />
