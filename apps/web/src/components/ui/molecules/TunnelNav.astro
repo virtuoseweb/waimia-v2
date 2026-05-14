@@ -1,0 +1,90 @@
+---
+interface Props {
+  currentStep: 1 | 2 | 3 | 4;
+  lang?: 'fr' | 'en';
+}
+const { currentStep, lang = 'fr' } = Astro.props;
+const steps = [
+  { n: 1, label_fr: 'Constat', label_en: 'Problem', href: '/offres/site-web-ia-tunnel' },
+  { n: 2, label_fr: 'Mécanique', label_en: 'How it works', href: '/offres/site-web-ia-tunnel/mecanique' },
+  { n: 3, label_fr: 'Preuves', label_en: 'Proof', href: '/offres/site-web-ia-tunnel/preuves' },
+  { n: 4, label_fr: 'Décision', label_en: 'Decision', href: '/offres/site-web-ia-tunnel/conversion' },
+];
+---
+<nav class="tunnel-nav" aria-label={lang === 'fr' ? 'Étapes du tunnel' : 'Tunnel steps'}>
+  <div class="tunnel-nav__inner wrap-wide">
+    {steps.map((s) => (
+      <a
+        href={s.href}
+        class:list={['tunnel-nav__step', { 'is-active': s.n === currentStep, 'is-done': s.n < currentStep }]}
+        aria-current={s.n === currentStep ? 'step' : undefined}
+      >
+        <span class="tunnel-nav__num">{s.n}/4</span>
+        <span class="tunnel-nav__label">{lang === 'fr' ? s.label_fr : s.label_en}</span>
+      </a>
+    ))}
+    <div class="tunnel-nav__bar">
+      <div class="tunnel-nav__fill" style={`width:${((currentStep - 1) / 3) * 100}%`}></div>
+    </div>
+  </div>
+</nav>
+<style>
+.tunnel-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--color-paper, #F6F1E8);
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  padding: 12px 0;
+}
+.tunnel-nav__inner {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+.tunnel-nav__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 16px;
+  text-decoration: none;
+  flex: 1;
+  border-right: 1px solid rgba(0,0,0,.06);
+  transition: opacity .2s;
+}
+.tunnel-nav__step:last-child { border-right: none; }
+.tunnel-nav__num {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 10px;
+  color: var(--color-muted, #888);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.tunnel-nav__label {
+  font-family: var(--font-body, 'Inter Tight', sans-serif);
+  font-size: 13px;
+  color: var(--color-ink, #1a1a1a);
+}
+.tunnel-nav__step.is-active .tunnel-nav__num,
+.tunnel-nav__step.is-active .tunnel-nav__label { color: var(--color-accent, #C94F2E); font-weight: 600; }
+.tunnel-nav__step.is-done { opacity: .5; }
+.tunnel-nav__bar {
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(0,0,0,.07);
+}
+.tunnel-nav__fill {
+  height: 100%;
+  background: var(--color-accent, #C94F2E);
+  transition: width .4s cubic-bezier(.22,1,.36,1);
+}
+@media (max-width: 640px) {
+  .tunnel-nav__label { display: none; }
+  .tunnel-nav__num { font-size: 11px; }
+}
+</style>

@@ -1,0 +1,202 @@
+---
+export const prerender = true;
+import Base from '../../../layouts/Base.astro';
+import TunnelNav from '../../../components/ui/molecules/TunnelNav.astro';
+import CalEmbed from '../../../components/ui/molecules/CalEmbed.astro';
+---
+<Base
+  title="Site Web IA-first — Étape 4/4 : La décision · Waimia"
+  description="Audit 5 jours. Premier agent en production en 4 semaines. 3 paliers tarifaires. Booking direct."
+>
+  <TunnelNav currentStep={4} />
+  <main class="tunnel-page">
+
+    <section class="tnl-hero wrap-wide">
+      <p class="tnl-eyebrow reveal">§ Étape 4/4 — La décision <span aria-hidden="true">·</span> <span lang="en">Step 4/4 — The decision</span></p>
+      <h1 class="tnl-h1 reveal-mask-up">
+        Audit 5 jours.<br/>
+        <em>Premier agent en<br/>production en 4 semaines.</em>
+        <span lang="en">5-day audit. <em>First agent in production in 4 weeks.</em></span>
+      </h1>
+      <p class="tnl-lede reveal">
+        On ne propose pas une démo générique. On audite votre site, votre CRM et votre contenu — puis on vous dit exactement ce que les agents peuvent automatiser et quel ROI vous pouvez attendre.
+        <span lang="en">We don't pitch a generic demo. We audit your site, your CRM and your content — then tell you exactly what agents can automate and what ROI to expect.</span>
+      </p>
+    </section>
+
+    <section class="tnl-pricing wrap-wide" id="pricing">
+      <h2 class="tnl-sh2 reveal">Trois <em>paliers.</em> Tarifs lisibles. <span lang="en">Three <em>tiers.</em> Transparent pricing.</span></h2>
+      <div class="tnl-tiers reveal-stagger">
+        <div class="tnl-tier">
+          <div class="tnl-tier__idx">01</div>
+          <div class="tnl-tier__name">Découverte <span lang="en">Discovery</span></div>
+          <div class="tnl-tier__price">7 900 €</div>
+          <div class="tnl-tier__period">HT · forfait livraison <span lang="en">excl. tax · delivery package</span></div>
+          <ul class="tnl-tier__features">
+            <li>Site Astro MVP natif IA (jusqu'à 8 pages)</li>
+            <li>Agent éditeur de contenu inclus</li>
+            <li>Socle GEO (sitemap + JSON-LD + llms.txt)</li>
+            <li>Moins de 5 cookies par page</li>
+            <li>1 mois routine GEO offerte</li>
+            <li>Hébergement Vercel optimisé</li>
+          </ul>
+          <a href="/contact?offer=site-web-ia-tunnel&tier=decouverte" class="tnl-tier__cta">
+            Démarrer Découverte →
+          </a>
+        </div>
+        <div class="tnl-tier tnl-tier--highlight">
+          <div class="tnl-tier__badge">Recommandé <span lang="en">Recommended</span></div>
+          <div class="tnl-tier__idx">02</div>
+          <div class="tnl-tier__name">Standard</div>
+          <div class="tnl-tier__price">14 900 €</div>
+          <div class="tnl-tier__period">HT · forfait livraison <span lang="en">excl. tax · delivery package</span></div>
+          <ul class="tnl-tier__features">
+            <li>Tout Découverte inclus</li>
+            <li>Jusqu'à 25 pages (hubs + sous-pages)</li>
+            <li>Agent éditeur multi-langues (FR + EN)</li>
+            <li>Agent CRM + relances auto</li>
+            <li>Agent Social (LinkedIn + X + Instagram)</li>
+            <li>GEO routine mensuelle 6 mois</li>
+            <li>Cal.com intégré + suivi sur mesure</li>
+            <li>Tests A/B IA sur landing pages</li>
+          </ul>
+          <a href="/contact?offer=site-web-ia-tunnel&tier=standard" class="tnl-tier__cta tnl-tier__cta--primary">
+            Démarrer Standard →
+          </a>
+        </div>
+        <div class="tnl-tier">
+          <div class="tnl-tier__idx">03</div>
+          <div class="tnl-tier__name">Sur-mesure <span lang="en">Custom</span></div>
+          <div class="tnl-tier__price">Sur devis</div>
+          <div class="tnl-tier__period">À partir de 35 000 € <span lang="en">From €35,000</span></div>
+          <ul class="tnl-tier__features">
+            <li>Tout Standard inclus</li>
+            <li>Pages illimitées + multi-tenant</li>
+            <li>Agents internes VirtuoseOS</li>
+            <li>Intégrations CRM/entrepôt natives</li>
+            <li>Auto-hébergement possible (vLLM/Ollama)</li>
+            <li>SLA 24/7 + astreinte humaine nommée</li>
+            <li>Routine GEO 12 mois incluse</li>
+          </ul>
+          <a href="/contact?offer=site-web-ia-tunnel&tier=custom" class="tnl-tier__cta">
+            Demander un devis →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tnl-faq wrap-wide" id="faq">
+      <h2 class="tnl-sh2 reveal">Questions <em>courantes</em> <span lang="en"><em>Common</em> questions</span></h2>
+      <div class="tnl-faq__list reveal-stagger">
+        <details class="tnl-faq__item">
+          <summary>Pourquoi Astro+React au lieu de Next.js ou WordPress ?</summary>
+          <p>Astro génère du HTML statique pré-rendu indexable immédiatement par Google, ChatGPT, Perplexity et Google AI Overview. Next.js sort souvent plus lourd côté JS. WordPress impose une stack PHP+MySQL coûteuse et plus lente pour les LLM. Notre stack vise 100/100 Lighthouse sans coût marginal.</p>
+        </details>
+        <details class="tnl-faq__item">
+          <summary>Comment fonctionne l'agent éditeur de contenu ?</summary>
+          <p>Un agent Claude est branché sur votre repo Git. Vous lui parlez en français — « ajoute un cas client ACME » — il édite les fichiers, ouvre une PR, vous validez. Aucun CMS à apprendre. Le contenu est versionné dans Git avec historique complet.</p>
+        </details>
+        <details class="tnl-faq__item">
+          <summary>Combien coûte le maintien après livraison ?</summary>
+          <p>L'hébergement Vercel coûte 0-20 €/mois selon le trafic. La routine GEO est un forfait mensuel optionnel : à partir de 490 €/mois pour Découverte, 1 490 €/mois pour Standard. Aucun coût caché.</p>
+        </details>
+        <details class="tnl-faq__item">
+          <summary>Qui possède le site après livraison ?</summary>
+          <p>Vous. On vous transfère le site clé en main : code, contenu, compte d'hébergement, variables, documentation et procédure de reprise. Pas de captivité agence, pas de plugin propriétaire obligatoire.</p>
+        </details>
+        <details class="tnl-faq__item">
+          <summary>Êtes-vous compatible avec mon CRM actuel ?</summary>
+          <p>Oui. Connecteurs natifs HubSpot, Salesforce, Pipedrive. Migration de contenu automatisée depuis WordPress, Webflow, Contentful. Devis exact après audit gratuit.</p>
+        </details>
+        <details class="tnl-faq__item">
+          <summary>Que couvre la garantie 14 jours ?</summary>
+          <p>Pendant 14 jours après mise en ligne, on corrige sans surcoût les régressions de suivi, formulaires, performance et contenu validé. Si un livrable ne correspond pas au cadrage signé, on le reprend avant transfert final.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="tnl-booking wrap-wide reveal-blur-clip" id="booking">
+      <h2 class="tnl-sh2">Réserver l'audit <em>5 jours</em> <span lang="en">Book the <em>5-day</em> audit</span></h2>
+      <p class="tnl-booking__lead">
+        45 minutes. On audite votre site, votre CRM et votre contenu. On vous dit exactement quoi automatiser en premier. Si on n'a rien à proposer, on le dit.
+        <span lang="en">45 minutes. We audit your site, your CRM and your content. We tell you exactly what to automate first. If we have nothing to offer, we say so.</span>
+      </p>
+      <div class="tnl-booking__cal">
+        <CalEmbed />
+      </div>
+    </section>
+
+    <section class="tnl-trust wrap-wide reveal">
+      <div class="tnl-trust__inner">
+        <span class="tnl-trust__item">Waimia · Agence IA-native</span>
+        <span class="tnl-trust__sep" aria-hidden="true">·</span>
+        <span class="tnl-trust__item">Clients PME &amp; Scale-up B2B</span>
+        <span class="tnl-trust__sep" aria-hidden="true">·</span>
+        <span class="tnl-trust__item">Stack 100% open-source transférable</span>
+        <span class="tnl-trust__sep" aria-hidden="true">·</span>
+        <span class="tnl-trust__item">Pas de captivité</span>
+      </div>
+    </section>
+
+    <section class="tnl-urgency wrap-wide">
+      <p class="tnl-urgency__text reveal">
+        ◉ Booking T3 2026 · <strong>4 places restantes</strong>
+        <span lang="en">◉ Q3 2026 booking · <strong>4 slots remaining</strong></span>
+      </p>
+    </section>
+
+  </main>
+</Base>
+
+<style>
+.tunnel-page { padding-block: 0; }
+.wrap-wide { max-width: 1200px; margin-inline: auto; padding-inline: clamp(20px, 5vw, 80px); }
+.tnl-eyebrow { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: clamp(11px, 1.2vw, 13px); text-transform: uppercase; letter-spacing: .1em; color: var(--color-muted, #888); margin-bottom: 24px; padding-top: clamp(48px, 8vw, 96px); }
+.tnl-h1 { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(36px, 6vw, 80px); line-height: 1.05; letter-spacing: -.02em; color: var(--color-ink, #1a1a1a); margin-bottom: clamp(24px, 4vw, 48px); max-width: 18ch; }
+.tnl-h1 em { font-style: italic; color: var(--color-accent, #C94F2E); }
+.tnl-lede { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: clamp(16px, 1.8vw, 20px); line-height: 1.6; color: var(--color-ink, #1a1a1a); max-width: 62ch; margin-bottom: clamp(48px, 8vw, 96px); }
+.tnl-sh2 { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(24px, 3vw, 40px); letter-spacing: -.01em; margin-bottom: clamp(32px, 4vw, 56px); color: var(--color-ink, #1a1a1a); }
+.tnl-sh2 em { font-style: italic; color: var(--color-accent, #C94F2E); }
+.tnl-hero { padding-bottom: clamp(48px, 6vw, 80px); }
+.tnl-pricing { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
+.tnl-tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.tnl-tier { padding: clamp(24px, 3vw, 40px); border: 1px solid rgba(0,0,0,.1); border-radius: 2px; background: var(--color-paper, #F6F1E8); position: relative; }
+.tnl-tier--highlight { background: var(--color-ink, #1a1a1a); border-color: var(--color-ink, #1a1a1a); }
+.tnl-tier__badge { position: absolute; top: -1px; right: 20px; font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; background: var(--color-accent, #C94F2E); color: #F6F1E8; padding: 4px 10px; border-radius: 0 0 2px 2px; text-transform: uppercase; letter-spacing: .06em; }
+.tnl-tier__idx { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--color-muted, #888); margin-bottom: 8px; }
+.tnl-tier--highlight .tnl-tier__idx { color: rgba(246,241,232,.4); }
+.tnl-tier__name { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: 22px; color: var(--color-ink, #1a1a1a); margin-bottom: 16px; }
+.tnl-tier--highlight .tnl-tier__name { color: var(--color-paper, #F6F1E8); }
+.tnl-tier__price { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(28px, 3.5vw, 44px); color: var(--color-ink, #1a1a1a); line-height: 1; margin-bottom: 4px; }
+.tnl-tier--highlight .tnl-tier__price { color: var(--color-paper, #F6F1E8); }
+.tnl-tier__period { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--color-muted, #888); letter-spacing: .04em; margin-bottom: 24px; }
+.tnl-tier--highlight .tnl-tier__period { color: rgba(246,241,232,.5); }
+.tnl-tier__features { list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-direction: column; gap: 8px; }
+.tnl-tier__features li { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 14px; color: var(--color-ink, #1a1a1a); padding-left: 16px; position: relative; line-height: 1.5; }
+.tnl-tier--highlight .tnl-tier__features li { color: rgba(246,241,232,.85); }
+.tnl-tier__features li::before { content: '—'; position: absolute; left: 0; color: var(--color-muted, #888); font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; top: 3px; }
+.tnl-tier--highlight .tnl-tier__features li::before { color: rgba(246,241,232,.3); }
+.tnl-tier__cta { display: block; font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 14px; font-weight: 600; text-align: center; padding: 12px 20px; border: 1px solid rgba(0,0,0,.18); border-radius: 2px; text-decoration: none; color: var(--color-ink, #1a1a1a); transition: border-color .2s; }
+.tnl-tier__cta:hover { border-color: var(--color-ink, #1a1a1a); }
+.tnl-tier__cta--primary { background: var(--color-accent, #C94F2E); border-color: var(--color-accent, #C94F2E); color: #F6F1E8; }
+.tnl-tier__cta--primary:hover { opacity: .9; border-color: var(--color-accent, #C94F2E); }
+.tnl-faq { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
+.tnl-faq__list { display: flex; flex-direction: column; gap: 1px; background: rgba(0,0,0,.07); border: 1px solid rgba(0,0,0,.07); border-radius: 2px; overflow: hidden; }
+.tnl-faq__item { background: var(--color-paper, #F6F1E8); }
+.tnl-faq__item summary { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 16px; font-weight: 600; color: var(--color-ink, #1a1a1a); padding: 20px 24px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.tnl-faq__item summary::-webkit-details-marker { display: none; }
+.tnl-faq__item summary::after { content: '+'; font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 18px; color: var(--color-muted, #888); }
+.tnl-faq__item[open] summary::after { content: '−'; }
+.tnl-faq__item p { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 15px; line-height: 1.65; color: var(--color-muted, #555); padding: 0 24px 20px; max-width: 70ch; }
+.tnl-booking { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
+.tnl-booking__lead { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 16px; line-height: 1.6; color: var(--color-muted, #666); max-width: 60ch; margin-bottom: clamp(32px, 4vw, 48px); }
+.tnl-booking__cal { max-width: 720px; }
+.tnl-trust { padding-block: clamp(32px, 4vw, 48px); border-top: 1px solid rgba(0,0,0,.07); }
+.tnl-trust__inner { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+.tnl-trust__item { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 12px; color: var(--color-muted, #888); letter-spacing: .04em; }
+.tnl-trust__sep { color: rgba(0,0,0,.2); }
+.tnl-urgency { padding-block: clamp(24px, 3vw, 40px); border-top: 1px solid rgba(0,0,0,.07); padding-bottom: clamp(64px, 8vw, 96px); }
+.tnl-urgency__text { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 13px; color: var(--color-muted, #888); letter-spacing: .04em; }
+.tnl-urgency__text strong { color: var(--color-accent, #C94F2E); }
+[lang="en"] { display: block; font-size: .88em; color: var(--color-muted, #888); margin-top: 4px; font-style: italic; }
+</style>

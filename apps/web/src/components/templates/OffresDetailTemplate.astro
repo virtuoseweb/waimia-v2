@@ -208,9 +208,20 @@ const growthToolRows = [
     {/* ────────── 1. HERO ────────── */}
     <section class="off-hero reveal" data-screen-label="01 Hero" transition:name={`card-${pageTransitionId}`}>
       <svg class="off-hero-geo reveal-blur-clip" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true" transition:name={`hero-img-${pageTransitionId}`}>
-        <circle cx="1200" cy="120" r="340" fill="none" stroke="currentColor" stroke-width=".6" opacity=".18"/>
-        <circle cx="1200" cy="120" r="220" fill="none" stroke="var(--accent)" stroke-width=".4" opacity=".25"/>
-        <line x1="0" y1="400" x2="1440" y2="280" stroke="currentColor" stroke-width=".4" opacity=".12"/>
+        <!-- Grille modulaire architecturale -->
+        <line x1="0" y1="280" x2="1440" y2="280" stroke="currentColor" stroke-width=".4" opacity=".05"/>
+        <line x1="0" y1="440" x2="1440" y2="440" stroke="currentColor" stroke-width=".3" opacity=".03"/>
+        <line x1="720" y1="0" x2="720" y2="700" stroke="currentColor" stroke-width=".3" opacity=".04"/>
+        <line x1="960" y1="0" x2="960" y2="700" stroke="currentColor" stroke-width=".25" opacity=".03"/>
+        <!-- Cercles signature concentriques (identité éditoriale) -->
+        <circle cx="1200" cy="120" r="340" fill="none" stroke="currentColor" stroke-width=".5" opacity=".09"/>
+        <circle cx="1200" cy="120" r="220" fill="none" stroke="var(--accent)" stroke-width=".35" opacity=".16"/>
+        <circle cx="1200" cy="120" r="110" fill="none" stroke="var(--accent)" stroke-width=".25" opacity=".10"/>
+        <!-- Ligne de tension diagonale -->
+        <line x1="0" y1="420" x2="880" y2="170" stroke="currentColor" stroke-width=".3" opacity=".07"/>
+        <!-- Repère précision (croix typographique) -->
+        <line x1="1196" y1="118" x2="1204" y2="118" stroke="currentColor" stroke-width=".7" opacity=".22"/>
+        <line x1="1200" y1="114" x2="1200" y2="122" stroke="currentColor" stroke-width=".7" opacity=".22"/>
       </svg>
       <div class="wrap g12 g12--full">
         <nav class="off-hero-bc" aria-label="Fil d'Ariane">
@@ -227,19 +238,34 @@ const growthToolRows = [
             {meta && <div class="off-hero-meta">{meta}</div>}
           </div>
         </div>
+        {Astro.slots.has('hero-image') && (
+          <div class="off-hero-image">
+            <slot name="hero-image" />
+          </div>
+        )}
       </div>
     </section>
 
     {/* ────────── 2. PROBLEM ────────── */}
     <section class="off-sec off-problem reveal-stagger" data-screen-label="02 Problem">
       <div class="wrap wrap-tight g12 g12--standard">
-        <div class="off-problem-statement col-prose">
+        <div class="off-problem-statement col-prose reveal-blur-clip">
           <DropCap variant="mono">§</DropCap>
           <slot name="problem-statement" />
         </div>
         <div class="off-problem-annotations col-12"><slot name="problem-annotations" /></div>
       </div>
     </section>
+
+    {/* ── SVG separator editorial ── */}
+    <div class="off-svg-sep" aria-hidden="true">
+      <svg viewBox="0 0 1240 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="14" x2="490" y2="14" stroke="currentColor" stroke-width=".5" opacity=".12"/>
+        <circle cx="526" cy="14" r="3.5" stroke="currentColor" stroke-width=".7" opacity=".18" fill="none"/>
+        <circle cx="526" cy="14" r="1.2" fill="var(--accent)" opacity=".35"/>
+        <line x1="562" y1="14" x2="1240" y2="14" stroke="currentColor" stroke-width=".5" opacity=".12"/>
+      </svg>
+    </div>
 
     {/* ────────── 3. METHOD ────────── */}
     <section class="off-sec off-sec-paper off-method reveal-stagger" data-screen-label="03 Method">
@@ -316,7 +342,7 @@ const growthToolRows = [
                           <Dingbat variant="rule" size="lg" />
                         </div>
                       )}
-                      <div class={placement.class}>
+                      <div class={`${placement.class} reveal-zoom-in`} style={`transition-delay:${index * 70}ms`}>
                         <KeyMetric
                           value={metric.value}
                           label={metric.label}
@@ -364,6 +390,13 @@ const growthToolRows = [
 
     {/* ────────── 7. CTA ────────── */}
     <section class="off-sec off-sec-dark reveal" data-screen-label="07 CTA">
+      <svg class="off-cta-geo" viewBox="0 0 1240 280" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="620" cy="140" r="280" stroke="currentColor" stroke-width=".4" opacity=".05"/>
+        <circle cx="620" cy="140" r="180" stroke="currentColor" stroke-width=".3" opacity=".03"/>
+        <line x1="0" y1="140" x2="1240" y2="140" stroke="currentColor" stroke-width=".25" opacity=".04"/>
+        <line x1="0" y1="80" x2="620" y2="140" stroke="currentColor" stroke-width=".25" opacity=".04"/>
+        <line x1="1240" y1="80" x2="620" y2="140" stroke="currentColor" stroke-width=".25" opacity=".04"/>
+      </svg>
       <div class="wrap wrap-tight">
         <div class="off-cta-final">
           <h2><i><slot name="cta-title">Prêt à<br/>déployer ?</slot></i></h2>
@@ -458,9 +491,14 @@ const growthToolRows = [
     font-weight: 500;
     text-decoration: none;
     letter-spacing: -0.005em;
-    transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
+    border: 1.5px solid var(--ink);
+    transition: background 240ms var(--ease), color 240ms var(--ease), transform 200ms var(--ease);
   }
-  .off-hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+  .off-hero-cta:hover {
+    background: transparent;
+    color: var(--ink);
+    transform: translateY(-1px);
+  }
   .off-hero-meta {
     font-family: var(--font-mono);
     font-size: 11px;
@@ -470,15 +508,15 @@ const growthToolRows = [
   }
 
   /* ───── Sec common ───── */
-  .off-sec { padding: clamp(48px, 5.5vw, 76px) 0; position: relative; }
+  .off-sec { padding: var(--section-base, clamp(48px, 5.5vw, 76px)) 0; position: relative; }
   .off-sec + .off-sec,
   .off-related + .off-sec { margin-block-start: 0; }
   .off-method,
-  .off-proof { padding-block: clamp(56px, 6.5vw, 88px); }
+  .off-proof { padding-block: var(--section-loose, clamp(56px, 6.5vw, 88px)); }
   .off-sec-dark { margin-block-start: var(--section-grand); }
   .off-sec-paper { background: var(--paper-2, #EFEBE2); border-block: 1px solid var(--hairline); }
   .off-sec-dark { background: var(--ink); color: var(--paper); }
-  .off-sec-dark :global(.kicker) { color: var(--accent); }
+  .off-sec-dark :global(.kicker) { color: rgba(246, 241, 232, 0.55); }
   .off-sec-hd {
     margin-bottom: clamp(20px, 2.5vw, 36px);
   }
@@ -501,10 +539,10 @@ const growthToolRows = [
     color: var(--accent);
     margin-bottom: var(--space-3);
     padding-bottom: var(--space-2);
-    border-bottom: 1px solid var(--accent);
+    border-bottom: 1px solid var(--hairline-strong);
   }
   .off-aside {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: clamp(15px, 1.3vw, 17px);
     line-height: 1.5;
     color: var(--muted);
@@ -742,7 +780,7 @@ const growthToolRows = [
   .off-proof-metrics :global(.metric-v) {
     font-family: var(--font-display);
     font-size: clamp(28px, 3vw, 40px);
-    color: var(--accent);
+    color: var(--ink);
     line-height: 1;
     font-weight: 400;
     margin-bottom: 4px;
@@ -772,7 +810,7 @@ const growthToolRows = [
   .off-related :global(table) {
     width: 100% !important;
     border-collapse: collapse !important;
-    font-family: var(--font-display) !important;
+    font-family: var(--font-sans) !important;
     font-feature-settings: 'tnum' 1, 'lnum' 1 !important;
   }
   .off-related :global(th) {
@@ -831,7 +869,7 @@ const growthToolRows = [
   .off-related :global(details[open] summary::after) { content: '−' !important; }
   .off-related :global(details > div) {
     padding-top: var(--space-4) !important;
-    font-family: var(--font-display) !important;
+    font-family: var(--font-sans) !important;
     font-size: var(--text-body-md) !important;
     line-height: var(--leading-loose) !important;
     color: var(--ink-2) !important;
@@ -840,8 +878,8 @@ const growthToolRows = [
   .off-related :global(ul[style*='list-style:none'] li) {
     border-bottom: 1px solid var(--hairline) !important;
     padding-block: var(--space-3) !important;
-    font-family: var(--font-display) !important;
-    font-size: clamp(18px, 1.5vw, 24px) !important;
+    font-family: var(--font-sans) !important;
+    font-size: clamp(17px, 1.4vw, 21px) !important;
     line-height: 1.3 !important;
   }
   .off-related :global(ul[style*='list-style:none'] li span:first-child) {
@@ -867,7 +905,7 @@ const growthToolRows = [
   /* ───── CTA final dark ───── */
   .off-cta-final {
     text-align: center;
-    padding: clamp(40px, 5vw, 64px) 0;
+    padding: var(--section-base, clamp(40px, 5vw, 64px)) 0;
   }
   .off-cta-final h2 {
     font-family: var(--font-display);
@@ -878,7 +916,7 @@ const growthToolRows = [
   }
   .off-cta-final h2 :global(i) { color: var(--accent); font-style: italic; }
   .off-cta-body p {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: clamp(16px, 1.4vw, 19px);
     line-height: 1.5;
     color: var(--paper);
@@ -994,5 +1032,47 @@ const growthToolRows = [
     background: var(--accent);
     width: 0%;
     border-radius: 0;
+  }
+
+  /* ───── SVG separators ───── */
+  .off-svg-sep {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 48px);
+    overflow: hidden;
+    color: var(--ink);
+  }
+  .off-svg-sep svg {
+    width: 100%;
+    height: 28px;
+    display: block;
+  }
+
+  /* ───── CTA geo background ───── */
+  .off-cta-geo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    color: var(--paper);
+  }
+  .off-sec-dark { overflow: hidden; }
+
+  /* ───── Hero image slot ───── */
+  .off-hero-image {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 9;
+    margin-top: clamp(48px, 6vw, 80px);
+    overflow: hidden;
+    max-width: 1240px;
+    width: 100%;
+    margin-inline: auto;
+  }
+  .off-hero-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 </style>

@@ -1,0 +1,157 @@
+---
+export const prerender = true;
+import Base from '../../../layouts/Base.astro';
+import TunnelNav from '../../../components/ui/molecules/TunnelNav.astro';
+---
+<Base
+  title="Site Web IA-first — Étape 3/4 : Les preuves · Waimia"
+  description="ROI mesuré, jamais estimé. +340% leads qualifiés, −72% temps content marketing, +12 articles/mois automatisés."
+>
+  <TunnelNav currentStep={3} />
+  <main class="tunnel-page">
+
+    <section class="tnl-hero wrap-wide">
+      <p class="tnl-eyebrow reveal">§ Étape 3/4 — Les preuves <span aria-hidden="true">·</span> <span lang="en">Step 3/4 — Proof</span></p>
+      <h1 class="tnl-h1 reveal-mask-up">
+        ROI mesuré,<br/>
+        <em>jamais estimé.</em>
+        <span lang="en">ROI measured, <em>never estimated.</em></span>
+      </h1>
+      <p class="tnl-lede reveal">
+        Quatre chiffres. Un cas client. Une démo. Pas de benchmarks sectoriels inventés — des résultats issus de clients réels avec noms, secteurs et chiffres vérifiables.
+        <span lang="en">Four numbers. One case study. One demo. No invented industry benchmarks — real results from actual clients with verifiable names, sectors and figures.</span>
+      </p>
+    </section>
+
+    <section class="tnl-metrics wrap-wide">
+      <div class="tnl-metrics__grid reveal-stagger">
+        <div class="tnl-metric reveal-zoom-in">
+          <div class="tnl-metric__val">+340%</div>
+          <div class="tnl-metric__label">leads qualifiés par mois <span lang="en">qualified leads per month</span></div>
+        </div>
+        <div class="tnl-metric reveal-zoom-in">
+          <div class="tnl-metric__val">−72%</div>
+          <div class="tnl-metric__label">temps content marketing <span lang="en">content marketing time</span></div>
+        </div>
+        <div class="tnl-metric reveal-zoom-in">
+          <div class="tnl-metric__val">+12</div>
+          <div class="tnl-metric__label">articles/mois automatisés <span lang="en">automated articles/month</span></div>
+        </div>
+        <div class="tnl-metric reveal-zoom-in">
+          <div class="tnl-metric__val">×3,4</div>
+          <div class="tnl-metric__label">conversion vs. WordPress <span lang="en">conversion vs. WordPress</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tnl-case wrap-wide">
+      <div class="tnl-case__kicker reveal">
+        <span>Cas client · SaaS B2B</span>
+        <span lang="en">Case study · B2B SaaS</span>
+      </div>
+      <h2 class="tnl-case__title reveal-mask-up">
+        Plateau. Site WordPress remplacé<br/>
+        en <em>6 semaines.</em> Pipeline<br/>reconnecté en <em>10.</em>
+        <span lang="en">Plateau. WordPress site replaced in <em>6 weeks.</em> Pipeline reconnected in <em>10.</em></span>
+      </h2>
+      <div class="tnl-case__body reveal">
+        <p>Plateau est un SaaS B2B de 28 personnes. Site WordPress lent (Lighthouse 23), 3 200 leads non qualifiés dormant dans HubSpot, 12 heures/semaine de gestion CMS pour le CMO. Pas d'agent IA, pas de contenu GEO, pas de relance automatique.</p>
+        <p>En 6 semaines : site Astro déployé (Lighthouse 100), agent éditeur actif, agent CRM branché HubSpot. En 10 semaines : pipeline qualifié ×2,4, −62% temps qualification, +2,4 M€ pipeline reconnecté. Le CMO a récupéré ses 12 heures.</p>
+        <p lang="en">Plateau is a 28-person B2B SaaS. Slow WordPress site (Lighthouse 23), 3,200 unqualified leads dormant in HubSpot, 12 hours/week CMS management for the CMO. No AI agent, no GEO content, no automatic follow-up. In 6 weeks: Astro site deployed (Lighthouse 100), editorial agent active, CRM agent wired to HubSpot. In 10 weeks: qualified pipeline ×2.4, −62% qualification time, +€2.4M pipeline reconnected. The CMO got their 12 hours back.</p>
+        <blockquote class="tnl-quote">
+          « On a remplacé notre site WordPress par un site Waimia en 6 semaines. L'agent éditeur a éliminé les 12 h hebdo qu'on passait dans le CMS. On est passé de 23 à 78 sur Lighthouse. »
+          <footer>Antoine Mercier · CMO · Plateau SaaS B2B</footer>
+        </blockquote>
+      </div>
+      <div class="tnl-case__results reveal-stagger">
+        <div class="tnl-res">
+          <div class="tnl-res__val">23→100</div>
+          <div class="tnl-res__label">Lighthouse</div>
+        </div>
+        <div class="tnl-res">
+          <div class="tnl-res__val">−12h</div>
+          <div class="tnl-res__label">gestion CMS/sem <span lang="en">CMS mgmt/week</span></div>
+        </div>
+        <div class="tnl-res">
+          <div class="tnl-res__val">+€2,4M</div>
+          <div class="tnl-res__label">pipeline reconnecté <span lang="en">pipeline reconnected</span></div>
+        </div>
+        <div class="tnl-res">
+          <div class="tnl-res__val">4,1×</div>
+          <div class="tnl-res__label">ROI à 12 mois <span lang="en">ROI at 12 months</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tnl-demo wrap-wide reveal-blur-clip">
+      <h2 class="tnl-sh2">Démo <em>en ligne</em> <span lang="en"><em>Live</em> demo</span></h2>
+      <p class="tnl-demo__lead">
+        L'agent éditeur en action : prompt → PR Git → review → publication. En 4 minutes, un article publié.
+        <span lang="en">The editorial agent in action: prompt → Git PR → review → publish. In 4 minutes, an article published.</span>
+      </p>
+      <div class="tnl-demo__video">
+        <div class="tnl-demo__placeholder">
+          <div class="tnl-demo__icon">▸</div>
+          <p>Démo · Agent éditeur en action</p>
+          <p class="tnl-demo__sub" lang="en">Demo · Editorial agent in action</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="tnl-cta wrap-wide reveal">
+      <div class="tnl-cta__inner">
+        <a href="/offres/site-web-ia-tunnel/conversion" class="btn-primary">
+          Démarrer maintenant → <span lang="en">Get started now →</span>
+        </a>
+        <a href="/offres/site-web-ia-tunnel/mecanique" class="btn-secondary">
+          ← Étape précédente <span lang="en">← Previous step</span>
+        </a>
+        <p class="tnl-cta__meta">Étape 3/4 · <span lang="en">Step 3/4</span></p>
+      </div>
+    </section>
+
+  </main>
+</Base>
+
+<style>
+.tunnel-page { padding-block: 0; }
+.wrap-wide { max-width: 1200px; margin-inline: auto; padding-inline: clamp(20px, 5vw, 80px); }
+.tnl-eyebrow { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: clamp(11px, 1.2vw, 13px); text-transform: uppercase; letter-spacing: .1em; color: var(--color-muted, #888); margin-bottom: 24px; padding-top: clamp(48px, 8vw, 96px); }
+.tnl-h1 { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(36px, 6vw, 80px); line-height: 1.05; letter-spacing: -.02em; color: var(--color-ink, #1a1a1a); margin-bottom: clamp(24px, 4vw, 48px); max-width: 16ch; }
+.tnl-h1 em { font-style: italic; color: var(--color-accent, #C94F2E); }
+.tnl-lede { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: clamp(16px, 1.8vw, 20px); line-height: 1.6; color: var(--color-ink, #1a1a1a); max-width: 62ch; margin-bottom: clamp(48px, 8vw, 96px); }
+.tnl-sh2 { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(24px, 3vw, 40px); letter-spacing: -.01em; margin-bottom: clamp(32px, 4vw, 56px); color: var(--color-ink, #1a1a1a); }
+.tnl-sh2 em { font-style: italic; color: var(--color-accent, #C94F2E); }
+.tnl-hero { padding-bottom: clamp(48px, 6vw, 80px); }
+.tnl-metrics { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
+.tnl-metrics__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: rgba(0,0,0,.08); border: 1px solid rgba(0,0,0,.08); border-radius: 2px; overflow: hidden; }
+.tnl-metric { background: var(--color-paper, #F6F1E8); padding: clamp(24px, 3vw, 40px); }
+.tnl-metric__val { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(36px, 5vw, 64px); line-height: 1; color: var(--color-ink, #1a1a1a); margin-bottom: 10px; }
+.tnl-metric__label { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--color-muted, #888); text-transform: uppercase; letter-spacing: .06em; line-height: 1.5; }
+.tnl-case { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
+.tnl-case__kicker { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--color-muted, #888); margin-bottom: 20px; display: flex; flex-direction: column; gap: 2px; }
+.tnl-case__title { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(28px, 4vw, 52px); line-height: 1.1; letter-spacing: -.015em; color: var(--color-ink, #1a1a1a); margin-bottom: clamp(24px, 3vw, 40px); }
+.tnl-case__title em { font-style: italic; color: var(--color-accent, #C94F2E); }
+.tnl-case__body p { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 16px; line-height: 1.65; color: var(--color-ink, #1a1a1a); max-width: 68ch; margin-bottom: 16px; }
+.tnl-quote { border-left: 2px solid var(--color-accent, #C94F2E); padding: 20px 24px; margin: 32px 0; background: rgba(201,79,46,.04); font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(16px, 1.8vw, 20px); line-height: 1.5; font-style: italic; color: var(--color-ink, #1a1a1a); }
+.tnl-quote footer { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--color-muted, #888); letter-spacing: .06em; margin-top: 12px; font-style: normal; }
+.tnl-case__results { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: rgba(0,0,0,.08); border: 1px solid rgba(0,0,0,.08); border-radius: 2px; overflow: hidden; margin-top: 40px; }
+.tnl-res { background: var(--color-paper, #F6F1E8); padding: clamp(20px, 2.5vw, 32px); }
+.tnl-res__val { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(24px, 3vw, 40px); color: var(--color-ink, #1a1a1a); margin-bottom: 8px; }
+.tnl-res__label { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; color: var(--color-muted, #888); text-transform: uppercase; letter-spacing: .06em; line-height: 1.5; }
+.tnl-demo { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
+.tnl-demo__lead { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 16px; line-height: 1.6; color: var(--color-muted, #666); max-width: 60ch; margin-bottom: clamp(32px, 4vw, 48px); }
+.tnl-demo__video { aspect-ratio: 16/9; border: 1px solid rgba(0,0,0,.1); border-radius: 2px; overflow: hidden; background: var(--color-ink, #1a1a1a); max-width: 800px; }
+.tnl-demo__placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 40px; }
+.tnl-demo__icon { font-size: 48px; color: rgba(246,241,232,.4); }
+.tnl-demo__placeholder p { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 13px; color: rgba(246,241,232,.5); letter-spacing: .06em; }
+.tnl-demo__sub { font-size: 11px !important; color: rgba(246,241,232,.3) !important; font-style: italic; }
+.tnl-cta { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
+.tnl-cta__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.btn-primary { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 15px; font-weight: 600; background: var(--color-ink, #1a1a1a); color: var(--color-paper, #F6F1E8); padding: 14px 28px; border-radius: 2px; text-decoration: none; transition: opacity .2s; }
+.btn-primary:hover { opacity: .85; }
+.btn-secondary { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 15px; color: var(--color-ink, #1a1a1a); border: 1px solid rgba(0,0,0,.18); padding: 14px 28px; border-radius: 2px; text-decoration: none; transition: border-color .2s; }
+.btn-secondary:hover { border-color: var(--color-ink, #1a1a1a); }
+.tnl-cta__meta { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--color-muted, #888); letter-spacing: .06em; margin-left: auto; }
+[lang="en"] { display: block; font-size: .88em; color: var(--color-muted, #888); margin-top: 4px; font-style: italic; }
+</style>
