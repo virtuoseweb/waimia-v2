@@ -42,6 +42,14 @@
       target.classList.contains('cta') ||
       target.hasAttribute('data-cta');
 
+    // V7 · détection bouton sur fond accent terracotta (vs ghost/paper)
+    // → swap cursor en ring paper outline pour contraste premium sans confusion couleur
+    const isOnAccent = (target: HTMLElement) =>
+      target.classList.contains('btn-primary') ||
+      target.classList.contains('btn-accent') ||
+      target.classList.contains('cb-btn--primary') ||
+      target.classList.contains('pill-cta-accent');
+
     const onMove = (e: MouseEvent) => {
       nx = e.clientX;
       ny = e.clientY;
@@ -76,6 +84,7 @@
       if (!target || target.contains(related)) return;
       onEnter();
       dot.classList.toggle('cta', isCta(target));
+      dot.classList.toggle('on-accent', isOnAccent(target));
     };
     const onPointerOut = (e: PointerEvent) => {
       const target = getInteractive(e.target);
@@ -83,6 +92,7 @@
       if (!target || target.contains(related)) return;
       onLeave();
       dot.classList.remove('cta');
+      dot.classList.remove('on-accent');
     };
 
     document.addEventListener('pointerover', onPointerOver, { passive: true });
@@ -126,12 +136,31 @@
     height: 44px;
   }
 
+  /* État CTA · curseur agrandi terracotta solide sur ghost/normal background */
   .u-cursor-dot.cta {
     mix-blend-mode: normal;
     opacity: 1;
     background: var(--accent);
     width: 52px;
     height: 52px;
+    border: 0 solid transparent;
+    transition:
+      width 280ms var(--ease),
+      height 280ms var(--ease),
+      background 220ms var(--ease),
+      border-color 220ms var(--ease),
+      border-width 220ms var(--ease),
+      opacity 200ms;
+  }
+
+  /* V7 · État CTA sur fond accent (btn-primary terracotta)
+     → swap en RING paper outline pour contraste premium sans confusion couleur
+     · effet halo éditorial type "target/scope" cohérent avec aesthetic instruments */
+  .u-cursor-dot.cta.on-accent {
+    background: transparent;
+    border: 2px solid var(--paper);
+    width: 56px;
+    height: 56px;
   }
   @media (pointer: coarse) { .u-cursor-dot { display: none; } }
   @media (prefers-reduced-motion: reduce) { .u-cursor-dot { display: none; } }
