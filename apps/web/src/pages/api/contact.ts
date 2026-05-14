@@ -6,6 +6,7 @@ import type { APIRoute } from "astro";
 import { sendEmail, EMAIL_INTERNAL_TO, emitEvent } from "../../lib/resend";
 import ContactConfirmation from "../../lib/emails/ContactConfirmation";
 import InternalLeadAlert from "../../lib/emails/InternalLeadAlert";
+import { z } from "zod";
 
 export const prerender = false;
 
@@ -43,8 +44,6 @@ const MSGS = {
 
 type Lang = keyof typeof MSGS;
 type MsgKey = keyof typeof MSGS.fr;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 function msg(key: MsgKey, lang: Lang = "fr"): string {
   return (MSGS[lang] ?? MSGS.fr)[key];
 }
@@ -54,6 +53,15 @@ const CORS_HEADERS = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 } as const;
+
+const ContactSchema = z.object({
+  email: z.string().email(),
+  name: z.string().max(100).optional(),
+  brief: z.string().min(1).max(5000),
+  company: z.string().max(100).optional(),
+  role: z.string().max(100).optional(),
+  lang: z.enum(["fr", "en"]).optional().default("fr"),
+});
 
 // Bug @astrojs/vercel@10 adapter : `export const POST` exclu du bundle SSR
 // monorepo. Workaround validé empiriquement : utiliser `ALL` + dispatch
@@ -70,28 +78,28 @@ export const ALL: APIRoute = async ({ request }) => {
     return Response.json({ ok: false, error: msg("too_many_requests") }, { status: 429, headers: CORS_HEADERS });
   }
 
-  let payload: Record<string, string>;
+  let rawPayload: unknown;
   try {
     const ct = request.headers.get("content-type") ?? "";
     if (ct.includes("application/json")) {
-      payload = await request.json();
+      rawPayload = await request.json();
     } else {
       const fd = await request.formData();
-      payload = Object.fromEntries(fd.entries()) as Record<string, string>;
+      rawPayload = Object.fromEntries(fd.entries());
     }
   } catch {
     return Response.json({ ok: false, error: msg("invalid_body") }, { status: 400, headers: CORS_HEADERS });
   }
 
-  const lang: Lang = payload.lang === "en" ? "en" : "fr";
-  const { name, email, company, role, brief } = payload;
-  if (!email || !EMAIL_RE.test(email) || !brief) {
+  const parsed = ContactSchema.safeParse(rawPayload);
+  if (!parsed.success) {
+    const rawLang = (rawPayload as Record<string, string>).lang === "en" ? "en" : "fr";
     return Response.json(
-      { ok: false, error: msg("missing_fields", lang) },
+      { ok: false, error: msg("missing_fields", rawLang as Lang) },
       { status: 400, headers: CORS_HEADERS },
     );
   }
-
+  const { email, lang, name, brief, company, role } = parsed.data;
   const firstName = name?.split(" ")[0] ?? undefined;
   try {
     await Promise.all([

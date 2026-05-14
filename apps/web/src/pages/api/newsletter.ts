@@ -5,6 +5,7 @@
 import type { APIRoute } from "astro";
 import { sendEmail, emitEvent } from "../../lib/resend";
 import WelcomeNewsletter from "../../lib/emails/WelcomeNewsletter";
+import { z } from "zod";
 
 export const prerender = false;
 
@@ -42,8 +43,6 @@ const MSGS = {
 
 type Lang = keyof typeof MSGS;
 type MsgKey = keyof typeof MSGS.fr;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 function msg(key: MsgKey, lang: Lang = "fr"): string {
   return (MSGS[lang] ?? MSGS.fr)[key];
 }
@@ -53,6 +52,11 @@ const CORS_HEADERS = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 } as const;
+
+const NewsletterSchema = z.object({
+  email: z.string().email(),
+  lang: z.enum(["fr", "en"]).optional().default("fr"),
+});
 
 // Workaround bug @astrojs/vercel@10 (POST exclu du bundle). Cf known-issues #1.
 export const ALL: APIRoute = async ({ request }) => {
@@ -66,24 +70,26 @@ export const ALL: APIRoute = async ({ request }) => {
     return Response.json({ ok: false, error: msg("too_many_requests") }, { status: 429, headers: CORS_HEADERS });
   }
 
-  let payload: Record<string, string>;
+  let rawPayload: unknown;
   try {
     const ct = request.headers.get("content-type") ?? "";
-    payload = ct.includes("application/json")
+    rawPayload = ct.includes("application/json")
       ? await request.json()
-      : (Object.fromEntries(await request.formData()) as Record<string, string>);
+      : Object.fromEntries(await request.formData());
   } catch {
     return Response.json({ ok: false, error: msg("invalid_body") }, { status: 400, headers: CORS_HEADERS });
   }
 
-  const lang: Lang = payload.lang === "en" ? "en" : "fr";
-  const { email, firstName } = payload;
-  if (!email || !EMAIL_RE.test(email)) {
+  const parsed = NewsletterSchema.safeParse(rawPayload);
+  if (!parsed.success) {
+    const rawLang = (rawPayload as Record<string, string>).lang === "en" ? "en" : "fr";
     return Response.json(
-      { ok: false, error: msg("invalid_email", lang) },
+      { ok: false, error: msg("invalid_email", rawLang as Lang) },
       { status: 400, headers: CORS_HEADERS },
     );
   }
+  const { email, lang } = parsed.data;
+  const { firstName } = rawPayload as Record<string, string>;
 
   try {
     await sendEmail({

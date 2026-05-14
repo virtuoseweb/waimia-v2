@@ -6,6 +6,7 @@ import type { APIRoute } from "astro";
 import { sendEmail, EMAIL_INTERNAL_TO, emitEvent } from "../../lib/resend";
 import LeadMagnetDelivery from "../../lib/emails/LeadMagnetDelivery";
 import InternalLeadAlert from "../../lib/emails/InternalLeadAlert";
+import { z } from "zod";
 
 export const prerender = false;
 
@@ -43,8 +44,6 @@ const MSGS = {
 
 type Lang = keyof typeof MSGS;
 type MsgKey = keyof typeof MSGS.fr;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 function msg(key: MsgKey, lang: Lang = "fr"): string {
   return (MSGS[lang] ?? MSGS.fr)[key];
 }
@@ -54,6 +53,15 @@ const CORS_HEADERS = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 } as const;
+
+const LeadMagnetSchema = z.object({
+  email: z.string().email(),
+  slug: z.string().min(1).max(100),
+  company: z.string().max(100).optional(),
+  role: z.string().max(100).optional(),
+  firstName: z.string().max(100).optional(),
+  lang: z.enum(["fr", "en"]).optional().default("fr"),
+});
 
 // Workaround bug @astrojs/vercel@10 (POST exclu du bundle). Cf known-issues #1.
 
@@ -79,20 +87,27 @@ export const ALL: APIRoute = async ({ request }) => {
     return Response.json({ ok: false, error: msg("too_many_requests") }, { status: 429, headers: CORS_HEADERS });
   }
 
-  let payload: Record<string, string>;
+  let rawPayload: unknown;
   try {
     const ct = request.headers.get("content-type") ?? "";
-    payload = ct.includes("application/json")
+    rawPayload = ct.includes("application/json")
       ? await request.json()
-      : (Object.fromEntries(await request.formData()) as Record<string, string>);
+      : Object.fromEntries(await request.formData());
   } catch {
     return Response.json({ ok: false, error: msg("invalid_body") }, { status: 400, headers: CORS_HEADERS });
   }
 
-  const lang: Lang = payload.lang === "en" ? "en" : "fr";
-  const { slug, email, company, role, firstName } = payload;
+  const parsed = LeadMagnetSchema.safeParse(rawPayload);
+  if (!parsed.success) {
+    const rawLang = (rawPayload as Record<string, string>).lang === "en" ? "en" : "fr";
+    return Response.json(
+      { ok: false, error: msg("invalid_request", rawLang as Lang) },
+      { status: 400, headers: CORS_HEADERS },
+    );
+  }
+  const { email, lang, slug, company, role, firstName } = parsed.data;
   const magnet = MAGNETS[slug];
-  if (!email || !EMAIL_RE.test(email) || !magnet) {
+  if (!magnet) {
     return Response.json(
       { ok: false, error: msg("invalid_request", lang) },
       { status: 400, headers: CORS_HEADERS },

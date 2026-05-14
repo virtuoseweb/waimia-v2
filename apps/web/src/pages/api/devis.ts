@@ -6,6 +6,7 @@ import type { APIRoute } from "astro";
 import { sendEmail, EMAIL_INTERNAL_TO, emitEvent } from "../../lib/resend";
 import DevisRecap from "../../lib/emails/DevisRecap";
 import InternalLeadAlert from "../../lib/emails/InternalLeadAlert";
+import { z } from "zod";
 
 export const prerender = false;
 
@@ -43,8 +44,6 @@ const MSGS = {
 
 type Lang = keyof typeof MSGS;
 type MsgKey = keyof typeof MSGS.fr;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 function msg(key: MsgKey, lang: Lang = "fr"): string {
   return (MSGS[lang] ?? MSGS.fr)[key];
 }
@@ -54,6 +53,16 @@ const CORS_HEADERS = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 } as const;
+
+const DevisSchema = z.object({
+  email: z.string().email(),
+  slug: z.string().min(1).max(100),
+  brief: z.string().min(1).max(5000),
+  company: z.string().max(100).optional(),
+  firstName: z.string().max(100).optional(),
+  budget: z.string().max(50).optional(),
+  lang: z.enum(["fr", "en"]).optional().default("fr"),
+});
 
 const OFFERS: Record<string, string> = {
   "site-web-ia": "Site web IA-native (Astro+React 95% IA)",
@@ -79,27 +88,27 @@ export const ALL: APIRoute = async ({ request }) => {
     return Response.json({ ok: false, error: msg("too_many_requests") }, { status: 429, headers: CORS_HEADERS });
   }
 
-  let payload: Record<string, string>;
+  let rawPayload: unknown;
   try {
     const ct = request.headers.get("content-type") ?? "";
-    payload = ct.includes("application/json")
+    rawPayload = ct.includes("application/json")
       ? await request.json()
-      : (Object.fromEntries(await request.formData()) as Record<string, string>);
+      : Object.fromEntries(await request.formData());
   } catch {
     return Response.json({ ok: false, error: msg("invalid_body") }, { status: 400, headers: CORS_HEADERS });
   }
 
-  const lang: Lang = payload.lang === "en" ? "en" : "fr";
-  const { slug, email, company, brief, firstName } = payload;
-  const budget = (payload.budget ?? "starter") as "starter" | "standard" | "custom";
-  const offerLabel = OFFERS[slug] ?? `Offre ${slug}`;
-
-  if (!email || !EMAIL_RE.test(email) || !brief || !slug) {
+  const parsed = DevisSchema.safeParse(rawPayload);
+  if (!parsed.success) {
+    const rawLang = (rawPayload as Record<string, string>).lang === "en" ? "en" : "fr";
     return Response.json(
-      { ok: false, error: msg("missing_fields", lang) },
+      { ok: false, error: msg("missing_fields", rawLang as Lang) },
       { status: 400, headers: CORS_HEADERS },
     );
   }
+  const { email, lang, slug, brief, company, firstName } = parsed.data;
+  const budget = (parsed.data.budget ?? "starter") as "starter" | "standard" | "custom";
+  const offerLabel = OFFERS[slug] ?? `Offre ${slug}`;
 
   const reference = generateRef();
 

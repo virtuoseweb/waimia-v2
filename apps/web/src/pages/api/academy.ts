@@ -6,6 +6,7 @@ import type { APIRoute } from "astro";
 import { sendEmail, EMAIL_INTERNAL_TO, emitEvent } from "../../lib/resend";
 import AcademyResults from "../../lib/emails/AcademyResults";
 import InternalLeadAlert from "../../lib/emails/InternalLeadAlert";
+import { z } from "zod";
 
 export const prerender = false;
 
@@ -43,8 +44,6 @@ const MSGS = {
 
 type Lang = keyof typeof MSGS;
 type MsgKey = keyof typeof MSGS.fr;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 function msg(key: MsgKey, lang: Lang = "fr"): string {
   return (MSGS[lang] ?? MSGS.fr)[key];
 }
@@ -54,6 +53,12 @@ const CORS_HEADERS = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 } as const;
+
+const AcademySchema = z.object({
+  email: z.string().email(),
+  name: z.string().min(1).max(100).optional(),
+  lang: z.enum(["fr", "en"]).optional().default("fr"),
+});
 
 function categorize(score: number): "discovery" | "building" | "mature" {
   if (score < 9) return "discovery";
@@ -127,30 +132,33 @@ export const ALL: APIRoute = async ({ request }) => {
     return Response.json({ ok: false, error: msg("too_many_requests") }, { status: 429, headers: CORS_HEADERS });
   }
 
-  let payload: Record<string, string>;
+  let rawPayload: unknown;
   try {
     const ct = request.headers.get("content-type") ?? "";
-    payload = ct.includes("application/json")
+    rawPayload = ct.includes("application/json")
       ? await request.json()
-      : (Object.fromEntries(await request.formData()) as Record<string, string>);
+      : Object.fromEntries(await request.formData());
   } catch {
     return Response.json({ ok: false, error: msg("invalid_body") }, { status: 400, headers: CORS_HEADERS });
   }
 
-  const lang: Lang = payload.lang === "en" ? "en" : "fr";
-
-  // 12 questions q1-q12 attendues, scores 0-2 chacune (max 24)
-  let score = 0;
-  for (let i = 1; i <= 12; i++) {
-    const v = parseInt(payload[`q${i}`] ?? "0", 10);
-    if (!isNaN(v)) score += Math.max(0, Math.min(2, v));
-  }
-  const { email, firstName, company, role } = payload;
-  if (!email || !EMAIL_RE.test(email)) {
+  const parsed = AcademySchema.safeParse(rawPayload);
+  if (!parsed.success) {
+    const rawLang = (rawPayload as Record<string, string>).lang === "en" ? "en" : "fr";
     return Response.json(
-      { ok: false, error: msg("missing_email", lang) },
+      { ok: false, error: msg("missing_email", rawLang as Lang) },
       { status: 400, headers: CORS_HEADERS },
     );
+  }
+  const { email, lang } = parsed.data;
+  const { firstName, company, role } = rawPayload as Record<string, string>;
+
+  // 12 questions q1-q12 attendues, scores 0-2 chacune (max 24)
+  const raw = rawPayload as Record<string, string>;
+  let score = 0;
+  for (let i = 1; i <= 12; i++) {
+    const v = parseInt(raw[`q${i}`] ?? "0", 10);
+    if (!isNaN(v)) score += Math.max(0, Math.min(2, v));
   }
 
   const category = categorize(score);
