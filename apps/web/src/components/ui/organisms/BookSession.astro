@@ -15,8 +15,8 @@ const ctaHref = localizeHref('/contact', lang);
 const email = lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr';
 ---
 <section id="act-5" class="book-session scale-in" aria-labelledby="book-h2">
-  <div class="wrap-wide" style="text-align:center;position:relative;z-index:1">
-    <div style="display:flex;justify-content:center">
+  <div class="wrap-wide book-inner">
+    <div class="book-chapter">
       <ChapterLabel
         num="FIG V · 5.0"
         title={lang === 'fr' ? "Acte V — Passer à l'action" : 'Act V — Act'}
@@ -51,15 +51,30 @@ const email = lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr';
         {email}
       </Button>
     </div>
+
+    <p class="book-sub">
+      {lang === 'fr'
+        ? <>Diagnostic <i>gratuit</i> · sans engagement · réponse <i>sous 24h</i>.</>
+        : <>Free <i>diagnostic</i> · no commitment · response <i>within 24h</i>.</>}
+    </p>
   </div>
 </section>
 
 <style>
   .book-session{padding:clamp(140px,18vw,260px) 0 clamp(100px,12vw,200px);background:var(--paper);border-top:1px solid var(--hairline);border-radius:0;transition:border-radius 1200ms var(--ease)}
   .book-session.in{border-radius:32px 32px 0 0}
+
+  /* Inner wrap · centrage propre sans inline style */
+  .book-inner{text-align:center;position:relative;z-index:1}
+  .book-chapter{display:flex;justify-content:center}
+
   .book-h2{font-family:var(--font-display);font-style:italic;font-size:clamp(64px,12vw,184px);line-height:.92;letter-spacing:-0.03em;margin:32px 0 28px;text-wrap:balance;font-weight:400}
   .book-h2 i{font-style:italic;color:var(--accent)}
   .book-lede{font-size:clamp(16px,1.8vw,19px);color:var(--muted);max-width:620px;margin:0 auto 36px;font-family:var(--font-display);line-height:1.45}
   .book-avail{font-family:var(--font-mono);font-size:11px;font-style:normal;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin:0 0 32px;line-height:1}
   .book-ctas{display:inline-flex;gap:12px;flex-wrap:wrap;justify-content:center}
+
+  /* Sub-CTA · réassurance · serif italique terracotta sur les mots clés */
+  .book-sub{margin:24px auto 0;font-family:var(--font-sans);font-size:clamp(13px,1.05vw,15px);line-height:1.5;color:var(--muted);max-width:560px}
+  .book-sub i{font-style:italic;color:var(--accent)}
 </style>
