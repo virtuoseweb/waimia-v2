@@ -18,21 +18,24 @@ import Base from '../layouts/Base.astro';
 import BootSplash from '../components/motion/BootSplash.tsx';
 import ScrollProgress from '../components/ui/atoms/ScrollProgress.astro';
 
-import Hero            from '../components/ui/organisms/Hero.astro';
-import TrustMarquee    from '../components/ui/organisms/TrustMarquee.astro';
-import SixServices     from '../components/ui/organisms/SixServices.astro';
-import Pyramid         from '../components/ui/organisms/Pyramid.astro';
-import Departments     from '../components/ui/organisms/Departments.astro';
-import Cases           from '../components/ui/organisms/Cases.astro';
-import FAQ             from '../components/seo/FAQ.astro';
-import BookSession     from '../components/ui/organisms/BookSession.astro';
-import SigBand         from '../components/ui/organisms/SigBand.astro';
-import FooterMarquee   from '../components/ui/organisms/FooterMarquee.astro';
+import Hero             from '../components/ui/organisms/Hero.astro';
+import TrustMarquee     from '../components/ui/organisms/TrustMarquee.astro';
+import CapabilityStrip    from '../components/ui/organisms/CapabilityStrip.astro';
+import SystemArchitecture from '../components/ui/organisms/SystemArchitecture.astro';
+import SixServices        from '../components/ui/organisms/SixServices.astro';
+import Pyramid          from '../components/ui/organisms/Pyramid.astro';
+import Departments      from '../components/ui/organisms/Departments.astro';
+import Cases            from '../components/ui/organisms/Cases.astro';
+import FAQ              from '../components/seo/FAQ.astro';
+import FieldNotes       from '../components/ui/organisms/FieldNotes.astro';
+import BookSession      from '../components/ui/organisms/BookSession.astro';
+import SigBand          from '../components/ui/organisms/SigBand.astro';
+import FooterMarquee    from '../components/ui/organisms/FooterMarquee.astro';
 
 import { faqPage } from '../lib/seo';
 import { buildOrganization } from '../lib/seo/schema-builder';
 
-// FAQ PME-first · 6 questions max · scannables (réponse en 2-3 phrases)
+// FAQ PME-first · 8 questions scannables (V5 : + CMS · + brand consistency)
 const faqItems = [
   {
     q: "Combien coûte un premier engagement avec Waimia ?",
@@ -58,6 +61,14 @@ const faqItems = [
     q: "Travaillez-vous avec notre stack actuelle (HubSpot, Salesforce, Excel, etc.) ?",
     a: "Oui — on se branche sur votre stack actuelle : HubSpot, Salesforce, Pipedrive, Notion, Excel, Office, ERP. Pas de migration imposée. Si vous n'avez pas de CRM, on en propose un adapté à votre volume, souvent HubSpot pour les PME B2B.",
   },
+  {
+    q: "Et notre site web et CMS actuels ? Faut-il tout refaire ?",
+    a: "Non. On se branche sur votre CMS existant (WordPress, Webflow, Sanity, headless) ou on bascule vers un CMS Git-based si la maturité de l'équipe le permet. Sites IA-first, landing, tunnels et pages évolutives peuvent vivre en parallèle ou remplacer progressivement l'existant, à votre rythme.",
+  },
+  {
+    q: "Comment garantissez-vous la cohérence de marque sur tous les supports ?",
+    a: "On part de votre design system (ou on le construit), on encode votre charte et votre ton dans des templates, et on déploie des agents de production alignés. Résultat : site, posts, decks PowerPoint, PDF, ads et supports sales restent visuellement et verbalement cohérents même quand l'IA produit en volume.",
+  },
 ];
 ---
 <Base
@@ -74,26 +85,40 @@ const faqItems = [
   {/* 2 — TrustMarquee · logos clients = preuve sociale immédiate */}
   <TrustMarquee />
 
-  {/* 3 — SixServices · 6 leviers business (recadrés M1) */}
+  {/* 3 — CapabilityStrip · 8 piliers du scope Waimia complet (V5)
+       → expose ads/content/web-CMS/CRM/data/automation/brand/governance
+       → liens vers pages /solutions, /offres, /agence existantes */}
+  <CapabilityStrip />
+
+  {/* 4 — SystemArchitecture · SVG canonique 6 canaux → IA System → 4 sorties
+       → matérialise la doctrine multi-agents de la boucle d'amélioration */}
+  <SystemArchitecture />
+
+  {/* 5 — SixServices · 6 leviers business (recadrés M1) + connecteurs (V5) */}
   <SixServices />
 
-  {/* 4 — Pyramid · 3 piliers + 2 niveaux (recadré M1) */}
+  {/* 5 — Pyramid · 4 paliers d'engagement (V10) */}
   <Pyramid />
 
-  {/* 5 — Departments · 5 cas d'usage horizontaux (RECADRÉ M4) */}
+  {/* 6 — Departments · 6 cas d'usage horizontaux (V5 : + site-web-ia) */}
   <Departments />
 
-  {/* 6 — Cases · 4-5 cas vedettes (CASE_FEED recadré M1) */}
+  {/* 7 — Cases · 4 dossiers vedettes (CASE_FEED) */}
   <Cases />
 
-  {/* 7 — FAQ · 6 questions PME-first */}
+  {/* 8 — FAQ · 8 questions PME-first (V5 : + CMS, brand consistency) */}
   <FAQ
     items={faqItems}
     heading="Questions fréquentes"
-    intro="Six réponses nettes — pas des slides, pas du jargon. Ce qu'on écrit par mail avant de se parler."
+    intro="Huit réponses nettes — pas des slides, pas du jargon. Ce qu'on écrit par mail avant de se parler."
   />
 
-  {/* 8 — BookSession · CTA principal vers /contact */}
+  {/* 9 — FieldNotes · doctrine + internal linking (V5 brief section 20)
+       → entre FAQ et BookSession : FAQ enlève les objections,
+         Notes construisent l'autorité, CTA convertit. */}
+  <FieldNotes />
+
+  {/* 10 — BookSession · CTA principal vers /contact */}
   <BookSession />
 
   {/* SigBand · signature pré-footer */}

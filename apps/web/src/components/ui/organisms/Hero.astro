@@ -64,26 +64,21 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
         <Kicker class="hero-fig">§ 01 · {lang === 'fr' ? 'Promesse' : 'Promise'}</Kicker>
         <p class="hero-lede reveal reveal-fade">
           {lang === 'fr' ? (
-            <>On câble l'<i>IA</i> dans Excel, HubSpot et Outlook pour automatiser acquisition, CRM et relances — sans changer vos process.</>
+            <>On câble l'<i>IA</i> dans vos outils marketing, sales, contenu et web — acquisition, CRM, site, analytics, marque — <i>sans changer</i> vos process.</>
           ) : (
-            <>We wire <i>AI</i> into Excel, HubSpot and Outlook to automate acquisition, CRM and follow-ups — without changing your process.</>
+            <>We wire <i>AI</i> into your marketing, sales, content and web stack — acquisition, CRM, site, analytics, brand — <i>without changing</i> your process.</>
           )}
         </p>
 
-        {/* Pills outils · stack natif d'intégration · hairline 1px terracotta sur hover */}
-        <ul class="hero-tools reveal reveal-fade" aria-label={lang === 'fr' ? 'Outils intégrés' : 'Integrated tools'}>
-          <li class="hero-tool">
-            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="1" y="2" width="14" height="12" rx="1" stroke="currentColor" stroke-width="1" fill="none"/><path d="M5 5l6 6M11 5l-6 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-            <span>Excel</span>
-          </li>
-          <li class="hero-tool">
-            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1" fill="none"/><circle cx="11.5" cy="4.5" r="1.4" stroke="currentColor" stroke-width="1" fill="none"/><path d="M8 4v4l3 1.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
-            <span>HubSpot</span>
-          </li>
-          <li class="hero-tool">
-            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="1.5" y="3" width="9" height="10" rx="0.5" stroke="currentColor" stroke-width="1" fill="none"/><circle cx="6" cy="8" r="1.8" stroke="currentColor" stroke-width="1" fill="none"/><path d="M11 6h3.5v6L11 13" stroke="currentColor" stroke-width="1" fill="none" stroke-linejoin="round"/></svg>
-            <span>Outlook</span>
-          </li>
+        {/* Scope strip · 6 groupes éditoriaux représentant le périmètre Waimia complet
+            (les noms d'outils figurent dans la section CapabilityStrip plus bas) */}
+        <ul class="hero-scope reveal reveal-fade" aria-label={lang === 'fr' ? 'Périmètre opérationnel' : 'Operational scope'}>
+          <li class="hero-scope-item">{lang === 'fr' ? 'Acquisition' : 'Acquisition'}</li>
+          <li class="hero-scope-item">{lang === 'fr' ? 'Contenu' : 'Content'}</li>
+          <li class="hero-scope-item">{lang === 'fr' ? 'Site & CMS' : 'Site & CMS'}</li>
+          <li class="hero-scope-item">{lang === 'fr' ? 'CRM & Sales' : 'CRM & Sales'}</li>
+          <li class="hero-scope-item">{lang === 'fr' ? 'Data & Insights' : 'Data & Insights'}</li>
+          <li class="hero-scope-item">{lang === 'fr' ? 'Brand System' : 'Brand System'}</li>
         </ul>
 
         <div class="hero-ctas reveal reveal-snap">
@@ -224,33 +219,35 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
   }
   .hero-lede i { font-style: italic; color: var(--accent); }
 
-  /* Pills outils · hairline 1px · mono micro · hover accent */
-  .hero-tools {
+  /* Scope strip · 6 piliers éditoriaux du périmètre Waimia · hairline 1px par item
+     mono caps · separator middot terracotta · responsive wrap propre */
+  .hero-scope {
     list-style: none;
     padding: 0;
     margin: var(--space-5) 0 0;
     display: flex;
-    gap: var(--space-2);
+    align-items: center;
+    gap: clamp(10px, 1vw, 14px);
     flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-2);
     transition-delay: 280ms;
   }
-  .hero-tool {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 12px;
-    border: 1px solid var(--hairline);
-    border-radius: 2px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    color: var(--ink);
-    background: transparent;
-    transition: border-color 220ms var(--ease), color 220ms var(--ease);
+  .hero-scope-item {
+    position: relative;
+    padding: 5px 10px 5px 0;
   }
-  .hero-tool:hover { border-color: var(--accent); color: var(--accent); }
-  .hero-tool svg { width: 14px; height: 14px; flex-shrink: 0; color: var(--ink-2); }
-  .hero-tool:hover svg { color: var(--accent); }
+  .hero-scope-item::after {
+    content: '·';
+    color: var(--accent);
+    margin-left: clamp(10px, 1vw, 14px);
+    opacity: 0.6;
+  }
+  .hero-scope-item:last-child::after { content: ''; margin: 0; }
+  .hero-scope-item:hover { color: var(--accent); cursor: default; }
 
   /* CTAs · reveal-snap delay 400ms */
   .hero-ctas {
@@ -354,5 +351,13 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
   @media (max-width: 560px) {
     .hero-trust { grid-template-columns: 1fr; gap: var(--space-5); }
     .hero-proof { grid-template-columns: 1fr; gap: 4px; padding: var(--space-3) 0; }
+  }
+  /* Low-height desktop · 1280×720 / 1366×768 / 1440×800 avec cookie banner visible
+     → on resserre les rythmes verticaux sans toucher à l'identité typographique */
+  @media (max-height: 850px) and (min-width: 900px) {
+    .hero-a { padding-top: clamp(72px, 5.5vw, 88px); }
+    .hero-sub { margin-top: var(--space-7); padding: var(--space-6) 0 var(--space-9); }
+    .hero-headline { font-size: clamp(48px, 7.5vw, 116px); }
+    .hero-trust { padding: var(--space-5) 0 var(--space-6); }
   }
 </style>

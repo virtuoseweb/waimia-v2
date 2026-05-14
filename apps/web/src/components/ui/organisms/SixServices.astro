@@ -42,6 +42,10 @@ const lang = langFromPath(Astro.url.pathname);
           <h3 class="six-cell-title">{t(s.label, lang)}</h3>
           <span class="six-cell-rule" aria-hidden="true"></span>
           <p class="six-cell-body">{t(s.body, lang)}</p>
+          <footer class="six-cell-foot">
+            <span class="six-cell-foot-key">{lang === 'fr' ? 'Connecteurs' : 'Connectors'}</span>
+            <span class="six-cell-foot-val">{t(s.connectors, lang)}</span>
+          </footer>
           <span class="six-cell-arr" aria-hidden>→</span>
         </article>
       ))}
@@ -74,6 +78,13 @@ const lang = langFromPath(Astro.url.pathname);
   .six-cell:hover .six-cell-rule{width:60px}
 
   .six-cell-body{margin-top:14px;font-family:var(--font-sans);font-size:14px;line-height:1.55;color:var(--muted);max-width:380px;text-wrap:pretty}
+
+  /* Footer connecteurs · mono micro · key ink · val ink-2 · hairline top discrète */
+  .six-cell-foot{margin-top:auto;padding-top:18px;display:flex;flex-direction:column;gap:4px;border-top:1px dashed var(--hairline)}
+  .six-cell-foot-key{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
+  .six-cell-foot-val{font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;color:var(--ink);line-height:1.5}
+
+  .six-cell{display:flex;flex-direction:column}
   .six-cell-arr{position:absolute;bottom:18px;right:22px;font-family:var(--font-mono);font-size:13px;color:var(--accent);transition:transform 320ms var(--ease)}
   .six-cell:hover .six-cell-arr{transform:translateX(4px)}
 

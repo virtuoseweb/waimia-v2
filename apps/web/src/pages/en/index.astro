@@ -1,85 +1,146 @@
 ---
-// Homepage · Direction 1 · 5 acts + 4 intercalary sections · EN
 export const prerender = true;
 
-// Pacing mirror of pages/index.astro · cf docs/04-motion-system.md
-
+/**
+ * Homepage · M4 business-first PME/ETI · EN parity
+ *
+ * Aligned with pages/index.astro (FR) post-V5 refactor.
+ * Scope: acquisition, content, web/CMS, CRM/sales, data, automation,
+ *        brand system, governance — not only Excel/HubSpot/Outlook.
+ *
+ * Organisms retired from the home (kept on other pages) :
+ *   - WhyAIStalls + HowWeShip → /agence/methode
+ *   - Manifesto → /manifesto
+ *   - OperatingLayer → /agence/methode
+ *   - Offices → /agence/about
+ */
 import Base from '../../layouts/Base.astro';
 import BootSplash from '../../components/motion/BootSplash.tsx';
+import ScrollProgress from '../../components/ui/atoms/ScrollProgress.astro';
 
-import Hero            from '../../components/ui/organisms/Hero.astro';
-import TrustMarquee    from '../../components/ui/organisms/TrustMarquee.astro';
-import WhyAIStalls     from '../../components/ui/organisms/WhyAIStalls.astro';
-import HowWeShip       from '../../components/ui/organisms/HowWeShip.astro';
-import SixServices     from '../../components/ui/organisms/SixServices.astro';
-import Pyramid         from '../../components/ui/organisms/Pyramid.astro';
-import Manifesto       from '../../components/ui/organisms/Manifesto.astro';
-import OperatingLayer  from '../../components/ui/organisms/OperatingLayer.astro';
-import Departments     from '../../components/ui/organisms/Departments.astro';
-import Cases           from '../../components/ui/organisms/Cases.astro';
-import WritingNotes    from '../../components/ui/organisms/WritingNotes.astro';
-import Offices         from '../../components/ui/organisms/Offices.astro';
-import FAQ             from '../../components/seo/FAQ.astro';
-import BookSession     from '../../components/ui/organisms/BookSession.astro';
-import SigBand         from '../../components/ui/organisms/SigBand.astro';
+import Hero             from '../../components/ui/organisms/Hero.astro';
+import TrustMarquee     from '../../components/ui/organisms/TrustMarquee.astro';
+import CapabilityStrip    from '../../components/ui/organisms/CapabilityStrip.astro';
+import SystemArchitecture from '../../components/ui/organisms/SystemArchitecture.astro';
+import SixServices        from '../../components/ui/organisms/SixServices.astro';
+import Pyramid          from '../../components/ui/organisms/Pyramid.astro';
+import Departments      from '../../components/ui/organisms/Departments.astro';
+import Cases            from '../../components/ui/organisms/Cases.astro';
+import FAQ              from '../../components/seo/FAQ.astro';
+import FieldNotes       from '../../components/ui/organisms/FieldNotes.astro';
+import BookSession      from '../../components/ui/organisms/BookSession.astro';
+import SigBand          from '../../components/ui/organisms/SigBand.astro';
+import FooterMarquee    from '../../components/ui/organisms/FooterMarquee.astro';
 
 import { faqPage } from '../../lib/seo';
+import { buildOrganization } from '../../lib/seo/schema-builder';
 
+// FAQ SMB-first · 8 questions (V5: + CMS, + brand consistency)
 const faqItems = [
   {
-    q: "What is a 'Claude-native AI agency' and how is it different from a generalist AI agency?",
-    a: "We focus 100% of our R&D on Anthropic's ecosystem — Opus 4.7, Sonnet 4.6, Haiku 4.5, Skills, MCP, Managed Agents — and on compatible open-source frameworks. It shows in time-to-production: 6 weeks median for an agent in prod, vs 14+ for generalist teams. We write French, read Stripe docs, ship code on Tuesdays, and measure pipeline on Fridays.",
+    q: "How much does a first engagement with Waimia cost?",
+    a: "AI Activation · 1 week starts at €1,500: audit, training, first workflow shipped. AI Growth System starts at €5,000. Most SMBs start small, measure in 5 days, then wire the full system.",
   },
   {
-    q: "What is the difference between Claude Skills and MCP?",
-    a: "A Claude Skill is a defined behaviour — a precise workflow (e.g. 'generate a finance memo') with its steps, constraints, output formats. MCP (Model Context Protocol) is the open standard connecting a model to data sources and external tools (Notion, Drive, Slack, HubSpot). Skills = reusable behaviour. MCP = standardised connectivity. They complement each other in every Waimia agent.",
+    q: "Who is this for — and who is it not for?",
+    a: "French and Swiss SMBs and mid-market companies, 20 to 500 people. Not large groups already loaded with vendors. Not very young startups changing direction every week. Best fits: B2B services, industry, finance and accounting firms.",
   },
   {
-    q: "Can you deploy self-hosted, with no Anthropic dependency?",
-    a: "Yes. We deploy open-source models (Llama 4, DeepSeek V3.2, Qwen 3.5, GLM-5) on customer infrastructure via vLLM or Ollama, orchestrated with LangGraph or CrewAI. This path is recommended when GDPR, ACPR, SecNumCloud or HIPAA constraints require data to never leave your perimeter. We always document total cost and the migration path back to Claude managed if relevant.",
+    q: "How fast do we see ROI?",
+    a: "AI Activation · 1 week: a workflow in production in 5 days, before/after measure included. Growth System: full system in 6 to 10 weeks. Tuesday we wire, Friday we measure. ROI between 3.4× and 4.1× at 12 months on our SMB cases.",
   },
   {
-    q: "How much does a first engagement cost?",
-    a: "A Process Intelligence Audit starts at €12,000 over 5 days. A 4-week MVP Sprint (1 agent in production, full audit trail, before/after metrics) starts at €24,000. For a precise quote, use our TCO calculator or book a 45-minute call — we come back with one diagnosed problem, or we don't follow up.",
+    q: "Do you work with our current stack (HubSpot, Salesforce, Excel, etc.)?",
+    a: "Yes — we plug into your current stack: HubSpot, Salesforce, Pipedrive, Notion, Excel, Office, ERP, GA4, Search Console. No forced migration. If you have no CRM, we propose one matched to your volume — often HubSpot for B2B SMBs.",
   },
   {
-    q: "Are you a certified Anthropic partner?",
-    a: "Our Anthropic partnership application is under review (Q3 2026). Our architects are Claude Certified and we are Francenum activators (AI experts recognised by the French government). All numbers and certifications are public on our Trust Center.",
+    q: "And our current website and CMS? Do we have to rebuild everything?",
+    a: "No. We plug into your existing CMS (WordPress, Webflow, Sanity, headless) or move to a Git-based CMS if team maturity allows. AI-first sites, landing pages, tunnels and evolving pages can live in parallel or progressively replace what you have — at your own rhythm.",
   },
   {
-    q: "How do you ensure AI Act and GDPR compliance?",
-    a: "Every agent we ship includes by default: signed logs of all actions (AI Act Art. 12), CSV/JSON export, rollback capability, automatic risk-level classification. For GDPR/LPD compliance, we run a PIA (Privacy Impact Assessment) before the MVP sprint. Our Trust Center details the full list of controls.",
+    q: "How do you guarantee brand consistency across every channel?",
+    a: "We start from your design system (or build one), encode your guidelines and tone into templates, then deploy aligned production agents. Result: site, posts, decks, PDF, ads and sales material stay visually and verbally consistent even when AI produces in volume.",
   },
   {
-    q: "What is VirtuoseOS and do I have to buy it to work with you?",
-    a: "VirtuoseOS is our internal platform — the multi-workspace kernel under every Waimia engagement. You don't have to buy it to work with us. For Enterprise engagements, we offer it self-hosted on your infrastructure or as managed SaaS with French parity.",
+    q: "What if we want to bring the system in-house?",
+    a: "Everything is documented, open, transferable. No black box, no lock-in. We train your team during the engagement (2 to 3 days) and ship the full operating manual. You keep the platform when we leave.",
+  },
+  {
+    q: "How do you guarantee GDPR and AI Act compliance?",
+    a: "Every system includes by default: action logs, CSV/JSON export, rollback capability, AI Act risk classification. For mid-market engagements, we run a PIA before the sprint. Our Trust Center documents the full governance.",
   },
 ];
 ---
 <Base
-  title="Waimia · Architects of agentic systems · Claude-native · Paris · Geneva"
-  description="A Claude-specialised AI agency (Opus, Sonnet, Haiku) for revenue operations. We ship strategy, operations, and VirtuoseOS as one continuous layer. Without the theatre."
-  jsonLd={faqPage(faqItems)}
+  title="Waimia · AI Systems for SMBs · Acquisition · CRM · Content · Web · Brand"
+  description="We wire AI into SMB tools: acquisition, CRM, content, website, analytics, brand. AI Activation · 1 week, AI Growth System, Operational Productivity. Paris · Geneva."
+  jsonLd={[faqPage(faqItems), buildOrganization()]}
 >
   <BootSplash client:only="react" lang="en" />
 
+  {/* 1 — Hero · canonical promise + 4 metrics */}
   <Hero />
+
+  {/* 2 — TrustMarquee · client logos = immediate social proof */}
   <TrustMarquee />
-  <WhyAIStalls />
-  <HowWeShip />          {/* 3.5 — how we tackle the problem · sticky pin signature */}
+
+  {/* 3 — CapabilityStrip · 8 pillars of Waimia's full scope (V5)
+       → exposes ads/content/web-CMS/CRM/data/automation/brand/governance
+       → links to existing /solutions, /offres, /agence pages */}
+  <CapabilityStrip />
+
+  {/* 4 — SystemArchitecture · canonical SVG: 6 channels → AI System → 4 outputs
+       → materializes the multi-agent doctrine and the improvement loop */}
+  <SystemArchitecture />
+
+  {/* 5 — SixServices · 6 business levers + connectors (V5) */}
   <SixServices />
-  <Pyramid />            {/* 4.5 — the 4-tier architecture beneath the 6 services */}
-  <Manifesto />            {/* Viewport unique sur la home (paper) — ManifestoAccent terracotta réservé à /manifesto pour éviter doublon */}
-  <OperatingLayer />
-  <Departments />        {/* 6.5 — for which department · 6 cells */}
+
+  {/* 5 — Pyramid · 4 engagement tiers */}
+  <Pyramid />
+
+  {/* 6 — Departments · 6 horizontal use cases (V5: + AI-first website) */}
+  <Departments />
+
+  {/* 7 — Cases · 4 featured dossiers */}
   <Cases />
-  <WritingNotes />
-  <Offices />            {/* 8.5 — geographical anchor Paris-Geneva */}
+
+  {/* 8 — FAQ · 8 SMB-first questions (V5: + CMS, + brand consistency) */}
   <FAQ
     items={faqItems}
-    heading="Questions we get asked"
-    intro="Seven honest answers — the ones we send by email before the first call."
+    heading="Frequently asked questions"
+    intro="Eight straight answers — no slides, no jargon. The kind we send by email before the first call."
   />
+
+  {/* 9 — FieldNotes · doctrine + internal linking (V5 brief section 20)
+       → between FAQ and final CTA: FAQ removes objections,
+         Notes build authority, CTA converts. */}
+  <FieldNotes />
+
+  {/* 10 — BookSession · primary CTA toward /contact */}
   <BookSession />
+
+  {/* SigBand · signature pre-footer */}
   <SigBand />
+
+  {/* FooterMarquee · editorial animated band pre-scrollprogress */}
+  <FooterMarquee />
+
+  <ScrollProgress />
+  <script>
+    import { initHomepageNarrative } from '../../lib/animations/signature/homepage-narrative';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+    function bootstrap() {
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+      initHomepageNarrative();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootstrap);
+    } else {
+      bootstrap();
+    }
+    document.addEventListener('astro:page-load', bootstrap);
+  </script>
 </Base>

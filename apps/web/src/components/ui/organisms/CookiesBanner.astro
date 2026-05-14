@@ -100,10 +100,23 @@ const lang = propLang ?? langFromPath(Astro.url.pathname);
 (function () {
   var KEY = 'waimia_cookies_consent';
 
+  // Pilote --cookie-banner-height via data-attribute sur <html> · cf tokens.css
+  // → permet aux sections (hero, CTA final) de réserver l'espace bas dynamiquement
+  function setVisible(visible) {
+    var root = document.documentElement;
+    if (visible) root.setAttribute('data-cookie-visible', 'true');
+    else root.removeAttribute('data-cookie-visible');
+  }
+
   function initBanner() {
     var stored = localStorage.getItem(KEY);
     var banner = document.getElementById('cookies-banner');
-    if (!stored && banner) banner.removeAttribute('hidden');
+    if (!stored && banner) {
+      banner.removeAttribute('hidden');
+      setVisible(true);
+    } else {
+      setVisible(false);
+    }
 
     var btnAccept = document.getElementById('cb-accept');
     var btnReject = document.getElementById('cb-reject');
@@ -114,6 +127,7 @@ const lang = propLang ?? langFromPath(Astro.url.pathname);
         localStorage.setItem(KEY, 'accepted');
         var b = document.getElementById('cookies-banner');
         if (b) b.setAttribute('hidden', '');
+        setVisible(false);
       });
     }
     if (btnReject && !btnReject.dataset.cbBound) {
@@ -122,6 +136,7 @@ const lang = propLang ?? langFromPath(Astro.url.pathname);
         localStorage.setItem(KEY, 'rejected');
         var b = document.getElementById('cookies-banner');
         if (b) b.setAttribute('hidden', '');
+        setVisible(false);
       });
     }
   }
