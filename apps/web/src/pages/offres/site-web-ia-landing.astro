@@ -1,0 +1,464 @@
+---
+export const prerender = true;
+import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/ui/molecules/Breadcrumb.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+import PricingTier from '../../components/ui/molecules/PricingTier.astro';
+---
+<Base
+  title="Site Web IA-first — Landing · Waimia"
+  description="Votre site génère des leads pendant que vous dormez. 3 agents IA, lead-gen auto, ROI mesuré en 90 jours."
+>
+  <main class="landing-swia">
+
+    <div class="wrap-wide">
+      <Breadcrumb items={[
+        { label: 'Offres', href: '/offres' },
+        { label: 'Site web IA-first', href: '/offres/site-web-ia' },
+        { label: 'Landing' },
+      ]} />
+    </div>
+
+    <!-- ── 1. HERO MAGNÉTIQUE ── -->
+    <section class="lp-hero wrap-wide">
+      <p class="tnl-eyebrow reveal">§ Site web IA-first · <span lang="en">Site web IA-first</span></p>
+      <h1 class="lp-h1 reveal-mask-up">
+        Votre site génère des leads<br/>
+        <em>pendant que vous dormez.</em>
+        <span lang="en">Your website generates leads<br/><em>while you sleep.</em></span>
+      </h1>
+      <p class="tnl-lede reveal">
+        Trois agents IA orchestrent votre site, votre contenu et votre CRM. Résultat : un flux constant de leads qualifiés, mesuré en 90 jours.
+        <span lang="en">Three AI agents orchestrate your website, content and CRM. Result: a constant flow of qualified leads, measured in 90 days.</span>
+      </p>
+      <div class="lp-hero-ctas reveal">
+        <a href="/contact?offer=site-web-ia&amp;action=audit" class="btn-primary">
+          Réserver un audit →
+          <span lang="en">Book an audit →</span>
+        </a>
+        <a href="/offres/site-web-ia-tunnel" class="btn-secondary">
+          Voir la démo
+          <span lang="en">See the demo</span>
+        </a>
+      </div>
+      <p class="lp-avail reveal">◉ Booking T3 2026 · 4 places</p>
+    </section>
+
+    <!-- ── 2. SOCIAL PROOF MARQUEE ── -->
+    <div class="lp-marquee-wrap" aria-hidden="true">
+      <div class="lp-marquee-track">
+        <span class="lp-marquee-item">Leads +340%</span>
+        <span class="lp-marquee-sep">·</span>
+        <span class="lp-marquee-item">Lighthouse 100/100</span>
+        <span class="lp-marquee-sep">·</span>
+        <span class="lp-marquee-item">8 articles/mois auto</span>
+        <span class="lp-marquee-sep">·</span>
+        <span class="lp-marquee-item">CRM relances &lt;1h</span>
+        <span class="lp-marquee-sep">·</span>
+        <span class="lp-marquee-item">ROI 90 jours</span>
+        <span class="lp-marquee-sep">·</span>
+        <span class="lp-marquee-item">Leads +340%</span>
+        <span class="lp-marquee-sep">·</span>
+        <span class="lp-marquee-item">Lighthouse 100/100</span>
+        <span class="lp-marquee-sep">·</span>
+        <span class="lp-marquee-item">8 articles/mois auto</span>
+        <span class="lp-marquee-sep">·</span>
+        <span class="lp-marquee-item">CRM relances &lt;1h</span>
+        <span class="lp-marquee-sep">·</span>
+        <span class="lp-marquee-item">ROI 90 jours</span>
+        <span class="lp-marquee-sep">·</span>
+      </div>
+    </div>
+
+    <!-- ── 3. PROBLÈME — 3 FRICTIONS ── -->
+    <section class="tnl-problems wrap-wide reveal-blur-clip">
+      <h2 class="tnl-sh2 reveal">
+        Trois frictions qui tuent votre conversion
+        <span lang="en">Three conversion killers</span>
+      </h2>
+      <div class="tnl-cards">
+        <div class="tnl-card">
+          <div class="tnl-card__num">01</div>
+          <div class="tnl-card__kicker">Site trop lent <span lang="en">Site too slow</span></div>
+          <h3>FCP 4,2 s. Lighthouse 34.<br/>−7 % de conversion par seconde.</h3>
+          <p>WordPress avec 40 plugins : chaque visiteur attend. Chaque seconde perdue coûte 7 % de conversions. Sans IA, impossible d'automatiser les corrections.</p>
+          <p lang="en">WordPress with 40 plugins: each visitor waits. Every second lost costs 7% in conversions. Without AI, automating fixes is impossible.</p>
+        </div>
+        <div class="tnl-card">
+          <div class="tnl-card__num">02</div>
+          <div class="tnl-card__kicker">Contenu stale <span lang="en">Stale content</span></div>
+          <h3>1 article en 6 semaines.<br/>Vos concurrents en publient 8/sem avec IA.</h3>
+          <p>Le brief, les relectures, le SEO, la mise en ligne : 6 semaines par article. Vos concurrents IA publient 8 articles/semaine optimisés Google et GEO.</p>
+          <p lang="en">Brief, revisions, SEO, publishing: 6 weeks per article. Your AI competitors publish 8 articles/week, optimised for Google and GEO.</p>
+        </div>
+        <div class="tnl-card">
+          <div class="tnl-card__num">03</div>
+          <div class="tnl-card__kicker">Leads sans relance <span lang="en">Uncontacted leads</span></div>
+          <h3>3 200 leads collectés.<br/>Jamais relancés dans l'heure.</h3>
+          <p>Les prospects remplissent les formulaires. Ils attendent. La conversion est 7× plus probable dans l'heure — mais personne ne rappelle. Le pipeline dort.</p>
+          <p lang="en">Prospects fill in forms. They wait. Conversion is 7× more likely within the hour — but nobody calls back. The pipeline sleeps.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 4. MÉCANIQUE EN 1 ÉCRAN ── -->
+    <section class="lp-mech wrap-wide">
+      <h2 class="tnl-sh2 reveal">
+        Comment ça marche
+        <span lang="en">How it works</span>
+      </h2>
+      <div class="lp-mech-svg-wrap reveal">
+        <svg
+          class="lp-mech-svg"
+          viewBox="0 0 900 200"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          role="img"
+          aria-label="Schéma 3 agents IA — Agent Content → Site Astro IA → Agent CRM → Leads qualifiés"
+        >
+          <!-- Agent Content -->
+          <rect x="10" y="50" width="185" height="100" rx="2" fill="var(--color-paper,#F6F1E8)" stroke="var(--color-ink,#1a1a1a)" stroke-width="1.5"/>
+          <text x="102" y="88" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--color-accent,#C94F2E)" text-anchor="middle" letter-spacing="1.5">AGENT</text>
+          <text x="102" y="112" font-family="Instrument Serif,Georgia,serif" font-size="20" fill="var(--color-ink,#1a1a1a)" text-anchor="middle">Content</text>
+          <text x="102" y="132" font-family="JetBrains Mono,monospace" font-size="8.5" fill="var(--color-muted,#888)" text-anchor="middle">SEO · GEO · Citations IA</text>
+          <!-- Flèche 1 -->
+          <line x1="196" y1="100" x2="268" y2="100" stroke="var(--color-ink,#1a1a1a)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <polygon points="268,94 282,100 268,106" fill="var(--color-ink,#1a1a1a)"/>
+          <!-- Site Astro IA — centre, plus large -->
+          <rect x="282" y="28" width="220" height="144" rx="2" fill="var(--color-ink,#1a1a1a)"/>
+          <text x="392" y="76" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--color-accent,#C94F2E)" text-anchor="middle" letter-spacing="1.5">SITE</text>
+          <text x="392" y="106" font-family="Instrument Serif,Georgia,serif" font-size="26" fill="var(--color-paper,#F6F1E8)" text-anchor="middle">Astro IA</text>
+          <text x="392" y="130" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(246,241,232,.55)" text-anchor="middle">Lighthouse 100/100</text>
+          <text x="392" y="148" font-family="JetBrains Mono,monospace" font-size="8.5" fill="rgba(246,241,232,.55)" text-anchor="middle">HTML statique · CDN edge</text>
+          <!-- Flèche 2 -->
+          <line x1="502" y1="100" x2="574" y2="100" stroke="var(--color-ink,#1a1a1a)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <polygon points="574,94 588,100 574,106" fill="var(--color-ink,#1a1a1a)"/>
+          <!-- Agent CRM -->
+          <rect x="588" y="50" width="185" height="100" rx="2" fill="var(--color-paper,#F6F1E8)" stroke="var(--color-ink,#1a1a1a)" stroke-width="1.5"/>
+          <text x="680" y="88" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--color-accent,#C94F2E)" text-anchor="middle" letter-spacing="1.5">AGENT</text>
+          <text x="680" y="112" font-family="Instrument Serif,Georgia,serif" font-size="20" fill="var(--color-ink,#1a1a1a)" text-anchor="middle">CRM</text>
+          <text x="680" y="132" font-family="JetBrains Mono,monospace" font-size="8.5" fill="var(--color-muted,#888)" text-anchor="middle">Relances &lt;1h · Nurturing</text>
+          <!-- Flèche résultat -->
+          <line x1="774" y1="100" x2="836" y2="100" stroke="var(--color-accent,#C94F2E)" stroke-width="2"/>
+          <polygon points="836,94 852,100 836,106" fill="var(--color-accent,#C94F2E)"/>
+          <!-- Label Leads qualifiés -->
+          <text x="856" y="84" font-family="JetBrains Mono,monospace" font-size="8.5" fill="var(--color-accent,#C94F2E)" text-anchor="middle" letter-spacing="1">LEADS</text>
+          <text x="856" y="104" font-family="Instrument Serif,Georgia,serif" font-size="16" fill="var(--color-ink,#1a1a1a)" text-anchor="middle">qualifiés</text>
+          <text x="856" y="120" font-family="JetBrains Mono,monospace" font-size="7.5" fill="var(--color-muted,#888)" text-anchor="middle">mesurés · prouvés</text>
+        </svg>
+      </div>
+      <div class="tnl-cards lp-mech-cards reveal-stagger">
+        <div class="tnl-card">
+          <div class="tnl-card__kicker">Agent Content</div>
+          <h3>8 articles SEO/mois</h3>
+          <p>GEO-ready, citations dans GPT et Perplexity. Votre expertise référencée partout où vos prospects cherchent.</p>
+          <p lang="en">GEO-ready, cited in GPT and Perplexity. Your expertise referenced everywhere your prospects search.</p>
+        </div>
+        <div class="tnl-card">
+          <div class="tnl-card__kicker">Agent CRM</div>
+          <h3>Relances &lt;1h automatiques</h3>
+          <p>Nurturing auto, séquences personnalisées selon le comportement du prospect. Le pipeline ne dort plus.</p>
+          <p lang="en">Auto nurturing, personalised sequences based on prospect behaviour. The pipeline never sleeps.</p>
+        </div>
+        <div class="tnl-card">
+          <div class="tnl-card__kicker">Agent Social</div>
+          <h3>Posts LinkedIn/X générés</h3>
+          <p>Recyclage contenu, brand voice maintenue. 1 article → 8 posts social générés automatiquement.</p>
+          <p lang="en">Content recycling, maintained brand voice. 1 article → 8 social posts generated automatically.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 5. ROI MÉTRIQUES ── -->
+    <section class="lp-metrics">
+      <div class="wrap-wide">
+        <h2 class="lp-metrics-h2 reveal">
+          Les chiffres parlent d'eux-mêmes
+          <span lang="en">The numbers speak for themselves</span>
+        </h2>
+        <div class="lp-metrics-grid">
+          <div class="lp-metric reveal-zoom-in">
+            <span class="lp-metric-num">+340%</span>
+            <span class="lp-metric-label">leads qualifiés <span lang="en">qualified leads</span></span>
+          </div>
+          <div class="lp-metric reveal-zoom-in">
+            <span class="lp-metric-num">−72%</span>
+            <span class="lp-metric-label">temps content <span lang="en">content time</span></span>
+          </div>
+          <div class="lp-metric reveal-zoom-in">
+            <span class="lp-metric-num">+12</span>
+            <span class="lp-metric-label">articles/mois auto <span lang="en">articles/month auto</span></span>
+          </div>
+          <div class="lp-metric reveal-zoom-in">
+            <span class="lp-metric-num">90j</span>
+            <span class="lp-metric-label">ROI mesuré <span lang="en">measured ROI</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 6. MINI CASE STUDY ── -->
+    <section class="lp-case wrap-wide reveal-blur-clip">
+      <Kicker tone="accent" class="lp-case-eyebrow">§ Étude de cas · Case study</Kicker>
+      <p class="lp-case-setup reveal">
+        PME B2B · 12 personnes · WordPress · 0 agent IA
+        <span lang="en">B2B SME · 12 people · WordPress · 0 AI agent</span>
+      </p>
+      <div class="lp-case-results reveal">
+        <div class="lp-case-stat">
+          <span class="lp-case-stat-num">+218%</span>
+          <span class="lp-case-stat-label">leads qualifiés en 3 mois <span lang="en">qualified leads in 3 months</span></span>
+        </div>
+        <div class="lp-case-stat">
+          <span class="lp-case-stat-num">43→100</span>
+          <span class="lp-case-stat-label">Lighthouse score <span lang="en">Lighthouse score</span></span>
+        </div>
+        <div class="lp-case-stat">
+          <span class="lp-case-stat-num">8/mois</span>
+          <span class="lp-case-stat-label">articles automatisés <span lang="en">automated articles</span></span>
+        </div>
+      </div>
+      <blockquote class="lp-case-quote reveal">
+        <p class="lp-case-quote-text">
+          « Notre site nous rapporte enfin de vrais rendez-vous qualifiés, sans effort de notre part. »
+          <span lang="en">"Our website finally generates real qualified meetings, without any effort on our part."</span>
+        </p>
+        <cite class="lp-case-cite">— Directeur Commercial, PME Industrielle (anonymisé)</cite>
+      </blockquote>
+    </section>
+
+    <!-- ── 7. PRICING TRANSPARENT ── -->
+    <section class="lp-pricing wrap-wide">
+      <h2 class="tnl-sh2 reveal">
+        Tarifs transparents
+        <span lang="en">Transparent pricing</span>
+      </h2>
+      <div class="lp-pricing-grid">
+        <PricingTier
+          idx="01"
+          tier="Pilote 4 semaines"
+          highlight={false}
+          price="4 900 €"
+          period="HT · forfait"
+          desc_fr="Audit complet + maquette 3 pages + 1 agent configuré + rapport ROI"
+          desc_en="Full audit + 3-page mockup + 1 agent configured + ROI report"
+          features={[
+            "Audit complet du site existant",
+            "Maquette Astro 3 pages clés",
+            "1 agent configuré (Content ou CRM)",
+            "Rapport ROI livré en fin de pilote",
+            "Call hebdo de suivi",
+          ]}
+          ctaLabel="Démarrer le pilote →"
+          ctaHref="/contact?offer=site-web-ia&tier=pilote"
+        />
+        <PricingTier
+          idx="02"
+          tier="Programme complet"
+          highlight={true}
+          price="14 900 €"
+          period="HT · forfait"
+          desc_fr="Site Astro (25 pages) + 3 agents + GEO 6 mois + CRM automation"
+          desc_en="Astro site (25 pages) + 3 agents + GEO 6 months + CRM automation"
+          features={[
+            "Site Astro jusqu'à 25 pages",
+            "3 agents configurés (Content + CRM + Social)",
+            "GEO 6 mois — citations GPT · Perplexity · Claude",
+            "CRM automation complète",
+            "Rapports ROI à 30, 60 et 90 jours",
+            "Support dédié 6 mois",
+          ]}
+          ctaLabel="Démarrer le programme →"
+          ctaHref="/contact?offer=site-web-ia&tier=programme"
+        />
+      </div>
+    </section>
+
+    <!-- ── 8. FAQ ── -->
+    <section class="lp-faq wrap-wide">
+      <h2 class="tnl-sh2 reveal">
+        Questions fréquentes
+        <span lang="en">Frequently asked questions</span>
+      </h2>
+      <div class="lp-faq-list reveal-stagger">
+
+        <details class="lp-faq-item">
+          <summary class="lp-faq-q">
+            Quelle est la différence avec WordPress ?
+            <span lang="en">What's the difference with WordPress?</span>
+          </summary>
+          <div class="lp-faq-a">
+            <p>Astro génère du HTML statique pré-rendu. Pas de PHP, pas de BDD à requêter pour chaque visiteur. Résultat : Lighthouse 100/100 vs 34 en moyenne sur WordPress.</p>
+            <p lang="en">Astro generates pre-rendered static HTML. No PHP, no database queried for each visitor. Result: Lighthouse 100/100 vs 34 on average with WordPress.</p>
+          </div>
+        </details>
+
+        <details class="lp-faq-item">
+          <summary class="lp-faq-q">
+            Mes équipes doivent apprendre à coder ?
+            <span lang="en">Do my teams need to learn to code?</span>
+          </summary>
+          <div class="lp-faq-a">
+            <p>Non. L'agent éditeur est branché sur votre repo. Vous lui parlez en langage naturel, il édite, vous validez dans GitHub. Pas de CMS, pas de formation.</p>
+            <p lang="en">No. The editorial agent is wired to your repo. You talk to it in natural language, it edits, you approve in GitHub. No CMS, no training.</p>
+          </div>
+        </details>
+
+        <details class="lp-faq-item">
+          <summary class="lp-faq-q">
+            Le ROI est garanti en 90 jours ?
+            <span lang="en">Is ROI guaranteed in 90 days?</span>
+          </summary>
+          <div class="lp-faq-a">
+            <p>On mesure ensemble dès le départ : baseline leads, trafic organique, taux de conversion. Le rapport ROI est livré à 30, 60 et 90 jours. Pas de garantie contractuelle, mais un engagement de transparence total.</p>
+            <p lang="en">We measure together from the start: lead baseline, organic traffic, conversion rate. The ROI report is delivered at 30, 60 and 90 days. No contractual guarantee, but a total transparency commitment.</p>
+          </div>
+        </details>
+
+        <details class="lp-faq-item">
+          <summary class="lp-faq-q">
+            Qu'est-ce que le GEO ?
+            <span lang="en">What is GEO?</span>
+          </summary>
+          <div class="lp-faq-a">
+            <p>Generative Engine Optimisation — faire en sorte que votre site soit cité par ChatGPT, Perplexity et Claude quand vos prospects posent des questions. On structure les données (JSON-LD, llms.txt) pour que les IA vous lisent sans friction.</p>
+            <p lang="en">Generative Engine Optimisation — making sure your site is cited by ChatGPT, Perplexity and Claude when your prospects ask questions. We structure data (JSON-LD, llms.txt) so AI reads you without friction.</p>
+          </div>
+        </details>
+
+        <details class="lp-faq-item">
+          <summary class="lp-faq-q">
+            Vous pouvez migrer un site existant ?
+            <span lang="en">Can you migrate an existing site?</span>
+          </summary>
+          <div class="lp-faq-a">
+            <p>Oui. On audite d'abord ce qui convertit déjà. On reporte ça dans la nouvelle structure Astro + agents. Le contenu performant reste, le reste est régénéré par IA.</p>
+            <p lang="en">Yes. We first audit what already converts. We carry that over into the new Astro + agents structure. Performing content stays, the rest is regenerated by AI.</p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ── 9. CTA FINAL FULL-BLEED ── -->
+    <section class="lp-cta-final">
+      <div class="wrap-wide">
+        <h2 class="lp-cta-final-h2 reveal-mask-up">
+          Prêt à transformer votre site en moteur de leads ?
+          <span lang="en">Ready to turn your website into a lead engine?</span>
+        </h2>
+        <div class="tnl-cta__inner reveal">
+          <a href="/contact?offer=site-web-ia&amp;action=audit" class="btn-primary">
+            Réserver un audit →
+            <span lang="en">Book an audit →</span>
+          </a>
+          <a href="/contact?offer=site-web-ia&amp;action=expert" class="btn-secondary">
+            Parler à un expert
+            <span lang="en">Talk to an expert</span>
+          </a>
+          <p class="tnl-cta__meta">◉ Booking T3 2026 · 4 places</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</Base>
+
+<style>
+/* ── Layout ── */
+.landing-swia { padding-block: 0; }
+.wrap-wide { max-width: 1200px; margin-inline: auto; padding-inline: clamp(20px, 5vw, 80px); }
+
+/* ── Héritage tunnel ── */
+.tnl-eyebrow { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: clamp(11px, 1.2vw, 13px); text-transform: uppercase; letter-spacing: .1em; color: var(--color-muted, #888); margin-bottom: 24px; padding-top: clamp(48px, 8vw, 96px); }
+.tnl-lede { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: clamp(16px, 1.8vw, 20px); line-height: 1.6; color: var(--color-ink, #1a1a1a); max-width: 62ch; margin-bottom: clamp(48px, 8vw, 96px); }
+.tnl-sh2 { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(24px, 3vw, 40px); letter-spacing: -.01em; margin-bottom: clamp(32px, 4vw, 56px); color: var(--color-ink, #1a1a1a); }
+.tnl-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: rgba(0,0,0,.08); border: 1px solid rgba(0,0,0,.08); border-radius: 2px; overflow: hidden; }
+.tnl-card { background: var(--color-paper, #F6F1E8); padding: clamp(24px, 3vw, 40px); }
+.tnl-card__num { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--color-muted, #888); letter-spacing: .08em; margin-bottom: 8px; }
+.tnl-card__kicker { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--color-accent, #C94F2E); margin-bottom: 12px; }
+.tnl-card h3 { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(18px, 2vw, 24px); line-height: 1.25; margin-bottom: 16px; color: var(--color-ink, #1a1a1a); }
+.tnl-card p { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 14px; line-height: 1.65; color: var(--color-muted, #666); }
+.tnl-cta__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.tnl-cta__meta { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--color-muted, #888); letter-spacing: .06em; margin-left: auto; }
+.btn-primary { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 15px; font-weight: 600; background: var(--color-ink, #1a1a1a); color: var(--color-paper, #F6F1E8); padding: 14px 28px; border-radius: 2px; text-decoration: none; transition: opacity .2s; }
+.btn-primary:hover { opacity: .85; }
+.btn-secondary { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 15px; color: var(--color-ink, #1a1a1a); border: 1px solid rgba(0,0,0,.18); padding: 14px 28px; border-radius: 2px; text-decoration: none; transition: border-color .2s; }
+.btn-secondary:hover { border-color: var(--color-ink, #1a1a1a); }
+[lang="en"] { display: block; font-size: .88em; color: var(--color-muted, #888); margin-top: 4px; font-style: italic; }
+
+/* ── Hero ── */
+.lp-hero { padding-bottom: clamp(48px, 6vw, 80px); }
+.lp-h1 { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(40px, 7vw, 96px); line-height: 1.03; letter-spacing: -.025em; color: var(--color-ink, #1a1a1a); margin-bottom: clamp(24px, 4vw, 48px); max-width: 18ch; }
+.lp-h1 em { font-style: italic; color: var(--color-accent, #C94F2E); }
+.lp-hero-ctas { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
+.lp-avail { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--color-muted, #888); letter-spacing: .08em; }
+
+/* ── Marquee ── */
+.lp-marquee-wrap { overflow: hidden; border-top: 1px solid rgba(0,0,0,.07); border-bottom: 1px solid rgba(0,0,0,.07); padding-block: 18px; }
+.lp-marquee-track { display: flex; width: max-content; animation: lp-marquee 36s linear infinite; }
+.lp-marquee-item { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-ink, #1a1a1a); padding-inline: 28px; white-space: nowrap; }
+.lp-marquee-sep { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 12px; color: var(--color-accent, #C94F2E); align-self: center; }
+@keyframes lp-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .lp-marquee-track { animation: none; } }
+
+/* ── Problème ── */
+.tnl-problems { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
+
+/* ── Mécanique ── */
+.lp-mech { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
+.lp-mech-svg-wrap { margin-bottom: clamp(40px, 5vw, 64px); overflow-x: auto; }
+.lp-mech-svg { width: 100%; max-width: 900px; height: auto; display: block; margin: 0 auto; }
+
+/* ── Métriques ROI ── */
+.lp-metrics { padding-block: clamp(80px, 10vw, 140px); background: var(--color-ink, #1a1a1a); }
+.lp-metrics-h2 { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(22px, 3vw, 36px); color: var(--color-paper, #F6F1E8); letter-spacing: -.01em; margin-bottom: clamp(48px, 6vw, 80px); }
+.lp-metrics-h2 [lang="en"] { color: rgba(246,241,232,.55); }
+.lp-metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: clamp(24px, 4vw, 56px); }
+.lp-metric { display: flex; flex-direction: column; gap: 8px; }
+.lp-metric-num { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-style: italic; font-size: clamp(48px, 7vw, 88px); line-height: 1; color: var(--color-paper, #F6F1E8); letter-spacing: -.025em; }
+.lp-metric-label { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: rgba(246,241,232,.55); }
+.lp-metric-label [lang="en"] { color: rgba(246,241,232,.35); font-size: .85em; }
+
+/* ── Case Study ── */
+.lp-case { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
+.lp-case-eyebrow { margin-bottom: 20px; }
+.lp-case-setup { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-muted, #888); margin-bottom: clamp(32px, 4vw, 48px); }
+.lp-case-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: clamp(24px, 3vw, 40px); margin-bottom: clamp(40px, 5vw, 64px); padding: clamp(24px, 3vw, 40px); background: rgba(0,0,0,.03); border: 1px solid rgba(0,0,0,.07); border-radius: 2px; }
+.lp-case-stat { display: flex; flex-direction: column; gap: 6px; }
+.lp-case-stat-num { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-style: italic; font-size: clamp(28px, 4vw, 52px); line-height: 1; color: var(--color-ink, #1a1a1a); }
+.lp-case-stat-label { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--color-muted, #888); }
+.lp-case-stat-label [lang="en"] { font-size: .85em; }
+.lp-case-quote { margin: 0; padding: clamp(24px, 3vw, 40px); border-left: 3px solid var(--color-accent, #C94F2E); background: rgba(201,79,46,.04); border-radius: 0 2px 2px 0; }
+.lp-case-quote-text { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-style: italic; font-size: clamp(18px, 2.2vw, 28px); line-height: 1.4; color: var(--color-ink, #1a1a1a); margin: 0 0 16px; }
+.lp-case-cite { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--color-muted, #888); letter-spacing: .06em; font-style: normal; display: block; }
+
+/* ── Pricing ── */
+.lp-pricing { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
+.lp-pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+
+/* ── FAQ ── */
+.lp-faq { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
+.lp-faq-list { display: flex; flex-direction: column; border: 1px solid rgba(0,0,0,.08); border-radius: 2px; overflow: hidden; }
+.lp-faq-item { background: var(--color-paper, #F6F1E8); }
+.lp-faq-item + .lp-faq-item { border-top: 1px solid rgba(0,0,0,.07); }
+.lp-faq-q { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: clamp(14px, 1.5vw, 16px); font-weight: 600; padding: clamp(16px, 2vw, 24px) clamp(20px, 2.5vw, 32px); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; color: var(--color-ink, #1a1a1a); }
+.lp-faq-q::after { content: '+'; font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 14px; color: var(--color-accent, #C94F2E); flex-shrink: 0; transition: transform .2s; }
+.lp-faq-item[open] .lp-faq-q::after { transform: rotate(45deg); }
+.lp-faq-q::-webkit-details-marker { display: none; }
+.lp-faq-a { padding: 0 clamp(20px, 2.5vw, 32px) clamp(20px, 2.5vw, 28px); }
+.lp-faq-a p { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 14px; line-height: 1.7; color: var(--color-muted, #666); max-width: 72ch; }
+
+/* ── CTA Final ── */
+.lp-cta-final { padding-block: clamp(96px, 12vw, 160px); background: var(--color-paper, #F6F1E8); border-top: 1px solid rgba(0,0,0,.07); }
+.lp-cta-final-h2 { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-style: italic; font-size: clamp(32px, 5vw, 72px); line-height: 1.1; letter-spacing: -.025em; color: var(--color-ink, #1a1a1a); max-width: 22ch; margin-bottom: clamp(40px, 5vw, 64px); }
+.lp-cta-final-h2 [lang="en"] { font-size: .68em; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .lp-hero-ctas { flex-direction: column; }
+  .lp-metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  .lp-case-results { grid-template-columns: repeat(2, 1fr); }
+  .lp-mech-svg { min-width: 720px; }
+}
+</style>

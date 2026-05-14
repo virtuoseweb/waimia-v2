@@ -1,0 +1,66 @@
+---
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+const accent = 'var(--waimia-accent, #C94F2E)';
+---
+<svg
+  viewBox="0 0 560 180"
+  preserveAspectRatio="xMidYMid meet"
+  class:list={['audit-timeline', compact && 'audit-timeline--compact']}
+  role="img"
+  aria-label="Audit de maturité IA · Timeline 10 jours : 5 étapes J1-J2 J3-J6 J7-J8 J9-J10 Livraison"
+>
+  <defs>
+    <style>
+      .am { font-family: JetBrains Mono, ui-monospace, SFMono-Regular, monospace; }
+      .as { font-family: Instrument Serif, Georgia, serif; font-style: italic; }
+    </style>
+  </defs>
+
+  <!-- Ligne horizontale de connexion -->
+  <line x1="56" y1="80" x2="504" y2="80" stroke="currentColor" stroke-width="0.8" opacity="0.18" vector-effect="non-scaling-stroke"/>
+
+  <!-- Étape 1 : J1-J2 Cadrage -->
+  <circle cx="56" cy="80" r="22" fill="var(--paper-2,#F6F1E8)" stroke="currentColor" stroke-width="1" opacity="0.35" vector-effect="non-scaling-stroke"/>
+  <text x="56" y="77" text-anchor="middle" class="am" font-size="8" letter-spacing="0.5" fill="currentColor">J1</text>
+  <text x="56" y="88" text-anchor="middle" class="am" font-size="8" letter-spacing="0.5" fill="currentColor">J2</text>
+  <text x="56" y="118" text-anchor="middle" class="am" font-size="7.5" letter-spacing="0.6" fill="currentColor" opacity="0.55">Cadrage</text>
+
+  <!-- Étape 2 : J3-J6 Audit terrain -->
+  <circle cx="168" cy="80" r="22" fill="var(--paper-2,#F6F1E8)" stroke="currentColor" stroke-width="1" opacity="0.35" vector-effect="non-scaling-stroke"/>
+  <text x="168" y="77" text-anchor="middle" class="am" font-size="8" letter-spacing="0.5" fill="currentColor">J3</text>
+  <text x="168" y="88" text-anchor="middle" class="am" font-size="8" letter-spacing="0.5" fill="currentColor">J6</text>
+  <text x="168" y="118" text-anchor="middle" class="am" font-size="7.5" letter-spacing="0.6" fill="currentColor" opacity="0.55">Terrain</text>
+
+  <!-- Étape 3 : J7-J8 Analyse -->
+  <circle cx="280" cy="80" r="22" fill="var(--paper-2,#F6F1E8)" stroke="currentColor" stroke-width="1" opacity="0.35" vector-effect="non-scaling-stroke"/>
+  <text x="280" y="77" text-anchor="middle" class="am" font-size="8" letter-spacing="0.5" fill="currentColor">J7</text>
+  <text x="280" y="88" text-anchor="middle" class="am" font-size="8" letter-spacing="0.5" fill="currentColor">J8</text>
+  <text x="280" y="118" text-anchor="middle" class="am" font-size="7.5" letter-spacing="0.6" fill="currentColor" opacity="0.55">Analyse</text>
+
+  <!-- Étape 4 : J9-J10 Restitution -->
+  <circle cx="392" cy="80" r="22" fill="var(--paper-2,#F6F1E8)" stroke="currentColor" stroke-width="1" opacity="0.35" vector-effect="non-scaling-stroke"/>
+  <text x="392" y="77" text-anchor="middle" class="am" font-size="8" letter-spacing="0.5" fill="currentColor">J9</text>
+  <text x="392" y="88" text-anchor="middle" class="am" font-size="8" letter-spacing="0.5" fill="currentColor">J10</text>
+  <text x="392" y="118" text-anchor="middle" class="am" font-size="7.5" letter-spacing="0.6" fill="currentColor" opacity="0.55">Restitution</text>
+
+  <!-- Étape 5 : LIVRAISON — accent -->
+  <circle cx="504" cy="80" r="22" fill="var(--paper-2,#F6F1E8)" stroke={accent} stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+  <text x="504" y="84" text-anchor="middle" class="am" font-size="7.5" letter-spacing="0.5" fill={accent}>DOC</text>
+  <text x="504" y="118" text-anchor="middle" class="am" font-size="7.5" letter-spacing="0.6" fill={accent} opacity="0.9">Signé</text>
+
+  <!-- Légende bas -->
+  <text x="280" y="155" text-anchor="middle" class="am" font-size="7.5" fill="currentColor" opacity="0.38" letter-spacing="0.8">10 JOURS · 4 LIVRABLES INTERMÉDIAIRES · 1 DOCUMENT FINAL</text>
+</svg>
+<style>
+  .audit-timeline {
+    display: block;
+    width: 100%;
+    max-width: 560px;
+    margin-inline: auto;
+    color: var(--ink, #0c0b09);
+  }
+  .audit-timeline--compact { max-width: 420px; }
+</style>

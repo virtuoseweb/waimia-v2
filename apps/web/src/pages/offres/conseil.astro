@@ -13,10 +13,10 @@ import EditorialTable from '../../components/editorial/EditorialTable.astro';
 import ConseilAuditDiagram from '../../components/svg/geometric/ConseilAuditDiagram.astro';
 
 const stats = [
-  { k: '43',    label_fr: 'interventions',   label_en: 'engagements' },
-  { k: '18 M€+', label_fr: 'pipeline audité', label_en: 'pipeline audited' },
-  { k: '0',     label_fr: 'ateliers vendus', label_en: 'workshops sold' },
-  { k: '12',    label_fr: 'juridictions UE', label_en: 'EU jurisdictions' },
+  { k: '43',    label_fr: 'interventions',         label_en: 'engagements' },
+  { k: '18 M€+', label_fr: 'pipeline restructuré', label_en: 'pipeline audited' },
+  { k: '0',     label_fr: 'ateliers vendus',       label_en: 'workshops sold' },
+  { k: '12',    label_fr: 'juridictions UE',       label_en: 'EU jurisdictions' },
 ];
 
 // Catalogue services · 7 services hub-consulting
@@ -62,13 +62,13 @@ const serviceComparisonRows = [
 ];
 
 const decisionTreeItems = [
-  "Vous ne savez pas par où commencer : Audit de maturité IA.",
-  "Vous devez faire valider un budget : Cadrage & feuille de route IA.",
-  "Vos données ou votre CRM ne sont pas fiables : Gouvernance & qualité des données.",
-  "Vos agents restent bloqués avant la production : Dette technique pour l'IA.",
-  "Vos bots RPA coûtent trop cher à maintenir : Migration RPA → agents IA.",
-  "La facture LLM grimpe sans contrôle : AI FinOps.",
-  "Le RSSI demande des preuves : Cybersécurité IA.",
+  "Vous ne savez pas par où commencer : Audit de maturité IA.",
+  "Vous devez faire valider un budget : Cadrage & feuille de route IA.",
+  "Vos données ou votre CRM ne sont pas fiables : Gouvernance & qualité des données.",
+  "Vos agents restent bloqués avant la production : Dette technique pour l'IA.",
+  "Vos bots RPA coûtent trop cher à maintenir : Migration RPA → agents IA.",
+  "La facture LLM grimpe sans contrôle : AI FinOps.",
+  "Le RSSI demande des preuves : Cybersécurité IA.",
 ];
 
 const fitYesItems = [
@@ -76,6 +76,8 @@ const fitYesItems = [
   "Votre équipe GRC réclame des traces d'audit que votre stack IA actuelle ne produit pas.",
   "Vous avez essayé un cabinet piloté par ateliers — vous avez eu 72 slides et aucune décision.",
   "Vous avez entre 50 et 500 collaborateurs en Europe et de vraies obligations de gouvernance.",
+  "Votre DSI a arrêté de répondre aux demandes IA internes faute de méthode d'arbitrage documentée.",
+  "Vous êtes en cours d'audit DORA, ISO 42001 ou NIS2 et votre stack IA n'est pas encore documentée.",
 ];
 const fitNoItems = [
   "Vous cherchez un logo pour votre rapport innovation.",
@@ -98,7 +100,7 @@ const relatedCards = [
 ---
 <HubTemplate
   title="Conseil, audit & stratégie · Waimia"
-  description="Sept services pour solidifier une intervention IA : données, gouvernance, coût, sécurité. Faits par nous-mêmes, par écrit."
+  description="Sept services pour solidifier une intervention IA : données, gouvernance, coût, sécurité. Faits par nous-mêmes, par écrit."
   hubNum="02"
   metaKickerFr="Hub · Pilier Entreprise · 7 services"
   metaKickerEn="Hub · Enterprise pillar · 7 services"
@@ -115,15 +117,15 @@ const relatedCards = [
 >
   {/* HEADLINE — méthode Slots Astro, JSX riche (italic, br) sans sérialisation */}
   <Fragment slot="headline">
-    Avant les agents, il faut le <i>bon diagnostic</i>.
+    Le conseil qui commence par <i>lire</i> — pas par présenter.
   </Fragment>
   <Fragment slot="lede">
-    La direction veut décider, la DSI veut des preuves, les métiers veulent avancer. On choisit le service utile — données, gouvernance, coût, sécurité — puis on livre par écrit.
+    Nous refusons les ateliers de découverte vendus comme du conseil. Un engagement Waimia commence par la lecture de vos données réelles, se termine par un livrable écrit, et produit une décision — pas 72 slides dans un SharePoint.
   </Fragment>
 
   {/* MANIFESTO PULL · stance éditorial */}
   <Fragment slot="manifesto">
-    Une mission de conseil n'est pas un <i>diagnostic de 72 slides</i>. C'est une décision prise plus tôt, un risque nommé et un livrable que l'équipe peut exploiter.
+    Une mission de conseil n'est pas un <i>diagnostic de 72 slides</i>. C'est une décision prise plus tôt, un risque nommé et un livrable que l'équipe peut exploiter. <i>Nous ne vendons pas d'ateliers. Nous livrons des documents signés.</i>
   </Fragment>
 
   {/* CATALOGUE · 7 ServiceCatalogRow */}
@@ -138,9 +140,9 @@ const relatedCards = [
         href={`/offres/${s.slug}`}
       />
     ))}
-    <section style="padding: clamp(64px,7vw,96px) 0 0;">
+    <section class="reveal-stagger" style="padding: clamp(64px,7vw,96px) 0 0;">
       <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;">Comparateur services</div>
-      <h2 style="font-family:var(--font-display); font-size:clamp(34px,4.5vw,64px); line-height:.96; font-weight:400; margin:0 0 28px;"><i style="color:var(--accent); font-style:italic;">Quel service</i><br/>pour quelle décision ?</h2>
+      <h2 style="font-family:var(--font-display); font-size:clamp(34px,4.5vw,64px); line-height:.96; font-weight:400; margin:0 0 28px;"><i style="color:var(--accent); font-style:italic;">Quel service</i><br/>pour quelle décision ?</h2>
       <EditorialTable
         caption="Lecture rapide du catalogue conseil"
         columns={['Besoin', 'Service', 'Livrable de décision']}
@@ -149,11 +151,11 @@ const relatedCards = [
         variant="editorial"
       />
     </section>
-    <section style="padding: clamp(48px,5vw,72px) 0 0;">
+    <section class="reveal-stagger" style="padding: clamp(48px,5vw,72px) 0 0;">
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:clamp(28px,5vw,64px); border-top:1px solid rgba(0,0,0,.16); padding-top:32px;">
         <div>
           <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;">Arbre de décision</div>
-          <h2 style="font-family:var(--font-display); font-size:clamp(30px,3.8vw,54px); line-height:.98; font-weight:400; margin:0;"><i style="color:var(--accent); font-style:italic;">Quel service</i><br/>pour vous ?</h2>
+          <h2 style="font-family:var(--font-display); font-size:clamp(30px,3.8vw,54px); line-height:.98; font-weight:400; margin:0;"><i style="color:var(--accent); font-style:italic;">Quel service</i><br/>pour vous ?</h2>
         </div>
         <ol style="list-style:none; margin:0; padding:0; counter-reset:decision;">
           {decisionTreeItems.map((item, index) => (
@@ -165,13 +167,13 @@ const relatedCards = [
         </ol>
       </div>
     </section>
-    <div style="padding: clamp(48px,6vw,80px) 0 0; max-width: 640px; margin-inline: auto;">
+    <div class="reveal-fade" style="padding: clamp(48px,6vw,80px) 0 0; max-width: 640px; margin-inline: auto;">
       <ConseilAuditDiagram />
     </div>
   </Fragment>
 
   {/* FIT HEADLINE */}
   <Fragment slot="fit-headline">
-    Pour la DSI, la <i>COO</i>, le RSSI ou le head of RevOps — quand il faut décider sans théâtre.
+    Pour la <i>DSI</i>, la COO, le RSSI — quand il faut décider vite, par écrit, sans théâtre.
   </Fragment>
 </HubTemplate>

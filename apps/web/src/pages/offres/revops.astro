@@ -7,30 +7,32 @@ export const prerender = true;
 // Composé de · ServiceDetailTemplate (squelette) · données structurées + slots HTML riche.
 
 import ServiceDetailTemplate from '../../components/templates/ServiceDetailTemplate.astro';
+import RevOpsFunnel from '../../components/svg/geometric/RevOpsFunnel.astro';
 
 const problemStats = [
   { k: '43',   label_fr: 'outils dans la stack RevOps moyenne', label_en: 'tools in the average RevOps stack' },
   { k: '< 9',  label_fr: 'touchent le même enregistrement client', label_en: 'touch the same customer record' },
   { k: '× 4',  label_fr: 'taux de réussite 6 sem vs 6 mois',     label_en: 'success rate 6 wks vs 6 mos' },
+  { k: '94 j', label_fr: 'cycle deal moyen avant RevOps',        label_en: 'avg deal cycle before RevOps' },
 ];
 
 const steps = [
   { sn: '01', kicker_fr: 'Diagnostiquer', kicker_en: 'Diagnose',
     title_fr: 'Audit du funnel', title_en: 'Funnel audit',
-    body_fr: "On lit votre CRM, votre entrepôt, votre facturation. On note où ils mentent.",
-    body_en: 'We read your CRM, your warehouse, your billing. We note where they lie.' },
+    body_fr: "On lit votre CRM, votre entrepôt, votre facturation. On note où ils mentent — et à quel coût. Livrable intermédiaire : journal des incohérences par source.",
+    body_en: 'We read your CRM, warehouse, billing. We log where they lie — and at what cost. Intermediate deliverable: inconsistency log per source.' },
   { sn: '02', kicker_fr: 'Reconcilier', kicker_en: 'Reconcile',
     title_fr: "Source de vérité unique", title_en: 'Single source of truth',
-    body_fr: "On désigne quel système gagne sur chaque champ. On documente la règle.",
-    body_en: 'We declare which system wins per field. We document the rule.' },
+    body_fr: "On désigne quel système gagne sur chaque champ. On documente la règle dans Confluence. Chaque conflit a un arbitrage écrit, pas une convention orale.",
+    body_en: 'We declare which system wins per field. Rule documented in Confluence. Every conflict has a written arbitration, not a verbal convention.' },
   { sn: '03', kicker_fr: 'Automatiser', kicker_en: 'Automate',
     title_fr: 'Agents de triage', title_en: 'Triage agents',
-    body_fr: "Claude triage les leads, qualifie, route. Pas de chatbot — du routage auditable.",
-    body_en: 'Claude triages leads, qualifies, routes. Not a chatbot — auditable routing.' },
+    body_fr: "Claude triage les leads, qualifie, route. Pas de chatbot — du routage auditable. Chaque décision de scoring est rejouable. Zéro boîte noire.",
+    body_en: 'Claude triages leads, qualifies, routes. Not a chatbot — auditable routing. Every scoring decision is replayable. Zero black box.' },
   { sn: '04', kicker_fr: 'Mesurer', kicker_en: 'Measure',
     title_fr: 'Tableaux & alertes', title_en: 'Dashboards & alerts',
-    body_fr: "Pipeline live, conversion par segment, alertes de dérive. Visible par la finance et le CEO.",
-    body_en: 'Live pipeline, conversion per segment, drift alerts. Visible to finance and CEO.' },
+    body_fr: "Pipeline live, conversion par segment, alertes de dérive. Si SQL→Deal descend sous le seuil, un ticket est créé avant la réunion de pipeline. Visible par la finance et le CEO.",
+    body_en: 'Live pipeline, conversion per segment, drift alerts. If SQL→Deal drops below threshold, a ticket is created before the pipeline review. Visible to finance and CEO.' },
 ];
 
 const techPills = [
@@ -44,10 +46,11 @@ const techPills = [
 ];
 
 const proofMetrics = [
-  { k: '+€2.4M', label_fr: 'Pipeline ouvert',    label_en: 'Pipeline opened' },
-  { k: '×3.1',   label_fr: 'Conversion SQL→Deal', label_en: 'SQL→Deal conversion' },
-  { k: '−38%',   label_fr: 'Temps de triage',     label_en: 'Triage time' },
-  { k: '10 sem', label_fr: 'Durée du chantier',   label_en: 'Project duration' },
+  { k: '+€2.4M',   label_fr: 'Pipeline ouvert',        label_en: 'Pipeline opened' },
+  { k: '×3.1',     label_fr: 'Conversion SQL→Deal',    label_en: 'SQL→Deal conversion' },
+  { k: '−38%',     label_fr: 'Temps de triage',        label_en: 'Triage time' },
+  { k: '10 sem',   label_fr: 'Durée du chantier',      label_en: 'Project duration' },
+  { k: '94→61 j',  label_fr: 'Cycle deal après rebuild', label_en: 'Deal cycle after rebuild' },
 ];
 
 const relatedCards = [
@@ -77,21 +80,23 @@ const relatedCards = [
   relatedCards={relatedCards}
 >
   <Fragment slot="headline">
-    Réconcilier le <i>funnel</i>. Sans théâtre.
+    Un <i>funnel</i> réconcilié. Une vérité. Pas d'atelier.
   </Fragment>
   <Fragment slot="lede">
-    Un chantier de 8 à 12 semaines pour que CRM, entrepôt et finance arrêtent de se contredire — et que vos agents Claude travaillent sur une seule vérité.
+    Un chantier de 8 à 12 semaines. CRM, entrepôt, finance alignés sur une seule source de vérité. Des agents Claude qui trient, qualifient et routent — de façon auditable, sans boîte noire, sans chatbot.
   </Fragment>
   <Fragment slot="problem">
     Le RevOps moyen <i>empile 43 outils</i> dont moins de 9 touchent le même enregistrement client. Les agents IA livrés dans ce chaos finissent en démos. Notre travail commence par <i>désempiler</i>.
+    <br/><br/>Le symptôme classique : cycle deal à <i>94 jours</i>, taux SQL→Deal bloqué à <i>18 %</i>, LTV fragile parce que le scoring initial ne reflète pas la réalité terrain. On commence par désempiler — pas par livrer un agent de plus.
   </Fragment>
   <Fragment slot="approach-headline">
     Quatre <i>phases</i>. Pas un atelier.
   </Fragment>
   <Fragment slot="approach-aside">
     Notre méthode reste la même quel que soit le secteur — diagnostic, réconciliation, automatisation, mesure. Ce qui change, c'est la grammaire métier.
+    <RevOpsFunnel />
   </Fragment>
   <Fragment slot="stack-lead">
-    Une stack délibérément <i>petite</i>. Claude pour la cognition, dbt pour la lecture, votre CRM pour l'écriture. Pas de no-code intermédiaire.
+    Une stack délibérément <i>petite</i>. Claude pour la cognition des leads, dbt pour la lecture multi-sources, votre CRM comme seul système d'écriture. Aucune couche no-code intermédiaire qui crée de la dette invisible.
   </Fragment>
 </ServiceDetailTemplate>

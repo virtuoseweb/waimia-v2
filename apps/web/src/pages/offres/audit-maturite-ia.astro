@@ -7,6 +7,7 @@ export const prerender = true;
 // Composé de · DetailMenuTemplate (8 sections) avec slot deliverables custom.
 
 import DetailMenuTemplate from '../../components/templates/DetailMenuTemplate.astro';
+import AuditMaturityTimeline from '../../components/svg/geometric/AuditMaturityTimeline.astro';
 
 const annotation = [
   { k: '10 j',  label_fr: 'durée fixe',                label_en: 'fixed duration' },
@@ -17,20 +18,20 @@ const annotation = [
 const steps = [
   { sn: '01', kicker_fr: 'J1-J2', kicker_en: 'D1-D2',
     title_fr: 'Cadrage initial', title_en: 'Initial scoping',
-    body_fr: "Demi-journée comité élargi. On lit votre stack, votre feuille de route, votre comité IA actuel.",
-    body_en: 'Half-day with extended committee. We read your stack, roadmap, current AI committee.' },
+    body_fr: "Demi-journée comité élargi. On lit votre stack, votre feuille de route, vos incidents récents non résolus. On établit la liste des 8-12 interlocuteurs à auditer. Livrable J2 : rapport de cadrage validé.",
+    body_en: 'Half-day with extended committee. We read your stack, roadmap, recent unresolved incidents. We set the list of 8-12 interviewees. Deliverable D2: validated scoping report.' },
   { sn: '02', kicker_fr: 'J3-J6', kicker_en: 'D3-D6',
     title_fr: 'Audit terrain', title_en: 'Field audit',
-    body_fr: "Entretiens 1-1 avec 8-12 personnes (data, ops, GRC, finance, IT). Puis questionnaire asynchrone.",
-    body_en: '1-on-1 interviews with 8-12 people (data, ops, GRC, finance, IT). Plus async survey.' },
+    body_fr: "Entretiens 1-1 avec 8-12 personnes : data engineer, DPO, responsable GRC, CFO, lead tech, ops métier. Questionnaire asynchrone 47 points sur Notion. Aucun atelier collectif — la vérité se dit en individuel.",
+    body_en: '1-on-1 interviews with 8-12 people: data engineer, DPO, GRC lead, CFO, tech lead, ops. 47-point async survey on Notion. No group workshop — truth is told individually.' },
   { sn: '03', kicker_fr: 'J7-J8', kicker_en: 'D7-D8',
     title_fr: 'Analyse', title_en: 'Analysis',
-    body_fr: "Grille de 47 critères notée · cartographie des chantiers actionnables · estimation de l'effort.",
-    body_en: '47-criteria scorecard scored · actionable workstream map · effort estimation.' },
+    body_fr: "Grille de 47 critères notée 0-3 par dimension (données, outillage, équipe, gouvernance). Cartographie des chantiers actionnables. Estimation effort : Quick wins (< 3 mois) vs Chantiers structurants (6-18 mois).",
+    body_en: '47-criteria scorecard scored 0-3 per dimension (data, tooling, team, governance). Actionable workstream map. Effort estimation: Quick wins (< 3 months) vs Structural workstreams (6-18 months).' },
   { sn: '04', kicker_fr: 'J9-J10', kicker_en: 'D9-D10',
     title_fr: 'Restitution', title_en: 'Debrief',
-    body_fr: "2 sessions : direction (1h) + équipe technique (2h). Document final 30 pages signé.",
-    body_en: '2 sessions: board (1h) + tech team (2h). Final 30-page signed document.' },
+    body_fr: "2 sessions structurées. Direction (1h) : grille résumée, 3 décisions à prendre, arbitrages chiffrés. Équipe technique (2h) : détails chantiers, risques, questions. Document final 30 pages signé remis en fin de J10.",
+    body_en: '2 structured sessions. Board (1h): summarized scorecard, 3 decisions to make, costed arbitrations. Tech team (2h): workstream details, risks, Q&A. Final 30-page document signed and delivered end of D10.' },
 ];
 
 const techPills = [
@@ -40,10 +41,10 @@ const techPills = [
 ];
 
 const proofMetrics = [
-  { k: '32',    label_fr: 'audits livrés en 18 mois',  label_en: 'audits delivered last 18 months' },
-  { k: '94%',   label_fr: 'NPS post-restitution',       label_en: 'post-debrief NPS' },
-  { k: '78%',   label_fr: 'engagés sur chantier suivant', label_en: 'engaged on next workstream' },
-  { k: '10 j',  label_fr: 'durée standard, jamais dépassée', label_en: 'standard duration, never exceeded' },
+  { k: '32',   label_fr: 'audits livrés en 18 mois',          label_en: 'audits delivered last 18 months' },
+  { k: '94%',  label_fr: 'NPS post-restitution',               label_en: 'post-debrief NPS' },
+  { k: '78%',  label_fr: 'engagent le chantier suivant',       label_en: 'engage the next workstream' },
+  { k: '0 j',  label_fr: 'de dépassement sur 32 audits',      label_en: 'days over budget across 32 audits' },
 ];
 
 const relatedCards = [
@@ -75,19 +76,21 @@ const relatedCards = [
   relatedCards={relatedCards}
 >
   <Fragment slot="headline">
-    Un <i>diagnostic IA</i> en 10 jours. Lu par la direction, signé par nous.
+    Dix jours pour savoir <i>exactement</i> où vous en êtes. Lu par la direction. Signé par nous.
   </Fragment>
   <Fragment slot="lede">
-    Pas un atelier. Pas un modèle PowerPoint. 10 jours fixes pour évaluer 47 critères sur vos données, vos outils, votre équipe, votre gouvernance — et livrer une grille de score que vos commissaires aux comptes peuvent lire.
+    Pas un atelier. Pas un modèle PowerPoint. 10 jours fixes pour évaluer 47 critères sur vos données, vos outils, votre équipe, votre gouvernance — et vous éviter d'engager 18 mois de transformation sur un diagnostic fantaisiste.
   </Fragment>
   <Fragment slot="problem">
-    La majorité des audits IA livrent <i>72 slides</i> qui finissent dans le SharePoint. La direction ne les lit pas. Les ingénieurs ne savent pas quoi en faire. Notre audit produit l'inverse : 30 pages denses, une grille signée, des actions priorisées par coût de correction.
+    La majorité des audits IA livrent <i>72 slides</i> qui finissent dans le SharePoint. La direction ne les lit pas. Les ingénieurs ne savent pas quoi en faire. Notre audit produit l'inverse : 30 pages denses, une grille signée, des actions priorisées par coût de correction.
+    <br/><br/>Nous ne partons pas d'un modèle. Nous partons de vos données réelles : logs, workflows documentés, incidents GRC ouverts. La grille de 47 critères est renseignée par nos consultants, pas par vos déclaratifs.
   </Fragment>
   <Fragment slot="approach-headline">
-    Dix <i>jours</i>. Pas onze. Pas neuf.
+    Dix <i>jours</i> calibrés. Pas un de plus, pas un de moins.
   </Fragment>
   <Fragment slot="approach-aside">
     Le périmètre est volontairement borné. On audite ce qui est lisible en 10 jours — au-delà, c'est l'objet d'un autre service (feuille de route IA stratégique).
+    Chaque journée a un livrable intermédiaire : rapport de cadrage validé (J2), audit terrain clos (J6), grille pré-scorée (J8), document final signé (J10).
   </Fragment>
   <Fragment slot="deliverables-headline">
     Une <i>grille de score</i>, un <i>document</i>, deux <i>restitutions</i>.
@@ -111,6 +114,45 @@ const relatedCards = [
         <div class="del-tag">RESTITUTION</div>
         <h3>2 sessions en direct</h3>
         <p>Direction (1h Q&amp;A lisible) + équipe technique (2h Q&amp;A approfondie).</p>
+      </div>
+    </div>
+
+    <!-- Timeline SVG -->
+    <div class="reveal-fade" style="margin-top:clamp(48px,5vw,72px); max-width:600px; margin-inline:auto;">
+      <AuditMaturityTimeline />
+    </div>
+
+    <!-- Section prix -->
+    <div class="reveal-stagger" style="margin-top:clamp(48px,5vw,72px); border-top:1px solid var(--hairline-strong); padding-top:clamp(32px,4vw,48px);">
+      <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;">Investissement</div>
+      <h3 style="font-family:var(--font-display); font-size:clamp(28px,3.2vw,44px); line-height:1.05; font-weight:400; margin:0 0 20px;"><i style="color:var(--accent); font-style:italic;">À partir de 8 000 €</i> HT</h3>
+      <p style="font-family:var(--font-sans); font-size:16px; line-height:1.6; color:var(--ink); max-width:560px; margin:0 0 12px;">Prix fixe. Pas d'heure supplémentaire, pas de dépassement. 10 jours, un document, deux restitutions.</p>
+      <p style="font-family:var(--font-sans); font-size:14px; line-height:1.55; color:var(--muted); max-width:560px; margin:0;">Pour les groupes ≥ 3 entités légales à auditer en simultané : tarification sur devis. Les audits complémentaires (gouvernance données, dette technique) font l'objet de services distincts.</p>
+    </div>
+
+    <!-- Section cas typique -->
+    <div class="reveal-stagger" style="margin-top:clamp(48px,5vw,72px); border-top:1px solid var(--hairline); padding-top:clamp(32px,4vw,48px);">
+      <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;">Cas typique</div>
+      <div class="audit-case-grid">
+        <div>
+          <h3 style="font-family:var(--font-display); font-size:clamp(24px,2.8vw,38px); line-height:1.1; font-weight:400; margin:0 0 18px;"><i style="font-style:italic;">Plateau SaaS</i> — 180 personnes</h3>
+          <p style="font-family:var(--font-sans); font-size:15px; line-height:1.65; color:var(--ink); margin:0 0 14px;">Groupe SaaS européen. La direction technique veut déployer des agents IA sur les flux support client et comptabilité. Budget IA prévu : 380 k€. Le comité exécutif demande un feu vert documenté avant engagement.</p>
+          <p style="font-family:var(--font-sans); font-size:15px; line-height:1.65; color:var(--muted); margin:0;">Résultat : 2 chantiers prioritaires validés, 1 chantier stoppé avant développement (données non conformes RGPD), budget recalibré à 140 k€ pour un périmètre livrable en 6 mois.</p>
+        </div>
+        <div class="audit-case-metrics">
+          <div class="audit-case-kpi">
+            <div style="font-family:var(--font-mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:4px;">Décision prise en J10</div>
+            <div style="font-family:var(--font-display); font-size:clamp(18px,2.2vw,26px); line-height:1.1; font-weight:400;">Budget réduit de 380 → 140 k€</div>
+          </div>
+          <div class="audit-case-kpi">
+            <div style="font-family:var(--font-mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:4px;">Chantier arrêté avant dev</div>
+            <div style="font-family:var(--font-display); font-size:clamp(18px,2.2vw,26px); line-height:1.1; font-weight:400;">1 agent IA sur 3 stoppé</div>
+          </div>
+          <div class="audit-case-kpi">
+            <div style="font-family:var(--font-mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:4px;">NPS restitution</div>
+            <div style="font-family:var(--font-display); font-size:clamp(18px,2.2vw,26px); line-height:1.1; font-weight:400;">94 %</div>
+          </div>
+        </div>
       </div>
     </div>
   </Fragment>
@@ -164,5 +206,29 @@ const relatedCards = [
     .del-grid { grid-template-columns: 1fr; }
     .del-card { border-right: none; border-bottom: 1px solid var(--hairline); }
     .del-card:last-child { border-bottom: none; }
+  }
+
+  /* Cas typique grid */
+  .audit-case-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 4vw, 56px);
+    align-items: start;
+  }
+  .audit-case-metrics {
+    border-left: 1px solid var(--hairline);
+    padding-left: clamp(24px, 3vw, 40px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .audit-case-kpi {
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .audit-case-kpi:last-child { border-bottom: none; }
+  @media (max-width: 800px) {
+    .audit-case-grid { grid-template-columns: 1fr; }
+    .audit-case-metrics { border-left: none; padding-left: 0; margin-top: clamp(24px, 3vw, 36px); }
   }
 </style>
