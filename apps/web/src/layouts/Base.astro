@@ -126,48 +126,68 @@ const additionalLd = additionalJsonLd
       initSplitLetterReveal();
     </script>
 
-    {/* IntersectionObserver léger pour activer les classes .reveal/.in */}
+    {/* IntersectionObserver léger pour activer les classes .reveal/.in — réexécuté après View Transitions */}
     <script is:inline>
       (() => {
         if (typeof window === 'undefined') return;
-        const reduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-        if (reduced) {
-          document.querySelectorAll('.reveal,.reveal-up,.reveal-fade,.reveal-slide,.reveal-snap,.reveal-stagger,.scale-in,.blur-in,.clip-up,.hair-draw,.row-lines,.reveal-mask-up,.reveal-zoom-in,.reveal-blur-clip,.reveal-curtain,.reveal-split-letter').forEach((el) => el.classList.add('in'));
-          return;
-        }
-        const io = new IntersectionObserver(
-          (entries) => {
-            for (const e of entries) {
-              if (e.isIntersecting) {
-                e.target.classList.add('in');
-                io.unobserve(e.target);
+        function initRevealObserver() {
+          const reduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+          const sels = '.reveal,.reveal-up,.reveal-fade,.reveal-slide,.reveal-snap,.reveal-stagger,.scale-in,.blur-in,.clip-up,.hair-draw,.row-lines,.reveal-mask-up,.reveal-zoom-in,.reveal-blur-clip,.reveal-curtain,.reveal-split-letter';
+          if (reduced) {
+            document.querySelectorAll(sels).forEach((el) => el.classList.add('in'));
+            return;
+          }
+          const io = new IntersectionObserver(
+            (entries) => {
+              for (const e of entries) {
+                if (e.isIntersecting) {
+                  e.target.classList.add('in');
+                  io.unobserve(e.target);
+                }
               }
-            }
-          },
-          { rootMargin: '0px 0px -10% 0px', threshold: 0.08 },
-        );
-        const sels = '.reveal,.reveal-up,.reveal-fade,.reveal-slide,.reveal-snap,.reveal-stagger,.scale-in,.blur-in,.clip-up,.hair-draw,.row-lines,.reveal-mask-up,.reveal-zoom-in,.reveal-blur-clip,.reveal-curtain,.reveal-split-letter';
-        document.querySelectorAll(sels).forEach((el) => io.observe(el));
+            },
+            { rootMargin: '0px 0px -10% 0px', threshold: 0.08 },
+          );
+          document.querySelectorAll(sels).forEach((el) => {
+            if (!el.classList.contains('in')) io.observe(el);
+          });
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initRevealObserver);
+        } else {
+          initRevealObserver();
+        }
+        document.addEventListener('astro:page-load', initRevealObserver);
       })();
     </script>
 
-    {/* Magnetic hover sur [data-mag] */}
+    {/* Magnetic hover sur [data-mag] — réexécuté après View Transitions */}
     <script is:inline>
       (() => {
         if (typeof window === 'undefined') return;
-        if (!window.matchMedia('(pointer:fine)').matches) return;
-        const reduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-        if (reduced) return;
-        document.querySelectorAll('[data-mag]').forEach((el) => {
-          const strength = parseFloat(el.getAttribute('data-mag') || '0.18');
-          el.addEventListener('mousemove', (e) => {
-            const r = el.getBoundingClientRect();
-            const x = (e.clientX - r.left - r.width / 2) * strength;
-            const y = (e.clientY - r.top - r.height / 2) * strength;
-            el.style.transform = `translate(${x}px,${y}px)`;
+        function initMagnetic() {
+          if (!window.matchMedia('(pointer:fine)').matches) return;
+          const reduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+          if (reduced) return;
+          document.querySelectorAll('[data-mag]').forEach((el) => {
+            if (el.dataset.magBound === '1') return;
+            el.dataset.magBound = '1';
+            const strength = parseFloat(el.getAttribute('data-mag') || '0.18');
+            el.addEventListener('mousemove', (e) => {
+              const r = el.getBoundingClientRect();
+              const x = (e.clientX - r.left - r.width / 2) * strength;
+              const y = (e.clientY - r.top - r.height / 2) * strength;
+              el.style.transform = `translate(${x}px,${y}px)`;
+            });
+            el.addEventListener('mouseleave', () => { el.style.transform = ''; });
           });
-          el.addEventListener('mouseleave', () => { el.style.transform = ''; });
-        });
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initMagnetic);
+        } else {
+          initMagnetic();
+        }
+        document.addEventListener('astro:page-load', initMagnetic);
       })();
     </script>
   </body>
