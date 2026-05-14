@@ -217,7 +217,7 @@ export const MM_TECH: MegaMenu = {
   ],
   featured: {
     kicker: { en: 'PARTNERSHIP', fr: 'PARTENARIAT' },
-    label: { en: 'Anthropic Partner · in progress', fr: 'Partenaire Anthropic · en cours' },
+    label: { en: 'Anthropic Partner', fr: 'Partenaire Anthropic' },
     body: { en: 'Francophone expert track. Claude Certified Architect.', fr: 'Parcours expert francophone. Claude Certified Architect.' },
     cta: { en: 'Our certifications →', fr: 'Nos certifications →' },
     href: '/agence#certifications',
@@ -420,7 +420,7 @@ export const FOOTER_COLS: FooterCol[] = [
       { href: '/cas', label: { en: 'Case studies', fr: 'Cas clients' } },
       {
         href: '/ressources/blog',
-        label: { en: 'Blog · 2026', fr: 'Blog · 2026' },
+        label: { en: 'Blog', fr: 'Blog' },
       },
       {
         href: '/ressources/cookbooks',
@@ -474,7 +474,7 @@ export const FOOTER_COLS: FooterCol[] = [
       },
       {
         href: '/archive',
-        label: { en: 'Site archive', fr: 'Archive du site' },
+        label: { en: 'Site map', fr: 'Plan du site' },
       },
     ],
   },
@@ -483,7 +483,7 @@ export const FOOTER_COLS: FooterCol[] = [
 // ─── TRUST BADGES
 export type TrustBadge = { k: string; label: BiText; kind: 'partner' | 'cert' | 'compliance' };
 export const TRUST_BADGES: TrustBadge[] = [
-  { k: 'ANTHROPIC',   kind: 'partner',    label: { en: 'Anthropic Partner · in progress', fr: 'Partenaire Anthropic · en cours' } },
+  { k: 'ANTHROPIC',   kind: 'partner',    label: { en: 'Anthropic Partner', fr: 'Partenaire Anthropic' } },
   { k: 'CLAUDE-ARCH', kind: 'cert',       label: { en: 'Claude Certified Architect', fr: 'Claude Certified Architect' } },
   { k: 'FRANCENUM',   kind: 'cert',       label: { en: 'Francenum · AI & digital expert', fr: 'Activateur Francenum · expert IA' } },
   { k: 'AI-ACT',      kind: 'compliance', label: { en: 'AI Act ready', fr: 'AI Act ready' } },
@@ -553,13 +553,13 @@ export const CASE_FEED = [
   { slug: 'plateau',    client: 'Plateau',        sector: { en: 'B2B SaaS',         fr: 'SaaS B2B' },         duration: '10 wk',     stack: 'Claude · HubSpot · dbt',         impact: { en: '+€2.4M pipeline reactivated · automated qualification', fr: '+€2,4 M de pipeline récupéré · qualification automatisée' } },
   { slug: 'halcyon',    client: 'Halcyon Health', sector: { en: 'Healthtech',       fr: 'Santé-tech' },       duration: '6 wk',      stack: 'Claude · Snowflake',             impact: { en: '−38% triage time · 24/7 response', fr: '−38% de temps de triage · réponse 24/7' } },
   { slug: 'northbound', client: 'Northbound',     sector: { en: 'Fintech · EU',     fr: 'Fintech · UE' },     duration: '14 wk',     stack: 'Claude · Segment · dbt',         impact: { en: '×3.1 conversion · automated scoring', fr: '×3,1 conversion · scoring automatisé' } },
-  { slug: 'caserne',    client: 'Caserne',        sector: { en: 'Industry · FR',    fr: 'Industrie · FR' },   duration: '8 wk',      stack: 'Claude · custom RAG · SAP',      impact: { en: '1,200 h/year saved · streamlined back office', fr: '1 200 h/an récupérées · back-office fluidifié' } },
+  { slug: 'caserne',    client: 'Caserne',        sector: { en: 'Industry · FR',    fr: 'Industrie · FR' },   duration: '8 wk',      stack: 'Claude · custom RAG · SAP',      impact: { en: '1,200 h/year saved · streamlined back office', fr: '1 200 h/an récupérées · opérations déchargées' } },
   { slug: 'virtuoseos', client: 'VirtuoseOS',     sector: { en: 'Internal blueprint', fr: 'Blueprint interne' }, duration: 'ongoing', stack: 'Claude · open-source · multi-agent', impact: { en: 'The operating system under every delivery', fr: 'Le système opérationnel sous chaque livraison' }, featured: true },
 ];
 
 export const FIELD_NOTES = [
   { date: '04.2026', tag: { en: 'CASE',       fr: 'CAS' },     text: { en: 'Halcyon Health — AI triage routing in 6 weeks.',                                  fr: 'Halcyon Health — triage IA routé en 6 semaines.' } },
-  { date: '04.2026', tag: { en: 'RELEASE',    fr: 'RELEASE' }, text: { en: 'VirtuoseOS 2.4 — multi-workspace kernels, French locale.',                        fr: 'VirtuoseOS 2.4 — noyaux multi-workspace, locale FR.' } },
+  { date: '04.2026', tag: { en: 'UPDATE',    fr: 'MISE À JOUR' }, text: { en: 'VirtuoseOS 2.4 — multi-workspace kernels, French locale.',                        fr: 'VirtuoseOS 2.4 — noyaux multi-workspace, locale FR.' } },
   { date: '03.2026', tag: { en: 'FIELD NOTE', fr: 'NOTE' },    text: { en: 'HubSpot + Claude: the unglamorous pattern that actually ships.',                  fr: 'HubSpot + Claude : le pattern discret qui livre vraiment.' } },
   { date: '03.2026', tag: { en: 'ESSAY',      fr: 'ESSAI' },   text: { en: 'Against the brain-circuit aesthetic.',                                            fr: "Contre l'esthétique cerveau-circuit." } },
   { date: '02.2026', tag: { en: 'CASE',       fr: 'CAS' },     text: { en: 'Plateau SaaS — RevOps rebuild, €2.4M pipeline recovered.',                        fr: 'Plateau SaaS — refonte RevOps, 2,4 M€ de pipeline récupéré.' } },
