@@ -2,6 +2,7 @@
 // Footer · 5 colonnes éditoriales · pur Astro (pas d'interactivité)
 import { FOOTER_COLS, TRUST_BADGES } from '../../data/sitemap';
 import { langFromPath, t } from '../../lib/i18n';
+import NewsletterSignup from '../ui/molecules/NewsletterSignup.astro';
 
 const lang = langFromPath(Astro.url.pathname);
 // `year` est résolu au build (SSG). En cas de site non rebuilt en début d'année,
@@ -35,6 +36,23 @@ const year = new Date().getFullYear();
           {t(b.label, lang)}
         </span>
       ))}
+    </div>
+  </div>
+
+  {/* Newsletter section */}
+  <div class="wrap hline" style="padding-top:clamp(40px,4vw,60px);padding-bottom:clamp(40px,4vw,60px)">
+    <div class="ft-nl-grid">
+      <div class="ft-nl-lead reveal-fade">
+        <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 16px">
+          {lang === 'fr' ? 'Restez informé' : 'Stay informed'}
+        </p>
+        <p style="font-family:var(--font-display);font-style:italic;font-size:clamp(18px,2vw,26px);color:var(--ink-2);max-width:320px;line-height:1.4;text-wrap:balance;margin:0;font-weight:400">
+          {lang === 'fr'
+            ? "Les décisions IA de la semaine, distillées pour les dirigeants."
+            : "The week's AI decisions, distilled for leaders."}
+        </p>
+      </div>
+      <NewsletterSignup lang={lang} variant="inline" />
     </div>
   </div>
 
@@ -236,10 +254,30 @@ const year = new Date().getFullYear();
     </div>
   </div>
 
-  {/* Bottom — copyright + socials */}
-  <div class="wrap hline" style="padding:24px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--muted)">
-    <span>© {year} Waimia · {lang === 'fr' ? 'Partenaire Intégrateur IA' : 'AI Integration Partner'}</span>
-    <div style="display:flex;gap:18px">
+  {/* Bottom — copyright + lang switcher + socials */}
+  <div class="wrap hline ft-bottom">
+    <div class="ft-bottom-left">
+      <span>© {year} Waimia · {lang === 'fr' ? 'Partenaire Intégrateur IA' : 'AI Integration Partner'}</span>
+      <a href={lang === 'fr' ? '/agence/trust-center' : '/en/agence/trust-center'} class="ft-link">
+        {lang === 'fr' ? 'Mentions légales' : 'Legal'}
+      </a>
+    </div>
+    <div class="ft-bottom-right">
+      <div class="ft-lang-switch" aria-label={lang === 'fr' ? 'Changer de langue' : 'Change language'}>
+        <a
+          href={lang === 'fr' ? Astro.url.pathname : (Astro.url.pathname.replace(/^\/en(\/|$)/, '/') || '/')}
+          class={`ft-link ft-lang-a ${lang === 'fr' ? 'ft-lang-active' : ''}`}
+          aria-label="Version française"
+          aria-current={lang === 'fr' ? 'page' : undefined}
+        >FR</a>
+        <span aria-hidden="true" class="ft-lang-sep">·</span>
+        <a
+          href={lang === 'en' ? Astro.url.pathname : `/en${Astro.url.pathname === '/' ? '' : Astro.url.pathname}`}
+          class={`ft-link ft-lang-a ${lang === 'en' ? 'ft-lang-active' : ''}`}
+          aria-label="English version"
+          aria-current={lang === 'en' ? 'page' : undefined}
+        >EN</a>
+      </div>
       <a href="https://www.linkedin.com/company/waimia" target="_blank" rel="noopener" class="ft-link">LinkedIn</a>
       <a href="https://x.com/waimia_ai" target="_blank" rel="noopener" class="ft-link">X</a>
       <a href="https://www.youtube.com/@waimia" target="_blank" rel="noopener" class="ft-link">YouTube</a>
@@ -274,6 +312,40 @@ const year = new Date().getFullYear();
   }
   @media (max-width:640px){
     .ft-tier1-grid{grid-template-columns:1fr!important;gap:32px!important}
+  }
+
+  /* Newsletter grid */
+  .ft-nl-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:clamp(40px,5vw,80px);
+    align-items:center;
+  }
+  @media(max-width:768px){
+    .ft-nl-grid{grid-template-columns:1fr}
+  }
+
+  /* Bottom row */
+  .ft-bottom{
+    padding:24px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.08em;
+    color:var(--muted);
+  }
+  .ft-bottom-left{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .ft-bottom-right{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .ft-lang-switch{display:flex;align-items:center;gap:6px}
+  .ft-lang-sep{opacity:.4}
+  .ft-lang-a{color:var(--muted);transition:color 220ms var(--ease)}
+  .ft-lang-active{color:var(--ink);font-weight:600}
+  @media(max-width:640px){
+    .ft-bottom{flex-direction:column;align-items:flex-start}
   }
 
   /* ──── DEV-INDEX (expérimentation Simon · validation visuelle) ──── */

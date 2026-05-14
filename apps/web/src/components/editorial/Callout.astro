@@ -12,12 +12,13 @@ interface Props {
   cite?: string;
   align?: 'left' | 'center';
   size?: 'sm' | 'md' | 'lg';
+  animate?: boolean;
 }
 
-const { variant = 'note', cite, align = 'left', size = 'md' } = Astro.props;
+const { variant = 'note', cite, align = 'left', size = 'md', animate = false } = Astro.props;
 ---
 
-<aside class={`callout callout-${variant} callout-${size} callout-${align}`}>
+<aside class:list={["callout", `callout-${variant}`, `callout-${size}`, `callout-${align}`, { "reveal-fade-up": animate }]}>
   <div class="callout-body">
     <slot />
   </div>

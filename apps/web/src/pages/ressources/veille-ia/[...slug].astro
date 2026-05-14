@@ -34,7 +34,14 @@ const authorSlug = authorEntry?.data?.slug ?? d.author?.id ?? '';
   author={authorEntry?.data.title_fr ?? ''}
   readingTime="3 min lecture"
   authorSlug={authorSlug}
-  relatedCards={[]}
+  relatedCards={relatedCards}
+  lang="fr"
+  tags={d.tags}
+  breadcrumbItems={[
+    { label: 'Accueil', href: '/' },
+    { label: 'Veille IA', href: '/ressources/veille-ia' },
+    { label: d.title_fr },
+  ]}
 >
   <Fragment slot="headline">{d.title_fr}</Fragment>
   <Fragment slot="lede">{d.impact_fr}</Fragment>

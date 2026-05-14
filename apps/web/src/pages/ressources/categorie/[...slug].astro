@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import Breadcrumb from '../../../components/ui/molecules/Breadcrumb.astro';
 import { CATEGORIES } from '../../../data/taxonomies';
 import CtaBand from '../../../components/ui/organisms/CtaBand.astro';
 
@@ -83,11 +84,16 @@ const collectionPageLd = {
   description={cat.description.fr}
   jsonLd={[breadcrumbLd, collectionPageLd]}
 >
+  <Breadcrumb lang="fr" items={[
+    { label: 'Accueil', href: '/' },
+    { label: 'Ressources', href: '/ressources' },
+    { label: cat.label.fr },
+  ]} />
   <section class="cat-mast">
     <div class="wrap-tight">
       <Kicker class="cat-kicker">§ Catégorie · {items.length} {items.length > 1 ? 'ressources' : 'ressource'}</Kicker>
-      <h1 class="cat-h1 reveal">{cat.label.fr}</h1>
-      <p class="cat-lede">{cat.description.fr}</p>
+      <h1 class="cat-h1 reveal-mask-up">{cat.label.fr}</h1>
+      <p class="cat-lede reveal">{cat.description.fr}</p>
     </div>
   </section>
 
@@ -130,8 +136,8 @@ const collectionPageLd = {
     max-width: 680px;
   }
   .cat-list-sec { padding: clamp(40px, 5vw, 80px) 0 clamp(80px, 10vw, 140px); }
-  .cat-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid rgba(0,0,0,.12); }
-  .cat-list li { border-bottom: 1px solid rgba(0,0,0,.08); }
+  .cat-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--hairline-strong); }
+  .cat-list li { border-bottom: 1px solid var(--hairline); }
   .cat-list a {
     display: grid;
     grid-template-columns: 100px 1fr auto;
@@ -165,3 +171,11 @@ const collectionPageLd = {
   .cat-empty { font-family: var(--font-display); font-style: italic; color: var(--muted); padding: 32px 0; }
   .wrap-tight { max-width: 880px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
 </style>
+
+<script>
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } }),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal, .reveal-mask-up').forEach((el) => io.observe(el));
+</script>

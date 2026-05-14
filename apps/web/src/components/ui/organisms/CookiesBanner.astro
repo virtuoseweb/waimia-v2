@@ -1,0 +1,136 @@
+---
+import { langFromPath } from '../../../lib/i18n';
+
+interface Props {
+  lang?: 'fr' | 'en';
+}
+const { lang: propLang } = Astro.props;
+const lang = propLang ?? langFromPath(Astro.url.pathname);
+---
+
+<div
+  id="cookies-banner"
+  class="cb"
+  role="region"
+  aria-label={lang === 'fr' ? 'Gestion des cookies' : 'Cookie consent'}
+  hidden
+>
+  <div class="cb-inner wrap">
+    <p class="cb-text">
+      {lang === 'fr'
+        ? "Ce site utilise des cookies analytiques anonymes pour améliorer votre expérience. Aucune donnée personnelle identifiable n'est collectée."
+        : 'This site uses anonymous analytics cookies to improve your experience. No personally identifiable data is collected.'}
+    </p>
+    <div class="cb-actions">
+      <button id="cb-accept" class="cb-btn cb-btn--primary">
+        {lang === 'fr' ? 'Accepter' : 'Accept'}
+      </button>
+      <button id="cb-reject" class="cb-btn cb-btn--secondary">
+        {lang === 'fr' ? 'Refuser' : 'Decline'}
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cb {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: var(--paper);
+    border-top: 1px solid var(--hairline);
+    padding: 14px 0;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, .06);
+  }
+  .cb-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .cb-text {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    max-width: 640px;
+    margin: 0;
+    text-wrap: pretty;
+  }
+  .cb-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+  .cb-btn {
+    padding: 9px 20px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid var(--hairline);
+    transition: all 200ms ease;
+    font-weight: 500;
+    letter-spacing: .01em;
+  }
+  .cb-btn--primary {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .cb-btn--primary:hover { opacity: .85 }
+  .cb-btn--secondary {
+    background: transparent;
+    color: var(--ink-2);
+  }
+  .cb-btn--secondary:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  @media (max-width: 600px) {
+    .cb-actions { width: 100% }
+    .cb-btn { flex: 1; text-align: center }
+  }
+</style>
+
+<script is:inline>
+(function () {
+  var KEY = 'waimia_cookies_consent';
+
+  function initBanner() {
+    var stored = localStorage.getItem(KEY);
+    var banner = document.getElementById('cookies-banner');
+    if (!stored && banner) banner.removeAttribute('hidden');
+
+    var btnAccept = document.getElementById('cb-accept');
+    var btnReject = document.getElementById('cb-reject');
+
+    if (btnAccept && !btnAccept.dataset.cbBound) {
+      btnAccept.dataset.cbBound = '1';
+      btnAccept.addEventListener('click', function () {
+        localStorage.setItem(KEY, 'accepted');
+        var b = document.getElementById('cookies-banner');
+        if (b) b.setAttribute('hidden', '');
+      });
+    }
+    if (btnReject && !btnReject.dataset.cbBound) {
+      btnReject.dataset.cbBound = '1';
+      btnReject.addEventListener('click', function () {
+        localStorage.setItem(KEY, 'rejected');
+        var b = document.getElementById('cookies-banner');
+        if (b) b.setAttribute('hidden', '');
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBanner);
+  } else {
+    initBanner();
+  }
+  document.addEventListener('astro:page-load', initBanner);
+})();
+</script>

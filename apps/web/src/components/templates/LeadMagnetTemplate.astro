@@ -42,8 +42,10 @@ interface Props {
   coverUrl?: string;
   /** Label personnalisé pour le breadcrumb. */
   breadcrumbLabel?: string;
+  /** JSON-LD schemas spécifiques (Book, Offer, BreadcrumbList…) passés depuis la page. */
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
-const { title, description, slug, kicker, format, publishedAt, toc, coverUrl, breadcrumbLabel } = Astro.props as Props;
+const { title, description, slug, kicker, format, publishedAt, toc, coverUrl, breadcrumbLabel, jsonLd } = Astro.props as Props;
 const lang = langFromPath(Astro.url.pathname);
 const pageTransitionId = Astro.url.pathname
   .replace(/^\/(?:en\/)?/, '')
@@ -100,7 +102,7 @@ const tocEvents = toc.map((item, index) => ({
   variant: index === 0 ? 'highlight' as const : 'default' as const,
 }));
 ---
-<Base title={title} description={description}>
+<Base title={title} description={description} jsonLd={jsonLd}>
   <Breadcrumb
     lang={lang}
     items={[

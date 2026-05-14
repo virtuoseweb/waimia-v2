@@ -39,9 +39,11 @@ interface Props {
   offset?: number;
   /** Classes additionnelles */
   class?: string;
+  stackLabel?: string;
+  impactLabel?: string;
 }
 
-const { idx, client, sector, stack, impact, duration, href, offset = 0, class: extraClass = '' } = Astro.props;
+const { idx, client, sector, stack, impact, duration, href, offset = 0, class: extraClass = '', stackLabel = 'Stack', impactLabel = 'Impact' } = Astro.props;
 const vtSlug = href.replace(/^\//, "").replace(/\//g, "-");
 const offsetStyle = offset ? `margin-top:${offset}px` : '';
 ---
@@ -53,11 +55,11 @@ const offsetStyle = offset ? `margin-top:${offset}px` : '';
   <div class="u-case-card-client">{client}</div>
   <div class="u-case-card-foot">
     <div>
-      <Kicker class="u-case-card-k">Stack</Kicker>
+      <Kicker class="u-case-card-k">{stackLabel}</Kicker>
       <div class="u-case-card-v">{stack}</div>
     </div>
     <div>
-      <Kicker class="u-case-card-k">Impact</Kicker>
+      <Kicker class="u-case-card-k">{impactLabel}</Kicker>
       <div class="u-case-card-impact">{impact}</div>
     </div>
   </div>
@@ -65,7 +67,7 @@ const offsetStyle = offset ? `margin-top:${offset}px` : '';
 
 <style>
   .u-case-card{display:block;padding:clamp(24px,3vw,40px);background:var(--paper-2);border-radius:18px;border:1px solid var(--hairline);border-top:2px solid transparent;transition:border-color 280ms var(--ease),transform 280ms var(--ease),box-shadow 280ms var(--ease);color:inherit}
-  .u-case-card:hover{border-color:var(--accent);border-top-color:var(--accent);transform:translateY(-4px);box-shadow:0 12px 40px rgba(12,11,9,0.08)}
+  .u-case-card:hover{border-color:var(--accent);border-top-color:var(--accent);transform:translateY(-4px);box-shadow:var(--shadow-lift, 0 12px 40px rgba(12,11,9,.08))}
 
   .u-case-card-hd{display:flex;justify-content:space-between;align-items:baseline}
 

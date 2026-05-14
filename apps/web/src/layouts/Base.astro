@@ -8,6 +8,7 @@ import '../styles/scroll-reveal.css';
 import Header from '../components/header/Header.astro';
 import Footer from '../components/footer/Footer.astro';
 import PagePill from '../components/ui/molecules/PagePill.astro';
+import CookiesBanner from '../components/ui/organisms/CookiesBanner.astro';
 import CursorDot from '../components/ui/atoms/CursorDot.astro';
 import ProgressBar from '../components/ui/atoms/ProgressBar.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
@@ -125,6 +126,7 @@ const additionalLd = additionalJsonLd
     </main>
     <Footer />
     <PagePill />
+    <CookiesBanner lang={lang} />
 
     <script>
       import { initScrollReveal } from '../lib/animations/scroll-reveal';

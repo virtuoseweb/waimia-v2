@@ -30,6 +30,12 @@ const categoryKicker = d.category_fr ? ` · ${d.category_fr}` : '';
   date={dateStr}
   author="Waimia"
   relatedCards={[]}
+  lang="fr"
+  breadcrumbItems={[
+    { label: 'Accueil', href: '/' },
+    { label: 'Outils', href: '/ressources/outils' },
+    { label: d.title_fr },
+  ]}
 >
   <Fragment slot="headline">{d.title_fr}</Fragment>
   <Fragment slot="lede">{d.description_fr}</Fragment>

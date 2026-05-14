@@ -1,0 +1,186 @@
+---
+import { langFromPath } from '../../../lib/i18n';
+
+interface Props {
+  lang?: 'fr' | 'en';
+  variant?: 'inline' | 'card';
+}
+
+const { lang: propLang, variant = 'card' } = Astro.props;
+const lang = propLang ?? langFromPath(Astro.url.pathname);
+---
+
+<section class={`nl-signup nl-${variant} reveal-fade`} data-nl-lang={lang}>
+  {variant === 'card' && (
+    <>
+      <p class="nl-eyebrow">// newsletter</p>
+      <h3 class="nl-heading">
+        {lang === 'fr' ? 'Veille IA hebdomadaire' : 'Weekly AI Intelligence'}
+      </h3>
+      <p class="nl-sub">
+        {lang === 'fr'
+          ? "Tendances, analyses, outils — pour les dirigeants qui pilotent avec l'IA."
+          : 'Trends, analyses, tools — for leaders who run on AI.'}
+      </p>
+    </>
+  )}
+  <form class="nl-form" novalidate data-nl-form>
+    <div class="nl-row">
+      <label for={`nl-email-${variant}`} class="sr-only">Email</label>
+      <input
+        id={`nl-email-${variant}`}
+        name="email"
+        type="email"
+        required
+        autocomplete="email"
+        placeholder={lang === 'fr' ? 'votre@email.com' : 'your@email.com'}
+        aria-describedby={`nl-hint-${variant}`}
+        class="nl-input"
+      />
+      <button type="submit" class="nl-btn" data-mag="0.15">
+        {lang === 'fr' ? "S'abonner" : 'Subscribe'}
+      </button>
+    </div>
+    <p id={`nl-hint-${variant}`} class="nl-hint">
+      {lang === 'fr' ? 'Sans spam · Désinscription en 1 clic' : 'No spam · Unsubscribe anytime'}
+    </p>
+  </form>
+  <p class="nl-confirm" aria-live="polite" hidden data-nl-confirm>
+    {lang === 'fr' ? '✓ Bienvenue ! Vérifiez votre boîte mail.' : '✓ Welcome! Check your inbox.'}
+  </p>
+</section>
+
+<style>
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  .nl-signup{display:flex;flex-direction:column}
+
+  .nl-card{
+    border:1px solid var(--hairline);
+    padding:clamp(32px,4vw,56px);
+    border-radius:6px;
+    background:var(--paper);
+  }
+
+  .nl-eyebrow{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 12px;
+  }
+  .nl-heading{
+    font-family:var(--font-display);
+    font-style:italic;
+    font-size:clamp(22px,2.4vw,30px);
+    color:var(--ink);
+    margin:0 0 10px;
+    line-height:1.15;
+    font-weight:400;
+  }
+  .nl-sub{
+    font-size:14px;
+    color:var(--muted);
+    line-height:1.55;
+    margin:0 0 24px;
+    max-width:420px;
+    text-wrap:pretty;
+  }
+  .nl-form{display:flex;flex-direction:column;gap:10px}
+  .nl-row{display:flex;gap:10px;flex-wrap:wrap}
+  .nl-input{
+    flex:1;
+    min-width:200px;
+    padding:12px 16px;
+    border:1px solid var(--hairline);
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-sans);
+    font-size:14px;
+    border-radius:4px;
+    transition:border-color 220ms ease;
+    outline:none;
+  }
+  .nl-input:focus{border-color:var(--ink)}
+  .nl-input::placeholder{color:var(--muted)}
+  .nl-btn{
+    padding:12px 24px;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--font-sans);
+    font-size:14px;
+    font-weight:500;
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+    transition:opacity 200ms ease;
+    white-space:nowrap;
+    letter-spacing:.01em;
+  }
+  .nl-btn:hover{opacity:.82}
+  .nl-btn:disabled{opacity:.5;cursor:not-allowed}
+  .nl-hint{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:.06em;
+    margin:0;
+  }
+  .nl-confirm{
+    font-size:14px;
+    color:var(--ink);
+    font-weight:500;
+    margin:0;
+  }
+</style>
+
+<script is:inline>
+(function () {
+  document.querySelectorAll('[data-nl-form]').forEach(function (form) {
+    if (form.dataset.nlBound) return;
+    form.dataset.nlBound = '1';
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var section = form.closest('[data-nl-lang]');
+      var lang = section ? section.dataset.nlLang : 'fr';
+      var emailInput = form.querySelector('input[name="email"]');
+      var email = emailInput ? emailInput.value.trim() : '';
+      if (!email || !email.includes('@')) {
+        if (emailInput) emailInput.focus();
+        return;
+      }
+      var btn = form.querySelector('.nl-btn');
+      if (btn) btn.disabled = true;
+      try {
+        var res = await fetch('/api/newsletter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, lang: lang }),
+        });
+        var data = await res.json();
+        if (data.ok) {
+          form.style.display = 'none';
+          var confirm = section && section.querySelector('[data-nl-confirm]');
+          if (confirm) confirm.removeAttribute('hidden');
+          if (data.redirect) {
+            setTimeout(function () { window.location.href = data.redirect; }, 1200);
+          }
+        } else {
+          alert(lang === 'fr' ? 'Erreur, veuillez réessayer.' : 'Error, please try again.');
+          if (btn) btn.disabled = false;
+        }
+      } catch (_) {
+        alert(lang === 'fr' ? 'Erreur réseau, veuillez réessayer.' : 'Network error, please try again.');
+        if (btn) btn.disabled = false;
+      }
+    });
+  });
+
+  document.addEventListener('astro:page-load', function () {
+    document.querySelectorAll('[data-nl-form]').forEach(function (form) {
+      delete form.dataset.nlBound;
+    });
+  });
+})();
+</script>

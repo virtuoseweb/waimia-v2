@@ -589,8 +589,8 @@ export function buildSchemaForPage(
 export {
   buildBreadcrumbList,
   buildArticle,
-  buildCollectionPageSchema,
   buildCollectionPage,
+  buildCollectionPageSchema,
   buildHowTo,
   buildOrganization,
   buildOffer,
