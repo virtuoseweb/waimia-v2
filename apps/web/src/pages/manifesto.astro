@@ -296,12 +296,13 @@ const articleLd = buildArticle({
   /* V7 hero hauteur réduite · marquee remonte above-the-fold (Simon demande)
      · Avant : min-height 100vh + padding 160px/80px = hero seul = viewport entier
      · Après : min-height 84vh + padding 88px/40px = laisse ~144px pour marquee */
-  /* V7 fix Simon · hero remplit le viewport JUSQU'AU marquee
-     Calcul : viewport - header (79) - marquee (env. 78) = espace hero
-     Le marquee complet est visible above-the-fold sans coupure */
+  /* V7 fix Simon · équation mathématiquement juste
+     Layout : Breadcrumb (33px) + Hero + Marquee (75px) = 100vh exactement
+     Donc hero = 100vh - 33px - 75px = 100vh - 108px
+     Aucun pixel vide en bas sur 1440×900 ou autre viewport ≥ 768 */
   .manifesto-hero {
     position: relative;
-    min-height: calc(100vh - 79px - 78px);
+    min-height: calc(100vh - 108px);
     overflow: hidden;
     background: var(--ink);
   }
@@ -310,7 +311,7 @@ const articleLd = buildArticle({
     z-index: 2;
     padding: clamp(48px, 5vw, 72px) clamp(20px, 4vw, 48px) clamp(36px, 4vw, 48px);
     color: var(--paper);
-    min-height: calc(100vh - 79px - 78px);
+    min-height: calc(100vh - 108px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
