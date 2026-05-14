@@ -62,9 +62,12 @@ export default function LiquidHero() {
         ctx.fillStyle = g;
         ctx.fillRect(0, 0, w, h);
       }
-      if (!reduced && Math.random() < 0.5) {
-        ctx.globalAlpha = 0.035;
-        for (let i = 0; i < 80; i++) {
+      // Grain effect · fix flicker dérangeant signalé Simon (clignotement hero manifesto)
+      // Avant : Math.random() < 0.5 + alpha 0.035 = grain dessiné 50% des frames = clignote
+      // Après : Math.random() < 0.08 + alpha 0.018 + 30 dots = grain subtil sans clignotement
+      if (!reduced && Math.random() < 0.08) {
+        ctx.globalAlpha = 0.018;
+        for (let i = 0; i < 30; i++) {
           ctx.fillStyle = '#F6F1E8';
           ctx.fillRect(Math.random() * w, Math.random() * h, 1, 1);
         }
