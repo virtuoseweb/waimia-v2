@@ -1,0 +1,174 @@
+---
+/**
+ * Section · SystemArchitecture · SVG diagram canonique (V5 brief §25)
+ *
+ * Pattern : Canaux → Waimia AI System → Actions/Assets/Reports/Sales
+ * Rôle    · Visualise l'orchestration entre les 8 piliers de CapabilityStrip
+ *           et ce que le système produit en sortie. Pas un schéma technique
+ *           mais une signature éditoriale.
+ *
+ * SVG inline · zéro dépendance icon library · scales fluide · aria-hidden
+ *              décoratif (titre + caption portent l'information)
+ */
+import ChapterLabel from '../atoms/ChapterLabel.astro';
+import { langFromPath } from '../../../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+
+const inputs = lang === 'fr'
+  ? ['Ads', 'Contenu', 'Site', 'CRM', 'Analytics', 'Marque']
+  : ['Ads', 'Content', 'Site', 'CRM', 'Analytics', 'Brand'];
+
+const outputs = lang === 'fr'
+  ? ['Actions', 'Supports', 'Reporting', 'Pipeline']
+  : ['Actions', 'Assets', 'Reports', 'Pipeline'];
+---
+<section id="system-architecture" class="sysarch" aria-labelledby="sysarch-h2">
+  <div class="wrap-wide">
+    <header class="sysarch-hd">
+      <ChapterLabel
+        num="FIG II · 2.5"
+        title={lang === 'fr' ? "L'architecture du système" : 'System architecture'}
+      />
+      <span class="sysarch-spec">
+        {lang === 'fr' ? 'CANAUX · SYSTÈME · ACTIONS' : 'CHANNELS · SYSTEM · ACTIONS'}
+      </span>
+    </header>
+
+    <h2 id="sysarch-h2" class="sysarch-h2 reveal">
+      {lang === 'fr' ? (
+        <>Une seule <i>architecture</i>.<br/>Six entrées, quatre sorties, mille décisions.</>
+      ) : (
+        <>One <i>architecture</i>.<br/>Six inputs, four outputs, a thousand decisions.</>
+      )}
+    </h2>
+
+    <figure class="sysarch-fig reveal reveal-fade">
+      <svg
+        class="sysarch-svg"
+        viewBox="0 0 880 360"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+        role="presentation"
+      >
+        {/* 6 channels (left column) · pills rect + label mono */}
+        {inputs.map((label, i) => {
+          const y = 24 + i * 52;
+          return (
+            <>
+              <rect x="20" y={y} width="148" height="36" rx="2" fill="transparent" stroke="var(--ink-2)" stroke-width="1" stroke-opacity="0.6"/>
+              <text x="94" y={y + 23} text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--ink)" letter-spacing="0.08em">{label.toUpperCase()}</text>
+              {/* connector curve channel → system */}
+              <path d={`M168 ${y + 18} C 260 ${y + 18}, 320 180, 412 180`} stroke="var(--accent)" stroke-width="1" stroke-opacity="0.5" fill="none"/>
+              {/* small dot at channel exit */}
+              <circle cx="168" cy={y + 18} r="2" fill="var(--accent)"/>
+            </>
+          );
+        })}
+
+        {/* Central system node · large circle accent · double-stroke */}
+        <circle cx="440" cy="180" r="84" fill="rgba(201, 79, 46, 0.06)" stroke="var(--accent)" stroke-width="1.4"/>
+        <circle cx="440" cy="180" r="92" fill="transparent" stroke="var(--accent)" stroke-width="0.6" stroke-opacity="0.4" stroke-dasharray="2 4"/>
+        <text x="440" y="172" text-anchor="middle" font-family="var(--font-display)" font-size="20" fill="var(--accent)" font-style="italic">Waimia</text>
+        <text x="440" y="192" text-anchor="middle" font-family="var(--font-mono)" font-size="10" fill="var(--ink)" letter-spacing="0.14em">AI SYSTEM</text>
+        <text x="440" y="206" text-anchor="middle" font-family="var(--font-mono)" font-size="8.5" fill="var(--ink-2)" letter-spacing="0.1em">multi-agent</text>
+
+        {/* 4 outputs (right column) · pills + label */}
+        {outputs.map((label, i) => {
+          const y = 56 + i * 62;
+          return (
+            <>
+              {/* connector curve system → output */}
+              <path d={`M532 180 C 624 180, 660 ${y + 18}, 716 ${y + 18}`} stroke="var(--accent)" stroke-width="1" stroke-opacity="0.6" fill="none"/>
+              <circle cx="716" cy={y + 18} r="2" fill="var(--accent)"/>
+              <rect x="716" y={y} width="148" height="36" rx="2" fill="rgba(201, 79, 46, 0.04)" stroke="var(--accent)" stroke-width="1" stroke-opacity="0.7"/>
+              <text x="790" y={y + 23} text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--ink)" letter-spacing="0.08em">{label.toUpperCase()}</text>
+            </>
+          );
+        })}
+
+        {/* Feedback loop arc · output → system → channel (cycle d'amélioration continue) */}
+        <path d="M790 332 C 600 350, 280 350, 94 332" stroke="var(--ink-2)" stroke-width="0.8" stroke-opacity="0.35" fill="none" stroke-dasharray="4 4"/>
+        <text x="440" y="346" text-anchor="middle" font-family="var(--font-mono)" font-size="9.5" fill="var(--ink-2)" letter-spacing="0.18em">{lang === 'fr' ? 'BOUCLE D’AMÉLIORATION CONTINUE' : 'CONTINUOUS IMPROVEMENT LOOP'}</text>
+      </svg>
+
+      <figcaption class="sysarch-cap">
+        {lang === 'fr'
+          ? <>Six canaux entrent. Quatre familles d'<i>actions</i> sortent. Au milieu, un système multi-agents qui mesure, apprend et réinjecte — sans relance manuelle.</>
+          : <>Six channels in. Four families of <i>actions</i> out. In between, a multi-agent system that measures, learns and reinjects — without manual chasing.</>}
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .sysarch {
+    padding: clamp(96px, 11vw, 144px) 0;
+    border-bottom: 1px solid var(--hairline);
+    background: var(--paper);
+  }
+
+  .sysarch-hd {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: clamp(36px, 4vw, 52px);
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--hairline);
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .sysarch-spec {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .sysarch-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5.5vw, 80px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    max-width: 1000px;
+    margin: 0 0 clamp(48px, 5vw, 72px);
+    font-weight: 400;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+  .sysarch-h2 i { font-style: italic; color: var(--accent); }
+
+  .sysarch-fig {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(28px, 3vw, 40px);
+    transition-delay: 180ms;
+  }
+
+  .sysarch-svg {
+    width: 100%;
+    max-width: 960px;
+    height: auto;
+    display: block;
+  }
+
+  .sysarch-cap {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.7vw, 24px);
+    line-height: 1.35;
+    color: var(--ink);
+    max-width: 760px;
+    text-align: center;
+    text-wrap: balance;
+  }
+  .sysarch-cap i { font-style: italic; color: var(--accent); }
+
+  /* Mobile · SVG visible mais on simplifie en cachant les labels secondaires */
+  @media (max-width: 700px) {
+    .sysarch-h2 { font-size: clamp(30px, 8vw, 44px); }
+    .sysarch-svg { min-height: 280px; }
+  }
+</style>
