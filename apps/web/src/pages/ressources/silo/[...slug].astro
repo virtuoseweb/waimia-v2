@@ -208,3 +208,11 @@ const collectionPageLd = {
   .silo-empty { font-family: var(--font-display); font-style: italic; color: var(--muted); padding: 32px 0; }
   .wrap-tight { max-width: 880px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
 </style>
+
+<script>
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } }),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal, .reveal-mask-up').forEach((el) => io.observe(el));
+</script>
