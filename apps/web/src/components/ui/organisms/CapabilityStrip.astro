@@ -41,24 +41,50 @@ const lang = langFromPath(Astro.url.pathname);
         : 'We do not connect tools in isolation. We wire acquisition, content, site, CRM, analytics and brand into one system that learns and improves.'}
     </p>
 
-    <div class="capstrip-grid reveal-stagger">
-      {CAPABILITY_MAP.map((cat) => (
-        <a class="capstrip-cell" href={localizeHref(cat.href, lang)}>
-          <header class="capstrip-cell-head">
-            <span class="capstrip-cell-num">{cat.k}</span>
-            <span class="capstrip-cell-kicker">{t(cat.kicker, lang)}</span>
-          </header>
-          <h3 class="capstrip-cell-title">{t(cat.label, lang)}</h3>
-          <span class="capstrip-cell-rule" aria-hidden="true"></span>
-          <p class="capstrip-cell-lead">{t(cat.lead, lang)}</p>
-          <ul class="capstrip-cell-items">
-            {cat.items.map((item) => (
-              <li>{t(item, lang)}</li>
-            ))}
-          </ul>
-          <span class="capstrip-cell-go" aria-hidden>{lang === 'fr' ? 'Ouvrir →' : 'Open →'}</span>
-        </a>
-      ))}
+    <div class="capstrip-groups reveal-stagger">
+      {[0, 2, 4, 6].map((startIdx) => {
+        const GROUP_META = [
+          { fr: 'Canaux', en: 'Channels' },
+          { fr: 'Systèmes', en: 'Systems' },
+          { fr: 'Intelligence', en: 'Intelligence' },
+          { fr: 'Marque & Trust', en: 'Brand & Trust' },
+        ];
+        const groupIdx = startIdx / 2;
+        const groupNum = ['I', 'II', 'III', 'IV'][groupIdx];
+        const groupKicker = GROUP_META[groupIdx];
+        const pair = [CAPABILITY_MAP[startIdx], CAPABILITY_MAP[startIdx + 1]];
+        return (
+          <article class="capstrip-group">
+            <header class="capstrip-group-hd">
+              <span class="capstrip-group-roman">{groupNum}</span>
+              <span class="capstrip-group-kicker">
+                {lang === 'fr' ? groupKicker.fr : groupKicker.en}
+              </span>
+            </header>
+            <div class="capstrip-group-pair">
+              {pair.map((cat) => (
+                <a class="capstrip-cell" href={localizeHref(cat.href, lang)}>
+                  <header class="capstrip-cell-head">
+                    <span class="capstrip-cell-num">{cat.k}</span>
+                    <span class="capstrip-cell-kicker">{t(cat.kicker, lang)}</span>
+                  </header>
+                  <h3 class="capstrip-cell-title">{t(cat.label, lang)}</h3>
+                  <span class="capstrip-cell-rule" aria-hidden="true"></span>
+                  <p class="capstrip-cell-lead">{t(cat.lead, lang)}</p>
+                  <ul class="capstrip-cell-items">
+                    {cat.items.map((item) => (
+                      <li>{t(item, lang)}</li>
+                    ))}
+                  </ul>
+                  <span class="capstrip-cell-go" aria-hidden>
+                    {lang === 'fr' ? 'Ouvrir →' : 'Open →'}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </article>
+        );
+      })}
     </div>
 
     <p class="capstrip-foot reveal reveal-fade">
@@ -118,23 +144,70 @@ const lang = langFromPath(Astro.url.pathname);
     transition-delay: 200ms;
   }
 
-  /* Grid 8 cells · 4×2 desktop · hairlines sans gap (table éditoriale) */
-  .capstrip-grid {
+  .capstrip-groups {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    border-top: 1px solid var(--hairline-strong);
-    border-left: 1px solid var(--hairline);
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(32px, 4vw, 64px);
+    row-gap: clamp(48px, 5vw, 72px);
+    position: relative;
+  }
+
+  .capstrip-groups::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-0.5px);
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .capstrip-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .capstrip-group-hd {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--hairline-strong);
+  }
+
+  .capstrip-group-roman {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(22px, 2vw, 32px);
+    color: var(--accent);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  .capstrip-group-kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .capstrip-group-pair {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
   }
 
   .capstrip-cell {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    padding: clamp(28px, 2.6vw, 40px) clamp(22px, 2vw, 30px) clamp(56px, 4.5vw, 72px);
-    border-right: 1px solid var(--hairline);
-    border-bottom: 1px solid var(--hairline);
-    min-height: 320px;
+    padding: clamp(20px, 2vw, 28px) clamp(18px, 1.6vw, 24px) clamp(44px, 3.5vw, 56px);
+    border: 1px solid var(--hairline);
     position: relative;
     color: inherit;
     text-decoration: none;
@@ -247,12 +320,10 @@ const lang = langFromPath(Astro.url.pathname);
   }
   .capstrip-foot i { font-style: italic; color: var(--accent); }
 
-  @media (max-width: 1100px) {
-    .capstrip-grid { grid-template-columns: repeat(2, 1fr); }
-    .capstrip-cell { min-height: 280px; }
+  @media (max-width: 900px) {
+    .capstrip-groups::before { display: none; }
   }
-  @media (max-width: 640px) {
-    .capstrip-grid { grid-template-columns: 1fr; }
-    .capstrip-cell { min-height: 0; padding-bottom: 56px; }
+  @media (max-width: 600px) {
+    .capstrip-groups { grid-template-columns: 1fr; }
   }
 </style>
