@@ -47,6 +47,10 @@
   --wrap-tight: 1120px;
   --gut:        32px;
 
+  /* Fixed UI heights · pour scroll-margin anchors + cookie-aware spacing */
+  --header-height:        72px;
+  --cookie-banner-height: 0px;
+
   /* Reveals (contemplative tempo) */
   --reveal-slow: 1400ms;
   --reveal-med:  1100ms;
@@ -55,6 +59,29 @@
 
 @media (max-width: 900px) { :root { --gut: 20px; } }
 @media (max-width: 600px) { :root { --gut: 16px; } }
+
+/* Cookie banner runtime height · piloté par CookiesBanner.astro via JS
+   (mesure réelle au mount + ResizeObserver) · 0px par défaut quand consent acquis */
+:root[data-cookie-visible='true'] {
+  --cookie-banner-height: 78px;
+}
+@media (max-width: 700px) {
+  :root[data-cookie-visible='true'] {
+    --cookie-banner-height: 124px;
+  }
+}
+
+/* Anchors safe-area · ne JAMAIS masquer une section[id] derrière header sticky */
+section[id] {
+  scroll-margin-top: calc(var(--header-height) + 24px);
+}
+
+/* Body cookie-aware · pousse le footer/CTA au-dessus du cookie banner full-width
+   sans recourir à une padding par section · transition douce post-consent */
+body {
+  padding-bottom: var(--cookie-banner-height);
+  transition: padding-bottom 320ms var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+}
 
 /* ─── SEMANTIC ALIASES ─── */
 :root {

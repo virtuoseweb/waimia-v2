@@ -542,10 +542,11 @@ export const PYRAMID_TIERS = [
 ];
 
 export const DEPARTMENTS_GRID = [
-  { slug: 'acquisition-ia', label: { en: 'Acquisition', fr: 'Acquisition' }, tag: { en: 'Leads · landing · GEO', fr: 'Leads · landing · GEO' } },
+  { slug: 'acquisition-ia', label: { en: 'Acquisition', fr: 'Acquisition' }, tag: { en: 'Ads · landing · GEO', fr: 'Ads · landing · GEO' } },
   { slug: 'crm-relances-ia', label: { en: 'CRM & Follow-ups', fr: 'CRM & Relances' }, tag: { en: 'Pipeline · qualification · nurturing', fr: 'Pipeline · qualification · nurturing' } },
   { slug: 'contenu-seo-geo-ia', label: { en: 'SEO/GEO Content', fr: 'Contenu SEO/GEO' }, tag: { en: 'Articles · landings · AI indexing', fr: 'Articles · landing · indexation IA' } },
-  { slug: 'productivite-ia', label: { en: 'Productivity', fr: 'Productivité' }, tag: { en: 'Excel · Office · internal workflows', fr: 'Excel · Office · workflows internes' } },
+  { slug: 'site-web-ia-pme', label: { en: 'AI-first Website', fr: 'Site IA-first' }, tag: { en: 'Landing · tunnel · CMS', fr: 'Landing · tunnel · CMS' } },
+  { slug: 'productivite-ia', label: { en: 'Productivity', fr: 'Productivité' }, tag: { en: 'Excel · Office · agents', fr: 'Excel · Office · agents' } },
   { slug: 'support-client-ia', label: { en: 'Customer Support', fr: 'Support client' }, tag: { en: 'Triage · resolution · escalation', fr: 'Triage · résolution · escalade' } },
 ];
 
@@ -565,14 +566,170 @@ export const FIELD_NOTES = [
   { date: '02.2026', tag: { en: 'CASE',       fr: 'CAS' },     text: { en: 'Plateau SaaS — RevOps rebuild, €2.4M pipeline recovered.',                        fr: 'Plateau SaaS — refonte RevOps, 2,4 M€ de pipeline récupéré.' } },
 ];
 
+// ─── CAPABILITY MAP · 8 catégories du scope Waimia complet · home strip
+// Conçu pour la home Section CapabilityStrip · expose le scope opérationnel
+// au-delà du seul "Excel + HubSpot + Outlook" — sans dénaturer les 6 services.
+// Chaque catégorie pointe vers une page d'offre/solution existante.
+export type CapabilityCategory = {
+  k: string;
+  kicker: BiText;
+  label: BiText;
+  lead: BiText;
+  items: BiText[];
+  href: string;
+};
+
+export const CAPABILITY_MAP: CapabilityCategory[] = [
+  {
+    k: '01',
+    kicker: { en: 'ACQUISITION', fr: 'ACQUISITION' },
+    label: { en: 'Ads & lead systems', fr: "Systèmes d'acquisition" },
+    lead: { en: 'Connected campaigns, automated qualification, measured pipeline.', fr: 'Campagnes connectées, qualification automatisée, pipeline mesuré.' },
+    items: [
+      { en: 'Google Ads · Meta · LinkedIn', fr: 'Google Ads · Meta · LinkedIn' },
+      { en: 'Landing pages & tunnels', fr: 'Landings & tunnels' },
+      { en: 'Lead qualification IA', fr: 'Qualification IA des leads' },
+      { en: 'Pipeline reporting', fr: 'Reporting pipeline' },
+    ],
+    href: '/solutions/acquisition-ia',
+  },
+  {
+    k: '02',
+    kicker: { en: 'CONTENT', fr: 'CONTENU' },
+    label: { en: 'Editorial & SEO/GEO', fr: 'Contenu & SEO/GEO' },
+    lead: { en: 'Briefs, calendars, articles, repurposing — searched by Google AND AI engines.', fr: "Briefs, calendrier, articles, repurposing — trouvé par Google ET les IA." },
+    items: [
+      { en: 'Strategy & briefs', fr: 'Stratégie & briefs' },
+      { en: 'Articles · posts · landing', fr: 'Articles · posts · landing' },
+      { en: 'SEO / GEO indexing', fr: 'SEO / GEO indexation' },
+      { en: 'Content repurposing', fr: 'Repurposing multi-canal' },
+    ],
+    href: '/solutions/contenu-seo-geo-ia',
+  },
+  {
+    k: '03',
+    kicker: { en: 'WEB & CMS', fr: 'WEB & CMS' },
+    label: { en: 'AI-first websites', fr: 'Sites IA-first' },
+    lead: { en: 'Living sites — landing, tunnels, evolving pages, Git-based or connected CMS.', fr: 'Sites vivants — landing, tunnels, pages évolutives, CMS Git-based ou connecté.' },
+    items: [
+      { en: 'AI-first websites', fr: 'Sites IA-first' },
+      { en: 'Landing & tunnels', fr: 'Landing & tunnels' },
+      { en: 'Git-based CMS', fr: 'CMS Git-based' },
+      { en: 'Connected existing CMS', fr: 'CMS existant connecté' },
+    ],
+    href: '/solutions/site-web-ia-pme',
+  },
+  {
+    k: '04',
+    kicker: { en: 'CRM & SALES', fr: 'CRM & SALES' },
+    label: { en: 'Augmented CRM & follow-ups', fr: 'CRM augmenté & relances' },
+    lead: { en: 'A CRM that qualifies, follows up and reports — without your team chasing it.', fr: 'Un CRM qui qualifie, relance et reporte — sans relance manuelle.' },
+    items: [
+      { en: 'HubSpot · Salesforce · Pipedrive', fr: 'HubSpot · Salesforce · Pipedrive' },
+      { en: 'Automated follow-ups', fr: 'Relances automatisées' },
+      { en: 'Lead scoring & enrichment', fr: 'Scoring & enrichissement' },
+      { en: 'Outlook / Gmail integration', fr: 'Intégration Outlook / Gmail' },
+    ],
+    href: '/solutions/crm-relances-ia',
+  },
+  {
+    k: '05',
+    kicker: { en: 'DATA & INSIGHTS', fr: 'DATA & INSIGHTS' },
+    label: { en: 'Analytics & decisions', fr: 'Analytics & décisions' },
+    lead: { en: 'GA4, Search Console, SEO tools — turned into continuous actions.', fr: 'GA4, Search Console, SEO tools — transformés en actions continues.' },
+    items: [
+      { en: 'GA4 · Search Console', fr: 'GA4 · Search Console' },
+      { en: 'Real-time dashboards', fr: 'Dashboards temps réel' },
+      { en: 'SEO opportunity detection', fr: 'Détection d’opportunités SEO' },
+      { en: 'Automated reporting', fr: 'Reporting automatisé' },
+    ],
+    href: '/offres/growth-intelligence',
+  },
+  {
+    k: '06',
+    kicker: { en: 'AUTOMATION & AGENTS', fr: 'AUTOMATION & AGENTS' },
+    label: { en: 'Workflows & AI agents', fr: 'Workflows & agents IA' },
+    lead: { en: 'Repetitive work removed. Marketing and sales agents that communicate, decide, deliver.', fr: 'Tâches répétitives supprimées. Agents marketing & sales qui communiquent, décident, livrent.' },
+    items: [
+      { en: 'Internal workflows', fr: 'Workflows internes' },
+      { en: 'Marketing & sales agents', fr: 'Agents marketing & sales' },
+      { en: 'Excel / Office productivity', fr: 'Productivité Excel / Office' },
+      { en: 'Multi-agent orchestration', fr: 'Orchestration multi-agents' },
+    ],
+    href: '/solutions/productivite-ia',
+  },
+  {
+    k: '07',
+    kicker: { en: 'BRAND SYSTEM', fr: 'BRAND SYSTEM' },
+    label: { en: 'Design system & assets', fr: 'Design system & supports' },
+    lead: { en: 'A consistent brand across site, decks, PDF, posts, ads and sales material.', fr: 'Une marque cohérente sur site, decks, PDF, posts, ads et supports sales.' },
+    items: [
+      { en: 'Design system & tokens', fr: 'Design system & tokens' },
+      { en: 'Brand voice & guidelines', fr: 'Charte & ton de marque' },
+      { en: 'PowerPoint · PDF · Posts', fr: 'PowerPoint · PDF · Posts' },
+      { en: 'Templates & production agents', fr: 'Templates & agents de production' },
+    ],
+    href: '/agence/design-system',
+  },
+  {
+    k: '08',
+    kicker: { en: 'GOVERNANCE', fr: 'GOUVERNANCE' },
+    label: { en: 'AI Act · GDPR · Security', fr: 'AI Act · RGPD · Sécurité' },
+    lead: { en: 'Trust Center, classified risk, audit logs, sovereign architecture when needed.', fr: "Trust Center, risque classifié, journaux d'audit, architecture souveraine si besoin." },
+    items: [
+      { en: 'Trust Center', fr: 'Trust Center' },
+      { en: 'AI Act classification', fr: 'Classification AI Act' },
+      { en: 'GDPR · RGPD · LPD', fr: 'RGPD · LPD' },
+      { en: 'Audit logs & data sovereignty', fr: 'Journaux & souveraineté données' },
+    ],
+    href: '/agence/trust-center',
+  },
+];
+
 // ─── 6 services taught by doing — Acte II
 export const SIX_SERVICES = [
-  { k: '01', metric: { en: '30 min', fr: '30 min' },        label: { en: '30-min diagnostic', fr: 'Diagnostic 30 min' }, body: { en: 'We identify the business lever before the technology.', fr: 'On identifie le levier métier avant la techno.' } },
-  { k: '02', metric: { en: '+€840K pipe', fr: '+840 K€ pipe' }, label: { en: 'Acquisition system', fr: "Système d'acquisition" }, body: { en: 'Pipeline reconnected, qualification automated.', fr: 'Pipeline reconnecté, qualification automatisée.' } },
-  { k: '03', metric: { en: '−35% manual', fr: '−35% manuel' }, label: { en: 'Augmented CRM', fr: 'CRM augmenté' }, body: { en: 'The CRM that follows up, qualifies and alerts — without you touching it.', fr: 'Le CRM qui relance, qualifie et alerte — sans que vous touchiez rien.' } },
-  { k: '04', metric: { en: '2 min decision', fr: 'Décide en 2 min' }, label: { en: 'Data clarity', fr: 'Lisibilité des données' }, body: { en: 'Real-time dashboards — decide in 2 minutes, not a meeting.', fr: 'Tableaux de bord temps réel — décidez en 2 minutes, pas en réunion.' } },
-  { k: '05', metric: { en: '+12h / week', fr: '+12h / sem' }, label: { en: 'Repetitive tasks removed', fr: 'Tâches répétitives éliminées' }, body: { en: 'Workflows that run without you.', fr: 'Workflows qui tournent sans vous.' } },
-  { k: '06', metric: { en: 'Sovereign', fr: 'Souverain' }, label: { en: 'Enterprise custom build', fr: 'Sur-mesure ETI' }, body: { en: 'Sovereign architecture — when the market stack hits your perimeter limits.', fr: "Architecture souveraine — quand les outils du marché butent sur votre périmètre." } },
+  {
+    k: '01',
+    metric: { en: '30 min', fr: '30 min' },
+    label: { en: '30-min diagnostic', fr: 'Diagnostic 30 min' },
+    body: { en: 'We identify the business lever before the technology.', fr: 'On identifie le levier métier avant la techno.' },
+    connectors: { en: 'Audit · Cartography · Stack mapping', fr: 'Audit · Cartographie · Stack mapping' },
+  },
+  {
+    k: '02',
+    metric: { en: '+€840K pipe', fr: '+840 K€ pipe' },
+    label: { en: 'Acquisition system', fr: "Système d'acquisition" },
+    body: { en: 'Pipeline reconnected, qualification automated.', fr: 'Pipeline reconnecté, qualification automatisée.' },
+    connectors: { en: 'Google Ads · Meta · LinkedIn · GA4 · Landing', fr: 'Google Ads · Meta · LinkedIn · GA4 · Landing' },
+  },
+  {
+    k: '03',
+    metric: { en: '−35% manual', fr: '−35% manuel' },
+    label: { en: 'Augmented CRM', fr: 'CRM augmenté' },
+    body: { en: 'The CRM that follows up, qualifies and alerts — without you touching it.', fr: 'Le CRM qui relance, qualifie et alerte — sans que vous touchiez rien.' },
+    connectors: { en: 'HubSpot · Salesforce · Pipedrive · Outlook', fr: 'HubSpot · Salesforce · Pipedrive · Outlook' },
+  },
+  {
+    k: '04',
+    metric: { en: '2 min decision', fr: 'Décide en 2 min' },
+    label: { en: 'Data clarity', fr: 'Lisibilité des données' },
+    body: { en: 'Real-time dashboards — decide in 2 minutes, not a meeting.', fr: 'Tableaux de bord temps réel — décidez en 2 minutes, pas en réunion.' },
+    connectors: { en: 'GA4 · Search Console · SEO tools · Dashboards', fr: 'GA4 · Search Console · SEO tools · Dashboards' },
+  },
+  {
+    k: '05',
+    metric: { en: '+12h / week', fr: '+12h / sem' },
+    label: { en: 'Repetitive tasks removed', fr: 'Tâches répétitives éliminées' },
+    body: { en: 'Workflows that run without you.', fr: 'Workflows qui tournent sans vous.' },
+    connectors: { en: 'Workflows · AI agents · Excel · Office', fr: 'Workflows · Agents IA · Excel · Office' },
+  },
+  {
+    k: '06',
+    metric: { en: 'Sovereign', fr: 'Souverain' },
+    label: { en: 'Enterprise custom build', fr: 'Sur-mesure ETI' },
+    body: { en: 'Sovereign architecture — when the market stack hits your perimeter limits.', fr: "Architecture souveraine — quand les outils du marché butent sur votre périmètre." },
+    connectors: { en: 'Trust Center · Design System · Governance · VirtuoseOS', fr: 'Trust Center · Design System · Governance · VirtuoseOS' },
+  },
 ];
 
 // ─── 4 FIG rows — Acte I · Why AI stalls
