@@ -30,6 +30,7 @@ import SigBand         from '../components/ui/organisms/SigBand.astro';
 import FooterMarquee   from '../components/ui/organisms/FooterMarquee.astro';
 
 import { faqPage } from '../lib/seo';
+import { buildOrganization } from '../lib/seo/schema-builder';
 
 // FAQ PME-first · 6 questions max · scannables (réponse en 2-3 phrases)
 const faqItems = [
@@ -62,7 +63,7 @@ const faqItems = [
 <Base
   title="Waimia · Systèmes IA pour PME et ETI · Acquisition · CRM · Pilotage"
   description="On câble l'IA dans les outils des PME : acquisition, CRM, relances, pilotage. Activation en 1 semaine, Growth System IA, Productivité Opérationnelle. Paris · Genève."
-  jsonLd={faqPage(faqItems)}
+  jsonLd={[faqPage(faqItems), buildOrganization()]}
 >
   {/* Splash · respiration cinématique 1.1s · garde le signal premium */}
   <BootSplash client:only="react" lang="fr" />

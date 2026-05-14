@@ -27,6 +27,8 @@ import AsymmetricServiceRow from '../components/ui/molecules/AsymmetricServiceRo
 import EditorialCaseCard from '../components/ui/molecules/EditorialCaseCard.astro';
 import { CLIENT_LOGOS, SIX_SERVICES, CASE_FEED, FIELD_NOTES } from '../data/sitemap';
 import { langFromPath, t as ft, localizeHref as flh } from '../lib/i18n';
+import Breadcrumb from '../components/ui/molecules/Breadcrumb.astro';
+import { buildArticle } from '../lib/seo/schema-builder';
 
 const lang = langFromPath(Astro.url.pathname);
 
@@ -37,13 +39,23 @@ const STATS = [
 ];
 
 const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
+
+const articleLd = buildArticle({
+  headline: lang === 'fr' ? 'Manifeste Waimia' : 'Waimia Manifesto',
+  description: 'Build revenue, not demos. AI systems shipped, measured, documented.',
+  datePublished: '2026-01-01',
+  author: { '@type': 'Organization', name: 'Waimia' },
+});
 ---
 <Base
   title={lang === 'fr' ? "Waimia · Manifeste · Construire du revenu, pas des démos" : 'Waimia · Manifesto · Build revenue, not demos'}
   description={lang === 'fr'
     ? "Le manifeste Waimia : des systèmes IA livrés, mesurés, documentés. Pas de théâtre IA, pas de démos qui meurent en comité."
-    : 'Direction B · Manifesto variant. Terracotta canvas hero + asymmetric services + full-bleed manifesto. For teams that ship.'}
+    : 'Waimia Manifesto — Build revenue, not demos. AI systems shipped, measured, documented.'}
+  jsonLd={articleLd}
 >
+  <Breadcrumb items={[{label: lang === 'fr' ? 'Accueil' : 'Home', href: lang === 'fr' ? '/' : '/en'}, {label: lang === 'fr' ? 'Manifeste' : 'Manifesto'}]} lang={lang} />
+
   {/* HERO · LiquidHero canvas */}
   <section style="position:relative;min-height:100vh;overflow:hidden;background:var(--ink)">
     <GrainOverlay />
@@ -61,7 +73,7 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
         <Kicker class="b-hero-tag">
           {lang === 'fr' ? (<>Une agence IA · <span style="color:var(--accent)">française dans l'exécution, internationale dans la finition</span></>) : (<>An AI agency · <span style="color:var(--accent)">French craft, international polish</span></>)}
         </Kicker>
-        <h1 style="font-family:var(--font-display);font-size:clamp(64px,13vw,220px);line-height:.88;letter-spacing:-0.035em;color:var(--paper);text-wrap:balance;font-weight:400;margin:0">
+        <h1 class="reveal-mask-up" style="font-family:var(--font-display);font-size:clamp(64px,13vw,220px);line-height:.88;letter-spacing:-0.035em;color:var(--paper);text-wrap:balance;font-weight:400;margin:0">
           {lang === 'fr' ? (
             <>Construire du <i style="color:var(--accent)">revenu</i>,<br />pas des <i>démos</i>.</>
           ) : (
@@ -94,7 +106,7 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
   </section>
 
   {/* DARK MARQUEE · logos massifs */}
-  <div style="background:var(--ink);color:var(--paper);border-top:1px solid rgba(246,241,232,.12);border-bottom:1px solid rgba(246,241,232,.12);padding:24px 0;overflow:hidden;white-space:nowrap">
+  <div aria-hidden="true" style="background:var(--ink);color:var(--paper);border-top:1px solid rgba(246,241,232,.12);border-bottom:1px solid rgba(246,241,232,.12);padding:24px 0;overflow:hidden;white-space:nowrap">
     <div class="b-marquee-track">
       {tripled.map((logo) => (
         <>
@@ -115,7 +127,7 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
           </Kicker>
           <Kicker class="b-acte-1-sub">{lang === 'fr' ? 'Acte I' : 'Act I'}</Kicker>
         </div>
-        <p class="reveal" style="font-family:var(--font-display);font-size:clamp(40px,6.5vw,104px);line-height:1.02;letter-spacing:-0.025em;color:var(--paper);text-wrap:balance;font-weight:400">
+        <p class="reveal" style="font-family:var(--font-sans);font-size:clamp(40px,6.5vw,104px);line-height:1.02;letter-spacing:-0.025em;color:var(--paper);text-wrap:balance;font-weight:400">
           {lang === 'fr' ? (
             <>L'IA est <i style="color:var(--accent)">partout</i> et nulle part. Les stacks grossissent. Les pipelines s'aplatissent. Le goulot n'est <i>jamais</i> le modèle.</>
           ) : (
@@ -127,7 +139,7 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
         {STATS.map((r) => (
           <div class="reveal">
             <div style="font-family:var(--font-display);font-size:clamp(72px,10vw,176px);line-height:.9;letter-spacing:-0.03em;color:var(--accent)">{r.n}</div>
-            <p style="margin-top:18px;font-size:17px;line-height:1.5;color:rgba(246,241,232,.7);max-width:280px;font-family:var(--font-display)">
+            <p style="margin-top:18px;font-size:17px;line-height:1.5;color:rgba(246,241,232,.7);max-width:280px;font-family:var(--font-sans)">
               {ft(r.text, lang)}
             </p>
           </div>
@@ -181,7 +193,7 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
         )}
       </h2>
       <PillCTA href={flh('/console', lang)} variant="accent-mono" mag={0.18}>
-        ▸ {lang === 'fr' ? 'Voir la console' : 'See the Console (Direction C)'}
+        ▸ {lang === 'fr' ? 'Voir la console' : 'Discover the platform'}
       </PillCTA>
     </div>
   </section>
@@ -217,7 +229,7 @@ const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
     <div style="max-width:1600px;margin:0 auto;display:grid;grid-template-columns:400px 1fr;gap:clamp(40px,6vw,100px)">
       <div>
         <Kicker class="b-writing-tag">{lang === 'fr' ? 'Écrits' : 'Writing'}</Kicker>
-        <div style="font-family:var(--font-display);font-size:clamp(36px,6vw,88px);line-height:.96;letter-spacing:-0.025em;margin-top:28px;color:var(--paper)">
+        <div style="font-family:var(--font-sans);font-size:clamp(36px,6vw,88px);line-height:.96;letter-spacing:-0.025em;margin-top:28px;color:var(--paper)">
           {lang === 'fr' ? (<>Notes de <i style="color:var(--accent)">terrain</i>, lentement.</>) : (<>Field <i style="color:var(--accent)">notes</i>, slowly.</>)}
         </div>
       </div>

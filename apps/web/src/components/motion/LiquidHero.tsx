@@ -83,7 +83,7 @@ export default function LiquidHero() {
   }, []);
 
   return (
-    <div className="liquid-hero" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+    <div className="liquid-hero" aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
       <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block' }} />
     </div>
   );

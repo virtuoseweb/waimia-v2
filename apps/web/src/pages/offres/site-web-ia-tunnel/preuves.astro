@@ -116,42 +116,42 @@ import TunnelNav from '../../../components/ui/molecules/TunnelNav.astro';
 <style>
 .tunnel-page { padding-block: 0; }
 .wrap-wide { max-width: 1200px; margin-inline: auto; padding-inline: clamp(20px, 5vw, 80px); }
-.tnl-eyebrow { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: clamp(11px, 1.2vw, 13px); text-transform: uppercase; letter-spacing: .1em; color: var(--color-muted, #888); margin-bottom: 24px; padding-top: clamp(48px, 8vw, 96px); }
-.tnl-h1 { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(36px, 6vw, 80px); line-height: 1.05; letter-spacing: -.02em; color: var(--color-ink, #1a1a1a); margin-bottom: clamp(24px, 4vw, 48px); max-width: 16ch; }
-.tnl-h1 em { font-style: italic; color: var(--color-accent, #C94F2E); }
-.tnl-lede { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: clamp(16px, 1.8vw, 20px); line-height: 1.6; color: var(--color-ink, #1a1a1a); max-width: 62ch; margin-bottom: clamp(48px, 8vw, 96px); }
-.tnl-sh2 { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(24px, 3vw, 40px); letter-spacing: -.01em; margin-bottom: clamp(32px, 4vw, 56px); color: var(--color-ink, #1a1a1a); }
-.tnl-sh2 em { font-style: italic; color: var(--color-accent, #C94F2E); }
+.tnl-eyebrow { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: clamp(11px, 1.2vw, 13px); text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 24px; padding-top: clamp(48px, 8vw, 96px); }
+.tnl-h1 { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(36px, 6vw, 80px); line-height: 1.05; letter-spacing: -.02em; color: var(--ink); margin-bottom: clamp(24px, 4vw, 48px); max-width: 16ch; }
+.tnl-h1 em { font-style: italic; color: var(--accent); }
+.tnl-lede { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: clamp(16px, 1.8vw, 20px); line-height: 1.6; color: var(--ink); max-width: 62ch; margin-bottom: clamp(48px, 8vw, 96px); }
+.tnl-sh2 { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(24px, 3vw, 40px); letter-spacing: -.01em; margin-bottom: clamp(32px, 4vw, 56px); color: var(--ink); }
+.tnl-sh2 em { font-style: italic; color: var(--accent); }
 .tnl-hero { padding-bottom: clamp(48px, 6vw, 80px); }
 .tnl-metrics { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
 .tnl-metrics__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: rgba(0,0,0,.08); border: 1px solid rgba(0,0,0,.08); border-radius: 2px; overflow: hidden; }
-.tnl-metric { background: var(--color-paper, #F6F1E8); padding: clamp(24px, 3vw, 40px); }
-.tnl-metric__val { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(36px, 5vw, 64px); line-height: 1; color: var(--color-ink, #1a1a1a); margin-bottom: 10px; }
-.tnl-metric__label { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--color-muted, #888); text-transform: uppercase; letter-spacing: .06em; line-height: 1.5; }
+.tnl-metric { background: var(--paper); padding: clamp(24px, 3vw, 40px); }
+.tnl-metric__val { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(36px, 5vw, 64px); line-height: 1; color: var(--ink); margin-bottom: 10px; }
+.tnl-metric__label { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; line-height: 1.5; }
 .tnl-case { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
-.tnl-case__kicker { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--color-muted, #888); margin-bottom: 20px; display: flex; flex-direction: column; gap: 2px; }
-.tnl-case__title { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(28px, 4vw, 52px); line-height: 1.1; letter-spacing: -.015em; color: var(--color-ink, #1a1a1a); margin-bottom: clamp(24px, 3vw, 40px); }
-.tnl-case__title em { font-style: italic; color: var(--color-accent, #C94F2E); }
-.tnl-case__body p { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 16px; line-height: 1.65; color: var(--color-ink, #1a1a1a); max-width: 68ch; margin-bottom: 16px; }
-.tnl-quote { border-left: 2px solid var(--color-accent, #C94F2E); padding: 20px 24px; margin: 32px 0; background: rgba(201,79,46,.04); font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(16px, 1.8vw, 20px); line-height: 1.5; font-style: italic; color: var(--color-ink, #1a1a1a); }
-.tnl-quote footer { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--color-muted, #888); letter-spacing: .06em; margin-top: 12px; font-style: normal; }
+.tnl-case__kicker { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 20px; display: flex; flex-direction: column; gap: 2px; }
+.tnl-case__title { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(28px, 4vw, 52px); line-height: 1.1; letter-spacing: -.015em; color: var(--ink); margin-bottom: clamp(24px, 3vw, 40px); }
+.tnl-case__title em { font-style: italic; color: var(--accent); }
+.tnl-case__body p { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 16px; line-height: 1.65; color: var(--ink); max-width: 68ch; margin-bottom: 16px; }
+.tnl-quote { border-left: 2px solid var(--accent); padding: 20px 24px; margin: 32px 0; background: rgba(201,79,46,.04); font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(16px, 1.8vw, 20px); line-height: 1.5; font-style: italic; color: var(--ink); }
+.tnl-quote footer { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--muted); letter-spacing: .06em; margin-top: 12px; font-style: normal; }
 .tnl-case__results { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: rgba(0,0,0,.08); border: 1px solid rgba(0,0,0,.08); border-radius: 2px; overflow: hidden; margin-top: 40px; }
-.tnl-res { background: var(--color-paper, #F6F1E8); padding: clamp(20px, 2.5vw, 32px); }
-.tnl-res__val { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(24px, 3vw, 40px); color: var(--color-ink, #1a1a1a); margin-bottom: 8px; }
-.tnl-res__label { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; color: var(--color-muted, #888); text-transform: uppercase; letter-spacing: .06em; line-height: 1.5; }
+.tnl-res { background: var(--paper); padding: clamp(20px, 2.5vw, 32px); }
+.tnl-res__val { font-family: var(--font-serif, 'Instrument Serif', Georgia, serif); font-size: clamp(24px, 3vw, 40px); color: var(--ink); margin-bottom: 8px; }
+.tnl-res__label { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; line-height: 1.5; }
 .tnl-demo { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
-.tnl-demo__lead { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 16px; line-height: 1.6; color: var(--color-muted, #666); max-width: 60ch; margin-bottom: clamp(32px, 4vw, 48px); }
-.tnl-demo__video { aspect-ratio: 16/9; border: 1px solid rgba(0,0,0,.1); border-radius: 2px; overflow: hidden; background: var(--color-ink, #1a1a1a); max-width: 800px; }
+.tnl-demo__lead { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 16px; line-height: 1.6; color: var(--muted); max-width: 60ch; margin-bottom: clamp(32px, 4vw, 48px); }
+.tnl-demo__video { aspect-ratio: 16/9; border: 1px solid rgba(0,0,0,.1); border-radius: 2px; overflow: hidden; background: var(--ink); max-width: 800px; }
 .tnl-demo__placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 40px; }
 .tnl-demo__icon { font-size: 48px; color: rgba(246,241,232,.4); }
 .tnl-demo__placeholder p { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 13px; color: rgba(246,241,232,.5); letter-spacing: .06em; }
 .tnl-demo__sub { font-size: 11px !important; color: rgba(246,241,232,.3) !important; font-style: italic; }
 .tnl-cta { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid rgba(0,0,0,.07); }
 .tnl-cta__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
-.btn-primary { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 15px; font-weight: 600; background: var(--color-ink, #1a1a1a); color: var(--color-paper, #F6F1E8); padding: 14px 28px; border-radius: 2px; text-decoration: none; transition: opacity .2s; }
+.btn-primary { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 15px; font-weight: 600; background: var(--ink); color: var(--paper); padding: 14px 28px; border-radius: 2px; text-decoration: none; transition: opacity .2s; }
 .btn-primary:hover { opacity: .85; }
-.btn-secondary { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 15px; color: var(--color-ink, #1a1a1a); border: 1px solid rgba(0,0,0,.18); padding: 14px 28px; border-radius: 2px; text-decoration: none; transition: border-color .2s; }
-.btn-secondary:hover { border-color: var(--color-ink, #1a1a1a); }
-.tnl-cta__meta { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--color-muted, #888); letter-spacing: .06em; margin-left: auto; }
-[lang="en"] { display: block; font-size: .88em; color: var(--color-muted, #888); margin-top: 4px; font-style: italic; }
+.btn-secondary { font-family: var(--font-body, 'Inter Tight', sans-serif); font-size: 15px; color: var(--ink); border: 1px solid rgba(0,0,0,.18); padding: 14px 28px; border-radius: 2px; text-decoration: none; transition: border-color .2s; }
+.btn-secondary:hover { border-color: var(--ink); }
+.tnl-cta__meta { font-family: var(--font-mono, 'JetBrains Mono', monospace); font-size: 11px; color: var(--muted); letter-spacing: .06em; margin-left: auto; }
+[lang="en"] { display: block; font-size: .88em; color: var(--muted); margin-top: 4px; font-style: italic; }
 </style>
