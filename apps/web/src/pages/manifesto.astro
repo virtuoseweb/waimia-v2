@@ -103,8 +103,8 @@ const articleLd = buildArticle({
     </div>
   </section>
 
-  {/* DARK MARQUEE · logos massifs */}
-  <div aria-hidden="true" style="background:var(--ink);color:var(--paper);border-top:1px solid rgba(246,241,232,.12);border-bottom:1px solid rgba(246,241,232,.12);padding:24px 0;overflow:hidden;white-space:nowrap">
+  {/* DARK MARQUEE · logos massifs · padding réduit 24→14 pour rentrer sous fold */}
+  <div aria-hidden="true" class="manifesto-marquee" style="background:var(--ink);color:var(--paper);border-top:1px solid rgba(246,241,232,.12);border-bottom:1px solid rgba(246,241,232,.12);padding:14px 0;overflow:hidden;white-space:nowrap">
     <div class="b-marquee-track">
       {tripled.map((logo) => (
         <>
@@ -296,26 +296,33 @@ const articleLd = buildArticle({
   /* V7 hero hauteur réduite · marquee remonte above-the-fold (Simon demande)
      · Avant : min-height 100vh + padding 160px/80px = hero seul = viewport entier
      · Après : min-height 84vh + padding 88px/40px = laisse ~144px pour marquee */
-  /* V7 fix Simon · hero plein viewport (100vh - header), pas de bande noire */
+  /* V7 fix Simon · hero remplit le viewport JUSQU'AU marquee
+     Calcul : viewport - header (79) - marquee (env. 78) = espace hero
+     Le marquee complet est visible above-the-fold sans coupure */
   .manifesto-hero {
     position: relative;
-    min-height: calc(100vh - 79px);
+    min-height: calc(100vh - 79px - 78px);
     overflow: hidden;
     background: var(--ink);
   }
   .manifesto-hero-inner {
     position: relative;
     z-index: 2;
-    padding: clamp(56px, 6vw, 80px) clamp(20px, 4vw, 48px) clamp(40px, 4vw, 56px);
+    padding: clamp(48px, 5vw, 72px) clamp(20px, 4vw, 48px) clamp(36px, 4vw, 48px);
     color: var(--paper);
-    min-height: calc(100vh - 79px);
+    min-height: calc(100vh - 79px - 78px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: clamp(32px, 4vw, 56px);
+    gap: clamp(28px, 3.5vw, 48px);
     max-width: 1560px;
     margin-inline: auto;
     width: 100%;
+  }
+
+  /* Marquee compacté · 86 → 78px pour gagner 8px sur hero */
+  .b-marquee-track > span {
+    font-size: clamp(20px, 2.4vw, 30px) !important;
   }
 
   /* V7 harmonisation typographique · Manifesto H1 + H2 cap cohérent
