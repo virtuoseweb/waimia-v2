@@ -76,6 +76,9 @@ const lang = langFromPath(Astro.url.pathname);
 
 <style>
   /* V6 densification "1 viewport par section majeure" */
+  .sec[aria-labelledby="pyramid-h2"] {
+    padding: clamp(56px, 7vw, 88px) 0;
+  }
   .pyramid-svg {
     margin: clamp(20px, 2.5vw, 36px) 0 clamp(28px, 3vw, 44px);
     overflow: visible;
@@ -88,6 +91,32 @@ const lang = langFromPath(Astro.url.pathname);
 
   .pyramid-asym {
     grid-template-columns: 7fr 5fr 4fr 8fr;
+  }
+
+  /* V6 densification · override editorial-cell pour cards plus compactes (Pyramid only) */
+  .pyramid-asym .editorial-cell {
+    padding: clamp(16px, 1.8vw, 24px) clamp(14px, 1.4vw, 20px);
+    gap: 8px;
+  }
+  .pyramid-asym .editorial-cell .e-num {
+    font-size: clamp(28px, 3.2vw, 44px);
+    line-height: 1;
+  }
+  .pyramid-asym .editorial-cell .e-title {
+    font-size: clamp(18px, 1.5vw, 24px);
+    line-height: 1.05;
+    margin-top: 4px;
+  }
+  .pyramid-asym .editorial-cell .e-body {
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+  .pyramid-asym .editorial-cell .e-list {
+    font-size: 11px;
+    gap: 3px;
+  }
+  .pyramid-asym .editorial-cell .e-list li {
+    line-height: 1.4;
   }
 
   /* Tier I · primary visual weight · border accent + e-num accent par défaut */

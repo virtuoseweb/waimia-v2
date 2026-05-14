@@ -49,11 +49,16 @@ const lang = langFromPath(Astro.url.pathname);
 </section>
 
 <style>
+  /* V6 densification scoped · réduit padding section sans toucher global .sec */
+  .sec[aria-labelledby="dept-h2"] {
+    padding: clamp(56px, 7vw, 88px) 0;
+  }
+
   .dept-index {
     list-style: none;
     padding: 0;
     margin: 0;
-    margin-top: clamp(28px, 3vw, 44px);
+    margin-top: clamp(20px, 2.5vw, 32px);
     border-top: 1px solid var(--hairline-strong);
   }
 
@@ -65,7 +70,7 @@ const lang = langFromPath(Astro.url.pathname);
     display: grid;
     grid-template-columns: 70px 1.4fr 1fr 32px;
     gap: clamp(20px, 2vw, 32px);
-    padding: clamp(22px, 2.4vw, 32px) 0;
+    padding: clamp(16px, 1.8vw, 24px) 0;
     border-bottom: 1px solid var(--hairline);
     align-items: baseline;
     color: inherit;
@@ -99,10 +104,10 @@ const lang = langFromPath(Astro.url.pathname);
 
   .dept-row-label {
     font-family: var(--font-display);
-    font-size: clamp(24px, 2.6vw, 36px);
+    font-size: clamp(20px, 2vw, 28px);
     font-style: italic;
     font-weight: 400;
-    line-height: 0.98;
+    line-height: 1.02;
     letter-spacing: -0.02em;
     color: var(--ink);
     transition: color 200ms var(--ease, cubic-bezier(0.22, 1, 0.36, 1));

@@ -45,6 +45,11 @@ const { items, heading = 'Questions fréquentes', intro } = Astro.props;
 <JsonLd data={faqPage(items)} />
 
 <style>
+  /* V6 densification · padding section scoped */
+  .sec[aria-labelledby="faq-heading"] {
+    padding: clamp(56px, 7vw, 88px) 0;
+  }
+
   /* V6 cap "titres pas trop gros" + densification one-viewport */
   .faq-h2 {
     font-family: var(--font-display);

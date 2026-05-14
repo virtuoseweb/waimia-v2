@@ -29,23 +29,139 @@ const lang = langFromPath(Astro.url.pathname);
       </Fragment>
     </SectionHeader>
 
-    <div class="ec-grid cols-3 reveal-stagger">
-      {FIELD_NOTES.map((note) => (
-        <a class="editorial-cell lift" href={localizeHref('/ressources/blog', lang)}>
-          <div style="display:flex;justify-content:space-between;align-items:baseline">
-            <span class="e-tag">{t(note.tag, lang)}</span>
-            <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.1em">{note.date}</span>
-          </div>
-          <h3 class="e-title">{t(note.text, lang)}</h3>
-          <span class="e-go">{lang === 'fr' ? 'Lire la note →' : 'Read the note →'}</span>
-        </a>
+    <ul class="notes-index reveal-stagger">
+      {FIELD_NOTES.map((note, i) => (
+        <li>
+          <a class="notes-row" href={localizeHref('/ressources/blog', lang)}>
+            <span class="notes-row-num">{`0${i + 1}`}</span>
+            <span class="notes-row-date">{note.date}</span>
+            <span class="notes-row-tag">{t(note.tag, lang)}</span>
+            <span class="notes-row-text">{t(note.text, lang)}</span>
+            <span class="notes-row-arr" aria-hidden>→</span>
+          </a>
+        </li>
       ))}
-    </div>
+    </ul>
 
-    <div style="margin-top:clamp(36px,4vw,56px);text-align:right">
-      <a href={localizeHref('/ressources/blog', lang)} class="btn-link" style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border-color:var(--accent)">
+    <div class="notes-foot">
+      <a href={localizeHref('/ressources/blog', lang)} class="notes-foot-link">
         {lang === 'fr' ? 'Tout le blog →' : 'See the full blog →'}
       </a>
     </div>
   </div>
 </section>
+
+<style>
+  /* V6 densification · refactor card grid → index éditorial linéaire (anti-card-fatigue) */
+  .sec[aria-labelledby="notes-h2"] {
+    padding: clamp(56px, 7vw, 88px) 0;
+  }
+
+  .notes-index {
+    list-style: none;
+    padding: 0;
+    margin: clamp(20px, 2.5vw, 32px) 0 0;
+    border-top: 1px solid var(--hairline-strong);
+  }
+
+  .notes-row {
+    display: grid;
+    grid-template-columns: 48px 80px 110px 1fr 32px;
+    gap: clamp(16px, 1.8vw, 28px);
+    padding: clamp(16px, 1.8vw, 24px) 0;
+    border-bottom: 1px solid var(--hairline);
+    align-items: baseline;
+    color: inherit;
+    text-decoration: none;
+    transition: background 220ms var(--ease), padding-left 320ms var(--ease), padding-right 320ms var(--ease);
+  }
+
+  .notes-row:hover {
+    background: rgba(201, 79, 46, 0.04);
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .notes-row:hover .notes-row-text {
+    color: var(--accent);
+  }
+
+  .notes-row:hover .notes-row-arr {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .notes-row-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .notes-row-date {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .notes-row-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+
+  .notes-row-text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(18px, 1.8vw, 26px);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    transition: color 200ms var(--ease);
+    text-wrap: balance;
+  }
+
+  .notes-row-arr {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--muted);
+    text-align: right;
+    transition: color 240ms var(--ease), transform 320ms var(--ease);
+  }
+
+  .notes-foot {
+    margin-top: clamp(20px, 2.5vw, 36px);
+    text-align: right;
+  }
+
+  .notes-foot-link {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .notes-row {
+      grid-template-columns: 60px 1fr;
+      row-gap: 6px;
+    }
+    .notes-row-date, .notes-row-tag {
+      grid-column: 2;
+    }
+    .notes-row-text {
+      grid-column: 1 / -1;
+      font-size: clamp(18px, 4.5vw, 22px);
+    }
+    .notes-row-arr {
+      display: none;
+    }
+  }
+</style>
