@@ -29,7 +29,7 @@ if (authorSlug) {
 {author && variant === 'mini' && (
   <a href={`/equipe/${author.id}`} class="acard-mini">
     {author.data.photo && (
-      <img src={author.data.photo} alt={author.data.photoAlt_fr ?? author.data.title_fr} class="acard-mini-photo" loading="lazy" decoding="async" />
+      <img src={author.data.photo} alt={author.data.photoAlt_fr ?? author.data.title_fr} class="acard-mini-photo" loading="lazy" decoding="async" width="32" height="32" />
     )}
     <div>
       <div class="acard-mini-name">{author.data.title_fr}</div>
@@ -43,7 +43,7 @@ if (authorSlug) {
     <div class="acard-full-header">
       {author.data.photo && (
         <a href={`/equipe/${author.id}`} class="acard-full-photo-link">
-          <img src={author.data.photo} alt={author.data.photoAlt_fr ?? author.data.title_fr} class="acard-full-photo" loading="lazy" decoding="async" />
+          <img src={author.data.photo} alt={author.data.photoAlt_fr ?? author.data.title_fr} class="acard-full-photo" loading="lazy" decoding="async" width="80" height="80" />
         </a>
       )}
       <div>

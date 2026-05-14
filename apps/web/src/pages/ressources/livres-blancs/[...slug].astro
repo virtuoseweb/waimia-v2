@@ -5,6 +5,7 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 import LeadMagnetTemplate from '../../../components/templates/LeadMagnetTemplate.astro';
 import AuthorByline from '../../../components/ui/molecules/AuthorByline.astro';
 import AuthorCard from '../../../components/ui/molecules/AuthorCard.astro';
+import { buildSchemaForPage } from '../../../lib/seo/schema-builder';
 
 export async function getStaticPaths() {
   const entries = await getCollection('livresBlancs');
@@ -43,6 +44,10 @@ const toc = d.chapters_fr.map((c, i) => ({
   num: String(i + 1).padStart(2, '0'),
   title: c,
 }));
+const lbSchemas = buildSchemaForPage(entry, 'livresBlancs', {
+  lang: 'fr',
+  url: `https://waimia.com${Astro.url.pathname}`,
+});
 ---
 <LeadMagnetTemplate
   title={`${d.title_fr} · Livre blanc Waimia`}
@@ -53,6 +58,7 @@ const toc = d.chapters_fr.map((c, i) => ({
   publishedAt={d.publishedAt.toISOString().slice(0, 10)}
   toc={toc}
   coverUrl={d.coverUrl}
+  jsonLd={lbSchemas}
 >
   <Fragment slot="headline">{d.title_fr}</Fragment>
   <Fragment slot="lede">{d.description_fr}</Fragment>

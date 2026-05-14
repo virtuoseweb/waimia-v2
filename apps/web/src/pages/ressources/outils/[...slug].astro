@@ -28,6 +28,7 @@ const categoryKicker = d.category_fr ? ` · ${d.category_fr}` : '';
   description={d.description_fr}
   kicker={`§ Outil · ${d.type}${categoryKicker}`}
   date={dateStr}
+  datePublished={d.publishedAt.toISOString().slice(0, 10)}
   author="Waimia"
   relatedCards={[]}
   lang="fr"
@@ -40,7 +41,6 @@ const categoryKicker = d.category_fr ? ` · ${d.category_fr}` : '';
   <Fragment slot="headline">{d.title_fr}</Fragment>
   <Fragment slot="lede">{d.description_fr}</Fragment>
   <Fragment slot="body">
-    {/* TODO A2-bis: si d.type === 'calculator', monter une island React <CalculatorIsland inputs={d.inputs} outputs={d.outputs} client:visible /> */}
     <Content />
   </Fragment>
 </EssayTemplate>

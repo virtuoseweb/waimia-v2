@@ -25,12 +25,21 @@ const authorEntry = d.author ? await getEntry('authors', d.author.id) : null;
 const dateStr = d.date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
 const dateDisplay = d.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 const authorSlug = authorEntry?.data?.slug ?? d.author?.id ?? '';
+const relatedCards: Array<{
+  kicker: string;
+  title_fr: string;
+  title_en: string;
+  lead_fr: string;
+  lead_en: string;
+  href: string;
+}> = [];
 ---
 <EssayTemplate
   title={`${d.title_fr} · Veille IA Waimia`}
   description={d.description_fr}
   kicker={`§ Veille · ${dateStr}`}
   date={dateDisplay}
+  datePublished={d.date.toISOString().slice(0, 10)}
   author={authorEntry?.data.title_fr ?? ''}
   readingTime="3 min lecture"
   authorSlug={authorSlug}

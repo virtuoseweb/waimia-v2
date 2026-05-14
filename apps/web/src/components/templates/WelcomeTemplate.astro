@@ -19,6 +19,7 @@
 import Base from '../../layouts/Base.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
 import Bi from '../ui/atoms/Bi.astro';
+import { langFromPath } from '../../lib/i18n';
 
 interface NextStep {
   num: string;
@@ -39,6 +40,7 @@ interface Props {
   nextSteps: NextStep[];
 }
 const { title, description, kicker, nextSteps } = Astro.props as Props;
+const lang = langFromPath(Astro.url.pathname);
 ---
 <Base title={title} description={description} noindex>
   <main class="welcome">
@@ -75,7 +77,9 @@ const { title, description, kicker, nextSteps } = Astro.props as Props;
       {/* FOOTER MINIMAL */}
       <div class="welcome-foot">
         <slot name="foot">
-          <a href="/" class="welcome-back">← Retour à l'accueil</a>
+          <a href={lang === 'fr' ? '/' : '/en'} class="welcome-back">
+            {lang === 'fr' ? '← Retour à l\'accueil' : '← Back to home'}
+          </a>
         </slot>
       </div>
     </div>
