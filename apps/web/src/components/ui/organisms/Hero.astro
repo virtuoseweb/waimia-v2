@@ -128,26 +128,6 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
         </ul>
       </div>
     </div>
-
-    {/* Trust bar · 4 piliers éditoriaux · hairline top · mono kicker + serif claim */}
-    <ul class="hero-trust reveal reveal-fade" aria-label={lang === 'fr' ? 'Engagements Waimia' : 'Waimia commitments'}>
-      <li class="hero-trust-item">
-        <span class="hero-trust-tag">{lang === 'fr' ? '§ 01' : '§ 01'}</span>
-        <span class="hero-trust-claim">{lang === 'fr' ? <>Pas de démos.<br/><i>Des systèmes.</i></> : <>No demos.<br/><i>Systems.</i></>}</span>
-      </li>
-      <li class="hero-trust-item">
-        <span class="hero-trust-tag">§ 02</span>
-        <span class="hero-trust-claim">{lang === 'fr' ? <>Intégré ·<br/><i>sans disruption.</i></> : <>Integrated ·<br/><i>no disruption.</i></>}</span>
-      </li>
-      <li class="hero-trust-item">
-        <span class="hero-trust-tag">§ 03</span>
-        <span class="hero-trust-claim">{lang === 'fr' ? <>Mesurable dès la<br/><i>première semaine.</i></> : <>Measured from<br/><i>week one.</i></>}</span>
-      </li>
-      <li class="hero-trust-item">
-        <span class="hero-trust-tag">§ 04</span>
-        <span class="hero-trust-claim">{lang === 'fr' ? <>Accompagnement<br/><i>sur-mesure.</i></> : <>Bespoke<br/><i>partnership.</i></>}</span>
-      </li>
-    </ul>
   </div>
 </section>
 
@@ -193,17 +173,16 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
   .hero-sig-mark svg { width: 100%; height: 100%; display: block; }
 
   /* H1 · Instrument Serif · reveal-mask-up
-     V6 cap : 108px max (vs 148px) pour densifier le hero et éviter casse
-     sur ultra-wide · max-width 1100px contraint la longueur de ligne en
-     gardant l'effet manifeste · margin-bottom resserré */
+     V6 cap : 92px max (vs 148px initial) · "titres pas trop gros" directive
+     · max-width 980px contraint la longueur de ligne · margin-bottom resserré */
   .hero-headline {
     font-family: var(--font-display);
-    font-size: clamp(44px, 7vw, 108px);
+    font-size: clamp(40px, 6vw, 92px);
     line-height: var(--leading-display, .96);
     letter-spacing: var(--tracking-display, -0.025em);
     font-weight: 400;
-    max-width: 1100px;
-    margin: 0 0 var(--space-6);
+    max-width: 980px;
+    margin: 0 0 var(--space-5);
   }
   .hero-headline i { font-style: italic; }
   .hero-headline i.acc { color: var(--accent); }
@@ -320,64 +299,25 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
   }
   .hero-proof-label i { font-style: italic; color: var(--ink-2); }
 
-  /* Trust bar · 4 piliers · hairline top · mono kicker + serif claim
-     V6 : items inline horizontal pour gagner de la hauteur (~50% vs stack)
-     · le claim reste serif italique sur 1 ligne max */
-  .hero-trust {
-    list-style: none;
-    padding: var(--space-5) 0 var(--space-6);
-    margin: 0;
-    border-top: 1px solid var(--hairline);
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: clamp(20px, 2.4vw, 40px);
-    transition-delay: 640ms;
-  }
-  .hero-trust-item {
-    display: flex;
-    flex-direction: row;
-    gap: var(--space-3);
-    align-items: baseline;
-  }
-  .hero-trust-tag {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-2);
-    flex-shrink: 0;
-  }
-  .hero-trust-claim {
-    font-family: var(--font-display);
-    font-size: clamp(15px, 1.2vw, 18px);
-    line-height: 1.25;
-    color: var(--ink);
-    letter-spacing: -0.005em;
-    text-wrap: balance;
-  }
-  .hero-trust-claim i { font-style: italic; color: var(--accent); }
-  /* V6 : on supprime le <br> visuellement pour rester sur 1 ligne max */
-  .hero-trust-claim br { display: none; }
+  /* Trust bar retirée du Hero v6-densify · les 4 piliers vivront dans
+     une zone "principles" dédiée plus tard (cf BookSession ou nouveau organism) */
 
   /* Metrics wrapper · préserve le layout MetricStrip */
   .metrics-reveal { display: block; }
 
   @media (max-width: 900px) {
-    .hero-sub { grid-template-columns: 1fr; gap: var(--space-10); }
+    .hero-sub { grid-template-columns: 1fr; gap: var(--space-9); }
     .hero-sig-mark { display: none; }
-    .hero-trust { grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
     .hero-proof { grid-template-columns: 90px 1fr; gap: var(--space-4); }
   }
   @media (max-width: 560px) {
-    .hero-trust { grid-template-columns: 1fr; gap: var(--space-5); }
     .hero-proof { grid-template-columns: 1fr; gap: 4px; padding: var(--space-3) 0; }
   }
   /* Low-height desktop · 1280×720 / 1366×768 / 1440×800 avec cookie banner visible
      → on resserre les rythmes verticaux sans toucher à l'identité typographique */
   @media (max-height: 850px) and (min-width: 900px) {
-    .hero-a { padding-top: clamp(72px, 5.5vw, 88px); }
-    .hero-sub { margin-top: var(--space-7); padding: var(--space-6) 0 var(--space-9); }
-    .hero-headline { font-size: clamp(48px, 7.5vw, 116px); }
-    .hero-trust { padding: var(--space-5) 0 var(--space-6); }
+    .hero-a { padding-top: clamp(64px, 5vw, 80px); }
+    .hero-sub { margin-top: var(--space-5); padding: var(--space-4) 0 var(--space-7); }
+    .hero-headline { font-size: clamp(44px, 7vw, 92px); }
   }
 </style>
