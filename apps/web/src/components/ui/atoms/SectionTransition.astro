@@ -1,0 +1,86 @@
+---
+/**
+ * Atome · SectionTransition · phrase narrative entre 2 sections
+ *
+ * Conçu pour briser la linéarité entre les organisms de la home (V7 §6) :
+ * "Promesse vérifiable, pas discours." · "Les chiffres viennent d'un système connecté."
+ *
+ * Layout : hairline top + texte serif italic centré + hairline bottom (optionnel)
+ * Très discret · pas un H2 · pas une bande dense · juste un "souffle"
+ *
+ * Usage :
+ *   <SectionTransition phrase="Promesse vérifiable, pas discours." />
+ *   <SectionTransition>{lang === 'fr' ? "FR" : "EN"}</SectionTransition>
+ */
+
+interface Props {
+  /** Phrase éditoriale courte · si non fournie, utilise le slot default */
+  phrase?: string;
+  /** Variant visuel · 'default' (centered) · 'aligned-left' · 'hairline-only' */
+  variant?: 'default' | 'aligned-left' | 'hairline-only';
+}
+
+const { phrase, variant = 'default' } = Astro.props;
+---
+<div class:list={['sec-transition', `sec-transition--${variant}`]} aria-hidden="true">
+  {phrase ? (
+    <p class="sec-transition-phrase">{phrase}</p>
+  ) : (
+    <p class="sec-transition-phrase">
+      <slot />
+    </p>
+  )}
+</div>
+
+<style>
+  .sec-transition {
+    padding: clamp(28px, 3vw, 44px) var(--gut);
+    border-top: 1px solid var(--hairline);
+    text-align: center;
+    background: var(--paper);
+  }
+
+  .sec-transition-phrase {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(15px, 1.3vw, 18px);
+    line-height: 1.4;
+    color: var(--ink-2);
+    margin: 0 auto;
+    max-width: 720px;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+
+  /* Variant aligned-left · pour transitions qui mènent à une grille left-aligned */
+  .sec-transition--aligned-left {
+    text-align: left;
+  }
+  .sec-transition--aligned-left .sec-transition-phrase {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  /* Variant hairline-only · juste une séparation visuelle minimale */
+  .sec-transition--hairline-only {
+    padding: 0;
+    border-top: none;
+  }
+  .sec-transition--hairline-only::before {
+    content: '';
+    display: block;
+    width: clamp(40px, 5vw, 80px);
+    height: 1px;
+    background: var(--accent);
+    margin: clamp(40px, 4vw, 60px) auto;
+  }
+  .sec-transition--hairline-only .sec-transition-phrase {
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    .sec-transition {
+      padding: var(--space-6) var(--gut);
+    }
+  }
+</style>

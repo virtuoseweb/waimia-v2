@@ -6,13 +6,11 @@
  * et offre Growth System IA, métriques de ROI conservées.
  */
 
-import { langFromPath, t, localizeHref } from '../../../lib/i18n';
-import { HERO_METRICS } from '../../../data/sitemap';
+import { langFromPath, localizeHref } from '../../../lib/i18n';
 
 import MastheadRow from '../molecules/MastheadRow.astro';
 import Kicker from '../atoms/Kicker.astro';
 import Button from '../atoms/Button.astro';
-import MetricStrip from '../molecules/MetricStrip.astro';
 
 const lang = langFromPath(Astro.url.pathname);
 const ctaHref = localizeHref('/contact', lang);
@@ -23,8 +21,7 @@ const pageTransitionId = Astro.url.pathname
   .replace(/[^a-z0-9]+/gi, '-')
   .replace(/^-|-$/g, '') || 'home';
 
-// Le MetricStrip prend des `label: string` · on résout les BiText ici
-const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lang) }));
+// V7 · MetricStrip extrait dans nouveau organism ProofBar dédié (entre Hero et CapabilityStrip)
 ---
 <section class="hero-a home-hero" aria-labelledby="hero-heading">
   <div class="signature-grid" transition:name={`hero-img-${pageTransitionId}`}></div>
@@ -70,15 +67,33 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
           )}
         </p>
 
-        {/* Scope strip · 6 groupes éditoriaux représentant le périmètre Waimia complet
-            (les noms d'outils figurent dans la section CapabilityStrip plus bas) */}
-        <ul class="hero-scope reveal reveal-fade" aria-label={lang === 'fr' ? 'Périmètre opérationnel' : 'Operational scope'}>
-          <li class="hero-scope-item">{lang === 'fr' ? 'Acquisition' : 'Acquisition'}</li>
-          <li class="hero-scope-item">{lang === 'fr' ? 'Contenu' : 'Content'}</li>
-          <li class="hero-scope-item">{lang === 'fr' ? 'Site & CMS' : 'Site & CMS'}</li>
-          <li class="hero-scope-item">{lang === 'fr' ? 'CRM & Sales' : 'CRM & Sales'}</li>
-          <li class="hero-scope-item">{lang === 'fr' ? 'Data & Insights' : 'Data & Insights'}</li>
-          <li class="hero-scope-item">{lang === 'fr' ? 'Brand System' : 'Brand System'}</li>
+        {/* V7 §12 · Mini-map scope · 6 territoires Waimia en cartographie 3×2
+            (vs strip linéaire) · chaque territoire = label + items éditoriaux */}
+        <ul class="hero-minimap reveal reveal-fade" aria-label={lang === 'fr' ? 'Périmètre opérationnel · 6 territoires' : 'Operational scope · 6 territories'}>
+          <li class="hero-mm-item">
+            <span class="hero-mm-label">{lang === 'fr' ? 'Acquisition' : 'Acquisition'}</span>
+            <span class="hero-mm-items">{lang === 'fr' ? 'Ads · Landing · Pipeline' : 'Ads · Landing · Pipeline'}</span>
+          </li>
+          <li class="hero-mm-item">
+            <span class="hero-mm-label">{lang === 'fr' ? 'Contenu' : 'Content'}</span>
+            <span class="hero-mm-items">{lang === 'fr' ? 'SEO/GEO · Articles · Posts' : 'SEO/GEO · Articles · Posts'}</span>
+          </li>
+          <li class="hero-mm-item">
+            <span class="hero-mm-label">{lang === 'fr' ? 'Web' : 'Web'}</span>
+            <span class="hero-mm-items">{lang === 'fr' ? 'Site IA-first · CMS · Pages' : 'AI-first · CMS · Pages'}</span>
+          </li>
+          <li class="hero-mm-item">
+            <span class="hero-mm-label">{lang === 'fr' ? 'Sales' : 'Sales'}</span>
+            <span class="hero-mm-items">{lang === 'fr' ? 'CRM · Relances · Scoring' : 'CRM · Follow-ups · Scoring'}</span>
+          </li>
+          <li class="hero-mm-item">
+            <span class="hero-mm-label">{lang === 'fr' ? 'Data' : 'Data'}</span>
+            <span class="hero-mm-items">{lang === 'fr' ? 'GA4 · Search Console · Insights' : 'GA4 · Search Console · Insights'}</span>
+          </li>
+          <li class="hero-mm-item">
+            <span class="hero-mm-label">{lang === 'fr' ? 'Marque' : 'Brand'}</span>
+            <span class="hero-mm-items">{lang === 'fr' ? 'Design system · Decks · PDF' : 'Design system · Decks · PDF'}</span>
+          </li>
         </ul>
 
         <div class="hero-ctas reveal reveal-snap">
@@ -131,10 +146,8 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
   </div>
 </section>
 
-{/* Metrics strip · reveal-zoom-in · molécule MetricStrip */}
-<div class="metrics-reveal reveal reveal-zoom-in">
-  <MetricStrip metrics={metrics} />
-</div>
+{/* V7 · MetricStrip retiré du Hero · les metrics vivent désormais dans
+   <ProofBar /> dédié monté juste après dans index.astro */}
 
 <style>
   .hero-a {
@@ -210,35 +223,60 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
   }
   .hero-lede i { font-style: italic; color: var(--accent); }
 
-  /* Scope strip · 6 piliers éditoriaux du périmètre Waimia · hairline 1px par item
-     mono caps · separator middot terracotta · responsive wrap propre */
-  .hero-scope {
+  /* V7 §12 · Mini-map scope · cartographie 3×2 éditoriale (vs strip linéaire)
+     · 6 territoires en grid 3 colonnes desktop · 2 cols tablet · stack mobile
+     · chaque territoire : label mono caps + items inline serif italic petit */
+  .hero-minimap {
     list-style: none;
     padding: 0;
     margin: var(--space-5) 0 0;
-    display: flex;
-    align-items: center;
-    gap: clamp(10px, 1vw, 14px);
-    flex-wrap: wrap;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-2);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--hairline);
     transition-delay: 280ms;
   }
-  .hero-scope-item {
-    position: relative;
-    padding: 5px 10px 5px 0;
+  .hero-mm-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-3) var(--space-3) var(--space-3) 0;
+    border-bottom: 1px solid var(--hairline);
+    border-right: 1px solid var(--hairline);
   }
-  .hero-scope-item::after {
-    content: '·';
+  .hero-mm-item:nth-child(3n) { border-right: none; }
+  .hero-mm-item:nth-last-child(-n+3) { border-bottom: none; }
+  .hero-mm-item:not(:nth-child(3n+1)) { padding-left: var(--space-3); }
+
+  .hero-mm-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     color: var(--accent);
-    margin-left: clamp(10px, 1vw, 14px);
-    opacity: 0.6;
   }
-  .hero-scope-item:last-child::after { content: ''; margin: 0; }
-  .hero-scope-item:hover { color: var(--accent); cursor: default; }
+  .hero-mm-items {
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: var(--ink-2);
+  }
+
+  @media (max-width: 700px) {
+    .hero-minimap { grid-template-columns: repeat(2, 1fr); }
+    .hero-mm-item:nth-child(3n) { border-right: 1px solid var(--hairline); }
+    .hero-mm-item:nth-child(2n) { border-right: none; }
+    .hero-mm-item:nth-last-child(-n+2) { border-bottom: none; }
+    .hero-mm-item:nth-last-child(-n+3):not(:nth-last-child(-n+2)) { border-bottom: 1px solid var(--hairline); }
+    .hero-mm-item:not(:nth-child(2n+1)) { padding-left: var(--space-3); }
+    .hero-mm-item:nth-child(2n+1) { padding-left: 0; }
+  }
+  @media (max-width: 440px) {
+    .hero-minimap { grid-template-columns: 1fr; }
+    .hero-mm-item, .hero-mm-item:nth-child(n) { border-right: none; padding-left: 0; }
+    .hero-mm-item:not(:last-child) { border-bottom: 1px solid var(--hairline); }
+    .hero-mm-item:last-child { border-bottom: none; }
+  }
 
   /* CTAs · reveal-snap delay 400ms */
   .hero-ctas {

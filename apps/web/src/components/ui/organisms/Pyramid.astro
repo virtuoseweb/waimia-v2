@@ -11,6 +11,13 @@ import { PYRAMID_TIERS } from '../../../data/sitemap';
 import { langFromPath, t } from '../../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
+
+const ACTION_LABELS = [
+  { fr: 'Cartographier', en: 'Map' },
+  { fr: 'Câbler', en: 'Wire' },
+  { fr: 'Orchestrer', en: 'Orchestrate' },
+  { fr: 'Industrialiser', en: 'Industrialize' },
+];
 ---
 <section class="sec sec-paper" aria-labelledby="pyramid-h2">
   <div class="wrap-wide">
@@ -21,9 +28,9 @@ const lang = langFromPath(Astro.url.pathname);
     >
       <Fragment slot="heading">
         {lang === 'fr' ? (
-          <>Quatre <i>paliers</i>, une seule architecture continue.</>
+          <><i>Cartographier.</i> Câbler.<br/>Orchestrer. <i>Industrialiser.</i></>
         ) : (
-          <>Four <i>tiers</i>, one continuous architecture.</>
+          <><i>Map.</i> Wire.<br/>Orchestrate. <i>Industrialize.</i></>
         )}
       </Fragment>
       <Fragment slot="aside">
@@ -32,6 +39,30 @@ const lang = langFromPath(Astro.url.pathname);
           : "From process diagnostic to sovereign infrastructure — each tier sets up the next. You climb when you're ready."}
       </Fragment>
     </SectionHeader>
+
+    {/* Timeline maturité V7 · 4 étapes Audit → Workflow → System → Infrastructure */}
+    <ol class="pyramid-timeline reveal reveal-fade" aria-label={lang === 'fr' ? "Progression de maturité IA" : 'AI maturity path'}>
+      <li class="pyramid-step">
+        <span class="pyramid-step-roman">I</span>
+        <span class="pyramid-step-verb">{lang === 'fr' ? ACTION_LABELS[0].fr : ACTION_LABELS[0].en}</span>
+        <span class="pyramid-step-stage">{lang === 'fr' ? 'Audit' : 'Audit'}</span>
+      </li>
+      <li class="pyramid-step">
+        <span class="pyramid-step-roman">II</span>
+        <span class="pyramid-step-verb">{lang === 'fr' ? ACTION_LABELS[1].fr : ACTION_LABELS[1].en}</span>
+        <span class="pyramid-step-stage">{lang === 'fr' ? 'Workflow' : 'Workflow'}</span>
+      </li>
+      <li class="pyramid-step">
+        <span class="pyramid-step-roman">III</span>
+        <span class="pyramid-step-verb">{lang === 'fr' ? ACTION_LABELS[2].fr : ACTION_LABELS[2].en}</span>
+        <span class="pyramid-step-stage">{lang === 'fr' ? 'Système' : 'System'}</span>
+      </li>
+      <li class="pyramid-step">
+        <span class="pyramid-step-roman">IV</span>
+        <span class="pyramid-step-verb">{lang === 'fr' ? ACTION_LABELS[3].fr : ACTION_LABELS[3].en}</span>
+        <span class="pyramid-step-stage">{lang === 'fr' ? 'Infrastructure' : 'Infrastructure'}</span>
+      </li>
+    </ol>
 
     <div class="pyramid-svg reveal-blur-clip">
       <svg viewBox="0 0 800 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation">
@@ -58,8 +89,9 @@ const lang = langFromPath(Astro.url.pathname);
     </div>
 
     <div class="ec-grid cols-4 pyramid-asym reveal-stagger">
-      {PYRAMID_TIERS.map((tier) => (
+      {PYRAMID_TIERS.map((tier, idx) => (
         <a class="editorial-cell lift" href={tier.href}>
+          <span class="e-action">{lang === 'fr' ? ACTION_LABELS[idx].fr : ACTION_LABELS[idx].en}</span>
           <span class="e-num">{tier.n}</span>
           <span class="e-tag">{t(tier.tag, lang)}</span>
           <h3 class="e-title">{t(tier.label, lang)}</h3>
@@ -155,5 +187,85 @@ const lang = langFromPath(Astro.url.pathname);
     .pyramid-asym {
       grid-template-columns: 1fr;
     }
+  }
+
+  /* V7 · Timeline maturité Audit → Workflow → System → Infrastructure */
+  .pyramid-timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 clamp(28px, 3vw, 44px);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--hairline-strong);
+    border-bottom: 1px solid var(--hairline);
+    position: relative;
+  }
+
+  .pyramid-step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: clamp(20px, 2.2vw, 28px) clamp(16px, 1.8vw, 24px);
+    border-right: 1px solid var(--hairline);
+    position: relative;
+  }
+  .pyramid-step:last-child { border-right: none; }
+
+  .pyramid-step::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: clamp(16px, 1.8vw, 24px);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .pyramid-step-roman {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+
+  .pyramid-step-verb {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-h3-row);
+    line-height: var(--leading-h3);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .pyramid-step-stage {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+
+  /* Action verb override dans les cards */
+  .pyramid-asym .editorial-cell .e-action {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(14px, 1.2vw, 17px);
+    color: var(--accent);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  @media (max-width: 900px) {
+    .pyramid-timeline { grid-template-columns: repeat(2, 1fr); }
+    .pyramid-step:nth-child(2n) { border-right: none; }
+    .pyramid-step:nth-child(odd) { border-right: 1px solid var(--hairline); }
+  }
+  @media (max-width: 560px) {
+    .pyramid-timeline { grid-template-columns: 1fr; }
+    .pyramid-step, .pyramid-step:nth-child(n) { border-right: none; border-bottom: 1px solid var(--hairline); }
+    .pyramid-step:last-child { border-bottom: none; }
   }
 </style>

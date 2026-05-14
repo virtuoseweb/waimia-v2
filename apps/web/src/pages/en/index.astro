@@ -18,19 +18,21 @@ import Base from '../../layouts/Base.astro';
 import BootSplash from '../../components/motion/BootSplash.tsx';
 import ScrollProgress from '../../components/ui/atoms/ScrollProgress.astro';
 
-import Hero             from '../../components/ui/organisms/Hero.astro';
-import TrustMarquee     from '../../components/ui/organisms/TrustMarquee.astro';
-import CapabilityStrip    from '../../components/ui/organisms/CapabilityStrip.astro';
-import SystemArchitecture from '../../components/ui/organisms/SystemArchitecture.astro';
-import SixServices        from '../../components/ui/organisms/SixServices.astro';
-import Pyramid          from '../../components/ui/organisms/Pyramid.astro';
-import Departments      from '../../components/ui/organisms/Departments.astro';
-import Cases            from '../../components/ui/organisms/Cases.astro';
-import FAQ              from '../../components/seo/FAQ.astro';
-import FieldNotes       from '../../components/ui/organisms/FieldNotes.astro';
-import BookSession      from '../../components/ui/organisms/BookSession.astro';
-import SigBand          from '../../components/ui/organisms/SigBand.astro';
-import FooterMarquee    from '../../components/ui/organisms/FooterMarquee.astro';
+import Hero                from '../../components/ui/organisms/Hero.astro';
+import ProofBar            from '../../components/ui/organisms/ProofBar.astro';
+import TrustMarquee        from '../../components/ui/organisms/TrustMarquee.astro';
+import CapabilityStrip     from '../../components/ui/organisms/CapabilityStrip.astro';
+import SystemArchitecture  from '../../components/ui/organisms/SystemArchitecture.astro';
+import SixServices         from '../../components/ui/organisms/SixServices.astro';
+import Pyramid             from '../../components/ui/organisms/Pyramid.astro';
+import Departments         from '../../components/ui/organisms/Departments.astro';
+import Cases               from '../../components/ui/organisms/Cases.astro';
+import FAQ                 from '../../components/seo/FAQ.astro';
+import FieldNotes          from '../../components/ui/organisms/FieldNotes.astro';
+import BookSession         from '../../components/ui/organisms/BookSession.astro';
+import SigBand             from '../../components/ui/organisms/SigBand.astro';
+import FooterMarquee       from '../../components/ui/organisms/FooterMarquee.astro';
+import SectionTransition   from '../../components/ui/atoms/SectionTransition.astro';
 
 import { faqPage } from '../../lib/seo';
 import { buildOrganization } from '../../lib/seo/schema-builder';
@@ -78,46 +80,64 @@ const faqItems = [
 >
   <BootSplash client:only="react" lang="en" />
 
-  {/* 1 — Hero · canonical promise + 4 metrics */}
+  {/* 01 — Hero · promise + scope mini-map + CTAs (V7 §12) */}
   <Hero />
 
-  {/* 2 — TrustMarquee · client logos = immediate social proof */}
+  {/* 02 — ProofBar · 4 canonical metrics + anonymized disclaimer (V7 §13) */}
+  <ProofBar />
+
+  <SectionTransition phrase="Verifiable promise, not pitch." />
+
+  {/* 03 — TrustMarquee · client logos · immediate social proof */}
   <TrustMarquee />
 
-  {/* 3 — CapabilityStrip · 8 pillars of Waimia's full scope (V5)
-       → exposes ads/content/web-CMS/CRM/data/automation/brand/governance
-       → links to existing /solutions, /offres, /agence pages */}
+  <SectionTransition phrase="The numbers don't come from a single tool. They come from a connected system." />
+
+  {/* 04 — CapabilityStrip · 8 pillars of Waimia's full scope */}
   <CapabilityStrip />
 
-  {/* 4 — SystemArchitecture · canonical SVG: 6 channels → AI System → 4 outputs
-       → materializes the multi-agent doctrine and the improvement loop */}
+  <SectionTransition phrase="Every channel becomes useful when it runs through a common architecture." />
+
+  {/* 05 — SystemArchitecture · signature SVG 6 channels → Waimia System → 4 outputs */}
   <SystemArchitecture />
 
-  {/* 5 — SixServices · 6 business levers + connectors (V5) */}
+  <SectionTransition phrase="An architecture is only worth what it ships." />
+
+  {/* 06 — SixServices · 6 systems shipped + connectors */}
   <SixServices />
 
-  {/* 5 — Pyramid · 4 engagement tiers */}
+  <SectionTransition phrase="Picking a system is easy. Deploying without breaking your stack takes a method." />
+
+  {/* 07 — Pyramid · Method maturity timeline Map → Wire → Orchestrate → Industrialize (V7 §17) */}
   <Pyramid />
 
-  {/* 6 — Departments · 6 horizontal use cases (V5: + AI-first website) */}
+  <SectionTransition phrase="Same method. Different frictions." />
+
+  {/* 08 — Departments · 6 horizontal use cases in editorial index */}
   <Departments />
 
-  {/* 7 — Cases · 4 featured dossiers */}
+  <SectionTransition phrase="A use case becomes credible when it produces proof." />
+
+  {/* 09 — Cases · 4 anonymized dossiers (CASE_FEED) */}
   <Cases />
 
-  {/* 8 — FAQ · 8 SMB-first questions (V5: + CMS, + brand consistency) */}
+  <SectionTransition phrase="Before wiring, we clarify." />
+
+  {/* 10 — FAQ · 8 SMB-first questions (CMS, brand, AI Act included) */}
   <FAQ
     items={faqItems}
     heading="Frequently asked questions"
     intro="Eight straight answers — no slides, no jargon. The kind we send by email before the first call."
   />
 
-  {/* 9 — FieldNotes · doctrine + internal linking (V5 brief section 20)
-       → between FAQ and final CTA: FAQ removes objections,
-         Notes build authority, CTA converts. */}
+  <SectionTransition phrase="For those who want to understand before booking." />
+
+  {/* 11 — FieldNotes · doctrine + internal linking (V5 §20 + V7 §21) */}
   <FieldNotes />
 
-  {/* 10 — BookSession · primary CTA toward /contact */}
+  <SectionTransition phrase="Reading helps you understand. An audit puts numbers on it." />
+
+  {/* 12 — BookSession · primary CTA toward /contact */}
   <BookSession />
 
   {/* SigBand · signature pre-footer */}
