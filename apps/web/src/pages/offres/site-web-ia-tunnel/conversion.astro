@@ -3,10 +3,16 @@ export const prerender = true;
 import Base from '../../../layouts/Base.astro';
 import TunnelNav from '../../../components/ui/molecules/TunnelNav.astro';
 import CalEmbed from '../../../components/ui/molecules/CalEmbed.astro';
+import { buildOffer } from '../../../lib/seo/schema-builder';
+const offers = [
+  buildOffer({ name: 'Pilote 4 semaines', price: 4900, priceCurrency: 'EUR' }),
+  buildOffer({ name: 'Programme complet', price: 14900, priceCurrency: 'EUR' }),
+];
 ---
 <Base
   title="Site Web IA-first — Étape 4/4 : La décision · Waimia"
   description="Audit 5 jours. Premier agent en production en 4 semaines. 3 paliers tarifaires. Booking direct."
+  jsonLd={offers}
 >
   <TunnelNav currentStep={4} />
   <main class="tunnel-page">
@@ -200,3 +206,11 @@ import CalEmbed from '../../../components/ui/molecules/CalEmbed.astro';
 .tnl-urgency__text strong { color: var(--accent); }
 [lang="en"] { display: block; font-size: .88em; color: var(--muted); margin-top: 4px; font-style: italic; }
 </style>
+
+<script is:inline>
+document.querySelectorAll('details > summary').forEach(s => {
+  const d = s.parentElement;
+  s.setAttribute('aria-expanded', d.open);
+  d.addEventListener('toggle', () => s.setAttribute('aria-expanded', d.open));
+});
+</script>

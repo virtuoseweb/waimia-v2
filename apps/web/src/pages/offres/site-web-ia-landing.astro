@@ -4,10 +4,16 @@ import Base from '../../layouts/Base.astro';
 import Breadcrumb from '../../components/ui/molecules/Breadcrumb.astro';
 import Kicker from '../../components/ui/atoms/Kicker.astro';
 import PricingTier from '../../components/ui/molecules/PricingTier.astro';
+import { buildService } from '../../lib/seo/schema-builder';
+const service = buildService({
+  name: 'Site Web IA-first',
+  description: 'Site web automatisé par IA pour générer des leads en continu via 3 agents (Content, CRM, Social)',
+});
 ---
 <Base
-  title="Site Web IA-first — Landing · Waimia"
+  title="Site Web IA-first — Leads automatisés en 90 jours · Waimia"
   description="Votre site génère des leads pendant que vous dormez. 3 agents IA, lead-gen auto, ROI mesuré en 90 jours."
+  jsonLd={service}
 >
   <main class="landing-swia">
 
@@ -179,7 +185,7 @@ import PricingTier from '../../components/ui/molecules/PricingTier.astro';
         <div class="lp-metrics-grid">
           <div class="lp-metric reveal-zoom-in">
             <span class="lp-metric-num">+340%</span>
-            <span class="lp-metric-label">leads qualifiés <span lang="en">qualified leads</span></span>
+            <span class="lp-metric-label">leads qualifiés médiane 6 mois <span lang="en">qualified leads 6-month median</span></span>
           </div>
           <div class="lp-metric reveal-zoom-in">
             <span class="lp-metric-num">−72%</span>

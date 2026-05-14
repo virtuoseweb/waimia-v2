@@ -12,6 +12,17 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
 import CtaBand from '../../components/ui/organisms/CtaBand.astro';
 import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
 import Button from '../../components/ui/atoms/Button.astro';
+import Bi from '../../components/ui/atoms/Bi.astro';
+import { langFromPath } from '../../lib/i18n';
+import { buildCollectionPage } from '../../lib/seo/schema-builder';
+
+const lang = langFromPath(Astro.url.pathname);
+
+const collectionLd = buildCollectionPage(
+  'Ressources Waimia',
+  'Hub éditorial : blog, cookbooks, livres blancs, veille IA, outils, cas clients.',
+  ['Blog', 'Cookbooks', 'Livres blancs', 'Veille IA', 'Outils', 'Cas clients'],
+);
 
 const tools = [
   { kicker: 'LIVRE BLANC · 01', title_fr: "Préparation à l'AI Act", title_en: 'AI Act Readiness',
@@ -75,6 +86,7 @@ const livresBlancsCards = [
 <Base
   title="Ressources · Cas, blog, cookbooks, outils · Waimia"
   description="Toutes les ressources Waimia — cas clients NDA-protected, notes de terrain, cookbooks de méthodes, calculateurs TCO/ROI/AI Act."
+  jsonLd={collectionLd}
 >
   {/* MASTHEAD */}
   <section class="hub-mast">
@@ -174,9 +186,16 @@ const livresBlancsCards = [
       </div>
       <form class="hub-nl-form" method="post" action="/api/newsletter">
         <label for="nl-email" class="sr-only">Email professionnel</label>
-        <input id="nl-email" name="email" type="email" required placeholder="prénom@entreprise.com" autocomplete="email" />
+        <input id="nl-email" name="email" type="email" required placeholder="prénom@entreprise.com" autocomplete="email" aria-describedby="nl-hint" />
         <Button as="button" type="submit" variant="primary" size="md">S'abonner →</Button>
       </form>
+      <p class="nl-hint" id="nl-hint">
+        <Bi fr="Sans spam · Désinscription en 1 clic" en="No spam · Unsubscribe anytime" />
+        {' · '}
+        <a href={lang === 'fr' ? '/legal/privacy' : '/en/legal/privacy'}>
+          <Bi fr="Politique de confidentialité" en="Privacy policy" />
+        </a>
+      </p>
     </div>
   </section>
 
@@ -376,6 +395,14 @@ const livresBlancsCards = [
     font-size: 16px;
   }
   .hub-nl-form input:focus { outline: none; border-color: var(--accent); }
+  .nl-hint {
+    font-size: 13px;
+    color: rgba(246, 241, 232, 0.5);
+    margin: 10px 0 0;
+    line-height: 1.5;
+  }
+  .nl-hint a { color: rgba(246, 241, 232, 0.7); text-decoration: underline; }
+  .nl-hint a:hover { color: var(--paper); }
 
   @media (max-width: 800px) {
     .hub-nl-wrap { grid-template-columns: 1fr; }

@@ -37,8 +37,10 @@ interface Props {
   showCta?: boolean;
   /** Breadcrumb items (optionnel) · si absent, deduit du pathname */
   breadcrumb?: Crumb[];
+  /** JSON-LD spécifique à la page (forwarded to Base) */
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
-const { title, description, kicker, align = 'left', showCta = true, breadcrumb } = Astro.props as Props;
+const { title, description, kicker, align = 'left', showCta = true, breadcrumb, jsonLd } = Astro.props as Props;
 
 const lang = langFromPath(Astro.url.pathname);
 
@@ -55,7 +57,7 @@ const autoCrumbs: Crumb[] = breadcrumb ?? (() => {
   return [home, ...intermediate, last];
 })();
 ---
-<Base title={title} description={description}>
+<Base title={title} description={description} jsonLd={jsonLd}>
   {autoCrumbs.length > 0 && <Breadcrumb lang={lang} items={autoCrumbs} />}
   {/* MASTHEAD */}
   <section class:list={['util-hd', `util-hd-${align}`]}>

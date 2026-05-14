@@ -40,6 +40,7 @@ import SecteurIndustrie from '../svg/sumie/SecteurIndustrie.astro';
 import SecteurFinance from '../svg/sumie/SecteurFinance.astro';
 import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
 import { langFromPath } from '../../lib/i18n';
+import { buildService } from '../../lib/seo/schema-builder';
 
 interface Props {
   /** SEO meta · title de la page (browser tab) */
@@ -164,6 +165,8 @@ const defaultToolRows = [
 
 const toolRows = stackRows.length > 0 ? stackRows : defaultToolRows;
 
+const serviceLd = buildService({ name: title, description });
+
 const signature = `${dept} ${deptLabel} ${title}`.toLowerCase();
 const sectorVisual =
   signature.includes('services b2b') || signature.includes('cabinet') || signature.includes('conseil')
@@ -174,7 +177,7 @@ const sectorVisual =
         ? 'finance'
         : '';
 ---
-<Base {title} {description}>
+<Base {title} {description} jsonLd={[serviceLd]}>
     <Breadcrumb
       lang={lang}
       items={[
@@ -192,11 +195,6 @@ const sectorVisual =
       </svg>
       <div class="wrap g12 g12--full">
         <div class="sol-hero-copy col-7 start-1">
-          <nav class="sol-hero-bc" aria-label="Fil d'Ariane">
-            <a href="/solutions">Solutions</a>
-            <span aria-hidden="true">/</span>
-            <span>{deptLabel}</span>
-          </nav>
           <div class="sol-hero-dept">{dept}</div>
           <h1 class="sol-hero-title reveal-mask-up" transition:name={`hero-h1-${pageTransitionId}`}><slot name="title" /></h1>
           <div class="sol-hero-sub">
@@ -311,7 +309,7 @@ const sectorVisual =
             <div class="kicker"><slot name="case-kicker">Cas client</slot></div>
             <h2 class="sol-case-title"><slot name="case-title" /></h2>
             <p class="sol-case-body"><slot name="case-body" /></p>
-            <a class="sol-case-cta" href="/cas-clients"><slot name="case-cta-label">Voir le cas complet →</slot></a>
+            <a class="sol-case-cta" href="/ressources/cas"><slot name="case-cta-label">Voir le cas complet →</slot></a>
           </div>
         </div>
         <div class="sol-case-light">
@@ -828,7 +826,7 @@ const sectorVisual =
   }
   .sol-case-title :global(i) { color: var(--accent); font-style: italic; }
   .sol-case-body {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: clamp(15px, 1.3vw, 17px);
     line-height: 1.55;
     color: var(--paper);

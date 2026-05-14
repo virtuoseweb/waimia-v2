@@ -39,6 +39,7 @@ import EditorialTable from '../editorial/EditorialTable.astro';
 import Dingbat from '../editorial/Dingbat.astro';
 import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
 import { langFromPath } from '../../lib/i18n';
+import { buildService } from '../../lib/seo/schema-builder';
 
 interface Props {
   /** SEO meta · title de la page */
@@ -158,8 +159,10 @@ const placeholderIntegrationEvents = splitBlocks(integrationHtml, 'node')
   .filter((event) => event.title);
 
 const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeholderIntegrationEvents;
+
+const serviceLd = buildService({ name: title, description });
 ---
-<Base {title} {description}>
+<Base {title} {description} jsonLd={[serviceLd]}>
     <Breadcrumb
       lang={lang}
       items={[
@@ -178,11 +181,6 @@ const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeh
         <line x1="0" y1="500" x2="1440" y2="380" stroke="currentColor" stroke-width=".3" opacity=".1"/>
       </svg>
       <div class="wrap">
-        <nav class="tech-hero-bc" aria-label="Fil d'Ariane">
-          <a href="/technologies">Technologies</a>
-          <span aria-hidden="true">/</span>
-          <span>{layerLabel}</span>
-        </nav>
         <div class={`tech-hero-layer tech-hero-layer--${layerType}`}>{layer}</div>
         <h1 class="tech-hero-title reveal-mask-up" transition:name={`hero-h1-${pageTransitionId}`}><slot name="title" /></h1>
         <div class="tech-hero-sub">
@@ -424,7 +422,7 @@ const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeh
     max-width: 1100px;
   }
   .tech-hero-lead {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: clamp(20px, 2vw, 26px);
     line-height: 1.4;
     color: var(--ink);
@@ -583,7 +581,7 @@ const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeh
   .tech-cap-grid :global(.cap-card) {
     padding: 32px 28px;
     border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 8px;
+    border-radius: 2px;
     background: var(--paper);
     box-shadow: inset 0 1px 0 rgba(12,11,9,0.04);
     transition: background 220ms var(--ease), border-color 220ms var(--ease), box-shadow 220ms var(--ease), transform 220ms var(--ease);
