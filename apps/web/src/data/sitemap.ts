@@ -567,12 +567,12 @@ export const FIELD_NOTES = [
 
 // ─── 6 services taught by doing — Acte II
 export const SIX_SERVICES = [
-  { k: '01', label: { en: '30-min diagnostic', fr: 'Diagnostic 30 min' }, body: { en: 'We identify the business lever before the technology.', fr: 'On identifie le levier métier avant la techno.' } },
-  { k: '02', label: { en: 'Acquisition system', fr: "Système d'acquisition" }, body: { en: 'Pipeline reconnected, qualification automated.', fr: 'Pipeline reconnecté, qualification automatisée.' } },
-  { k: '03', label: { en: 'Augmented CRM', fr: 'CRM augmenté' }, body: { en: 'The CRM that follows up, qualifies and alerts — without you touching it.', fr: 'Le CRM qui relance, qualifie et alerte — sans que vous touchiez rien.' } },
-  { k: '04', label: { en: 'Data clarity', fr: 'Lisibilité des données' }, body: { en: 'Real-time dashboards — decide in 2 minutes, not a meeting.', fr: 'Tableaux de bord temps réel — décidez en 2 minutes, pas en réunion.' } },
-  { k: '05', label: { en: 'Repetitive tasks removed', fr: 'Tâches répétitives éliminées' }, body: { en: 'Workflows that run without you.', fr: 'Workflows qui tournent sans vous.' } },
-  { k: '06', label: { en: 'Enterprise custom build', fr: 'Sur-mesure ETI' }, body: { en: 'Sovereign architecture — when the market stack hits your perimeter limits.', fr: "Architecture souveraine — quand les outils du marché butent sur votre périmètre." } },
+  { k: '01', metric: { en: '30 min', fr: '30 min' },        label: { en: '30-min diagnostic', fr: 'Diagnostic 30 min' }, body: { en: 'We identify the business lever before the technology.', fr: 'On identifie le levier métier avant la techno.' } },
+  { k: '02', metric: { en: '+€840K pipe', fr: '+840 K€ pipe' }, label: { en: 'Acquisition system', fr: "Système d'acquisition" }, body: { en: 'Pipeline reconnected, qualification automated.', fr: 'Pipeline reconnecté, qualification automatisée.' } },
+  { k: '03', metric: { en: '−35% manual', fr: '−35% manuel' }, label: { en: 'Augmented CRM', fr: 'CRM augmenté' }, body: { en: 'The CRM that follows up, qualifies and alerts — without you touching it.', fr: 'Le CRM qui relance, qualifie et alerte — sans que vous touchiez rien.' } },
+  { k: '04', metric: { en: '2 min decision', fr: 'Décide en 2 min' }, label: { en: 'Data clarity', fr: 'Lisibilité des données' }, body: { en: 'Real-time dashboards — decide in 2 minutes, not a meeting.', fr: 'Tableaux de bord temps réel — décidez en 2 minutes, pas en réunion.' } },
+  { k: '05', metric: { en: '+12h / week', fr: '+12h / sem' }, label: { en: 'Repetitive tasks removed', fr: 'Tâches répétitives éliminées' }, body: { en: 'Workflows that run without you.', fr: 'Workflows qui tournent sans vous.' } },
+  { k: '06', metric: { en: 'Sovereign', fr: 'Souverain' }, label: { en: 'Enterprise custom build', fr: 'Sur-mesure ETI' }, body: { en: 'Sovereign architecture — when the market stack hits your perimeter limits.', fr: "Architecture souveraine — quand les outils du marché butent sur votre périmètre." } },
 ];
 
 // ─── 4 FIG rows — Acte I · Why AI stalls

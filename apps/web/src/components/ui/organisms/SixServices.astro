@@ -35,8 +35,12 @@ const lang = langFromPath(Astro.url.pathname);
     <div class="six-grid reveal-stagger">
       {SIX_SERVICES.map((s) => (
         <article class="six-cell">
-          <span class="fig" style="color:var(--ink)">FIG 2.{s.k}</span>
+          <header class="six-cell-head">
+            <span class="six-cell-fig">FIG 2.{s.k}</span>
+            <span class="six-cell-metric">{t(s.metric, lang)}</span>
+          </header>
           <h3 class="six-cell-title">{t(s.label, lang)}</h3>
+          <span class="six-cell-rule" aria-hidden="true"></span>
           <p class="six-cell-body">{t(s.body, lang)}</p>
           <span class="six-cell-arr" aria-hidden>→</span>
         </article>
@@ -53,13 +57,25 @@ const lang = langFromPath(Astro.url.pathname);
   .six-h2 i{font-style:italic;color:var(--accent)}
 
   .six-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--hairline-strong)}
-  .six-cell{padding:clamp(28px,3vw,40px) clamp(22px,2.6vw,32px) clamp(36px,4vw,44px);border-right:1px solid var(--hairline);border-bottom:1px solid var(--hairline);min-height:280px;position:relative;transition:background 320ms var(--ease), border-color 300ms var(--ease), transform 300ms var(--ease)}
+  .six-cell{padding:clamp(28px,3vw,40px) clamp(22px,2.6vw,32px) clamp(40px,4.5vw,52px);border-right:1px solid var(--hairline);border-bottom:1px solid var(--hairline);min-height:300px;position:relative;transition:background 320ms var(--ease), border-color 300ms var(--ease), transform 300ms var(--ease)}
   .six-cell:hover{background:rgba(201,79,46,0.04);border-color:var(--accent);transform:translateY(-1px)}
   .six-cell:nth-child(3n){border-right:none}
   .six-cell:nth-child(n+4){border-bottom:none}
-  .six-cell-title{font-family:var(--font-display);font-size:clamp(28px,3vw,40px);line-height:1;letter-spacing:-0.02em;margin-top:16px;font-weight:400;text-wrap:balance}
+
+  /* Header row · FIG kicker (mono ink) + metric (mono accent terracotta) */
+  .six-cell-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .six-cell-fig{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;color:var(--ink);text-transform:uppercase}
+  .six-cell-metric{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;text-align:right;text-wrap:nowrap}
+
+  .six-cell-title{font-family:var(--font-display);font-size:clamp(28px,3vw,40px);line-height:1.02;letter-spacing:-0.02em;margin:20px 0 0;font-weight:400;text-wrap:balance;color:var(--ink)}
+
+  /* Hairline accent · structurant sous le titre · expands on hover */
+  .six-cell-rule{display:block;width:32px;height:1px;background:var(--accent);margin:16px 0 0;transition:width 320ms var(--ease)}
+  .six-cell:hover .six-cell-rule{width:60px}
+
   .six-cell-body{margin-top:14px;font-family:var(--font-sans);font-size:14px;line-height:1.55;color:var(--muted);max-width:380px;text-wrap:pretty}
-  .six-cell-arr{position:absolute;bottom:18px;right:22px;font-family:var(--font-mono);font-size:13px;color:var(--accent)}
+  .six-cell-arr{position:absolute;bottom:18px;right:22px;font-family:var(--font-mono);font-size:13px;color:var(--accent);transition:transform 320ms var(--ease)}
+  .six-cell:hover .six-cell-arr{transform:translateX(4px)}
 
   @media (max-width:900px){
     .six-grid{grid-template-columns:repeat(2,1fr)}
