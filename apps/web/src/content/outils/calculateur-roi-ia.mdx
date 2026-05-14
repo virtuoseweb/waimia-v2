@@ -1,0 +1,63 @@
+---
+title_fr: "Calculateur ROI IA"
+title_en: "AI ROI Calculator"
+description_fr: "Estimez le retour sur investissement d'un déploiement IA dans votre PME B2B en renseignant vos données opérationnelles clés."
+description_en: "Estimate the return on investment of an AI deployment in your B2B SMB by entering your key operational data."
+slug: "calculateur-roi-ia"
+publishedAt: 2026-05-14
+type: "calculator"
+inputs:
+  - key: "heuresTaches"
+    label_fr: "Heures par semaine sur tâches répétitives"
+    label_en: "Hours per week on repetitive tasks"
+    type: "number"
+    unit: "h/sem"
+    defaultValue: 20
+    min: 1
+    max: 200
+  - key: "tauxHoraire"
+    label_fr: "Coût horaire moyen (chargé)"
+    label_en: "Average hourly cost (fully loaded)"
+    type: "currency"
+    unit: "€/h"
+    defaultValue: 50
+    min: 20
+    max: 300
+  - key: "gainAutomation"
+    label_fr: "Gain d'automatisation estimé"
+    label_en: "Estimated automation gain"
+    type: "select"
+    defaultValue: "0.5"
+    options:
+      - value: "0.3"
+        label_fr: "30 % — Tâches partiellement structurées"
+        label_en: "30% — Partially structured tasks"
+      - value: "0.5"
+        label_fr: "50 % — Tâches majoritairement structurées"
+        label_en: "50% — Mostly structured tasks"
+      - value: "0.7"
+        label_fr: "70 % — Tâches très structurées"
+        label_en: "70% — Highly structured tasks"
+outputs:
+  - key: "economieAnnuelle"
+    formula: "heuresTaches * tauxHoraire * gainAutomation * 52"
+    label_fr: "Économie annuelle estimée"
+    label_en: "Estimated annual savings"
+    unit: "€"
+    format: "currency-eur"
+captureEmail: false
+apiSlug: "calculateur-roi-ia"
+relatedPages: []
+category_fr: "Productivité"
+category_en: "Productivity"
+---
+
+## Comment utiliser ce calculateur
+
+Renseignez le nombre d'heures hebdomadaires consacrées à des tâches répétitives (saisie de données, qualification de leads, résumés d'emails), votre coût horaire moyen et le niveau d'automatisation atteignable.
+
+Le calculateur estime l'économie annuelle potentielle d'un déploiement IA ciblé sur ces tâches.
+
+## Limites
+
+Cette estimation est indicative. Le ROI réel dépend du périmètre de déploiement, des coûts de mise en œuvre et du temps d'adoption par les équipes.
