@@ -242,10 +242,12 @@ const cardTransitionId = transitionSlug ?? pageTransitionId;
   :global(.case-num) { display: block; margin-bottom: var(--space-5); }
   .case-h1 {
     font-family: var(--font-display);
-    font-size: clamp(56px, 11vw, 180px);
-    line-height: 0.88;
-    letter-spacing: -0.035em;
+    font-size: clamp(44px, 8vw, 128px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
     text-wrap: balance;
+    overflow-wrap: break-word;
+    hyphens: auto;
     font-weight: 400;
     margin: 0 0 48px;
   }

@@ -500,9 +500,9 @@ export const CLIENT_LOGOS = [
 
 // ─── HOMEPAGE · core content
 export const HERO_METRICS = [
-  { k: '01', n: '12h/sem', label: { en: 'reclaimed per team weekly', fr: 'récupérées par équipe en moyenne' } },
+  { k: '01', n: '12h/sem', label: { en: 'saved per team / week', fr: 'économisées par équipe / semaine' } },
   { k: '02', n: '23', label: { en: 'workflows automated on average', fr: 'workflows automatisés en moyenne' } },
-  { k: '03', n: '+€840K', label: { en: 'pipeline reactivated · median', fr: 'pipeline relancé · médiane' } },
+  { k: '03', n: '+€840K', label: { en: 'pipeline reactivated · median clients', fr: 'pipeline récupéré · médiane clients' } },
   { k: '04', n: '3,4×', label: { en: 'measured ROI at 12 months', fr: 'ROI mesuré à 12 mois' } },
 ];
 
@@ -511,7 +511,7 @@ export const PYRAMID_TIERS = [
     n: 'I',
     tag: { en: 'ACTIVATION', fr: 'ACTIVATION' },
     label: { en: 'Fast activation', fr: 'Activation rapide' },
-    lead: { en: 'One week to identify the lever, train the team, and ship the first quick win.', fr: "Une semaine pour identifier le levier, former l'équipe et livrer un premier gain mesurable." },
+    lead: { en: 'One week to identify the lever, train the team, and ship the first workflow in production.', fr: "Une semaine pour identifier le levier, former l'équipe et livrer un premier workflow en production." },
     items: ['Audit process · 5j', 'Formation équipe · 1 sem', 'Gain rapide Excel'],
     href: '/offres#tier-1',
   },
