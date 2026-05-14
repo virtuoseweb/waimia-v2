@@ -52,7 +52,7 @@ const roles = [
   <Fragment slot="body">
     <div class="careers-wrap">
       <Kicker tone="accent" class="careers-section-k">§ Rôles ouverts · Q3 2026</Kicker>
-      <ol class="careers-list">
+      <ol class="careers-list reveal-stagger">
         {roles.map((r) => (
           <li class="careers-row">
             <div class="careers-meta">
@@ -69,7 +69,7 @@ const roles = [
         ))}
       </ol>
 
-      <div class="careers-foot">
+      <div class="careers-foot reveal">
         <Kicker tone="accent" class="careers-section-k">§ Pas de rôle qui matche ?</Kicker>
         <p>Écrivez quand même à <a href="mailto:bonjour@waimia.com">bonjour@waimia.com</a>. Si votre CV est intéressant, on créera le rôle. Pas la peine d'attendre une offre qui colle pile poil.</p>
       </div>
@@ -114,7 +114,7 @@ const roles = [
     text-wrap: balance;
   }
   .careers-summary {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: 17px;
     line-height: 1.55;
     color: var(--muted);
@@ -140,14 +140,14 @@ const roles = [
     max-width: 720px;
   }
   .careers-foot p {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: 17px;
     line-height: 1.55;
     color: var(--ink-2);
     margin: 0;
   }
   .careers-foot a {
-    color: var(--accent);
+    color: var(--ink);
     border-bottom: 1px solid currentColor;
   }
 </style>

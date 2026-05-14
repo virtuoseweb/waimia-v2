@@ -80,7 +80,7 @@ const livresBlancsCards = [
   <section class="hub-mast">
     <div class="wrap-wide">
       <Kicker class="hub-kicker">§ Hub · Ressources</Kicker>
-      <h1 class="hub-h1 reveal">Tout ce qu'on <i>publie</i>.</h1>
+      <h1 class="hub-h1 reveal-mask-up">Tout ce qu'on <i>publie</i>.</h1>
       <p class="hub-lede">
         Cas mesurables, notes de terrain, cookbooks de méthodes, calculateurs gratuits. Pas de pensum SEO. Tout est relu, signé, et NDA-protected quand pertinent.
       </p>
@@ -104,7 +104,7 @@ const livresBlancsCards = [
       <p class="hub-cd-lead">
         Pas de témoignages publicitaires — chaque cas est lu, validé et signé par le client. Quatre clients externes plus notre blueprint interne.
       </p>
-      <ol class="hub-cd-list">
+      <ol class="hub-cd-list reveal-stagger">
         {caseCards.map((c) => (
           <li class="hub-cd-row">
             <a class="hub-cd-link" href={c.href}>
@@ -136,7 +136,7 @@ const livresBlancsCards = [
 
   {/* BLOG + LIVRES BLANCS · pages détaillées */}
   <section class="hub-blog-lb">
-    <div class="wrap-wide hub-blog-lb-grid">
+    <div class="wrap-wide hub-blog-lb-grid reveal-stagger">
       <div>
         <Kicker tone="accent" class="hub-blog-k">§ Blog · notes longues</Kicker>
         <h2 class="hub-blog-h2">Une <i>note</i> à la fois.</h2>
@@ -197,8 +197,7 @@ const livresBlancsCards = [
   }
   .hub-h1 :global(i) { font-style: italic; color: var(--accent); }
   .hub-lede {
-    font-family: var(--font-display);
-    font-style: italic;
+    font-family: var(--font-sans);
     font-size: clamp(20px, 2.2vw, 28px);
     color: var(--ink-2);
     margin: 32px 0 0;
@@ -239,7 +238,7 @@ const livresBlancsCards = [
   }
   .hub-cd-h2 :global(i) { font-style: italic; color: var(--accent); }
   .hub-cd-lead {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: clamp(17px, 1.8vw, 22px);
     color: var(--muted);
     max-width: 760px;
@@ -327,7 +326,7 @@ const livresBlancsCards = [
   .hub-lb-h2 :global(i) { font-style: italic; color: var(--accent); }
   .hub-blog-lead,
   .hub-lb-lead {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: clamp(15px, 1.6vw, 18px);
     color: var(--muted);
     margin: 0 0 28px;
@@ -371,7 +370,7 @@ const livresBlancsCards = [
     padding: 14px 18px;
     background: rgba(246, 241, 232, 0.08);
     border: 1px solid rgba(246, 241, 232, 0.2);
-    border-radius: 6px;
+    border-radius: 2px;
     color: var(--paper);
     font-family: var(--font-display);
     font-size: 16px;

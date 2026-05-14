@@ -1,0 +1,379 @@
+---
+export const prerender = true;
+import Base from '../../layouts/Base.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+import CtaBand from '../../components/ui/organisms/CtaBand.astro';
+---
+<Base
+  title="Services B2B · IA sur mesure · Waimia"
+  description="Waimia automatise le pipeline, le contenu et le reporting des cabinets, agences et prestataires B2B."
+>
+  <section class="mast">
+    <div class="wrap-wide">
+      <Kicker>SECTEUR · 01 / B2B Services</Kicker>
+      <h1 class="mast-h1 reveal">Pipeline <i>structuré</i>.<br>Contenu <i>visible</i>.</h1>
+      <p class="mast-lede">
+        De la prospection à la signature. L'IA structure votre pipeline,
+        automatise votre contenu et documente vos cycles de vente.
+      </p>
+      <svg class="sector-svg-sig" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="40" cy="60" r="18" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="160" cy="60" r="18" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="58" y1="60" x2="142" y2="60" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M80 95 Q100 115 120 95" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <polyline points="116,90 120,95 116,100" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+        <rect x="85" y="15" width="30" height="36" stroke="currentColor" stroke-width="1"/>
+        <line x1="91" y1="25" x2="109" y2="25" stroke="currentColor" stroke-width="0.8"/>
+        <line x1="91" y1="31" x2="109" y2="31" stroke="currentColor" stroke-width="0.8"/>
+        <line x1="91" y1="37" x2="103" y2="37" stroke="currentColor" stroke-width="0.8"/>
+      </svg>
+      <a href="/secteurs" class="back-link">← Tous les secteurs</a>
+    </div>
+  </section>
+
+  <section class="problems-section">
+    <div class="wrap-wide">
+      <div class="section-header">
+        <Kicker>PROBLÈMES SECTORIELS / Pain Points</Kicker>
+        <h2 class="section-h2">Ce qui freine <i>concrètement</i>.</h2>
+      </div>
+      <div class="problems-grid">
+        <div class="problem-item">
+          <p class="problem-num">01</p>
+          <span class="problem-en">Fragile pipeline</span>
+          <h3 class="problem-title">Pipeline fragile</h3>
+          <p class="problem-desc">2 commerciaux senior, aucun CRM structuré, deals perdus sans trace. Si l'un part, tout part.</p>
+        </div>
+        <div class="problem-item">
+          <p class="problem-num">02</p>
+          <span class="problem-en">Invisible content</span>
+          <h3 class="problem-title">Contenu invisible</h3>
+          <p class="problem-desc">Blog mort, LinkedIn sporadique, aucun système de publication. La visibilité dépend d'une personne.</p>
+        </div>
+        <div class="problem-item">
+          <p class="problem-num">03</p>
+          <span class="problem-en">Manual reporting</span>
+          <h3 class="problem-title">Reporting bricolé</h3>
+          <p class="problem-desc">Excel hebdo, données incohérentes, direction sans visibilité réelle. Les décisions se prennent à l'instinct.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="solutions-section">
+    <div class="wrap-wide">
+      <div class="section-header">
+        <Kicker>MODULES WAIMIA / AI Solutions</Kicker>
+        <h2 class="section-h2">L'IA qui <i>structure</i> et publie.</h2>
+      </div>
+      <div class="solutions-grid">
+        <div class="solution-item">
+          <h3 class="solution-name">Agent CRM & Pipeline</h3>
+          <p class="solution-desc">Qualification leads automatique, scoring probabiliste, alertes relance. Votre pipe tient sans intervention manuelle.</p>
+        </div>
+        <div class="solution-item">
+          <h3 class="solution-name">Agent Contenu B2B</h3>
+          <p class="solution-desc">Génération articles, posts LinkedIn, études de cas. Calendrier tenu à jour automatiquement. Visibilité durable.</p>
+        </div>
+        <div class="solution-item">
+          <h3 class="solution-name">Agent Reporting</h3>
+          <p class="solution-desc">Dashboard temps réel CA/pipeline/activité, exports PDF hebdo, KPIs automatisés. Direction informée chaque lundi matin.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="metrics-section">
+    <div class="wrap-wide">
+      <div class="section-header">
+        <Kicker>RÉSULTATS / Outcomes</Kicker>
+        <h2 class="section-h2">Chiffres <i>réels</i>. Clients réels.</h2>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-item">
+          <span class="metric-val reveal-zoom">+34%</span>
+          <span class="metric-unit">Taux de conversion</span>
+          <p class="metric-desc">Médiane d'amélioration taux conversion pipeline sur 6 mois clients actifs.</p>
+        </div>
+        <div class="metric-item">
+          <span class="metric-val reveal-zoom">×12</span>
+          <span class="metric-unit">Fréquence publication</span>
+          <p class="metric-desc">Fréquence publication contenu avant / après déploiement Waimia.</p>
+        </div>
+        <div class="metric-item">
+          <span class="metric-val reveal-zoom">−8h</span>
+          <span class="metric-unit">Reporting direction</span>
+          <p class="metric-desc">Temps hebdomadaire économisé sur la préparation reporting direction.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="citation-section">
+    <div class="wrap-wide">
+      <blockquote class="citation-text">
+        « Notre pipeline existait dans la tête de 2 personnes. Maintenant il tient tout seul et on voit enfin ce qui bloque. »
+      </blockquote>
+      <span class="citation-attr">CEO · Cabinet conseil RH, 45 pers.</span>
+    </div>
+  </section>
+
+  <section class="sector-cta-section">
+    <div class="wrap-wide">
+      <span class="sector-cta-eyebrow">B2B Services · Démarrer</span>
+      <h2 class="sector-cta-h2">Votre pipeline ne tient pas sur 2 personnes. <i>Changeons ça.</i></h2>
+      <a href="/contact" class="cta-btn" data-mag="0.15">Démarrer un échange →</a>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .mast {
+    padding: 140px 32px clamp(44px, 6vw, 84px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .mast-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 10vw, 160px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .mast-h1 i { font-style: italic; color: var(--accent); }
+  .mast-lede {
+    font-family: var(--font-sans);
+    font-size: clamp(18px, 2vw, 24px);
+    color: var(--ink-2);
+    margin: 32px 0 0;
+    max-width: 720px;
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+  .sector-svg-sig {
+    width: 200px;
+    height: auto;
+    margin-top: 48px;
+    color: var(--hairline-strong);
+    opacity: 0.7;
+    display: block;
+  }
+  .back-link {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 40px;
+    text-decoration: none;
+  }
+  .back-link:hover { color: var(--ink); }
+  .section-header { margin-bottom: clamp(32px, 4vw, 48px); }
+  .section-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 3.5vw, 52px);
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    margin: 16px 0 0;
+    max-width: 640px;
+    text-wrap: balance;
+  }
+  .section-h2 i { font-style: italic; }
+  .problems-section {
+    padding: clamp(80px, 10vw, 128px) 32px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .problems-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    margin-top: clamp(40px, 5vw, 56px);
+  }
+  .problem-item {
+    padding: clamp(24px, 2.5vw, 36px);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+  }
+  .problem-num {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 4vw, 64px);
+    font-style: italic;
+    color: var(--ink-2);
+    line-height: 0.9;
+    margin: 0 0 auto;
+  }
+  .problem-en {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 20px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .problem-title {
+    font-family: var(--font-sans);
+    font-size: clamp(18px, 1.8vw, 22px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+  .problem-desc {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0;
+  }
+  .solutions-section {
+    padding: clamp(80px, 10vw, 128px) 32px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .solutions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(32px, 4vw, 64px) clamp(24px, 3vw, 48px);
+    margin-top: clamp(40px, 5vw, 56px);
+  }
+  .solution-name {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.2vw, 30px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  }
+  .solution-desc {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    margin: 0;
+  }
+  .metrics-section {
+    padding: clamp(80px, 10vw, 128px) 32px;
+    background: var(--paper-2);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    margin-top: clamp(40px, 5vw, 56px);
+  }
+  .metric-item {
+    padding: clamp(32px, 3.5vw, 48px) clamp(24px, 2.5vw, 36px);
+    background: var(--paper-2);
+  }
+  .metric-val {
+    font-family: var(--font-display);
+    font-size: clamp(64px, 7vw, 112px);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    display: block;
+  }
+  .metric-unit {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 12px;
+    display: block;
+  }
+  .metric-desc {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+  .citation-section {
+    padding: clamp(80px, 10vw, 120px) 32px;
+    background: var(--paper-2);
+    border-top: 1px solid var(--hairline);
+  }
+  .citation-text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(22px, 2.5vw, 36px);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    max-width: 760px;
+    margin: 0 auto 24px;
+    text-align: center;
+    text-wrap: balance;
+  }
+  .citation-attr {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    display: block;
+  }
+  .sector-cta-section {
+    padding: clamp(80px, 10vw, 120px) 32px;
+    text-align: center;
+  }
+  .sector-cta-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+    display: block;
+  }
+  .sector-cta-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 56px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin: 0 0 40px;
+    text-wrap: balance;
+  }
+  .sector-cta-h2 i { font-style: italic; }
+  .cta-btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 16px 36px;
+    border: 1px solid var(--ink);
+    border-radius: 2px;
+    transition: background 220ms var(--ease), color 220ms var(--ease), border-color 220ms var(--ease);
+    text-decoration: none;
+  }
+  .cta-btn:hover { background: var(--accent); border-color: var(--accent); }
+  @media (max-width: 1024px) {
+    .problems-grid, .solutions-grid, .metrics-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 700px) {
+    .mast { padding-top: 96px; padding-inline: 20px; }
+    .problems-grid, .solutions-grid, .metrics-grid { grid-template-columns: 1fr; }
+    .problems-section, .solutions-section, .metrics-section,
+    .citation-section, .sector-cta-section { padding-inline: 20px; }
+  }
+</style>

@@ -17,6 +17,7 @@ const sectorsLive = [
     num: '01',
     kicker: 'SECTEUR · 01',
     label_fr: 'Services B2B',
+    label_en: 'B2B Services',
     sub_fr: 'Cabinets, conseil, agences, prestataires',
     pains_fr: 'Pipeline qui tient sur 2 commerciaux. Contenu invisible. Reporting bricolé.',
     href: '/secteurs/services-b2b',
@@ -25,6 +26,7 @@ const sectorsLive = [
     num: '02',
     kicker: 'SECTEUR · 02',
     label_fr: 'Industrie & PME industrielles',
+    label_en: 'Industrial SMEs',
     sub_fr: 'ERP connecté, maintenance, qualité',
     pains_fr: 'Données dispersées dans 3 ERPs. Maintenance réactive. Qualité tardive.',
     href: '/secteurs/industrie',
@@ -33,6 +35,7 @@ const sectorsLive = [
     num: '03',
     kicker: 'SECTEUR · 03',
     label_fr: 'Finance & cabinets comptables',
+    label_en: 'Finance & Accounting',
     sub_fr: 'Réconciliation, reporting, conformité',
     pains_fr: 'Excel partout. Clôture en 9 jours. Audit qui dure 3 semaines.',
     href: '/secteurs/finance-compta',
@@ -61,6 +64,26 @@ const sectorsToCome = [
       <p class="hub-canonical">
         Trois secteurs aujourd'hui. D'autres à venir — quand on aura assez de cas pour parler juste.
       </p>
+      <svg class="sector-svg-sig" viewBox="0 0 260 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Finance : balance -->
+        <line x1="35" y1="15" x2="35" y2="75" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="15" y1="30" x2="35" y2="22" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="35" y1="22" x2="55" y2="32" stroke="currentColor" stroke-width="1.5"/>
+        <!-- Séparateur -->
+        <line x1="80" y1="10" x2="80" y2="90" stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 3"/>
+        <!-- Industrie : modules -->
+        <rect x="90" y="30" width="20" height="20" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="110" y1="40" x2="120" y2="40" stroke="currentColor" stroke-width="1.5"/>
+        <rect x="120" y="25" width="24" height="30" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="144" y1="40" x2="154" y2="40" stroke="currentColor" stroke-width="1.5"/>
+        <rect x="154" y="30" width="20" height="20" stroke="currentColor" stroke-width="1.5"/>
+        <!-- Séparateur -->
+        <line x1="188" y1="10" x2="188" y2="90" stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 3"/>
+        <!-- B2B : nœuds -->
+        <circle cx="204" cy="45" r="10" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="248" cy="45" r="10" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="214" y1="45" x2="238" y2="45" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
     </div>
   </section>
 
@@ -69,6 +92,7 @@ const sectorsToCome = [
       <a href={s.href} class="sector-card">
         <div class="sector-num">{s.num}</div>
         <div class="sector-kicker">{s.kicker}</div>
+        <span class="sector-en-label">{s.label_en}</span>
         <h2 class="sector-title">{s.label_fr}</h2>
         <p class="sector-sub">{s.sub_fr}</p>
         <p class="sector-pains">{s.pains_fr}</p>
@@ -121,13 +145,13 @@ const sectorsToCome = [
   .hub-h1 :global(i) { font-style: italic; color: var(--accent); }
 
   .hub-lede {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(20px, 2.2vw, 28px);
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-size: clamp(18px, 2vw, 24px);
     color: var(--ink-2);
     margin: 32px 0 0;
     max-width: 760px;
-    line-height: 1.4;
+    line-height: 1.6;
     text-wrap: pretty;
   }
   .hub-canonical {
@@ -136,6 +160,15 @@ const sectorsToCome = [
     color: var(--muted);
     font-size: 15px;
     line-height: 1.6;
+  }
+
+  .sector-svg-sig {
+    width: 180px;
+    height: auto;
+    margin-top: 48px;
+    color: var(--hairline-strong);
+    opacity: 0.7;
+    display: block;
   }
 
   /* ── Grille secteurs live ── */
@@ -168,7 +201,7 @@ const sectorsToCome = [
     font-family: var(--font-display);
     font-size: clamp(42px, 4.5vw, 72px);
     line-height: 0.9;
-    color: var(--accent);
+    color: var(--ink-2);
     font-style: italic;
     margin-bottom: auto;
   }
@@ -180,6 +213,15 @@ const sectorsToCome = [
     color: var(--accent);
     margin-top: 24px;
   }
+  .sector-en-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    display: block;
+  }
   .sector-title {
     font-family: var(--font-display);
     font-size: clamp(27px, 3vw, 42px);
@@ -190,10 +232,9 @@ const sectorsToCome = [
     text-wrap: balance;
   }
   .sector-sub {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 17px;
-    line-height: 1.3;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
     color: var(--ink-2);
     margin: 0 0 18px;
   }
@@ -244,7 +285,7 @@ const sectorsToCome = [
     color: var(--muted);
     border: 1px solid var(--hairline-strong);
     padding: 8px 18px;
-    border-radius: 999px;
+    border-radius: 2px;
   }
 
   /* ── CTA bande ── */

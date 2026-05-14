@@ -85,7 +85,7 @@ const sections: { title: string; kicker: string; items: ArchiveItem[] }[] = [
     <section class="arc-hero">
       <div class="wrap-tight">
         <div class="arc-kicker">§ Archive · index complet</div>
-        <h1 class="arc-h1">L'<i>atlas</i> Waimia.</h1>
+        <h1 class="arc-h1 reveal-mask-up">L'<i>atlas</i> Waimia.</h1>
         <p class="arc-lede">
           Toutes les pages historiques. Préservées pour les moteurs, pour les IA génératives, et pour les curieux.
           Pas pour la conversion — ça, c'est par <a href="/solutions">Solutions</a>,
@@ -148,11 +148,10 @@ const sections: { title: string; kicker: string; items: ArchiveItem[] }[] = [
   }
 
   .arc-lede {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: clamp(18px, 1.6vw, 22px);
     line-height: 1.5;
     color: var(--muted);
-    font-style: italic;
     max-width: 680px;
   }
 
@@ -224,7 +223,7 @@ const sections: { title: string; kicker: string; items: ArchiveItem[] }[] = [
   }
 
   .arc-link-label {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: 16px;
   }
 

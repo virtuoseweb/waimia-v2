@@ -30,7 +30,7 @@ const lang = langFromPath(Astro.url.pathname);
         <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent)"></span>
         <span>{lang === 'fr' ? 'Vol. 03 — Atlas (test direction 3)' : 'Vol. 03 — Atlas (direction 3 test)'}</span>
       </div>
-      <h1 class="hero-atlas-title">
+      <h1 class="hero-atlas-title reveal-mask-up">
         {lang === 'fr' ? (
           <>Une <i>cartographie</i><br />pour les pressés.</>
         ) : (
@@ -73,5 +73,5 @@ const lang = langFromPath(Astro.url.pathname);
   .hero-atlas .kick{display:flex;align-items:center;gap:12px;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:32px}
   .hero-atlas-title{font-family:var(--font-display);font-size:clamp(56px,11vw,180px);line-height:.92;letter-spacing:-0.03em;font-weight:400;text-wrap:balance}
   .hero-atlas-title i{font-style:italic;color:var(--accent)}
-  .hero-atlas-lead{font-family:var(--font-display);font-style:italic;font-size:clamp(20px,2.2vw,32px);color:var(--ink-2);margin-top:32px;max-width:760px;line-height:1.4;text-wrap:pretty}
+  .hero-atlas-lead{font-family:var(--font-sans);font-size:clamp(20px,2.2vw,32px);color:var(--ink-2);margin-top:32px;max-width:760px;line-height:1.4;text-wrap:pretty}
 </style>

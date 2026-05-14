@@ -58,7 +58,7 @@ const months = Object.keys(byMonth).sort().reverse();
   </Fragment>
 
   <Fragment slot="list">
-    <div class="cl-timeline">
+    <div class="cl-timeline reveal-stagger">
       {months.map((month) => (
         <div class="cl-month">
           <Kicker class="cl-month-k">{month}</Kicker>
@@ -91,7 +91,7 @@ const months = Object.keys(byMonth).sort().reverse();
   .cl-meta { display: flex; flex-wrap: wrap; gap: 14px; align-items: baseline; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; }
   .cl-date { color: var(--muted); }
   .cl-tag { color: var(--accent); letter-spacing: 0.14em; }
-  .cl-version { color: var(--ink); padding: 2px 8px; background: var(--paper-2); border-radius: 4px; }
+  .cl-version { color: var(--ink); padding: 2px 8px; background: var(--paper-2); border-radius: 2px; }
   .cl-title { font-family: var(--font-display); font-size: clamp(22px, 2.4vw, 32px); line-height: 1.1; letter-spacing: -0.018em; font-weight: 400; margin: 0; text-wrap: balance; }
   .cl-body { font-size: 15px; line-height: 1.55; color: var(--muted); text-wrap: pretty; max-width: 720px; margin: 0; }
   @media (max-width: 700px) {

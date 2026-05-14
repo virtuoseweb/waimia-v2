@@ -23,7 +23,7 @@ const lang = langFromPath(Astro.url.pathname);
   <main class="err">
     <div class="wrap-wide err-wrap">
       <Kicker class="err-code">{lang === 'fr' ? '§ Erreur 404 · page introuvable' : '§ Error 404 · not found'}</Kicker>
-      <h1 class="err-h1">
+      <h1 class="err-h1 reveal-mask-up">
         {lang === 'fr' ? (<>Cette <i>page</i><br />n'existe pas (encore).</>) : (<>This <i>page</i><br />doesn't exist (yet).</>)}
       </h1>
       <p class="err-lede">
@@ -71,8 +71,7 @@ const lang = langFromPath(Astro.url.pathname);
   }
   .err-h1 :global(i) { font-style: italic; color: var(--accent); }
   .err-lede {
-    font-family: var(--font-display);
-    font-style: italic;
+    font-family: var(--font-sans);
     font-size: clamp(20px, 2.2vw, 28px);
     color: var(--ink-2);
     margin: 0 0 clamp(48px, 5vw, 72px);
@@ -101,7 +100,7 @@ const lang = langFromPath(Astro.url.pathname);
   .err-paths li:hover { background: var(--paper-2); }
   :global(.err-path-k) { display: block; }
   .err-path-link {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: clamp(20px, 2.2vw, 28px);
     line-height: 1.1;
     letter-spacing: -0.02em;

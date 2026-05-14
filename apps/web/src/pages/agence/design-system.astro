@@ -25,7 +25,7 @@ import SectionHeader from '../../components/ui/molecules/SectionHeader.astro';
   description="Showcase des composants Waimia. Atomic Design 5 niveaux : atoms, molecules, organisms, templates, pages."
   noindex
 >
-  <section class="ds-hd">
+  <section class="ds-hd reveal">
     <div class="wrap-wide">
       <Kicker class="ds-kicker">§ Design System · Atomic Design 5 niveaux</Kicker>
       <h1 class="ds-h1">Showcase des <i>composants</i>.</h1>
@@ -37,7 +37,7 @@ import SectionHeader from '../../components/ui/molecules/SectionHeader.astro';
 
   <div class="wrap-wide ds-body">
     {/* ATOMS */}
-    <section class="ds-section">
+    <section class="ds-section reveal">
       <ChapterLabel num="ATOMS · 01" title="Briques minimales" />
 
       <div class="ds-block">
@@ -98,7 +98,7 @@ import SectionHeader from '../../components/ui/molecules/SectionHeader.astro';
     </section>
 
     {/* MOLECULES */}
-    <section class="ds-section">
+    <section class="ds-section reveal">
       <ChapterLabel num="MOLECULES · 02" title="Compositions fonctionnelles" />
 
       <div class="ds-block">
@@ -140,7 +140,7 @@ import SectionHeader from '../../components/ui/molecules/SectionHeader.astro';
     </section>
 
     {/* TEMPLATES */}
-    <section class="ds-section">
+    <section class="ds-section reveal">
       <ChapterLabel num="TEMPLATES · 03" title="Squelettes de page" />
       <p class="ds-foot">
         8 templates dans <code>src/components/templates/</code> :
@@ -153,7 +153,7 @@ import SectionHeader from '../../components/ui/molecules/SectionHeader.astro';
     </section>
 
     {/* COLOR TOKENS */}
-    <section class="ds-section">
+    <section class="ds-section reveal">
       <ChapterLabel num="TOKENS · 04" title="Couleurs & typographie" />
       <div class="ds-tokens-grid">
         <div class="ds-token"><span class="ds-swatch" style="background:var(--paper)"></span><code>--paper</code> · #F6F1E8</div>
@@ -185,8 +185,7 @@ import SectionHeader from '../../components/ui/molecules/SectionHeader.astro';
   }
   .ds-h1 i { font-style: italic; color: var(--accent); }
   .ds-lede {
-    font-family: var(--font-display);
-    font-style: italic;
+    font-family: var(--font-sans);
     font-size: clamp(20px, 2.2vw, 28px);
     color: var(--ink-2);
     margin: 32px 0 0;
@@ -207,7 +206,7 @@ import SectionHeader from '../../components/ui/molecules/SectionHeader.astro';
   }
   .ds-row { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
 
-  .ds-foot { font-family: var(--font-display); font-size: 17px; line-height: 1.6; color: var(--ink-2); max-width: 800px; }
+  .ds-foot { font-family: var(--font-sans); font-size: 17px; line-height: 1.6; color: var(--ink-2); max-width: 800px; }
   .ds-foot a { color: var(--accent); border-bottom: 1px solid currentColor; }
   .ds-foot strong { font-weight: 600; }
   .ds-foot code, .ds-tokens-grid code { font-family: var(--font-mono); font-size: 13px; background: var(--paper-2); padding: 2px 6px; border-radius: 4px; }

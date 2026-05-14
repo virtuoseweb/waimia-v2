@@ -39,17 +39,17 @@ import TechnologiesDetailTemplate from '../../components/templates/TechnologiesD
     Claude est le seul modèle frontier conçu avec la <em>sécurité comme contrainte de design</em> — pas comme patch après coup.
   </Fragment>
   <Fragment slot="positioning-facts">
-    <div class="fact">
+    <div class="fact reveal-zoom-in" style="transition-delay:0ms">
       <span class="fact-k">Contexte</span>
       <span class="fact-v">200K tokens</span>
       <span class="fact-l">fenêtre de contexte sur Claude Sonnet 4</span>
     </div>
-    <div class="fact">
+    <div class="fact reveal-zoom-in" style="transition-delay:80ms">
       <span class="fact-k">Instructions suivies</span>
       <span class="fact-v">99.2%</span>
       <span class="fact-l">sur les benchmarks d'instruction following</span>
     </div>
-    <div class="fact">
+    <div class="fact reveal-zoom-in" style="transition-delay:160ms">
       <span class="fact-k">Données non retenues</span>
       <span class="fact-v">API</span>
       <span class="fact-l">Anthropic ne retient pas les données via API</span>
@@ -61,41 +61,43 @@ import TechnologiesDetailTemplate from '../../components/templates/TechnologiesD
     Six capacités fondamentales qui distinguent Claude pour le contexte enterprise — chacune mesurable, documentée, contractualisable.
   </Fragment>
   <Fragment slot="capabilities">
-    <div class="cap-card">
-      <div class="cap-ck">Raisonnement</div>
-      <h3>Raisonnement long et complexe</h3>
-      <p>Chaînes de pensée structurées sur problèmes multi-étapes — analyse, hypothèses, contre-arguments, synthèse.</p>
-      <div class="cap-v">200K ctx</div>
-    </div>
-    <div class="cap-card">
-      <div class="cap-ck">Instructions</div>
-      <h3>Suivi d'instructions précis</h3>
-      <p>Respect strict des contraintes formelles — formats, ton, règles métier, garde-fous opérationnels.</p>
-      <div class="cap-v">99.2%</div>
-    </div>
-    <div class="cap-card">
-      <div class="cap-ck">Sécurité</div>
-      <h3>Constitutional AI natif</h3>
-      <p>Alignement par principes intégrés au training — refus contextuels, transparence, traçabilité des décisions.</p>
-      <div class="cap-v">CAI</div>
-    </div>
-    <div class="cap-card">
-      <div class="cap-ck">Multimodal</div>
-      <h3>Vision PDF texte code</h3>
-      <p>Analyse documents complexes, schémas, captures, code source — sans pipeline OCR séparé à maintenir.</p>
-      <div class="cap-v">Native</div>
-    </div>
-    <div class="cap-card">
-      <div class="cap-ck">Artifacts</div>
-      <h3>Génération artefacts structurés</h3>
-      <p>Sorties typées exploitables — JSON Schema, code, documents — directement intégrables dans vos workflows.</p>
-      <div class="cap-v">Native</div>
-    </div>
-    <div class="cap-card">
-      <div class="cap-ck">Gouvernance</div>
-      <h3>Politique d'utilisation claire</h3>
-      <p>DPA disponible, résidence Europe possible, responsabilité contractuelle Anthropic — pas de zone grise juridique.</p>
-      <div class="cap-v">DPA</div>
+    <div class="reveal-stagger" style="display:contents">
+      <div class="cap-card">
+        <div class="cap-ck">Raisonnement</div>
+        <h3>Raisonnement long et complexe</h3>
+        <p>Chaînes de pensée structurées sur problèmes multi-étapes — analyse, hypothèses, contre-arguments, synthèse.</p>
+        <div class="cap-v">200K ctx</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-ck">Instructions</div>
+        <h3>Suivi d'instructions précis</h3>
+        <p>Respect strict des contraintes formelles — formats, ton, règles métier, garde-fous opérationnels.</p>
+        <div class="cap-v">99.2%</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-ck">Sécurité</div>
+        <h3>Constitutional AI natif</h3>
+        <p>Alignement par principes intégrés au training — refus contextuels, transparence, traçabilité des décisions.</p>
+        <div class="cap-v">CAI</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-ck">Multimodal</div>
+        <h3>Vision PDF texte code</h3>
+        <p>Analyse documents complexes, schémas, captures, code source — sans pipeline OCR séparé à maintenir.</p>
+        <div class="cap-v">Native</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-ck">Artifacts</div>
+        <h3>Génération artefacts structurés</h3>
+        <p>Sorties typées exploitables — JSON Schema, code, documents — directement intégrables dans vos workflows.</p>
+        <div class="cap-v">Native</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-ck">Gouvernance</div>
+        <h3>Politique d'utilisation claire</h3>
+        <p>DPA disponible, résidence Europe possible, responsabilité contractuelle Anthropic — pas de zone grise juridique.</p>
+        <div class="cap-v">DPA</div>
+      </div>
     </div>
   </Fragment>
 
@@ -154,29 +156,43 @@ import TechnologiesDetailTemplate from '../../components/templates/TechnologiesD
   {/* ── Integration Flow 5 nodes ── */}
   <Fragment slot="integration-aside">
     Position de la couche Modèles dans la stack Waimia — Claude est le moteur de raisonnement, alimenté par les données et orchestré par les couches supérieures.
+    <svg class="reveal" viewBox="0 0 300 290" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:block;width:100%;max-width:260px;height:auto;margin:24px 0 0">
+      <line x1="40" y1="30" x2="40" y2="270" stroke="rgba(12,11,9,0.09)" stroke-width="1"/>
+      <circle cx="40" cy="30" r="10" stroke="#6B6560" stroke-width="1" fill="#EFE9DD"/>
+      <text x="62" y="34" font-family="'Inter Tight',sans-serif" font-size="11" fill="#6B6560">Données · MCP</text>
+      <circle cx="40" cy="90" r="14" stroke="#C94F2E" stroke-width="1.5" fill="#EFE9DD"/>
+      <text x="66" y="87" font-family="'Inter Tight',sans-serif" font-size="12" fill="#0C0B09" font-weight="600">Claude</text>
+      <text x="66" y="101" font-family="'JetBrains Mono',monospace" font-size="9" fill="#C94F2E" letter-spacing="0.08em">MODÈLES</text>
+      <circle cx="40" cy="155" r="10" stroke="#6B6560" stroke-width="1" fill="#EFE9DD"/>
+      <text x="62" y="159" font-family="'Inter Tight',sans-serif" font-size="11" fill="#6B6560">Orchestration</text>
+      <circle cx="40" cy="210" r="10" stroke="#6B6560" stroke-width="1" fill="#EFE9DD"/>
+      <text x="62" y="214" font-family="'Inter Tight',sans-serif" font-size="11" fill="#6B6560">Interface</text>
+      <circle cx="40" cy="265" r="10" stroke="#6B6560" stroke-width="1" fill="#EFE9DD"/>
+      <text x="62" y="269" font-family="'Inter Tight',sans-serif" font-size="11" fill="#6B6560">Observation</text>
+    </svg>
   </Fragment>
   <Fragment slot="integration-nodes">
-    <div class="flow-node">
+    <div class="flow-node reveal" style="transition-delay:0ms">
       <span class="flow-layer">01 · Données</span>
       <h3>Connecteurs MCP</h3>
       <p class="flow-body">Sources métier branchées via Model Context Protocol — accès gouverné, audit logs.</p>
     </div>
-    <div class="flow-node flow-node--active">
+    <div class="flow-node flow-node--active reveal" style="transition-delay:60ms">
       <span class="flow-layer">02 · Modèles</span>
       <h3>Claude</h3>
       <p class="flow-body">Haiku · Sonnet · Opus · Code — sélection à la tâche, fallback configurable.</p>
     </div>
-    <div class="flow-node">
+    <div class="flow-node reveal" style="transition-delay:120ms">
       <span class="flow-layer">03 · Orchestration</span>
       <h3>LangGraph</h3>
       <p class="flow-body">Graphes d'agents, état durable, retries et human-in-the-loop natifs.</p>
     </div>
-    <div class="flow-node">
+    <div class="flow-node reveal" style="transition-delay:180ms">
       <span class="flow-layer">04 · Interface</span>
       <h3>Cowork · Skills · API</h3>
       <p class="flow-body">Surfaces de consommation pour équipes et systèmes — pas de fork client lourd.</p>
     </div>
-    <div class="flow-node">
+    <div class="flow-node reveal" style="transition-delay:240ms">
       <span class="flow-layer">05 · Observation</span>
       <h3>LangSmith · Logs</h3>
       <p class="flow-body">Traces, évaluations, coûts par tâche — visibilité opérationnelle complète.</p>

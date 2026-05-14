@@ -62,14 +62,14 @@ const METRICS = [
           <Kicker tone="accent" class="c-platform-tag">
             [platform] · {lang === 'fr' ? "la couche opérationnelle sous chaque intervention" : 'the operating layer under every engagement'}
           </Kicker>
-          <h1 style="font-family:var(--font-display);font-size:clamp(48px,9vw,156px);line-height:.92;letter-spacing:-0.028em;text-wrap:balance;font-weight:400;margin:0">
+          <h1 class="reveal-mask-up" style="font-family:var(--font-display);font-size:clamp(48px,9vw,156px);line-height:.92;letter-spacing:-0.028em;text-wrap:balance;font-weight:400;margin:0">
             {lang === 'fr' ? (
               <>Un <i>système d'exploitation</i><br />pour les opérations revenue.</>
             ) : (
               <>An <i>operating system</i><br />for revenue ops.</>
             )}
           </h1>
-          <p style="margin-top:32px;font-size:clamp(15px,1.4vw,17px);line-height:1.55;color:var(--muted);max-width:540px;font-family:var(--font-display)">
+          <p style="margin-top:32px;font-size:clamp(15px,1.4vw,17px);line-height:1.55;color:var(--muted);max-width:540px;font-family:var(--font-sans)">
             {lang === 'fr'
               ? "Waimia livre VirtuoseOS comme substrat sous ses interventions — kernel, agents, audit. Vous gardez la plateforme quand on part."
               : 'Waimia ships VirtuoseOS as the substrate under its engagements — kernel, agents, audit. You keep the platform when we leave.'}
@@ -130,7 +130,7 @@ const METRICS = [
           {OBS.map((r, i) => (
             <div class="reveal" style={`padding:28px 24px;border-right:${i % 2 === 0 ? '1px solid var(--hairline)' : 'none'};border-bottom:${i < 2 ? '1px solid var(--hairline)' : 'none'}`}>
               <Kicker tone="accent">{r.tag}</Kicker>
-              <div style="font-family:var(--font-display);font-size:clamp(20px,2vw,26px);line-height:1.18;margin-top:10px;letter-spacing:-0.01em">
+              <div style="font-family:var(--font-sans);font-size:clamp(20px,2vw,26px);line-height:1.18;margin-top:10px;letter-spacing:-0.01em">
                 {ft(r.text, lang)}
               </div>
             </div>
@@ -156,7 +156,7 @@ const METRICS = [
         {SIX_SERVICES.map((s) => (
           <a href={flh('/contact', lang)} class="u-edit-tbl-row">
             <span style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">{s.k}</span>
-            <span style="font-family:var(--font-display);font-size:clamp(20px,2vw,24px);line-height:1;letter-spacing:-0.01em">{ft(s.label, lang)}</span>
+            <span style="font-family:var(--font-sans);font-size:clamp(20px,2vw,24px);line-height:1;letter-spacing:-0.01em">{ft(s.label, lang)}</span>
             <span style="font-size:13.5px;color:var(--muted);line-height:1.45;padding-right:20px">{ft(s.body, lang)}</span>
             <span style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.1em;text-align:right">◉ active</span>
           </a>
@@ -211,7 +211,7 @@ const METRICS = [
         {CASE_FEED.slice(0, 4).map((c, i) => (
           <a href={flh(`/ressources/cas/${c.slug}`, lang)} class="u-edit-tbl-row">
             <span style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">0{i + 1}</span>
-            <span style="font-family:var(--font-display);font-size:clamp(22px,2vw,26px);line-height:1">{c.client}</span>
+            <span style="font-family:var(--font-sans);font-size:clamp(22px,2vw,26px);line-height:1">{c.client}</span>
             <span style="font-size:13px;color:var(--muted)">{ft(c.sector, lang)}</span>
             <span style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">{c.duration}</span>
             <span style="font-family:var(--font-mono);font-size:12px;color:var(--ink)">{c.stack}</span>

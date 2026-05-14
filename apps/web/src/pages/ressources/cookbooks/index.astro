@@ -46,7 +46,7 @@ const cookbooks = [
   </Fragment>
 
   <Fragment slot="list">
-    <div class="cb-grid">
+    <div class="cb-grid reveal-stagger">
       {cookbooks.map((c) => (
         <a class="cb-card" href={`mailto:bonjour@waimia.com?subject=${encodeURIComponent(c.code + ' · ' + c.title)}`}>
           <div class="cb-meta">

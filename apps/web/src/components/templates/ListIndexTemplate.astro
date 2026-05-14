@@ -29,7 +29,7 @@ const { title, description, kicker } = Astro.props;
   <section class="list-hd">
     <div class="wrap-wide">
       <Kicker class="list-kicker">{kicker}</Kicker>
-      <h1 class="list-h1"><slot name="headline" /></h1>
+      <h1 class="list-h1 reveal-mask-up"><slot name="headline" /></h1>
       <p class="list-lede"><slot name="lede" /></p>
 
       {Astro.slots.has('filters') && (
@@ -67,8 +67,7 @@ const { title, description, kicker } = Astro.props;
   }
   .list-h1 :global(i) { font-style: italic; color: var(--accent); }
   .list-lede {
-    font-family: var(--font-display);
-    font-style: italic;
+    font-family: var(--font-sans);
     font-size: clamp(20px, 2.2vw, 32px);
     color: var(--ink-2);
     margin: 32px 0 0;

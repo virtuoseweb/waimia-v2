@@ -1,0 +1,380 @@
+---
+export const prerender = true;
+import Base from '../../layouts/Base.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+import CtaBand from '../../components/ui/organisms/CtaBand.astro';
+---
+<Base
+  title="Finance & Comptabilité · IA sur mesure · Waimia"
+  description="Waimia déploie l'IA dans les cabinets comptables et services financiers : réconciliation automatique, clôture accélérée, conformité renforcée."
+>
+  <section class="mast">
+    <div class="wrap-wide">
+      <Kicker>SECTEUR · 03 / Finance & Accounting</Kicker>
+      <h1 class="mast-h1 reveal">Clôture <i>accélérée</i>.<br>Conformité <i>tenue</i>.</h1>
+      <p class="mast-lede">
+        Réconciliation automatique, détection d'anomalies et reporting en temps réel.
+        L'IA prend les tâches sans valeur ajoutée. Vos équipes restent sur la réflexion.
+      </p>
+      <svg class="sector-svg-sig" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="100" y1="20" x2="100" y2="90" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="60" y1="40" x2="100" y2="30" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="50" y1="50" x2="70" y2="50" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="100" y1="30" x2="142" y2="44" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="132" y1="54" x2="152" y2="54" stroke="currentColor" stroke-width="1.5"/>
+        <rect x="20" y="70" width="6" height="30" stroke="currentColor" stroke-width="1"/>
+        <rect x="30" y="60" width="6" height="40" stroke="currentColor" stroke-width="1"/>
+        <rect x="40" y="75" width="6" height="25" stroke="currentColor" stroke-width="1"/>
+        <path d="M160 70 Q180 50 165 35 Q145 22 130 35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <polyline points="127,30 130,35 136,33" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <a href="/secteurs" class="back-link">← Tous les secteurs</a>
+    </div>
+  </section>
+
+  <section class="problems-section">
+    <div class="wrap-wide">
+      <div class="section-header">
+        <Kicker>PROBLÈMES SECTORIELS / Pain Points</Kicker>
+        <h2 class="section-h2">Ce qui freine <i>concrètement</i>.</h2>
+      </div>
+      <div class="problems-grid">
+        <div class="problem-item">
+          <p class="problem-num">01</p>
+          <span class="problem-en">Manual reconciliation</span>
+          <h3 class="problem-title">Saisie & réconciliation</h3>
+          <p class="problem-desc">Excel partout, écarts inexpliqués, saisies en double. L'équipe passe plus de temps à vérifier qu'à analyser.</p>
+        </div>
+        <div class="problem-item">
+          <p class="problem-num">02</p>
+          <span class="problem-en">Month-end close</span>
+          <h3 class="problem-title">Clôture mensuelle</h3>
+          <p class="problem-desc">9 jours de clôture, équipes bloquées, données jamais à jour en temps réel. Le pilotage devient une illusion.</p>
+        </div>
+        <div class="problem-item">
+          <p class="problem-num">03</p>
+          <span class="problem-en">Compliance burden</span>
+          <h3 class="problem-title">Conformité & audit</h3>
+          <p class="problem-desc">Contrôles tardifs, piste d'audit reconstituée à la main, stress d'audit. Chaque contrôle externe coûte 3 semaines.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="solutions-section">
+    <div class="wrap-wide">
+      <div class="section-header">
+        <Kicker>MODULES WAIMIA / AI Solutions</Kicker>
+        <h2 class="section-h2">L'IA qui <i>automatise</i> le reste.</h2>
+      </div>
+      <div class="solutions-grid">
+        <div class="solution-item">
+          <h3 class="solution-name">Agent Réconciliation</h3>
+          <p class="solution-desc">Rapprochement automatique flux bancaire / grand livre. Alertes anomalies en temps réel. Zéro saisie manuelle.</p>
+        </div>
+        <div class="solution-item">
+          <h3 class="solution-name">Agent Clôture Accélérée</h3>
+          <p class="solution-desc">Extraction données multi-sources, consolidation en un clic. Clôture en moins de 48h, données disponibles le lendemain.</p>
+        </div>
+        <div class="solution-item">
+          <h3 class="solution-name">Agent Conformité</h3>
+          <p class="solution-desc">Piste d'audit structurée, contrôles automatiques, exports audit-ready. Audit interne réduit à 2h.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="metrics-section">
+    <div class="wrap-wide">
+      <div class="section-header">
+        <Kicker>RÉSULTATS / Outcomes</Kicker>
+        <h2 class="section-h2">Chiffres <i>réels</i>. Clients réels.</h2>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-item">
+          <span class="metric-val reveal-zoom">−9j</span>
+          <span class="metric-unit">Clôture mensuelle</span>
+          <p class="metric-desc">De 9 jours à moins de 48h. Les équipes font enfin du conseil.</p>
+        </div>
+        <div class="metric-item">
+          <span class="metric-val reveal-zoom">97%</span>
+          <span class="metric-unit">Réconciliations auto</span>
+          <p class="metric-desc">Taux moyen de réconciliation automatique sur clients actifs.</p>
+        </div>
+        <div class="metric-item">
+          <span class="metric-val reveal-zoom">×4</span>
+          <span class="metric-unit">Audit interne accéléré</span>
+          <p class="metric-desc">Contrôle interne 4× plus rapide grâce à la piste d'audit structurée.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="citation-section">
+    <div class="wrap-wide">
+      <blockquote class="citation-text">
+        « Avant Waimia, la clôture prenait 9 jours. Maintenant 2. Les équipes font enfin du conseil. »
+      </blockquote>
+      <span class="citation-attr">DAF · Groupe industriel, 180 pers.</span>
+    </div>
+  </section>
+
+  <section class="sector-cta-section">
+    <div class="wrap-wide">
+      <span class="sector-cta-eyebrow">Finance & Accounting · Démarrer</span>
+      <h2 class="sector-cta-h2">Votre clôture en moins de 48h. <i>Discutons-en.</i></h2>
+      <a href="/contact" class="cta-btn" data-mag="0.15">Demander un audit gratuit →</a>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .mast {
+    padding: 140px 32px clamp(44px, 6vw, 84px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .mast-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 10vw, 160px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .mast-h1 i { font-style: italic; color: var(--accent); }
+  .mast-lede {
+    font-family: var(--font-sans);
+    font-size: clamp(18px, 2vw, 24px);
+    color: var(--ink-2);
+    margin: 32px 0 0;
+    max-width: 720px;
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+  .sector-svg-sig {
+    width: 200px;
+    height: auto;
+    margin-top: 48px;
+    color: var(--hairline-strong);
+    opacity: 0.7;
+    display: block;
+  }
+  .back-link {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 40px;
+    text-decoration: none;
+  }
+  .back-link:hover { color: var(--ink); }
+  .section-header { margin-bottom: clamp(32px, 4vw, 48px); }
+  .section-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 3.5vw, 52px);
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    margin: 16px 0 0;
+    max-width: 640px;
+    text-wrap: balance;
+  }
+  .section-h2 i { font-style: italic; }
+  .problems-section {
+    padding: clamp(80px, 10vw, 128px) 32px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .problems-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    margin-top: clamp(40px, 5vw, 56px);
+  }
+  .problem-item {
+    padding: clamp(24px, 2.5vw, 36px);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+  }
+  .problem-num {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 4vw, 64px);
+    font-style: italic;
+    color: var(--ink-2);
+    line-height: 0.9;
+    margin: 0 0 auto;
+  }
+  .problem-en {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 20px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .problem-title {
+    font-family: var(--font-sans);
+    font-size: clamp(18px, 1.8vw, 22px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+  .problem-desc {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0;
+  }
+  .solutions-section {
+    padding: clamp(80px, 10vw, 128px) 32px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .solutions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(32px, 4vw, 64px) clamp(24px, 3vw, 48px);
+    margin-top: clamp(40px, 5vw, 56px);
+  }
+  .solution-name {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.2vw, 30px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  }
+  .solution-desc {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    margin: 0;
+  }
+  .metrics-section {
+    padding: clamp(80px, 10vw, 128px) 32px;
+    background: var(--paper-2);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    margin-top: clamp(40px, 5vw, 56px);
+  }
+  .metric-item {
+    padding: clamp(32px, 3.5vw, 48px) clamp(24px, 2.5vw, 36px);
+    background: var(--paper-2);
+  }
+  .metric-val {
+    font-family: var(--font-display);
+    font-size: clamp(64px, 7vw, 112px);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    display: block;
+  }
+  .metric-unit {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 12px;
+    display: block;
+  }
+  .metric-desc {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+  .citation-section {
+    padding: clamp(80px, 10vw, 120px) 32px;
+    background: var(--paper-2);
+    border-top: 1px solid var(--hairline);
+  }
+  .citation-text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(22px, 2.5vw, 36px);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    max-width: 760px;
+    margin: 0 auto 24px;
+    text-align: center;
+    text-wrap: balance;
+  }
+  .citation-attr {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    display: block;
+  }
+  .sector-cta-section {
+    padding: clamp(80px, 10vw, 120px) 32px;
+    text-align: center;
+  }
+  .sector-cta-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+    display: block;
+  }
+  .sector-cta-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 56px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin: 0 0 40px;
+    text-wrap: balance;
+  }
+  .sector-cta-h2 i { font-style: italic; }
+  .cta-btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 16px 36px;
+    border: 1px solid var(--ink);
+    border-radius: 2px;
+    transition: background 220ms var(--ease), color 220ms var(--ease), border-color 220ms var(--ease);
+    text-decoration: none;
+  }
+  .cta-btn:hover { background: var(--accent); border-color: var(--accent); }
+  @media (max-width: 1024px) {
+    .problems-grid, .solutions-grid, .metrics-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 700px) {
+    .mast { padding-top: 96px; padding-inline: 20px; }
+    .problems-grid, .solutions-grid, .metrics-grid { grid-template-columns: 1fr; }
+    .problems-section, .solutions-section, .metrics-section,
+    .citation-section, .sector-cta-section { padding-inline: 20px; }
+  }
+</style>

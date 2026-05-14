@@ -103,7 +103,7 @@ const collectionPageLd = {
           ? t({ fr: 'auteurs', en: 'authors' }, lang)
           : t({ fr: 'auteur', en: 'author' }, lang)}
       </Kicker>
-      <h1 class="eq-h1 reveal" transition:name={`hero-h1-${transitionIdFromHref(Astro.url.pathname)}`}>
+      <h1 class="eq-h1 reveal reveal-mask-up" transition:name={`hero-h1-${transitionIdFromHref(Astro.url.pathname)}`}>
         {lang === 'fr' ? (
           <>
             Qui <i>écrit</i>. Qui <i>cable</i>.
@@ -184,12 +184,11 @@ const collectionPageLd = {
     font-style: italic;
   }
   .eq-lede {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: clamp(18px, 1.6vw, 22px);
     line-height: 1.55;
     color: var(--muted);
     max-width: 680px;
-    font-style: italic;
   }
 
   .eq-grid-sec {
@@ -204,7 +203,7 @@ const collectionPageLd = {
     background: var(--paper);
     border: 1px solid rgba(0, 0, 0, .08);
     border-top: 2px solid transparent;
-    border-radius: 16px;
+    border-radius: 2px;
     padding: 32px;
     text-decoration: none;
     color: var(--ink);
@@ -225,7 +224,7 @@ const collectionPageLd = {
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 2px;
     transition: transform 360ms var(--ease-out);
   }
   .eq-card-body {
@@ -253,11 +252,10 @@ const collectionPageLd = {
     margin: 0;
   }
   .eq-card-desc {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: 16px;
     line-height: 1.55;
     color: var(--muted);
-    font-style: italic;
     margin: 0;
   }
   .eq-card-meta {
@@ -273,7 +271,7 @@ const collectionPageLd = {
     color: var(--muted);
   }
   .eq-card-cta {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: 15px;
     color: var(--accent);
     margin-top: 8px;

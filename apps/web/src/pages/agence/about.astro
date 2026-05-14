@@ -26,12 +26,12 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
     <div class="about-grid reveal-stagger">
       {/* Story · 60 % */}
       <article class="about-prose">
-        <Kicker tone="accent" class="about-kicker">§ 01 · Origine</Kicker>
+        <Kicker tone="" class="about-kicker">§ 01 · Origine</Kicker>
         <h2>Une agence née d'une <i>frustration</i> de chantier.</h2>
         <p>Waimia est née en 2024 d'une observation répétée : la plupart des projets IA livrent des démos, pas des produits. Un POC passe en comité. Un agent brille en showroom puis cale en juin. Un consultant repart avec son SharePoint et laisse l'équipe interne se débrouiller.</p>
         <p>Notre angle est l'inverse. On <i>livre</i>. On signe. On reste joignables à 3 h du matin si l'agent tombe. On apprend en faisant — pas en réunissant des comités pour parler d'IA.</p>
 
-        <Kicker tone="accent" class="about-kicker">§ 02 · Stance</Kicker>
+        <Kicker tone="" class="about-kicker">§ 02 · Stance</Kicker>
         <h2>Ce que nous <i>refusons</i>.</h2>
         <ul>
           <li>Le théâtre IA — purple-glass, cerveau-circuit, hexagones flottants.</li>
@@ -41,7 +41,7 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
           <li>L'enveloppe no-code propriétaire qui rend le client dépendant à vie.</li>
         </ul>
 
-        <Kicker tone="accent" class="about-kicker">§ 03 · Méthode</Kicker>
+        <Kicker tone="" class="about-kicker">§ 03 · Méthode</Kicker>
         <h2>Quatre <i>livrables</i>, jamais un de plus.</h2>
         <p>Chaque mission Waimia produit quatre livrables canoniques : un schéma de l'existant, un mode opératoire d'exécution, une trace d'audit rejouable, un humain d'astreinte nommé. Ni 72 slides, ni feuille de route PowerPoint à 18 mois.</p>
       </article>
@@ -79,7 +79,7 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
     max-width: 1200px;
   }
   .about-prose {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: 17px;
     line-height: 1.65;
     color: var(--ink-2);
@@ -132,7 +132,7 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
     color: var(--muted);
   }
   .about-facts dd {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-size: 16px;
     margin: 0;
     line-height: 1.4;
@@ -166,7 +166,7 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
     text-wrap: balance;
     margin: 0 0 36px;
   }
-  .about-cta-h2 i { font-style: italic; color: var(--accent); }
+  .about-cta-h2 i { font-style: italic; color: inherit; }
   .about-cta-btn {
     display: inline-block;
     font-family: var(--font-mono);

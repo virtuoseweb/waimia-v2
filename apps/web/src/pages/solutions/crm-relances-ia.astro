@@ -73,3 +73,9 @@ import CrmRelancesFlow from '../../components/svg/geometric/CrmRelancesFlow.astr
   <Fragment slot="cta-title">CRM propre.<br/>Pipeline actif.</Fragment>
   <Fragment slot="cta-body">45 minutes. On ouvre votre CRM ensemble, on chiffre les fuites, on propose 3 workflows. Si on n'a rien à proposer, on le dit.</Fragment>
 </SolutionsDetailTemplate>
+
+<style>
+  /* Fix A — DS V2 Typography : paragraphes corps → var(--font-sans) */
+  :global(.sol-case-body)  { font-family: var(--font-sans); }
+  :global(.sol-cta-body p) { font-family: var(--font-sans); }
+</style>
