@@ -31,10 +31,11 @@ import { buildArticle } from '../lib/seo/schema-builder';
 
 const lang = langFromPath(Astro.url.pathname);
 
+// V7 stats alignées doctrine Waimia · cohérent avec ProofBar home (HERO_METRICS)
 const STATS = [
-  { n:'43',  text: { en: 'tools in the average RevOps stack.',                      fr: 'outils dans la stack RevOps moyenne.' } },
-  { n:'< 9', text: { en: 'touch the same customer record.',                         fr: 'touchent le même enregistrement client.' } },
-  { n:'× 4', text: { en: 'success rate for agents shipped in 6 weeks vs 6 months.', fr: 'de réussite pour les agents livrés en 6 semaines vs 6 mois.' } },
+  { n:'+12h',  text: { en: 'saved per team / week across acquisition, CRM, content and reporting.',     fr: 'économisées par équipe / semaine sur acquisition, CRM, contenu et reporting.' } },
+  { n:'23',    text: { en: 'workflows wired on average across marketing, sales, content and brand.',     fr: 'workflows câblés en moyenne sur marketing, sales, contenu et marque.' } },
+  { n:'3,4×',  text: { en: 'measured ROI at 12 months · scope, stack, team maturity dependent.',         fr: 'ROI mesuré à 12 mois · selon périmètre, stack et maturité d\'équipe.' } },
 ];
 
 const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
@@ -69,7 +70,7 @@ const articleLd = buildArticle({
       {/* headline */}
       <div style="max-width:1600px">
         <Kicker class="b-hero-tag">
-          {lang === 'fr' ? (<>Une agence IA · <span style="color:var(--accent)">française dans l'exécution, internationale dans la finition</span></>) : (<>An AI agency · <span style="color:var(--accent)">French craft, international polish</span></>)}
+          {lang === 'fr' ? (<>Une agence IA · <span style="color:var(--accent)">marketing, sales, contenu, web, CRM et marque alignés</span></>) : (<>An AI agency · <span style="color:var(--accent)">marketing, sales, content, web, CRM and brand aligned</span></>)}
         </Kicker>
         <h1 class="reveal-mask-up manifesto-h1">
           {lang === 'fr' ? (
@@ -82,10 +83,10 @@ const articleLd = buildArticle({
 
       {/* bottom CTAs */}
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:48px;align-items:end;max-width:1600px">
-        <p style="font-family:var(--font-display);font-size:clamp(15px,1.4vw,22px);line-height:1.4;color:rgba(246,241,232,.85);max-width:380px;margin:0">
+        <p style="font-family:var(--font-display);font-size:clamp(15px,1.4vw,22px);line-height:1.4;color:rgba(246,241,232,.85);max-width:420px;margin:0">
           {lang === 'fr'
-            ? "Une agence IA pour SaaS, fintech et industrie. Pour les équipes dont le moteur commercial doit livrer — pas répéter."
-            : 'An AI agency for SaaS, fintech and industry that want their revenue engine to ship — not to rehearse.'}
+            ? "On câble l'IA dans vos outils marketing, sales et web — acquisition, contenu, CRM, site, analytics, marque. Sans changer vos process."
+            : "We wire AI into your marketing, sales and web stack — acquisition, content, CRM, site, analytics, brand. Without changing your process."}
         </p>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
           <PillCTA href={flh('/contact', lang)} variant="accent" mag={0.18}>
@@ -183,13 +184,18 @@ const articleLd = buildArticle({
       <Kicker class="b-acte-3">
         <span style="color:var(--accent)">III.</span> {lang === 'fr' ? 'La plateforme' : 'The platform'}
       </Kicker>
-      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(48px,8vw,128px);line-height:.94;letter-spacing:-0.03em;color:var(--paper);text-wrap:balance;font-weight:400;margin-bottom:32px">
+      <h2 class="reveal manifesto-h2" style="color:var(--paper);margin-bottom:32px">
         {lang === 'fr' ? (
-          <>Virtuose<i style="color:var(--accent)">OS</i>.<br />Le <i>noyau</i> sous chaque mission.</>
+          <>Virtuose<i class="accent">OS</i>.<br />Le <i>noyau</i> sous chaque système câblé.</>
         ) : (
-          <>Virtuose<i style="color:var(--accent)">OS</i>.<br />The <i>kernel</i> under every engagement.</>
+          <>Virtuose<i class="accent">OS</i>.<br />The <i>kernel</i> under every wired system.</>
         )}
       </h2>
+      <p style="font-family:var(--font-sans);font-size:clamp(16px,1.4vw,19px);line-height:1.55;color:rgba(246,241,232,.7);max-width:680px;margin:0 auto 36px;text-wrap:pretty">
+        {lang === 'fr'
+          ? "La plateforme interne qui orchestre marketing, sales, contenu, web et CRM. Multi-workspace · multi-agents · documentée · transmissible."
+          : "The internal platform orchestrating marketing, sales, content, web and CRM. Multi-workspace · multi-agent · documented · transferable."}
+      </p>
       <PillCTA href={flh('/console', lang)} variant="accent-mono" mag={0.18}>
         ▸ {lang === 'fr' ? 'Voir la console' : 'Discover the platform'}
       </PillCTA>
@@ -202,8 +208,8 @@ const articleLd = buildArticle({
       <Kicker class="manifesto-acte-iv">
         <span style="color:var(--accent)">IV.</span> {lang === 'fr' ? 'Les preuves' : 'The proof'}
       </Kicker>
-      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(48px,8vw,148px);line-height:.92;letter-spacing:-0.03em;max-width:1400px;margin-bottom:clamp(60px,8vw,100px);text-wrap:balance;font-weight:400">
-        {lang === 'fr' ? (<>Pas des démos. Des <i style="color:var(--accent)">résultats</i>.</>) : (<>Not demos. <i style="color:var(--accent)">Results</i>.</>)}
+      <h2 class="reveal manifesto-h2">
+        {lang === 'fr' ? (<>Pas des démos. Des <i class="accent">résultats</i>.</>) : (<>Not demos. <i class="accent">Results</i>.</>)}
       </h2>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
         {CASE_FEED.slice(0, 4).map((c, i) => (
@@ -252,8 +258,8 @@ const articleLd = buildArticle({
       <Kicker class="manifesto-acte-v">
         <span style="color:var(--accent)">V.</span> {lang === 'fr' ? "Passer à l'action" : 'Act'}
       </Kicker>
-      <h2 class="reveal manifesto-quote-reveal" style="font-family:var(--font-display);font-size:clamp(72px,14vw,260px);line-height:.86;letter-spacing:-0.04em;text-wrap:balance;font-weight:400">
-        {lang === 'fr' ? (<>Arrêtez de <i style="color:var(--accent)">répéter</i>.<br />Livrez.</>) : (<>Stop <i style="color:var(--accent)">rehearsing</i>.<br />Ship.</>)}
+      <h2 class="reveal manifesto-quote-reveal manifesto-h1">
+        {lang === 'fr' ? (<>Arrêtez de <i class="accent">répéter</i>.<br />Livrez.</>) : (<>Stop <i class="accent">rehearsing</i>.<br />Ship.</>)}
       </h2>
       <div style="display:inline-flex;gap:14px;margin-top:60px;flex-wrap:wrap;justify-content:center">
         <Button href={flh('/contact', lang)} variant="accent" size="lg" mag={0.22}>

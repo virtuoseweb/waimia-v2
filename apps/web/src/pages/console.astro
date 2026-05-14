@@ -26,11 +26,12 @@ import { langFromPath, t as ft, localizeHref as flh } from '../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
 
+// V7 obs alignées doctrine Waimia · marketing/sales/contenu/web/CRM/data/brand
 const OBS = [
-  { tag: '[obs.1]', text: { en: '43 tools. 9 touch the same record.',     fr: '43 outils. 9 touchent le même enregistrement.' } },
-  { tag: '[obs.2]', text: { en: 'LLM without warehouse = expensive guess.', fr: 'LLM sans entrepôt = conjecture chère.' } },
-  { tag: '[obs.3]', text: { en: '6-week agents beat 6-month agents ×4.',  fr: 'Agent 6 sem > agent 6 mois ×4.' } },
-  { tag: '[obs.4]', text: { en: 'Replatforming almost always wrong.',     fr: 'Refonte presque toujours à tort.' } },
+  { tag: '[obs.1]', text: { en: 'Ads + CRM + content + site disconnected = signals wasted.', fr: 'Ads + CRM + contenu + site déconnectés = signaux gaspillés.' } },
+  { tag: '[obs.2]', text: { en: 'AI without business data = expensive guess.',                fr: 'IA sans données métier = conjecture chère.' } },
+  { tag: '[obs.3]', text: { en: '5-day system beats 5-month rebuild ×4.',                     fr: 'Système 5 jours > refonte 5 mois ×4.' } },
+  { tag: '[obs.4]', text: { en: 'Brand fragments when AI produces without rails.',            fr: "La marque se fragmente sans rails de production IA." } },
 ];
 
 const METRICS = [
@@ -60,19 +61,19 @@ const METRICS = [
         {/* left · headline */}
         <div>
           <Kicker tone="accent" class="c-platform-tag">
-            [platform] · {lang === 'fr' ? "la couche opérationnelle sous chaque intervention" : 'the operating layer under every engagement'}
+            [platform] · {lang === 'fr' ? "la couche opérationnelle sous chaque système câblé" : 'the operating layer under every wired system'}
           </Kicker>
           <h1 class="reveal-mask-up" style="font-family:var(--font-display);font-size:clamp(48px,9vw,132px);line-height:.92;letter-spacing:-0.028em;text-wrap:balance;font-weight:400;margin:0">
             {lang === 'fr' ? (
-              <>Un <i>système d'exploitation</i><br />pour les opérations revenue.</>
+              <>Un <i>système d'exploitation</i><br />pour marketing, sales et web.</>
             ) : (
-              <>An <i>operating system</i><br />for revenue ops.</>
+              <>An <i>operating system</i><br />for marketing, sales and web.</>
             )}
           </h1>
-          <p style="margin-top:32px;font-size:clamp(15px,1.4vw,17px);line-height:1.55;color:var(--muted);max-width:540px;font-family:var(--font-sans)">
+          <p style="margin-top:32px;font-size:clamp(15px,1.4vw,17px);line-height:1.55;color:var(--muted);max-width:560px;font-family:var(--font-sans)">
             {lang === 'fr'
-              ? "Waimia livre VirtuoseOS comme substrat sous ses interventions — kernel, agents, audit. Vous gardez la plateforme quand on part."
-              : 'Waimia ships VirtuoseOS as the substrate under its engagements — kernel, agents, audit. You keep the platform when we leave.'}
+              ? "VirtuoseOS orchestre acquisition, contenu, CRM, site, analytics et marque dans une couche commune — agents, règles, mesure, validation humaine. Vous gardez la plateforme quand on part."
+              : "VirtuoseOS orchestrates acquisition, content, CRM, site, analytics and brand into one common layer — agents, rules, measurement, human validation. You keep the platform when we leave."}
           </p>
           <div style="display:flex;gap:10px;margin-top:36px;flex-wrap:wrap">
             <TerminalCTA href="#act-3" variant="ink" size="md" mag={0.18}>

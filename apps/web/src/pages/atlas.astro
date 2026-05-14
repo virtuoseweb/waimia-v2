@@ -27,8 +27,8 @@ const lang = langFromPath(Astro.url.pathname);
     <div class="signature-grid"></div>
     <div class="wrap-wide">
       <div class="kick">
-        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent)"></span>
-        <span>{lang === 'fr' ? 'Vol. 03 — Atlas (test direction 3)' : 'Vol. 03 — Atlas (direction 3 test)'}</span>
+        <span class="kick-dot" aria-hidden="true"></span>
+        <span>{lang === 'fr' ? 'Atlas · Cartographier · Câbler · Orchestrer · Industrialiser' : 'Atlas · Map · Wire · Orchestrate · Industrialize'}</span>
       </div>
       <h1 class="hero-atlas-title reveal-mask-up">
         {lang === 'fr' ? (
@@ -39,15 +39,15 @@ const lang = langFromPath(Astro.url.pathname);
       </h1>
       <p class="hero-atlas-lead">
         {lang === 'fr'
-          ? "Quatre piliers, trois portes par persona, un seul engagement derrière. Cliquez là où ça vous parle."
-          : 'Four pillars, three doors per persona, one engagement behind. Click where it speaks to you.'}
+          ? "Marketing, sales, contenu, web, CRM, analytics et marque — tous les territoires Waimia sur une seule carte. Cliquez là où vous reconnaissez votre douleur."
+          : 'Marketing, sales, content, web, CRM, analytics and brand — every Waimia territory on one map. Click where you recognise your pain point.'}
       </p>
-      <div style="display:flex;gap:12px;margin-top:36px;flex-wrap:wrap;align-items:center">
+      <div class="hero-atlas-ctas">
         <a href={localizeHref('/contact', lang)} class="btn btn-primary btn-lg" data-mag="0.18">
           {lang === 'fr' ? 'Réserver un audit' : 'Book an audit'} <span aria-hidden>→</span>
         </a>
         <a href={localizeHref('/', lang)} class="btn btn-ghost btn-lg">
-          {lang === 'fr' ? "← Voir l'accueil (direction 1)" : '← See the home (direction 1)'}
+          {lang === 'fr' ? "← Retour à l'accueil" : '← Back to home'}
         </a>
       </div>
     </div>
@@ -72,6 +72,8 @@ const lang = langFromPath(Astro.url.pathname);
   .hero-atlas .signature-grid{z-index:0}
   .hero-atlas > *:not(.signature-grid){position:relative;z-index:1}
   .hero-atlas .kick{display:flex;align-items:center;gap:12px;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:24px}
+  .hero-atlas .kick-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .hero-atlas-ctas{display:flex;gap:12px;margin-top:var(--space-7);flex-wrap:wrap;align-items:center}
   /* H1 page spéciale · 132px max (= 1.43× home H1 92px) · cohérent et imposant */
   .hero-atlas-title{font-family:var(--font-display);font-size:clamp(48px,9vw,132px);line-height:0.94;letter-spacing:-0.03em;font-weight:400;text-wrap:balance;max-width:1200px}
   .hero-atlas-title i{font-style:italic;color:var(--accent)}
