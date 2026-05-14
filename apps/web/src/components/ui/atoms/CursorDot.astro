@@ -107,7 +107,8 @@
     border-radius: 50%;
     background: var(--accent);
     pointer-events: none;
-    mix-blend-mode: difference;
+    /* mix-blend-mode désactivé · sur fond paper le difference produit un
+       turquoise hors-palette (45,162,186). Cohérence DS V2 stricte. */
     z-index: 100;
     transform: translate3d(-50%, -50%, 0);
     transform-origin: 50% 50%;

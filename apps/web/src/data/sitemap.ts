@@ -569,10 +569,10 @@ export const FIELD_NOTES = [
 export const SIX_SERVICES = [
   { k: '01', label: { en: '30-min diagnostic', fr: 'Diagnostic 30 min' }, body: { en: 'We identify the business lever before the technology.', fr: 'On identifie le levier métier avant la techno.' } },
   { k: '02', label: { en: 'Acquisition system', fr: "Système d'acquisition" }, body: { en: 'Pipeline reconnected, qualification automated.', fr: 'Pipeline reconnecté, qualification automatisée.' } },
-  { k: '03', label: { en: 'Augmented CRM', fr: 'CRM augmenté' }, body: { en: 'The CRM that does its work for you.', fr: 'Le CRM qui fait son travail à votre place.' } },
-  { k: '04', label: { en: 'Data clarity', fr: 'Lisibilité des données' }, body: { en: 'Clear reporting, faster decisions.', fr: 'Tableaux clairs, décisions plus rapides.' } },
+  { k: '03', label: { en: 'Augmented CRM', fr: 'CRM augmenté' }, body: { en: 'The CRM that follows up, qualifies and alerts — without you touching it.', fr: 'Le CRM qui relance, qualifie et alerte — sans que vous touchiez rien.' } },
+  { k: '04', label: { en: 'Data clarity', fr: 'Lisibilité des données' }, body: { en: 'Real-time dashboards — decide in 2 minutes, not a meeting.', fr: 'Tableaux de bord temps réel — décidez en 2 minutes, pas en réunion.' } },
   { k: '05', label: { en: 'Repetitive tasks removed', fr: 'Tâches répétitives éliminées' }, body: { en: 'Workflows that run without you.', fr: 'Workflows qui tournent sans vous.' } },
-  { k: '06', label: { en: 'Enterprise custom build', fr: 'Sur-mesure ETI' }, body: { en: 'When the market stack is not enough.', fr: "Quand les outils du marché ne suffisent plus." } },
+  { k: '06', label: { en: 'Enterprise custom build', fr: 'Sur-mesure ETI' }, body: { en: 'Sovereign architecture — when the market stack hits your perimeter limits.', fr: "Architecture souveraine — quand les outils du marché butent sur votre périmètre." } },
 ];
 
 // ─── 4 FIG rows — Acte I · Why AI stalls
