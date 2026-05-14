@@ -54,10 +54,11 @@ const lang = langFromPath(Astro.url.pathname);
 </section>
 
 <style>
-  #act-2{padding:clamp(100px,12vw,160px) 0;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
-  .six-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:clamp(40px,4vw,56px);padding-bottom:20px;border-bottom:1px solid var(--hairline);flex-wrap:wrap;gap:14px}
+  /* V6 densification "1 viewport par section majeure" + "titres pas trop gros" */
+  #act-2{padding:clamp(56px,7vw,88px) 0;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+  .six-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:clamp(20px,2.5vw,32px);padding-bottom:14px;border-bottom:1px solid var(--hairline);flex-wrap:wrap;gap:10px}
   .six-spec{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.1em}
-  .six-h2{font-family:var(--font-display);font-size:clamp(40px,7vw,104px);line-height:.98;letter-spacing:-0.025em;max-width:1100px;margin-bottom:clamp(56px,6vw,80px);font-weight:400;text-wrap:balance}
+  .six-h2{font-family:var(--font-display);font-size:clamp(30px,4.5vw,60px);line-height:1.02;letter-spacing:-0.025em;max-width:980px;margin-bottom:clamp(28px,3vw,44px);font-weight:400;text-wrap:balance}
   .six-h2 i{font-style:italic;color:var(--accent)}
 
   .six-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--hairline-strong)}

@@ -72,7 +72,7 @@ const lang = langFromPath(Astro.url.pathname);
                   <span class="capstrip-cell-rule" aria-hidden="true"></span>
                   <p class="capstrip-cell-lead">{t(cat.lead, lang)}</p>
                   <ul class="capstrip-cell-items">
-                    {cat.items.map((item) => (
+                    {cat.items.slice(0, 2).map((item) => (
                       <li>{t(item, lang)}</li>
                     ))}
                   </ul>
@@ -97,7 +97,7 @@ const lang = langFromPath(Astro.url.pathname);
 
 <style>
   .capstrip {
-    padding: clamp(100px, 12vw, 160px) 0;
+    padding: clamp(32px, 3vw, 40px) 0;
     border-top: 1px solid var(--hairline);
     border-bottom: 1px solid var(--hairline);
     background: var(--paper);
@@ -107,7 +107,7 @@ const lang = langFromPath(Astro.url.pathname);
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: clamp(36px, 4vw, 52px);
+    margin-bottom: clamp(14px, 1.5vw, 18px);
     padding-bottom: 20px;
     border-bottom: 1px solid var(--hairline);
     flex-wrap: wrap;
@@ -122,11 +122,11 @@ const lang = langFromPath(Astro.url.pathname);
 
   .capstrip-h2 {
     font-family: var(--font-display);
-    font-size: clamp(40px, 6.6vw, 96px);
+    font-size: clamp(26px, 3.8vw, 44px);
     line-height: 0.98;
     letter-spacing: -0.025em;
     max-width: 1100px;
-    margin: 0 0 clamp(24px, 2.5vw, 36px);
+    margin: 0 0 clamp(10px, 1vw, 14px);
     font-weight: 400;
     text-wrap: balance;
     color: var(--ink);
@@ -139,7 +139,7 @@ const lang = langFromPath(Astro.url.pathname);
     line-height: var(--leading-body, 1.5);
     color: var(--ink-2);
     max-width: 720px;
-    margin: 0 0 clamp(48px, 5vw, 72px);
+    margin: 0 0 clamp(12px, 1.5vw, 18px);
     text-wrap: pretty;
     transition-delay: 200ms;
   }
@@ -148,7 +148,7 @@ const lang = langFromPath(Astro.url.pathname);
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: clamp(32px, 4vw, 64px);
-    row-gap: clamp(48px, 5vw, 72px);
+    row-gap: clamp(16px, 2vw, 24px);
     position: relative;
   }
 
@@ -168,14 +168,14 @@ const lang = langFromPath(Astro.url.pathname);
   .capstrip-group {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    gap: var(--space-2);
   }
 
   .capstrip-group-hd {
     display: flex;
     align-items: baseline;
     gap: var(--space-3);
-    padding-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
     border-bottom: 1px solid var(--hairline-strong);
   }
 
@@ -198,15 +198,19 @@ const lang = langFromPath(Astro.url.pathname);
 
   .capstrip-group-pair {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
+    flex-direction: row;
+    gap: var(--space-3);
+  }
+  .capstrip-group-pair > * {
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   .capstrip-cell {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
-    padding: clamp(20px, 2vw, 28px) clamp(18px, 1.6vw, 24px) clamp(44px, 3.5vw, 56px);
+    gap: var(--space-2);
+    padding: clamp(14px, 1.2vw, 18px) clamp(14px, 1.2vw, 18px) clamp(28px, 2.2vw, 36px);
     border: 1px solid var(--hairline);
     position: relative;
     color: inherit;
@@ -243,7 +247,7 @@ const lang = langFromPath(Astro.url.pathname);
 
   .capstrip-cell-title {
     font-family: var(--font-display);
-    font-size: clamp(22px, 1.8vw, 28px);
+    font-size: clamp(18px, 1.5vw, 24px);
     line-height: 1.08;
     letter-spacing: -0.015em;
     font-weight: 400;
@@ -258,17 +262,21 @@ const lang = langFromPath(Astro.url.pathname);
     width: 28px;
     height: 1px;
     background: var(--accent);
-    margin: var(--space-2) 0 var(--space-3);
+    margin: var(--space-1) 0 var(--space-2);
     transition: width 320ms var(--ease);
   }
   .capstrip-cell:hover .capstrip-cell-rule { width: 56px; }
 
   .capstrip-cell-lead {
     font-family: var(--font-sans);
-    font-size: 13px;
-    line-height: 1.55;
+    font-size: 12px;
+    line-height: 1.45;
     color: var(--muted);
-    margin: 0 0 var(--space-3);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
     text-wrap: pretty;
   }
 
@@ -306,9 +314,9 @@ const lang = langFromPath(Astro.url.pathname);
   .capstrip-cell:hover .capstrip-cell-go { transform: translateX(4px); }
 
   .capstrip-foot {
-    margin: clamp(40px, 4vw, 60px) 0 0;
+    margin: clamp(18px, 2vw, 28px) 0 0;
     font-family: var(--font-display);
-    font-size: clamp(20px, 2vw, 28px);
+    font-size: clamp(17px, 1.6vw, 22px);
     line-height: 1.3;
     color: var(--ink);
     max-width: 800px;
@@ -322,6 +330,10 @@ const lang = langFromPath(Astro.url.pathname);
 
   @media (max-width: 900px) {
     .capstrip-groups::before { display: none; }
+    .capstrip-group-pair {
+      flex-direction: column;
+      gap: var(--space-2);
+    }
   }
   @media (max-width: 600px) {
     .capstrip-groups { grid-template-columns: 1fr; }

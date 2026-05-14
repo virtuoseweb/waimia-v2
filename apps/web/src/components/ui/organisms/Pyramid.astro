@@ -75,14 +75,15 @@ const lang = langFromPath(Astro.url.pathname);
 </section>
 
 <style>
+  /* V6 densification "1 viewport par section majeure" */
   .pyramid-svg {
-    margin: clamp(40px, 5vw, 64px) 0;
+    margin: clamp(20px, 2.5vw, 36px) 0 clamp(28px, 3vw, 44px);
     overflow: visible;
   }
   .pyramid-svg svg {
     width: 100%;
     height: auto;
-    max-height: 180px;
+    max-height: 140px;
   }
 
   .pyramid-asym {

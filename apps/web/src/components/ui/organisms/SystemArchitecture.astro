@@ -104,7 +104,7 @@ const outputs = lang === 'fr'
 
 <style>
   .sysarch {
-    padding: clamp(96px, 11vw, 144px) 0;
+    padding: clamp(56px, 7vw, 88px) 0;
     border-bottom: 1px solid var(--hairline);
     background: var(--paper);
   }
@@ -113,11 +113,11 @@ const outputs = lang === 'fr'
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: clamp(36px, 4vw, 52px);
-    padding-bottom: 20px;
+    margin-bottom: clamp(20px, 2.5vw, 32px);
+    padding-bottom: 14px;
     border-bottom: 1px solid var(--hairline);
     flex-wrap: wrap;
-    gap: 14px;
+    gap: 10px;
   }
   .sysarch-spec {
     font-family: var(--font-mono);
@@ -126,13 +126,14 @@ const outputs = lang === 'fr'
     letter-spacing: 0.1em;
   }
 
+  /* V6 cap : "titres pas trop gros" + section one-viewport */
   .sysarch-h2 {
     font-family: var(--font-display);
-    font-size: clamp(36px, 5.5vw, 80px);
-    line-height: 1;
+    font-size: clamp(28px, 4vw, 56px);
+    line-height: 1.02;
     letter-spacing: -0.025em;
-    max-width: 1000px;
-    margin: 0 0 clamp(48px, 5vw, 72px);
+    max-width: 880px;
+    margin: 0 0 clamp(24px, 3vw, 40px);
     font-weight: 400;
     text-wrap: balance;
     color: var(--ink);
@@ -144,31 +145,33 @@ const outputs = lang === 'fr'
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(28px, 3vw, 40px);
+    gap: clamp(16px, 2vw, 28px);
     transition-delay: 180ms;
   }
 
   .sysarch-svg {
     width: 100%;
-    max-width: 960px;
+    max-width: 860px;
     height: auto;
+    max-height: 320px;
     display: block;
   }
 
   .sysarch-cap {
     font-family: var(--font-display);
-    font-size: clamp(18px, 1.7vw, 24px);
+    font-size: clamp(16px, 1.4vw, 20px);
     line-height: 1.35;
     color: var(--ink);
-    max-width: 760px;
+    max-width: 720px;
     text-align: center;
     text-wrap: balance;
+    margin: 0;
   }
   .sysarch-cap i { font-style: italic; color: var(--accent); }
 
-  /* Mobile · SVG visible mais on simplifie en cachant les labels secondaires */
+  /* Mobile : SVG plus petit, H2 réduit */
   @media (max-width: 700px) {
-    .sysarch-h2 { font-size: clamp(30px, 8vw, 44px); }
-    .sysarch-svg { min-height: 280px; }
+    .sysarch-h2 { font-size: clamp(24px, 6.5vw, 38px); }
+    .sysarch-svg { max-height: 240px; }
   }
 </style>

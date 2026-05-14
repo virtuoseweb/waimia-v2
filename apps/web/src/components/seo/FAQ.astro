@@ -45,15 +45,15 @@ const { items, heading = 'Questions fréquentes', intro } = Astro.props;
 <JsonLd data={faqPage(items)} />
 
 <style>
-  /* H2 narratif Serif italic DS V2 */
+  /* V6 cap "titres pas trop gros" + densification one-viewport */
   .faq-h2 {
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 400;
-    font-size: clamp(28px, 3.5vw, 48px);
+    font-size: clamp(24px, 3vw, 42px);
     line-height: 1.15;
     letter-spacing: -0.02em;
-    margin-bottom: clamp(40px, 5vw, 64px);
+    margin-bottom: clamp(20px, 2.5vw, 36px);
     text-wrap: balance;
     color: var(--ink);
   }
@@ -66,17 +66,18 @@ const { items, heading = 'Questions fréquentes', intro } = Astro.props;
     border-bottom: 1px solid var(--hairline);
   }
 
+  /* V6 densification · padding réduit · taille modérée */
   .faq-q {
     list-style: none;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: 24px;
-    padding: clamp(20px, 2.5vw, 32px) 0;
+    gap: 20px;
+    padding: clamp(14px, 1.8vw, 22px) 0;
     cursor: pointer;
     font-family: var(--font-display);
     font-style: italic;
-    font-size: clamp(18px, 1.8vw, 22px);
+    font-size: clamp(16px, 1.5vw, 20px);
     line-height: 1.3;
     color: var(--ink);
     transition: color 200ms var(--ease);
