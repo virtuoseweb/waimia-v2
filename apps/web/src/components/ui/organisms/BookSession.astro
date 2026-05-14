@@ -23,7 +23,7 @@ const email = lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr';
       />
     </div>
 
-    <h2 id="book-h2" class="book-h2">
+    <h2 id="book-h2" class="book-h2 reveal-mask-up">
       {lang === 'fr' ? (
         <>Stop le <i>théâtre</i>.<br />Câbler.</>
       ) : (
@@ -37,7 +37,13 @@ const email = lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr';
         : "45 minutes. We look. We audit. We price. If we have nothing to offer, we say so. No follow-up."}
     </p>
 
-    <div class="book-ctas">
+    <p class="book-avail">
+      {lang === 'fr'
+        ? '● DISPONIBLE · RÉPONSE SOUS 24H'
+        : '● AVAILABLE · RESPONSE IN 24H'}
+    </p>
+
+    <div class="book-ctas reveal-snap">
       <Button href={ctaHref} variant="primary" size="lg" mag={0.22}>
         {lang === 'fr' ? 'Câbler →' : 'Wire it →'}
       </Button>
@@ -51,8 +57,9 @@ const email = lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr';
 <style>
   .book-session{padding:clamp(140px,18vw,260px) 0 clamp(100px,12vw,200px);background:var(--paper);border-top:1px solid var(--hairline);border-radius:0;transition:border-radius 1200ms var(--ease)}
   .book-session.in{border-radius:32px 32px 0 0}
-  .book-h2{font-family:var(--font-display);font-size:clamp(64px,12vw,184px);line-height:.92;letter-spacing:-0.03em;margin:32px 0 28px;text-wrap:balance;font-weight:400}
+  .book-h2{font-family:var(--font-display);font-style:italic;font-size:clamp(64px,12vw,184px);line-height:.92;letter-spacing:-0.03em;margin:32px 0 28px;text-wrap:balance;font-weight:400}
   .book-h2 i{font-style:italic;color:var(--accent)}
   .book-lede{font-size:clamp(16px,1.8vw,19px);color:var(--muted);max-width:620px;margin:0 auto 36px;font-family:var(--font-display);line-height:1.45}
+  .book-avail{font-family:var(--font-mono);font-size:11px;font-style:normal;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin:0 0 32px;line-height:1}
   .book-ctas{display:inline-flex;gap:12px;flex-wrap:wrap;justify-content:center}
 </style>

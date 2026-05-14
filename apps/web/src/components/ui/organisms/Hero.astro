@@ -29,14 +29,20 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
 <section class="hero-a home-hero" aria-labelledby="hero-heading">
   <div class="signature-grid" transition:name={`hero-img-${pageTransitionId}`}></div>
 
+  {/* SVG signature géométrique · overlay v9 · opacity 0.06 */}
+  <svg class="hero-sig-mark" aria-hidden="true" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="60" cy="60" r="58" stroke="currentColor" stroke-width="0.5"/>
+    <text x="60" y="67" text-anchor="middle" font-family="var(--font-mono)" font-size="13" fill="currentColor" letter-spacing="0.14em">V · 9</text>
+  </svg>
+
   <div class="wrap-wide">
     {/* Masthead newspaper · atome MastheadRow */}
-    <div class="par" data-par="-0.04" style="margin-bottom:42px">
+    <div class="par" data-par="-0.04" style="margin-bottom:var(--space-8)">
       <MastheadRow />
     </div>
 
-    {/* Headline · ancré, statique */}
-    <h1 id="hero-heading" class="hero-headline reveal-split-letter" transition:name={`hero-h1-${pageTransitionId}`}>
+    {/* Headline · mask-up reveal · Instrument Serif */}
+    <h1 id="hero-heading" class="hero-headline reveal-mask-up" transition:name={`hero-h1-${pageTransitionId}`}>
       {lang === 'fr' ? (
         <>
           L'<i class="acc">IA</i><br />
@@ -56,14 +62,14 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
     <div class="hero-sub">
       <div>
         <Kicker class="hero-fig">§ 01 · {lang === 'fr' ? 'Promesse' : 'Promise'}</Kicker>
-        <p class="hero-lede">
+        <p class="hero-lede reveal reveal-fade">
           {lang === 'fr' ? (
             <>Pas de démos. Pas de diaporamas. Des <i>systèmes</i> câblés dans vos outils, mesurés dès la première semaine.</>
           ) : (
             <>No demos. No decks. <i>Systems</i> wired into your tools, measured from week one.</>
           )}
         </p>
-        <div class="hero-ctas">
+        <div class="hero-ctas reveal reveal-snap">
           <Button href={ctaHref} variant="primary" size="lg" mag={0.18}>
             {lang === 'fr' ? 'Démarrer →' : 'Activate →'}
           </Button>
@@ -85,30 +91,97 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
   </div>
 </section>
 
-{/* Metrics strip · molécule MetricStrip */}
-<MetricStrip metrics={metrics} />
+{/* Metrics strip · reveal-zoom-in · molécule MetricStrip */}
+<div class="metrics-reveal reveal reveal-zoom-in">
+  <MetricStrip metrics={metrics} />
+</div>
 
 <style>
-  .hero-a { position:relative; padding:calc(140px + var(--gut)) 0 0; border-bottom:1px solid var(--hairline); overflow:hidden; display:flex; flex-direction:column; }
-  .hero-a > *:not(.signature-grid) { position:relative; z-index:1; }
-  .hero-a .signature-grid { z-index:0; }
+  .hero-a {
+    position: relative;
+    padding: calc(var(--section-loose) + var(--gut)) 0 0;
+    border-bottom: 1px solid var(--hairline);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-a > *:not(.signature-grid) { position: relative; z-index: 1; }
+  .hero-a .signature-grid { z-index: 0; }
 
-  .hero-headline { font-family:var(--font-display); font-size:clamp(48px,9vw,148px); line-height:.96; letter-spacing:-0.025em; font-weight:400; margin:0 0 32px; }
-  .hero-headline i { font-style:italic; }
-  /* Mot relevé en accent (mot-clé central : IA / AI) */
+  /* SVG signature v9 · overlay discret */
+  .hero-sig-mark {
+    position: absolute;
+    right: calc(var(--gut) * 2);
+    top: calc(var(--section-loose) * 0.45);
+    width: 88px;
+    height: 88px;
+    color: var(--ink);
+    opacity: 0.06;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  /* H1 · Instrument Serif · reveal-mask-up */
+  .hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 9vw, 148px);
+    line-height: var(--leading-display, .96);
+    letter-spacing: var(--tracking-display, -0.025em);
+    font-weight: 400;
+    margin: 0 0 var(--space-8);
+  }
+  .hero-headline i { font-style: italic; }
   .hero-headline i.acc { color: var(--accent); }
 
-  .hero-sub { display:grid; grid-template-columns:1.05fr 1fr; gap:clamp(40px,5vw,80px); margin-top:clamp(40px,4vw,56px); padding:clamp(28px,3vw,40px) 0 clamp(48px,5vw,80px); border-top:1px solid var(--hairline); align-items:start; }
-  .hero-fig { margin-bottom:16px; }
+  .hero-sub {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(40px, 5vw, 80px);
+    margin-top: var(--section-tight);
+    padding: var(--space-7) 0 var(--section-base);
+    border-top: 1px solid var(--hairline);
+    align-items: start;
+  }
+  .hero-fig { margin-bottom: var(--space-4); }
 
-  .hero-lede { font-family:var(--font-display); font-size:clamp(18px,1.6vw,21px); line-height:1.42; color:var(--ink-2); max-width:520px; text-wrap:pretty; }
-  .hero-lede i { font-style:italic; color:var(--accent); }
+  /* Lede · Inter Tight (pas Serif) · reveal-fade delay 200ms */
+  .hero-lede {
+    font-family: var(--font-sans);
+    font-size: var(--text-lede, clamp(20px, 1.7vw, 24px));
+    line-height: var(--leading-body, 1.5);
+    color: var(--ink-2);
+    max-width: 520px;
+    text-wrap: pretty;
+    transition-delay: 200ms;
+  }
+  .hero-lede i { font-style: italic; color: var(--accent); }
 
-  .hero-ctas { display:flex; gap:12px; flex-wrap:wrap; margin-top:clamp(24px,2.5vw,36px); }
+  /* CTAs · reveal-snap delay 400ms */
+  .hero-ctas {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-top: var(--space-6);
+    transition-delay: 400ms;
+  }
 
-  .hero-context { font-family:var(--font-display); font-size:clamp(22px,2.3vw,34px); line-height:1.18; color:var(--ink); max-width:560px; text-wrap:balance; margin:0; }
+  /* Contexte droit · Instrument Serif · pas d'accent supplémentaire */
+  .hero-context {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.3vw, 34px);
+    line-height: 1.18;
+    color: var(--ink);
+    max-width: 560px;
+    text-wrap: balance;
+    margin: 0;
+  }
 
-  @media (max-width:900px) {
-    .hero-sub { grid-template-columns:1fr; gap:48px; }
+  /* Metrics wrapper · préserve le layout MetricStrip */
+  .metrics-reveal { display: block; }
+
+  @media (max-width: 900px) {
+    .hero-sub { grid-template-columns: 1fr; gap: var(--space-10); }
+    .hero-sig-mark { display: none; }
   }
 </style>

@@ -34,7 +34,7 @@ const cases = CASE_FEED.slice(0, 4);
       )}
     </h2>
 
-    <div class="cases-tbl row-lines">
+    <div class="cases-tbl row-lines reveal-stagger">
       {cases.map((c, i) => (
         <a class="cases-row" href={localizeHref(`/ressources/cas/${c.slug}`, lang)}>
           <span class="cases-idx">CASE 0{i + 1}</span>
@@ -78,7 +78,7 @@ const cases = CASE_FEED.slice(0, 4);
   .cases-row:hover .cases-client{color:var(--accent);transition:color 200ms var(--ease)}
 
   .cases-idx{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
-  .cases-client{font-family:var(--font-display);font-size:clamp(28px,3vw,42px);line-height:.98;letter-spacing:-0.02em;font-weight:400}
+  .cases-client{font-family:var(--font-display);font-size:clamp(28px,3vw,42px);line-height:.98;letter-spacing:-0.02em;font-weight:400;font-style:italic}
   .cases-col{display:flex;flex-direction:column;gap:4px}
   .cases-col-k{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
   .cases-col-v{font-size:13px;color:var(--muted);line-height:1.4}

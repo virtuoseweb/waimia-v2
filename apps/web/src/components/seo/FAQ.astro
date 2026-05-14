@@ -23,7 +23,7 @@ const { items, heading = 'Questions fréquentes', intro } = Astro.props;
         <span class="roman">§</span>
         <span>FAQ</span>
       </div>
-      <h2 id="faq-heading">{heading}</h2>
+      <h2 id="faq-heading" class="faq-h2">{heading}</h2>
     </div>
     {intro && <p class="aside">{intro}</p>}
   </header>
@@ -45,6 +45,19 @@ const { items, heading = 'Questions fréquentes', intro } = Astro.props;
 <JsonLd data={faqPage(items)} />
 
 <style>
+  /* H2 narratif Serif italic DS V2 */
+  .faq-h2 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(28px, 3.5vw, 48px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: clamp(40px, 5vw, 64px);
+    text-wrap: balance;
+    color: var(--ink);
+  }
+
   .faq-list {
     border-top: 1px solid var(--hairline-strong);
   }
@@ -62,6 +75,7 @@ const { items, heading = 'Questions fréquentes', intro } = Astro.props;
     padding: clamp(20px, 2.5vw, 32px) 0;
     cursor: pointer;
     font-family: var(--font-display);
+    font-style: italic;
     font-size: clamp(18px, 1.8vw, 22px);
     line-height: 1.3;
     color: var(--ink);
@@ -116,6 +130,8 @@ const { items, heading = 'Questions fréquentes', intro } = Astro.props;
   }
 
   .faq-ans {
+    font-family: var(--font-sans);
+    font-style: normal;
     font-size: clamp(14px, 1.4vw, 16px);
     line-height: 1.62;
     color: var(--muted);

@@ -53,12 +53,12 @@ const lang = langFromPath(Astro.url.pathname);
   .six-h2 i{font-style:italic;color:var(--accent)}
 
   .six-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--hairline-strong)}
-  .six-cell{padding:clamp(28px,3vw,40px) clamp(22px,2.6vw,32px) clamp(36px,4vw,44px);border-right:1px solid var(--hairline);border-bottom:1px solid var(--hairline);min-height:280px;position:relative;transition:background 320ms var(--ease)}
-  .six-cell:hover{background:rgba(201,79,46,0.04)}
+  .six-cell{padding:clamp(28px,3vw,40px) clamp(22px,2.6vw,32px) clamp(36px,4vw,44px);border-right:1px solid var(--hairline);border-bottom:1px solid var(--hairline);min-height:280px;position:relative;transition:background 320ms var(--ease), border-color 300ms var(--ease), transform 300ms var(--ease)}
+  .six-cell:hover{background:rgba(201,79,46,0.04);border-color:var(--accent);transform:translateY(-1px)}
   .six-cell:nth-child(3n){border-right:none}
   .six-cell:nth-child(n+4){border-bottom:none}
   .six-cell-title{font-family:var(--font-display);font-size:clamp(28px,3vw,40px);line-height:1;letter-spacing:-0.02em;margin-top:16px;font-weight:400;text-wrap:balance}
-  .six-cell-body{margin-top:14px;font-size:14px;line-height:1.55;color:var(--muted);max-width:380px;text-wrap:pretty}
+  .six-cell-body{margin-top:14px;font-family:var(--font-sans);font-size:14px;line-height:1.55;color:var(--muted);max-width:380px;text-wrap:pretty}
   .six-cell-arr{position:absolute;bottom:18px;right:22px;font-family:var(--font-mono);font-size:13px;color:var(--accent)}
 
   @media (max-width:900px){

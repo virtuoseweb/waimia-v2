@@ -33,6 +33,21 @@ const lang = langFromPath(Astro.url.pathname);
       </Fragment>
     </SectionHeader>
 
+    <div class="pyramid-svg reveal-blur-clip">
+      <svg viewBox="0 0 800 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation">
+        <!-- Palier I - sommet accent -->
+        <rect x="0" y="10" width="60" height="120" fill="var(--accent)" fill-opacity="0.12" stroke="var(--accent)" stroke-width="1"/>
+        <!-- Séparateur accent -->
+        <line x1="64" y1="10" x2="64" y2="130" stroke="var(--accent)" stroke-width="1" opacity="0.4"/>
+        <!-- Palier II -->
+        <rect x="64" y="10" width="116" height="120" fill="transparent" stroke="var(--hairline)" stroke-width="1"/>
+        <!-- Palier III -->
+        <rect x="184" y="10" width="196" height="120" fill="transparent" stroke="var(--hairline)" stroke-width="1"/>
+        <!-- Palier IV -->
+        <rect x="384" y="10" width="416" height="120" fill="transparent" stroke="var(--hairline)" stroke-width="1"/>
+      </svg>
+    </div>
+
     <div class="ec-grid cols-4 pyramid-asym reveal-stagger">
       {PYRAMID_TIERS.map((tier) => (
         <a class="editorial-cell lift" href={tier.href}>
@@ -51,6 +66,16 @@ const lang = langFromPath(Astro.url.pathname);
 </section>
 
 <style>
+  .pyramid-svg {
+    margin: clamp(40px, 5vw, 64px) 0;
+    overflow: visible;
+  }
+  .pyramid-svg svg {
+    width: 100%;
+    height: auto;
+    max-height: 140px;
+  }
+
   .pyramid-asym {
     grid-template-columns: 7fr 5fr 4fr 8fr;
   }
