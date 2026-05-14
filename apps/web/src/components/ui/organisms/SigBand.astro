@@ -6,14 +6,18 @@
 // Mémorable : « La marque vibre une dernière fois avant qu'on parte. »
 ---
 <section class="sig-band">
-  <div class="wm clip-up">
+  {/* V6 fix · suppression .clip-up qui était figé par View Transitions API
+     (clip-path: inset(100%) jamais relâché car .in pas appliqué).
+     Reveal-fade simple = wordmark visible + animation safe */}
+  <div class="wm reveal reveal-fade">
     Waim<i>i</i>a<span class="dot">.</span>
   </div>
 </section>
 
 <style>
-  .sig-band{padding:clamp(28px,4vw,60px) var(--gut) clamp(72px,9vw,140px);overflow:hidden;position:relative}
-  .sig-band .wm{font-family:var(--font-display);font-size:clamp(80px,22vw,380px);line-height:.82;letter-spacing:-0.036em;font-weight:400;position:relative;text-align:center}
+  .sig-band{padding:clamp(28px,4vw,60px) var(--gut) clamp(56px,7vw,96px);overflow:hidden;position:relative}
+  /* V6 cap "titres pas trop gros" : 380px → 260px max (sig-band reste climax) */
+  .sig-band .wm{font-family:var(--font-display);font-size:clamp(80px,18vw,260px);line-height:.86;letter-spacing:-0.036em;font-weight:400;position:relative;text-align:center}
   .sig-band .wm i{font-style:italic}
   .sig-band .wm .dot{color:var(--accent)}
 </style>

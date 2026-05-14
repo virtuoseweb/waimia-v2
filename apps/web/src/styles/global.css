@@ -1187,10 +1187,13 @@ a:not([class]):hover,
   letter-spacing: -0.02em;
   line-height: 1;
 }
+/* V6 · token sémantique unifié --text-h2-section (cf tokens.css)
+   propagation automatique à TOUS les composants utilisant SectionHeader
+   (Pyramid, Departments, FieldNotes, Cases, et toutes pages /solutions, /offres, etc.) */
 .sec-hd h2 {
   font-family: var(--font-display);
-  font-size: clamp(36px, 6.5vw, 104px);
-  line-height: 0.96;
+  font-size: var(--text-h2-section);
+  line-height: var(--leading-h2);
   letter-spacing: -0.026em;
   text-wrap: balance;
   font-weight: 400;

@@ -120,10 +120,11 @@ const lang = langFromPath(Astro.url.pathname);
     letter-spacing: 0.1em;
   }
 
+  /* H2 token sémantique unifié · cf tokens.css */
   .capstrip-h2 {
     font-family: var(--font-display);
-    font-size: clamp(26px, 3.8vw, 44px);
-    line-height: 0.98;
+    font-size: var(--text-h2-section);
+    line-height: var(--leading-h2);
     letter-spacing: -0.025em;
     max-width: 1100px;
     margin: 0 0 clamp(10px, 1vw, 14px);
@@ -247,7 +248,7 @@ const lang = langFromPath(Astro.url.pathname);
 
   .capstrip-cell-title {
     font-family: var(--font-display);
-    font-size: clamp(18px, 1.5vw, 24px);
+    font-size: var(--text-h3-card);
     line-height: 1.08;
     letter-spacing: -0.015em;
     font-weight: 400;

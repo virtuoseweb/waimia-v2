@@ -58,7 +58,7 @@ const lang = langFromPath(Astro.url.pathname);
   #act-2{padding:clamp(56px,7vw,88px) 0;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
   .six-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:clamp(20px,2.5vw,32px);padding-bottom:14px;border-bottom:1px solid var(--hairline);flex-wrap:wrap;gap:10px}
   .six-spec{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.1em}
-  .six-h2{font-family:var(--font-display);font-size:clamp(30px,4.5vw,60px);line-height:1.02;letter-spacing:-0.025em;max-width:980px;margin-bottom:clamp(28px,3vw,44px);font-weight:400;text-wrap:balance}
+  .six-h2{font-family:var(--font-display);font-size:var(--text-h2-section);line-height:var(--leading-h2);letter-spacing:-0.025em;max-width:980px;margin-bottom:clamp(28px,3vw,44px);font-weight:400;text-wrap:balance}
   .six-h2 i{font-style:italic;color:var(--accent)}
 
   .six-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--hairline-strong)}
@@ -72,7 +72,8 @@ const lang = langFromPath(Astro.url.pathname);
   .six-cell-fig{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;color:var(--ink);text-transform:uppercase}
   .six-cell-metric{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase;text-align:right;text-wrap:nowrap}
 
-  .six-cell-title{font-family:var(--font-display);font-size:clamp(28px,3vw,40px);line-height:1.02;letter-spacing:-0.02em;margin:20px 0 0;font-weight:400;text-wrap:balance;color:var(--ink)}
+  /* H3 card token sémantique · cf tokens.css */
+  .six-cell-title{font-family:var(--font-display);font-size:var(--text-h3-row);line-height:var(--leading-h3);letter-spacing:-0.02em;margin:20px 0 0;font-weight:400;text-wrap:balance;color:var(--ink)}
 
   /* Hairline accent · structurant sous le titre · expands on hover */
   .six-cell-rule{display:block;width:32px;height:1px;background:var(--accent);margin:16px 0 0;transition:width 320ms var(--ease)}

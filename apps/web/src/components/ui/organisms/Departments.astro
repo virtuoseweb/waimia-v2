@@ -102,12 +102,13 @@ const lang = langFromPath(Astro.url.pathname);
     white-space: nowrap;
   }
 
+  /* H3 row token sémantique · cf tokens.css */
   .dept-row-label {
     font-family: var(--font-display);
-    font-size: clamp(20px, 2vw, 28px);
+    font-size: var(--text-h3-row);
     font-style: italic;
     font-weight: 400;
-    line-height: 1.02;
+    line-height: var(--leading-h3);
     letter-spacing: -0.02em;
     color: var(--ink);
     transition: color 200ms var(--ease, cubic-bezier(0.22, 1, 0.36, 1));

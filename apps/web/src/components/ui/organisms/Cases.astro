@@ -69,7 +69,7 @@ const cases = CASE_FEED.slice(0, 4);
   #act-4{padding:clamp(56px,7vw,96px) 0}
   .cases-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:clamp(20px,2.5vw,32px);padding-bottom:14px;border-bottom:1px solid var(--hairline);flex-wrap:wrap;gap:10px}
   .cases-spec{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.1em}
-  .cases-h2{font-family:var(--font-display);font-size:clamp(28px,4vw,56px);line-height:1.02;letter-spacing:-0.025em;max-width:1080px;margin-bottom:clamp(24px,3vw,40px);font-weight:400;text-wrap:balance}
+  .cases-h2{font-family:var(--font-display);font-size:var(--text-h2-section);line-height:var(--leading-h2);letter-spacing:-0.025em;max-width:1080px;margin-bottom:clamp(24px,3vw,40px);font-weight:400;text-wrap:balance}
   .cases-h2 i{font-style:italic;color:var(--accent)}
 
   .cases-tbl{}
@@ -79,7 +79,8 @@ const cases = CASE_FEED.slice(0, 4);
   .cases-row:hover .cases-client{color:var(--accent);transition:color 200ms var(--ease)}
 
   .cases-idx{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
-  .cases-client{font-family:var(--font-display);font-size:clamp(28px,3vw,42px);line-height:.98;letter-spacing:-0.02em;font-weight:400;font-style:italic}
+  /* Cases client titre · réutilise H2-tight token (entre row et h2 standard) */
+  .cases-client{font-family:var(--font-display);font-size:var(--text-h2-tight);line-height:var(--leading-h2);letter-spacing:-0.02em;font-weight:400;font-style:italic}
   .cases-col{display:flex;flex-direction:column;gap:4px}
   .cases-col-k{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
   .cases-col-v{font-size:13px;color:var(--muted);line-height:1.4}

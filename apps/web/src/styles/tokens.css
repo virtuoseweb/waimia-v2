@@ -184,6 +184,39 @@ body {
   --text-caption: 12px;
 }
 
+/* ─── ÉCHELLE TYPOGRAPHIQUE ÉDITORIALE V6 · headings sémantiques unifiés ───
+   Source de vérité unique pour TOUS les titres du site (home + sous-pages).
+   Modifier ici se répercute partout · zéro duplication clamp() custom.
+   Cap "titres pas trop gros" calibré sur viewport 1440×900 + cookie banner. */
+:root {
+  /* H1 hero · manifeste de la page (1 seul par page) · Instrument Serif */
+  --text-h1-hero:    clamp(40px, 6vw, 92px);
+
+  /* H2 grand · climax final (BookSession ou rare moment cinématique) */
+  --text-h2-grand:   clamp(44px, 7vw, 96px);
+
+  /* H2 section · titre par défaut de toute section majeure de page */
+  --text-h2-section: clamp(28px, 4vw, 56px);
+
+  /* H2 tight · sections compactes (FAQ, sidebar, formats narrow) */
+  --text-h2-tight:   clamp(24px, 3vw, 42px);
+
+  /* H3 row · titres dans index/rows éditoriaux (Departments rows, Notes rows) */
+  --text-h3-row:     clamp(20px, 2vw, 28px);
+
+  /* H3 card · titres dans cards/cells (CapabilityStrip cells, SixServices cells) */
+  --text-h3-card:    clamp(18px, 1.6vw, 24px);
+
+  /* H4 meta · sub-titles, labels inline */
+  --text-h4-meta:    clamp(14px, 1.1vw, 16px);
+
+  /* Line-heights cohérents par classe */
+  --leading-h1:      0.96;
+  --leading-h2:      1.02;
+  --leading-h3:      1.1;
+  --leading-h4:      1.3;
+}
+
 /* ─── GRID 12-COL · breakouts éditoriaux ─── */
 :root {
   --grid-cols: 12;

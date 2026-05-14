@@ -50,12 +50,12 @@ const { items, heading = 'Questions fréquentes', intro } = Astro.props;
     padding: clamp(56px, 7vw, 88px) 0;
   }
 
-  /* V6 cap "titres pas trop gros" + densification one-viewport */
+  /* H2 token sémantique · variant tight (FAQ compact) · cf tokens.css */
   .faq-h2 {
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 400;
-    font-size: clamp(24px, 3vw, 42px);
+    font-size: var(--text-h2-tight);
     line-height: 1.15;
     letter-spacing: -0.02em;
     margin-bottom: clamp(20px, 2.5vw, 36px);
