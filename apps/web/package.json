@@ -17,7 +17,8 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:prod": "PLAYWRIGHT_BASE_URL=https://waimia-v2.vercel.app playwright test",
-    "clean": "rm -rf dist .astro .vercel .turbo"
+    "clean": "rm -rf dist .astro .vercel .turbo",
+    "visual": "node scripts/visual-check.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.4",
