@@ -78,10 +78,7 @@ const year = new Date().getFullYear();
     </div>
   </div>
 
-  {/* ──── DEV-INDEX · visible en prod ET dev (Simon le préfère pour validation
-       visuelle continue). Trade-off SEO/AIO accepté : signal "site en chantier"
-       côté crawlers. À retirer/déplacer vers /agence/sitemap dédiée plus tard
-       quand le contenu sera figé. */}
+  {import.meta.env.DEV && (
   <div class="wrap hline ft-devindex" style="padding-top:clamp(40px,4vw,60px);padding-bottom:clamp(40px,4vw,60px)">
     <div class="ft-dev-hd">
       <span class="ft-dev-tag">⌘ DEV INDEX</span>
@@ -253,6 +250,7 @@ const year = new Date().getFullYear();
       </div>
     </div>
   </div>
+  )}
 
   {/* Bottom — copyright + lang switcher + socials */}
   <div class="wrap hline ft-bottom">

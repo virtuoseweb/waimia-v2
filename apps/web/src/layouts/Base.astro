@@ -125,7 +125,7 @@ const additionalLd = additionalJsonLd
       <slot />
     </main>
     <Footer />
-    <PagePill />
+    {import.meta.env.DEV && <PagePill />}
     <CookiesBanner lang={lang} />
 
     <script>
@@ -161,6 +161,17 @@ const additionalLd = additionalJsonLd
           document.querySelectorAll(sels).forEach((el) => {
             if (!el.classList.contains('in')) io.observe(el);
           });
+          // Fallback pour les éléments above-the-fold masqués par BootSplash overlay
+          // (~1100ms) : l'IO ne déclenche pas pendant que l'overlay z-index:200 couvre tout.
+          setTimeout(() => {
+            document.querySelectorAll(sels).forEach((el) => {
+              if (el.classList.contains('in')) return;
+              const r = el.getBoundingClientRect();
+              if (r.top < window.innerHeight * 0.95 && r.bottom > 0) {
+                el.classList.add('in');
+              }
+            });
+          }, 1300);
         }
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', initRevealObserver);
