@@ -43,19 +43,17 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
       <MastheadRow />
     </div>
 
-    {/* Headline · mask-up reveal · Instrument Serif */}
+    {/* Headline · mask-up reveal · Instrument Serif · 2 lignes orienté résultat */}
     <h1 id="hero-heading" class="hero-headline reveal-mask-up" transition:name={`hero-h1-${pageTransitionId}`}>
       {lang === 'fr' ? (
         <>
-          L'<i class="acc">IA</i><br />
-          <i>dans</i> Excel, HubSpot,<br />
-          Outlook.
+          L'<i class="acc">IA</i> dans vos outils.<br />
+          <i>Des résultats</i> dans vos chiffres.
         </>
       ) : (
         <>
-          <i class="acc">AI</i><br />
-          <i>inside</i> Excel, HubSpot,<br />
-          Outlook.
+          <i class="acc">AI</i> in your tools.<br />
+          <i>Results</i> in your numbers.
         </>
       )}
     </h1>
@@ -66,30 +64,95 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
         <Kicker class="hero-fig">§ 01 · {lang === 'fr' ? 'Promesse' : 'Promise'}</Kicker>
         <p class="hero-lede reveal reveal-fade">
           {lang === 'fr' ? (
-            <>Pas de démos. Pas de diaporamas. Des <i>systèmes</i> câblés dans vos outils, mesurés dès la première semaine.</>
+            <>On câble l'<i>IA</i> dans Excel, HubSpot et Outlook pour automatiser acquisition, CRM et relances — sans changer vos process.</>
           ) : (
-            <>No demos. No decks. <i>Systems</i> wired into your tools, measured from week one.</>
+            <>We wire <i>AI</i> into Excel, HubSpot and Outlook to automate acquisition, CRM and follow-ups — without changing your process.</>
           )}
         </p>
+
+        {/* Pills outils · stack natif d'intégration · hairline 1px terracotta sur hover */}
+        <ul class="hero-tools reveal reveal-fade" aria-label={lang === 'fr' ? 'Outils intégrés' : 'Integrated tools'}>
+          <li class="hero-tool">
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="1" y="2" width="14" height="12" rx="1" stroke="currentColor" stroke-width="1" fill="none"/><path d="M5 5l6 6M11 5l-6 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <span>Excel</span>
+          </li>
+          <li class="hero-tool">
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1" fill="none"/><circle cx="11.5" cy="4.5" r="1.4" stroke="currentColor" stroke-width="1" fill="none"/><path d="M8 4v4l3 1.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+            <span>HubSpot</span>
+          </li>
+          <li class="hero-tool">
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="1.5" y="3" width="9" height="10" rx="0.5" stroke="currentColor" stroke-width="1" fill="none"/><circle cx="6" cy="8" r="1.8" stroke="currentColor" stroke-width="1" fill="none"/><path d="M11 6h3.5v6L11 13" stroke="currentColor" stroke-width="1" fill="none" stroke-linejoin="round"/></svg>
+            <span>Outlook</span>
+          </li>
+        </ul>
+
         <div class="hero-ctas reveal reveal-snap">
           <Button href={ctaHref} variant="primary" size="lg" mag={0.18}>
-            {lang === 'fr' ? 'Démarrer →' : 'Activate →'}
+            {lang === 'fr' ? 'Réserver un audit →' : 'Book an audit →'}
           </Button>
           <Button href={offerHref} variant="ghost" size="lg">
             {lang === 'fr' ? 'Voir Growth System IA' : 'See AI Growth System'}
           </Button>
         </div>
+        <p class="hero-cta-sub reveal reveal-fade">
+          {lang === 'fr'
+            ? <>Audit IA opérationnel · 30 min · on identifie <i>3 automatisations rentables</i>.</>
+            : <>AI operational audit · 30 min · we identify <i>3 high-ROI automations</i>.</>}
+        </p>
       </div>
 
       <div>
-        <Kicker class="hero-fig">§ 02 · {lang === 'fr' ? 'En clair' : 'In short'}</Kicker>
-        <p class="hero-context">
-          {lang === 'fr'
-            ? "Acquisition. CRM. Relances. Productivité. Le mardi on câble. Le vendredi on mesure."
-            : 'Acquisition. CRM. Follow-ups. Productivity. Tuesday we wire. Friday we measure.'}
-        </p>
+        <Kicker class="hero-fig">§ 02 · {lang === 'fr' ? 'Résultats concrets' : 'Concrete results'}</Kicker>
+
+        {/* 3 preuves verticales · format "n · label" éditorial · hairline 1px entre */}
+        <ul class="hero-proofs reveal reveal-fade" aria-label={lang === 'fr' ? 'Preuves de résultats' : 'Result proofs'}>
+          <li class="hero-proof">
+            <span class="hero-proof-num">+12h</span>
+            <span class="hero-proof-label">
+              {lang === 'fr'
+                ? <>économisées <i>par équipe</i> · semaine</>
+                : <>saved <i>per team</i> · week</>}
+            </span>
+          </li>
+          <li class="hero-proof">
+            <span class="hero-proof-num">5 j</span>
+            <span class="hero-proof-label">
+              {lang === 'fr'
+                ? <>jusqu'au <i>premier système</i> livré</>
+                : <>to the <i>first system</i> shipped</>}
+            </span>
+          </li>
+          <li class="hero-proof">
+            <span class="hero-proof-num">100%</span>
+            <span class="hero-proof-label">
+              {lang === 'fr'
+                ? <>intégré · <i>sans changer</i> vos outils</>
+                : <>integrated · <i>no migration</i></>}
+            </span>
+          </li>
+        </ul>
       </div>
     </div>
+
+    {/* Trust bar · 4 piliers éditoriaux · hairline top · mono kicker + serif claim */}
+    <ul class="hero-trust reveal reveal-fade" aria-label={lang === 'fr' ? 'Engagements Waimia' : 'Waimia commitments'}>
+      <li class="hero-trust-item">
+        <span class="hero-trust-tag">{lang === 'fr' ? '§ 01' : '§ 01'}</span>
+        <span class="hero-trust-claim">{lang === 'fr' ? <>Pas de démos.<br/><i>Des systèmes.</i></> : <>No demos.<br/><i>Systems.</i></>}</span>
+      </li>
+      <li class="hero-trust-item">
+        <span class="hero-trust-tag">§ 02</span>
+        <span class="hero-trust-claim">{lang === 'fr' ? <>Intégré ·<br/><i>sans disruption.</i></> : <>Integrated ·<br/><i>no disruption.</i></>}</span>
+      </li>
+      <li class="hero-trust-item">
+        <span class="hero-trust-tag">§ 03</span>
+        <span class="hero-trust-claim">{lang === 'fr' ? <>Mesurable dès la<br/><i>première semaine.</i></> : <>Measured from<br/><i>week one.</i></>}</span>
+      </li>
+      <li class="hero-trust-item">
+        <span class="hero-trust-tag">§ 04</span>
+        <span class="hero-trust-claim">{lang === 'fr' ? <>Accompagnement<br/><i>sur-mesure.</i></> : <>Bespoke<br/><i>partnership.</i></>}</span>
+      </li>
+    </ul>
   </div>
 </section>
 
@@ -161,6 +224,34 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
   }
   .hero-lede i { font-style: italic; color: var(--accent); }
 
+  /* Pills outils · hairline 1px · mono micro · hover accent */
+  .hero-tools {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-5) 0 0;
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    transition-delay: 280ms;
+  }
+  .hero-tool {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    background: transparent;
+    transition: border-color 220ms var(--ease), color 220ms var(--ease);
+  }
+  .hero-tool:hover { border-color: var(--accent); color: var(--accent); }
+  .hero-tool svg { width: 14px; height: 14px; flex-shrink: 0; color: var(--ink-2); }
+  .hero-tool:hover svg { color: var(--accent); }
+
   /* CTAs · reveal-snap delay 400ms */
   .hero-ctas {
     display: flex;
@@ -170,16 +261,86 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
     transition-delay: 400ms;
   }
 
-  /* Contexte droit · Instrument Serif · pas d'accent supplémentaire */
-  .hero-context {
-    font-family: var(--font-display);
-    font-size: clamp(22px, 2.3vw, 34px);
-    line-height: 1.18;
-    color: var(--ink);
-    max-width: 560px;
-    text-wrap: balance;
-    margin: 0;
+  /* Sub-CTA · précise format audit · serif italique terracotta */
+  .hero-cta-sub {
+    margin: var(--space-3) 0 0;
+    font-family: var(--font-sans);
+    font-size: clamp(13px, 1vw, 14px);
+    line-height: 1.5;
+    color: var(--ink-2);
+    letter-spacing: 0.005em;
+    transition-delay: 520ms;
   }
+  .hero-cta-sub i { font-style: italic; color: var(--accent); }
+
+  /* Right rail · preuves verticales orientées conversion · hairline entre */
+  .hero-proofs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    transition-delay: 320ms;
+  }
+  .hero-proof {
+    display: grid;
+    grid-template-columns: minmax(110px, 0.4fr) 1fr;
+    gap: clamp(16px, 1.8vw, 28px);
+    align-items: baseline;
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .hero-proof:first-child { padding-top: 0; }
+  .hero-proof:last-child { border-bottom: 0; }
+  .hero-proof-num {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4.6vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .hero-proof-label {
+    font-family: var(--font-sans);
+    font-size: clamp(14px, 1.05vw, 16px);
+    line-height: 1.4;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .hero-proof-label i { font-style: italic; color: var(--ink-2); }
+
+  /* Trust bar · 4 piliers · hairline top · mono kicker + serif claim */
+  .hero-trust {
+    list-style: none;
+    padding: var(--space-6) 0 var(--space-7);
+    margin: 0;
+    border-top: 1px solid var(--hairline);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(24px, 3vw, 56px);
+    transition-delay: 640ms;
+  }
+  .hero-trust-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: flex-start;
+  }
+  .hero-trust-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .hero-trust-claim {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.5vw, 22px);
+    line-height: 1.25;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .hero-trust-claim i { font-style: italic; color: var(--accent); }
 
   /* Metrics wrapper · préserve le layout MetricStrip */
   .metrics-reveal { display: block; }
@@ -187,5 +348,11 @@ const metrics = HERO_METRICS.map((m) => ({ k: m.k, n: m.n, label: t(m.label, lan
   @media (max-width: 900px) {
     .hero-sub { grid-template-columns: 1fr; gap: var(--space-10); }
     .hero-sig-mark { display: none; }
+    .hero-trust { grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
+    .hero-proof { grid-template-columns: 90px 1fr; gap: var(--space-4); }
+  }
+  @media (max-width: 560px) {
+    .hero-trust { grid-template-columns: 1fr; gap: var(--space-5); }
+    .hero-proof { grid-template-columns: 1fr; gap: 4px; padding: var(--space-3) 0; }
   }
 </style>
