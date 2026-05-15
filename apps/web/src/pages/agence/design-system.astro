@@ -34,7 +34,11 @@ import TechPillRow from '../../components/ui/molecules/TechPillRow.astro';
 import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
 
 // Sections W6 composable V2 — showcase live §6
+import HeroSplit from '../../components/sections/HeroSplit.astro';
+import HeroCentered from '../../components/sections/HeroCentered.astro';
+import ProofBarSection from '../../components/sections/ProofBarSection.astro';
 import MethodTimeline from '../../components/sections/MethodTimeline.astro';
+import FeatureGrid from '../../components/sections/FeatureGrid.astro';
 import FaqAccordion from '../../components/sections/FaqAccordion.astro';
 import CtaFinal from '../../components/sections/CtaFinal.astro';
 ---
@@ -624,8 +628,79 @@ import CtaFinal from '../../components/sections/CtaFinal.astro';
         </div>
 
         <div class="ds-subsection">
-          <h3 class="ds-h3">Showcase live · 3 sections les plus utilisées</h3>
+          <h3 class="ds-h3">Showcase live · 6 sections les plus utilisées</h3>
           <p class="ds-help">Démos avec mock data. Pattern d'usage in-page.</p>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>HeroSplit · type "hero-split" (right_block: mockup)</Kicker>
+            <div class="ds-section-demo-frame ds-demo-hero">
+              <HeroSplit data={{
+                type: 'hero-split',
+                kicker_fr: 'Démo Hero · Split layout',
+                kicker_en: 'Demo Hero · Split layout',
+                h1_fr: 'L\'agent IA <i>pioche</i>, ne réinvente pas.',
+                h1_en: 'The AI agent <i>picks</i>, never reinvents.',
+                lede_fr: 'Le composable W6 expose 19 sections cataloguées. Chaque section atomique, testée, validée.',
+                lede_en: 'W6 composable exposes 19 catalogued sections. Each atomic, tested, validated.',
+                cta_primary: { label_fr: 'Voir le catalogue →', label_en: 'View catalogue →', href: '/agence/design-system', variant: 'primary' },
+                cta_secondary: { label_fr: 'Lire la doc', label_en: 'Read the docs', href: '/agence/docs', variant: 'ghost' },
+                right_block: { kind: 'workflow-svg' },
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>HeroCentered · type "hero-centered"</Kicker>
+            <div class="ds-section-demo-frame ds-demo-hero">
+              <HeroCentered data={{
+                type: 'hero-centered',
+                kicker_fr: 'Démo · Centred layout',
+                kicker_en: 'Demo · Centred layout',
+                h1_fr: 'Hero <i>centered</i> pour pages standalone',
+                h1_en: 'Hero <i>centered</i> for standalone pages',
+                lede_fr: 'Variante minimaliste pour manifestes ou pages d\'introduction sans right-block.',
+                lede_en: 'Minimal variant for manifestos or intro pages without right-block.',
+                cta_primary: { label_fr: 'Continuer →', label_en: 'Continue →', href: '#', variant: 'primary' },
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>ProofBarSection · type "proof-bar" (layout: horizontal)</Kicker>
+            <div class="ds-section-demo-frame">
+              <ProofBarSection data={{
+                type: 'proof-bar',
+                kicker_fr: 'Preuves · démo design system',
+                kicker_en: 'Proof · design system demo',
+                metrics: [
+                  { value: '118', label_fr: 'tokens canoniques', label_en: 'canonical tokens', emphasis: true },
+                  { value: '19', label_fr: 'sections W6', label_en: 'W6 sections', emphasis: false },
+                  { value: '114', label_fr: 'composants atomic', label_en: 'atomic components', emphasis: false },
+                  { value: '0', label_fr: 'hallucinations', label_en: 'hallucinations', emphasis: false },
+                ],
+                layout: 'horizontal',
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>FeatureGrid · type "feature-grid" (columns: 3)</Kicker>
+            <div class="ds-section-demo-frame">
+              <FeatureGrid data={{
+                type: 'feature-grid',
+                kicker_fr: 'Démo · grille features',
+                kicker_en: 'Demo · features grid',
+                h2_fr: 'Trois <i>piliers</i> du DS Waimia',
+                h2_en: 'Three <i>pillars</i> of Waimia DS',
+                features: [
+                  { title_fr: 'Tokens canoniques', title_en: 'Canonical tokens', body_fr: '118 tokens CSS exposés à :root. Pioche, n\'invente pas.', body_en: '118 CSS tokens at :root. Pick, never invent.' },
+                  { title_fr: 'Composants atomiques', title_en: 'Atomic components', body_fr: '114 composants en 7 couches Tier 1.', body_en: '114 components across 7 Tier 1 layers.' },
+                  { title_fr: 'Anti-hallucination', title_en: 'Anti-hallucination', body_fr: '5 anti-patterns documentés avec commandes de détection.', body_en: '5 anti-patterns documented with detection commands.' },
+                ],
+                columns: '3',
+              }} lang="fr" />
+            </div>
+          </div>
 
           <div class="ds-section-demo">
             <Kicker tone="muted" size={10}>MethodTimeline · type "method-timeline"</Kicker>
@@ -1124,6 +1199,12 @@ import CtaFinal from '../../components/sections/CtaFinal.astro';
     letter-spacing: 0.14em;
     color: var(--muted-2);
     z-index: 2;
+  }
+  /* Override header clearance pour heros en démo (sinon padding-top énorme dans le frame) */
+  .ds-demo-hero :global(.hero-split),
+  .ds-demo-hero :global(.hero-centered),
+  .ds-demo-hero :global(.hero-fb) {
+    padding-top: var(--section-base) !important;
   }
 
   /* ─── CODE BLOCK ─── */
