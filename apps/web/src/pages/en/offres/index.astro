@@ -1,0 +1,473 @@
+---
+// Page · /en/offres · Offer pyramid — EN mirror
+export const prerender = true;
+
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import CtaBand from '../../../components/ui/organisms/CtaBand.astro';
+import Breadcrumb from '../../../components/ui/molecules/Breadcrumb.astro';
+
+const offresJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': 'https://waimia.com/en/offres',
+  name: 'Waimia Offers — AI Systems for SMEs and Mid-Caps',
+  description: 'Three AI engagement tiers: Discovery, Transformation, Partnership.',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'AI Maturity Audit', url: 'https://waimia.com/offres/audit-maturite-ia' },
+    { '@type': 'ListItem', position: 2, name: 'AI Activation', url: 'https://waimia.com/offres/activation-ia' },
+    { '@type': 'ListItem', position: 3, name: 'Growth System AI', url: 'https://waimia.com/offres/growth-system-ia' },
+    { '@type': 'ListItem', position: 4, name: 'Growth Intelligence', url: 'https://waimia.com/offres/growth-intelligence' },
+    { '@type': 'ListItem', position: 5, name: 'Operational Productivity AI', url: 'https://waimia.com/offres/productivite-operationnelle-ia' },
+    { '@type': 'ListItem', position: 6, name: 'AI Website', url: 'https://waimia.com/offres/site-web-ia' },
+    { '@type': 'ListItem', position: 7, name: 'AI App for SMEs', url: 'https://waimia.com/offres/application-ia-pme' },
+    { '@type': 'ListItem', position: 8, name: 'RevOps', url: 'https://waimia.com/offres/revops' },
+    { '@type': 'ListItem', position: 9, name: 'Claude Cowork', url: 'https://waimia.com/offres/claude-cowork' },
+    { '@type': 'ListItem', position: 10, name: 'Advisory', url: 'https://waimia.com/offres/conseil' },
+    { '@type': 'ListItem', position: 11, name: 'AI Infrastructure', url: 'https://waimia.com/offres/infrastructure-ia' },
+  ],
+};
+---
+<Base
+  title="Offers · Engagement pyramid · Waimia"
+  description="Three AI engagement tiers — Discovery, Transformation, Partnership. Audit, Activation, Growth System, Claude Cowork and more."
+  jsonLd={offresJsonLd}
+>
+
+  <div class="wrap-wide" style="padding-top: 24px;">
+    <Breadcrumb items={[{label:'Home', href:'/en'}, {label:'Offers'}]} />
+  </div>
+
+  <!-- 1. EDITORIAL HERO -->
+  <section class="hub-mast">
+    <div class="wrap-wide">
+      <Kicker class="hub-kicker">§ Offers · Waimia</Kicker>
+      <h1 class="hub-h1 reveal-mask-up">
+        Three <i>levels</i>.<br/>One <i>method</i>.
+      </h1>
+      <p class="hub-lede reveal" style="transition-delay:200ms">
+        Discovery, transformation, partnership.
+        Each offer is a step. Choose the right one.
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. SIGNATURE PYRAMID SVG -->
+  <div class="pyramid-wrap reveal">
+    <svg
+      viewBox="0 0 800 440"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="Waimia offer pyramid — three tiers"
+    >
+      <!-- Isosceles triangle apex top, base bottom -->
+      <polygon
+        points="400,40 80,400 720,400"
+        fill="none"
+        stroke="var(--ink)"
+        stroke-width="0.5"
+      />
+      <!-- Tier III / Tier II line — y=175 — computed intersections -->
+      <line x1="280" y1="175" x2="520" y2="175" stroke="var(--ink)" stroke-width="0.5"/>
+      <!-- Tier II / Tier I line — y=295 — computed intersections -->
+      <line x1="173" y1="295" x2="627" y2="295" stroke="var(--ink)" stroke-width="0.5"/>
+
+      <!-- Tier III labels (apex) -->
+      <text x="400" y="101" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--muted)" letter-spacing="0.1em">III</text>
+      <text x="400" y="118" text-anchor="middle" font-family="Inter Tight, sans-serif" font-size="10" fill="var(--muted-2)">Partnership</text>
+
+      <!-- Tier II labels (middle) -->
+      <text x="400" y="227" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--muted)" letter-spacing="0.1em">II</text>
+      <text x="400" y="244" text-anchor="middle" font-family="Inter Tight, sans-serif" font-size="10" fill="var(--muted-2)">Transformation</text>
+
+      <!-- Tier I labels (base) -->
+      <text x="400" y="340" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--muted)" letter-spacing="0.1em">I</text>
+      <text x="400" y="357" text-anchor="middle" font-family="Inter Tight, sans-serif" font-size="10" fill="var(--muted-2)">Discovery</text>
+    </svg>
+  </div>
+
+  <!-- 3. TIER I · DISCOVERY -->
+  <section class="tier-section tier-i wrap-wide">
+    <p class="tier-eyebrow reveal-snap">I · DISCOVERY</p>
+    <h2 class="tier-h2 reveal">Understand before deciding.</h2>
+    <p class="tier-lede reveal" style="transition-delay:100ms">
+      Before investing in a system, run the diagnosis.
+    </p>
+    <div class="tier-grid reveal-stagger">
+      <a href="/offres/audit-maturite-ia" class="offer-card">
+        <p class="card-price">FROM €5K</p>
+        <h3 class="card-title">AI Maturity Audit</h3>
+        <p class="card-lead">Process mapping, identification of priority AI levers, costed roadmap.</p>
+        <span class="card-cta">See offer →</span>
+      </a>
+      <a href="/offres/activation-ia" class="offer-card">
+        <p class="card-price">€1K TO €5K</p>
+        <h3 class="card-title">AI Activation</h3>
+        <p class="card-lead">Five days. One workflow in production. Not a POC, not a demo. A measurable result by Friday.</p>
+        <span class="card-cta">See offer →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 4. TIER II · TRANSFORMATION -->
+  <section class="tier-section tier-ii">
+    <div class="wrap-wide">
+      <p class="tier-eyebrow reveal-snap">II · TRANSFORMATION</p>
+      <h2 class="tier-h2 reveal">Build systems that last.</h2>
+      <p class="tier-lede reveal" style="transition-delay:100ms">
+        Website, CRM, analytics, productivity — connected and measured.
+      </p>
+
+      <!-- Hero card Growth System AI -->
+      <a href="/offres/growth-system-ia" class="hero-card reveal">
+        <p class="hero-card-eyebrow">FLAGSHIP OFFER · €5K TO €20K</p>
+        <h3 class="hero-card-title">Growth System AI</h3>
+        <p class="hero-card-sub">Not a website. Not a CRM. A system.</p>
+        <p class="hero-card-lead">Website, CRM, follow-ups, reporting — connected and measured. Tuesday we wire. Friday we measure.</p>
+        <span class="hero-card-cta">Activate →</span>
+      </a>
+
+      <!-- Grid 5 remaining offers -->
+      <div class="tier-grid tier-ii-grid reveal-stagger">
+        <a href="/offres/growth-intelligence" class="offer-card">
+          <p class="card-price">€8K TO €35K</p>
+          <h3 class="card-title">Growth Intelligence</h3>
+          <p class="card-lead">Commercial and operational KPIs in real time. Readable numbers before the meeting.</p>
+          <span class="card-cta">See offer →</span>
+        </a>
+        <a href="/offres/productivite-operationnelle-ia" class="offer-card">
+          <p class="card-price">€6K TO €25K</p>
+          <h3 class="card-title">Operational Productivity AI</h3>
+          <p class="card-lead">Augmented Excel, connected Office, internal workflows that run without human follow-up.</p>
+          <span class="card-cta">See offer →</span>
+        </a>
+        <a href="/offres/site-web-ia" class="offer-card">
+          <p class="card-price">WEBSITE</p>
+          <h3 class="card-title">AI Website</h3>
+          <p class="card-lead">A site built to convert, measured, connected to your CRM. Not a static brochure.</p>
+          <span class="card-cta">See offer →</span>
+        </a>
+        <a href="/offres/application-ia-pme" class="offer-card">
+          <p class="card-price">APPLICATION</p>
+          <h3 class="card-title">AI App for SMEs</h3>
+          <p class="card-lead">A bespoke business tool, trained on your data, integrated into your existing workflows.</p>
+          <span class="card-cta">See offer →</span>
+        </a>
+        <a href="/offres/revops" class="offer-card">
+          <p class="card-price">REVOPS</p>
+          <h3 class="card-title">RevOps</h3>
+          <p class="card-lead">Sales, marketing, and support aligned on a single pipeline. Every friction identified and eliminated.</p>
+          <span class="card-cta">See offer →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. TIER III · PARTNERSHIP -->
+  <section class="tier-section tier-iii wrap-wide">
+    <p class="tier-eyebrow reveal-snap">III · PARTNERSHIP</p>
+    <h2 class="tier-h2 reveal">For those who want to go further.</h2>
+    <p class="tier-lede reveal" style="transition-delay:100ms; max-width:560px">
+      A long-term commitment. A dedicated team. A shared ambition.
+    </p>
+    <div class="tier-grid tier-iii-grid reveal-stagger">
+      <a href="/offres/claude-cowork" class="offer-card offer-card--transparent">
+        <p class="card-price">FROM €3,500</p>
+        <h3 class="card-title">Claude Cowork</h3>
+        <p class="card-lead">Work directly with Claude and Simon. Deep sessions, AI strategy, live implementation.</p>
+        <span class="card-cta">See offer →</span>
+      </a>
+      <a href="/offres/conseil" class="offer-card offer-card--transparent">
+        <p class="card-price">ADVISORY</p>
+        <h3 class="card-title">Advisory</h3>
+        <p class="card-lead">Long-term strategic support. AI architecture decisions, governance, team training.</p>
+        <span class="card-cta">See offer →</span>
+      </a>
+      <a href="/offres/infrastructure-ia" class="offer-card offer-card--transparent">
+        <p class="card-price">€25K TO €150K+</p>
+        <h3 class="card-title">AI Infrastructure</h3>
+        <p class="card-lead">When AI pilots scatter. A shared infrastructure, governance, and a trained internal team.</p>
+        <span class="card-cta">See offer →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 6. SHORT MANIFESTO -->
+  <section class="manifesto">
+    <blockquote class="mf-quote reveal-fade">
+      <i>Every engagement starts with the right step.</i>
+    </blockquote>
+    <p class="mf-body">
+      It's not a question of budget. It's a question of maturity.
+      Audit, Activation, Systems, Partnership — the progression is designed.
+    </p>
+  </section>
+
+  <!-- 7. CTA BAND -->
+  <CtaBand />
+</Base>
+
+<style>
+  /* ── MAST ──────────────────────────────────────────────────── */
+  .hub-mast {
+    padding: 140px 32px clamp(48px, 6vw, 88px);
+  }
+  :global(.hub-kicker) {
+    display: block;
+    margin-bottom: 24px;
+  }
+  .hub-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(60px, 11vw, 180px);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+  .hub-h1 i {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .hub-lede {
+    font-family: var(--font-sans);
+    font-size: clamp(17px, 1.6vw, 19px);
+    line-height: 1.65;
+    color: var(--muted);
+    margin: 32px 0 0;
+    max-width: 580px;
+  }
+
+  /* ── PYRAMIDE ──────────────────────────────────────────────── */
+  .pyramid-wrap {
+    display: flex;
+    justify-content: center;
+    padding: clamp(48px, 6vw, 80px) 32px;
+  }
+  .pyramid-wrap svg {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+  }
+
+  /* ── TIER SECTIONS ─────────────────────────────────────────── */
+  .tier-section {
+    padding-top: clamp(80px, 10vw, 128px);
+    padding-bottom: clamp(80px, 10vw, 128px);
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+  .tier-ii {
+    background: var(--paper-2);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .tier-ii .wrap-wide {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .tier-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin: 0 0 20px;
+  }
+  .tier-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 88px);
+    font-weight: 400;
+    line-height: 0.96;
+    letter-spacing: -0.024em;
+    margin: 0 0 18px;
+  }
+  .tier-lede {
+    font-family: var(--font-sans);
+    font-size: clamp(16px, 1.5vw, 18px);
+    color: var(--muted);
+    line-height: 1.65;
+    margin: 0 0 clamp(36px, 5vw, 60px);
+    max-width: 580px;
+  }
+
+  /* ── GRIDS ─────────────────────────────────────────────────── */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 2.5vw, 28px);
+  }
+  .tier-ii-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: clamp(20px, 3vw, 32px);
+  }
+  .tier-iii-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* ── OFFER CARD ────────────────────────────────────────────── */
+  .offer-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: clamp(24px, 3.5vw, 44px);
+    border: 1px solid var(--hairline);
+    background: var(--paper-2);
+    color: var(--ink);
+    transition: border-color 220ms var(--ease), transform 200ms var(--ease);
+  }
+  .offer-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .offer-card--transparent {
+    background: transparent;
+  }
+  .offer-card--transparent:hover {
+    background: var(--paper-2);
+    border-color: var(--accent);
+  }
+  .card-price {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin: 0;
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .card-lead {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+    flex: 1;
+  }
+  .card-cta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-top: auto;
+  }
+
+  /* ── HERO CARD · Growth System AI ─────────────────────────── */
+  .hero-card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: clamp(36px, 5vw, 64px);
+    background: var(--ink);
+    color: var(--paper);
+    border: 2px solid var(--accent);
+    transition: transform 260ms var(--ease);
+  }
+  .hero-card:hover {
+    transform: translateY(-3px);
+  }
+  .hero-card-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+  }
+  .hero-card-title {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 8vw, 96px);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+  .hero-card-sub {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.4vw, 28px);
+    font-style: italic;
+    color: var(--accent);
+    line-height: 1.15;
+    margin: 0;
+  }
+  .hero-card-lead {
+    font-family: var(--font-sans);
+    font-size: clamp(15px, 1.6vw, 17px);
+    line-height: 1.6;
+    color: rgba(246, 241, 232, 0.78);
+    margin: 0;
+    max-width: 640px;
+  }
+  .hero-card-cta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+
+  /* ── MANIFESTO ─────────────────────────────────────────────── */
+  .manifesto {
+    padding: clamp(80px, 10vw, 140px) clamp(20px, 5vw, 80px);
+    background: var(--paper-2);
+    text-align: center;
+  }
+  .mf-quote {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 56px);
+    font-style: italic;
+    font-weight: 400;
+    margin: 0 auto clamp(24px, 3vw, 40px);
+    max-width: 860px;
+    line-height: 1.1;
+  }
+  .mf-body {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ── RESPONSIVE ────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .tier-grid,
+    .tier-ii-grid,
+    .tier-iii-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .hub-mast {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .tier-section {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .tier-ii .wrap-wide {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .pyramid-wrap {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .manifesto {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+</style>

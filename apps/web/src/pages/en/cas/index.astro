@@ -1,0 +1,264 @@
+---
+// Page · /en/cas · Case studies hub — EN mirror
+export const prerender = true;
+
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+
+const featuredCases = [
+  {
+    slug: 'plateau',
+    caseNum: '01',
+    sector: 'B2B SaaS',
+    title: 'Plateau · pipeline reconnected',
+    headline: '+€2.4M pipeline recovered.',
+    duration: '10 wks',
+  },
+  {
+    slug: 'halcyon',
+    caseNum: '02',
+    sector: 'Healthtech',
+    title: 'Halcyon · automated triage',
+    headline: '−38% triage time. +14 CSAT pts.',
+    duration: '6 wks',
+  },
+  {
+    slug: 'northbound',
+    caseNum: '03',
+    sector: 'EU Fintech',
+    title: 'Northbound · continuous scoring',
+    headline: '×3.1 lead → SQL conversion.',
+    duration: '14 wks',
+  },
+  {
+    slug: 'caserne',
+    caseNum: '04',
+    sector: 'French Industry',
+    title: 'Caserne · finance streamlined',
+    headline: '1,200 hours/year reclaimed.',
+    duration: '8 wks',
+  },
+];
+
+const [featured, ...rest] = featuredCases;
+---
+<Base
+  title="Case studies · pipelines reconnected, operations streamlined · Waimia"
+  description="No marketing. Numbers, problems, what we shipped. What held."
+>
+  <section class="hub-mast reveal">
+    <div class="wrap-wide">
+      <Kicker>§ Case studies · Measured ROI, not promised</Kicker>
+      <h1 class="hub-h1">
+        <span>No <i>marketing</i>.</span><br/><span>Numbers.</span>
+      </h1>
+      <p class="hub-lede">
+        Four cases. Four SMB pain points. What we shipped, what held, what it delivered. No staged testimonials.
+      </p>
+    </div>
+  </section>
+
+  <section class="cas-grid-outer wrap-wide">
+    <div class="cas-grid reveal-stagger">
+      <a href={`/cas/${featured.slug}`} class="cas-card cas-card--featured">
+        <div class="cas-card-kicker">§ Case {featured.caseNum} · {featured.sector} · {featured.duration}</div>
+        <h2 class="cas-card-title">{featured.title}</h2>
+        <p class="cas-card-headline">{featured.headline}</p>
+        <span class="cas-card-cta">Read case →</span>
+      </a>
+      <div class="cas-secondary">
+        {rest.map((c) => (
+          <a href={`/cas/${c.slug}`} class="cas-card">
+            <div class="cas-card-kicker">§ Case {c.caseNum} · {c.sector} · {c.duration}</div>
+            <h2 class="cas-card-title">{c.title}</h2>
+            <p class="cas-card-headline">{c.headline}</p>
+            <span class="cas-card-cta">Read case →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cas-cta reveal">
+    <div class="wrap-wide cas-cta-inner">
+      <span class="eyebrow">§ Wire yours</span>
+      <h2 class="cas-cta-h">
+        Your firm has a <em>Plateau</em>.<br/><em>Tuesday we wire.</em> Friday we measure.
+      </h2>
+      <a href="/en/contact" class="cas-cta-btn">
+        Recover my pipeline →
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hub-mast { padding: clamp(80px, 10vw, 120px) 32px 60px; }
+  .hub-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 10vw, 160px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    margin: 20px 0 32px;
+    text-wrap: balance;
+    animation: mask-reveal 1s cubic-bezier(0.16, 1, 0.30, 1) both;
+  }
+  .hub-h1 i { font-style: italic; color: var(--accent); }
+  .hub-lede {
+    font-size: clamp(15px, 1.5vw, 18px);
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.55;
+  }
+
+  .cas-grid-outer { margin: 0 auto; padding: 0 32px; }
+  .cas-grid {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    margin: 40px 0 80px;
+  }
+  .cas-secondary {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--hairline);
+  }
+  .cas-card {
+    display: flex;
+    flex-direction: column;
+    padding: 36px 32px 32px;
+    background: var(--paper);
+    border-top: 1px solid transparent;
+    text-decoration: none;
+    color: inherit;
+    transition:
+      background 180ms var(--ease),
+      border-top-color 220ms var(--ease),
+      box-shadow 220ms var(--ease),
+      transform 220ms var(--ease);
+    gap: 10px;
+    height: 100%;
+    box-sizing: border-box;
+  }
+  .cas-card:hover {
+    background: var(--paper-2);
+    border-top-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 36px rgba(12, 11, 9, 0.06);
+  }
+  .cas-card--featured {
+    padding: 56px 48px 48px;
+  }
+  .cas-card--featured .cas-card-title {
+    font-size: clamp(28px, 4vw, 52px);
+    margin-top: 12px;
+  }
+  .cas-card--featured .cas-card-headline {
+    font-size: clamp(14px, 1.6vw, 18px);
+    max-width: 480px;
+    margin-top: 8px;
+  }
+  .cas-card-kicker {
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .cas-card-title {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.4vw, 32px);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.05;
+    margin: 4px 0 0;
+    text-wrap: balance;
+    transition: transform 220ms var(--ease);
+  }
+  .cas-card-headline {
+    font-size: clamp(13px, 1.2vw, 15px);
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.5;
+    flex: 1;
+    transition: transform 220ms var(--ease);
+  }
+  .cas-card-cta {
+    font-size: 13px;
+    color: var(--accent);
+    font-family: var(--font-mono, monospace);
+    letter-spacing: 0.04em;
+    margin-top: 16px;
+    transition: transform 220ms var(--ease);
+  }
+  .cas-card:hover .cas-card-title,
+  .cas-card:hover .cas-card-headline,
+  .cas-card:hover .cas-card-cta {
+    transform: translateX(1px);
+  }
+
+  .cas-cta {
+    padding: clamp(56px, 7vw, 80px) 32px;
+    background: var(--ink);
+    border-top: 1px solid var(--hairline);
+  }
+  .cas-cta-inner { max-width: 760px; }
+  .eyebrow {
+    display: block;
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .cas-cta-h {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 72px);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    color: var(--paper);
+    text-wrap: balance;
+    margin: 0 0 40px;
+  }
+  .cas-cta-h em { font-style: italic; color: var(--accent); }
+  .cas-cta-btn {
+    display: inline-block;
+    font-family: var(--font-mono, monospace);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    padding: 14px 28px;
+    background: var(--accent);
+    color: var(--paper);
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+  .cas-cta-btn:hover { opacity: 0.85; }
+
+  @media (max-width: 800px) {
+    .cas-grid { grid-template-columns: 1fr; }
+    .cas-card--featured { padding: 36px 28px 28px; }
+  }
+
+  @keyframes mask-reveal {
+    from { clip-path: inset(0 100% 0 0); }
+    to   { clip-path: inset(0 0 0 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hub-h1 { animation: none; }
+    .cas-card,
+    .cas-card-title,
+    .cas-card-headline,
+    .cas-card-cta {
+      transition: none !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+  }
+</style>

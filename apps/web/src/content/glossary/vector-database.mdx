@@ -1,0 +1,36 @@
+---
+term_fr: "Base de données vectorielle"
+term_en: "Vector Database"
+slug: "vector-database"
+definition_fr: "Base de données optimisée pour stocker et rechercher des vecteurs d'embeddings. Permet de retrouver rapidement les documents sémantiquement les plus proches d'une requête. Pinecone, Qdrant et pgvector sont les solutions leaders du marché."
+definition_en: "Database optimized to store and search embedding vectors. Enables fast retrieval of documents semantically closest to a query. Pinecone, Qdrant, and pgvector are the leading solutions on the market."
+short_explanation_fr: "Base de données spécialisée pour retrouver des documents par similarité sémantique."
+short_explanation_en: "Specialized database for retrieving documents by semantic similarity."
+examples_fr:
+  - "Pinecone utilisé pour indexer 50 000 fiches produit et retrouver les plus pertinentes face à une requête client en langage naturel."
+  - "pgvector intégré dans PostgreSQL pour ajouter la recherche sémantique à une base existante sans migration d'infrastructure."
+  - "Qdrant auto-hébergé pour stocker les embeddings de 10 ans d'emails clients et alimenter un agent de support contextuel."
+examples_en:
+  - "Pinecone used to index 50,000 product sheets and retrieve the most relevant ones for a natural language customer query."
+  - "pgvector integrated into PostgreSQL to add semantic search to an existing database without infrastructure migration."
+  - "Qdrant self-hosted to store embeddings from 10 years of customer emails and feed a contextual support agent."
+related_terms:
+  - "embeddings"
+  - "rag"
+  - "data-quality"
+category: "data"
+publishedAt: 2026-05-15
+seo:
+  meta_description_fr: "Qu'est-ce qu'une base de données vectorielle ? Définition, comparatif Pinecone/Qdrant et rôle dans les architectures RAG."
+  meta_description_en: "What is a vector database? Definition, Pinecone/Qdrant comparison, and role in RAG architectures for enterprise AI."
+---
+
+## Qu'est-ce qu'une base de données vectorielle ?
+
+Une **base de données vectorielle** stocke des embeddings et permet de les interroger par similarité sémantique en quelques millisecondes, même sur des millions de documents. Elle répond à la question « quels documents ressemblent le plus à cette requête ? » sans avoir à comparer chaque vecteur un par un.
+
+### Pourquoi c'est indispensable pour le RAG
+
+Sans base vectorielle, un agent IA ne peut pas chercher dans des milliers de documents internes de façon efficace. L'index vectoriel réduit le périmètre de recherche à une poignée de fragments pertinents, qui sont ensuite injectés dans le contexte du LLM.
+
+Pinecone, Qdrant, Weaviate et pgvector (extension PostgreSQL) sont les solutions les plus adoptées. Le choix dépend de la volumétrie, du besoin de filtres hybrides et de la préférence entre cloud managé et auto-hébergé.

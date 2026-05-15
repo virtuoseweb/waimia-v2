@@ -1,0 +1,693 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Kicker from '../ui/atoms/Kicker.astro';
+import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
+
+interface Props {
+  entry: CollectionEntry<'courses'>;
+  lang: 'fr' | 'en';
+}
+
+const { entry, lang } = Astro.props;
+const data = entry.data;
+
+// ── Discriminated union narrowing ──────────────────────────────────────────
+type CourseData = CollectionEntry<'courses'>['data'];
+const fd = data.course_type === 'formation'     ? (data as Extract<CourseData, { course_type: 'formation' }>)     : null;
+const pd = data.course_type === 'parcours'      ? (data as Extract<CourseData, { course_type: 'parcours' }>)      : null;
+const ad = data.course_type === 'atelier'       ? (data as Extract<CourseData, { course_type: 'atelier' }>)       : null;
+const cd = data.course_type === 'certification' ? (data as Extract<CourseData, { course_type: 'certification' }>) : null;
+
+// ── i18n ───────────────────────────────────────────────────────────────────
+const fr = lang === 'fr';
+const title = fr ? data.title_fr : data.title_en;
+const description = fr ? data.description_fr : data.description_en;
+
+const TYPE_LABELS: Record<string, [string, string]> = {
+  formation:    ['FORMATION',    'COURSE'],
+  parcours:     ['PARCOURS',     'LEARNING PATH'],
+  atelier:      ['ATELIER',      'WORKSHOP'],
+  certification:['CERTIFICATION','CERTIFICATION'],
+};
+const typeLabel = TYPE_LABELS[data.course_type]?.[fr ? 0 : 1] ?? data.course_type.toUpperCase();
+
+const LEVEL_LABELS: Record<string, [string, string]> = {
+  debutant:      ['Débutant',       'Beginner'],
+  intermediaire: ['Intermédiaire',  'Intermediate'],
+  avance:        ['Avancé',         'Advanced'],
+  expert:        ['Expert',         'Expert'],
+};
+
+const FORMAT_ATELIER: Record<string, [string, string]> = {
+  'live-online': ['Live en ligne', 'Live online'],
+  'live-paris':  ['Live Paris',    'Live Paris'],
+  'live-geneve': ['Live Genève',   'Live Geneva'],
+  'replay-only': ['Replay',        'Replay only'],
+};
+
+const EXAM_FORMAT: Record<string, [string, string]> = {
+  qcm:    ['QCM',    'Multiple choice'],
+  projet: ['Projet', 'Project'],
+  oral:   ['Oral',   'Oral exam'],
+  mixte:  ['Mixte',  'Mixed'],
+};
+
+const MODULE_TYPE: Record<string, [string, string]> = {
+  lecture:    ['Cours',      'Lecture'],
+  exercice:   ['Exercice',   'Exercise'],
+  projet:     ['Projet',     'Project'],
+  evaluation: ['Évaluation', 'Assessment'],
+};
+
+// ── Pricing & CTA ──────────────────────────────────────────────────────────
+let stripeLink: string | undefined;
+let priceStr: string | null = null;
+
+if (fd) {
+  stripeLink = fd.pricing?.stripe_payment_link;
+  const p = fd.pricing?.one_time_eur ?? fd.pricing?.subscription_eur;
+  priceStr = p === 0 ? (fr ? 'Gratuit' : 'Free') : p != null ? `${p} €` : null;
+} else if (pd) {
+  stripeLink = pd.stripe_payment_link;
+  priceStr = `${pd.pricing_eur} €`;
+} else if (ad) {
+  stripeLink = ad.stripe_payment_link;
+  priceStr = ad.pricing_eur === 0 ? (fr ? 'Gratuit' : 'Free') : `${ad.pricing_eur} €`;
+} else if (cd) {
+  stripeLink = cd.stripe_payment_link;
+  priceStr = cd.pricing_eur === 0 ? (fr ? 'Gratuit' : 'Free') : `${cd.pricing_eur} €`;
+}
+
+const isPlaceholder = !stripeLink || stripeLink.includes('PLACEHOLDER');
+const ctaEnroll = fr
+  ? `S'inscrire${priceStr ? ` — ${priceStr}` : ''}`
+  : `Enroll${priceStr ? ` — ${priceStr}` : ''}`;
+const ctaSoon = fr ? 'Inscriptions bientôt disponibles' : 'Enrollment coming soon';
+
+// ── Breadcrumb ─────────────────────────────────────────────────────────────
+const crumbs = [
+  { label: fr ? 'Accueil' : 'Home', href: fr ? '/' : '/en/' },
+  { label: fr ? 'École' : 'Academy', href: fr ? '/ecole' : '/en/ecole' },
+  { label: typeLabel },
+  { label: title },
+];
+
+// ── Atelier date ───────────────────────────────────────────────────────────
+const atelierDate = ad?.scheduled_at
+  ? ad.scheduled_at.toLocaleDateString(fr ? 'fr-FR' : 'en-GB', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+    })
+  : null;
+---
+
+<Base title={title} description={description}>
+  <article class="course-detail" data-type={data.course_type}>
+    <div class="wrap-wide">
+
+      <Breadcrumb items={crumbs} lang={lang} />
+
+      <!-- ── HERO ────────────────────────────────────────────────────────── -->
+      <header class="course-detail__hd">
+        <Kicker tone="accent">§ {typeLabel}</Kicker>
+        <h1 class="hd-title">{title}</h1>
+        <p class="hd-lede">{description}</p>
+
+        <div class="meta-pills">
+          {fd && (
+            <>
+              <span class="pill">{LEVEL_LABELS[fd.level]?.[fr ? 0 : 1]}</span>
+              <span class="pill">{fd.duration_hours}h</span>
+              <span class="pill">{fd.format}</span>
+              {fd.certification && <span class="pill pill--accent">{fr ? 'Certifiant' : 'Certificate'}</span>}
+            </>
+          )}
+          {pd && (
+            <>
+              <span class="pill">{LEVEL_LABELS[pd.level]?.[fr ? 0 : 1]}</span>
+              <span class="pill">{pd.duration_weeks} {fr ? 'semaines' : 'weeks'}</span>
+              <span class="pill">{pd.total_hours}h {fr ? 'au total' : 'total'}</span>
+              {pd.certification && <span class="pill pill--accent">{fr ? 'Certifiant' : 'Certificate'}</span>}
+            </>
+          )}
+          {ad && (
+            <>
+              <span class="pill">{FORMAT_ATELIER[ad.format]?.[fr ? 0 : 1]}</span>
+              <span class="pill">{ad.duration_hours}h</span>
+              <span class="pill">{ad.seats_remaining}/{ad.seats_total} {fr ? 'places' : 'seats'}</span>
+            </>
+          )}
+          {cd && (
+            <>
+              <span class="pill">{LEVEL_LABELS[cd.certification_level]?.[fr ? 0 : 1]}</span>
+              <span class="pill">{cd.duration_hours}h</span>
+              <span class="pill">{EXAM_FORMAT[cd.exam_format]?.[fr ? 0 : 1]}</span>
+              {cd.passing_score != null && <span class="pill">{cd.passing_score}% {fr ? 'requis' : 'required'}</span>}
+            </>
+          )}
+          {priceStr && <span class="pill pill--price">{priceStr}</span>}
+        </div>
+
+        <div class="cta-group">
+          {!isPlaceholder ? (
+            <a class="btn-primary" href={stripeLink} target="_blank" rel="noopener noreferrer">{ctaEnroll}</a>
+          ) : (
+            <span class="btn-primary btn-disabled">{ctaSoon}</span>
+          )}
+          <a class="btn-ghost" href="/contact">
+            {fr ? 'Une question ?' : 'Have a question?'} →
+          </a>
+        </div>
+      </header>
+
+      <!-- ── FORMATION ──────────────────────────────────────────────────── -->
+      {fd && (
+        <div class="type-sections">
+          <section class="section">
+            <h2 class="section-heading">{fr ? 'Ce que vous allez apprendre' : "What you'll learn"}</h2>
+            <ol class="objectives-list">
+              {(fr ? fd.learning_objectives_fr : fd.learning_objectives_en).map((obj) => (
+                <li class="objective-item">{obj}</li>
+              ))}
+            </ol>
+          </section>
+
+          <section class="section" id="programme">
+            <h2 class="section-heading">{fr ? 'Programme détaillé' : 'Full program'}</h2>
+            <div class="modules-table">
+              {fd.modules.map((mod) => (
+                <div class="module-row">
+                  <span class="mono muted">{mod.num}</span>
+                  <span class="mod-title">{fr ? mod.title_fr : mod.title_en}</span>
+                  <span class="mono muted">{mod.duration_minutes}min</span>
+                  <span class={`type-pill type-pill--${mod.type}`}>
+                    {MODULE_TYPE[mod.type]?.[fr ? 0 : 1] ?? mod.type}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {(fr ? fd.prerequisites_fr : fd.prerequisites_en).length > 0 && (
+            <section class="section">
+              <h2 class="section-heading">{fr ? 'Prérequis' : 'Prerequisites'}</h2>
+              <ul class="prereq-list">
+                {(fr ? fd.prerequisites_fr : fd.prerequisites_en).map((p) => (
+                  <li class="prereq-item">{p}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
+      )}
+
+      <!-- ── PARCOURS ───────────────────────────────────────────────────── -->
+      {pd && (
+        <div class="type-sections">
+          <section class="section">
+            <h2 class="section-heading">{fr ? 'Ce que vous allez accomplir' : 'What you will achieve'}</h2>
+            <ol class="objectives-list">
+              {(fr ? pd.outcomes_fr : pd.outcomes_en).map((out) => (
+                <li class="objective-item">{out}</li>
+              ))}
+            </ol>
+          </section>
+
+          <section class="section">
+            <h2 class="section-heading">{fr ? 'Cours inclus' : 'Included courses'}</h2>
+            <div class="courses-chain">
+              {pd.courses.map((slug, i) => (
+                <div class="chain-item">
+                  <span class="mono muted chain-num">{String(i + 1).padStart(2, '0')}</span>
+                  <a class="chain-link" href={`/ecole/courses/${slug}`}>{slug}</a>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+      )}
+
+      <!-- ── ATELIER ────────────────────────────────────────────────────── -->
+      {ad && (
+        <div class="type-sections">
+          <section class="section">
+            <h2 class="section-heading">{fr ? 'Informations pratiques' : 'Practical information'}</h2>
+            <dl class="info-grid">
+              {atelierDate && (
+                <>
+                  <dt>{fr ? 'Date' : 'Date'}</dt>
+                  <dd class="info-val">{atelierDate}</dd>
+                </>
+              )}
+              <dt>{fr ? 'Durée' : 'Duration'}</dt>
+              <dd class="info-val">{ad.duration_hours}h</dd>
+              <dt>{fr ? 'Format' : 'Format'}</dt>
+              <dd class="info-val">{FORMAT_ATELIER[ad.format]?.[fr ? 0 : 1]}</dd>
+              <dt>{fr ? 'Places' : 'Seats'}</dt>
+              <dd class="info-val">
+                {ad.seats_remaining > 0
+                  ? `${ad.seats_remaining} / ${ad.seats_total} ${fr ? 'disponibles' : 'available'}`
+                  : (fr ? 'Complet' : 'Sold out')}
+              </dd>
+              {ad.replay_available && (
+                <>
+                  <dt>{fr ? 'Replay' : 'Replay'}</dt>
+                  <dd class="info-val">
+                    {ad.recording_url
+                      ? <a href={ad.recording_url} class="inline-link">{fr ? 'Voir le replay' : 'Watch replay'} →</a>
+                      : (fr ? 'Disponible après le live' : 'Available after live')
+                    }
+                  </dd>
+                </>
+              )}
+            </dl>
+          </section>
+        </div>
+      )}
+
+      <!-- ── CERTIFICATION ──────────────────────────────────────────────── -->
+      {cd && (
+        <div class="type-sections">
+          <section class="section">
+            <h2 class="section-heading">{fr ? "Modalités d'examen" : 'Exam details'}</h2>
+            <dl class="info-grid">
+              <dt>{fr ? 'Méthode de validation' : 'Validation method'}</dt>
+              <dd class="info-val">{cd.validation_method}</dd>
+              <dt>{fr ? "Format de l'examen" : 'Exam format'}</dt>
+              <dd class="info-val">{EXAM_FORMAT[cd.exam_format]?.[fr ? 0 : 1]}</dd>
+              <dt>{fr ? 'Durée' : 'Duration'}</dt>
+              <dd class="info-val">{cd.duration_hours}h</dd>
+              {cd.passing_score != null && (
+                <>
+                  <dt>{fr ? 'Score minimum' : 'Passing score'}</dt>
+                  <dd class="info-val">{cd.passing_score} %</dd>
+                </>
+              )}
+              {cd.validity_years != null && (
+                <>
+                  <dt>{fr ? 'Validité' : 'Validity'}</dt>
+                  <dd class="info-val">{cd.validity_years} {fr ? 'an(s)' : 'year(s)'}</dd>
+                </>
+              )}
+            </dl>
+          </section>
+
+          {(fr ? cd.prerequisites_fr : cd.prerequisites_en).length > 0 && (
+            <section class="section">
+              <h2 class="section-heading">{fr ? 'Prérequis' : 'Prerequisites'}</h2>
+              <ul class="prereq-list">
+                {(fr ? cd.prerequisites_fr : cd.prerequisites_en).map((p) => (
+                  <li class="prereq-item">{p}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {cd.related_formations.length > 0 && (
+            <section class="section">
+              <h2 class="section-heading">{fr ? 'Formations recommandées' : 'Recommended courses'}</h2>
+              <div class="courses-chain">
+                {cd.related_formations.map((slug, i) => (
+                  <div class="chain-item">
+                    <span class="mono muted chain-num">{String(i + 1).padStart(2, '0')}</span>
+                    <a class="chain-link" href={`/ecole/courses/${slug}`}>{slug}</a>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      )}
+
+      <!-- ── MDX BODY ───────────────────────────────────────────────────── -->
+      <section class="section mdx-body">
+        <slot />
+      </section>
+
+      <!-- ── CTA FINALE ─────────────────────────────────────────────────── -->
+      <div class="cta-finale">
+        {!isPlaceholder ? (
+          <div class="cta-row">
+            <a class="btn-primary" href={stripeLink} target="_blank" rel="noopener noreferrer">{ctaEnroll}</a>
+            <a class="cta-link" href="/contact">{fr ? 'Une question ?' : 'Have a question?'} →</a>
+          </div>
+        ) : (
+          <div class="cta-row">
+            <a class="cta-link cta-accent" href="/contact">
+              {fr ? 'Disponible prochainement — nous contacter' : 'Coming soon — contact us'} →
+            </a>
+          </div>
+        )}
+      </div>
+
+    </div>
+  </article>
+</Base>
+
+<style>
+  .course-detail {
+    padding-top: calc(var(--spacing-section) + var(--header-height));
+    background: var(--paper);
+  }
+
+  .wrap-wide {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 var(--space-page-x, 24px);
+  }
+
+  /* HEADER */
+  .course-detail__hd {
+    padding: 56px 0 48px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .hd-title {
+    font-family: var(--font-display);
+    font-size: var(--text-h1-hero);
+    font-weight: 400;
+    line-height: 1.05;
+    margin: 16px 0 20px;
+  }
+
+  .hd-lede {
+    font-family: var(--font-sans);
+    font-size: var(--text-lede);
+    line-height: 1.5;
+    color: var(--text-secondary, #444);
+    margin: 0 0 28px;
+    max-width: 68ch;
+  }
+
+  /* META PILLS */
+  .meta-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .pill {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--hairline);
+    color: var(--text-muted, #888);
+  }
+
+  .pill--accent {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .pill--price {
+    border-color: var(--ink, #111);
+    color: var(--ink, #111);
+    font-weight: 600;
+  }
+
+  /* CTA GROUP */
+  .cta-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 24px;
+    background: var(--ink, #111);
+    color: var(--paper);
+    text-decoration: none;
+    border: 1px solid var(--ink, #111);
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .btn-disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .btn-ghost {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--text-secondary, #444);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.15s;
+  }
+
+  .btn-ghost:hover { color: var(--accent); }
+
+  /* SECTIONS */
+  .type-sections { margin-top: 0; }
+
+  .section {
+    padding: 48px 0 0;
+  }
+
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.8vw, 26px);
+    font-weight: 400;
+    margin: 0 0 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  /* OBJECTIVES */
+  .objectives-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--hairline);
+    counter-reset: obj;
+  }
+
+  .objective-item {
+    counter-increment: obj;
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--hairline);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .objective-item::before {
+    content: counter(obj, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    margin-top: 3px;
+  }
+
+  /* MODULES TABLE */
+  .modules-table { border-top: 1px solid var(--hairline); }
+
+  .module-row {
+    display: grid;
+    grid-template-columns: 36px 1fr 64px 96px;
+    gap: 0 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--hairline);
+    align-items: center;
+  }
+
+  .mod-title {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .mono { font-family: var(--font-mono); font-size: 12px; }
+  .muted { color: var(--text-muted, #888); }
+
+  .type-pill {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
+    color: var(--text-muted, #888);
+  }
+
+  .type-pill--lecture    { border-color: #3a7d44; color: #3a7d44; }
+  .type-pill--exercice   { border-color: var(--accent); color: var(--accent); }
+  .type-pill--projet     { border-color: #7b4ea6; color: #7b4ea6; }
+  .type-pill--evaluation { border-color: var(--ink, #111); color: var(--ink, #111); }
+
+  /* PREREQS */
+  .prereq-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .prereq-item {
+    position: relative;
+    padding: 14px 0 14px 18px;
+    border-bottom: 1px solid var(--hairline);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .prereq-item::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    font-family: var(--font-mono);
+    color: var(--text-muted, #888);
+  }
+
+  /* INFO GRID (atelier/certification) */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    border-top: 1px solid var(--hairline);
+    margin: 0;
+  }
+
+  .info-grid dt,
+  .info-grid dd {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--hairline);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .info-grid dt {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted, #888);
+    padding-right: 16px;
+  }
+
+  .info-val { font-weight: 500; }
+
+  /* COURSES CHAIN */
+  .courses-chain { border-top: 1px solid var(--hairline); }
+
+  .chain-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .chain-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted, #888);
+    min-width: 28px;
+  }
+
+  .chain-link {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink, #111);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.15s;
+  }
+
+  .chain-link:hover { color: var(--accent); }
+
+  .inline-link {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+  }
+
+  /* MDX BODY */
+  .mdx-body {
+    border-top: 1px solid var(--hairline);
+    margin-top: 48px;
+    padding-top: 48px;
+  }
+
+  .mdx-body :global(h2) {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2.4vw, 22px);
+    font-weight: 400;
+    margin: 36px 0 14px;
+  }
+
+  .mdx-body :global(p) {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-secondary, #444);
+    margin-bottom: 18px;
+  }
+
+  /* CTA FINALE */
+  .cta-finale {
+    padding: 52px 0 72px;
+    border-top: 1px solid var(--hairline);
+    margin-top: 48px;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .cta-link {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--text-secondary, #444);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.15s;
+  }
+
+  .cta-link:hover { color: var(--accent); }
+  .cta-accent { color: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .module-row {
+      grid-template-columns: 28px 1fr 56px;
+    }
+    .module-row .type-pill { display: none; }
+
+    .info-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .info-grid dt {
+      padding-bottom: 2px;
+      border-bottom: none;
+    }
+  }
+</style>

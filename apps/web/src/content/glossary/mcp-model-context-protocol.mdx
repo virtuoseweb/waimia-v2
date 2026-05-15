@@ -1,0 +1,36 @@
+---
+term_fr: "MCP (Model Context Protocol)"
+term_en: "MCP (Model Context Protocol)"
+slug: "mcp-model-context-protocol"
+definition_fr: "Standard ouvert d'Anthropic qui définit comment un LLM se connecte à des sources de données et des outils externes via une interface unifiée. Remplace les intégrations ad hoc et simplifie la construction d'agents IA multi-outils."
+definition_en: "Open standard by Anthropic defining how an LLM connects to data sources and external tools via a unified interface. Replaces ad hoc integrations and simplifies building multi-tool AI agents."
+short_explanation_fr: "Protocole standard qui branche des LLM sur vos outils et données en quelques lignes."
+short_explanation_en: "Standard protocol that connects LLMs to your tools and data in a few lines."
+examples_fr:
+  - "Un serveur MCP GitHub expose les dépôts, pull requests et issues à Claude, qui peut coder et pousser des commits directement."
+  - "Un serveur MCP Notion donne à un agent l'accès en lecture/écriture à l'espace de travail de l'équipe sans développement custom."
+  - "Un serveur MCP maison exposant le CRM interne pour permettre à un agent commercial d'enrichir et de mettre à jour les fiches clients."
+examples_en:
+  - "A GitHub MCP server exposes repositories, pull requests, and issues to Claude, which can code and push commits directly."
+  - "A Notion MCP server gives an agent read/write access to the team workspace without custom development."
+  - "An in-house MCP server exposing the internal CRM to allow a sales agent to enrich and update client records."
+related_terms:
+  - "agent-ia"
+  - "agentic-workflow"
+  - "llm-large-language-model"
+category: "ia-technique"
+publishedAt: 2026-05-15
+seo:
+  meta_description_fr: "Model Context Protocol (MCP) : définition du standard Anthropic qui unifie la connexion des LLM aux outils et sources de données."
+  meta_description_en: "Model Context Protocol (MCP): definition of Anthropic's standard that unifies LLM connections to tools and data sources."
+---
+
+## Qu'est-ce que le Model Context Protocol ?
+
+Le **Model Context Protocol (MCP)** est un standard open source publié par Anthropic en 2024. Il définit une interface commune — un « port USB-C pour IA » — permettant à n'importe quel LLM de se connecter à des outils, bases de données ou services externes sans écrire d'intégration sur mesure pour chaque combinaison.
+
+### Impact pour les entreprises
+
+MCP supprime la fragmentation des intégrations agent. Avant MCP, connecter un agent à un CRM, un outil de ticketing et un ERP nécessitait trois connecteurs distincts à maintenir. Avec MCP, un seul serveur expose l'ensemble des ressources disponibles.
+
+Claude, Cursor, Windsurf et de nombreux frameworks LLM supportent déjà MCP nativement. Les écosystèmes de serveurs MCP communautaires couvrent GitHub, Notion, Slack, Google Workspace et des dizaines d'autres services.
