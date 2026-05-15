@@ -1,0 +1,158 @@
+---
+export const prerender = true;
+
+// Page SSG · /glossaire · Index des termes glossary (Tier 5.1c)
+// Liste les 5+ entries du glossary avec filtres par catégorie.
+
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+import { langFromPath } from '../../lib/i18n';
+
+const entries = await getCollection('glossary');
+const lang = langFromPath(Astro.url.pathname);
+
+// Sort alphabétique par terme
+const sortedEntries = entries.sort((a, b) => {
+  const termA = lang === 'fr' ? a.data.term_fr : a.data.term_en;
+  const termB = lang === 'fr' ? b.data.term_fr : b.data.term_en;
+  return termA.localeCompare(termB, lang);
+});
+
+// Group by category
+const byCategory = sortedEntries.reduce((acc: Record<string, typeof entries>, entry) => {
+  const cat = entry.data.category;
+  acc[cat] ??= [];
+  acc[cat].push(entry);
+  return acc;
+}, {});
+
+const categoryLabels = {
+  'ia-technique': lang === 'fr' ? 'IA · Technique' : 'AI · Technical',
+  'ia-business': lang === 'fr' ? 'IA · Business' : 'AI · Business',
+  'data': lang === 'fr' ? 'Data & Pipelines' : 'Data & Pipelines',
+  'workflow': lang === 'fr' ? 'Workflows & Automatisation' : 'Workflows & Automation',
+  'gouvernance': lang === 'fr' ? 'Gouvernance & Compliance' : 'Governance & Compliance',
+};
+---
+<Base
+  title={lang === 'fr' ? "Glossaire IA · Termes essentiels · Waimia" : "AI Glossary · Essential terms · Waimia"}
+  description={lang === 'fr' ? "Définitions courtes des termes IA pour PME/ETI. Agent IA, RAG, prompt engineering, ROI IA, gouvernance — vulgarisation accessible." : "Short definitions of AI terms for SMBs. AI agent, RAG, prompt engineering, AI ROI, governance — accessible vocabulary."}
+>
+  <section class="glossary-index">
+    <div class="wrap-wide">
+      <header class="glossary-index__hd">
+        <Kicker tone="muted">§ Référence · Glossaire IA</Kicker>
+        <h1 class="glossary-index__h1">
+          {lang === 'fr' ? <>Vocabulaire <i>IA</i> · Définitions courtes</> : <>AI <i>vocabulary</i> · Short definitions</>}
+        </h1>
+        <p class="glossary-index__lede">
+          {lang === 'fr'
+            ? `${entries.length} termes définis. Vulgarisation accessible pour décideurs PME et ETI — pas de jargon, juste l'essentiel.`
+            : `${entries.length} terms defined. Accessible vocabulary for SMB decision-makers — no jargon, just essentials.`}
+        </p>
+      </header>
+
+      {Object.entries(byCategory).map(([category, items]) => (
+        <section class="glossary-index__cat">
+          <h2 class="glossary-index__cat-title">
+            {categoryLabels[category as keyof typeof categoryLabels] ?? category}
+          </h2>
+          <ul class="glossary-index__list">
+            {items.map((entry) => (
+              <li class="glossary-index__item">
+                <a href={`/glossaire/${entry.id}`} class="glossary-index__link">
+                  <span class="glossary-index__term">
+                    {lang === 'fr' ? entry.data.term_fr : entry.data.term_en}
+                  </span>
+                  <span class="glossary-index__short">
+                    {lang === 'fr' ? entry.data.short_explanation_fr : entry.data.short_explanation_en}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .glossary-index {
+    padding-top: calc(var(--spacing-section) + var(--header-height));
+    padding-bottom: var(--spacing-section);
+  }
+  .glossary-index__hd {
+    margin-bottom: clamp(48px, 6vw, 80px);
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 32px;
+  }
+  .glossary-index__h1 {
+    font-family: var(--font-display);
+    font-size: var(--text-h1-hero);
+    line-height: 1.02;
+    color: var(--ink);
+    margin: 24px 0 0;
+  }
+  .glossary-index__h1 i { font-style: italic; color: var(--accent); }
+  .glossary-index__lede {
+    font-family: var(--font-sans);
+    font-size: var(--text-lede);
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 24px 0 0;
+    max-width: 64ch;
+  }
+  .glossary-index__cat {
+    margin-bottom: 64px;
+  }
+  .glossary-index__cat-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .glossary-index__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .glossary-index__item {
+    border-bottom: 1px solid var(--hairline);
+  }
+  .glossary-index__link {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+    padding: 20px 0;
+    text-decoration: none;
+    color: var(--ink);
+    transition: background var(--dur-fast) var(--ease);
+  }
+  .glossary-index__link:hover {
+    background: var(--paper-2);
+  }
+  .glossary-index__term {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 1.8vw, 24px);
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .glossary-index__short {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-sm);
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  @media (max-width: 768px) {
+    .glossary-index__link { grid-template-columns: 1fr; gap: 6px; }
+  }
+</style>

@@ -1,0 +1,158 @@
+---
+export const prerender = true;
+
+// Page SSG · /glossaire/[slug] · Consumer MDX collection "glossary" (Tier 5.1c)
+// Pattern Astro 6 : prerender + getStaticPaths + render(entry) function-style.
+
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+import Breadcrumb from '../../components/ui/molecules/Breadcrumb.astro';
+import { langFromPath } from '../../lib/i18n';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('glossary');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<'glossary'> };
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
+const data = entry.data;
+const lang = langFromPath(Astro.url.pathname);
+const term = lang === 'fr' ? data.term_fr : data.term_en;
+const definition = lang === 'fr' ? data.definition_fr : data.definition_en;
+const shortExplanation = lang === 'fr' ? data.short_explanation_fr : data.short_explanation_en;
+const examples = lang === 'fr' ? data.examples_fr : data.examples_en;
+---
+<Base
+  title={`${term} · Glossaire IA · Waimia`}
+  description={lang === 'fr' ? data.seo.meta_description_fr : data.seo.meta_description_en}
+>
+  <article class="glossary-detail">
+    <div class="wrap-wide">
+      <Breadcrumb
+        items={[
+          { href: '/glossaire', label: lang === 'fr' ? 'Glossaire' : 'Glossary' },
+          { href: `/glossaire/${entry.id}`, label: term, current: true },
+        ]}
+      />
+
+      <header class="glossary-detail__hd">
+        <Kicker tone="accent">§ {data.category.toUpperCase().replace('-', ' · ')}</Kicker>
+        <h1 class="glossary-detail__term">{term}</h1>
+        <p class="glossary-detail__short">{shortExplanation}</p>
+      </header>
+
+      <section class="glossary-detail__body">
+        <Kicker tone="muted">§ Définition</Kicker>
+        <p class="glossary-detail__definition">{definition}</p>
+
+        <Kicker tone="muted">§ Exemples</Kicker>
+        <ul class="glossary-detail__examples">
+          {examples.map((ex: string) => <li>{ex}</li>)}
+        </ul>
+
+        {data.related_terms.length > 0 && (
+          <>
+            <Kicker tone="muted">§ Termes liés</Kicker>
+            <ul class="glossary-detail__related">
+              {data.related_terms.map((rel: string) => (
+                <li><a href={`/glossaire/${rel}`} class="glossary-detail__link">{rel}</a></li>
+              ))}
+            </ul>
+          </>
+        )}
+
+        <div class="glossary-detail__content">
+          <Content />
+        </div>
+      </section>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .glossary-detail {
+    padding-top: calc(var(--spacing-section) + var(--header-height));
+    padding-bottom: var(--spacing-section);
+  }
+  .glossary-detail__hd {
+    margin: 32px 0 48px;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 32px;
+  }
+  .glossary-detail__term {
+    font-family: var(--font-display);
+    font-size: var(--text-display-md);
+    line-height: 1.02;
+    color: var(--ink);
+    margin: 16px 0 0;
+  }
+  .glossary-detail__short {
+    font-family: var(--font-sans);
+    font-size: var(--text-lede);
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 24px 0 0;
+    max-width: 64ch;
+  }
+  .glossary-detail__body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 72ch;
+  }
+  .glossary-detail__body > :global(.u-kicker) {
+    margin-top: 24px;
+    margin-bottom: 8px;
+  }
+  .glossary-detail__definition {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    line-height: 1.6;
+    color: var(--ink);
+    margin: 0;
+  }
+  .glossary-detail__examples,
+  .glossary-detail__related {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .glossary-detail__examples li {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    color: var(--ink-2);
+    padding: 8px 12px;
+    border-left: 2px solid var(--accent);
+    background: var(--paper-2);
+  }
+  .glossary-detail__related li {
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  .glossary-detail__link {
+    color: var(--accent);
+    border-bottom: 1px solid currentColor;
+    text-decoration: none;
+  }
+  .glossary-detail__content {
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--hairline);
+  }
+  .glossary-detail__content :global(p) {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    line-height: 1.7;
+    color: var(--ink-2);
+    margin: 0 0 16px;
+  }
+</style>
