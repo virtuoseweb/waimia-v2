@@ -29,7 +29,19 @@ export default defineConfig({
   // ISR à activer page-par-page via Vercel adapter config (Tier 12).
   // TODO[T1.1-activate]: passer à 'static' au prochain restart dev/build Vercel.
   output: 'server',
-  adapter: vercel(),
+  // T12 ISR — Vercel Incremental Static Regeneration
+  // Applique l'ISR aux routes SSR (prerender=false) non exclues.
+  // Les pages SSG (prerender=true) ne sont PAS affectées — elles restent des fichiers statiques CDN.
+  // Activation page-par-page : supprimer `prerender=true` + adapter getStaticPaths → SSR pattern.
+  // cf /tmp/codex-missions/tier12-isr-perf/DONE.md pour le guide complet.
+  adapter: vercel({
+    isr: {
+      expiration: 3600, // TTL par défaut 1h — override possible via Cache-Control s-maxage
+      bypassToken: process.env.ISR_BYPASS_TOKEN, // secret Vercel env var (optionnel, pour preview bypass)
+      // API routes : toujours fresh (forms, webhooks, données live) — jamais cachées par ISR
+      exclude: ['/api/contact', '/api/newsletter', '/api/academy', '/api/devis', '/api/lead-magnet', '/api/healthcheck'],
+    },
+  }),
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   trailingSlash: 'never',
   i18n: {
