@@ -15,7 +15,7 @@ export const prerender = true;
  *   - Offices → /agence/about
  */
 import Base from '../../layouts/Base.astro';
-import BootSplash from '../../components/motion/BootSplash.tsx';
+import BootSplash from '../../components/motion/BootSplash.astro';
 import ScrollProgress from '../../components/ui/atoms/ScrollProgress.astro';
 
 import Hero                from '../../components/ui/organisms/Hero.astro';
@@ -30,7 +30,6 @@ import Cases               from '../../components/ui/organisms/Cases.astro';
 import FAQ                 from '../../components/seo/FAQ.astro';
 import FieldNotes          from '../../components/ui/organisms/FieldNotes.astro';
 import BookSession         from '../../components/ui/organisms/BookSession.astro';
-import SigBand             from '../../components/ui/organisms/SigBand.astro';
 import FooterMarquee       from '../../components/ui/organisms/FooterMarquee.astro';
 import SectionTransition   from '../../components/ui/atoms/SectionTransition.astro';
 
@@ -78,7 +77,7 @@ const faqItems = [
   description="We wire AI into SMB tools: acquisition, CRM, content, website, analytics, brand. AI Activation · 1 week, AI Growth System, Operational Productivity. Paris · Geneva."
   jsonLd={[faqPage(faqItems), buildOrganization()]}
 >
-  <BootSplash client:only="react" lang="en" />
+  <BootSplash lang="en" />
 
   {/* 01 — Hero · promise + scope mini-map + CTAs (V7 §12) */}
   <Hero />
@@ -139,9 +138,6 @@ const faqItems = [
 
   {/* 12 — BookSession · primary CTA toward /contact */}
   <BookSession />
-
-  {/* SigBand · signature pre-footer */}
-  <SigBand />
 
   {/* FooterMarquee · editorial animated band pre-scrollprogress */}
   <FooterMarquee />

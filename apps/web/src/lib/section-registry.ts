@@ -5,8 +5,11 @@
 // Pattern : nouvelle section = ajouter import + entry registry.
 // Le SectionsRenderer.astro consomme ce registry.
 
-import type { ComponentType } from 'astro';
 import type { SectionType } from '../schemas/sections';
+
+// Astro component type — workaround puisque 'astro' n'expose pas AstroComponent nativement.
+// Tout composant .astro est typé comme une fonction qui retourne une AstroComponentFactory.
+type AstroComponent = (...args: unknown[]) => unknown;
 
 // Imports section components (sera étendu Wave T2.2 par worker Sonnet)
 import HeroSplit from '../components/sections/HeroSplit.astro';
@@ -33,7 +36,7 @@ import GuaranteeBlock from '../components/sections/GuaranteeBlock.astro';
  * Section registry — single source of truth pour mapping type → component.
  * Le SectionsRenderer.astro itère sur sections[] et appelle le bon composant via ce registry.
  */
-export const SECTION_REGISTRY: Record<SectionType, ComponentType> = {
+export const SECTION_REGISTRY: Record<SectionType, AstroComponent> = {
   'hero-split': HeroSplit,
   'hero-centered': HeroCentered,
   'hero-full-bleed': HeroFullBleed,
@@ -58,6 +61,6 @@ export const SECTION_REGISTRY: Record<SectionType, ComponentType> = {
 /**
  * Helper : récupère le composant pour un type donné. Retourne undefined si type inconnu.
  */
-export function getSectionComponent(type: SectionType): ComponentType | undefined {
+export function getSectionComponent(type: SectionType): AstroComponent | undefined {
   return SECTION_REGISTRY[type];
 }

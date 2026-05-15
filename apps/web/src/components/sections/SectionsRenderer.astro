@@ -25,6 +25,6 @@ const { sections, lang } = Astro.props;
     console.error(`[SectionsRenderer] Type inconnu: ${section.type}`);
     return null;
   }
-  // Cast nécessaire car le registry est indexé par string mais Astro veut props typed
-  return <Component {...(section as any)} lang={lang} />;
+  // Pattern W6 : sections attendent `{ data, lang }` (pas spread props)
+  return <Component data={section as any} lang={lang} />;
 })}

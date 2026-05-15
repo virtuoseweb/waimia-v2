@@ -324,7 +324,7 @@ export const sectionSchema = z.discriminatedUnion('type', [
   guaranteeBlockSchema,
 ]);
 
-export type SectionData = z.infer<typeof sectionSchema>;
+export type SectionData = (typeof sectionSchema)['_output'];
 
 /**
  * Schema usable directement dans content collections :
