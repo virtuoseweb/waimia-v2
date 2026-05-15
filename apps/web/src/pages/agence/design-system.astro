@@ -43,8 +43,12 @@ import SocialProof from '../../components/sections/SocialProof.astro';
 import MethodTimeline from '../../components/sections/MethodTimeline.astro';
 import FeatureGrid from '../../components/sections/FeatureGrid.astro';
 import ComparisonTable from '../../components/sections/ComparisonTable.astro';
+import TimelineBlock from '../../components/sections/TimelineBlock.astro';
+import MediaBlock from '../../components/sections/MediaBlock.astro';
 import PricingTable from '../../components/sections/PricingTable.astro';
 import FaqAccordion from '../../components/sections/FaqAccordion.astro';
+import ObjectionHandler from '../../components/sections/ObjectionHandler.astro';
+import CtaBandSection from '../../components/sections/CtaBandSection.astro';
 import TestimonialBlock from '../../components/sections/TestimonialBlock.astro';
 import GuaranteeBlock from '../../components/sections/GuaranteeBlock.astro';
 import CtaInline from '../../components/sections/CtaInline.astro';
@@ -864,6 +868,65 @@ import CtaFinal from '../../components/sections/CtaFinal.astro';
                   { title_fr: 'ROI mesuré avant après', title_en: 'Measured before/after ROI', body_fr: 'Baseline observée. Métriques cibles définies. Mesure post-déploiement.', body_en: 'Baseline observed. Target metrics defined. Post-deployment measurement.' },
                   { title_fr: 'Sortie sous 4 semaines si non-fit', title_en: 'Exit within 4 weeks if no-fit', body_fr: 'Si l\'audit révèle un non-match, on sort propre — pas de tunnel de plusieurs mois.', body_en: 'If audit reveals no-match, we exit clean — no months-long tunnel.' },
                 ],
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>TimelineBlock · type "timeline-block"</Kicker>
+            <div class="ds-section-demo-frame">
+              <TimelineBlock data={{
+                type: 'timeline-block',
+                h2_fr: '<i>Roadmap</i> Waimia 2026',
+                h2_en: '<i>Roadmap</i> Waimia 2026',
+                events: [
+                  { date: 'Q1 2026', title_fr: 'Lancement Activation', title_en: 'Activation launch', body_fr: 'Audit + 1 workflow IA en 5 jours.', body_en: 'Audit + 1 AI workflow in 5 days.' },
+                  { date: 'Q2 2026', title_fr: 'Growth System v2', title_en: 'Growth System v2', body_fr: 'Système complet 6-10 semaines.', body_en: 'Full system 6-10 weeks.' },
+                  { date: 'Q3 2026', title_fr: 'École Waimia', title_en: 'Waimia School', body_fr: 'Formations équipes internes.', body_en: 'Internal team training.' },
+                ],
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>MediaBlock · type "media-block" (svg)</Kicker>
+            <div class="ds-section-demo-frame">
+              <MediaBlock data={{
+                type: 'media-block',
+                caption_fr: 'Architecture composable Waimia · 19 sections atomiques',
+                caption_en: 'Waimia composable architecture · 19 atomic sections',
+                media_kind: 'svg',
+                src: '/og/default.png',
+                alt_fr: 'Diagramme architecture composable Waimia',
+                alt_en: 'Waimia composable architecture diagram',
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>ObjectionHandler · type "objection-handler"</Kicker>
+            <div class="ds-section-demo-frame">
+              <ObjectionHandler data={{
+                type: 'objection-handler',
+                h2_fr: '<i>Objections</i> fréquentes',
+                h2_en: 'Frequent <i>objections</i>',
+                objections: [
+                  { objection_fr: 'On n\'a pas le temps maintenant.', objection_en: 'We don\'t have time now.', response_fr: 'L\'Activation prend 5 jours, dont 3 sans implication équipe.', response_en: 'Activation takes 5 days, 3 without team involvement.' },
+                  { objection_fr: 'On a déjà essayé sans succès.', objection_en: 'We already tried unsuccessfully.', response_fr: 'On commence par cartographier ce qui a échoué pour éviter de répéter.', response_en: 'We start by mapping past failures to avoid repeating.' },
+                ],
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>CtaBandSection · type "cta-band" (bg paper-2 full-bleed)</Kicker>
+            <div class="ds-section-demo-frame">
+              <CtaBandSection data={{
+                type: 'cta-band',
+                text_fr: 'Audit IA gratuit · 30 minutes · sans engagement',
+                text_en: 'Free AI audit · 30 minutes · no commitment',
+                cta: { label_fr: 'Réserver →', label_en: 'Book →', href: '/contact', variant: 'primary' },
+                background: 'paper-2',
               }} lang="fr" />
             </div>
           </div>
