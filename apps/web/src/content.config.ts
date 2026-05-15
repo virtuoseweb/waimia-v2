@@ -121,6 +121,8 @@ const cases = defineCollection({
     heroImage: z.string().optional(),
     author: reference('authors').optional(),
     contributors: z.array(reference('authors')).default([]),
+    // Composable V2 (D.7 extension) : sections optionnelles
+    sections: sectionsArraySchema.optional(),
   }),
 });
 
@@ -262,6 +264,8 @@ const solutions = defineCollection({
     cta_href: z.string().optional(),
     cta_label_fr: z.string().optional(),
     cta_label_en: z.string().optional(),
+    // Composable V2 (D.7 extension) : sections optionnelles · cf docs/19-DESIGN-SYSTEM-CLOSED.md
+    sections: sectionsArraySchema.optional(),
   }),
 });
 
