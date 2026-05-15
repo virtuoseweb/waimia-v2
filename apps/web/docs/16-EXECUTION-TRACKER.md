@@ -218,8 +218,8 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 
 ### TIER 13 · QA finale (5h)
 
-- [ ] **T13.1** · `pnpm exec astro check` : 0 errors · à valider après dernier commit
-- [✅] **T13.2** · `pnpm build` succès complet validé multiples fois cette session (5-6s à chaque check)
+- [🟡] **T13.1** · `pnpm exec astro check` : 31 errors / 1055 hints (deprecation warnings Zod v4 z.string().url() · non-bloquants, build passe) · à migrer en session future vers z.string().regex(URL_PATTERN) ou import schema v5
+- [✅] **T13.2** · `pnpm build` succès complet validé 10+ fois cette session (5-6s à chaque check)
 - [ ] **T13.3** · Lighthouse 5 pages échantillon (perf, a11y, SEO, best practices)
 - [ ] **T13.4** · Schema.org validator sur Article/Service/FAQPage/Product/Course/BreadcrumbList
 - [ ] **T13.5** · Liens cross-collection sans 404
