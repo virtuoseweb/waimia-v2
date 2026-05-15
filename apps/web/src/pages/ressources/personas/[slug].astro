@@ -1,0 +1,196 @@
+---
+export const prerender = true;
+
+// Page SSG · /ressources/personas/[slug] · Consumer MDX collection "personas" (Tier 4.1d)
+// Bonus SEO : pages personas pour ranking longue-traîne.
+
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import Breadcrumb from '../../../components/ui/molecules/Breadcrumb.astro';
+import { langFromPath } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('personas');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<'personas'> };
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
+const data = entry.data;
+const lang = langFromPath(Astro.url.pathname);
+
+const title = lang === 'fr' ? data.title_fr : data.title_en;
+const role = lang === 'fr' ? data.role_fr : data.role_en;
+const pains = lang === 'fr' ? data.pain_points_fr : data.pain_points_en;
+const criteria = lang === 'fr' ? data.decision_criteria_fr : data.decision_criteria_en;
+const objections = lang === 'fr' ? data.objections_fr : data.objections_en;
+const proofs = lang === 'fr' ? data.proof_points_fr : data.proof_points_en;
+---
+<Base
+  title={`${title} · Persona · Waimia`}
+  description={lang === 'fr' ? data.description_fr : data.description_en}
+>
+  <article class="persona-detail">
+    <div class="wrap-wide">
+      <Breadcrumb
+        items={[
+          { href: '/ressources', label: lang === 'fr' ? 'Ressources' : 'Resources' },
+          { href: '/ressources/personas', label: lang === 'fr' ? 'Personas' : 'Personas' },
+          { href: `/ressources/personas/${entry.id}`, label: title, current: true },
+        ]}
+      />
+
+      <header class="persona-detail__hd">
+        <Kicker tone="accent">§ PERSONA</Kicker>
+        <h1 class="persona-detail__title">{title}</h1>
+        <p class="persona-detail__role">{role}</p>
+        <p class="persona-detail__lede">{lang === 'fr' ? data.description_fr : data.description_en}</p>
+      </header>
+
+      <div class="persona-detail__grid">
+        <section class="persona-detail__block">
+          <Kicker tone="muted" size={10}>{lang === 'fr' ? '§ Pain points' : '§ Pain points'}</Kicker>
+          <ul>{pains.map((p: string) => <li>{p}</li>)}</ul>
+        </section>
+
+        <section class="persona-detail__block">
+          <Kicker tone="muted" size={10}>{lang === 'fr' ? '§ Critères de décision' : '§ Decision criteria'}</Kicker>
+          <ul>{criteria.map((c: string) => <li>{c}</li>)}</ul>
+        </section>
+
+        <section class="persona-detail__block">
+          <Kicker tone="muted" size={10}>{lang === 'fr' ? '§ Objections' : '§ Objections'}</Kicker>
+          <ul>{objections.map((o: string) => <li>{o}</li>)}</ul>
+        </section>
+
+        <section class="persona-detail__block">
+          <Kicker tone="muted" size={10}>{lang === 'fr' ? '§ Proof points' : '§ Proof points'}</Kicker>
+          <ul>{proofs.map((p: string) => <li>{p}</li>)}</ul>
+        </section>
+
+        <section class="persona-detail__meta">
+          <div>
+            <Kicker tone="muted" size={10}>{lang === 'fr' ? '§ Budget' : '§ Budget'}</Kicker>
+            <p>{lang === 'fr' ? data.budget_range_fr : data.budget_range_en}</p>
+          </div>
+          <div>
+            <Kicker tone="muted" size={10}>{lang === 'fr' ? '§ Timeline' : '§ Timeline'}</Kicker>
+            <p>{lang === 'fr' ? data.timeline_fr : data.timeline_en}</p>
+          </div>
+          <div>
+            <Kicker tone="muted" size={10}>{lang === 'fr' ? '§ Taille entreprise' : '§ Company size'}</Kicker>
+            <p>{lang === 'fr' ? data.company_size_fr : data.company_size_en}</p>
+          </div>
+        </section>
+      </div>
+
+      <section class="persona-detail__content">
+        <Content />
+      </section>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .persona-detail {
+    padding-top: calc(var(--spacing-section) + var(--header-height));
+    padding-bottom: var(--spacing-section);
+  }
+  .persona-detail__hd {
+    margin: 32px 0 48px;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 32px;
+  }
+  .persona-detail__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h1-hero);
+    line-height: 1.02;
+    color: var(--ink);
+    margin: 16px 0 0;
+  }
+  .persona-detail__role {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin: 12px 0 0;
+  }
+  .persona-detail__lede {
+    font-family: var(--font-sans);
+    font-size: var(--text-lede);
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 24px 0 0;
+    max-width: 64ch;
+  }
+  .persona-detail__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 48px;
+  }
+  .persona-detail__block {
+    padding: 24px;
+    border: 1px solid var(--hairline);
+    background: var(--paper-2);
+  }
+  .persona-detail__block > :global(.u-kicker) { margin-bottom: 12px; display: block; }
+  .persona-detail__block ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .persona-detail__block li {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-sm);
+    line-height: 1.5;
+    color: var(--ink-2);
+    padding-left: 16px;
+    position: relative;
+  }
+  .persona-detail__block li::before {
+    content: '▸';
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+  }
+  .persona-detail__meta {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 24px;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .persona-detail__meta > div :global(.u-kicker) { display: block; margin-bottom: 8px; }
+  .persona-detail__meta p {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.2;
+    color: var(--paper);
+    margin: 0;
+  }
+  .persona-detail__content {
+    max-width: 72ch;
+  }
+  .persona-detail__content :global(p) {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    line-height: 1.7;
+    color: var(--ink-2);
+    margin: 0 0 16px;
+  }
+  @media (max-width: 768px) {
+    .persona-detail__grid { grid-template-columns: 1fr; }
+    .persona-detail__meta { grid-template-columns: 1fr; grid-column: span 1; }
+  }
+</style>
