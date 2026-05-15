@@ -69,7 +69,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 
 ### TIER 3 · Fusion collections (13h)
 
-- [ ] **T3.1a** · Créer schema `courses` discriminated union (`course_type: formation | parcours | atelier | certification`)
+- [✅] **T3.1a** · Schema `courses` discriminated union créé (commit `8d0ebd1`, Worker Sonnet) · 4 variants formation/parcours/atelier/certification dans `src/content.config.ts:206-313`
 - [ ] **T3.1b** · Migrer 3 MDX formations → `content/ecole/courses/*` avec `course_type: 'formation'`
 - [ ] **T3.1c** · Créer template polymorphe `CourseDetailTemplate.astro` (gère 4 types)
 - [ ] **T3.1d** · Route `/ecole/[type]/[slug].astro` unifiée
@@ -88,11 +88,11 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 
 ### TIER 4 · AI-first collections (23h)
 
-- [ ] **T4.1a** · Créer schema `personas` (slug, name, role, pain_points, decision_criteria, objections, proof_points, budget, timeline)
+- [✅] **T4.1a** · Schema `personas` créé (commit avec pré-injection Opus 2026-05-15) · 14 champs bilingues + sectors array
 - [ ] **T4.1b** · Créer 3 personas exemples : CEO PME B2B · CTO scale-up · CMO mid-market
 - [ ] **T4.1c** · Migrer `PersonaSwitcher` pour consommer la collection
 - [ ] **T4.1d** · Page `/ressources/personas/[slug].astro` (pages SEO bonus)
-- [ ] **T4.2a** · Créer schema `brand-voice` (singleton)
+- [✅] **T4.2a** · Schema `brandVoice` singleton créé (commit pré-injection Opus 2026-05-15) · doctrine + tone + forbidden/preferred words + sample phrases + typography rules · bilingue
 - [ ] **T4.2b** · Créer 1 entry brand-voice avec doctrine V5-V7 + typography FR + sample phrases
 - [ ] **T4.2c** · Linter custom : warn si MDX utilise `forbidden_words`
 - [ ] **T4.3a** · Créer schema `prompts` (name, purpose, system_prompt, variables, sample_output)
@@ -107,7 +107,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 
 ### TIER 5 · SEO programmatique (30h)
 
-- [ ] **T5.1a** · Créer schema `glossary` (term, definition, related_terms, examples)
+- [✅] **T5.1a** · Schema `glossary` créé (commit pré-injection Opus 2026-05-15) · 5 catégories enum (ia-technique/ia-business/data/workflow/gouvernance) · SEO meta intégré
 - [ ] **T5.1b** · Rédiger 50 termes glossaire IA (worker Sonnet)
 - [ ] **T5.1c** · Route `/glossaire/[slug].astro` + index `/glossaire/`
 - [ ] **T5.2a** · Créer schema `integrations` (tool_name, vendor, category, use_cases, native_or_via_api)
@@ -206,10 +206,11 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 
 ### TIER 12 · ISR + Performance finale (3h)
 
-- [ ] **T12.1** · ISR activé `/ressources/index` (TTL 1h)
-- [ ] **T12.2** · ISR activé `/archive` (TTL 6h)
-- [ ] **T12.3** · ISR activé `/ressources/tag/[slug]` (TTL 1h)
-- [ ] **T12.4** · ISR activé `/ressources/auteur/[slug]` (TTL 6h)
+- [✅] **T12.0** · ISR activé au niveau adapter Vercel (`isr: { expiration: 3600, bypassToken, exclude: [/api/*] }`) — prêt pour activation page-par-page
+- [🟡] **T12.1** · ISR `/ressources/index` — page SSG (prerender=true) avec contenu **hardcodé** (pas de collection query dynamique) → ISR n'apporte pas de valeur. Débloqué par T8.1 (migration hub collection-driven). Garder SSG.
+- [🟡] **T12.2** · ISR `/archive` — page SSG (prerender=true) quasi-statique. Si converti : TTL recommandé 24h. Activation = supprimer prerender=true (page simple, pas de getStaticPaths).
+- [🟡] **T12.3** · ISR `/ressources/tag/[...slug]` (TTL 1h) — SSG avec getStaticPaths. Conversion ISR requiert : (1) supprimer prerender=true + getStaticPaths, (2) lire `Astro.params.slug`, (3) calculer `items` dans le frontmatter, (4) ajouter guard 404. Cf DONE.md.
+- [🟡] **T12.4** · ISR `/ressources/auteur/[slug]` (TTL 6h) — route inexistante (dépend T5.4b). Quand créée : implémenter directement en mode SSR+ISR sans prerender.
 - [ ] **T12.5** · Lighthouse final 95+ sur 5 pages échantillon
 - [ ] **T12.6** · Bundle JS initial < 80 KB gzip vérifié
 - [ ] **T12.7** · LCP < 1.5s sur home

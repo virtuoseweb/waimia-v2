@@ -1,0 +1,46 @@
+---
+term_fr: "Prompt Engineering"
+term_en: "Prompt Engineering"
+slug: "prompt-engineering"
+definition_fr: "Discipline consistant à concevoir et optimiser les instructions transmises à un modèle de langage pour obtenir des sorties précises, cohérentes et adaptées à un cas d'usage spécifique."
+definition_en: "The discipline of designing and optimizing instructions given to a language model to obtain precise, consistent outputs adapted to a specific use case."
+short_explanation_fr: "Le prompt engineering est l'art de formuler des instructions claires à un LLM pour maximiser la qualité et la fiabilité de ses réponses dans un contexte métier donné."
+short_explanation_en: "Prompt engineering is the art of formulating clear instructions to an LLM to maximize the quality and reliability of its responses in a given business context."
+examples_fr:
+  - "Rédiger un system prompt structuré pour un agent de qualification de leads qui classe les prospects selon des critères BANT précis."
+  - "Utiliser la technique Chain-of-Thought pour guider un modèle dans l'analyse financière d'un bilan comptable étape par étape."
+  - "Concevoir des prompts few-shot avec 3 exemples de contrats bien rédigés pour qu'un LLM génère des clauses dans le même style."
+examples_en:
+  - "Writing a structured system prompt for a lead qualification agent that classifies prospects according to specific BANT criteria."
+  - "Using the Chain-of-Thought technique to guide a model through the financial analysis of a balance sheet step by step."
+  - "Designing few-shot prompts with 3 examples of well-written contracts so an LLM generates clauses in the same style."
+related_terms:
+  - "agent-ia"
+  - "rag"
+  - "gouvernance-ia"
+category: "ia-technique"
+publishedAt: 2026-05-15
+seo:
+  meta_description_fr: "Prompt engineering : définition, techniques (Chain-of-Thought, few-shot, system prompt) et applications concrètes pour optimiser vos workflows IA en entreprise."
+  meta_description_en: "Prompt engineering: definition, techniques (Chain-of-Thought, few-shot, system prompt) and concrete applications to optimize your business AI workflows."
+---
+
+## Qu'est-ce que le prompt engineering ?
+
+Le **prompt engineering** est la compétence qui détermine la différence entre un LLM générique et un outil métier performant. La même technologie sous-jacente peut produire des résultats médiocres ou excellents selon la façon dont les instructions lui sont transmises.
+
+### Les techniques fondamentales
+
+**Zero-shot** : fournir uniquement l'instruction, sans exemple. Efficace pour les tâches génériques mais peu fiable sur des cas métiers spécifiques.
+
+**Few-shot** : inclure 2 à 5 exemples concrets dans le prompt pour guider le modèle vers le format et le style attendus. Indispensable pour la génération de contenu normé (emails, rapports, contrats).
+
+**Chain-of-Thought (CoT)** : demander au modèle de raisonner étape par étape avant de conclure. Améliore significativement les performances sur les tâches analytiques et logiques.
+
+**System prompt** : instruction de rôle et de contraintes placée avant la conversation. Définit la personnalité, le périmètre d'action et les règles absolues de l'agent.
+
+### Bonnes pratiques pour les équipes métier
+
+Un bon prompt métier doit : (1) définir le rôle de l'IA, (2) préciser le contexte et les contraintes, (3) spécifier le format de sortie attendu, (4) anticiper les cas limites avec des règles explicites.
+
+L'investissement dans des prompts bien structurés réduit les coûts de supervision, améliore la cohérence des sorties et facilite la maintenance des workflows automatisés. C'est la fondation sur laquelle repose tout projet IA durable en entreprise.

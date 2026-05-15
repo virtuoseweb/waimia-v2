@@ -1003,6 +1003,76 @@ const newsletter = defineCollection({
   }),
 });
 
+// ─── Personas (Tier 4.1) · profils d'acheteurs typiques pour PersonaSwitcher + targeting ───
+const personas = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/personas' }),
+  schema: z.object({
+    ...baseFields,
+    role_fr: z.string(),
+    role_en: z.string(),
+    pain_points_fr: z.array(z.string()).min(3).max(7),
+    pain_points_en: z.array(z.string()).min(3).max(7),
+    decision_criteria_fr: z.array(z.string()).min(3).max(7),
+    decision_criteria_en: z.array(z.string()).min(3).max(7),
+    objections_fr: z.array(z.string()).min(2).max(5),
+    objections_en: z.array(z.string()).min(2).max(5),
+    proof_points_fr: z.array(z.string()).min(3).max(7),
+    proof_points_en: z.array(z.string()).min(3).max(7),
+    budget_range_fr: z.string(),
+    budget_range_en: z.string(),
+    timeline_fr: z.string(),
+    timeline_en: z.string(),
+    company_size_fr: z.string(),
+    company_size_en: z.string(),
+    sectors: z.array(z.string()).default([]),
+  }),
+});
+
+// ─── Brand Voice (Tier 4.2) · doctrine éditoriale V5-V7 · singleton ───
+const brandVoice = defineCollection({
+  loader: glob({ pattern: '*.mdx', base: './src/content/brand-voice' }),
+  schema: z.object({
+    title_fr: z.string(),
+    title_en: z.string(),
+    publishedAt: z.coerce.date(),
+    doctrine_fr: z.string(),
+    doctrine_en: z.string(),
+    tone_principles_fr: z.array(z.string()).min(5).max(12),
+    tone_principles_en: z.array(z.string()).min(5).max(12),
+    forbidden_words_fr: z.array(z.string()).default([]),
+    forbidden_words_en: z.array(z.string()).default([]),
+    preferred_words_fr: z.array(z.string()).default([]),
+    preferred_words_en: z.array(z.string()).default([]),
+    sample_phrases_fr: z.array(z.string()).min(3).max(10),
+    sample_phrases_en: z.array(z.string()).min(3).max(10),
+    typography_rules_fr: z.array(z.string()).default([]),
+    typography_rules_en: z.array(z.string()).default([]),
+  }),
+});
+
+// ─── Glossary (Tier 5.1) · termes IA/business pour SEO programmatique ───
+const glossary = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/glossary' }),
+  schema: z.object({
+    term_fr: z.string(),
+    term_en: z.string(),
+    slug: z.string(),
+    definition_fr: z.string(),
+    definition_en: z.string(),
+    short_explanation_fr: z.string(),
+    short_explanation_en: z.string(),
+    examples_fr: z.array(z.string()).min(1).max(5),
+    examples_en: z.array(z.string()).min(1).max(5),
+    related_terms: z.array(z.string()).default([]),
+    category: z.enum(['ia-technique', 'ia-business', 'data', 'workflow', 'gouvernance']),
+    publishedAt: z.coerce.date(),
+    seo: z.object({
+      meta_description_fr: z.string().max(160),
+      meta_description_en: z.string().max(160),
+    }),
+  }),
+});
+
 // ═════════════════════════════════════════════════════════════════
 
 export const collections = {
@@ -1031,4 +1101,8 @@ export const collections = {
   abonnements,
   landingPages,
   newsletter,
+  // Tier 4 AI-first + Tier 5 SEO (2026-05-15)
+  personas,
+  brandVoice,
+  glossary,
 };
