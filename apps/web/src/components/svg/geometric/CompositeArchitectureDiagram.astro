@@ -1,0 +1,170 @@
+---
+interface Props {
+  variant?: 'default' | 'compact';
+}
+
+const { variant = 'default' } = Astro.props;
+const ac = 'var(--waimia-accent, #C94F2E)';
+
+const BOX_X = 60;
+const BOX_W = 720;
+
+type TierDef = { y: number; h: number; sections: string[]; label: string; desc: string };
+
+const tiers: TierDef[] = [
+  {
+    y: 30,
+    h: 90,
+    sections: ['Hero', 'NavBar', 'CTAPanel', 'AnnounceBar'],
+    label: 'T1',
+    desc: 'Conversion · Visibilité maximale',
+  },
+  {
+    y: 180,
+    h: 72,
+    sections: ['Features', 'How It Works', 'Pricing', 'Testimonials', 'Case Study', 'Logo Strip', 'Stats Row', 'Team Grid'],
+    label: 'T2',
+    desc: 'Contenu · Valeur produit',
+  },
+  {
+    y: 308,
+    h: 72,
+    sections: ['FAQ', 'Blog', 'Contact', 'Newsletter', 'Footer', 'Partners', 'Social Wall'],
+    label: 'T3',
+    desc: 'Support · Conversion finale',
+  },
+];
+---
+
+<svg
+  viewBox="0 0 800 400"
+  preserveAspectRatio="xMidYMid meet"
+  class:list={['arch-diagram', variant === 'compact' && 'arch-diagram-compact']}
+  role="img"
+  aria-label="Architecture composable W6 · 19 sections en 3 couches Tier 1, 2, 3"
+>
+  {
+    tiers.map((tier, tierIdx) => {
+      const cellW = BOX_W / tier.sections.length;
+      const isT1 = tierIdx === 0;
+      const opacity = tierIdx === 2 ? 0.7 : 1;
+      const midY = tier.y + tier.h / 2;
+
+      return (
+        <g>
+          <text
+            x={BOX_X}
+            y={tier.y - 8}
+            font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace"
+            font-size="9"
+            letter-spacing="1.2"
+            fill={isT1 ? ac : 'currentColor'}
+            opacity={isT1 ? 1 : 0.5}
+          >
+            {tier.label} · {tier.desc}
+          </text>
+
+          <rect
+            x={BOX_X}
+            y={tier.y}
+            width={BOX_W}
+            height={tier.h}
+            fill="var(--paper-2, #F6F1E8)"
+            stroke={isT1 ? ac : 'currentColor'}
+            stroke-width={isT1 ? 1.5 : 1}
+            opacity={opacity}
+            vector-effect="non-scaling-stroke"
+          />
+
+          {tier.sections.slice(0, -1).map((_, i) => (
+            <line
+              x1={BOX_X + cellW * (i + 1)}
+              y1={tier.y}
+              x2={BOX_X + cellW * (i + 1)}
+              y2={tier.y + tier.h}
+              stroke={isT1 ? ac : 'currentColor'}
+              stroke-width="0.5"
+              opacity={opacity * 0.45}
+              vector-effect="non-scaling-stroke"
+            />
+          ))}
+
+          {tier.sections.map((section, cellIdx) => {
+            const cx = BOX_X + cellW * cellIdx + cellW / 2;
+            const fontSize = isT1 ? 15 : 11;
+            return (
+              <text
+                x={cx}
+                y={midY + fontSize * 0.38}
+                text-anchor="middle"
+                font-family="Instrument Serif, Georgia, serif"
+                font-style="italic"
+                font-size={fontSize}
+                fill={isT1 ? ac : 'currentColor'}
+                opacity={opacity}
+              >
+                {section}
+              </text>
+            );
+          })}
+        </g>
+      );
+    })
+  }
+
+  <line x1="420" y1="120" x2="420" y2="178" stroke={ac} stroke-width="1" opacity="0.46" vector-effect="non-scaling-stroke" />
+  <path d="M416 174 L420 178 L424 174" fill="none" stroke={ac} stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.46" />
+
+  <line x1="420" y1="252" x2="420" y2="306" stroke="currentColor" stroke-width="1" opacity="0.35" vector-effect="non-scaling-stroke" />
+  <path d="M416 302 L420 306 L424 302" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.35" />
+
+  {
+    tiers.map((tier, tierIdx) => (
+      <text
+        x="30"
+        y={tier.y + tier.h / 2 + 4}
+        text-anchor="middle"
+        font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace"
+        font-size="10"
+        letter-spacing="0.5"
+        fill={tierIdx === 0 ? ac : 'currentColor'}
+        opacity={tierIdx === 2 ? 0.5 : 0.7}
+      >
+        0{tierIdx + 1}
+      </text>
+    ))
+  }
+
+  <text
+    x="420"
+    y="392"
+    text-anchor="middle"
+    font-family="JetBrains Mono, ui-monospace, SFMono-Regular, monospace"
+    font-size="9"
+    letter-spacing="1"
+    fill="currentColor"
+    opacity="0.35"
+  >
+    19 sections composables · Waimia W6
+  </text>
+</svg>
+
+<style>
+  .arch-diagram {
+    display: block;
+    width: 100%;
+    max-width: 900px;
+    margin-inline: auto;
+    color: var(--ink, #0c0b09);
+  }
+
+  .arch-diagram-compact {
+    max-width: 640px;
+  }
+
+  @media (max-width: 700px) {
+    .arch-diagram {
+      min-width: 560px;
+    }
+  }
+</style>
