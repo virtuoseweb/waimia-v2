@@ -38,7 +38,7 @@ const {
   description,
   jsonLd,
   additionalJsonLd,
-  ogImage = 'https://waimia.com/og/default.png',
+  ogImage,
   noindex = false,
   canonical,
   themeColor = '#F6F1E8',
@@ -48,6 +48,13 @@ const lang = langFromPath(Astro.url.pathname);
 const altPath = alternateHref(Astro.url.pathname, lang);
 const siteUrl = 'https://waimia.com';
 const canonicalUrl = canonical ?? `${siteUrl}${Astro.url.pathname}`;
+
+// T1.6b · OG image dynamique via /api/og.png si pas d'image fournie
+// Utilise title + kicker dérivé de la description (first sentence) pour le rendu SVG
+const ogTitle = encodeURIComponent(title.split('·')[0].trim().substring(0, 80));
+const ogKicker = encodeURIComponent(lang === 'fr' ? '§ Waimia' : '§ Waimia');
+const dynamicOgUrl = `${siteUrl}/api/og.png?title=${ogTitle}&kicker=${ogKicker}`;
+const finalOgImage = ogImage ?? dynamicOgUrl;
 const altUrl = `${siteUrl}${altPath}`;
 
 const baseLd = [organization(), website(lang)];
@@ -80,13 +87,13 @@ const additionalLd = additionalJsonLd
     <meta property="og:locale" content={HREFLANG[lang]} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={finalOgImage} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content="Waimia" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image" content={finalOgImage} />
 
     {/* Favicons + PWA manifest */}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
