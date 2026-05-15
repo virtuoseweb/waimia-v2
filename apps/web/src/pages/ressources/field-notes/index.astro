@@ -1,0 +1,134 @@
+---
+export const prerender = true;
+
+// Page SSG · /ressources/field-notes · Index field notes Waimia
+
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import Breadcrumb from '../../../components/ui/molecules/Breadcrumb.astro';
+import { langFromPath } from '../../../lib/i18n';
+
+const entries = await getCollection('fieldNotes');
+const lang = langFromPath(Astro.url.pathname);
+const sorted = entries.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+<Base
+  title={lang === 'fr' ? "Field Notes · Carnet de bord Waimia" : "Field Notes · Waimia logbook"}
+  description={lang === 'fr' ? "Notes courtes, essais, cas et recettes. Le carnet de bord Waimia, mis à jour au fil des engagements." : "Short notes, essays, cases and cookbooks. Waimia's logbook, updated as engagements unfold."}
+>
+  <section class="fieldnotes-index">
+    <div class="wrap-tight">
+      <Breadcrumb
+        items={[
+          { href: '/ressources', label: lang === 'fr' ? 'Ressources' : 'Resources' },
+          { href: '/ressources/field-notes', label: lang === 'fr' ? 'Field notes' : 'Field notes', current: true },
+        ]}
+      />
+
+      <header class="fieldnotes-index__hd">
+        <Kicker tone="muted">§ Field Notes · Waimia</Kicker>
+        <h1 class="fieldnotes-index__h1">
+          {lang === 'fr' ? <>Le <i>carnet de bord</i></> : <>The <i>logbook</i></>}
+        </h1>
+        <p class="fieldnotes-index__lede">
+          {lang === 'fr'
+            ? `${entries.length} notes courtes · cas, recettes, essais, notes. Mis à jour au fil des engagements.`
+            : `${entries.length} short notes · cases, cookbooks, essays, field notes. Updated as engagements unfold.`}
+        </p>
+      </header>
+
+      <ul class="fieldnotes-index__list">
+        {sorted.map((entry: any) => {
+          const dateStr = new Intl.DateTimeFormat(lang === 'fr' ? 'fr-FR' : 'en-US', {
+            day: 'numeric', month: 'long', year: 'numeric'
+          }).format(entry.data.date);
+          const tag = lang === 'fr' ? entry.data.tag_fr : entry.data.tag_en;
+          return (
+            <li class="fieldnotes-index__item">
+              <a href={`/ressources/field-notes/${entry.id}`} class="fieldnotes-index__link">
+                <div class="fieldnotes-index__meta">
+                  <Kicker tone="accent" size={10}>§ {tag}</Kicker>
+                  <time class="fieldnotes-index__date">{dateStr}</time>
+                </div>
+                <h2 class="fieldnotes-index__title">{lang === 'fr' ? entry.data.title_fr : entry.data.title_en}</h2>
+                <p class="fieldnotes-index__short">{lang === 'fr' ? entry.data.description_fr : entry.data.description_en}</p>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .fieldnotes-index {
+    padding-top: calc(var(--spacing-section) + var(--header-height));
+    padding-bottom: var(--spacing-section);
+  }
+  .fieldnotes-index__hd {
+    margin-bottom: clamp(48px, 6vw, 80px);
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 32px;
+  }
+  .fieldnotes-index__h1 {
+    font-family: var(--font-display);
+    font-size: var(--text-h1-hero);
+    line-height: 1.02;
+    color: var(--ink);
+    margin: 24px 0 0;
+  }
+  .fieldnotes-index__h1 i { font-style: italic; color: var(--accent); }
+  .fieldnotes-index__lede {
+    font-family: var(--font-sans);
+    font-size: var(--text-lede);
+    color: var(--ink-2);
+    line-height: 1.5;
+    margin: 24px 0 0;
+    max-width: 60ch;
+  }
+  .fieldnotes-index__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .fieldnotes-index__item {
+    border-bottom: 1px solid var(--hairline);
+  }
+  .fieldnotes-index__link {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px 0;
+    text-decoration: none;
+    color: var(--ink);
+    transition: background var(--dur-fast) var(--ease);
+  }
+  .fieldnotes-index__link:hover { background: var(--paper-2); padding-inline: 16px; }
+  .fieldnotes-index__meta {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .fieldnotes-index__date {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+  .fieldnotes-index__title {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2vw, 28px);
+    line-height: 1.2;
+    color: var(--ink);
+    margin: 0;
+  }
+  .fieldnotes-index__short {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-sm);
+    line-height: 1.5;
+    color: var(--muted);
+    margin: 0;
+  }
+</style>

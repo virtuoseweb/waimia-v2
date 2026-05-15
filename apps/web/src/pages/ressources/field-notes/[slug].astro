@@ -1,0 +1,107 @@
+---
+export const prerender = true;
+
+// Page SSG · /ressources/field-notes/[slug] · Consumer MDX collection "fieldNotes"
+
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import Breadcrumb from '../../../components/ui/molecules/Breadcrumb.astro';
+import { langFromPath } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('fieldNotes');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<'fieldNotes'> };
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
+const data = entry.data;
+const lang = langFromPath(Astro.url.pathname);
+const title = lang === 'fr' ? data.title_fr : data.title_en;
+const tag = lang === 'fr' ? data.tag_fr : data.tag_en;
+const dateStr = new Intl.DateTimeFormat(lang === 'fr' ? 'fr-FR' : 'en-US', {
+  day: 'numeric', month: 'long', year: 'numeric'
+}).format(data.date);
+---
+<Base title={`${title} · Field Note · Waimia`} description={lang === 'fr' ? data.description_fr : data.description_en}>
+  <article class="fieldnote-detail">
+    <div class="wrap-tight">
+      <Breadcrumb
+        items={[
+          { href: '/ressources', label: lang === 'fr' ? 'Ressources' : 'Resources' },
+          { href: '/ressources/field-notes', label: lang === 'fr' ? 'Field notes' : 'Field notes' },
+          { href: `/ressources/field-notes/${entry.id}`, label: title, current: true },
+        ]}
+      />
+
+      <header class="fieldnote-detail__hd">
+        <Kicker tone="accent">§ {tag}</Kicker>
+        <h1 class="fieldnote-detail__title">{title}</h1>
+        <time class="fieldnote-detail__date" datetime={data.date.toISOString()}>{dateStr}</time>
+      </header>
+
+      <div class="fieldnote-detail__content">
+        <Content />
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .fieldnote-detail {
+    padding-top: calc(var(--spacing-section) + var(--header-height));
+    padding-bottom: var(--spacing-section);
+  }
+  .fieldnote-detail__hd {
+    margin: 32px 0 48px;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 24px;
+  }
+  .fieldnote-detail__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h1-hero);
+    line-height: 1.02;
+    color: var(--ink);
+    margin: 16px 0 0;
+  }
+  .fieldnote-detail__date {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-top: 16px;
+    display: block;
+  }
+  .fieldnote-detail__content {
+    margin-top: 32px;
+  }
+  .fieldnote-detail__content :global(p) {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    line-height: 1.7;
+    color: var(--ink-2);
+    margin: 0 0 16px;
+  }
+  .fieldnote-detail__content :global(pre) {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 16px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 24px 0;
+  }
+  .fieldnote-detail__content :global(code) {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--paper-2);
+    padding: 2px 6px;
+  }
+  .fieldnote-detail__content :global(strong) { color: var(--accent); }
+</style>
