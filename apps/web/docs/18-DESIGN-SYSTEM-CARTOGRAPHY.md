@@ -307,24 +307,35 @@ Diagnostic chiffré post-fix `34906a3` (aliases ajoutés) :
 
 ---
 
-## A.2 · Inventaire classes utility globales (80 dans global.css)
+## A.2 · Inventaire classes utility globales (87 dans global.css)
 
-🚧 **À COMPLÉTER** — scan ciblé par catégorie sémantique. Données déjà collectées :
+Scan : `grep -hoE "^\.[a-z][a-z0-9_-]*(\.[a-z][a-z0-9_-]*)*\s*\{" src/styles/global.css | sort -u`
 
-```bash
-grep -hoE "^\s*\.[a-z0-9-]+\s*\{" src/styles/global.css | sort -u | wc -l    # 80
-```
+### A.2.1 — Table catégorisée
 
-Catégories supposées (à vérifier) :
+| Catégorie | Total | Classes | Verdict Tier |
+|---|---|---|---|
+| **Layout containers** | 3 | `.wrap`, `.wrap-wide`, `.wrap-tight` | 🟢 Tier 1 canonique — utilisés massivement |
+| **Buttons** | 9 | `.btn`, `.btn-primary`, `.btn-accent`, `.btn-ghost`, `.btn-lg`, `.btn-link`, `.btn-label`, `.btn-spinner`, `.btn--loading` | 🟢 Tier 1 — système boutons cohérent |
+| **Header** | 9 | `.hdr`, `.hdr-inner`, `.hdr-end`, `.hdr-nav`, `.hdr-nav-item`, `.hdr-nav-trigger`, `.hdr.is-scrolled`, `.hdr-nav-trigger.is-active`, `.burger` | 🟢 Tier 1 — composant Header dédié |
+| **Mega menu** | 9 | `.mega`, `.mega-bottom`, `.mega-col-hd`, `.mega-featured`, `.mega-inner`, `.mega-link`, `.mega-scrim`, `.mega.is-open`, `.mega-scrim.is-open` | 🟢 Tier 1 — composant Mega dédié |
+| **Mobile sheet** | 10 | `.m-sheet`, `.m-sheet-top`, `.m-sheet-body`, `.m-sheet-close`, `.m-sheet-end`, `.m-sheet-acc`, `.m-sheet-acc-body`, `.m-sheet-acc-col`, `.m-sheet-acc-head`, `.m-sheet-acc-inner`, `.m-sheet-simple`, `.m-sheet.is-open` | 🟢 Tier 1 — composant Mobile menu dédié |
+| **Page pill** | 4 | `.page-pill`, `.page-pill-btn`, `.page-pill.is-visible`, `.page-pill-btn.is-active` | 🟡 Vérifier — utilisé seulement en mode dev (`PagePill.astro`) |
+| **Reveal animations** | 10 | `.blur-in`, `.blur-in.in`, `.clip-up`, `.clip-up.in`, `.reveal-fade`, `.reveal-fade.in`, `.reveal-up`, `.reveal-up.in`, `.scale-in`, `.scale-in.in` | 🟢 Tier 1 — animations canoniques |
+| **Editorial layout** | 8 | `.editorial-cell`, `.ec-grid`, `.ec-grid.cols-2`, `.ec-grid.cols-3`, `.ec-grid.cols-4`, `.ec-grid.cols-5`, `.case-row`, `.cases-tbl` | 🟢 Tier 1 — éditorial Cases / EditorialCell |
+| **Hairlines** | 3 | `.hline`, `.hline-strong`, `.hair-draw` | 🟢 Tier 1 — séparateurs canoniques |
+| **Section helpers** | 5 | `.sec`, `.sec-dark`, `.sec-paper`, `.sec-hd`, `.signature-grid` | 🟡 PROPOSITION TIER 2 : `.sec` est-il en doublon avec `.wrap` ? Vérifier usage. |
+| **Atomes typo legacy** | 4 | `.kicker`, `.chapter-label`, `.par`, `.fig` | 🟡 PROPOSITION TIER 2 : `.kicker` doublonne avec `Kicker.astro` atom + classe `.u-kicker`. Décision Phase B : conserver class ou prefer component ? |
+| **Howe-we-ship layout** | 2 | `.how-grid`, `.how-row` | 🟡 Spécifique à 1 organism `HowWeShip` — déplacer en scoped CSS ? |
+| **Misc state/helpers** | 11 | `.act-num`, `.lift`, `.marquee`, `.progress`, `.lang-toggle` + autres state classes | 🟡 À auditer un par un |
 
-- Layout containers : `.wrap`, `.wrap-wide`, `.wrap-tight`
-- Buttons : `.btn`, `.btn-primary`, `.btn-ghost`, etc.
-- Header : `.hdr`, `.hdr-inner`, `.skip-link`
-- Reveal animations : `.reveal`, `.reveal-mask-up`, `.reveal-fade`
-- Atomes typo : `.u-kicker`, `.u-eyebrow`, etc.
-- Helpers : `.sr-only`, `.is-hidden`
+### A.2.2 — Diagnostic A.2
 
-**Action Phase A.2 (prochaine)** : produire la table complète avec usage par page.
+- **64 classes Tier 1** confirmées (~74%)
+- **18 classes Tier 2/à vérifier** (~21%)
+- **5 classes à investiguer** doublons potentiels
+
+⚠️ **Doublon classe vs component détecté** : `.kicker` (CSS class) ↔ `Kicker.astro` (atom Astro) ↔ `.u-kicker` (autre classe injectée par Kicker.astro inline). **3 façons différentes de styler un kicker** → l'agent IA peut choisir n'importe laquelle. À unifier en Phase B.
 
 ---
 
@@ -360,16 +371,68 @@ Catégories supposées (à vérifier) :
 
 ---
 
-## A.4 · Map pages → tokens/classes/components utilisés
+## A.4 · Map pages → composants (fréquence d'import)
 
-🚧 **À PRODUIRE** Phase A.4 (scan ciblé par page) :
+Scan exhaustif : 75 fichiers `.astro` dans `src/pages` (toutes routes confondues, FR + EN, standalone + collection dynamic).
 
-- 13 pages standalone (`/`, `/agence/*`, `/contact`, etc.)
-- 22 collections content (`offres`, `solutions`, `cas`, `blog`, etc.)
+### A.4.1 — Top composants importés par PAGES STANDALONE (38 pages)
 
-Pour chaque page : liste de `(tokens utilisés, classes utilisées, components importés)`.
+| Composant | Imports | Catégorie | Verdict |
+|---|---|---|---|
+| `Base` | 13 | Layout | 🟢 Tier 1 obligatoire |
+| `Kicker` | 10 | Atom | 🟢 Tier 1 — atom le plus réutilisé |
+| `WelcomeTemplate` | 5 | Template | 🟢 Tier 1 (utilisé par /bienvenue/*) |
+| `Button` | 5 | Atom | 🟢 Tier 1 |
+| `UtilityTemplate` | 4 | Template | 🟢 Tier 1 (404, archive, console) |
+| `EditorialWriteRow` | 4 | Molecule | 🟢 Tier 1 (ressources) |
+| `Bi` | 4 | Atom (icon) | 🟢 Tier 1 |
+| `TrustLegalTemplate` | 3 | Template | 🟢 Tier 1 (governance, trust-center) |
+| `TerminalCTA` / `PillCTA` | 3 chacun | Atom | 🟢 Tier 1 (3 variantes CTA atomiques) |
+| `Callout` | 3 | Editorial | 🟢 Tier 1 |
+| **Sections W6 (HeroSplit, ProofBar W6, …)** | **0** (sauf /test-composable) | Section V2 | 🟡 **ADOPTION = 0%** |
 
-Méthode : `grep -rhoE "import.*from.*components" src/pages/<page>.astro` + scan template.
+⚠️ **CONSTAT CRITIQUE** : aucune page production n'utilise encore les sections W6. Le backbone composable V2 est livré (commit `ec0379a`) mais **0 page n'a été migrée**. T2.4c reste 🟡 en cours.
+
+### A.4.2 — Top composants importés par TEMPLATES (18 templates, qui servent les collections)
+
+| Composant | Imports | Catégorie | Verdict |
+|---|---|---|---|
+| `Base` | 15 | Layout | 🟢 Tier 1 obligatoire |
+| `Kicker` | 11 | Atom | 🟢 Tier 1 |
+| `Breadcrumb` | 10 | Molecule | 🟢 Tier 1 |
+| `CtaBand` (organism) | 8 | Organism | ⚠️ DOUBLON : organism vs section W6 |
+| `KeyMetric` | 7 | Editorial | 🟢 Tier 1 |
+| `Callout` | 7 | Editorial | 🟢 Tier 1 |
+| `Bi` | 7 | Atom | 🟢 Tier 1 |
+| `Timeline` (editorial) | 5 | Editorial | ⚠️ DOUBLON : editorial vs `TimelineBlock` section W6 |
+| `RelatedCards` | 5 | Molecule | 🟢 Tier 1 |
+| `Dingbat` | 5 | Editorial | 🟢 Tier 1 |
+| `TechPillRow` | 4 | Molecule | 🟢 Tier 1 |
+| `PullQuote` | 4 | Editorial | 🟢 Tier 1 |
+| `ProofBand` | 3 | Molecule | 🟢 Tier 1 |
+| `ProcessSteps` | 3 | Molecule | ⚠️ DOUBLON : molecule vs `MethodTimeline` section W6 |
+| `EditorialTable` | 3 | Editorial | 🟢 Tier 1 |
+
+### A.4.3 — Composants importés UNIQUEMENT 1 fois (candidats dépréciation)
+
+`SecteurIndustrie`, `SecteurFinance`, `PortraitSimon`, `MethodeProcessDiagram`, `TableOfContents`, `ShareButtons`, `RelatedByCluster`, `PricingTier`, `FitColumns`, `AuthorCard`, `TagPills`
+
+🟡 **À auditer** : composants utilisés une seule fois — soit légitimes (one-off intentionnel), soit dette (mort-né).
+
+### A.4.4 — Pages standalone vs Collections : différenciation observée
+
+| Type | Pattern d'imports | Recommandation Phase B |
+|---|---|---|
+| **Standalone** (`/`, `/manifesto`, `/agence/*`, `/contact`, `/console`, `/atlas`) | Imports inline d'organisms + atoms + motion (`Hero`, `BootSplash`, `LiquidHero`, organisms riches) | Tier 1 : organisms variés autorisés pour casser monotonie |
+| **Collections** (`offres`, `solutions`, `cas`, `blog`, etc.) | Imports d'un Template + Template orchestre atoms+molecules+editorial | Tier 1 : Template figé + atoms variés selon front-matter MDX |
+
+Cohérent avec mandat Simon : « créer des layouts et composition différente entre les modèles de pages (collections) et les nouvelles pages (standalone) ».
+
+### A.4.5 — Imports anti-pattern détectés
+
+1. **`ProofBar` ambigu** : `import ProofBar from '../components/ui/organisms/ProofBar.astro'` ou `'../components/sections/ProofBar.astro'` ? Les pages doivent être explicites. → **Phase D rename obligatoire**.
+2. **`CtaBand` ambigu** : idem. → **Phase D rename obligatoire**.
+3. **Sections W6 importées 0 fois en prod** : preuve que la migration T2.4c n'a pas démarré. → **Plan B : prioriser au moins 1 migration template pour valider l'adoption.**
 
 ---
 
@@ -440,12 +503,14 @@ Méthode : `grep -rhoE "import.*from.*components" src/pages/<page>.astro` + scan
 
 - [x] A.0 · Méthode d'audit définie
 - [x] A.1 · Inventaire tokens.css (147 tokens classés en 16 sous-sections)
-- [ ] A.2 · Inventaire classes utility globales (80, scan en cours)
+- [x] A.2 · Inventaire classes utility globales (87 catégorisées en 13 catégories)
 - [x] A.3 · Inventaire components atomic (114, niveau surface)
-- [ ] A.4 · Map pages → tokens/classes/components (35+ pages, scan en cours)
+- [x] A.4 · Map pages → composants (fréquence import, 75 fichiers scannés, anti-patterns identifiés)
 - [x] A.5 · Doublons inter-systèmes (9 confirmés, recommandations)
 - [x] A.6 · Diagnostic synthèse + propositions Tier
 - [ ] A.7 · Validation Simon + transition Phase B
+
+🎯 **Phase A complete** — prêt pour arbitrage Simon avant Phase B.
 
 ---
 
