@@ -227,14 +227,27 @@ Bloc `@theme {}` à la fin de tokens.css redéfinit `--color-*`, `--font-*`, `--
 | `molecules/MetricStrip.astro` | `sections/StatBlock.astro` | Idem. |
 | `organisms/CapabilityStrip.astro` | `sections/FeatureGrid.astro` | Idem. |
 
-### B.3.4 — Components mort-nés (11 candidats) 🟡 AUDIT INDIVIDUEL
+### B.3.4 — Components 1-import : audit complet (2026-05-15) ✅ TOUS TIER 1
 
-11 composants importés exactement 1 fois (doc 18 §A.4.3). Pour chacun :
+Audit Phase D.4 effectué — diagnostic : **aucun n'est mort-né**. Tous légitimes Tier 1.
 
-- Soit l'usage est légitime (one-off intentionnel) → Tier 1 ou 2
-- Soit c'est dette mort-née → Tier 3 à supprimer
+| Composant | LoC | Usages | Catégorie | Verdict |
+|---|---|---|---|---|
+| `SecteurIndustrie` | 67 | 1 (SolutionsDetailTemplate) | SVG sumie signature | 🟢 Tier 1 (one-off légitime) |
+| `SecteurFinance` | 63 | 1 (SolutionsDetailTemplate) | SVG sumie signature | 🟢 Tier 1 (one-off légitime) |
+| `PortraitSimon` | 66 | 1 (AuthorPageTemplate) | SVG sumie signature | 🟢 Tier 1 (one-off légitime) |
+| `MethodeProcessDiagram` | 167 | 2 (méthode + AuthorPageTemplate) | SVG geometric | 🟢 Tier 1 |
+| `TableOfContents` | 97 | 1 (EssayTemplate) | Molecule essai | 🟢 Tier 1 |
+| `ShareButtons` | 102 | 1 (EssayTemplate) | Molecule essai | 🟢 Tier 1 |
+| `RelatedByCluster` | 131 | 1 (EssayTemplate) | Molecule essai | 🟢 Tier 1 |
+| `PricingTier` | 173 | 2 (ConversionFunnel + landing) | Molecule (composé par PricingTable) | 🟢 Tier 1 |
+| `FitColumns` | 101 | 1 (HubTemplate) | Molecule layout | 🟢 Tier 1 |
+| `AuthorCard` | 146 | 3 (cas + livres-blancs + EssayTemplate) | Molecule | 🟢 Tier 1 |
+| `TagPills` | 57 | 1 (EssayTemplate) | Molecule essai | 🟢 Tier 1 |
 
-Liste : `SecteurIndustrie`, `SecteurFinance`, `PortraitSimon`, `MethodeProcessDiagram`, `TableOfContents`, `ShareButtons`, `RelatedByCluster`, `PricingTier`, `FitColumns`, `AuthorCard`, `TagPills`.
+**Conclusion D.4** : 11 composants conservés en Tier 1. Aucune suppression côté components 1-import.
+
+Le seul gain Tier 3 components restant à arbitrer (cf §B.3.3) : les 4 organisms historiques doublons fonctionnels avec sections W6 (Hero / ProcessSteps / MetricStrip / CapabilityStrip).
 
 ### B.3.5 — Classes utility candidates dépréciation 🟡 À ÉTUDIER
 
@@ -432,7 +445,7 @@ Avant Phase C démarrage, décisions nécessaires :
 1. **Hairlines dark** (§B.1.3) : conserver pour dark mode futur OU supprimer (-2 tokens) ?
 2. **@theme Tailwind v4** (§B.1.19) : utility classes utilisées en prod (Tier 1) OU bloc à supprimer (Tier 3 -10 tokens) ?
 3. **Sections d'accueil variées** (§B.2.1) : tous les variants survivent en Tier 2 OU consolidation vers 3 W6 ?
-4. **11 composants 1-import** (§B.3.4) : audit individuel ou suppression en bloc ?
+4. ~~**11 composants 1-import** (§B.3.4)~~ ✅ **TRANCHÉ 2026-05-15** : audit Phase D.4 → tous Tier 1 (aucune dette)
 5. **Organisms doublons** (§B.3.3) : déprécier Hero/ProcessSteps/MetricStrip/CapabilityStrip OU les garder en Tier 2 ?
 6. **Sidenote, Timeline editorial** (§B.2.5) : Tier 1 ou Tier 2 ?
 7. **`.kicker` class vs `Kicker.astro` atom** (§B.4.2) : unifier vers atom seul ?
