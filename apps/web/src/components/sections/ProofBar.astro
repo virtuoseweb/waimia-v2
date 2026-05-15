@@ -11,6 +11,7 @@ const isFr = lang === 'fr';
 ---
 
 <section class="proof-bar" data-layout={data.layout}>
+  <div class="wrap-wide">
   {(isFr ? data.kicker_fr : data.kicker_en) && (
     <Kicker tone="muted" class="proof-bar__kicker">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
   )}
@@ -22,6 +23,7 @@ const isFr = lang === 'fr';
       </li>
     ))}
   </ul>
+  </div>
 </section>
 
 <style>

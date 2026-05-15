@@ -12,6 +12,7 @@ const cols = data.columns ?? '3';
 ---
 
 <section class="feature-grid">
+  <div class="wrap-wide">
   <div class="feature-grid__header">
     {(isFr ? data.kicker_fr : data.kicker_en) && (
       <Kicker tone="muted">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
@@ -29,6 +30,7 @@ const cols = data.columns ?? '3';
       </li>
     ))}
   </ul>
+  </div>
 </section>
 
 <style>

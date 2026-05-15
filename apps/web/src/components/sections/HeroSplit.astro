@@ -12,6 +12,7 @@ const isFr = lang === 'fr';
 ---
 
 <section class="hero-split">
+  <div class="wrap-wide">
   <div class="hero-split__inner">
     <div class="hero-split__left">
       {(isFr ? data.kicker_fr : data.kicker_en) && (
@@ -41,11 +42,13 @@ const isFr = lang === 'fr';
       </div>
     )}
   </div>
+  </div>
 </section>
 
 <style>
   .hero-split {
-    padding-block: var(--spacing-section);
+    padding-top: calc(var(--spacing-section) + var(--header-height));
+    padding-bottom: var(--spacing-section);
     border-bottom: 1px solid var(--hairline);
   }
   .hero-split__inner {

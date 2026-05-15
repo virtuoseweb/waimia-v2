@@ -11,6 +11,7 @@ const isFr = lang === 'fr';
 ---
 
 <section class="cta-final" data-bg={data.background}>
+  <div class="wrap-wide">
   <div class="cta-final__inner">
     <h2 class="reveal-mask-up" set:html={isFr ? data.h2_fr : data.h2_en} />
     {(isFr ? data.body_fr : data.body_en) && (
@@ -26,6 +27,7 @@ const isFr = lang === 'fr';
         </Button>
       )}
     </div>
+  </div>
   </div>
 </section>
 

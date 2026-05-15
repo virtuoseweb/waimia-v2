@@ -156,6 +156,10 @@ body {
   --section-base: var(--space-11); /* 96px — défaut */
   --section-loose: var(--space-13); /* 160px — ouverture chapitre */
   --section-grand: var(--space-15); /* 256px — breakout signature */
+
+  /* Aliases composable sections V2 · cf src/components/sections/*.astro */
+  --spacing-section: clamp(64px, 8vw, 96px);
+  --spacing-block: clamp(28px, 3vw, 48px);
 }
 
 /* ─── ANIMATION DURATIONS · granulaires ─── */

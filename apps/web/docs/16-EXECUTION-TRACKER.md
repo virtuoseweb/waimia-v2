@@ -48,9 +48,24 @@ Tous les 5 axes stratégiques **VALIDÉS** :
 - [✅] **T2.3b** · Registry `SECTION_REGISTRY` dans `src/lib/section-registry.ts` (19 types mappés)
 - [✅] **T2.4a** · Page pilote `/test-composable` créée avec 5 sections inline (HeroSplit + ProofBar + MethodTimeline + FeatureGrid + CtaFinal) — preuve end-to-end fonctionnelle
 - [✅] **T2.4b** · HTTP 200 sur `/test-composable` validé + signature "composable system Waimia" trouvée dans HTML rendu
+- [✅] **T2.4d** · **Fixes visuels post-validation Playwright (2026-05-15)** — 3 bugs systémiques détectés et patchés : (1) tokens fantômes `--spacing-section`/`--spacing-block` ajoutés dans `tokens.css:160-162` (padding silencieux à 0 avant fix), (2) container `.wrap-wide` ajouté dans 5 sections (HeroSplit, ProofBar, MethodTimeline, FeatureGrid, CtaFinal), (3) HeroSplit `padding-top: calc(--spacing-section + --header-height)` pour clear sticky header — preuve `/Users/simonberos/test-composable-final.png` H1 entièrement visible
+- [ ] **T2.4e** · Patcher container `.wrap-wide` dans les 14 sections W6 restantes (HeroCentered, HeroFullBleed, StatBlock, SocialProof, ComparisonTable, TimelineBlock, MediaBlock, PricingTable, FaqAccordion, ObjectionHandler, CtaBand, CtaInline, TestimonialBlock, GuaranteeBlock) — pattern : wrap entre `<section>` et premier `<div>` interne
+- [ ] **T2.4f** · Ajouter `padding-top: calc(--spacing-section + --header-height)` aux 2 autres heros W6 (HeroCentered, HeroFullBleed) puisqu'ils peuvent être première section d'une page
 - [🟡] **T2.4c** · Migration `OffresDetailTemplate` vers SectionsRenderer reportée session next (schemas offres à étendre avec sections optional)
 - [ ] **T2.5a** · Créer `/agence/design-system` page enrichie avec showcase sections
 - [ ] **T2.5b** · 1 example per section variant dans le showcase
+
+### 🛡️ Garde-fou anti-répétition (mandat Simon 2026-05-15)
+
+Avant toute nouvelle section composable ou migration utilisant `<SectionsRenderer>`, procédure obligatoire :
+
+1. `grep -oE "var\(--[a-z0-9-]+\)" <section>.astro | sort -u` → vérifier chaque token dans `tokens.css`
+2. Confirmer présence `<div class="wrap-wide">` entre `<section>` et `__inner`/contenu structuré
+3. Si section peut être première d'une page (hero-*) : `padding-top: calc(var(--spacing-section) + var(--header-height))`
+4. Screenshot Playwright + lecture image obligatoire (rule 19 triangulation)
+5. Commit avec chemin screenshot dans le message
+
+Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/simonberos/.claude/projects/-Users-simonberos/memory/feedback_waimia_w6_sections_layout_pitfalls.md)
 
 ### TIER 3 · Fusion collections (13h)
 
