@@ -1054,6 +1054,44 @@ const brandVoice = defineCollection({
   }),
 });
 
+// ─── Commerce (Tier 3.2) · fusion produits + abonnements via discriminated union ───
+const commerce = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/commerce' }),
+  schema: z.discriminatedUnion('commerce_type', [
+    // Produit one-shot (audit-guide, kit-prompts, livre-blanc-premium, workbook, etc.)
+    z.object({
+      commerce_type: z.literal('product'),
+      ...baseFields,
+      ...taxonomyFields,
+      sku: z.string(),
+      price_eur: z.number().int().nonnegative(),
+      stripe_payment_link: z.string().url(),
+      delivery_format: z.enum(['pdf', 'epub', 'video', 'pack-zip', 'notion', 'mixte']),
+      pages_count: z.number().int().positive().optional(),
+      duration_minutes: z.number().int().positive().optional(),
+      preview_url: z.string().url().optional(),
+      benefits_fr: z.array(z.string()).min(3).max(8),
+      benefits_en: z.array(z.string()).min(3).max(8),
+      faq_items: z
+        .array(z.object({ q_fr: z.string(), q_en: z.string(), a_fr: z.string(), a_en: z.string() }))
+        .default([]),
+    }),
+    // Abonnement récurrent (membership Atelier, accès content premium, etc.)
+    z.object({
+      commerce_type: z.literal('subscription'),
+      ...baseFields,
+      ...taxonomyFields,
+      sku: z.string(),
+      price_eur_monthly: z.number().int().nonnegative(),
+      price_eur_yearly: z.number().int().nonnegative().optional(),
+      stripe_billing_portal: z.string().url(),
+      includes_fr: z.array(z.string()).min(3).max(10),
+      includes_en: z.array(z.string()).min(3).max(10),
+      tier: z.enum(['starter', 'pro', 'team']).default('starter'),
+    }),
+  ]),
+});
+
 // ─── Testimonials (Tier 6.1) · témoignages clients pour Conversion + Trust ───
 const testimonials = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/testimonials' }),
@@ -1130,4 +1168,5 @@ export const collections = {
   brandVoice,
   glossary,
   testimonials,
+  commerce,
 };
