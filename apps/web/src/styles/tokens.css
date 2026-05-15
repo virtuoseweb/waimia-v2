@@ -146,16 +146,11 @@ body {
   --section-loose: var(--space-13); /* 160px — ouverture chapitre */
   --section-grand: var(--space-15); /* 256px — breakout signature */
 
-  /* Aliases composable sections V2 · cf src/components/sections/*.astro
-     Pont temporaire vers tokens canoniques en attendant rename W6 → DA canonique.
-     Cf docs/18-DESIGN-SYSTEM-AUDIT.md (à produire) */
+  /* Rythm sections composable V2 · seuls tokens W6 transitoires restants
+     (rename Phase D.5 effectué 2026-05-15 commit a venir : --font-serif, --text-body,
+     --text-h1, --text-h2, --text-small supprimés au profit des tokens canoniques DA) */
   --spacing-section: clamp(64px, 8vw, 96px);
   --spacing-block: clamp(28px, 3vw, 48px);
-  --font-serif: var(--font-display);
-  --text-body: var(--text-body-md);
-  --text-h1: var(--text-display-md);
-  --text-h2: var(--text-h2-section);
-  --text-small: var(--text-body-sm);
 }
 
 /* ─── ANIMATION DURATIONS · granulaires ─── */

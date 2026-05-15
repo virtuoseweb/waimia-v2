@@ -49,8 +49,8 @@ const headers = isFr ? data.column_headers_fr : data.column_headers_en;
     border-bottom: 1px solid var(--hairline);
   }
   h2 {
-    font-family: var(--font-serif);
-    font-size: var(--text-h2);
+    font-family: var(--font-display);
+    font-size: var(--text-h2-section);
     line-height: 1.1;
     color: var(--ink);
     margin: 0 0 var(--spacing-block);
@@ -61,7 +61,7 @@ const headers = isFr ? data.column_headers_fr : data.column_headers_en;
     width: 100%;
     border-collapse: collapse;
     font-family: var(--font-sans);
-    font-size: var(--text-small);
+    font-size: var(--text-body-sm);
   }
   thead tr { border-bottom: 1px solid var(--hairline); }
   th {
@@ -87,7 +87,7 @@ const headers = isFr ? data.column_headers_fr : data.column_headers_en;
   }
   .comparison-table__feature {
     font-family: var(--font-sans);
-    font-size: var(--text-body);
+    font-size: var(--text-body-md);
     color: var(--ink);
   }
   .comparison-table__cell { text-align: center; }
