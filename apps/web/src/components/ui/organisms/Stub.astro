@@ -3,6 +3,7 @@
 // Garde le DS, la dignité, et permet de naviguer le site sans 404 jaloux.
 
 import { langFromPath, localizeHref } from '../../../lib/i18n';
+import Kicker from '../atoms/Kicker.astro';
 
 interface Props {
   kicker_fr: string;
@@ -19,9 +20,9 @@ const lang = langFromPath(Astro.url.pathname);
 <section class="sec" style="min-height:80vh;display:flex;align-items:center">
   <div class="signature-grid"></div>
   <div class="wrap" style="position:relative;z-index:1">
-    <div class="kicker" style="margin-bottom:24px">
+    <Kicker class="stub-kicker">
       {lang === 'fr' ? kicker_fr : kicker_en}
-    </div>
+    </Kicker>
     <h1 style="font-family:var(--font-display);font-size:clamp(48px,9vw,140px);line-height:.94;letter-spacing:-0.028em;font-weight:400;text-wrap:balance">
       {lang === 'fr' ? title_fr : title_en}
     </h1>

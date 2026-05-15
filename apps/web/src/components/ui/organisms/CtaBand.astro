@@ -5,15 +5,16 @@
 // Mémorable : « Le call-to-action devient une scène — magnétique, fixe, irrésistible. »
 
 import { langFromPath, localizeHref } from '../../../lib/i18n';
+import Kicker from '../atoms/Kicker.astro';
 
 const lang = langFromPath(Astro.url.pathname);
 ---
 <section class="cta-band scale-in" aria-labelledby="cta-h2">
   <div class="signature-grid"></div>
   <div class="frame">
-    <div class="kicker" style="margin-bottom:24px">
+    <Kicker class="ctaband-kicker">
       {lang === 'fr' ? '§ Acte VIII — Pour ceux qui livrent' : '§ Act VIII — For those who ship'}
-    </div>
+    </Kicker>
     <h2 id="cta-h2">
       {lang === 'fr' ? (
         <>Prêt à livrer un <em>agent</em>,<br />pas un slide deck ?</>

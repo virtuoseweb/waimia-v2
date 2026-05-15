@@ -20,11 +20,9 @@
   --muted:   #6B6560;
   --muted-2: #9A948D;
 
-  /* Hairlines */
+  /* Hairlines (dark mode reliquats supprimés Phase D 2026-05-15 décision Simon) */
   --hairline:             rgba(12,11,9, 0.09);
   --hairline-strong:      rgba(12,11,9, 0.18);
-  --hairline-dark:        rgba(246,241,232, 0.12);
-  --hairline-dark-strong: rgba(246,241,232, 0.22);
 
   /* Accent · terracotta */
   --accent:     #C94F2E;
