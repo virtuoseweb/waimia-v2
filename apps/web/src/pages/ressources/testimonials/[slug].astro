@@ -1,0 +1,139 @@
+---
+export const prerender = true;
+
+// Page SSG · /ressources/testimonials/[slug] · Détail témoignage (Tier 6.1d)
+
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import Breadcrumb from '../../../components/ui/molecules/Breadcrumb.astro';
+import { langFromPath } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('testimonials');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<'testimonials'> };
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
+const data = entry.data;
+const lang = langFromPath(Astro.url.pathname);
+const quote = lang === 'fr' ? data.quote_fr : data.quote_en;
+const role = lang === 'fr' ? data.role_fr : data.role_en;
+const metrics = lang === 'fr' ? data.metrics_fr : data.metrics_en;
+---
+<Base
+  title={`${data.author} · ${data.company} · Témoignage Waimia`}
+  description={`«${quote.substring(0, 140)}…» — ${data.author}, ${role} chez ${data.company}.`}
+>
+  <article class="testimonial-detail">
+    <div class="wrap-tight">
+      <Breadcrumb
+        items={[
+          { href: '/ressources', label: lang === 'fr' ? 'Ressources' : 'Resources' },
+          { href: '/ressources/testimonials', label: lang === 'fr' ? 'Témoignages' : 'Testimonials' },
+          { href: `/ressources/testimonials/${entry.id}`, label: data.company, current: true },
+        ]}
+      />
+
+      <header class="testimonial-detail__hd">
+        <Kicker tone="accent">§ {data.engagement_type.toUpperCase()} · {data.sector.toUpperCase()}</Kicker>
+        <blockquote class="testimonial-detail__quote">
+          « {quote} »
+        </blockquote>
+        <footer class="testimonial-detail__footer">
+          <strong>{data.author}</strong>
+          <span>{role}</span>
+          <span class="testimonial-detail__company">· {data.company}</span>
+        </footer>
+      </header>
+
+      {metrics.length > 0 && (
+        <section class="testimonial-detail__metrics">
+          <Kicker tone="muted" size={10}>§ {lang === 'fr' ? 'Métriques mesurées' : 'Measured metrics'}</Kicker>
+          <ul>
+            {metrics.map((m: string) => <li>{m}</li>)}
+          </ul>
+        </section>
+      )}
+
+      <section class="testimonial-detail__content">
+        <Content />
+      </section>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .testimonial-detail {
+    padding-top: calc(var(--spacing-section) + var(--header-height));
+    padding-bottom: var(--spacing-section);
+  }
+  .testimonial-detail__hd {
+    margin: 32px 0 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .testimonial-detail__quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(28px, 3vw, 44px);
+    line-height: 1.3;
+    color: var(--ink);
+    margin: 32px 0 24px;
+    max-width: 64ch;
+  }
+  .testimonial-detail__footer {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    color: var(--muted);
+    margin-top: 16px;
+  }
+  .testimonial-detail__footer strong { color: var(--ink); }
+  .testimonial-detail__company { font-style: italic; }
+  .testimonial-detail__metrics {
+    margin-bottom: 48px;
+    padding: 24px;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .testimonial-detail__metrics > :global(.u-kicker) { display: block; margin-bottom: 16px; color: var(--accent); }
+  .testimonial-detail__metrics ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .testimonial-detail__metrics li {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--paper);
+    padding-left: 16px;
+    position: relative;
+  }
+  .testimonial-detail__metrics li::before {
+    content: '▸';
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+  }
+  .testimonial-detail__content {
+    max-width: 72ch;
+  }
+  .testimonial-detail__content :global(p) {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    line-height: 1.7;
+    color: var(--ink-2);
+    margin: 0 0 16px;
+  }
+</style>
