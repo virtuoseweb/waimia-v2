@@ -17,6 +17,7 @@
 
 import Base from '../layouts/Base.astro';
 import Stub from '../components/ui/organisms/Stub.astro';
+import Kicker from '../components/ui/atoms/Kicker.astro';
 import OffresDetailTemplate from '../components/templates/OffresDetailTemplate.astro';
 import SolutionsDetailTemplate from '../components/templates/SolutionsDetailTemplate.astro';
 import TechnologiesDetailTemplate from '../components/templates/TechnologiesDetailTemplate.astro';
@@ -359,7 +360,7 @@ const finalTitle = isDeepRoute ? { fr: slugTail, en: slugTail } : meta.title;
     </Fragment>
     <Fragment slot="stack">
       <div class="stack-card">
-        <div class="kicker">À préciser</div>
+        <Kicker>À préciser</Kicker>
         <h3>Stack en cours<br/>de finalisation</h3>
         <p>Le triptyque Anthropic + intégrations métier + open-source orchestration sera détaillé à la mise en ligne.</p>
         <span class="pill">Anthropic-first</span>
@@ -409,13 +410,13 @@ const finalTitle = isDeepRoute ? { fr: slugTail, en: slugTail } : meta.title;
     </Fragment>
     <Fragment slot="capabilities">
       <div class="cap-card">
-        <div class="kicker">À venir</div>
+        <Kicker>À venir</Kicker>
         <h3>Capacités<br/>en cours de cadrage</h3>
         <p>Cette section recensera les capacités techniques de cette brique — points forts, contraintes, intégrations.</p>
         <div class="cap-value">—</div>
       </div>
       <div class="cap-card">
-        <div class="kicker">À venir</div>
+        <Kicker>À venir</Kicker>
         <h3>Cas d'usage<br/>recommandés</h3>
         <p>Les patterns d'usage les plus pertinents pour cette brique seront listés ici.</p>
         <div class="cap-value">—</div>

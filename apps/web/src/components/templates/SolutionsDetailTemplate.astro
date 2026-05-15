@@ -39,6 +39,7 @@ import SecteurServicesB2B from '../svg/sumie/SecteurServicesB2B.astro';
 import SecteurIndustrie from '../svg/sumie/SecteurIndustrie.astro';
 import SecteurFinance from '../svg/sumie/SecteurFinance.astro';
 import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
+import Kicker from '../ui/atoms/Kicker.astro';
 import { langFromPath } from '../../lib/i18n';
 import { buildService } from '../../lib/seo/schema-builder';
 
@@ -364,7 +365,7 @@ const sectorVisual =
       <div class="sol-case-grid">
         <div class="sol-case-dark">
           <div class="wrap-inner">
-            <div class="kicker"><slot name="case-kicker">{propsCaseKicker ?? 'Cas client'}</slot></div>
+            <Kicker><slot name="case-kicker">{propsCaseKicker ?? 'Cas client'}</slot></Kicker>
             <h2 class="sol-case-title"><slot name="case-title" /></h2>
             <p class="sol-case-body">
               {propsCaseBodyFr
@@ -378,7 +379,7 @@ const sectorVisual =
         </div>
         <div class="sol-case-light">
           <div class="wrap-inner">
-            <div class="kicker">Résultats</div>
+            <Kicker>Résultats</Kicker>
             <div class="sol-case-results">
               {propsCaseResults.length > 0 ? (
                 propsCaseResults.map((r) => (

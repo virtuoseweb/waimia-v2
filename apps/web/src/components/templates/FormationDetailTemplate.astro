@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import Kicker from '../ui/atoms/Kicker.astro';
 
 interface Props {
   data: CollectionEntry<'formations'>['data'];
@@ -55,7 +56,7 @@ const ctaContact = lang === 'fr'
   <!-- HERO 2-COLS -->
   <div class="hero">
     <div class="hero-left">
-      <p class="kicker">{`${lang === 'fr' ? 'Cours' : 'Course'} · ${levelLabel} · ${data.duration_hours}h · ${formatLabel}`}</p>
+      <Kicker as="p">{`${lang === 'fr' ? 'Cours' : 'Course'} · ${levelLabel} · ${data.duration_hours}h · ${formatLabel}`}</Kicker>
       <h1 class="heading">{title}</h1>
       <p class="lede">{description}</p>
       <div class="cta-group">

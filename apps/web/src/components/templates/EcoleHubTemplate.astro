@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import Kicker from '../ui/atoms/Kicker.astro';
 
 interface Props {
   formations: Array<CollectionEntry<"formations">>;
@@ -39,7 +40,7 @@ const ctaText = lang === 'fr' ? 'Demander un parcours sur mesure' : 'Request a c
 <section class="ecole-hub">
   <!-- HERO -->
   <div class="hero">
-    <p class="kicker">{kickerText}</p>
+    <Kicker as="p">{kickerText}</Kicker>
     <h1 class="heading" set:html={heroTitle} />
     <p class="lede">{heroLede}</p>
   </div>

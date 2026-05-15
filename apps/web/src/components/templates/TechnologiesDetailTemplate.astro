@@ -38,6 +38,7 @@ import Timeline from '../editorial/Timeline.astro';
 import EditorialTable from '../editorial/EditorialTable.astro';
 import Dingbat from '../editorial/Dingbat.astro';
 import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
+import Kicker from '../ui/atoms/Kicker.astro';
 import { langFromPath } from '../../lib/i18n';
 import { buildService } from '../../lib/seo/schema-builder';
 
@@ -237,7 +238,7 @@ const serviceLd = buildService({ name: title, description });
       <div class="wrap">
         <div class="tech-pos-split">
           <div class="tech-pos-left">
-            <div class="kicker">Position Waimia</div>
+            <Kicker>Position Waimia</Kicker>
             <h2 class="tech-pos-title"><slot name="positioning-title" /></h2>
             <p class="tech-aside"><slot name="positioning-aside" /></p>
           </div>
@@ -256,7 +257,7 @@ const serviceLd = buildService({ name: title, description });
       <div class="wrap">
         <div class="tech-sec-hd">
           <div>
-            <div class="kicker">Capacités</div>
+            <Kicker>Capacités</Kicker>
             <h2><slot name="capabilities-title"><i>Inventaire</i><br/>technique</slot></h2>
           </div>
           <p class="tech-aside"><slot name="capabilities-aside" /></p>
@@ -294,7 +295,7 @@ const serviceLd = buildService({ name: title, description });
         <div class="wrap">
           <div class="tech-sec-hd">
             <div>
-              <div class="kicker">Choisir le bon modèle</div>
+              <Kicker>Choisir le bon modèle</Kicker>
               <h2><slot name="models-title"><i>Modèles</i><br/>disponibles</slot></h2>
             </div>
             <p class="tech-aside"><slot name="models-aside" /></p>
@@ -332,20 +333,20 @@ const serviceLd = buildService({ name: title, description });
       <div class="wrap">
         <div class="tech-sec-hd">
           <div>
-            <div class="kicker">Aide décision</div>
+            <Kicker>Aide décision</Kicker>
             <h2><slot name="when-title"><i>Quand</i><br/>l'utiliser ?</slot></h2>
           </div>
           <p class="tech-aside"><slot name="when-aside" /></p>
         </div>
         <div class="tech-when-dual reveal-stagger">
           <div class="tech-when-col tech-when-col--use">
-            <div class="kicker tech-when-kicker">Utiliser quand</div>
+            <Kicker class="tech-when-kicker">Utiliser quand</Kicker>
             <ul class="tech-when-list tech-when-list--use">
               <Fragment set:html={whenUseHtml} />
             </ul>
           </div>
           <div class="tech-when-col tech-when-col--avoid">
-            <div class="kicker tech-when-kicker">Considérer autre chose quand</div>
+            <Kicker class="tech-when-kicker">Considérer autre chose quand</Kicker>
             <ul class="tech-when-list tech-when-list--avoid">
               <Fragment set:html={whenAvoidHtml} />
             </ul>
@@ -359,7 +360,7 @@ const serviceLd = buildService({ name: title, description });
       <div class="wrap">
         <div class="tech-sec-hd">
           <div>
-            <div class="kicker">Position dans la stack</div>
+            <Kicker>Position dans la stack</Kicker>
             <h2><slot name="integration-title"><i>Intégration</i></slot></h2>
           </div>
           <p class="tech-aside"><slot name="integration-aside" /></p>
@@ -381,7 +382,7 @@ const serviceLd = buildService({ name: title, description });
         <div class="wrap">
           <div class="tech-sec-hd">
             <div>
-              <div class="kicker">Écosystème open-source</div>
+              <Kicker>Écosystème open-source</Kicker>
               <h2><slot name="ecosystem-title"><i>Éditeurs</i><br/>compatibles</slot></h2>
             </div>
             <p class="tech-aside"><slot name="ecosystem-aside" /></p>

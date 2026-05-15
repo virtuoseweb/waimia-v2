@@ -235,13 +235,13 @@ const articleLd = buildArticle({
               <div class="essay-related-cross__grid">
                 {relatedCasesData?.map(cas => (
                   <a href={cas.href} class="related-card related-card--case">
-                    <span class="kicker">{lang === 'en' ? '§ Customer case' : '§ Cas client'}</span>
+                    <Kicker as="span">{lang === 'en' ? '§ Customer case' : '§ Cas client'}</Kicker>
                     <h3>{cas.title}</h3>
                   </a>
                 ))}
                 {relatedOffresData?.map(off => (
                   <a href={off.href} class="related-card related-card--offre">
-                    <span class="kicker">{lang === 'en' ? '§ Service' : '§ Offre'}</span>
+                    <Kicker as="span">{lang === 'en' ? '§ Service' : '§ Offre'}</Kicker>
                     <h3>{off.title}</h3>
                   </a>
                 ))}
