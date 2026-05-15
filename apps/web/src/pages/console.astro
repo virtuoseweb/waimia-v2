@@ -49,7 +49,7 @@ const METRICS = [
     : 'Direction C · Console variant. Terminal hero + sticky ProductReel · scroll the console to see VirtuoseOS in action.'}
 >
   {/* HERO terminal split */}
-  <section style="padding:140px clamp(20px,4vw,48px) 80px;background:var(--paper)">
+  <section style="padding:clamp(72px,8vw,108px) clamp(20px,4vw,48px) clamp(48px,5vw,72px);background:var(--paper)">
     <div style="max-width:1500px;margin:0 auto">
       {/* meta bar */}
       <div class="c-meta-bar">
@@ -61,13 +61,13 @@ const METRICS = [
         {/* left · headline */}
         <div>
           <Kicker tone="accent" class="c-platform-tag">
-            [platform] · {lang === 'fr' ? "la couche opérationnelle sous chaque système câblé" : 'the operating layer under every wired system'}
+            [platform] · {lang === 'fr' ? "VirtuoseOS · OS interne propriétaire Waimia · pas un SaaS" : 'VirtuoseOS · Waimia proprietary OS · not a SaaS'}
           </Kicker>
-          <h1 class="reveal-mask-up" style="font-family:var(--font-display);font-size:clamp(48px,9vw,132px);line-height:.92;letter-spacing:-0.028em;text-wrap:balance;font-weight:400;margin:0">
+          <h1 class="reveal-mask-up" style="font-family:var(--font-display);font-size:clamp(40px,6.5vw,96px);line-height:.92;letter-spacing:-0.028em;text-wrap:balance;font-weight:400;margin:0">
             {lang === 'fr' ? (
-              <>Un <i>système d'exploitation</i><br />pour marketing, sales et web.</>
+              <>Un <i>système d'exploitation</i><br />pour vos opérations <i>revenue</i>.</>
             ) : (
-              <>An <i>operating system</i><br />for marketing, sales and web.</>
+              <>An <i>operating system</i><br />for your <i>revenue</i> operations.</>
             )}
           </h1>
           <p style="margin-top:32px;font-size:clamp(15px,1.4vw,17px);line-height:1.55;color:var(--muted);max-width:560px;font-family:var(--font-sans)">
@@ -75,6 +75,11 @@ const METRICS = [
               ? "VirtuoseOS orchestre acquisition, contenu, CRM, site, analytics et marque dans une couche commune — agents, règles, mesure, validation humaine. Vous gardez la plateforme quand on part."
               : "VirtuoseOS orchestrates acquisition, content, CRM, site, analytics and brand into one common layer — agents, rules, measurement, human validation. You keep the platform when we leave."}
           </p>
+          <div style="margin-top:20px;font-family:var(--font-mono);font-size:12px;color:var(--accent);letter-spacing:.06em;line-height:1.5">
+            {lang === 'fr'
+              ? <>▸ 4 workspaces actifs · 14 agents IA · 99,98&nbsp;% uptime · audit trail signé</>
+              : <>▸ 4 workspaces live · 14 AI agents · 99.98% uptime · signed audit trail</>}
+          </div>
           <div style="display:flex;gap:10px;margin-top:36px;flex-wrap:wrap">
             <TerminalCTA href="#act-3" variant="ink" size="md" mag={0.18}>
               ▸ {lang === 'fr' ? 'ouvrir la console' : 'open the console'}
@@ -101,7 +106,7 @@ const METRICS = [
       </div>
 
       {/* 5 metrics strip */}
-      <div style="margin-top:80px;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)">
+      <div style="margin-top:clamp(48px,5vw,72px);display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)">
         {METRICS.map(([k, v], i) => (
           <div style={`padding:20px;border-right:${i < 4 ? '1px solid var(--hairline)' : 'none'}`}>
             <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">{k}</div>
@@ -127,6 +132,11 @@ const METRICS = [
             <>Most AI projects ship a <i style="color:var(--accent)">demo</i>. Not a product.</>
           )}
         </h2>
+        <p class="reveal" style="font-family:var(--font-sans);font-size:clamp(17px,1.4vw,20px);line-height:1.55;color:var(--ink-2);max-width:780px;margin-bottom:48px;text-wrap:pretty">
+          {lang === 'fr'
+            ? <>Quatre observations terrain. Recueillies entre Paris et Genève, sur 23 stacks différentes. Aucun modèle n&rsquo;a échoué&nbsp;: ce sont toujours <i style="color:var(--accent)">les rails</i> qui manquent.</>
+            : <>Four field observations. Collected between Paris and Geneva, across 23 different stacks. No model ever failed: it&rsquo;s always <i style="color:var(--accent)">the rails</i> that were missing.</>}
+        </p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--hairline);border-radius:10px;overflow:hidden;background:var(--paper)">
           {OBS.map((r, i) => (
             <div class="reveal" style={`padding:28px 24px;border-right:${i % 2 === 0 ? '1px solid var(--hairline)' : 'none'};border-bottom:${i < 2 ? '1px solid var(--hairline)' : 'none'}`}>
@@ -153,6 +163,11 @@ const METRICS = [
       <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(36px,6vw,96px);line-height:.96;letter-spacing:-0.025em;max-width:1300px;margin-bottom:60px;font-weight:400;text-wrap:balance">
         {lang === 'fr' ? (<>Six services. Une <i>seule</i> couche.</>) : (<>Six services. One <i>continuous</i> layer.</>)}
       </h2>
+      <p class="reveal" style="font-family:var(--font-sans);font-size:clamp(17px,1.4vw,20px);line-height:1.55;color:var(--ink-2);max-width:820px;margin-bottom:48px;margin-top:-40px;text-wrap:pretty">
+        {lang === 'fr'
+          ? <>Pas de revendeur, pas de sous-traitance. Le contenu, l&rsquo;orchestration, les agents, le tracking, le brand system — tout sort de la même main. Une équipe, un calendrier, une signature.</>
+          : <>No reseller, no subcontracting. Content, orchestration, agents, tracking, brand system — all from the same hand. One team, one timeline, one signature.</>}
+      </p>
       <TerminalTable cols="60px 180px 1fr 120px" headers={['id', 'service', 'description', 'status']}>
         {SIX_SERVICES.map((s) => (
           <a href={flh('/contact', lang)} class="u-edit-tbl-row">
@@ -172,9 +187,9 @@ const METRICS = [
       <Kicker tone="accent" class="c-manifesto-tag">[manifesto]</Kicker>
       <p class="reveal" style="font-family:var(--font-display);font-size:clamp(32px,5.8vw,88px);line-height:1.05;letter-spacing:-0.02em;color:var(--paper);font-weight:400">
         {lang === 'fr' ? (
-          <>On écrit en <span style="color:var(--accent)">français</span>, on lit la documentation Stripe, on livre du code le mardi, on mesure le pipeline le vendredi. Pas de cerveau-circuit. Pas de verre. Pas de <i>théâtre</i>.</>
+          <>On écrit en <span style="color:var(--accent)">français</span>, on lit la documentation Stripe, on livre du code le mardi, on mesure le pipeline le vendredi. Pas de cerveau-circuit. Pas de verre. Pas de <i>théâtre</i>. Et chaque ligne de prod a un humain qui l&rsquo;a relue.</>
         ) : (
-          <>We write <span style="color:var(--accent)">French</span>, we read Stripe docs, we ship code on Tuesdays, we measure pipeline on Fridays. No cerebral circuits. No glass. No <i>theatre</i>.</>
+          <>We write <span style="color:var(--accent)">French</span>, we read Stripe docs, we ship code on Tuesdays, we measure pipeline on Fridays. No cerebral circuits. No glass. No <i>theatre</i>. And every line in prod has a human who reviewed it.</>
         )}
       </p>
     </div>
@@ -189,9 +204,14 @@ const METRICS = [
         </Kicker>
         <Kicker>virtuoseos · live scroll · 4 steps</Kicker>
       </div>
-      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(40px,7vw,120px);line-height:.96;letter-spacing:-0.025em;max-width:1400px;margin-top:40px;margin-bottom:10px;font-weight:400">
+      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(36px,6vw,96px);line-height:.96;letter-spacing:-0.025em;max-width:1400px;margin-top:40px;margin-bottom:10px;font-weight:400">
         {lang === 'fr' ? (<>Faites défiler la <i>console</i>.</>) : (<>Scroll the <i>console</i>.</>)}
       </h2>
+      <p class="reveal" style="font-family:var(--font-sans);font-size:clamp(15px,1.2vw,18px);line-height:1.55;color:var(--muted);max-width:680px;margin-top:24px;text-wrap:pretty">
+        {lang === 'fr'
+          ? <>Quatre étapes pour câbler un système. <i style="color:var(--ink)">Cartographier · Câbler · Orchestrer · Industrialiser.</i> Le scroll les déroule à la cadence d&rsquo;un terminal.</>
+          : <>Four steps to wire a system. <i style="color:var(--ink)">Map · Wire · Orchestrate · Industrialize.</i> Scroll unfolds them at terminal pace.</>}
+      </p>
     </div>
     <ProductReel client:visible lang={lang} />
   </section>
@@ -205,6 +225,11 @@ const METRICS = [
       <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(36px,6vw,96px);line-height:.96;letter-spacing:-0.025em;max-width:1300px;margin-bottom:60px;font-weight:400">
         {lang === 'fr' ? (<>Cas clients, en <i>table</i>.</>) : (<>Cases, as a <i>table</i>.</>)}
       </h2>
+      <p class="reveal" style="font-family:var(--font-sans);font-size:clamp(17px,1.4vw,20px);line-height:1.55;color:var(--ink-2);max-width:820px;margin-top:-40px;margin-bottom:48px;text-wrap:pretty">
+        {lang === 'fr'
+          ? <>Quatre cas. Pas de logos de complaisance, pas de témoignage rédigé par le marketing. Données brutes&nbsp;: secteur, durée, stack, impact mesuré.</>
+          : <>Four cases. No vanity logos, no marketing-written quotes. Raw data: sector, duration, stack, measured impact.</>}
+      </p>
       <TerminalTable
         cols="50px 1.2fr 1fr 110px 1.6fr 1.2fr 40px"
         headers={['id', 'client', lang === 'fr' ? 'secteur' : 'sector', lang === 'fr' ? 'durée' : 'duration', 'stack', 'impact', '']}
@@ -255,7 +280,7 @@ const METRICS = [
         [act.05] · <span style="color:rgba(246,241,232,.5)">{lang === 'fr' ? "passer à l'action" : 'act'}</span>
       </Kicker>
       <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(40px,6vw,80px);align-items:end">
-        <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(56px,10vw,172px);line-height:.9;letter-spacing:-0.03em;color:var(--paper);text-wrap:balance;font-weight:400;margin:0">
+        <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(48px,8vw,120px);line-height:.9;letter-spacing:-0.03em;color:var(--paper);text-wrap:balance;font-weight:400;margin:0">
           {lang === 'fr' ? (
             <>Ouvrir une <i style="color:var(--accent)">séance</i>.<br />Pas un <i>pitch</i>.</>
           ) : (
@@ -268,6 +293,10 @@ const METRICS = [
           <div>&gt; agenda: {lang === 'fr' ? 'un problème diagnostiqué' : 'one diagnosed problem'}</div>
           <div>&gt; outcome: {lang === 'fr' ? 'notes actionnables ou pas de relance' : 'actionable notes or no follow-up'}</div>
           <div>&gt; channel: Meet / Zoom / on-site Paris</div>
+          <div>&gt; commitment: {lang === 'fr' ? 'aucun · 45 min, on coupe' : 'none · 45 min, we cut'}</div>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(246,241,232,.14);color:rgba(246,241,232,.55);font-size:12px">
+            {lang === 'fr' ? '// vous repartez avec un audit ou rien. Pas de relance pénible.' : '// you leave with an audit or nothing. No annoying follow-up.'}
+          </div>
           <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
             <TerminalCTA href={flh('/contact', lang)} variant="accent" size="sm" mag={0.18}>▸ schedule</TerminalCTA>
             <TerminalCTA href={`mailto:${lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr'}`} variant="ghost-dark" size="sm">

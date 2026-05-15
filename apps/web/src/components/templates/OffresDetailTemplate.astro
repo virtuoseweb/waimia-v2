@@ -32,7 +32,6 @@ import Base from '../../layouts/Base.astro';
 import Callout from '../editorial/Callout.astro';
 import DropCap from '../editorial/DropCap.astro';
 import PullQuote from '../editorial/PullQuote.astro';
-import Timeline from '../editorial/Timeline.astro';
 import KeyMetric from '../editorial/KeyMetric.astro';
 import EditorialTable from '../editorial/EditorialTable.astro';
 import Dingbat from '../editorial/Dingbat.astro';
@@ -57,6 +56,23 @@ interface Props {
   ctaLabel?: string;
   /** JSON-LD additionnel fourni par une page appelante. */
   additionalJsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
+  // Props structurés Option A — utilisés par [...slug].astro depuis MDX frontmatter
+  method_steps?: Array<{ num: string; label_fr: string; label_en: string; body_fr: string; body_en: string; meta_fr?: string; meta_en?: string; }>;
+  deliverable_items?: Array<{ title_fr: string; title_en: string; body_fr: string; body_en: string; tag: string; }>;
+  proof?: { quote_fr: string; quote_en: string; attribution: string; metrics?: Array<{ value: string; label_fr: string; label_en: string; }>; };
+  problem_annotations?: Array<{ value: string; label_fr: string; label_en: string; }>;
+  lead_fr?: string;
+  lead_en?: string;
+  problem_statement_fr?: string;
+  problem_statement_en?: string;
+  method_aside_fr?: string;
+  method_aside_en?: string;
+  deliverables_aside_fr?: string;
+  deliverables_aside_en?: string;
+  cta_title_fr?: string;
+  cta_title_en?: string;
+  cta_body_fr?: string;
+  cta_body_en?: string;
 }
 
 const {
@@ -68,6 +84,22 @@ const {
   ctaHref = '/contact',
   ctaLabel = 'Parler à un expert →',
   additionalJsonLd,
+  method_steps,
+  deliverable_items,
+  proof,
+  problem_annotations,
+  lead_fr,
+  lead_en,
+  problem_statement_fr,
+  problem_statement_en,
+  method_aside_fr,
+  method_aside_en,
+  deliverables_aside_fr,
+  deliverables_aside_en,
+  cta_title_fr,
+  cta_title_en,
+  cta_body_fr,
+  cta_body_en,
 } = Astro.props;
 
 const lang = langFromPath(Astro.url.pathname);
@@ -113,13 +145,17 @@ const offreSchemas = [
   ...pageJsonLd,
 ];
 
-const methodStepsHtml = await Astro.slots.render('method-steps');
-const methodAsideHtml = await Astro.slots.render('method-aside');
-const deliverablesHtml = await Astro.slots.render('deliverables');
-const deliverablesAsideHtml = await Astro.slots.render('deliverables-aside');
-const proofQuoteHtml = await Astro.slots.render('proof-quote');
-const proofAttrHtml = await Astro.slots.render('proof-attr');
-const proofMetricsHtml = await Astro.slots.render('proof-metrics');
+const renderSlot = async (name: string) => (await Astro.slots.render(name)) ?? '';
+const methodStepsHtml = await renderSlot('method-steps');
+const methodAsideHtml = await renderSlot('method-aside');
+const deliverablesHtml = await renderSlot('deliverables');
+const deliverablesAsideHtml = await renderSlot('deliverables-aside');
+const proofQuoteHtml = await renderSlot('proof-quote');
+const proofAttrHtml = await renderSlot('proof-attr');
+const proofMetricsHtml = await renderSlot('proof-metrics');
+const faqHtml = await renderSlot('faq');
+const inclusionsHtml = await renderSlot('inclusions');
+const pricingHtml = await renderSlot('pricing');
 
 const stripHtml = (html: string) =>
   html
@@ -165,6 +201,15 @@ const proofMetrics = Array.from(
   value: stripHtml(match[1] ?? ''),
   label: stripHtml(match[2] ?? ''),
 }));
+
+const faqItems = faqHtml
+  .split(/<div[^>]+class=["'][^"']*faq-item[^"']*["'][^>]*>/)
+  .slice(1)
+  .map((block) => ({
+    q: extractTag(block, 'dt') || extract(block, 'faq-q'),
+    a: extractTag(block, 'dd') || extract(block, 'faq-a'),
+  }))
+  .filter((item) => item.q && item.a);
 
 const deliverableClasses = [
   'deliverable',
@@ -232,7 +277,13 @@ const growthToolRows = [
         <div class="off-hero-tier">{tier}</div>
         <h1 class="off-hero-title reveal-mask-up" transition:name={`hero-h1-${pageTransitionId}`}><slot name="title" /></h1>
         <div class="off-hero-sub">
-          <p class="off-hero-lead"><slot name="lead" /></p>
+          <p class="off-hero-lead">
+            {lead_fr || lead_en ? (
+              <Fragment set:html={lang === 'fr' ? (lead_fr ?? lead_en ?? '') : (lead_en ?? lead_fr ?? '')} />
+            ) : (
+              <slot name="lead" />
+            )}
+          </p>
           <div class="off-hero-actions">
             <a class="off-hero-cta" href={ctaHref}>{ctaLabel}</a>
             {meta && <div class="off-hero-meta">{meta}</div>}
@@ -251,9 +302,24 @@ const growthToolRows = [
       <div class="wrap wrap-tight g12 g12--standard">
         <div class="off-problem-statement col-prose reveal-blur-clip">
           <DropCap variant="mono">§</DropCap>
-          <slot name="problem-statement" />
+          {problem_statement_fr || problem_statement_en ? (
+            <Fragment set:html={lang === 'fr' ? (problem_statement_fr ?? problem_statement_en ?? '') : (problem_statement_en ?? problem_statement_fr ?? '')} />
+          ) : (
+            <slot name="problem-statement" />
+          )}
         </div>
-        <div class="off-problem-annotations col-12"><slot name="problem-annotations" /></div>
+        <div class="off-problem-annotations col-12">
+          {problem_annotations?.length ? (
+            problem_annotations.map((ann) => (
+              <div>
+                <div class="ann-value">{ann.value}</div>
+                <div class="ann-label">{lang === 'fr' ? ann.label_fr : ann.label_en}</div>
+              </div>
+            ))
+          ) : (
+            <slot name="problem-annotations" />
+          )}
+        </div>
       </div>
     </section>
 
@@ -274,16 +340,44 @@ const growthToolRows = [
           <span class="eyebrow">§ Méthode</span>
           <h2><i>Méthode</i><br/>Waimia</h2>
         </header>
-        {methodAsideHtml.trim() && (
+        {(method_aside_fr || method_aside_en) ? (
+          <aside class="off-aside off-aside-callout col-aside">
+            <Callout variant="note" size="sm">
+              {lang === 'fr' ? (method_aside_fr ?? method_aside_en) : (method_aside_en ?? method_aside_fr)}
+            </Callout>
+          </aside>
+        ) : methodAsideHtml.trim() ? (
           <aside class="off-aside off-aside-callout col-aside">
             <Callout variant="note" size="sm">
               <Fragment set:html={methodAsideHtml} />
             </Callout>
           </aside>
-        )}
+        ) : null}
         <div class="off-steps col-prose">
-          {methodEvents.length > 0 ? (
-            <Timeline events={methodEvents} numbered={true} orientation="vertical" />
+          {method_steps?.length ? (
+            method_steps.map((step) => (
+              <div class="off-process-row">
+                <span class="off-process-num">{step.num}</span>
+                <div class="off-process-main">
+                  <h3 class="off-process-label">{lang === 'fr' ? step.label_fr : step.label_en}</h3>
+                  <p class="off-process-desc">{lang === 'fr' ? step.body_fr : step.body_en}</p>
+                </div>
+                {(lang === 'fr' ? step.meta_fr : (step.meta_en ?? step.meta_fr)) && (
+                  <span class="off-process-aside">{lang === 'fr' ? step.meta_fr : (step.meta_en ?? step.meta_fr)}</span>
+                )}
+              </div>
+            ))
+          ) : methodEvents.length > 0 ? (
+            methodEvents.map((event) => (
+              <div class="off-process-row">
+                <span class="off-process-num">{event.num}</span>
+                <div class="off-process-main">
+                  <h3 class="off-process-label">{event.title}</h3>
+                  <p class="off-process-desc">{event.body}</p>
+                </div>
+                {event.meta && <span class="off-process-aside">{event.meta}</span>}
+              </div>
+            ))
           ) : (
             <Fragment set:html={methodStepsHtml} />
           )}
@@ -297,12 +391,22 @@ const growthToolRows = [
         <header class="off-sec-hd col-12">
           <span class="eyebrow">§ Livrables</span>
           <h2>Ce qu'on<br/><i>dépose</i> chez vous</h2>
-          {deliverablesAsideHtml.trim() && (
+          {(deliverables_aside_fr || deliverables_aside_en) ? (
+            <p class="off-del-lead">{lang === 'fr' ? (deliverables_aside_fr ?? deliverables_aside_en) : (deliverables_aside_en ?? deliverables_aside_fr)}</p>
+          ) : deliverablesAsideHtml.trim() ? (
             <p class="off-del-lead" set:html={deliverablesAsideHtml} />
-          )}
+          ) : null}
         </header>
         <div class="off-del-grid col-12">
-          {deliverables.length > 0 ? (
+          {deliverable_items?.length ? (
+            deliverable_items.map((item, index) => (
+              <article class={`${deliverableClasses[index % deliverableClasses.length]} reveal-zoom-in`}>
+                <span class="del-tag">{item.tag}</span>
+                <h3>{lang === 'fr' ? item.title_fr : item.title_en}</h3>
+                <p>{lang === 'fr' ? item.body_fr : item.body_en}</p>
+              </article>
+            ))
+          ) : deliverables.length > 0 ? (
             deliverables.map((item, index) => (
               <article class={`${deliverableClasses[index % deliverableClasses.length]} reveal-zoom-in`}>
                 <span class="del-tag">{item.tag}</span>
@@ -324,16 +428,16 @@ const growthToolRows = [
           <span class="eyebrow">§ Avant / Après</span>
           <h2>Signal<br/><i>terrain</i></h2>
         </header>
-        <div class="off-proof-band col-12 g12">
-          <div class="off-proof-main col-5 start-1">
-            <PullQuote attribution={stripHtml(proofAttrHtml)} variant="inline">
-              <Fragment set:html={proofQuoteHtml} />
-            </PullQuote>
-          </div>
-          <div class="off-proof-aside col-7 start-6">
-            <div class="off-proof-metrics g12">
-              {proofMetrics.length > 0 ? (
-                proofMetrics.map((metric, index) => {
+        {proof ? (
+          <div class="off-proof-band col-12 g12">
+            <div class="off-proof-main col-5 start-1">
+              <PullQuote attribution={proof.attribution} variant="inline">
+                <Fragment set:html={lang === 'fr' ? proof.quote_fr : proof.quote_en} />
+              </PullQuote>
+            </div>
+            <div class="off-proof-aside col-7 start-6">
+              <div class="off-proof-metrics g12">
+                {proof.metrics?.map((metric, index) => {
                   const placement = metricPlacements[index % metricPlacements.length];
                   return (
                     <>
@@ -345,7 +449,7 @@ const growthToolRows = [
                       <div class={`${placement.class} reveal-zoom-in`} style={`transition-delay:${index * 70}ms`}>
                         <KeyMetric
                           value={metric.value}
-                          label={metric.label}
+                          label={lang === 'fr' ? metric.label_fr : metric.label_en}
                           size={placement.size}
                           align={placement.align}
                           variant={placement.variant}
@@ -353,13 +457,48 @@ const growthToolRows = [
                       </div>
                     </>
                   );
-                })
-              ) : (
-                <Fragment set:html={proofMetricsHtml} />
-              )}
+                })}
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div class="off-proof-band col-12 g12">
+            <div class="off-proof-main col-5 start-1">
+              <PullQuote attribution={stripHtml(proofAttrHtml)} variant="inline">
+                <Fragment set:html={proofQuoteHtml} />
+              </PullQuote>
+            </div>
+            <div class="off-proof-aside col-7 start-6">
+              <div class="off-proof-metrics g12">
+                {proofMetrics.length > 0 ? (
+                  proofMetrics.map((metric, index) => {
+                    const placement = metricPlacements[index % metricPlacements.length];
+                    return (
+                      <>
+                        {index === 3 && (
+                          <div class="col-12">
+                            <Dingbat variant="rule" size="lg" />
+                          </div>
+                        )}
+                        <div class={`${placement.class} reveal-zoom-in`} style={`transition-delay:${index * 70}ms`}>
+                          <KeyMetric
+                            value={metric.value}
+                            label={metric.label}
+                            size={placement.size}
+                            align={placement.align}
+                            variant={placement.variant}
+                          />
+                        </div>
+                      </>
+                    );
+                  })
+                ) : (
+                  <Fragment set:html={proofMetricsHtml} />
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
 
@@ -388,6 +527,62 @@ const growthToolRows = [
       <slot name="related" />
     </div>
 
+    {/* ────────── 5.5 FAQ ────────── */}
+    {faqHtml.trim() && (
+      <section class="off-sec off-faq reveal-stagger" data-screen-label="05.5 FAQ">
+        <div class="wrap g12 g12--full">
+          <header class="off-sec-hd col-12">
+            <span class="eyebrow">§ Questions</span>
+            <h2><i>Questions</i><br/>fréquentes</h2>
+          </header>
+          {faqItems.length > 0 ? (
+            <dl class="off-faq-list col-12">
+              {faqItems.map((item) => (
+                <div class="off-faq-item">
+                  <dt class="off-faq-q"><span class="off-faq-mark">Q.</span>{item.q}</dt>
+                  <dd class="off-faq-a">{item.a}</dd>
+                </div>
+              ))}
+            </dl>
+          ) : (
+            <div class="off-faq-raw col-12">
+              <Fragment set:html={faqHtml} />
+            </div>
+          )}
+        </div>
+      </section>
+    )}
+
+    {/* ────────── 6. INCLUSIONS ────────── */}
+    {inclusionsHtml.trim() && (
+      <section class="off-sec off-inclusions reveal-stagger" data-screen-label="06 Inclusions">
+        <div class="wrap g12 g12--full">
+          <header class="off-sec-hd col-12">
+            <span class="eyebrow">§ Périmètre</span>
+            <h2>Dans <i>chaque</i><br/>engagement</h2>
+          </header>
+          <div class="col-prose off-inclusions-body">
+            <Fragment set:html={inclusionsHtml} />
+          </div>
+        </div>
+      </section>
+    )}
+
+    {/* ────────── 6.5 PRICING ────────── */}
+    {pricingHtml.trim() && (
+      <section class="off-sec off-sec-paper off-pricing reveal-stagger" data-screen-label="06.5 Pricing">
+        <div class="wrap g12 g12--full">
+          <header class="off-sec-hd col-12">
+            <span class="eyebrow">§ Investissement</span>
+            <h2><i>Tarifs</i></h2>
+          </header>
+          <div class="col-12 off-pricing-inner">
+            <Fragment set:html={pricingHtml} />
+          </div>
+        </div>
+      </section>
+    )}
+
     {/* ────────── 7. CTA ────────── */}
     <section class="off-sec off-sec-dark reveal" data-screen-label="07 CTA">
       <svg class="off-cta-geo" viewBox="0 0 1240 280" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -399,9 +594,17 @@ const growthToolRows = [
       </svg>
       <div class="wrap wrap-tight">
         <div class="off-cta-final">
-          <h2><i><slot name="cta-title">Prêt à<br/>déployer ?</slot></i></h2>
+          {cta_title_fr || cta_title_en ? (
+            <h2><i>{lang === 'fr' ? (cta_title_fr ?? cta_title_en) : (cta_title_en ?? cta_title_fr)}</i></h2>
+          ) : (
+            <h2><i><slot name="cta-title">Prêt à<br/>déployer ?</slot></i></h2>
+          )}
           <div class="off-cta-body">
-            <p><slot name="cta-body">Cadrage en 45 minutes. Nous auditons votre contexte et proposons un plan d'action concret — sans engagement.</slot></p>
+            {cta_body_fr || cta_body_en ? (
+              <p>{lang === 'fr' ? (cta_body_fr ?? cta_body_en) : (cta_body_en ?? cta_body_fr)}</p>
+            ) : (
+              <p><slot name="cta-body">Cadrage en 45 minutes. Nous auditons votre contexte et proposons un plan d'action concret — sans engagement.</slot></p>
+            )}
             <div class="off-cta-btns">
               <a class="btn-accent" href="/contact">Prendre rendez-vous →</a>
               <a class="btn-light" href="/offres">Toutes les offres</a>
@@ -1046,6 +1249,213 @@ const growthToolRows = [
     width: 100%;
     height: 28px;
     display: block;
+  }
+
+  /* ───── Pattern A — Lignes process numérotées ───── */
+  .off-process-row {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: clamp(20px, 2.5vw, 40px);
+    padding: var(--space-7) 0 var(--space-6);
+    border-top: 1px solid var(--hairline-strong);
+    align-items: start;
+  }
+  .off-process-num {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 5vw, 68px);
+    line-height: 0.88;
+    color: var(--ink);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+  }
+  .off-process-label {
+    font-family: var(--font-display);
+    font-size: clamp(19px, 1.8vw, 24px);
+    line-height: 1.2;
+    font-weight: 400;
+    margin: 0 0 var(--space-3);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .off-process-desc {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md, 16px);
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0;
+  }
+  .off-process-aside {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1;
+    white-space: nowrap;
+    padding-top: 6px;
+  }
+  @media (max-width: 768px) {
+    .off-process-row { grid-template-columns: 48px 1fr; }
+    .off-process-aside { grid-column: 2; padding-top: 0; margin-top: var(--space-2); }
+  }
+
+  /* ───── Pattern B — FAQ colonnes asymétriques ───── */
+  .off-faq { border-block: 1px solid var(--hairline); }
+  .off-faq-list {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--hairline-strong);
+    list-style: none;
+  }
+  .off-faq-item {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: clamp(24px, 4vw, 56px);
+    padding: var(--space-7) 0;
+    border-bottom: 1px solid var(--hairline);
+    align-items: start;
+  }
+  .off-faq-q {
+    font-family: var(--font-display);
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.3;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    display: flex;
+    gap: var(--space-3);
+    align-items: baseline;
+    margin: 0;
+  }
+  .off-faq-mark {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    flex-shrink: 0;
+    line-height: 1;
+    padding-top: 5px;
+  }
+  .off-faq-a {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md, 16px);
+    line-height: 1.65;
+    color: var(--ink-2);
+    margin: 0;
+  }
+  .off-faq-raw :global(details) {
+    border-bottom: 1px solid var(--hairline-strong);
+    padding: var(--space-5) 0;
+  }
+  .off-faq-raw :global(summary) {
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-display);
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.3;
+    font-weight: 400;
+    color: var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  .off-faq-raw :global(summary::-webkit-details-marker) { display: none; }
+  .off-faq-raw :global(summary::after) {
+    content: '+';
+    font-family: var(--font-mono);
+    font-size: 1.2em;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .off-faq-raw :global(details[open] summary::after) { content: '−'; }
+  .off-faq-raw :global(details > div) {
+    padding-top: var(--space-4);
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md, 16px);
+    line-height: 1.65;
+    color: var(--ink-2);
+    max-width: 680px;
+  }
+  @media (max-width: 768px) {
+    .off-faq-item { grid-template-columns: 1fr; gap: var(--space-4); }
+  }
+
+  /* ───── Pattern D — Inclusions inline-list ───── */
+  .off-inclusions-body :global(ul),
+  .off-inclusions-body :global(ol) {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.15em;
+    align-items: baseline;
+  }
+  .off-inclusions-body :global(li) {
+    font-family: var(--font-sans);
+    font-size: clamp(16px, 1.4vw, 20px);
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .off-inclusions-body :global(li + li::before) {
+    content: '·';
+    color: var(--accent);
+    margin: 0 0.4em;
+    font-family: var(--font-mono);
+  }
+  .off-inclusions-body :global(p) {
+    font-family: var(--font-sans);
+    font-size: clamp(16px, 1.4vw, 20px);
+    line-height: 1.6;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* ───── Pattern E — Table éditoriale pricing ───── */
+  .off-pricing-inner { overflow-x: auto; }
+  .off-pricing-inner :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-feature-settings: 'tnum' 1, 'lnum' 1;
+  }
+  .off-pricing-inner :global(thead th) {
+    font-family: var(--font-mono);
+    font-size: var(--text-eyebrow);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono);
+    color: var(--muted);
+    padding: var(--space-3) var(--space-4) var(--space-3) 0;
+    border-bottom: 1.5px solid var(--ink);
+    text-align: left;
+  }
+  .off-pricing-inner :global(tbody tr) {
+    border-bottom: 1px solid var(--hairline);
+    transition: background 180ms var(--ease);
+  }
+  .off-pricing-inner :global(tbody tr:hover) { background: var(--paper-2); }
+  .off-pricing-inner :global(tbody td) {
+    font-size: var(--text-body-md);
+    color: var(--ink-2);
+    padding: var(--space-4) var(--space-4) var(--space-4) 0;
+    vertical-align: top;
+  }
+  .off-pricing-inner :global(tbody td:first-child) {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.6vw, 22px);
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .off-pricing-inner :global(tbody td[data-mono]),
+  .off-pricing-inner :global(tbody td.mono) {
+    font-family: var(--font-mono);
+    font-size: var(--text-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-mono);
+    color: var(--muted);
   }
 
   /* ───── CTA geo background ───── */

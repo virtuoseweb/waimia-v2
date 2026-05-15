@@ -1,0 +1,29 @@
+---
+export const prerender = true;
+
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import FormationDetailTemplate from '../../../components/templates/FormationDetailTemplate.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('formations');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<'formations'> };
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
+const data = entry.data;
+const lang = Astro.url.pathname.startsWith('/en/') ? 'en' : 'fr';
+---
+<Base
+  title={lang === 'fr' ? data.title_fr : data.title_en}
+  description={lang === 'fr' ? data.description_fr : data.description_en}
+>
+  <FormationDetailTemplate {data} {lang}>
+    <Content />
+  </FormationDetailTemplate>
+</Base>

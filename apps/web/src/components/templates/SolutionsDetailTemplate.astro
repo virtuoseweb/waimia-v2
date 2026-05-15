@@ -57,6 +57,20 @@ interface Props {
   ctaHref?: string;
   /** Label du CTA hero (default "Parler à un expert →") */
   ctaLabel?: string;
+  /** Props typed arrays (MDX frontmatter) — backward compat slots preserved */
+  pains?: Array<{ title_fr: string; body_fr: string; title_en?: string; body_en?: string }>;
+  roi_metrics?: Array<{ value: string; label_fr: string; label_en?: string }>;
+  stack?: Array<{ name: string; role_fr: string; role_en?: string; category?: string }>;
+  case_kicker?: string;
+  case_body_fr?: string;
+  case_body_en?: string;
+  case_cta_label_fr?: string;
+  case_cta_label_en?: string;
+  case_results?: Array<{ value: string; label_fr: string; label_en?: string }>;
+  cta_title_fr?: string;
+  cta_title_en?: string;
+  cta_body_fr?: string;
+  cta_body_en?: string;
 }
 
 const {
@@ -67,6 +81,16 @@ const {
   meta = '',
   ctaHref = '/contact',
   ctaLabel = 'Parler à un expert →',
+  pains: propsPains = [],
+  roi_metrics: propsROI = [],
+  stack: propsStack = [],
+  case_kicker: propsCaseKicker,
+  case_body_fr: propsCaseBodyFr,
+  case_body_en: propsCaseBodyEn,
+  case_cta_label_fr: propsCaseCta,
+  case_results: propsCaseResults = [],
+  cta_title_fr: propsCtaTitleFr,
+  cta_body_fr: propsCtaBodyFr,
 } = Astro.props;
 
 const lang = langFromPath(Astro.url.pathname);
@@ -82,6 +106,8 @@ const workflowsAsideHtml = (await Astro.slots.render('workflows-aside')) ?? '';
 const roiHtml = (await Astro.slots.render('roi')) ?? '';
 const stackHtml = (await Astro.slots.render('stack')) ?? '';
 const stackAsideHtml = (await Astro.slots.render('stack-aside')) ?? '';
+const faqHtml = (await Astro.slots.render('faq')) ?? '';
+const livrablesHtml = (await Astro.slots.render('livrables')) ?? '';
 
 const stripHtml = (html: string) =>
   html
@@ -165,6 +191,38 @@ const defaultToolRows = [
 
 const toolRows = stackRows.length > 0 ? stackRows : defaultToolRows;
 
+// Props-based overrides (from MDX frontmatter) — bypass slot parsing
+const effectiveFriction =
+  propsPains.length > 0
+    ? propsPains.map((p, i) => ({
+        num: String(i + 1).padStart(2, '0'),
+        meta: '',
+        title: lang === 'en' ? (p.title_en ?? p.title_fr) : p.title_fr,
+        body: lang === 'en' ? (p.body_en ?? p.body_fr) : p.body_fr,
+        variant: i === 0 ? ('highlight' as const) : ('default' as const),
+      }))
+    : frictionPoints;
+
+const effectiveROI =
+  propsROI.length > 0
+    ? propsROI.map((m) => ({
+        value: m.value,
+        label: (lang === 'en' ? (m.label_en ?? m.label_fr) : m.label_fr).replace(/\\n/g, '\n'),
+      }))
+    : proofMetricRows;
+
+const effectiveStack =
+  propsStack.length > 0
+    ? propsStack.map(
+        (s) =>
+          [
+            s.category ?? '',
+            s.name,
+            lang === 'en' ? (s.role_en ?? s.role_fr) : s.role_fr,
+          ] as [string, string, string],
+      )
+    : toolRows;
+
 const serviceLd = buildService({ name: title, description });
 
 const signature = `${dept} ${deptLabel} ${title}`.toLowerCase();
@@ -233,8 +291,8 @@ const sectorVisual =
           </Callout>
         </aside>
         <div class="sol-pain-grid col-12">
-          {frictionPoints.length > 0 ? (
-            <Timeline events={frictionPoints} numbered={true} />
+          {effectiveFriction.length > 0 ? (
+            <Timeline events={effectiveFriction} numbered={true} />
           ) : (
             <Fragment set:html={painHtml} />
           )}
@@ -279,8 +337,8 @@ const sectorVisual =
           <h2><i>Preuve</i> macro</h2>
         </header>
         <div class="sol-roi-grid col-12 g12">
-          {proofMetricRows.length > 0 ? (
-            proofMetricRows.map((metric, index) => {
+          {effectiveROI.length > 0 ? (
+            effectiveROI.map((metric, index) => {
               const placement = proofMetricPlacements[index % proofMetricPlacements.length];
               return (
                 <div class={placement.class}>
@@ -306,20 +364,52 @@ const sectorVisual =
       <div class="sol-case-grid">
         <div class="sol-case-dark">
           <div class="wrap-inner">
-            <div class="kicker"><slot name="case-kicker">Cas client</slot></div>
+            <div class="kicker"><slot name="case-kicker">{propsCaseKicker ?? 'Cas client'}</slot></div>
             <h2 class="sol-case-title"><slot name="case-title" /></h2>
-            <p class="sol-case-body"><slot name="case-body" /></p>
-            <a class="sol-case-cta" href="/ressources/cas"><slot name="case-cta-label">Voir le cas complet →</slot></a>
+            <p class="sol-case-body">
+              {propsCaseBodyFr
+                ? (lang === 'en' ? (propsCaseBodyEn ?? propsCaseBodyFr) : propsCaseBodyFr)
+                : <slot name="case-body" />}
+            </p>
+            <a class="sol-case-cta" href="/ressources/cas">
+              <slot name="case-cta-label">{propsCaseCta ?? 'Voir le cas complet →'}</slot>
+            </a>
           </div>
         </div>
         <div class="sol-case-light">
           <div class="wrap-inner">
             <div class="kicker">Résultats</div>
-            <div class="sol-case-results"><slot name="case-results" /></div>
+            <div class="sol-case-results">
+              {propsCaseResults.length > 0 ? (
+                propsCaseResults.map((r) => (
+                  <div class="res-row">
+                    <div class="res-v">{r.value}</div>
+                    <div class="res-l" set:html={(lang === 'en' ? (r.label_en ?? r.label_fr) : r.label_fr).replace(/\n/g, '<br/>')} />
+                  </div>
+                ))
+              ) : (
+                <slot name="case-results" />
+              )}
+            </div>
           </div>
         </div>
       </div>
     </section>
+
+    {/* ────────── 5b. FAQ ÉDITORIALE (optionnel) ────────── */}
+    {faqHtml.trim() && (
+      <section class="sol-sec sol-faq reveal-stagger" data-screen-label="05b FAQ">
+        <div class="wrap g12 g12--full">
+          <header class="sol-sec-hd section-eyebrow col-prose">
+            <span class="eyebrow">§ Questions</span>
+            <h2><i>Questions</i><br/>fréquentes</h2>
+          </header>
+          <div class="sol-faq-body col-12">
+            <Fragment set:html={faqHtml} />
+          </div>
+        </div>
+      </section>
+    )}
 
     {/* ────────── 6. DEPARTMENT STACK ────────── */}
     <section class="sol-sec sol-sec-paper sol-tools reveal" data-screen-label="06 Stack">
@@ -341,21 +431,36 @@ const sectorVisual =
           <EditorialTable
             caption={`Stack typique · ${deptLabel}`}
             columns={['Catégorie', 'Outil', 'Rôle']}
-            rows={toolRows}
+            rows={effectiveStack}
             variant="editorial"
           />
         </div>
       </div>
     </section>
 
+    {/* ────────── 6b. LIVRABLES (optionnel) ────────── */}
+    {livrablesHtml.trim() && (
+      <section class="sol-sec sol-livrables reveal-stagger" data-screen-label="06b Livrables">
+        <div class="wrap g12 g12--full">
+          <header class="sol-sec-hd section-eyebrow col-prose">
+            <span class="eyebrow">§ Livrables</span>
+            <h2><i>Ce qu'on</i><br/>livre</h2>
+          </header>
+          <div class="sol-livrables-body col-12">
+            <Fragment set:html={livrablesHtml} />
+          </div>
+        </div>
+      </section>
+    )}
+
     {/* ────────── 7. CTA DEPT-AUGMENTED DARK ────────── */}
     <section class="sol-sec sol-sec-dark sol-cta reveal" data-screen-label="07 CTA">
       <div class="wrap wrap-tight">
         <div class="sol-cta-final">
           <Dingbat variant="asterism" size="sm" />
-          <h2><i><slot name="cta-title">Votre équipe,<br/>augmentée.</slot></i></h2>
+          <h2><i><slot name="cta-title">{propsCtaTitleFr ? <Fragment set:html={propsCtaTitleFr} /> : <>Votre équipe,<br/>augmentée.</>}</slot></i></h2>
           <div class="sol-cta-body">
-            <p><slot name="cta-body">Cadrage en 45 minutes. Nous analysons votre périmètre et proposons les 3 workflows à fort ROI — sans engagement.</slot></p>
+            <p>{propsCtaBodyFr ? propsCtaBodyFr : <slot name="cta-body">Cadrage en 45 minutes. Nous analysons votre périmètre et proposons les 3 workflows à fort ROI — sans engagement.</slot>}</p>
             <div class="sol-cta-btns">
               <a class="btn-accent" href="/contact">Prendre rendez-vous →</a>
               <a class="btn-light" href="/solutions">Toutes les solutions</a>
@@ -880,50 +985,56 @@ const sectorVisual =
     line-height: 1.4;
   }
 
-  /* ───── Department Stack ───── */
+  /* ───── Department Stack — lignes éditoriales (anti-pattern cards supprimé) ───── */
   .sol-stack-grid {
     display: block;
+    border-top: 1px solid var(--hairline);
   }
   .sol-stack-grid :global(.stack-card) {
-    padding: 28px;
-    border: 1px solid var(--hairline);
-    border-radius: 2px;
-    background: var(--paper);
-    transition: border-color 220ms var(--ease), transform 220ms var(--ease);
-    display: flex; flex-direction: column;
-    gap: 12px;
+    padding: clamp(16px, 2vw, 24px) 0;
+    border-bottom: 1px solid var(--hairline);
+    display: grid;
+    grid-template-columns: 160px 1.4fr 2fr auto;
+    gap: clamp(16px, 2.5vw, 32px);
+    align-items: start;
+    background: transparent;
+    transition: background 220ms var(--ease);
   }
-  .sol-stack-grid :global(.stack-card:hover) { border-color: var(--accent); transform: translateY(-2px); }
+  .sol-stack-grid :global(.stack-card:hover) {
+    background: rgba(201,79,46,0.025);
+  }
   .sol-stack-grid :global(.stack-k) {
     font-family: var(--font-mono);
     font-size: 10.5px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--accent);
+    line-height: 1;
+    padding-top: 4px;
   }
   .sol-stack-grid :global(.stack-card h3) {
     font-family: var(--font-display);
-    font-size: 21px;
-    line-height: 1.2;
+    font-size: clamp(18px, 1.5vw, 21px);
+    line-height: 1.15;
     margin: 0;
     font-weight: 400;
+    letter-spacing: -0.01em;
   }
   .sol-stack-grid :global(.stack-card p) {
-    font-size: 14.5px;
+    font-size: clamp(14px, 1.2vw, 15px);
     line-height: 1.55;
-    color: var(--ink);
+    color: var(--ink-2, var(--muted));
     margin: 0;
-    flex: 1;
   }
   .sol-stack-grid :global(.stack-pill) {
     font-family: var(--font-mono);
-    font-size: 10.5px;
+    font-size: 10px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 6px 10px;
+    padding: 5px 9px;
     border-radius: 2px;
     display: inline-block;
-    align-self: flex-start;
+    white-space: nowrap;
   }
   .sol-stack-grid :global(.stack-pill.primary) {
     color: var(--accent);
@@ -931,12 +1042,94 @@ const sectorVisual =
   }
   .sol-stack-grid :global(.stack-pill.secondary) {
     color: var(--ink);
-    background: rgba(0,0,0,0.06);
+    background: rgba(0,0,0,0.05);
   }
   .sol-stack-grid :global(.stack-pill.open) {
     color: var(--muted);
     background: transparent;
     border: 1px solid var(--hairline);
+  }
+
+  /* ───── FAQ Éditoriale (Pattern B) ───── */
+  .sol-faq { background: var(--paper); }
+  .sol-faq-body { display: block; }
+  .sol-faq-body :global(dl),
+  .sol-faq-body :global(.ws-faq) {
+    list-style: none;
+    margin: 0; padding: 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .sol-faq-body :global(.ws-faq-item),
+  .sol-faq-body :global(dl > div) {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: clamp(24px, 4vw, 64px);
+    padding: clamp(24px, 3vw, 40px) 0;
+    border-bottom: 1px solid var(--hairline);
+    align-items: start;
+  }
+  .sol-faq-body :global(dt),
+  .sol-faq-body :global(.ws-faq-q) {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.5vw, 22px);
+    line-height: 1.2;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 0;
+  }
+  .sol-faq-body :global(.ws-faq-mark) {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+  .sol-faq-body :global(dd),
+  .sol-faq-body :global(.ws-faq-a) {
+    font-family: var(--font-sans);
+    font-size: clamp(15px, 1.3vw, 17px);
+    line-height: 1.6;
+    color: var(--ink);
+    margin: 0;
+  }
+  .sol-faq-body :global(.ws-faq-a i),
+  .sol-faq-body :global(dd i) {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* ───── Livrables inline (Pattern D) ───── */
+  .sol-livrables {
+    border-block: 1px solid var(--hairline);
+  }
+  .sol-livrables-body { display: block; }
+  .sol-livrables-body :global(.ws-inclusions) {
+    font-family: var(--font-mono);
+    font-size: clamp(12px, 1vw, 14px);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0;
+    line-height: 2.2;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--hairline);
+    padding-top: clamp(20px, 2.5vw, 32px);
+  }
+  .sol-livrables-body :global(.ws-sep) {
+    color: var(--accent);
+    padding: 0 14px;
+    font-size: 16px;
+    line-height: 1;
+    font-style: normal;
+    opacity: 0.7;
   }
 
   /* ───── CTA final dark ───── */
@@ -999,7 +1192,15 @@ const sectorVisual =
   .wrap-tight { max-width: 880px; }
 
   @media (max-width: 1000px) {
-    .sol-stack-grid { grid-template-columns: repeat(2, 1fr); }
+    .sol-stack-grid :global(.stack-card) {
+      grid-template-columns: 120px 1fr 1fr auto;
+      gap: 16px;
+    }
+    .sol-faq-body :global(.ws-faq-item),
+    .sol-faq-body :global(dl > div) {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
     .sol-workflow-head,
     .sol-workflow-body :global(.wf-row) {
       grid-template-columns: 48px 1.6fr 1fr 1fr 2fr;
@@ -1010,7 +1211,12 @@ const sectorVisual =
     .sol-hero-sub { grid-template-columns: 1fr; }
     .sol-sec-hd { grid-template-columns: 1fr; }
     .sol-case-grid { grid-template-columns: 1fr; }
-    .sol-stack-grid { grid-template-columns: 1fr; }
+    .sol-stack-grid :global(.stack-card) {
+      grid-template-columns: 1fr;
+      gap: 6px;
+      padding: 20px 0;
+    }
+    .sol-stack-grid :global(.stack-pill) { margin-top: 4px; }
     .sol-workflow-head { display: none; }
     .sol-workflow-body :global(.wf-row) {
       grid-template-columns: 1fr;

@@ -1,5 +1,7 @@
 ---
-import { getCollection } from 'astro:content';
+export const prerender = true;
+
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Base from '../../../../layouts/Base.astro';
 import TunnelStepTemplate from '../../../../components/templates/TunnelStepTemplate.astro';
 import { langFromPath } from '../../../../lib/i18n';
@@ -12,8 +14,9 @@ export async function getStaticPaths() {
   }));
 }
 
-const { entry } = Astro.props;
-const { Content } = await entry.render();
+type Props = { entry: CollectionEntry<'tunnels'> };
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
 const lang = langFromPath(Astro.url.pathname);
 const data = entry.data;
 

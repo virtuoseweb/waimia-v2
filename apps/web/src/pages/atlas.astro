@@ -1,9 +1,9 @@
 ---
-// Page · /atlas · Test de la Direction 3 (Atlas) en parallèle de la home
+// Page · /atlas · Direction 3 (Atlas) — V7 refonte hero 2 colonnes
 export const prerender = true;
 
-// Pacing : Hero court → Atlas grid 2×2 → Persona switcher → Cases → Field notes → CTA
-// On réutilise les sections existantes pour comparer le rythme avec la Direction 1.
+// Pacing : Hero 2-col (copy + mini-map 4 piliers) → AtlasConnections → AtlasGrid → Persona → Cases → FieldNotes → CTA
+// V7 : hero tient dans 1 viewport @1440×900, H1 ≤ 96px, mini-map col droite intégrée.
 
 import Base from '../layouts/Base.astro';
 import AtlasGrid       from '../components/ui/organisms/AtlasGrid.astro';
@@ -15,46 +15,104 @@ import AtlasConnections from '../components/motion/AtlasConnections.astro';
 
 import { langFromPath, localizeHref } from '../lib/i18n';
 const lang = langFromPath(Astro.url.pathname);
+
+const pillars = lang === 'fr'
+  ? [
+      { num: '01', label: 'Audit',          desc: 'Cartographier la stack et les frictions revenue.',    deliverable: 'Rapport 12 pages · 5 jours' },
+      { num: '02', label: 'Adoption',        desc: 'Onboarder les équipes, ancrer la pratique.',          deliverable: 'Playbooks · sessions hebdo' },
+      { num: '03', label: 'Orchestration',   desc: 'Câbler les agents IA dans les outils existants.',     deliverable: 'Workflows live · monitoring' },
+      { num: '04', label: 'Souveraineté',    desc: 'Garder la propriété de la couche AI.',                deliverable: 'Code · données · runbook transmis' },
+    ]
+  : [
+      { num: '01', label: 'Audit',           desc: 'Map the stack and revenue friction points.',          deliverable: '12-page report · 5 days' },
+      { num: '02', label: 'Adoption',        desc: 'Onboard teams, embed the practice.',                  deliverable: 'Playbooks · weekly sessions' },
+      { num: '03', label: 'Orchestration',   desc: 'Wire AI agents into existing tools.',                 deliverable: 'Live workflows · monitoring' },
+      { num: '04', label: 'Sovereignty',     desc: 'Retain ownership of the AI layer.',                   deliverable: 'Code · data · runbook transferred' },
+    ];
 ---
 <Base
   title={lang === 'fr' ? "Waimia · Atlas — quatre portes d'entrée" : 'Waimia · Atlas — four entry doors'}
   description={lang === 'fr'
-    ? "Atlas Waimia : quatre piliers (Audit, Adoption, Orchestration, Souveraineté) et trois portes d'entrée par persona (CEO, DSI, CTO). Test direction 3 vs accueil."
-    : 'Waimia Atlas: four pillars (Audit, Adoption, Orchestration, Sovereignty) and three entry doors per persona (CEO, CIO, CTO). Direction 3 test vs home.'}
+    ? "Atlas Waimia : quatre piliers (Audit, Adoption, Orchestration, Souveraineté) et trois portes d'entrée par persona (CEO, DSI, CTO)."
+    : 'Waimia Atlas: four pillars (Audit, Adoption, Orchestration, Sovereignty) and three entry doors per persona (CEO, CIO, CTO).'}
 >
-  {/* Hero court · Direction 3 */}
+  {/* Hero 2 colonnes · V7 */}
   <section class="hero-atlas">
     <div class="signature-grid"></div>
-    <div class="wrap-wide">
-      <div class="kick">
-        <span class="kick-dot" aria-hidden="true"></span>
-        <span>{lang === 'fr' ? 'Atlas · Cartographier · Câbler · Orchestrer · Industrialiser' : 'Atlas · Map · Wire · Orchestrate · Industrialize'}</span>
+    <div class="hero-atlas-inner">
+
+      {/* Col gauche : kicker + H1 + lede + CTAs */}
+      <div class="hero-atlas-body">
+        <div class="kick">
+          <span class="kick-dot" aria-hidden="true"></span>
+          <span>{lang === 'fr' ? 'Atlas · Cartographier · Câbler · Orchestrer · Industrialiser' : 'Atlas · Map · Wire · Orchestrate · Industrialize'}</span>
+        </div>
+        <h1 class="hero-atlas-title reveal-mask-up">
+          {lang === 'fr' ? (
+            <>Une <i>cartographie</i><br />pour les pressés.</>
+          ) : (
+            <>A <i>map</i><br />for the time-pressed.</>
+          )}
+        </h1>
+        <p class="hero-atlas-subhead">
+          {lang === 'fr'
+            ? <>Une seule page pour comprendre comment Waimia <i>câble l&rsquo;IA dans le revenu</i>. Pas dix slides. Pas de schéma d&rsquo;architecture. Juste une carte, des piliers, et trois portes selon votre fonction.</>
+            : <>One page to understand how Waimia <i>wires AI into revenue</i>. Not ten slides. No architecture diagram. Just a map, four pillars, and three doors based on your role.</>}
+        </p>
+        <p class="hero-atlas-lead">
+          {lang === 'fr'
+            ? <>Marketing, sales, contenu, web, CRM, analytics et marque&nbsp;— sept territoires sur une seule carte. Quatre piliers. Trois portes d&rsquo;entrée par persona. Repérez votre douleur, on prend l&rsquo;audit en charge.</>
+            : <>Marketing, sales, content, web, CRM, analytics and brand&nbsp;— seven territories on one map. Four pillars. Three entry doors per persona. Spot your pain, we'll handle the audit.</>}
+        </p>
+        <div class="hero-atlas-ctas">
+          <a href={localizeHref('/contact', lang)} class="btn btn-primary btn-lg" data-mag="0.18">
+            {lang === 'fr' ? 'Réserver un audit' : 'Book an audit'} <span aria-hidden>→</span>
+          </a>
+          <a href={localizeHref('/', lang)} class="btn btn-ghost btn-lg">
+            {lang === 'fr' ? '← Retour à l’accueil' : '← Back to home'}
+          </a>
+        </div>
       </div>
-      <h1 class="hero-atlas-title reveal-mask-up">
-        {lang === 'fr' ? (
-          <>Une <i>cartographie</i><br />pour les pressés.</>
-        ) : (
-          <>A <i>map</i><br />for the time-pressed.</>
-        )}
-      </h1>
-      <p class="hero-atlas-lead">
-        {lang === 'fr'
-          ? "Marketing, sales, contenu, web, CRM, analytics et marque — tous les territoires Waimia sur une seule carte. Cliquez là où vous reconnaissez votre douleur."
-          : 'Marketing, sales, content, web, CRM, analytics and brand — every Waimia territory on one map. Click where you recognise your pain point.'}
-      </p>
-      <div class="hero-atlas-ctas">
-        <a href={localizeHref('/contact', lang)} class="btn btn-primary btn-lg" data-mag="0.18">
-          {lang === 'fr' ? 'Réserver un audit' : 'Book an audit'} <span aria-hidden>→</span>
-        </a>
-        <a href={localizeHref('/', lang)} class="btn btn-ghost btn-lg">
-          {lang === 'fr' ? "← Retour à l'accueil" : '← Back to home'}
-        </a>
-      </div>
+
+      {/* Col droite : mini-map 4 piliers */}
+      <aside class="atlas-mini-map" aria-label={lang === 'fr' ? 'Les 4 piliers Atlas' : 'The 4 Atlas pillars'}>
+        <div class="amm-kicker">
+          <span class="amm-dot" aria-hidden="true"></span>
+          {lang === 'fr' ? 'Atlas · 4 piliers' : 'Atlas · 4 pillars'}
+        </div>
+        <ul class="amm-list">
+          {pillars.map((p) => (
+            <li class="amm-item">
+              <span class="amm-num">{p.num}</span>
+              <div class="amm-content">
+                <span class="amm-label">{p.label}</span>
+                <span class="amm-desc">{p.desc}</span>
+                <span class="amm-deliverable">{p.deliverable}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </aside>
+
     </div>
   </section>
 
-  <section style="padding:0 clamp(20px,4vw,48px) clamp(32px,4vw,56px)">
-    <div style="max-width:1500px;margin:0 auto">
+  <section class="atlas-howto">
+    <div class="atlas-howto-inner">
+      <div class="atlas-howto-kicker">
+        <span class="atlas-howto-dot" aria-hidden="true"></span>
+        {lang === 'fr' ? 'Comment lire cette carte' : 'How to read this map'}
+      </div>
+      <p class="atlas-howto-prose">
+        {lang === 'fr'
+          ? <>Sept territoires métier (acquisition, contenu, web, CRM, analytics, marque, automation). Quatre piliers Waimia (Audit, Adoption, Orchestration, Souveraineté). Trois portes d&rsquo;entrée par fonction (CEO, DSI, CTO). <i>Identifiez d&rsquo;abord votre douleur</i>, on déroule l&rsquo;itinéraire ensuite.</>
+          : <>Seven business territories (acquisition, content, web, CRM, analytics, brand, automation). Four Waimia pillars (Audit, Adoption, Orchestration, Sovereignty). Three entry doors by role (CEO, CIO, CTO). <i>Identify your pain first</i>, we&rsquo;ll trace the itinerary next.</>}
+      </p>
+    </div>
+  </section>
+
+  <section class="atlas-connections-wrap">
+    <div class="atlas-connections-inner">
       <AtlasConnections />
     </div>
   </section>
@@ -67,15 +125,261 @@ const lang = langFromPath(Astro.url.pathname);
 </Base>
 
 <style>
-  /* V7 harmonisation · Atlas hero aligned avec doctrine site (cap 132 vs 180) */
-  .hero-atlas{position:relative;padding:clamp(88px,9vw,128px) var(--gut) clamp(56px,7vw,88px);overflow:hidden;border-bottom:1px solid var(--hairline)}
-  .hero-atlas .signature-grid{z-index:0}
-  .hero-atlas > *:not(.signature-grid){position:relative;z-index:1}
-  .hero-atlas .kick{display:flex;align-items:center;gap:12px;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:24px}
-  .hero-atlas .kick-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent)}
-  .hero-atlas-ctas{display:flex;gap:12px;margin-top:var(--space-7);flex-wrap:wrap;align-items:center}
-  /* H1 page spéciale · 132px max (= 1.43× home H1 92px) · cohérent et imposant */
-  .hero-atlas-title{font-family:var(--font-display);font-size:clamp(48px,9vw,132px);line-height:0.94;letter-spacing:-0.03em;font-weight:400;text-wrap:balance;max-width:1200px}
-  .hero-atlas-title i{font-style:italic;color:var(--accent)}
-  .hero-atlas-lead{font-family:var(--font-sans);font-size:var(--text-lede);color:var(--ink-2);margin-top:var(--space-5);max-width:720px;line-height:1.45;text-wrap:pretty}
+  /* ─── Hero 2 colonnes · V7 ─────────────────────────────────────────────── */
+  .hero-atlas {
+    position: relative;
+    padding: clamp(72px,7vw,108px) var(--gut) clamp(48px,5vw,72px);
+    overflow: hidden;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .hero-atlas .signature-grid { z-index: 0 }
+  .hero-atlas > *:not(.signature-grid) { position: relative; z-index: 1 }
+
+  .hero-atlas-inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(48px,5vw,80px);
+    align-items: start;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+
+  /* Col gauche */
+  .kick {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .kick-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .hero-atlas-title {
+    font-family: var(--font-display);
+    font-size: clamp(40px,6.5vw,96px);
+    line-height: 0.94;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    text-wrap: balance;
+    max-width: 900px;
+  }
+  .hero-atlas-title i { font-style: italic; color: var(--accent) }
+
+  .hero-atlas-lead {
+    font-family: var(--font-sans);
+    font-size: var(--text-lede);
+    color: var(--ink-2);
+    margin-top: var(--space-5);
+    max-width: 640px;
+    line-height: 1.45;
+    text-wrap: pretty;
+  }
+
+  .hero-atlas-subhead {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2vw, 28px);
+    line-height: 1.3;
+    color: var(--ink);
+    margin-top: var(--space-4);
+    max-width: 720px;
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hero-atlas-subhead i {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-atlas-ctas {
+    display: flex;
+    gap: 12px;
+    margin-top: var(--space-7);
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* Col droite · mini-map */
+  .atlas-mini-map {
+    border-left: 1px solid var(--hairline);
+    padding-left: clamp(24px,3vw,40px);
+    padding-top: 4px;
+  }
+
+  .amm-kicker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 28px;
+    line-height: 1;
+  }
+  .amm-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .amm-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .amm-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: clamp(14px,1.8vw,20px) 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .amm-item:last-child { border-bottom: 1px solid var(--hairline) }
+
+  .amm-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    color: var(--accent);
+    flex-shrink: 0;
+    padding-top: 2px;
+    line-height: 1;
+  }
+
+  .amm-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .amm-label {
+    font-family: var(--font-display);
+    font-size: clamp(15px,1.4vw,18px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+
+  .amm-desc {
+    font-family: var(--font-sans);
+    font-size: clamp(12px,1vw,13px);
+    color: var(--ink-2);
+    line-height: 1.4;
+  }
+
+  .amm-deliverable {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    line-height: 1;
+    margin-top: 8px;
+  }
+
+  /* Section "Comment lire cette carte" */
+  .atlas-howto {
+    padding: clamp(24px, 3vw, 40px) clamp(20px, 4vw, 48px) clamp(40px, 5vw, 60px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .atlas-howto-inner {
+    max-width: 1500px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: clamp(32px, 4vw, 64px);
+    align-items: start;
+  }
+  .atlas-howto-kicker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1;
+  }
+  .atlas-howto-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .atlas-howto-prose {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.8vw, 24px);
+    line-height: 1.4;
+    color: var(--ink);
+    margin: 0;
+    max-width: 880px;
+    text-wrap: pretty;
+  }
+  .atlas-howto-prose i {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* Section AtlasConnections */
+  .atlas-connections-wrap {
+    padding: 0 clamp(20px,4vw,48px) clamp(32px,4vw,56px);
+  }
+  .atlas-connections-inner {
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+
+  /* Responsive · ≤ 860px : stack vertically, mini-map below */
+  @media (max-width: 860px) {
+    .atlas-howto-inner {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .hero-atlas-inner {
+      grid-template-columns: 1fr;
+    }
+    .atlas-mini-map {
+      border-left: none;
+      border-top: 1px solid var(--hairline);
+      padding-left: 0;
+      padding-top: clamp(24px,4vw,36px);
+      margin-top: clamp(24px,4vw,36px);
+    }
+    .amm-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .amm-item:nth-child(odd) { border-right: 1px solid var(--hairline); padding-right: 16px }
+    .amm-item:nth-child(even) { padding-left: 16px }
+    .amm-item:last-child { border-bottom: none }
+  }
+
+  @media (max-width: 520px) {
+    .amm-list { grid-template-columns: 1fr }
+    .amm-item:nth-child(odd) { border-right: none; padding-right: 0 }
+    .amm-item:nth-child(even) { padding-left: 0 }
+    .amm-item:last-child { border-bottom: 1px solid var(--hairline) }
+  }
 </style>

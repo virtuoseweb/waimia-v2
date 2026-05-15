@@ -1,0 +1,22 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import EcoleHubTemplate from '../../components/templates/EcoleHubTemplate.astro';
+
+const formations = await getCollection('formations');
+const parcoursCollection = await getCollection('parcours').catch(() => []);
+const ateliersCollection = await getCollection('ateliers').catch(() => []);
+const lang = Astro.url.pathname.startsWith('/en/') ? 'en' : 'fr';
+
+const title = lang === 'fr'
+  ? 'École Waimia · Catalogue formations IA'
+  : 'Waimia School · AI Training Catalog';
+const description = lang === 'fr'
+  ? 'Formations, parcours et ateliers IA pour dirigeants et équipes PME B2B. Accès immédiat, vrai contenu, zéro bullshit.'
+  : 'AI training, programs and workshops for SMB leaders and teams. Immediate access, real content, no fluff.';
+---
+<Base {title} {description}>
+  <EcoleHubTemplate formations={formations} parcours={parcoursCollection} ateliers={ateliersCollection} {lang} />
+</Base>

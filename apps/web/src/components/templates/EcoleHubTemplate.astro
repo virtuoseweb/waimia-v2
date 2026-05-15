@@ -1,0 +1,336 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  formations: Array<CollectionEntry<"formations">>;
+  parcours: Array<CollectionEntry<"parcours">>;
+  ateliers: Array<CollectionEntry<"ateliers">>;
+  lang: "fr" | "en";
+}
+
+const { formations, parcours, ateliers, lang } = Astro.props;
+
+const heroTitle = lang === 'fr'
+  ? "Apprendre à câbler l'<i>IA</i>"
+  : "Learn to wire <i>AI</i>";
+
+const heroLede = lang === 'fr'
+  ? "Formations courtes, cas réels, zéro bullshit. Pour dirigeants et équipes PME B2B qui veulent des résultats mesurables dans les 30 jours."
+  : "Short courses, real cases, no fluff. For SMB leaders and teams who want measurable results within 30 days.";
+
+const kickerText = lang === 'fr'
+  ? `École Waimia · Catalogue · Inscriptions ouvertes`
+  : `Waimia School · Catalog · Enrollments open`;
+
+const statsLabel = lang === 'fr'
+  ? `${formations.length} formation${formations.length > 1 ? 's' : ''} · ${parcours.length} parcours · ${ateliers.length} atelier${ateliers.length > 1 ? 's' : ''}`
+  : `${formations.length} course${formations.length > 1 ? 's' : ''} · ${parcours.length} program${parcours.length > 1 ? 's' : ''} · ${ateliers.length} workshop${ateliers.length > 1 ? 's' : ''}`;
+
+const levelLabels: Record<string, Record<string, string>> = {
+  fr: { debutant: 'Débutant', intermediaire: 'Intermédiaire', avance: 'Avancé', expert: 'Expert' },
+  en: { debutant: 'Beginner', intermediaire: 'Intermediate', avance: 'Advanced', expert: 'Expert' },
+};
+
+const catalogueTitle = lang === 'fr' ? 'Catalogue formations' : 'Course catalog';
+const parcoursTitle = lang === 'fr' ? 'Parcours' : 'Learning paths';
+const ctaText = lang === 'fr' ? 'Demander un parcours sur mesure' : 'Request a custom learning path';
+---
+
+<section class="ecole-hub">
+  <!-- HERO -->
+  <div class="hero">
+    <p class="kicker">{kickerText}</p>
+    <h1 class="heading" set:html={heroTitle} />
+    <p class="lede">{heroLede}</p>
+  </div>
+
+  <!-- STATS BANDE MONO -->
+  <div class="stats-bande">
+    <span class="stats-text">{statsLabel}</span>
+  </div>
+
+  <!-- CATALOGUE FORMATIONS -->
+  {formations.length > 0 && (
+    <div class="catalogue">
+      <h2 class="section-title">{catalogueTitle}</h2>
+      <div class="catalogue-table">
+        <div class="table-header">
+          <span class="col-num">#</span>
+          <span class="col-titre">{lang === 'fr' ? 'Titre' : 'Title'}</span>
+          <span class="col-niveau">{lang === 'fr' ? 'Niveau' : 'Level'}</span>
+          <span class="col-duree">{lang === 'fr' ? 'Durée' : 'Duration'}</span>
+          <span class="col-prix">{lang === 'fr' ? 'Prix' : 'Price'}</span>
+          <span class="col-action"></span>
+        </div>
+        {formations.map((entry, i) => {
+          const title = lang === 'fr' ? entry.data.title_fr : entry.data.title_en;
+          const level = levelLabels[lang][entry.data.level] ?? entry.data.level;
+          const price = entry.data.pricing?.one_time_eur;
+          const priceStr = price === 0
+            ? (lang === 'fr' ? 'Gratuit' : 'Free')
+            : price != null
+              ? `${price} €`
+              : '—';
+          return (
+            <a class="table-row" href={`/ecole/cours/${entry.id}`}>
+              <span class="col-num mono">{String(i + 1).padStart(2, '0')}</span>
+              <span class="col-titre row-title">{title}</span>
+              <span class="col-niveau">
+                <span class={`pill pill--${entry.data.level}`}>{level}</span>
+              </span>
+              <span class="col-duree mono">{entry.data.duration_hours}h</span>
+              <span class="col-prix mono">{priceStr}</span>
+              <span class="col-action arrow">→</span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  )}
+
+  <!-- SECTION PARCOURS -->
+  {parcours.length > 0 && (
+    <div class="parcours-section">
+      <h2 class="section-title">{parcoursTitle}</h2>
+      <div class="parcours-list">
+        {parcours.map((p) => {
+          const title = lang === 'fr' ? p.data.title_fr : p.data.title_en;
+          const description = lang === 'fr' ? p.data.description_fr : p.data.description_en;
+          return (
+            <div class="parcours-item">
+              <span class="parcours-title">{title}</span>
+              <p class="parcours-desc">{description}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  )}
+
+  <!-- CTA FINALE -->
+  <div class="cta-finale">
+    <a href="/contact" class="cta-link">{ctaText} →</a>
+  </div>
+</section>
+
+<style>
+  .ecole-hub {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 var(--space-page-x, 24px);
+    background: var(--paper);
+  }
+
+  /* HERO */
+  .hero {
+    padding-top: 72px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 24px;
+  }
+
+  .heading {
+    font-size: var(--text-h1-hero);
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.05;
+    margin: 0 0 24px;
+  }
+
+  .heading i {
+    font-style: italic;
+  }
+
+  .lede {
+    font-size: var(--text-lede);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    max-width: 640px;
+    margin: 0;
+    color: var(--text-secondary, #444);
+  }
+
+  /* STATS BANDE */
+  .stats-bande {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .stats-text {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted, #888);
+  }
+
+  /* CATALOGUE */
+  .catalogue {
+    padding-top: 48px;
+  }
+
+  .section-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted, #888);
+    margin: 0 0 24px;
+    font-weight: 400;
+  }
+
+  .catalogue-table {
+    border-top: 1px solid var(--hairline);
+  }
+
+  .table-header {
+    display: grid;
+    grid-template-columns: 40px 1fr 130px 70px 80px 32px;
+    gap: 0 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .table-header span {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted, #888);
+  }
+
+  .table-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 130px 70px 80px 32px;
+    gap: 0 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--hairline);
+    text-decoration: none;
+    color: inherit;
+    align-items: center;
+    transition: background 0.15s;
+  }
+
+  .table-row:hover {
+    background: color-mix(in srgb, var(--accent) 4%, transparent);
+  }
+
+  .col-num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-muted, #888);
+  }
+
+  .row-title {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary, #111);
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  .pill {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
+  }
+
+  .pill--debutant { color: #3a7d44; border-color: #3a7d44; }
+  .pill--intermediaire { color: var(--accent); border-color: var(--accent); }
+  .pill--avance { color: #7b4ea6; border-color: #7b4ea6; }
+  .pill--expert { color: #111; border-color: #111; }
+
+  .arrow {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--accent);
+    text-align: right;
+  }
+
+  /* PARCOURS */
+  .parcours-section {
+    padding-top: 56px;
+    padding-bottom: 16px;
+  }
+
+  .parcours-list {
+    border-top: 1px solid var(--hairline);
+  }
+
+  .parcours-item {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .parcours-title {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .parcours-desc {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--text-secondary, #444);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* CTA FINALE */
+  .cta-finale {
+    padding: 56px 0 72px;
+    border-top: 1px solid var(--hairline);
+    margin-top: 24px;
+  }
+
+  .cta-link {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary, #111);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.15s;
+  }
+
+  .cta-link:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 700px) {
+    .table-header {
+      display: none;
+    }
+
+    .table-row {
+      grid-template-columns: 32px 1fr 80px 32px;
+      grid-template-rows: auto auto;
+    }
+
+    .col-niveau { display: none; }
+    .col-duree { display: none; }
+  }
+</style>

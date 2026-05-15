@@ -35,7 +35,7 @@ const lang = langFromPath(Astro.url.pathname);
 const STATS = [
   { n:'+12h',  text: { en: 'saved per team / week across acquisition, CRM, content and reporting.',     fr: 'économisées par équipe / semaine sur acquisition, CRM, contenu et reporting.' } },
   { n:'23',    text: { en: 'workflows wired on average across marketing, sales, content and brand.',     fr: 'workflows câblés en moyenne sur marketing, sales, contenu et marque.' } },
-  { n:'3,4×',  text: { en: 'measured ROI at 12 months · scope, stack, team maturity dependent.',         fr: 'ROI mesuré à 12 mois · selon périmètre, stack et maturité d\'équipe.' } },
+  { n:'3,4×',  text: { en: 'measured ROI at 12 months · scope, stack, team maturity dependent.',         fr: 'ROI mesuré à 12 mois · selon périmètre, stack et maturité d’équipe.' } },
 ];
 
 const tripled = [...CLIENT_LOGOS, ...CLIENT_LOGOS, ...CLIENT_LOGOS];
@@ -79,6 +79,11 @@ const articleLd = buildArticle({
             <>Build <i class="accent">revenue</i>,<br />not <i>demos</i>.</>
           )}
         </h1>
+        <p class="manifesto-h1-subhead">
+          {lang === 'fr'
+            ? <>Un manifeste en cinq actes. Lu d&rsquo;une traite, il prend dix&nbsp;minutes. Appliqué chez vous, il s&rsquo;écrit en <i>quatre semaines</i>.</>
+            : <>A manifesto in five acts. Read in one sitting, it takes ten minutes. Applied at your company, it writes itself in <i>four weeks</i>.</>}
+        </p>
       </div>
 
       {/* bottom CTAs */}
@@ -128,9 +133,9 @@ const articleLd = buildArticle({
         </div>
         <p class="reveal manifesto-h2 manifesto-h2--paper">
           {lang === 'fr' ? (
-            <>L'IA est <i class="accent">partout</i> et nulle part. Les stacks grossissent. Les pipelines s'aplatissent. Le goulot n'est <i>jamais</i> le modèle.</>
+            <>L'IA est <i class="accent">partout</i> et nulle part. Les stacks grossissent — marketing, sales, contenu, CRM, analytics, marque. Les pipelines s'aplatissent. Le goulot n'est <i>jamais</i> le modèle. Ce sont les rails, les règles, et l'humain qui sait quand débrancher.</>
           ) : (
-            <>AI is <i class="accent">everywhere</i> and nowhere. Stacks grow, pipelines flatten. The bottleneck is <i>never</i> the model.</>
+            <>AI is <i class="accent">everywhere</i> and nowhere. Stacks grow — marketing, sales, content, CRM, analytics, brand. Pipelines flatten. The bottleneck is <i>never</i> the model. It's the rails, the rules, and the human who knows when to unplug.</>
           )}
         </p>
       </div>
@@ -154,7 +159,7 @@ const articleLd = buildArticle({
         <Kicker>
           <span style="color:var(--accent)">II.</span> {lang === 'fr' ? 'La méthode' : 'The method'}
         </Kicker>
-        <Kicker>6 · ALL IN HOUSE</Kicker>
+        <Kicker>6 services · in-house</Kicker>
       </div>
       <h2 class="reveal manifesto-h2">
         {lang === 'fr' ? (
@@ -163,6 +168,11 @@ const articleLd = buildArticle({
           <>We do the <i class="accent">unglamorous</i> layer. On purpose.</>
         )}
       </h2>
+      <p class="reveal" style="font-family:var(--font-sans);font-size:clamp(18px,1.5vw,22px);line-height:1.5;color:var(--ink-2);max-width:820px;margin:0 0 clamp(60px,7vw,80px);text-wrap:pretty">
+        {lang === 'fr'
+          ? <>Acquisition, contenu, CRM, web, analytics, marque. Six métiers. Six exécutions. Une équipe qui livre. Pas d&rsquo;agence relai, pas de plateforme tierce, pas de slide de comité. <i style="color:var(--accent)">Du code, du process, du résultat mesuré.</i></>
+          : <>Acquisition, content, CRM, web, analytics, brand. Six crafts. Six executions. One team that ships. No relay agency, no third-party platform, no committee slide. <i style="color:var(--accent)">Code, process, measured result.</i></>}
+      </p>
       {SIX_SERVICES.map((s, i) => (
         <AsymmetricServiceRow
           num={s.k}
@@ -193,8 +203,8 @@ const articleLd = buildArticle({
       </h2>
       <p style="font-family:var(--font-sans);font-size:clamp(16px,1.4vw,19px);line-height:1.55;color:rgba(246,241,232,.7);max-width:680px;margin:0 auto 36px;text-wrap:pretty">
         {lang === 'fr'
-          ? "La plateforme interne qui orchestre marketing, sales, contenu, web et CRM. Multi-workspace · multi-agents · documentée · transmissible."
-          : "The internal platform orchestrating marketing, sales, content, web and CRM. Multi-workspace · multi-agent · documented · transferable."}
+          ? <>La plateforme interne qui orchestre marketing, sales, contenu, web, CRM, analytics et marque. Multi-workspace · multi-agents · documentée · transmissible. Construite pour livrer chez vous, déployée chez nous, <i style="font-style:italic;color:var(--accent)">propriétaire à vie</i> dans votre stack.</>
+          : <>The internal platform orchestrating marketing, sales, content, web, CRM, analytics and brand. Multi-workspace · multi-agent · documented · transferable. Built to ship with you, deployed by us, <i style="font-style:italic;color:var(--accent)">owned for life</i> in your stack.</>}
       </p>
       <PillCTA href={flh('/console', lang)} variant="accent-mono" mag={0.18}>
         ▸ {lang === 'fr' ? 'Voir la console' : 'Discover the platform'}
@@ -211,6 +221,11 @@ const articleLd = buildArticle({
       <h2 class="reveal manifesto-h2">
         {lang === 'fr' ? (<>Pas des démos. Des <i class="accent">résultats</i>.</>) : (<>Not demos. <i class="accent">Results</i>.</>)}
       </h2>
+      <p class="reveal" style="font-family:var(--font-sans);font-size:clamp(18px,1.5vw,22px);line-height:1.5;color:var(--ink-2);max-width:820px;margin:0 0 clamp(48px,6vw,72px);margin-top:-32px;text-wrap:pretty">
+        {lang === 'fr'
+          ? <>Quatre cas, chiffres en clair. Pas de logos pour faire joli. Chaque ligne contient le secteur, la durée, la stack et l&rsquo;impact mesuré — celui qu&rsquo;on défend en comité de direction.</>
+          : <>Four cases, numbers in the clear. No vanity logos. Each row holds the sector, duration, stack and measured impact — the one we defend in steering committees.</>}
+      </p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
         {CASE_FEED.slice(0, 4).map((c, i) => (
           <EditorialCaseCard
@@ -268,6 +283,11 @@ const articleLd = buildArticle({
         <Button href={`mailto:${lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr'}`} variant="ghost" size="lg">
           {lang === 'fr' ? 'bonjour@waimia.fr' : 'hello@waimia.fr'}
         </Button>
+      </div>
+      <div style="margin-top:clamp(48px,5vw,72px);font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);line-height:1">
+        {lang === 'fr'
+          ? '◉ 45 minutes · diagnostic en clair · aucune relance pénible'
+          : '◉ 45 minutes · clear diagnosis · no annoying follow-up'}
       </div>
     </div>
   </section>
@@ -337,7 +357,7 @@ const articleLd = buildArticle({
      · H1 cap 132px (vs ancien 220px) = 1.43× du H1 home tokenisé (92px) */
   .manifesto-h1 {
     font-family: var(--font-display);
-    font-size: clamp(48px, 9vw, 132px);
+    font-size: clamp(44px, 7.5vw, 108px);
     line-height: 0.94;
     letter-spacing: -0.035em;
     color: var(--paper);
@@ -348,6 +368,21 @@ const articleLd = buildArticle({
   }
   .manifesto-h1 i { font-style: italic; }
   .manifesto-h1 i.accent { color: var(--accent); }
+
+  .manifesto-h1-subhead {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.8vw, 26px);
+    line-height: 1.35;
+    color: rgba(246, 241, 232, 0.7);
+    margin: clamp(24px, 3vw, 40px) 0 0;
+    max-width: 720px;
+    text-wrap: pretty;
+    font-weight: 400;
+  }
+  .manifesto-h1-subhead i {
+    font-style: italic;
+    color: var(--accent);
+  }
 
   /* H2 sections grandes (manifeste, déclaration) · cap 96px cohérent avec home text-h2-grand */
   .manifesto-h2 {
@@ -378,8 +413,8 @@ const articleLd = buildArticle({
      Note : :global est requis car le scoping Astro ne descend pas dans les composants enfants */
   :global(.manifesto-acte-iv){margin-bottom:32px}
   :global(.manifesto-acte-v){margin-bottom:40px}
-  :global(.b-hero-dim){color:rgba(246,241,232,.55) !important}
-  :global(.b-hero-tag){color:rgba(246,241,232,.55) !important;margin-bottom:24px}
+  :global(.b-hero-dim){color:rgba(246,241,232,.55) !important;line-height:1}
+  :global(.b-hero-tag){color:rgba(246,241,232,.55) !important;margin-bottom:24px;line-height:1}
   :global(.b-acte-1){color:rgba(246,241,232,.5) !important}
   :global(.b-acte-1-sub){color:rgba(246,241,232,.3) !important;letter-spacing:.14em;margin-top:4px}
   :global(.b-acte-3){color:rgba(246,241,232,.5) !important;margin-bottom:32px}
