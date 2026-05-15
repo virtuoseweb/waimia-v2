@@ -70,7 +70,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 ### TIER 3 · Fusion collections (13h)
 
 - [✅] **T3.1a** · Schema `courses` discriminated union créé (commit `8d0ebd1`, Worker Sonnet) · 4 variants formation/parcours/atelier/certification dans `src/content.config.ts:206-313`
-- [ ] **T3.1b** · Migrer 3 MDX formations → `content/ecole/courses/*` avec `course_type: 'formation'`
+- [✅] **T3.1b** · Migrer 3 MDX formations → `content/ecole/courses/*` avec `course_type: 'formation'` (commit `b518512`, Worker Sonnet) · 3 MDX migrés : automatiser-relances-crm-en-4-heures · prompter-claude-pour-les-non-tech · intro-ia-pme-b2b
 - [ ] **T3.1c** · Créer template polymorphe `CourseDetailTemplate.astro` (gère 4 types)
 - [ ] **T3.1d** · Route `/ecole/[type]/[slug].astro` unifiée
 - [ ] **T3.1e** · Update mega-menu pour pointer `/ecole/[type]/[slug]`
@@ -89,11 +89,11 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 ### TIER 4 · AI-first collections (23h)
 
 - [✅] **T4.1a** · Schema `personas` créé (commit avec pré-injection Opus 2026-05-15) · 14 champs bilingues + sectors array
-- [ ] **T4.1b** · Créer 3 personas exemples : CEO PME B2B · CTO scale-up · CMO mid-market
+- [✅] **T4.1b** · 3 personas exemples créés (commit `b518512`, Worker Sonnet) : ceo-pme-b2b · cto-scale-up · cmo-mid-market
 - [ ] **T4.1c** · Migrer `PersonaSwitcher` pour consommer la collection
-- [ ] **T4.1d** · Page `/ressources/personas/[slug].astro` (pages SEO bonus)
+- [✅] **T4.1d** · Routes `/ressources/personas/[slug]` + `/ressources/personas` index créées (commit `250fd49`) · 4 routes générées
 - [✅] **T4.2a** · Schema `brandVoice` singleton créé (commit pré-injection Opus 2026-05-15) · doctrine + tone + forbidden/preferred words + sample phrases + typography rules · bilingue
-- [ ] **T4.2b** · Créer 1 entry brand-voice avec doctrine V5-V7 + typography FR + sample phrases
+- [✅] **T4.2b** · `src/content/brand-voice/doctrine.mdx` créé (commit `b518512`, Worker Sonnet) · doctrine V5-V7 + tone + forbidden/preferred words + sample phrases + typography rules
 - [ ] **T4.2c** · Linter custom : warn si MDX utilise `forbidden_words`
 - [ ] **T4.3a** · Créer schema `prompts` (name, purpose, system_prompt, variables, sample_output)
 - [ ] **T4.3b** · Créer 5 prompts initiaux : audit-écran, copywriting-offre, persona-deduction, brand-checker, schema-generator
@@ -108,8 +108,8 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 ### TIER 5 · SEO programmatique (30h)
 
 - [✅] **T5.1a** · Schema `glossary` créé (commit pré-injection Opus 2026-05-15) · 5 catégories enum (ia-technique/ia-business/data/workflow/gouvernance) · SEO meta intégré
-- [ ] **T5.1b** · Rédiger 50 termes glossaire IA (worker Sonnet)
-- [ ] **T5.1c** · Route `/glossaire/[slug].astro` + index `/glossaire/`
+- [🟡] **T5.1b** · 5/50 termes glossaire IA rédigés (commit `b518512`, Worker Sonnet) · agent-ia · rag · prompt-engineering · roi-ia · gouvernance-ia · pattern frontmatter figé pour ajout incrémental
+- [✅] **T5.1c** · Routes `/glossaire/[slug]` + `/glossaire` index créées (commit `fc8539e`) · 6 routes générées
 - [ ] **T5.2a** · Créer schema `integrations` (tool_name, vendor, category, use_cases, native_or_via_api)
 - [ ] **T5.2b** · Rédiger 20 integrations (HubSpot, Salesforce, Pipedrive, Notion, Make, Zapier, etc.)
 - [ ] **T5.2c** · Route `/integrations/[slug].astro` + index `/integrations/`
