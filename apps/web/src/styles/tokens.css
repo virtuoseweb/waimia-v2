@@ -85,40 +85,29 @@ body {
 
 /* ─── SEMANTIC ALIASES ─── */
 :root {
-  --bg:           var(--paper);
-  --bg-subtle:    var(--paper-2);
-  --bg-raised:    var(--paper-3);
-  --bg-inverted:  var(--ink);
   --fg:           var(--ink);
   --fg-secondary: var(--muted);
   --fg-tertiary:  var(--muted-2);
   --fg-inverted:  var(--paper);
-  --brand:        var(--accent);
-  --brand-hover:  var(--accent-2);
-  --brand-fg:     var(--accent-ink);
-  --border:       var(--hairline);
-  --border-strong:var(--hairline-strong);
+  /* Cleanup Phase D.1 (2026-05-15) · 9 aliases unused supprimés :
+     --bg, --bg-subtle, --bg-raised, --bg-inverted, --brand, --brand-hover,
+     --brand-fg, --border, --border-strong. Cf docs/19-DESIGN-SYSTEM-CLOSED.md §B.3.1 */
 }
 
 /* ─── TYPE SCALE ─── */
 :root {
-  /* Display · Instrument Serif */
-  --text-display-xl: clamp(72px, 14vw, 240px);
-  --text-display-lg: clamp(56px, 9vw, 148px);
+  /* Display · Instrument Serif · seul -md survit (utilisé via alias W6 --text-h1)
+     Cleanup Phase D.1 (2026-05-15) · 4 tailles unused supprimées : xl, lg, sm, xs */
   --text-display-md: clamp(44px, 6vw, 96px);
-  --text-display-sm: clamp(36px, 5vw, 64px);
-  --text-display-xs: clamp(28px, 3vw, 44px);
 
-  /* Body · Inter Tight */
-  --text-body-lg: 21px;
+  /* Body · Inter Tight · seuls -md et -sm survivent (utilisés via aliases W6)
+     Cleanup Phase D.1 (2026-05-15) · 2 tailles unused supprimées : lg, xs */
   --text-body-md: 17px;
   --text-body-sm: 14px;
-  --text-body-xs: 13px;
 
-  /* Mono · JetBrains Mono */
-  --text-mono-lg: 13px;
+  /* Mono · JetBrains Mono · seuls -md et -xs survivent (Kicker)
+     Cleanup Phase D.1 (2026-05-15) · 2 tailles unused supprimées : lg, sm */
   --text-mono-md: 11px;
-  --text-mono-sm: 10.5px;
   --text-mono-xs: 10px;
 
   /* Leading & tracking */
@@ -232,13 +221,11 @@ body {
 :root {
   --grid-cols: 12;
   --grid-gutter: var(--gut);
-  /* Container max-widths */
-  --col-extra-narrow: 480px; /* texte focused */
-  --col-narrow: 640px; /* lecture optimale */
-  --col-standard: 880px; /* prose article */
-  --col-wide: 1120px; /* layout principal */
+  /* --col-full conservé : utilisé par src/styles/grid.css */
   --col-full: var(--wrap); /* 1440px */
-  --col-grand: var(--wrap-wide); /* 1560px */
+  /* Cleanup Phase D.1 (2026-05-15) · 5 containers unused supprimés :
+     --col-extra-narrow, --col-narrow, --col-standard, --col-wide, --col-grand
+     (supplantés par les classes .wrap-* dans global.css) */
 }
 
 /* ─── Z-INDEX SCALE ─── */
