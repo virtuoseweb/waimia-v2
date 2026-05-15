@@ -1,0 +1,112 @@
+---
+title_fr: "Pioche, n'invente pas — un design system fermé contre les hallucinations IA"
+title_en: "Pick, don't invent — a closed design system against AI hallucinations"
+description_fr: "Un design system fermé force l'IA à choisir dans un catalogue fini plutôt qu'inventer. La différence entre cohérence et chaos à l'échelle."
+description_en: "A closed design system forces the AI to pick from a finite catalog rather than invent. The difference between consistency and chaos at scale."
+slug: anti-hallucination-design-system
+publishedAt: 2026-05-15
+editorialType: "Essay"
+type: essai
+author: simon-beros
+category: gouvernance
+tags:
+  - design-system
+  - anti-hallucination
+  - ia-doctrine
+readingTime: 6
+relatedSolutions: []
+relatedOffres: []
+relatedCases: []
+relatedPosts:
+  - adoption-composable-v2
+---
+
+## Pioche, n'invente pas — un design system fermé contre les hallucinations IA
+
+Votre modèle IA génère du code d'interface. Il produit un composant `<PremiumBadge />` qui n'existe nulle part dans votre codebase. L'ingénieur qui relit le PR ne le connaît pas, suppose qu'il vient d'une autre branche, fusionne. Six mois plus tard, vous avez vingt-trois variantes de badge qui ne partagent ni le style, ni les props, ni la logique de couleurs.
+
+Ce n'est pas un problème d'IA. C'est un problème d'espace de possibilités trop large.
+
+### Pourquoi les modèles inventent
+
+Un modèle de langage génère du code en extrapolant depuis l'ensemble de son entraînement. Si vous lui demandez « crée un badge de statut premium », il n'a aucune raison intrinsèque de piocher dans *votre* catalogue. Il va produire ce qui lui semble le plus probable — un composant React générique, un nom plausible, des props raisonnables. Tout ça sera fonctionnel. Rien de tout ça ne sera cohérent avec votre système existant.
+
+Le problème s'aggrave à l'échelle. Dix développeurs qui utilisent l'IA pour accélérer leur travail produisent dix interprétations différentes de « badge de statut ». Les dix sont défendables. Aucune n'est canonique.
+
+### La distinction ouverte/fermée
+
+Un design system **ouvert** définit des principes : couleurs de marque, typographie, grille. Il laisse les équipes composer librement à partir de ces primitives. C'est flexible. C'est aussi la porte ouverte à l'invention permanente.
+
+Un design system **fermé** définit un catalogue fini de composants enregistrés. Si un composant n'est pas dans le catalogue, il n'existe pas. Si vous avez besoin d'un nouveau composant, vous l'ajoutez au catalogue — avec une décision explicite, un nom officiel, une documentation.
+
+La différence est radicale en contexte IA. Avec un système ouvert, vous devez expliquer à chaque prompt quels composants utiliser. Avec un système fermé, le modèle n'a aucune raison d'inventer : le catalogue est exhaustif, typé, et toute sortie hors catalogue est une erreur détectable.
+
+### Comment fermer un design system
+
+La fermeture n'est pas une restriction arbitraire. C'est une discipline d'ingénierie.
+
+**Étape 1 — L'inventaire strict.** Listez tous les composants qui existent réellement dans votre codebase, pas ceux qui devraient exister. Si vous en trouvez vingt-trois variantes de badge, c'est votre point de départ. Fusionnez jusqu'à obtenir un seul composant canonique avec les bonnes props.
+
+**Étape 2 — Le catalogue formel.** Créez un registre — un fichier TypeScript, une entrée Zod, un story Storybook — pour chaque composant canonique. Le nom, les props acceptées, les variantes permises. Ce fichier est la source de vérité.
+
+**Étape 3 — La validation à la compilation.** Tout composant non enregistré dans le catalogue doit déclencher une erreur TypeScript ou une alerte de lint. Pas un warning. Une erreur. Si l'IA génère `<PremiumBadge />` et que ce composant n'est pas dans le registre, le build échoue. Le développeur reçoit un message clair : ce composant n'existe pas, voici les alternatives disponibles.
+
+**Étape 4 — Le prompt fermé.** Quand vous utilisez l'IA pour générer des interfaces, incluez le catalogue dans le contexte. Littéralement : collez la liste des composants disponibles dans le prompt système. Le modèle ne peut pas inventer ce qu'il n'a jamais vu — mais il peut respecter les contraintes qu'on lui donne explicitement.
+
+### Ce que ça change en pratique
+
+Chez Waimia, le système composable V2 repose sur dix-neuf sections enregistrées dans un catalogue fermé. Chaque section a un identifiant unique, un schéma Zod validé, un composant React correspondant. Le `SectionsRenderer` refuse silencieusement les sections non enregistrées en développement et lève une erreur visible.
+
+Le résultat concret : quand nous demandons à un modèle de générer du contenu pour une nouvelle page, il doit choisir parmi dix-neuf options. Pas inventer. Choisir. La sortie est prévisible. La revue de code devient triviale — soit la section existe dans le catalogue, soit elle n'existe pas.
+
+### La distinction clé
+
+Un design system fermé ne bride pas la créativité. Il déplace son terrain d'application. La créativité s'exprime dans le contenu de chaque section, dans la séquence narrative des pages, dans la combinaison des sections disponibles. Elle ne s'exprime pas dans l'invention de nouveaux composants à chaque besoin — c'est là que l'IA hallucine.
+
+**Pioche, n'invente pas.** C'est une contrainte qui libère : quand l'espace de possibilités est fini et explicite, le modèle produit des sorties cohérentes. Quand il est infini et implicite, le modèle invente — et vous passez du temps à nettoyer.
+
+---
+
+## Pick, don't invent — a closed design system against AI hallucinations
+
+Your AI model generates interface code. It produces a `<PremiumBadge />` component that exists nowhere in your codebase. The engineer reviewing the PR doesn't recognize it, assumes it came from another branch, merges. Six months later, you have twenty-three badge variants that share no style, no props, no color logic.
+
+This isn't an AI problem. It's a problem of an excessively open solution space.
+
+### Why models invent
+
+A language model generates code by extrapolating from its entire training set. If you ask it to "create a premium status badge," it has no intrinsic reason to draw from *your* catalog. It will produce what seems most likely — a generic React component, a plausible name, reasonable props. All of it will work. None of it will be consistent with your existing system.
+
+The problem compounds at scale. Ten developers using AI to speed up their work produce ten different interpretations of "status badge." All ten are defensible. None is canonical.
+
+### The open/closed distinction
+
+An **open** design system defines principles: brand colors, typography, grid. It lets teams compose freely from these primitives. This is flexible. It's also the door to permanent invention.
+
+A **closed** design system defines a finite catalog of registered components. If a component isn't in the catalog, it doesn't exist. If you need a new component, you add it to the catalog — with an explicit decision, an official name, documentation.
+
+The difference is radical in an AI context. With an open system, you must explain in every prompt which components to use. With a closed system, the model has no reason to invent: the catalog is exhaustive, typed, and any output outside the catalog is a detectable error.
+
+### How to close a design system
+
+Closure isn't an arbitrary restriction. It's an engineering discipline.
+
+**Step 1 — Strict inventory.** List every component that actually exists in your codebase, not the ones that should exist. If you find twenty-three badge variants, that's your starting point. Merge down to a single canonical component with the right props.
+
+**Step 2 — Formal catalog.** Create a registry — a TypeScript file, a Zod entry, a Storybook story — for each canonical component. The name, accepted props, permitted variants. This file is the source of truth.
+
+**Step 3 — Compile-time validation.** Any component not registered in the catalog must trigger a TypeScript error or a lint alert. Not a warning. An error. If the AI generates `<PremiumBadge />` and that component isn't in the registry, the build fails. The developer receives a clear message: this component doesn't exist, here are the available alternatives.
+
+**Step 4 — The closed prompt.** When you use AI to generate interfaces, include the catalog in context. Literally: paste the list of available components into the system prompt. The model can't invent what it's never seen — but it can respect constraints given explicitly.
+
+### What this changes in practice
+
+At Waimia, the composable V2 system runs on nineteen sections registered in a closed catalog. Each section has a unique identifier, a validated Zod schema, a corresponding React component. The `SectionsRenderer` silently rejects unregistered sections in development and raises a visible error.
+
+The concrete result: when we ask a model to generate content for a new page, it must choose from nineteen options. Not invent. Choose. The output is predictable. Code review becomes trivial — either the section exists in the catalog, or it doesn't.
+
+### The key distinction
+
+A closed design system doesn't constrain creativity. It relocates its domain of application. Creativity expresses itself in the content of each section, in the narrative sequence of pages, in the combination of available sections. It doesn't express itself in inventing new components for every need — that's where AI hallucinates.
+
+**Pick, don't invent.** It's a constraint that liberates: when the solution space is finite and explicit, the model produces consistent outputs. When it's infinite and implicit, the model invents — and you spend time cleaning up.

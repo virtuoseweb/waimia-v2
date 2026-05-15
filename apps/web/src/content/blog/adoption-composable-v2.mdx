@@ -1,0 +1,123 @@
+---
+title_fr: "Adopter le composable V2 sans casser sa prod"
+title_en: "Adopting composable V2 without breaking prod"
+description_fr: "Migration composable V2 : comment passer à une architecture data-driven par sections sans interrompre la production ni accumuler la dette."
+description_en: "Composable V2 migration: how to shift to a data-driven sections architecture without downtime or hidden debt."
+slug: adoption-composable-v2
+publishedAt: 2026-05-15
+editorialType: "Essay"
+type: essai
+author: simon-beros
+category: pilotage
+tags:
+  - composable
+  - architecture
+  - waimia-doctrine
+readingTime: 7
+relatedSolutions: []
+relatedOffres: []
+relatedCases: []
+relatedPosts: []
+---
+
+## Adopter le composable V2 sans casser sa prod
+
+Deux mots qui font peur aux équipes techniques : « refonte architecturale ». Et deux mots qui font encore plus peur aux dirigeants : « sans interruption ». En combiné, ça donne généralement un projet qui dure dix-huit mois, change de scope trois fois et livre à la fin quelque chose qui ressemble à l'ancien système mais avec plus de dettes.
+
+Le composable V2, tel que nous l'appliquons chez Waimia, propose une alternative. Pas une réécriture. Une migration par couches, validée étape par étape, avec un critère d'arrêt simple : est-ce que la page en production continue de s'afficher ?
+
+### Ce que « composable V2 » veut dire concrètement
+
+L'architecture composable V2 repose sur une séparation nette entre trois niveaux :
+
+**Le contenu** vit dans des fichiers MDX structurés. Chaque page ou section est décrite par des données — titre, corps, métriques, appels à l'action — sans aucune logique de rendu.
+
+**Le schéma** est un contrat Zod strict. Il valide la forme des données avant même que le moteur de rendu ne les touche. Un champ manquant ou mal typé est détecté à la compilation, pas en production à 23 h.
+
+**Le renderer** est un composant générique — `SectionsRenderer` dans notre stack — qui lit le tableau de sections et délègue à chaque composant enregistré dans un catalogue fermé.
+
+Le résultat : une page est une liste de sections. Une section est une entrée dans un catalogue. Le catalogue est fini, typé, validé. L'IA peut générer du contenu pour ce système sans inventer de composants qui n'existent pas.
+
+### Pourquoi la migration directe ne fonctionne pas
+
+La tentation est de réécrire d'un coup : on migre toutes les pages vers le nouveau format, on supprime les anciens templates, on déploie. C'est propre sur le papier. En pratique, ça crée une période pendant laquelle rien ne fonctionne vraiment — ni l'ancien système (déjà démonté), ni le nouveau (pas encore stabilisé).
+
+Nous avons testé cette approche une fois. Le résultat : trois semaines de freeze fonctionnel, une dette de contenu migré à moitié, et des templates hybrides qui ne respectaient ni l'ancien ni le nouveau schéma.
+
+### La méthode Waimia : migration par couche, dual-mode temporaire
+
+La migration composable V2 se fait en quatre phases qui peuvent coexister en production.
+
+**Phase 1 — Catalogue minimal** : on commence par décrire les 5 à 8 sections les plus fréquentes de votre site dans le nouveau format. Pas toutes les pages. Juste les briques qui reviennent partout (Hero, Métriques, CTA, FAQ). On les enregistre dans le catalogue, on écrit les composants correspondants, on valide le schéma.
+
+**Phase 2 — Première page pilote** : on choisit une page peu critique (une page solution, pas la homepage) et on la migre complètement vers le format sections MDX. Le renderer existant continue de fonctionner pour les autres pages. Aucun visiteur ne voit la différence. Nous, nous voyons si le schéma tient.
+
+**Phase 3 — Expansion progressive** : page par page, on migre. La règle est simple : une page n'est migrée que si le schéma valide sans erreur et si le rendu visuel est identique à l'original. On ne migre pas pour migrer — on migre parce que la page est prête.
+
+**Phase 4 — Coupure propre** : une fois que 90 % des pages tournent en composable V2, on supprime les anciens templates. Pas avant.
+
+### Les deux erreurs à éviter absolument
+
+**Erreur 1 : migrer le contenu avant de stabiliser le schéma.** Si votre schéma change pendant la migration, vous allez réécrire le contenu deux fois. Figez d'abord le contrat Zod, migrez ensuite.
+
+**Erreur 2 : laisser des sections non enregistrées dans le renderer.** Chaque section qui existe dans un fichier MDX doit avoir un composant enregistré dans le catalogue. Un identifiant manquant ne doit pas silencieusement produire un rendu vide — il doit lever une erreur visible en développement.
+
+### Le critère de réussite
+
+À la fin de chaque phase, une seule question : est-ce que `astro check` passe sans erreur ? Est-ce que les pages migrées s'affichent correctement en staging ?
+
+Si oui : on avance. Si non : on ne déploie pas et on corrige dans la phase courante.
+
+Le composable V2 n'est pas une destination. C'est une discipline de migration. Ce qui le rend viable, c'est précisément qu'on ne déplace jamais le curseur plus loin que ce que le schéma garantit.
+
+---
+
+## Adopting composable V2 without breaking prod
+
+Two words that frighten engineering teams: "architectural overhaul." And two words that frighten business owners even more: "without downtime." Combined, this usually produces a project that runs eighteen months, changes scope three times, and delivers something that looks like the old system with more debt attached.
+
+Composable V2, as we practice it at Waimia, proposes a different path. Not a rewrite. A layered migration, validated step by step, with a simple stopping criterion: does the page in production still render correctly?
+
+### What "composable V2" actually means
+
+Composable V2 architecture rests on a clean separation between three levels:
+
+**Content** lives in structured MDX files. Each page or section is described by data — title, body, metrics, calls to action — with zero rendering logic embedded.
+
+**The schema** is a strict Zod contract. It validates data shape before the rendering engine ever touches it. A missing field or wrong type is caught at compile time, not in production at 11 PM.
+
+**The renderer** is a generic component — `SectionsRenderer` in our stack — that reads the sections array and delegates to each component registered in a closed catalog.
+
+The result: a page is a list of sections. A section is an entry in a catalog. The catalog is finite, typed, and validated. An AI can generate content for this system without inventing components that don't exist.
+
+### Why a direct migration doesn't work
+
+The temptation is to rewrite everything at once: migrate all pages to the new format, delete old templates, deploy. Clean on paper. In practice, it creates a window where nothing works correctly — the old system is already dismantled, the new one isn't stable yet.
+
+We tried this once. The result: three weeks of functional freeze, half-migrated content debt, and hybrid templates that respected neither the old nor the new schema.
+
+### The Waimia method: layered migration, temporary dual-mode
+
+The composable V2 migration runs in four phases that can coexist in production.
+
+**Phase 1 — Minimal catalog**: start by describing the five to eight most frequent sections on your site in the new format. Not all pages. Just the building blocks that appear everywhere (Hero, Metrics, CTA, FAQ). Register them in the catalog, write the corresponding components, validate the schema.
+
+**Phase 2 — First pilot page**: choose a low-stakes page (a solution page, not the homepage) and migrate it fully to the sections MDX format. The existing renderer continues to work for all other pages. No visitor sees a difference. You see whether the schema holds.
+
+**Phase 3 — Progressive expansion**: page by page, you migrate. The rule is simple: a page is migrated only when the schema validates without errors and the visual render is identical to the original. You don't migrate for the sake of migrating — you migrate because the page is ready.
+
+**Phase 4 — Clean cutover**: once 90% of pages run on composable V2, you remove the old templates. Not before.
+
+### Two mistakes to avoid
+
+**Mistake 1: migrating content before stabilizing the schema.** If your schema changes mid-migration, you'll rewrite content twice. Freeze the Zod contract first, then migrate.
+
+**Mistake 2: leaving unregistered sections in the renderer.** Every section that exists in an MDX file must have a component registered in the catalog. A missing identifier must not silently produce an empty render — it must throw a visible error in development.
+
+### The success criterion
+
+At the end of each phase, one question: does `astro check` pass without errors? Do migrated pages render correctly in staging?
+
+Yes: move forward. No: don't deploy, fix within the current phase.
+
+Composable V2 isn't a destination. It's a migration discipline. What makes it viable is precisely that you never move the cursor further than what the schema guarantees.
