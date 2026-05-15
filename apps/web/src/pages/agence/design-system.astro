@@ -32,6 +32,11 @@ import SectionHeader from '../../components/ui/molecules/SectionHeader.astro';
 import StatRow from '../../components/ui/molecules/StatRow.astro';
 import TechPillRow from '../../components/ui/molecules/TechPillRow.astro';
 import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
+
+// Sections W6 composable V2 — showcase live §6
+import MethodTimeline from '../../components/sections/MethodTimeline.astro';
+import FaqAccordion from '../../components/sections/FaqAccordion.astro';
+import CtaFinal from '../../components/sections/CtaFinal.astro';
 ---
 
 <Base
@@ -617,6 +622,65 @@ import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
             (5 sections inline pour démo end-to-end)
           </p>
         </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Showcase live · 3 sections les plus utilisées</h3>
+          <p class="ds-help">Démos avec mock data. Pattern d'usage in-page.</p>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>MethodTimeline · type "method-timeline"</Kicker>
+            <div class="ds-section-demo-frame">
+              <MethodTimeline data={{
+                type: 'method-timeline',
+                kicker_fr: 'Méthode · 4 étapes',
+                kicker_en: 'Method · 4 steps',
+                h2_fr: 'Le <i>processus</i> en quatre temps',
+                h2_en: 'The <i>process</i> in four steps',
+                lede_fr: 'De l\'audit initial au déploiement, chaque étape produit un livrable mesurable.',
+                lede_en: 'From initial audit to deployment, each step ships a measurable artifact.',
+                steps: [
+                  { num: '01', label_fr: 'Audit', label_en: 'Audit', body_fr: 'Cartographie stack, données, équipe, frictions.', body_en: 'Map stack, data, team, frictions.' },
+                  { num: '02', label_fr: 'Diagnostic', label_en: 'Diagnostic', body_fr: 'Priorisation des chantiers par ROI mesurable.', body_en: 'Prioritization by measurable ROI.' },
+                  { num: '03', label_fr: 'Pilote', label_en: 'Pilot', body_fr: 'Premier workflow en production sous 5 jours.', body_en: 'First workflow in production in 5 days.' },
+                  { num: '04', label_fr: 'Industrialisation', label_en: 'Industrialization', body_fr: 'Extension à 6-10 semaines après mesure.', body_en: 'Extension over 6-10 weeks after measurement.' },
+                ],
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>FaqAccordion · type "faq-accordion"</Kicker>
+            <div class="ds-section-demo-frame">
+              <FaqAccordion data={{
+                type: 'faq-accordion',
+                kicker_fr: 'FAQ · 3 questions',
+                kicker_en: 'FAQ · 3 questions',
+                h2_fr: 'Questions <i>fréquentes</i>',
+                h2_en: '<i>Frequent</i> questions',
+                items: [
+                  { q_fr: 'Combien de temps prend un projet ?', q_en: 'How long does a project take?', a_fr: 'AI Activation · 1 semaine. Growth System · 6 à 10 semaines.', a_en: 'AI Activation · 1 week. Growth System · 6 to 10 weeks.' },
+                  { q_fr: 'Quels sont vos tarifs ?', q_en: 'What are your rates?', a_fr: 'AI Activation à partir de 1 500€. Growth System à partir de 5 000€.', a_en: 'AI Activation starts at €1,500. Growth System starts at €5,000.' },
+                  { q_fr: 'Compatible avec notre stack actuelle ?', q_en: 'Compatible with our current stack?', a_fr: 'Oui — HubSpot, Salesforce, Notion, Excel, GA4, etc.', a_en: 'Yes — HubSpot, Salesforce, Notion, Excel, GA4, etc.' },
+                ],
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>CtaFinal · type "cta-final" (bg paper)</Kicker>
+            <div class="ds-section-demo-frame">
+              <CtaFinal data={{
+                type: 'cta-final',
+                h2_fr: 'Prêt à <i>câbler</i> votre système ?',
+                h2_en: 'Ready to <i>wire</i> your system?',
+                body_fr: 'Audit en 5 jours. Premier workflow en production sous 1 semaine.',
+                body_en: 'Audit in 5 days. First workflow in production in 1 week.',
+                cta_primary: { label_fr: 'Réserver un audit →', label_en: 'Book an audit →', href: '/contact', variant: 'primary' },
+                background: 'paper',
+              }} lang="fr" />
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ───────────── 7. EDITORIAL ───────────── */}
@@ -1036,6 +1100,30 @@ import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
     background: transparent;
     color: var(--ink);
     margin-right: 8px;
+  }
+
+  /* ─── SECTION DEMOS ─── */
+  .ds-section-demo {
+    margin: 32px 0;
+    padding: 0;
+  }
+  .ds-section-demo > :global(.u-kicker) { margin-bottom: 12px; display: block; }
+  .ds-section-demo-frame {
+    border: 1px dashed var(--hairline-strong);
+    background: var(--paper);
+    position: relative;
+    isolation: isolate;
+  }
+  .ds-section-demo-frame::before {
+    content: 'DEMO';
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: var(--muted-2);
+    z-index: 2;
   }
 
   /* ─── CODE BLOCK ─── */
