@@ -1,0 +1,18 @@
+---
+export const prerender = true;
+import { getCollection } from 'astro:content';
+import CourseDetailTemplate from '../../../components/templates/CourseDetailTemplate.astro';
+import { langFromPath } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('courses');
+  return entries.map((entry) => ({
+    params: { type: entry.data.course_type, slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const lang = langFromPath(Astro.url.pathname);
+---
+<CourseDetailTemplate entry={entry} lang={lang} />

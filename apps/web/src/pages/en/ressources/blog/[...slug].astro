@@ -1,0 +1,125 @@
+---
+export const prerender = true;
+
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import EssayTemplate from '../../../../components/templates/EssayTemplate.astro';
+import AuthorByline from '../../../../components/ui/molecules/AuthorByline.astro';
+import { computeReadingTime } from '../../../../lib/seo/reading-time';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('blog');
+  return entries
+    .filter((entry) => !entry.data.seo?.noindex)
+    .map((entry) => ({
+      params: { slug: entry.id },
+      props: { entry },
+    }));
+}
+
+type Props = { entry: CollectionEntry<'blog'> };
+
+const slugifyAuthorName = (name: string) =>
+  name.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+const getAuthorSlug = (author: unknown): string | undefined => {
+  if (!author) return undefined;
+  if (typeof author === 'string') return author;
+  if (typeof author !== 'object') return undefined;
+
+  const ref = author as { id?: unknown; slug?: unknown; url?: unknown; name?: unknown };
+  if (typeof ref.id === 'string') return ref.id;
+  if (typeof ref.slug === 'string') return ref.slug;
+  if (typeof ref.url === 'string') return ref.url.split('/').filter(Boolean).at(-1);
+  if (typeof ref.name === 'string') return slugifyAuthorName(ref.name);
+  return undefined;
+};
+
+const getAuthorLabel = (author: unknown): string | undefined => {
+  if (!author) return undefined;
+  if (typeof author === 'string') return author.split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+  if (typeof author !== 'object') return undefined;
+
+  const ref = author as { name?: unknown; id?: unknown; slug?: unknown };
+  if (typeof ref.name === 'string') return ref.name;
+  if (typeof ref.id === 'string') return getAuthorLabel(ref.id);
+  if (typeof ref.slug === 'string') return getAuthorLabel(ref.slug);
+  return undefined;
+};
+
+const { entry } = Astro.props as Props;
+const { Content, headings } = await render(entry);
+const d = entry.data;
+
+const dateStr = d.publishedAt.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+const authorSlug = getAuthorSlug(d.author);
+const authorLabel = getAuthorLabel(d.author) ?? 'Waimia';
+const computedMinutes = d.readingTime ?? computeReadingTime(entry.body ?? '');
+const readingTime = `${computedMinutes} min read`;
+
+const allBlog = await getCollection('blog');
+const allCases = await getCollection('cases');
+const allOffres = await getCollection('offres');
+
+const relatedCasesData = (d.relatedCases ?? [])
+  .map((id) => allCases.find((c) => c.id === id))
+  .filter(Boolean)
+  .map((c) => ({
+    id: c!.id,
+    title: c!.data.title_en ?? c!.data.title_fr,
+    href: `/en/cas/${c!.id}`,
+  }));
+
+const relatedOffresData = (d.relatedOffres ?? [])
+  .map((id) => allOffres.find((o) => o.id === id))
+  .filter(Boolean)
+  .map((o) => ({
+    id: o!.id,
+    title: o!.data.title_en ?? o!.data.title_fr,
+    href: `/en/offres/${o!.id}`,
+  }));
+
+const relatedCards = d.relatedPosts.length > 0
+  ? d.relatedPosts
+      .map((id) => allBlog.find((b) => b.id === id))
+      .filter(Boolean)
+      .map((c) => ({
+        kicker: `§ Blog · ${c!.data.category}`,
+        title_fr: c!.data.title_fr,
+        title_en: c!.data.title_en,
+        lead_fr: c!.data.description_fr,
+        lead_en: c!.data.description_en,
+        href: `/en/ressources/blog/${c!.id}`,
+      }))
+  : [];
+---
+<EssayTemplate
+  title={`${d.title_en ?? d.title_fr} · Waimia Blog`}
+  description={d.description_en ?? d.description_fr}
+  kicker={`§ Blog · ${d.category}`}
+  date={dateStr}
+  datePublished={d.publishedAt.toISOString().slice(0, 10)}
+  dateModified={d.updatedAt ? (d.updatedAt as Date).toISOString().slice(0, 10) : d.publishedAt.toISOString().slice(0, 10)}
+  author={authorLabel}
+  readingTime={readingTime}
+  relatedCards={relatedCards}
+  authorSlug={authorSlug}
+  sources={d.sources}
+  lang="en"
+  breadcrumbItems={[
+    { label: 'Home', href: '/en' },
+    { label: 'Blog', href: '/en/ressources/blog' },
+    { label: d.title_en ?? d.title_fr },
+  ]}
+  relatedCasesData={relatedCasesData}
+  relatedOffresData={relatedOffresData}
+  headings={headings}
+  cluster={d.cluster}
+  articleId={entry.id}
+>
+  <Fragment slot="headline">{d.title_en ?? d.title_fr}</Fragment>
+  <Fragment slot="lede">{d.description_en ?? d.description_fr}</Fragment>
+  <Fragment slot="body">
+    <AuthorByline authorSlug={authorSlug} date={d.publishedAt} readingTime={readingTime} />
+    <Content />
+  </Fragment>
+</EssayTemplate>

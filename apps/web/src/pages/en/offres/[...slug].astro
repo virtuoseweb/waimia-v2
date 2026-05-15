@@ -1,0 +1,71 @@
+---
+export const prerender = true;
+
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import OffresDetailTemplate from '../../../components/templates/OffresDetailTemplate.astro';
+import SectionsRenderer from '../../../components/sections/SectionsRenderer.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('offres');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<'offres'> };
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
+const data = entry.data;
+const lang = 'en' as const;
+
+function formatHeroTitle(title: string): string {
+  const spaceIdx = title.indexOf(' ');
+  if (spaceIdx === -1) return title;
+  const first = title.slice(0, spaceIdx);
+  const rest = title.slice(spaceIdx + 1);
+  return `<i>${first}</i><br/>${rest}`;
+}
+
+const heroTitle = formatHeroTitle(data.tier_label_en ?? data.title_en);
+
+const useComposable = Array.isArray(data.sections) && data.sections.length > 0;
+---
+{useComposable ? (
+  <Base
+    title={data.title_en}
+    description={data.description_en}
+  >
+    <SectionsRenderer sections={data.sections!} lang={lang} />
+  </Base>
+) : (
+<OffresDetailTemplate
+  title={data.title_en}
+  description={data.description_en}
+  tier={data.tier_en ?? ''}
+  tierLabel={data.tier_label_en ?? data.title_en}
+  meta={data.meta_en}
+  ctaHref={data.cta_href ?? '/en/contact'}
+  ctaLabel={data.cta_label_en ?? 'Talk to an expert →'}
+  method_steps={data.method_steps}
+  deliverable_items={data.deliverable_items}
+  proof={data.proof}
+  problem_annotations={data.problem_annotations}
+  lead_fr={data.lead_fr}
+  lead_en={data.lead_en}
+  problem_statement_fr={data.problem_statement_fr}
+  problem_statement_en={data.problem_statement_en}
+  method_aside_fr={data.method_aside_fr}
+  method_aside_en={data.method_aside_en}
+  deliverables_aside_fr={data.deliverables_aside_fr}
+  deliverables_aside_en={data.deliverables_aside_en}
+  cta_title_fr={data.cta_title_fr}
+  cta_title_en={data.cta_title_en}
+  cta_body_fr={data.cta_body_fr}
+  cta_body_en={data.cta_body_en}
+>
+  <Fragment slot="title" set:html={heroTitle} />
+  <Content />
+</OffresDetailTemplate>
+)}

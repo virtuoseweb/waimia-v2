@@ -1,0 +1,45 @@
+---
+export const prerender = true;
+
+import { getCollection, render } from 'astro:content';
+import SolutionsDetailTemplate from '../../../components/templates/SolutionsDetailTemplate.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('solutions');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+
+const lang = 'en' as const;
+const title = data.title_en;
+const description = data.description_en;
+---
+
+<SolutionsDetailTemplate
+  title={title}
+  description={description}
+  dept={data.dept_badge ?? ''}
+  deptLabel={data.dept_label ?? ''}
+  meta={data.meta_hero}
+  ctaHref={data.cta_href ?? '/en/contact'}
+  ctaLabel={data.cta_label_en ?? 'Talk to an expert →'}
+  pains={data.pains}
+  roi_metrics={data.roi_metrics}
+  stack={data.stack}
+  case_kicker={data.case_kicker}
+  case_body_fr={data.case_body_fr}
+  case_body_en={data.case_body_en}
+  case_cta_label_fr={data.case_cta_label_fr}
+  case_results={data.case_results}
+  cta_title_fr={data.cta_title_fr}
+  cta_body_fr={data.cta_body_fr}
+  lang={lang}
+>
+  <Content />
+</SolutionsDetailTemplate>

@@ -1,0 +1,185 @@
+---
+export const prerender = true;
+
+// Page SSG · /ressources/testimonials · Index témoignages (Tier 6.1)
+
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import Breadcrumb from '../../../components/ui/molecules/Breadcrumb.astro';
+import { langFromPath } from '../../../lib/i18n';
+
+const entries = await getCollection('testimonials');
+const lang = langFromPath(Astro.url.pathname);
+
+const featured = entries.filter((e) => e.data.featured);
+const others = entries.filter((e) => !e.data.featured);
+---
+<Base
+  title={lang === 'fr' ? "Témoignages · Clients Waimia · Cas IA câblée" : "Testimonials · Waimia clients · Wired AI cases"}
+  description={lang === 'fr' ? "Témoignages clients Waimia : COO, CTO, CFO sur les engagements activation IA et growth system. Sectors PME B2B, industrie, finance, tech, agence." : "Waimia client testimonials: COO, CTO, CFO on AI activation and growth system engagements. SMB sectors B2B, industry, finance, tech, agency."}
+>
+  <section class="testimonials-index">
+    <div class="wrap-wide">
+      <Breadcrumb
+        items={[
+          { href: '/ressources', label: lang === 'fr' ? 'Ressources' : 'Resources' },
+          { href: '/ressources/testimonials', label: lang === 'fr' ? 'Témoignages' : 'Testimonials', current: true },
+        ]}
+      />
+
+      <header class="testimonials-index__hd">
+        <Kicker tone="muted">§ {lang === 'fr' ? 'Témoignages clients' : 'Client testimonials'}</Kicker>
+        <h1 class="testimonials-index__h1">
+          {lang === 'fr' ? <>{entries.length} clients · <i>une seule</i> doctrine</> : <>{entries.length} clients · <i>one</i> doctrine</>}
+        </h1>
+        <p class="testimonials-index__lede">
+          {lang === 'fr'
+            ? "Mesure avant/après, pas de pitch automatisé. Voici ce qu'en disent les clients qui ont câblé l'IA avec nous."
+            : "Before/after measurement, no automated pitch. Here's what clients who wired AI with us say."}
+        </p>
+      </header>
+
+      {featured.length > 0 && (
+        <section class="testimonials-index__featured">
+          <h2 class="testimonials-index__cat">{lang === 'fr' ? 'Témoignages signature' : 'Featured testimonials'}</h2>
+          <ul class="testimonials-index__list testimonials-index__list--featured">
+            {featured.map((entry) => (
+              <li class="testimonials-index__item">
+                <blockquote class="testimonials-index__quote">
+                  « {lang === 'fr' ? entry.data.quote_fr : entry.data.quote_en} »
+                </blockquote>
+                <footer class="testimonials-index__footer">
+                  <strong>{entry.data.author}</strong>
+                  <span>{lang === 'fr' ? entry.data.role_fr : entry.data.role_en}</span>
+                  <span class="testimonials-index__company">· {entry.data.company}</span>
+                </footer>
+                {(lang === 'fr' ? entry.data.metrics_fr : entry.data.metrics_en).length > 0 && (
+                  <ul class="testimonials-index__metrics">
+                    {(lang === 'fr' ? entry.data.metrics_fr : entry.data.metrics_en).map((m: string) => <li>▸ {m}</li>)}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {others.length > 0 && (
+        <section class="testimonials-index__others">
+          <h2 class="testimonials-index__cat">{lang === 'fr' ? 'Autres témoignages' : 'Other testimonials'}</h2>
+          <ul class="testimonials-index__list">
+            {others.map((entry) => (
+              <li class="testimonials-index__item">
+                <blockquote class="testimonials-index__quote">
+                  « {lang === 'fr' ? entry.data.quote_fr : entry.data.quote_en} »
+                </blockquote>
+                <footer class="testimonials-index__footer">
+                  <strong>{entry.data.author}</strong>
+                  <span>{lang === 'fr' ? entry.data.role_fr : entry.data.role_en}</span>
+                  <span class="testimonials-index__company">· {entry.data.company}</span>
+                </footer>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .testimonials-index {
+    padding-top: calc(var(--spacing-section) + var(--header-height));
+    padding-bottom: var(--spacing-section);
+  }
+  .testimonials-index__hd {
+    margin-bottom: clamp(48px, 6vw, 80px);
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 32px;
+  }
+  .testimonials-index__h1 {
+    font-family: var(--font-display);
+    font-size: var(--text-h1-hero);
+    line-height: 1.02;
+    color: var(--ink);
+    margin: 24px 0 0;
+  }
+  .testimonials-index__h1 i { font-style: italic; color: var(--accent); }
+  .testimonials-index__lede {
+    font-family: var(--font-sans);
+    font-size: var(--text-lede);
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 24px 0 0;
+    max-width: 60ch;
+  }
+  .testimonials-index__cat {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 48px 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .testimonials-index__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .testimonials-index__list--featured { grid-template-columns: 1fr 1fr; }
+  .testimonials-index__item {
+    padding: 32px;
+    border: 1px solid var(--hairline);
+    background: var(--paper-2);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .testimonials-index__list--featured .testimonials-index__item {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .testimonials-index__quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 2vw, 28px);
+    line-height: 1.4;
+    margin: 0;
+  }
+  .testimonials-index__list--featured .testimonials-index__quote { color: var(--paper); }
+  .testimonials-index__footer {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    color: var(--muted);
+  }
+  .testimonials-index__list--featured .testimonials-index__footer { color: rgba(246, 241, 232, 0.7); }
+  .testimonials-index__footer strong { color: var(--ink); font-weight: 600; }
+  .testimonials-index__list--featured .testimonials-index__footer strong { color: var(--paper); }
+  .testimonials-index__company { font-style: italic; }
+  .testimonials-index__metrics {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 16px 0 0;
+    border-top: 1px solid rgba(246, 241, 232, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .testimonials-index__metrics li {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+  }
+  @media (max-width: 768px) {
+    .testimonials-index__list--featured { grid-template-columns: 1fr; }
+  }
+</style>

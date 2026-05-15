@@ -1,0 +1,89 @@
+---
+export const prerender = true;
+
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import CaseStudyTemplate from '../../../components/templates/CaseStudyTemplate.astro';
+import AuthorByline from '../../../components/ui/molecules/AuthorByline.astro';
+import AuthorCard from '../../../components/ui/molecules/AuthorCard.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('cases');
+  return entries
+    .filter((entry) => !entry.data.seo?.noindex)
+    .map((entry) => ({
+      params: { slug: entry.id },
+      props: { entry },
+    }));
+}
+
+type Props = { entry: CollectionEntry<'cases'> };
+
+const slugifyAuthorName = (name: string) =>
+  name.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+const getAuthorSlug = (author: unknown): string | undefined => {
+  if (!author) return undefined;
+  if (typeof author === 'string') return author;
+  if (typeof author !== 'object') return undefined;
+
+  const ref = author as { id?: unknown; slug?: unknown; url?: unknown; name?: unknown };
+  if (typeof ref.id === 'string') return ref.id;
+  if (typeof ref.slug === 'string') return ref.slug;
+  if (typeof ref.url === 'string') return ref.url.split('/').filter(Boolean).at(-1);
+  if (typeof ref.name === 'string') return slugifyAuthorName(ref.name);
+  return undefined;
+};
+
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
+const d = entry.data;
+const authorSlug = getAuthorSlug(d.author);
+
+const allCases = await getCollection('cases');
+const idx = allCases.findIndex((c) => c.id === entry.id);
+
+const specs = [
+  { label_fr: 'Client', label_en: 'Client', value: d.ndaProtected ? 'Confidential' : d.client },
+  { label_fr: 'Secteur', label_en: 'Sector', value: d.sector_en ?? d.sector_fr },
+  { label_fr: 'Durée', label_en: 'Duration', value: d.duration },
+  { label_fr: 'Stack', label_en: 'Stack', value: d.stack.slice(0, 3).join(' · ') },
+];
+
+const proofMetrics = (d.metrics ?? []).map((m) => ({ k: m.value, label_fr: m.label_fr, label_en: m.label_en }));
+
+const relatedCards = allCases
+  .filter((c) => c.id !== entry.id)
+  .slice(0, 3)
+  .map((c) => ({
+    kicker: `§ Case · ${c.data.sector_en ?? c.data.sector_fr}`,
+    title_fr: c.data.title_fr,
+    title_en: c.data.title_en,
+    lead_fr: c.data.impact_fr,
+    lead_en: c.data.impact_en,
+    href: `/en/cas/${c.id}`,
+  }));
+---
+<CaseStudyTemplate
+  title={`${d.title_en} · Waimia`}
+  description={d.description_en ?? d.description_fr}
+  caseNum={String(idx + 1).padStart(2, '0')}
+  specs={specs}
+  steps={[]}
+  proofQuoteFr={d.impact_fr}
+  proofQuoteEn={d.impact_en}
+  proofAttrFr={d.ndaProtected ? 'Confidentiel' : d.client}
+  proofAttrEn={d.ndaProtected ? 'Confidential' : d.client}
+  proofMetrics={proofMetrics}
+  techPills={d.stack.map((s) => ({ label: s, kind: 'primary' as const }))}
+  relatedCards={relatedCards}
+  lang="en"
+>
+  <Fragment slot="headline">{d.title_en}</Fragment>
+  <Fragment slot="context">
+    <AuthorByline authorSlug={authorSlug} date={d.publishedAt} />
+    <Content />
+    <AuthorCard authorSlug={authorSlug} variant="full" />
+  </Fragment>
+  <Fragment slot="approach-headline">What we built.</Fragment>
+  <Fragment slot="stack-lead">{d.impact_en}</Fragment>
+</CaseStudyTemplate>
