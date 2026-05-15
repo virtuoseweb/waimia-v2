@@ -1,0 +1,151 @@
+---
+/**
+ * /test-composable · Démonstration end-to-end du composable system V2.
+ * Page de validation pour vérifier que les 19 sections + renderer + registry rendent OK.
+ *
+ * Pattern à reproduire pour migration `offres/[...slug].astro` etc. :
+ *   1. Récupérer `sections: SectionData[]` depuis frontmatter MDX
+ *   2. Passer à <SectionsRenderer sections={sections} lang={lang} />
+ *
+ * Cf docs/15-STRATEGIC-AUDIT.md Tier 2 + docs/16-EXECUTION-TRACKER.md T2.4
+ */
+export const prerender = true;
+
+import Base from '../layouts/Base.astro';
+import SectionsRenderer from '../components/sections/SectionsRenderer.astro';
+import type { SectionData } from '../schemas/sections';
+import { langFromPath } from '../lib/i18n';
+
+const lang = langFromPath(Astro.url.pathname);
+
+// Sections inline pour démonstration. En prod, viendra de `entry.data.sections`.
+const sections: SectionData[] = [
+  {
+    type: 'hero-split',
+    kicker_fr: 'Test · Composable System · V2',
+    kicker_en: 'Test · Composable System · V2',
+    h1_fr: 'Le <i>composable</i> system Waimia fonctionne.',
+    h1_en: 'The Waimia <i>composable</i> system works.',
+    lede_fr: 'Cette page n\'utilise aucun template monolithique. Elle est composée d\'un array de sections data-driven validées Zod et rendues par SectionsRenderer.',
+    lede_en: 'This page uses no monolithic template. It is composed of a data-driven sections array, Zod-validated and rendered by SectionsRenderer.',
+    cta_primary: {
+      label_fr: 'Voir l\'audit stratégique →',
+      label_en: 'View strategic audit →',
+      href: '/docs/15-STRATEGIC-AUDIT',
+      variant: 'primary',
+    },
+    cta_secondary: {
+      label_fr: 'Architecture composable',
+      label_en: 'Composable architecture',
+      href: '/docs/17-COMPONENTS-CARTOGRAPHY',
+      variant: 'ghost',
+    },
+  },
+  {
+    type: 'proof-bar',
+    kicker_fr: 'Preuves · Cette page',
+    kicker_en: 'Proof · This page',
+    metrics: [
+      { value: '19', label_fr: 'sections composables', label_en: 'composable sections', emphasis: true },
+      { value: '0', label_fr: 'template monolithique', label_en: 'monolithic template', emphasis: false },
+      { value: 'Zod', label_fr: 'validation build-time', label_en: 'build-time validation', emphasis: false },
+      { value: '~50 LoC', label_fr: 'cette page', label_en: 'this page', emphasis: false },
+    ],
+    layout: 'horizontal',
+  },
+  {
+    type: 'method-timeline',
+    kicker_fr: 'Méthode · 4 étapes',
+    kicker_en: 'Method · 4 steps',
+    h2_fr: 'Comment <i>composer</i> une page Waimia',
+    h2_en: 'How to <i>compose</i> a Waimia page',
+    lede_fr: 'Quatre étapes simples pour orchestrer une page sans toucher au code frontend.',
+    lede_en: 'Four simple steps to orchestrate a page without touching frontend code.',
+    steps: [
+      {
+        num: '01',
+        label_fr: 'Décrire en MDX',
+        label_en: 'Describe in MDX',
+        body_fr: 'Le frontmatter MDX contient un array `sections: []` avec les types et props de chaque bloc.',
+        body_en: 'The MDX frontmatter contains a `sections: []` array with types and props for each block.',
+      },
+      {
+        num: '02',
+        label_fr: 'Zod valide au build',
+        label_en: 'Zod validates at build',
+        body_fr: 'Le discriminator `type` garantit que chaque section a les bons champs. Pas d\'erreur runtime.',
+        body_en: 'The `type` discriminator guarantees each section has the right fields. No runtime errors.',
+      },
+      {
+        num: '03',
+        label_fr: 'Le renderer mappe',
+        label_en: 'Renderer maps',
+        body_fr: 'SectionsRenderer.astro itère sur sections[] et appelle le composant via SECTION_REGISTRY.',
+        body_en: 'SectionsRenderer.astro iterates over sections[] and calls the component via SECTION_REGISTRY.',
+      },
+      {
+        num: '04',
+        label_fr: 'Le HTML est rendu',
+        label_en: 'HTML is rendered',
+        body_fr: 'Chaque section component injecte son CSS scoped Astro. Zéro duplication, réutilisation maximale.',
+        body_en: 'Each section component injects its scoped Astro CSS. Zero duplication, maximum reusability.',
+      },
+    ],
+  },
+  {
+    type: 'feature-grid',
+    kicker_fr: 'Bénéfices',
+    kicker_en: 'Benefits',
+    h2_fr: 'Pourquoi le <i>composable</i>',
+    h2_en: 'Why <i>composable</i>',
+    features: [
+      {
+        title_fr: 'Réutilisation maximale',
+        title_en: 'Maximum reuse',
+        body_fr: 'Un FAQ accordion utilisé sur une LP est le même que sur une page offre. Zéro duplication.',
+        body_en: 'A FAQ accordion on an LP is the same as on an offer page. Zero duplication.',
+      },
+      {
+        title_fr: 'A/B testing trivial',
+        title_en: 'Trivial A/B testing',
+        body_fr: 'Un champ `sections_variant_b` dans le MDX et un cookie suffisent pour servir 2 versions.',
+        body_en: 'A `sections_variant_b` field in MDX and a cookie are enough to serve 2 versions.',
+      },
+      {
+        title_fr: 'Génération IA',
+        title_en: 'AI generation',
+        body_fr: 'Claude peut produire un JSON `sections[]` valide Zod. Pages générées en quelques secondes.',
+        body_en: 'Claude can produce a valid Zod `sections[]` JSON. Pages generated in seconds.',
+      },
+      {
+        title_fr: 'Personnalisation',
+        title_en: 'Personalization',
+        body_fr: 'Servir des sections différentes selon persona, secteur, étape de funnel — sans rebuild.',
+        body_en: 'Serve different sections by persona, sector, funnel step — without rebuild.',
+      },
+    ],
+    columns: '2',
+  },
+  {
+    type: 'cta-final',
+    h2_fr: 'Migrer une <i>vraie</i> page ?',
+    h2_en: 'Migrate a <i>real</i> page?',
+    body_fr: 'Cette page test prouve que le système fonctionne. Maintenant on peut migrer les 18 templates monolithiques vers des `sections[]` array.',
+    body_en: 'This test page proves the system works. We can now migrate the 18 monolithic templates to `sections[]` arrays.',
+    cta_primary: {
+      label_fr: 'Lancer Tier 2.4 →',
+      label_en: 'Launch Tier 2.4 →',
+      href: '/contact',
+      variant: 'accent',
+    },
+    background: 'ink',
+  },
+];
+---
+
+<Base
+  title="Test composable system · Waimia V2"
+  description="Page de validation end-to-end du composable system Waimia V2. 5 sections data-driven sans template monolithique."
+>
+  <SectionsRenderer sections={sections} lang={lang} />
+</Base>

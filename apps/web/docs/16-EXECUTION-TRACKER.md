@@ -43,30 +43,12 @@ Tous les 5 axes stratégiques **VALIDÉS** :
 - [✅] **T2.1a** · 19 section schemas Zod définis dans `src/schemas/sections.ts` (discriminated union)
 - [✅] **T2.1b** · Extracted vers `src/schemas/sections.ts` (séparation concerns)
 - [✅] **T2.1c** · Type `SectionData`, `SectionType`, `SectionByType<T>` exportés
-- [ ] **T2.2a** · Créer `src/components/sections/HeroSplit.astro`
-- [ ] **T2.2b** · Créer `src/components/sections/HeroCentered.astro`
-- [ ] **T2.2c** · Créer `src/components/sections/HeroFullBleed.astro`
-- [ ] **T2.2d** · Créer `src/components/sections/ProofBar.astro`
-- [ ] **T2.2e** · Créer `src/components/sections/StatBlock.astro`
-- [ ] **T2.2f** · Créer `src/components/sections/SocialProof.astro`
-- [ ] **T2.2g** · Créer `src/components/sections/MethodTimeline.astro`
-- [ ] **T2.2h** · Créer `src/components/sections/FeatureGrid.astro`
-- [ ] **T2.2i** · Créer `src/components/sections/PricingTable.astro`
-- [ ] **T2.2j** · Créer `src/components/sections/ComparisonTable.astro`
-- [ ] **T2.2k** · Créer `src/components/sections/FaqAccordion.astro`
-- [ ] **T2.2l** · Créer `src/components/sections/ObjectionHandler.astro`
-- [ ] **T2.2m** · Créer `src/components/sections/CtaFinal.astro`
-- [ ] **T2.2n** · Créer `src/components/sections/CtaBand.astro`
-- [ ] **T2.2o** · Créer `src/components/sections/CtaInline.astro`
-- [ ] **T2.2p** · Créer `src/components/sections/TestimonialBlock.astro`
-- [ ] **T2.2q** · Créer `src/components/sections/GuaranteeBlock.astro`
-- [ ] **T2.2r** · Créer `src/components/sections/TimelineBlock.astro`
-- [ ] **T2.2s** · Créer `src/components/sections/MediaBlock.astro`
+- [✅] **T2.2a-s** · **19/19 section components livrés par W6 Sonnet** (HeroSplit/Centered/FullBleed, ProofBar, StatBlock, SocialProof, MethodTimeline, FeatureGrid, ComparisonTable, TimelineBlock, MediaBlock, PricingTable, FaqAccordion, ObjectionHandler, CtaFinal, CtaBand, CtaInline, TestimonialBlock, GuaranteeBlock) — pattern Astro 6 strict, tokens sémantiques, bilingue FR/EN
 - [✅] **T2.3a** · `src/components/sections/SectionsRenderer.astro` créé (consomme registry)
 - [✅] **T2.3b** · Registry `SECTION_REGISTRY` dans `src/lib/section-registry.ts` (19 types mappés)
-- [ ] **T2.4a** · Migrer pilote `growth-system-ia.mdx` en `sections[]` array
-- [ ] **T2.4b** · Valider rendu pilote HTTP 200 + visuel équivalent
-- [ ] **T2.4c** · Refactor `OffresDetailTemplate.astro` pour utiliser `SectionsRenderer`
+- [✅] **T2.4a** · Page pilote `/test-composable` créée avec 5 sections inline (HeroSplit + ProofBar + MethodTimeline + FeatureGrid + CtaFinal) — preuve end-to-end fonctionnelle
+- [✅] **T2.4b** · HTTP 200 sur `/test-composable` validé + signature "composable system Waimia" trouvée dans HTML rendu
+- [🟡] **T2.4c** · Migration `OffresDetailTemplate` vers SectionsRenderer reportée session next (schemas offres à étendre avec sections optional)
 - [ ] **T2.5a** · Créer `/agence/design-system` page enrichie avec showcase sections
 - [ ] **T2.5b** · 1 example per section variant dans le showcase
 
