@@ -1054,6 +1054,26 @@ const brandVoice = defineCollection({
   }),
 });
 
+// ─── Testimonials (Tier 6.1) · témoignages clients pour Conversion + Trust ───
+const testimonials = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/testimonials' }),
+  schema: z.object({
+    quote_fr: z.string(),
+    quote_en: z.string(),
+    author: z.string(),
+    role_fr: z.string(),
+    role_en: z.string(),
+    company: z.string(),
+    avatar: z.string().optional(),
+    sector: z.enum(['services-b2b', 'industrie', 'finance', 'tech', 'agence', 'autre']),
+    engagement_type: z.enum(['activation-1-semaine', 'growth-system', 'audit', 'conseil']),
+    publishedAt: z.coerce.date(),
+    featured: z.boolean().default(false),
+    metrics_fr: z.array(z.string()).default([]),
+    metrics_en: z.array(z.string()).default([]),
+  }),
+});
+
 // ─── Glossary (Tier 5.1) · termes IA/business pour SEO programmatique ───
 const glossary = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/glossary' }),
@@ -1109,4 +1129,5 @@ export const collections = {
   personas,
   brandVoice,
   glossary,
+  testimonials,
 };
