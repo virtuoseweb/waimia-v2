@@ -15,7 +15,7 @@ type AstroComponent = (...args: unknown[]) => unknown;
 import HeroSplit from '../components/sections/HeroSplit.astro';
 import HeroCentered from '../components/sections/HeroCentered.astro';
 import HeroFullBleed from '../components/sections/HeroFullBleed.astro';
-import ProofBar from '../components/sections/ProofBar.astro';
+import ProofBarSection from '../components/sections/ProofBarSection.astro';
 import StatBlock from '../components/sections/StatBlock.astro';
 import SocialProof from '../components/sections/SocialProof.astro';
 import MethodTimeline from '../components/sections/MethodTimeline.astro';
@@ -27,7 +27,7 @@ import PricingTable from '../components/sections/PricingTable.astro';
 import FaqAccordion from '../components/sections/FaqAccordion.astro';
 import ObjectionHandler from '../components/sections/ObjectionHandler.astro';
 import CtaFinal from '../components/sections/CtaFinal.astro';
-import CtaBand from '../components/sections/CtaBand.astro';
+import CtaBandSection from '../components/sections/CtaBandSection.astro';
 import CtaInline from '../components/sections/CtaInline.astro';
 import TestimonialBlock from '../components/sections/TestimonialBlock.astro';
 import GuaranteeBlock from '../components/sections/GuaranteeBlock.astro';
@@ -40,7 +40,7 @@ export const SECTION_REGISTRY: Record<SectionType, AstroComponent> = {
   'hero-split': HeroSplit,
   'hero-centered': HeroCentered,
   'hero-full-bleed': HeroFullBleed,
-  'proof-bar': ProofBar,
+  'proof-bar': ProofBarSection,
   'stat-block': StatBlock,
   'social-proof': SocialProof,
   'method-timeline': MethodTimeline,
@@ -52,7 +52,7 @@ export const SECTION_REGISTRY: Record<SectionType, AstroComponent> = {
   'faq-accordion': FaqAccordion,
   'objection-handler': ObjectionHandler,
   'cta-final': CtaFinal,
-  'cta-band': CtaBand,
+  'cta-band': CtaBandSection,
   'cta-inline': CtaInline,
   'testimonial-block': TestimonialBlock,
   'guarantee-block': GuaranteeBlock,
