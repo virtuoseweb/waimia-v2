@@ -6,7 +6,9 @@ export const prerender = true;
 // Pattern Astro 6 : prerender + getStaticPaths + render(entry) function-style.
 
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
 import OffresDetailTemplate from '../../components/templates/OffresDetailTemplate.astro';
+import SectionsRenderer from '../../components/sections/SectionsRenderer.astro';
 import { langFromPath } from '../../lib/i18n';
 
 export async function getStaticPaths() {
@@ -36,7 +38,19 @@ const heroTitle = formatHeroTitle(
     ? (data.tier_label_fr ?? data.title_fr)
     : (data.tier_label_en ?? data.title_en)
 );
+
+// D.7 · Adoption composable V2 (2026-05-15) — si frontmatter contient `sections`,
+// utiliser SectionsRenderer au lieu d'OffresDetailTemplate (compatibilité backward).
+const useComposable = Array.isArray(data.sections) && data.sections.length > 0;
 ---
+{useComposable ? (
+  <Base
+    title={lang === 'fr' ? data.title_fr : data.title_en}
+    description={lang === 'fr' ? data.description_fr : data.description_en}
+  >
+    <SectionsRenderer sections={data.sections!} lang={lang} />
+  </Base>
+) : (
 <OffresDetailTemplate
   title={lang === 'fr' ? data.title_fr : data.title_en}
   description={lang === 'fr' ? data.description_fr : data.description_en}
@@ -65,3 +79,4 @@ const heroTitle = formatHeroTitle(
   <Fragment slot="title" set:html={heroTitle} />
   <Content />
 </OffresDetailTemplate>
+)}

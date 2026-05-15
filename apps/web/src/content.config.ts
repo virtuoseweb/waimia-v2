@@ -4,6 +4,7 @@
 
 import { defineCollection, reference, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { sectionsArraySchema } from './schemas/sections';
 
 // ─── Mixin commun (SEO/GEO/AIO) ───
 const seoBlock = z
@@ -193,6 +194,9 @@ const offres = defineCollection({
       )
       .default([]),
     has_tunnel: z.boolean().default(false),
+    // Composable V2 (D.7) : sections data-driven optionnelles · cf docs/19-DESIGN-SYSTEM-CLOSED.md §B.7
+    // Si présent → /offres/[slug].astro utilise SectionsRenderer au lieu de OffresDetailTemplate
+    sections: sectionsArraySchema.optional(),
   }),
 });
 

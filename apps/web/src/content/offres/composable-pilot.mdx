@@ -1,0 +1,89 @@
+---
+title_fr: "Composable Pilot · POC adoption V2 · Waimia"
+title_en: "Composable Pilot · V2 adoption POC · Waimia"
+description_fr: "Premier MDX offre consommé via SectionsRenderer au lieu d'OffresDetailTemplate. POC adoption composable V2."
+description_en: "First MDX offer rendered via SectionsRenderer instead of OffresDetailTemplate. Composable V2 adoption POC."
+slug: "composable-pilot"
+publishedAt: 2026-05-15
+category: "acquisition"
+tags: ["composable-v2", "demo"]
+
+sections:
+  - type: "hero-split"
+    kicker_fr: "§ POC · Composable V2"
+    kicker_en: "§ POC · Composable V2"
+    h1_fr: "Première offre <i>composable</i>"
+    h1_en: "First <i>composable</i> offer"
+    lede_fr: "Cette page utilise SectionsRenderer · 0 ligne de HTML hardcoded. Tout vient du frontmatter MDX."
+    lede_en: "This page uses SectionsRenderer · 0 line of hardcoded HTML. Everything comes from MDX frontmatter."
+    cta_primary:
+      label_fr: "Lire la doc →"
+      label_en: "Read the docs →"
+      href: "/agence/design-system"
+      variant: "primary"
+    cta_secondary:
+      label_fr: "Voir l'audit"
+      label_en: "View audit"
+      href: "/docs/18-DESIGN-SYSTEM-CARTOGRAPHY"
+      variant: "ghost"
+
+  - type: "proof-bar"
+    kicker_fr: "Métriques POC"
+    kicker_en: "POC metrics"
+    metrics:
+      - value: "19"
+        label_fr: "sections W6 disponibles"
+        label_en: "W6 sections available"
+        emphasis: true
+      - value: "0"
+        label_fr: "ligne HTML hardcodée"
+        label_en: "hardcoded HTML lines"
+        emphasis: false
+      - value: "Zod"
+        label_fr: "validation build-time"
+        label_en: "build-time validation"
+        emphasis: false
+      - value: "~30"
+        label_fr: "lignes MDX frontmatter"
+        label_en: "MDX frontmatter lines"
+        emphasis: false
+    layout: "horizontal"
+
+  - type: "method-timeline"
+    kicker_fr: "Méthode · 3 étapes"
+    kicker_en: "Method · 3 steps"
+    h2_fr: "Comment <i>composer</i> une offre"
+    h2_en: "How to <i>compose</i> an offer"
+    lede_fr: "Trois étapes simples pour ajouter une offre sans toucher au code."
+    lede_en: "Three simple steps to add an offer without touching the code."
+    steps:
+      - num: "01"
+        label_fr: "Décrire en MDX frontmatter"
+        label_en: "Describe in MDX frontmatter"
+        body_fr: "Ajouter un array `sections: [...]` dans le frontmatter avec les types et props W6."
+        body_en: "Add a `sections: [...]` array in frontmatter with W6 types and props."
+      - num: "02"
+        label_fr: "Zod valide au build"
+        label_en: "Zod validates at build"
+        body_fr: "Discriminated union garantit que chaque section a les bons champs. Zéro erreur runtime."
+        body_en: "Discriminated union guarantees each section has the right fields. Zero runtime errors."
+      - num: "03"
+        label_fr: "SectionsRenderer rend"
+        label_en: "SectionsRenderer maps"
+        body_fr: "La route /offres/[slug] détecte sections et bypasse OffresDetailTemplate."
+        body_en: "Route /offres/[slug] detects sections and bypasses OffresDetailTemplate."
+
+  - type: "cta-final"
+    h2_fr: "Adopter <i>composable</i> pour vos prochaines offres ?"
+    h2_en: "Adopt <i>composable</i> for your next offers?"
+    body_fr: "Cette page prouve que le système fonctionne. Toutes les nouvelles offres peuvent passer en composable."
+    body_en: "This page proves the system works. All new offers can switch to composable."
+    cta_primary:
+      label_fr: "Voir le catalogue →"
+      label_en: "View catalogue →"
+      href: "/agence/design-system"
+      variant: "primary"
+    background: "paper"
+---
+
+Page POC composable V2 — premier MDX offre rendu via SectionsRenderer.
