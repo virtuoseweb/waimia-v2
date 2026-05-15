@@ -34,8 +34,8 @@ Tous les 5 axes stratégiques **VALIDÉS** :
 - [🟡] **T1.5a** · Fonts audit fait : Google Fonts CDN + preconnect + preload as="style" + display=swap. Acceptable mais sub-optimal.
 - [ ] **T1.5b** · Self-host Instrument Serif 400 woff2 + preload critical (à faire session next, ~2h)
 - [ ] **T1.5c** · Drop CDN Google Fonts pour Inter Tight + JetBrains Mono (passer self-hosted woff2)
-- [ ] **T1.6a** · Vercel OG endpoint `/api/og.png` créé
-- [ ] **T1.6b** · OG image dynamique sur 4 templates principaux (Hero, Offres, Solutions, Cases)
+- [✅] **T1.6a** · Vercel OG endpoint `/api/og.png` créé (commit `6b31564`, Worker Sonnet) · SVG-raw fallback (@vercel/og non installé) · query params title/kicker/author · Cache-Control immutable
+- [ ] **T1.6b** · OG image dynamique sur 4 templates principaux (Hero, Offres, Solutions, Cases) · suite à T1.6a
 - [ ] **T1.7** · Astro `<Image>` audit + migration images statiques restantes vers `astro:assets`
 
 ### TIER 2 · Composable architecture (31h) — DÉBLOQUE TOUT LE RESTE
@@ -177,7 +177,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [ ] **T9.4** · 40-50 field notes (×300-500 mots) — pipeline éditorial Simon
 - [🟡] **T9.5** · 2/4 cas narrés enrichis (commits `2e00f81` + `abdafad`, Worker Sonnet) · plateau.mdx (+48 lignes) · halcyon.mdx (créé 85 lignes) · reste northbound + caserne
 - [ ] **T9.6** · 2 livres blancs (AI Act readiness migré + Growth System Playbook nouveau)
-- [ ] **T9.7** · 16 tunnels MDX restants (4 × 4 offres : growth-system, activation-ia, revops, application-ia-pme)
+- [🟡] **T9.7** · 4/16 tunnels MDX livrés (commit `6b31564`, Worker Sonnet) · growth-system-{1-4} · reste 12 (activation-ia + revops + application-ia-pme × 4)
 - [ ] **T9.8** · 6 produits MDX (audit-guide, kit-prompts, livre-blanc-premium, masterclass-replay, workbook, starter-pack)
 - [ ] **T9.9** · 6 abonnements MDX (hosting Vercel, maintenance, monitoring, content production, CRM, support premium)
 - [ ] **T9.10** · 8 entrées école : 5 formations + 2 parcours + 1 atelier (3/5 formations déjà livrées)
@@ -193,13 +193,14 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [ ] **T10.7** · `IndustryIconograms.astro` (4 secteurs)
 - [ ] **T10.8** · `TechStackDiagram.astro`
 - [ ] **T10.9** · `LeadFunnelDiagram.astro`
-- [ ] **T10.10** · `KPIBarChart.astro` (data-driven paramétrable)
-- [ ] **T10.11** · `MaturityScale.astro`
-- [ ] **T10.12** · `EditorialHairlineSet.astro` (dingbats library)
+- [✅] **T10.10** · `KPIBarChart.astro` créé (commit `abdafad`, Worker T10 batch2)
+- [✅] **T10.11** · `MaturityScale.astro` créé (commit `abdafad`, Worker T10 batch2)
+- [✅] **T10.12** · `EditorialHairlineSet.astro` créé (commit `abdafad`, Worker T10 batch2) · 5 dingbats/séparateurs
 
 ### TIER 11 · Sync EN (5h)
 
-- [ ] **T11.1** · Sync /en/ pages avec refactor FR (6 pages existantes)
+- [🟡] **T11.1** · 7 routes EN livrées (commits `ccaf874` + `b518512`) · /en/contact + /en/offres index + /en/cas index + 4 dynamiques [...slug] sur offres/solutions/cas/ressources/blog · reste 11 routes EN secondaires
+- [✅] **T11.0** · Audit Sync EN doc 21 (commit `3f2300c`, Worker Sonnet)
 - [ ] **T11.2** · /en/bienvenue/* 3 welcome pages
 - [ ] **T11.3** · hreflang validation cross-pages
 - [ ] **T11.4** · /sitemap-en.xml validation
@@ -217,8 +218,8 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 
 ### TIER 13 · QA finale (5h)
 
-- [ ] **T13.1** · `pnpm exec astro check` : 0 errors
-- [ ] **T13.2** · `pnpm build` succès complet
+- [ ] **T13.1** · `pnpm exec astro check` : 0 errors · à valider après dernier commit
+- [✅] **T13.2** · `pnpm build` succès complet validé multiples fois cette session (5-6s à chaque check)
 - [ ] **T13.3** · Lighthouse 5 pages échantillon (perf, a11y, SEO, best practices)
 - [ ] **T13.4** · Schema.org validator sur Article/Service/FAQPage/Product/Course/BreadcrumbList
 - [ ] **T13.5** · Liens cross-collection sans 404
