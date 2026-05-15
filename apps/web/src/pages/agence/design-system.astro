@@ -1,12 +1,25 @@
 ---
-// Page static · /agence/design-system · showcase composants
-export const prerender = true;
-
-// Source : waimia-handoff2 / design-system.html
+// Page static · /agence/design-system · CATALOGUE EXPOSABLE Phase C
 //
-// Décision non-template (cf docs/08-component-library.md § Pages static) :
-// page-meta unique (showcase atomes/molécules/templates par définition à 1 instance).
-// Sert aussi de tests visuels vivants — détection régression rapide.
+// Source de vérité visible du Design System fermé Waimia (Tier 1 canonique + Tier 2 dérivés).
+// Cf docs/18-DESIGN-SYSTEM-CARTOGRAPHY.md (audit) + docs/19-DESIGN-SYSTEM-CLOSED.md (système fermé)
+//
+// Mandat Simon (verbatim) : « créer un système fermer design système atomique pour éviter
+// que sa parte dans tous les sens [...] l'agent IA pioche comme une librairie dans l'existant »
+//
+// Architecture :
+//   0. Header + Sticky TOC
+//   1. TOKENS (couleurs / typo / spacing / shadows / motion / z-index)
+//   2. CLASSES UTILITY (layout / buttons / reveal / hairlines)
+//   3. ATOMS (10)
+//   4. MOLECULES (30 — sélection)
+//   5. ORGANISMS (25 — Tier 2 dérivés autorisés)
+//   6. SECTIONS W6 composable V2 (19 — Tier 1 cible)
+//   7. EDITORIAL (8)
+//   8. MOTION (4)
+//   9. TEMPLATES (18 preview links)
+
+export const prerender = true;
 
 import Base from '../../layouts/Base.astro';
 import Kicker from '../../components/ui/atoms/Kicker.astro';
@@ -15,204 +28,1033 @@ import Button from '../../components/ui/atoms/Button.astro';
 import PillCTA from '../../components/ui/atoms/PillCTA.astro';
 import TerminalCTA from '../../components/ui/atoms/TerminalCTA.astro';
 import Bi from '../../components/ui/atoms/Bi.astro';
+import SectionHeader from '../../components/ui/molecules/SectionHeader.astro';
 import StatRow from '../../components/ui/molecules/StatRow.astro';
 import TechPillRow from '../../components/ui/molecules/TechPillRow.astro';
 import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
-import SectionHeader from '../../components/ui/molecules/SectionHeader.astro';
 ---
+
 <Base
-  title="Design System · Atomes, molécules, templates · Waimia"
-  description="Showcase des composants Waimia. Atomic Design 5 niveaux : atoms, molecules, organisms, templates, pages."
+  title="Design System · Catalogue Waimia · Tokens · Composants · Templates"
+  description="Catalogue exposable du système design fermé Waimia. Source de vérité unique : pioche au lieu d'inventer."
   noindex
 >
-  <section class="ds-hd reveal">
+  {/* HEADER PAGE */}
+  <section class="ds-hd">
     <div class="wrap-wide">
-      <Kicker class="ds-kicker">§ Design System · Atomic Design 5 niveaux</Kicker>
-      <h1 class="ds-h1">Showcase des <i>composants</i>.</h1>
+      <Kicker class="ds-kicker">§ Design System · Catalogue Waimia · v2026.05</Kicker>
+      <h1 class="ds-h1">Pioche, n'<i>invente</i> pas.</h1>
       <p class="ds-lede">
-        Cette page liste les atomes, molécules et templates utilisés dans le site Waimia. Elle sert de référence visuelle et de test de régression vivant.
+        118 tokens canoniques. 64 classes utility Tier 1. 19 sections composables. 10 atomes.
+        L'agent IA visite cette page en premier réflexe — recherche par section, copie le snippet,
+        n'invente jamais un pattern qui existe déjà.
+      </p>
+      <p class="ds-meta">
+        Cf <code>docs/18-DESIGN-SYSTEM-CARTOGRAPHY.md</code> (audit) ·
+        <code>docs/19-DESIGN-SYSTEM-CLOSED.md</code> (système fermé)
       </p>
     </div>
   </section>
 
-  <div class="wrap-wide ds-body">
-    {/* ATOMS */}
-    <section class="ds-section reveal">
-      <ChapterLabel num="ATOMS · 01" title="Briques minimales" />
-
-      <div class="ds-block">
-        <h3>Kicker (3 tones)</h3>
-        <div class="ds-row">
-          <Kicker>§ TONE MUTED · 11px MONO</Kicker>
-          <Kicker tone="accent">§ TONE ACCENT · TERRACOTTA</Kicker>
-          <Kicker tone="dim">§ TONE DIM · ON DARK</Kicker>
-        </div>
+  {/* CONTENT + STICKY TOC */}
+  <div class="ds-layout">
+    <aside class="ds-toc">
+      <div class="ds-toc-inner">
+        <Kicker class="ds-toc-label">§ Sommaire</Kicker>
+        <ol class="ds-toc-list">
+          <li><a href="#tokens">1. Tokens</a></li>
+          <li><a href="#classes">2. Classes utility</a></li>
+          <li><a href="#atoms">3. Atoms</a></li>
+          <li><a href="#molecules">4. Molecules</a></li>
+          <li><a href="#organisms">5. Organisms (Tier 2)</a></li>
+          <li><a href="#sections">6. Sections W6 (Tier 1)</a></li>
+          <li><a href="#editorial">7. Editorial</a></li>
+          <li><a href="#motion">8. Motion</a></li>
+          <li><a href="#templates">9. Templates</a></li>
+        </ol>
       </div>
+    </aside>
 
-      <div class="ds-block">
-        <h3>ChapterLabel</h3>
-        <ChapterLabel num="II · 2.0" title="Acte II — La méthode" />
-      </div>
-
-      <div class="ds-block">
-        <h3>Button (4 variants)</h3>
-        <div class="ds-row" style="gap:12px">
-          <Button href="#" variant="primary">Primary</Button>
-          <Button href="#" variant="ghost">Ghost</Button>
-          <Button href="#" variant="accent">Accent</Button>
-          <Button href="#" variant="link">Link</Button>
-        </div>
-        <div class="ds-row" style="gap:12px;margin-top:14px">
-          <Button href="#" variant="primary" size="lg" mag={0.18}>Primary · large · magnetic</Button>
-        </div>
-      </div>
-
-      <div class="ds-block">
-        <h3>PillCTA (rounded 999px)</h3>
-        <div class="ds-row" style="gap:12px">
-          <PillCTA href="#" variant="accent">Pill accent</PillCTA>
-          <PillCTA href="#" variant="ghost-dark">Pill ghost-dark</PillCTA>
-          <PillCTA href="#" variant="accent-mono">▸ Pill accent-mono</PillCTA>
-        </div>
-      </div>
-
-      <div class="ds-block">
-        <h3>TerminalCTA (rounded 6-8px font-mono)</h3>
-        <div class="ds-row" style="gap:12px">
-          <TerminalCTA href="#" variant="ink">▸ ouvrir la console</TerminalCTA>
-          <TerminalCTA href="#" variant="ink-ghost">prendre une séance →</TerminalCTA>
-          <TerminalCTA href="#" variant="accent">▸ schedule</TerminalCTA>
-        </div>
-      </div>
-
-      <div class="ds-block">
-        <h3>Bi (bilingue)</h3>
-        <p>Mode props : <Bi fr="Bonjour" en="Hello" /></p>
-        <p>Mode slots :
-          <Bi>
-            <Fragment slot="fr">Construire du <i style="color:var(--accent)">revenue</i>.</Fragment>
-            <Fragment slot="en">Build <i style="color:var(--accent)">revenue</i>.</Fragment>
-          </Bi>
+    <main class="ds-content">
+      {/* ───────────── 1. TOKENS ───────────── */}
+      <section id="tokens" class="ds-section">
+        <ChapterLabel num="01" title="Tokens" />
+        <p class="ds-section-lede">
+          118 tokens CSS canoniques exposés à <code>:root</code>. Source : <code>src/styles/tokens.css</code>.
+          L'agent IA <strong>n'invente jamais</strong> de nouveau token sans procédure §B.5 doc 19.
         </p>
-      </div>
-    </section>
 
-    {/* MOLECULES */}
-    <section class="ds-section reveal">
-      <ChapterLabel num="MOLECULES · 02" title="Compositions fonctionnelles" />
+        {/* 1.1 Palette couleurs */}
+        <div class="ds-subsection">
+          <h3 class="ds-h3">1.1 · Palette couleurs (11 tokens)</h3>
+          <div class="ds-swatch-grid">
+            <div class="ds-swatch-card">
+              <span class="ds-swatch ds-swatch--paper"></span>
+              <div class="ds-swatch-info">
+                <code>--paper</code>
+                <span class="ds-swatch-hex">#F6F1E8</span>
+                <span class="ds-swatch-role">background canonique</span>
+              </div>
+            </div>
+            <div class="ds-swatch-card">
+              <span class="ds-swatch" style="background:var(--paper-2)"></span>
+              <div class="ds-swatch-info">
+                <code>--paper-2</code>
+                <span class="ds-swatch-hex">#EFE9DD</span>
+                <span class="ds-swatch-role">bg subtle</span>
+              </div>
+            </div>
+            <div class="ds-swatch-card">
+              <span class="ds-swatch" style="background:var(--paper-3)"></span>
+              <div class="ds-swatch-info">
+                <code>--paper-3</code>
+                <span class="ds-swatch-hex">#E6E0D0</span>
+                <span class="ds-swatch-role">bg raised</span>
+              </div>
+            </div>
+            <div class="ds-swatch-card">
+              <span class="ds-swatch" style="background:var(--ink);border-color:var(--hairline-strong)"></span>
+              <div class="ds-swatch-info">
+                <code>--ink</code>
+                <span class="ds-swatch-hex">#0C0B09</span>
+                <span class="ds-swatch-role">texte primaire</span>
+              </div>
+            </div>
+            <div class="ds-swatch-card">
+              <span class="ds-swatch" style="background:var(--ink-2)"></span>
+              <div class="ds-swatch-info">
+                <code>--ink-2</code>
+                <span class="ds-swatch-hex">#1A1814</span>
+                <span class="ds-swatch-role">texte strong</span>
+              </div>
+            </div>
+            <div class="ds-swatch-card">
+              <span class="ds-swatch" style="background:var(--ink-3)"></span>
+              <div class="ds-swatch-info">
+                <code>--ink-3</code>
+                <span class="ds-swatch-hex">#2B2620</span>
+                <span class="ds-swatch-role">texte tertiaire dark</span>
+              </div>
+            </div>
+            <div class="ds-swatch-card">
+              <span class="ds-swatch" style="background:var(--muted)"></span>
+              <div class="ds-swatch-info">
+                <code>--muted</code>
+                <span class="ds-swatch-hex">#6B6560</span>
+                <span class="ds-swatch-role">texte secondaire</span>
+              </div>
+            </div>
+            <div class="ds-swatch-card">
+              <span class="ds-swatch" style="background:var(--muted-2)"></span>
+              <div class="ds-swatch-info">
+                <code>--muted-2</code>
+                <span class="ds-swatch-hex">#9A948D</span>
+                <span class="ds-swatch-role">texte tertiaire</span>
+              </div>
+            </div>
+            <div class="ds-swatch-card">
+              <span class="ds-swatch" style="background:var(--accent)"></span>
+              <div class="ds-swatch-info">
+                <code>--accent</code>
+                <span class="ds-swatch-hex">#C94F2E</span>
+                <span class="ds-swatch-role">brand primary · terracotta</span>
+              </div>
+            </div>
+            <div class="ds-swatch-card">
+              <span class="ds-swatch" style="background:var(--accent-2)"></span>
+              <div class="ds-swatch-info">
+                <code>--accent-2</code>
+                <span class="ds-swatch-hex">#A83D20</span>
+                <span class="ds-swatch-role">accent hover</span>
+              </div>
+            </div>
+            <div class="ds-swatch-card">
+              <span class="ds-swatch" style="background:var(--accent-ink)"></span>
+              <div class="ds-swatch-info">
+                <code>--accent-ink</code>
+                <span class="ds-swatch-hex">#F6F1E8</span>
+                <span class="ds-swatch-role">texte sur accent</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <div class="ds-block">
-        <h3>SectionHeader (legacy .sec-hd)</h3>
-        <SectionHeader roman="II" label="Acte II — Démo" id="ds-demo">
-          <Fragment slot="heading">Quatre <i>paliers</i>, une seule architecture.</Fragment>
-          <Fragment slot="aside">Du diagnostic à l'infrastructure souveraine.</Fragment>
-        </SectionHeader>
-      </div>
+        {/* 1.2 Typographie */}
+        <div class="ds-subsection">
+          <h3 class="ds-h3">1.2 · Typographie</h3>
+          <p class="ds-help">3 stacks canoniques + échelle V6 éditoriale + scale enrichie.</p>
 
-      <div class="ds-block">
-        <h3>StatRow</h3>
-        <StatRow stats={[
-          { k: '43',    label_fr: 'interventions',   label_en: 'engagements' },
-          { k: '€18M+', label_fr: 'pipeline audité', label_en: 'pipeline audited' },
-          { k: '× 4',   label_fr: 'taux de réussite', label_en: 'success rate' },
-          { k: '12',    label_fr: 'juridictions UE',  label_en: 'EU jurisdictions' },
-        ]} />
-      </div>
+          <div class="ds-type-stacks">
+            <div class="ds-type-stack">
+              <Kicker tone="muted" size={10}>--font-display · Instrument Serif</Kicker>
+              <p style="font-family:var(--font-display);font-size:48px;line-height:1.02;margin:8px 0 0">
+                Pioche, n'<i>invente</i> pas.
+              </p>
+            </div>
+            <div class="ds-type-stack">
+              <Kicker tone="muted" size={10}>--font-sans · Inter Tight</Kicker>
+              <p style="font-family:var(--font-sans);font-size:17px;line-height:1.5;margin:8px 0 0">
+                Le système design est une librairie, pas un terrain d'invention.
+                Chaque atome existe pour une raison documentée.
+              </p>
+            </div>
+            <div class="ds-type-stack">
+              <Kicker tone="muted" size={10}>--font-mono · JetBrains Mono</Kicker>
+              <p style="font-family:var(--font-mono);font-size:13px;letter-spacing:.06em;margin:8px 0 0">
+                <code>grep -oE "var\(--[a-z0-9-]+\)" src/components/</code>
+              </p>
+            </div>
+          </div>
 
-      <div class="ds-block">
-        <h3>TechPillRow</h3>
-        <TechPillRow pills={[
-          { label: 'Claude Opus', kind: 'primary' },
-          { label: 'PostgreSQL',  kind: 'open' },
-          { label: 'HubSpot',     kind: 'neutral' },
-          { label: 'dbt',         kind: 'open' },
-        ]} />
-      </div>
+          <h4 class="ds-h4">Échelle V6 éditoriale (7 niveaux)</h4>
+          <div class="ds-type-scale">
+            <div class="ds-type-row">
+              <Kicker tone="muted" size={10}>--text-h1-hero</Kicker>
+              <p style="font-family:var(--font-display);font-size:var(--text-h1-hero);line-height:.96;margin:6px 0 0">H1 hero · manifeste de page</p>
+            </div>
+            <div class="ds-type-row">
+              <Kicker tone="muted" size={10}>--text-h2-grand</Kicker>
+              <p style="font-family:var(--font-display);font-size:var(--text-h2-grand);line-height:1.02;margin:6px 0 0">H2 grand · climax final</p>
+            </div>
+            <div class="ds-type-row">
+              <Kicker tone="muted" size={10}>--text-h2-section</Kicker>
+              <p style="font-family:var(--font-display);font-size:var(--text-h2-section);line-height:1.1;margin:6px 0 0">H2 section · titre par défaut</p>
+            </div>
+            <div class="ds-type-row">
+              <Kicker tone="muted" size={10}>--text-h2-tight</Kicker>
+              <p style="font-family:var(--font-display);font-size:var(--text-h2-tight);line-height:1.1;margin:6px 0 0">H2 tight · FAQ, sidebar</p>
+            </div>
+            <div class="ds-type-row">
+              <Kicker tone="muted" size={10}>--text-h3-row</Kicker>
+              <p style="font-family:var(--font-display);font-size:var(--text-h3-row);line-height:1.1;margin:6px 0 0">H3 row · Departments, Notes</p>
+            </div>
+            <div class="ds-type-row">
+              <Kicker tone="muted" size={10}>--text-h3-card</Kicker>
+              <p style="font-family:var(--font-display);font-size:var(--text-h3-card);line-height:1.1;margin:6px 0 0">H3 card · CapabilityStrip, SixServices</p>
+            </div>
+            <div class="ds-type-row">
+              <Kicker tone="muted" size={10}>--text-h4-meta</Kicker>
+              <p style="font-family:var(--font-sans);font-size:var(--text-h4-meta);font-weight:600;margin:6px 0 0">H4 meta · sub-titles, labels inline</p>
+            </div>
+          </div>
 
-      <div class="ds-block">
-        <h3>RelatedCards (3 cards · pattern fin de page)</h3>
-        <RelatedCards cards={[
-          { kicker: 'CASE 04', title_fr: 'Plateau SaaS', title_en: 'Plateau SaaS', lead_fr: '+€2.4M pipeline →', lead_en: '+€2.4M pipeline →', href: '/ressources/cas/plateau' },
-          { kicker: 'OFFRE 03.1', title_fr: 'RevOps Rebuild', title_en: 'RevOps Rebuild', lead_fr: 'Le service inspiré →', lead_en: 'Inspired service →', href: '/offres/revops' },
-          { kicker: 'TRUST', title_fr: 'Trust Center', title_en: 'Trust Center', lead_fr: 'Politique données →', lead_en: 'Data policy →', href: '/agence/trust-center' },
-        ]} />
-      </div>
-    </section>
+          <h4 class="ds-h4">Échelle enrichie (eyebrow / lede / pull-quote / drop-cap / caption)</h4>
+          <div class="ds-type-scale">
+            <div class="ds-type-row">
+              <Kicker tone="muted" size={10}>--text-eyebrow</Kicker>
+              <p style="font-family:var(--font-mono);font-size:var(--text-eyebrow);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:6px 0 0">Eyebrow · section markers</p>
+            </div>
+            <div class="ds-type-row">
+              <Kicker tone="muted" size={10}>--text-lede</Kicker>
+              <p style="font-family:var(--font-sans);font-size:var(--text-lede);color:var(--ink-2);line-height:1.45;margin:6px 0 0;max-width:60ch">Lede · paragraphe d'ouverture surdimensionné qui pose la promesse de la section.</p>
+            </div>
+            <div class="ds-type-row">
+              <Kicker tone="muted" size={10}>--text-pull-quote</Kicker>
+              <p style="font-family:var(--font-display);font-style:italic;font-size:var(--text-pull-quote);color:var(--ink);line-height:1.15;margin:6px 0 0;max-width:48ch">« Pull quote · citation breakout »</p>
+            </div>
+            <div class="ds-type-row">
+              <Kicker tone="muted" size={10}>--text-caption</Kicker>
+              <p style="font-family:var(--font-sans);font-size:var(--text-caption);font-style:italic;color:var(--muted);margin:6px 0 0">Caption · légende fine pour figures et tables</p>
+            </div>
+          </div>
+        </div>
 
-    {/* TEMPLATES */}
-    <section class="ds-section reveal">
-      <ChapterLabel num="TEMPLATES · 03" title="Squelettes de page" />
-      <p class="ds-foot">
-        8 templates dans <code>src/components/templates/</code> :
-        <strong>HubTemplate</strong>, <strong>ServiceDetailTemplate</strong>, <strong>CaseStudyTemplate</strong>,
-        <strong>EssayTemplate</strong>, <strong>ListIndexTemplate</strong>, <strong>DetailMenuTemplate</strong>,
-        <strong>TrustLegalTemplate</strong>, <strong>UtilityTemplate</strong>.
-        Voir <a href="/offres/conseil">/offres/conseil</a>, <a href="/ressources/cas/plateau">/cas/plateau</a>,
-        <a href="/agence/trust-center">/trust-center</a>, <a href="/contact">/contact</a> pour des instances vivantes.
-      </p>
-    </section>
+        {/* 1.3 Spacing scale */}
+        <div class="ds-subsection">
+          <h3 class="ds-h3">1.3 · Spacing scale (8pt · 17 tokens)</h3>
+          <div class="ds-spacing-grid">
+            <div class="ds-spacing-row"><code>--space-1</code> <span class="ds-spacing-bar" style="width:4px"></span> <span class="ds-spacing-val">4px</span></div>
+            <div class="ds-spacing-row"><code>--space-2</code> <span class="ds-spacing-bar" style="width:8px"></span> <span class="ds-spacing-val">8px</span></div>
+            <div class="ds-spacing-row"><code>--space-3</code> <span class="ds-spacing-bar" style="width:12px"></span> <span class="ds-spacing-val">12px</span></div>
+            <div class="ds-spacing-row"><code>--space-4</code> <span class="ds-spacing-bar" style="width:16px"></span> <span class="ds-spacing-val">16px</span></div>
+            <div class="ds-spacing-row"><code>--space-5</code> <span class="ds-spacing-bar" style="width:24px"></span> <span class="ds-spacing-val">24px</span></div>
+            <div class="ds-spacing-row"><code>--space-6</code> <span class="ds-spacing-bar" style="width:32px"></span> <span class="ds-spacing-val">32px</span></div>
+            <div class="ds-spacing-row"><code>--space-7</code> <span class="ds-spacing-bar" style="width:40px"></span> <span class="ds-spacing-val">40px</span></div>
+            <div class="ds-spacing-row"><code>--space-8</code> <span class="ds-spacing-bar" style="width:48px"></span> <span class="ds-spacing-val">48px</span></div>
+            <div class="ds-spacing-row"><code>--space-9</code> <span class="ds-spacing-bar" style="width:64px"></span> <span class="ds-spacing-val">64px</span></div>
+            <div class="ds-spacing-row"><code>--space-10</code> <span class="ds-spacing-bar" style="width:80px"></span> <span class="ds-spacing-val">80px</span></div>
+            <div class="ds-spacing-row"><code>--space-11</code> <span class="ds-spacing-bar" style="width:96px"></span> <span class="ds-spacing-val">96px</span></div>
+            <div class="ds-spacing-row"><code>--space-12</code> <span class="ds-spacing-bar" style="width:120px"></span> <span class="ds-spacing-val">120px</span></div>
+          </div>
+          <p class="ds-help">+ section rhythm : <code>--section-tight</code> 48px · <code>--section-base</code> 96px · <code>--section-loose</code> 160px · <code>--section-grand</code> 256px</p>
+        </div>
 
-    {/* COLOR TOKENS */}
-    <section class="ds-section reveal">
-      <ChapterLabel num="TOKENS · 04" title="Couleurs & typographie" />
-      <div class="ds-tokens-grid">
-        <div class="ds-token"><span class="ds-swatch" style="background:var(--paper)"></span><code>--paper</code> · #F6F1E8</div>
-        <div class="ds-token"><span class="ds-swatch" style="background:var(--paper-2)"></span><code>--paper-2</code></div>
-        <div class="ds-token"><span class="ds-swatch" style="background:var(--ink)"></span><code>--ink</code> · #0C0B09</div>
-        <div class="ds-token"><span class="ds-swatch" style="background:var(--accent)"></span><code>--accent</code> · #C94F2E</div>
-        <div class="ds-token"><span class="ds-swatch" style="background:var(--muted)"></span><code>--muted</code></div>
-        <div class="ds-token"><span class="ds-swatch" style="background:var(--hairline)"></span><code>--hairline</code></div>
-      </div>
-      <div class="ds-fonts">
-        <p style="font-family:var(--font-display);font-size:32px">Instrument Serif <i>italic</i></p>
-        <p style="font-family:var(--font-mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase">JetBrains Mono · Kicker</p>
-      </div>
-    </section>
+        {/* 1.4 Shadows */}
+        <div class="ds-subsection">
+          <h3 class="ds-h3">1.4 · Shadows éditoriaux (5 tokens)</h3>
+          <div class="ds-shadow-grid">
+            <div class="ds-shadow-card" style="box-shadow:var(--shadow-hairline)">
+              <code>--shadow-hairline</code>
+              <span class="ds-help">simple 1px hairline</span>
+            </div>
+            <div class="ds-shadow-card" style="box-shadow:var(--shadow-paper-lift)">
+              <code>--shadow-paper-lift</code>
+              <span class="ds-help">lift léger éditorial</span>
+            </div>
+            <div class="ds-shadow-card" style="box-shadow:var(--shadow-card-rest)">
+              <code>--shadow-card-rest</code>
+              <span class="ds-help">card au repos</span>
+            </div>
+            <div class="ds-shadow-card" style="box-shadow:var(--shadow-card-hover)">
+              <code>--shadow-card-hover</code>
+              <span class="ds-help">card hover state</span>
+            </div>
+            <div class="ds-shadow-card" style="box-shadow:var(--shadow-cta)">
+              <code>--shadow-cta</code>
+              <span class="ds-help">CTA principal · accent</span>
+            </div>
+          </div>
+        </div>
+
+        {/* 1.5 Easings + durations */}
+        <div class="ds-subsection">
+          <h3 class="ds-h3">1.5 · Motion (3 easings + 7 durations)</h3>
+          <div class="ds-motion-grid">
+            <div class="ds-motion-card">
+              <code>--ease</code>
+              <span class="ds-help">cubic-bezier(0.22, 1, 0.36, 1) · défaut</span>
+            </div>
+            <div class="ds-motion-card">
+              <code>--ease-out</code>
+              <span class="ds-help">cubic-bezier(0.16, 1, 0.30, 1)</span>
+            </div>
+            <div class="ds-motion-card">
+              <code>--ease-sharp</code>
+              <span class="ds-help">cubic-bezier(0.20, 0, 0.00, 1)</span>
+            </div>
+          </div>
+          <ul class="ds-durations">
+            <li><code>--dur-instant</code> 0ms</li>
+            <li><code>--dur-snap</code> 120ms</li>
+            <li><code>--dur-fast</code> 200ms</li>
+            <li><code>--dur-base</code> 400ms</li>
+            <li><code>--dur-slow</code> 800ms</li>
+            <li><code>--dur-deliberate</code> 1200ms</li>
+            <li><code>--dur-cinematic</code> 1800ms</li>
+          </ul>
+        </div>
+
+        {/* 1.6 Z-index */}
+        <div class="ds-subsection">
+          <h3 class="ds-h3">1.6 · Z-index scale (6 niveaux)</h3>
+          <ul class="ds-z-list">
+            <li><code>--z-base</code> 1</li>
+            <li><code>--z-sticky</code> 10</li>
+            <li><code>--z-overlay</code> 100</li>
+            <li><code>--z-modal</code> 1000</li>
+            <li><code>--z-toast</code> 2000</li>
+            <li><code>--z-cursor</code> 9999</li>
+          </ul>
+        </div>
+
+        {/* 1.7 Layout */}
+        <div class="ds-subsection">
+          <h3 class="ds-h3">1.7 · Layout & containers</h3>
+          <ul class="ds-z-list">
+            <li><code>--wrap</code> 1440px · max-width standard</li>
+            <li><code>--wrap-wide</code> 1560px · max-width étendu (sections)</li>
+            <li><code>--wrap-tight</code> 1120px · prose article</li>
+            <li><code>--gut</code> 32px (responsive : 20px ≤ 900px · 16px ≤ 600px)</li>
+            <li><code>--header-height</code> 72px · clearance sticky obligatoire pour heros</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* ───────────── 2. CLASSES UTILITY ───────────── */}
+      <section id="classes" class="ds-section">
+        <ChapterLabel num="02" title="Classes utility" />
+        <p class="ds-section-lede">
+          64 classes Tier 1 figées dans <code>src/styles/global.css</code>. Préférer <code>Button.astro</code>
+          atom plutôt que <code>.btn</code> class pour les nouveaux composants. Migration progressive en cours.
+        </p>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">2.1 · Layout containers (3 classes)</h3>
+          <div class="ds-class-card">
+            <code class="ds-class-name">.wrap</code>
+            <span class="ds-help">max-width: <code>var(--wrap)</code> · padding-inline: <code>var(--gut)</code> · margin auto</span>
+          </div>
+          <div class="ds-class-card">
+            <code class="ds-class-name">.wrap-wide</code>
+            <span class="ds-help">max-width: <code>var(--wrap-wide)</code> · obligatoire pour sections W6</span>
+          </div>
+          <div class="ds-class-card">
+            <code class="ds-class-name">.wrap-tight</code>
+            <span class="ds-help">max-width: <code>var(--wrap-tight)</code> · prose article</span>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">2.2 · Buttons (9 classes — préférer <code>Button.astro</code> atom)</h3>
+          <p class="ds-help">Les classes <code>.btn-*</code> survivent pour legacy. Pour nouveau code : <code>&lt;Button variant="primary" /&gt;</code>.</p>
+          <div class="ds-row">
+            <button class="btn btn-primary">.btn-primary</button>
+            <button class="btn btn-accent">.btn-accent</button>
+            <button class="btn btn-ghost">.btn-ghost</button>
+            <button class="btn btn-primary btn-lg">.btn-lg</button>
+            <a href="#" class="btn-link">.btn-link →</a>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">2.3 · Reveal animations (5 patterns)</h3>
+          <ul class="ds-z-list">
+            <li><code>.blur-in</code> · entrance avec flou progressif</li>
+            <li><code>.clip-up</code> · clip-path révèle bas→haut</li>
+            <li><code>.reveal-fade</code> · fade simple</li>
+            <li><code>.reveal-up</code> · translate-y + fade</li>
+            <li><code>.scale-in</code> · scale 0.95 → 1 + fade</li>
+          </ul>
+          <p class="ds-help">Toutes les classes ajoutent state <code>.in</code> via IntersectionObserver (cf <code>src/lib/animations/scroll-reveal.ts</code>).</p>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">2.4 · Hairlines (3 classes)</h3>
+          <div class="ds-hairlines">
+            <div><code>.hline</code></div>
+            <hr class="hline" />
+            <div><code>.hline-strong</code></div>
+            <hr class="hline-strong" />
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────── 3. ATOMS ───────────── */}
+      <section id="atoms" class="ds-section">
+        <ChapterLabel num="03" title="Atoms (10)" />
+        <p class="ds-section-lede">
+          Briques minimales · Tier 1 canonique. Préférer ces composants Astro plutôt que des classes CSS
+          équivalentes. Source : <code>src/components/ui/atoms/</code>.
+        </p>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Kicker · 3 tones</h3>
+          <div class="ds-row">
+            <Kicker>§ TONE MUTED</Kicker>
+            <Kicker tone="accent">§ TONE ACCENT</Kicker>
+            <Kicker tone="dim">§ TONE DIM (ON DARK)</Kicker>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">ChapterLabel</h3>
+          <ChapterLabel num="II · 2.0" title="Acte II — La méthode" />
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Button · 4 variants</h3>
+          <div class="ds-row" style="gap:12px">
+            <Button href="#" variant="primary">Primary</Button>
+            <Button href="#" variant="ghost">Ghost</Button>
+            <Button href="#" variant="accent">Accent</Button>
+            <Button href="#" variant="link">Link →</Button>
+          </div>
+          <div class="ds-row" style="gap:12px;margin-top:14px">
+            <Button href="#" variant="primary" size="lg" mag={0.18}>Primary · large · magnetic</Button>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">PillCTA</h3>
+          <div class="ds-row" style="gap:12px">
+            <PillCTA href="#" variant="accent">Pill accent</PillCTA>
+            <PillCTA href="#" variant="ghost-dark">Pill ghost-dark</PillCTA>
+            <PillCTA href="#" variant="accent-mono">▸ Pill accent-mono</PillCTA>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">TerminalCTA</h3>
+          <div class="ds-row" style="gap:12px">
+            <TerminalCTA href="#" variant="ink">▸ ouvrir la console</TerminalCTA>
+            <TerminalCTA href="#" variant="ink-ghost">prendre une séance →</TerminalCTA>
+            <TerminalCTA href="#" variant="accent">▸ schedule</TerminalCTA>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Bi · bilingue (FR/EN)</h3>
+          <p>Mode props : <Bi fr="Bonjour" en="Hello" /></p>
+          <p>Mode slots :
+            <Bi>
+              <Fragment slot="fr">Construire du <i style="color:var(--accent)">revenue</i>.</Fragment>
+              <Fragment slot="en">Build <i style="color:var(--accent)">revenue</i>.</Fragment>
+            </Bi>
+          </p>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Atomes non-démo (4)</h3>
+          <ul class="ds-z-list">
+            <li><code>CursorDot</code> · cursor custom injecté par Base.astro</li>
+            <li><code>ProgressBar</code> · scroll progress bar top</li>
+            <li><code>ScrollProgress</code> · progression scroll étendue</li>
+            <li><code>SectionTransition</code> · phrase éditoriale entre sections (cf home)</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* ───────────── 4. MOLECULES (sélection) ───────────── */}
+      <section id="molecules" class="ds-section">
+        <ChapterLabel num="04" title="Molecules (30 — sélection)" />
+        <p class="ds-section-lede">
+          Compositions fonctionnelles · Tier 1. Cf <code>src/components/ui/molecules/</code> pour les 30 fichiers.
+          Sélection ci-dessous : les plus utilisés (≥ 3 imports).
+        </p>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">SectionHeader (legacy .sec-hd)</h3>
+          <SectionHeader roman="II" label="Acte II — Démo" id="ds-demo-header">
+            <Fragment slot="heading">Quatre <i>paliers</i>, une seule architecture.</Fragment>
+            <Fragment slot="aside">Du diagnostic à l'infrastructure souveraine.</Fragment>
+          </SectionHeader>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">StatRow</h3>
+          <StatRow stats={[
+            { k: '43',    label_fr: 'interventions',   label_en: 'engagements' },
+            { k: '€18M+', label_fr: 'pipeline audité', label_en: 'pipeline audited' },
+            { k: '× 4',   label_fr: 'taux de réussite', label_en: 'success rate' },
+            { k: '12',    label_fr: 'juridictions UE',  label_en: 'EU jurisdictions' },
+          ]} />
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">TechPillRow</h3>
+          <TechPillRow pills={[
+            { label: 'Claude Opus', kind: 'primary' },
+            { label: 'PostgreSQL',  kind: 'open' },
+            { label: 'HubSpot',     kind: 'neutral' },
+            { label: 'dbt',         kind: 'open' },
+          ]} />
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">RelatedCards (3 cards · pattern fin de page)</h3>
+          <RelatedCards cards={[
+            { kicker: 'CASE 04', title_fr: 'Plateau SaaS', title_en: 'Plateau SaaS', lead_fr: '+€2.4M pipeline →', lead_en: '+€2.4M pipeline →', href: '/cas/plateau' },
+            { kicker: 'OFFRE 03.1', title_fr: 'RevOps Rebuild', title_en: 'RevOps Rebuild', lead_fr: 'Le service inspiré →', lead_en: 'Inspired service →', href: '/offres/revops' },
+            { kicker: 'TRUST', title_fr: 'Trust Center', title_en: 'Trust Center', lead_fr: 'Politique données →', lead_en: 'Data policy →', href: '/agence/trust-center' },
+          ]} />
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Molecules non-démo (26)</h3>
+          <p class="ds-help">Voir <code>src/components/ui/molecules/</code> pour : AsymmetricServiceRow, AuthorByline, AuthorCard, Breadcrumb, CalEmbed, EditorialCaseCard, EditorialWriteRow, FitColumns, MastheadRow, MetricStrip, NewsletterSignup, PagePill, PricingTier, ProcessSteps, ProofBand, RelatedByCluster, ServiceCatalogRow, ShareButtons, TableOfContents, TagPills, TaxonomyMenu, TerminalMockup, TerminalTable, TunnelNav.</p>
+        </div>
+      </section>
+
+      {/* ───────────── 5. ORGANISMS (Tier 2 dérivés) ───────────── */}
+      <section id="organisms" class="ds-section">
+        <ChapterLabel num="05" title="Organisms (25 — Tier 2 dérivés)" />
+        <p class="ds-section-lede">
+          Organismes historiques pour pages standalone (home FR/EN principalement). Tier 2 dérivés
+          autorisés pour casser monotonie. Cf <code>src/components/ui/organisms/</code>.
+        </p>
+        <p class="ds-help">
+          ⚠️ <strong>Pour pages composables</strong> : préférer les sections W6 §6 ci-dessous (Tier 1 cible).
+          Organismes pour cas spécifiques uniquement (home Hero, BookSession climax, Footer*).
+        </p>
+        <p class="ds-help">
+          Liste : AtlasGrid, BookSession, CapabilityStrip, Cases, CookiesBanner, CtaBand,
+          Departments, FieldNotes, FooterMarquee, Hero, HowWeShip, Manifesto, ManifestoAccent,
+          Offices, OperatingLayer, PersonaSwitcher, ProofBar, Pyramid, SigBand, SixServices,
+          Stub, SystemArchitecture, TrustMarquee, WhyAIStalls, WritingNotes.
+        </p>
+        <p class="ds-help">
+          Preview live : <a href="/" class="ds-link">/ (home FR)</a> · <a href="/manifesto" class="ds-link">/manifesto</a> · <a href="/atlas" class="ds-link">/atlas</a>
+        </p>
+      </section>
+
+      {/* ───────────── 6. SECTIONS W6 composable V2 (Tier 1 cible) ───────────── */}
+      <section id="sections" class="ds-section">
+        <ChapterLabel num="06" title="Sections W6 composable V2 (19 — Tier 1 cible)" />
+        <p class="ds-section-lede">
+          Architecture composable Tier 1 cible. Toutes les nouvelles pages doivent utiliser ces sections
+          via <code>SectionsRenderer</code>. Cf <code>src/components/sections/</code>.
+          <strong>Toutes containerisées</strong> avec <code>.wrap-wide</code> sauf exceptions edge-to-edge documentées.
+        </p>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Pattern d'usage</h3>
+          <pre class="ds-code"><code>{`<SectionsRenderer
+  sections={[
+    { type: 'hero-split', h1_fr: '...', cta_primary: {...} },
+    { type: 'proof-bar', metrics: [...] },
+    { type: 'method-timeline', steps: [...] },
+    { type: 'cta-final', h2_fr: '...' },
+  ]}
+  lang="fr"
+/>`}</code></pre>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">19 sections disponibles</h3>
+          <ul class="ds-sections-list">
+            <li><strong>HeroSplit</strong> · hero avec right-block (mini-map, workflow, stats)</li>
+            <li><strong>HeroCentered</strong> · hero centré + CTA stack</li>
+            <li><strong>HeroFullBleed</strong> · hero full-width edge-to-edge</li>
+            <li><strong>ProofBarSection</strong> · 4-6 métriques en grille</li>
+            <li><strong>StatBlock</strong> · stats riches avec h2 + lede</li>
+            <li><strong>SocialProof</strong> · logos marquee ou grid (full-bleed)</li>
+            <li><strong>MethodTimeline</strong> · timeline horizontale numérotée</li>
+            <li><strong>FeatureGrid</strong> · 3-8 features en grid (2/3/4 cols)</li>
+            <li><strong>ComparisonTable</strong> · comparatif features × tiers</li>
+            <li><strong>TimelineBlock</strong> · timeline narrative avec dates</li>
+            <li><strong>MediaBlock</strong> · image/video/svg/embed avec caption</li>
+            <li><strong>PricingTable</strong> · 1-5 tiers tarifaires</li>
+            <li><strong>FaqAccordion</strong> · FAQ avec details/summary</li>
+            <li><strong>ObjectionHandler</strong> · objection/réponse en table</li>
+            <li><strong>CtaFinal</strong> · CTA fin de page (bg ink/accent/paper)</li>
+            <li><strong>CtaBandSection</strong> · band horizontal full-bleed</li>
+            <li><strong>CtaInline</strong> · CTA discret en milieu de page</li>
+            <li><strong>TestimonialBlock</strong> · témoignages (carousel/grid/rows)</li>
+            <li><strong>GuaranteeBlock</strong> · garanties numérotées</li>
+          </ul>
+          <p class="ds-help">
+            Preview live : <a href="/test-composable" class="ds-link">/test-composable</a>
+            (5 sections inline pour démo end-to-end)
+          </p>
+        </div>
+      </section>
+
+      {/* ───────────── 7. EDITORIAL ───────────── */}
+      <section id="editorial" class="ds-section">
+        <ChapterLabel num="07" title="Editorial (8)" />
+        <p class="ds-section-lede">
+          Atomes éditoriaux pour MDX content (essais, livres-blancs, cas clients). Cf
+          <code>src/components/editorial/</code>.
+        </p>
+        <ul class="ds-z-list">
+          <li><strong>Callout</strong> · block d'avertissement ou note dans articles</li>
+          <li><strong>PullQuote</strong> · citation breakout</li>
+          <li><strong>DropCap</strong> · initiale magnifiée</li>
+          <li><strong>KeyMetric</strong> · mise en valeur métrique inline</li>
+          <li><strong>EditorialTable</strong> · tableau éditorial avec headers stylisés</li>
+          <li><strong>Dingbat</strong> · séparateur ornemental</li>
+          <li><strong>Sidenote</strong> (Tier 2) · note marginale rare</li>
+          <li><strong>Timeline</strong> (Tier 2) · timeline narrative dans MDX (overlap TimelineBlock W6)</li>
+        </ul>
+      </section>
+
+      {/* ───────────── 8. MOTION ───────────── */}
+      <section id="motion" class="ds-section">
+        <ChapterLabel num="08" title="Motion (4)" />
+        <p class="ds-section-lede">
+          Composants motion lourds — réservés pages signature (home, console, atlas).
+          Cf <code>src/components/motion/</code>.
+        </p>
+        <ul class="ds-z-list">
+          <li><strong>BootSplash</strong> · animation boot 1720ms · home FR/EN</li>
+          <li><strong>LiquidHero</strong> (.tsx) · hero liquide canvas · console/atlas</li>
+          <li><strong>AtlasConnections</strong> · graph connections · atlas</li>
+          <li><strong>ProductReel</strong> (.tsx) · reel produit horizontal</li>
+        </ul>
+      </section>
+
+      {/* ───────────── 9. TEMPLATES ───────────── */}
+      <section id="templates" class="ds-section">
+        <ChapterLabel num="09" title="Templates (18 — preview links)" />
+        <p class="ds-section-lede">
+          Templates pour collections content. Cf <code>src/components/templates/</code>. Preview live ci-dessous.
+        </p>
+        <ul class="ds-templates-list">
+          <li><code>WelcomeTemplate</code> → <a href="/bienvenue/audit" class="ds-link">/bienvenue/audit</a></li>
+          <li><code>UtilityTemplate</code> → <a href="/404" class="ds-link">/404</a></li>
+          <li><code>TrustLegalTemplate</code> → <a href="/agence/trust-center" class="ds-link">/agence/trust-center</a></li>
+          <li><code>CaseStudyTemplate</code> → <a href="/cas/plateau" class="ds-link">/cas/plateau</a></li>
+          <li><code>ServiceDetailTemplate</code> → <a href="/offres/revops" class="ds-link">/offres/revops</a></li>
+          <li><code>SolutionsDetailTemplate</code> → <a href="/solutions" class="ds-link">/solutions</a></li>
+          <li><code>OffresDetailTemplate</code> → <a href="/offres" class="ds-link">/offres</a></li>
+          <li><code>EssayTemplate</code> → <a href="/ressources/blog/brain-circuit" class="ds-link">/ressources/blog/brain-circuit</a></li>
+          <li><code>HubTemplate</code> → <a href="/ressources" class="ds-link">/ressources</a></li>
+          <li><code>ListIndexTemplate</code> → <a href="/cas" class="ds-link">/cas</a></li>
+          <li><code>DetailMenuTemplate</code> → page menu détail</li>
+          <li><code>TechnologiesDetailTemplate</code> → <a href="/technologies" class="ds-link">/technologies</a></li>
+          <li><code>AuthorPageTemplate</code> → <a href="/equipe" class="ds-link">/equipe</a></li>
+          <li><code>EcoleHubTemplate</code> → <a href="/ecole" class="ds-link">/ecole</a></li>
+          <li><code>ConversionFunnelTemplate</code> → <a href="/offres/site-web-ia-landing" class="ds-link">/offres/site-web-ia-landing</a></li>
+          <li><code>FormationDetailTemplate</code> → page formation</li>
+          <li><code>TunnelStepTemplate</code> → tunnel acquisition</li>
+          <li><code>LeadMagnetTemplate</code> → page lead magnet</li>
+        </ul>
+      </section>
+    </main>
   </div>
 </Base>
 
 <style>
-  .ds-hd { padding: 140px 32px clamp(40px, 5vw, 72px); border-bottom: 1px solid var(--hairline); }
+  /* ─── HEADER PAGE ─── */
+  .ds-hd {
+    padding-top: calc(var(--spacing-section, 96px) + var(--header-height));
+    padding-bottom: clamp(40px, 5vw, 72px);
+    border-bottom: 1px solid var(--hairline);
+  }
   :global(.ds-kicker) { display: block; margin-bottom: 24px; }
   .ds-h1 {
     font-family: var(--font-display);
-    font-size: clamp(56px, 9vw, 156px);
-    line-height: 0.92;
+    font-size: clamp(48px, 9vw, 156px);
+    line-height: 0.94;
     letter-spacing: -0.03em;
     font-weight: 400;
     text-wrap: balance;
     margin: 0;
+    color: var(--ink);
   }
   .ds-h1 i { font-style: italic; color: var(--accent); }
   .ds-lede {
     font-family: var(--font-sans);
-    font-size: clamp(20px, 2.2vw, 28px);
+    font-size: clamp(18px, 1.8vw, 24px);
     color: var(--ink-2);
     margin: 32px 0 0;
-    max-width: 760px;
-    line-height: 1.4;
+    max-width: 720px;
+    line-height: 1.5;
+  }
+  .ds-meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: .06em;
+    color: var(--muted);
+    margin: 24px 0 0;
+  }
+  .ds-meta code {
+    background: var(--paper-2);
+    padding: 2px 6px;
+    border-radius: 4px;
   }
 
-  .ds-body { padding: clamp(60px, 8vw, 100px) 32px; }
-  .ds-section { margin-bottom: clamp(80px, 10vw, 120px); }
-  .ds-block { margin: 32px 0; }
-  .ds-block h3 {
+  /* ─── LAYOUT TOC + CONTENT ─── */
+  .ds-layout {
+    max-width: var(--wrap-wide);
+    margin: 0 auto;
+    padding: clamp(48px, 6vw, 80px) var(--gut);
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: clamp(40px, 5vw, 80px);
+  }
+
+  .ds-toc {
+    position: relative;
+  }
+  .ds-toc-inner {
+    position: sticky;
+    top: calc(var(--header-height) + 24px);
+  }
+  :global(.ds-toc-label) { display: block; margin-bottom: 16px; }
+  .ds-toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid var(--hairline);
+  }
+  .ds-toc-list li {
+    padding: 6px 0 6px 16px;
+    border-left: 1px solid transparent;
+    margin-left: -1px;
+    transition: border-color var(--dur-fast) var(--ease);
+  }
+  .ds-toc-list li:hover { border-left-color: var(--accent); }
+  .ds-toc-list a {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--ink-2);
+    text-decoration: none;
+    line-height: 1.4;
+  }
+  .ds-toc-list a:hover { color: var(--accent); }
+
+  /* ─── CONTENT SECTIONS ─── */
+  .ds-content { min-width: 0; }
+  .ds-section {
+    margin-bottom: clamp(80px, 8vw, 120px);
+    scroll-margin-top: calc(var(--header-height) + 32px);
+  }
+  .ds-section-lede {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    color: var(--ink-2);
+    line-height: 1.6;
+    max-width: 64ch;
+    margin: 16px 0 32px;
+  }
+  .ds-section-lede code,
+  .ds-section-lede strong { font-weight: 600; }
+  .ds-section-lede code,
+  .ds-help code,
+  .ds-meta code,
+  .ds-class-name {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--paper-2);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  /* ─── SUBSECTIONS ─── */
+  .ds-subsection { margin: 40px 0; }
+  .ds-h3 {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 16px;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 8px;
+  }
+  .ds-h4 {
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--muted);
-    margin: 0 0 14px;
+    margin: 24px 0 12px;
   }
-  .ds-row { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+  .ds-help {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 8px 0 16px;
+    max-width: 64ch;
+  }
+  .ds-link {
+    color: var(--accent);
+    border-bottom: 1px solid currentColor;
+    text-decoration: none;
+  }
 
-  .ds-foot { font-family: var(--font-sans); font-size: 17px; line-height: 1.6; color: var(--ink-2); max-width: 800px; }
-  .ds-foot a { color: var(--accent); border-bottom: 1px solid currentColor; }
-  .ds-foot strong { font-weight: 600; }
-  .ds-foot code, .ds-tokens-grid code { font-family: var(--font-mono); font-size: 13px; background: var(--paper-2); padding: 2px 6px; border-radius: 4px; }
+  /* ─── SWATCH GRID ─── */
+  .ds-swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .ds-swatch-card {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--hairline);
+    background: var(--paper);
+  }
+  .ds-swatch {
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--hairline);
+    flex-shrink: 0;
+  }
+  .ds-swatch--paper { background: var(--paper); }
+  .ds-swatch-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .ds-swatch-info code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink);
+  }
+  .ds-swatch-hex {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .ds-swatch-role {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-style: italic;
+    color: var(--muted-2);
+  }
 
-  .ds-tokens-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
-  .ds-token { display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid var(--hairline); border-radius: 6px; }
-  .ds-swatch { width: 32px; height: 32px; border: 1px solid var(--hairline); border-radius: 4px; flex-shrink: 0; }
-  .ds-fonts { margin-top: 24px; }
+  /* ─── TYPE STACKS + SCALE ─── */
+  .ds-type-stacks {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: 16px 0 32px;
+    padding: 24px;
+    background: var(--paper-2);
+    border: 1px solid var(--hairline);
+  }
+  .ds-type-scale {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .ds-type-row {
+    padding-block: 8px;
+    border-bottom: 1px dashed var(--hairline);
+  }
+
+  /* ─── SPACING ─── */
+  .ds-spacing-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .ds-spacing-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 80px;
+    gap: 16px;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .ds-spacing-row code {
+    color: var(--ink);
+  }
+  .ds-spacing-bar {
+    height: 16px;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .ds-spacing-val { color: var(--muted); text-align: right; }
+
+  /* ─── SHADOWS ─── */
+  .ds-shadow-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin: 16px 0 24px;
+  }
+  .ds-shadow-card {
+    padding: 24px;
+    background: var(--paper);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 100px;
+  }
+
+  /* ─── MOTION ─── */
+  .ds-motion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 16px 0 24px;
+  }
+  .ds-motion-card {
+    padding: 16px;
+    background: var(--paper-2);
+    border: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .ds-durations {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .ds-durations li {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .ds-durations code,
+  .ds-motion-card code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink);
+    background: transparent;
+  }
+
+  /* ─── Z-INDEX + LIST ─── */
+  .ds-z-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .ds-z-list li {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--ink-2);
+    padding: 6px 12px;
+    background: var(--paper-2);
+    border-left: 2px solid var(--hairline);
+  }
+  .ds-z-list code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: transparent;
+    color: var(--ink);
+  }
+
+  /* ─── CLASS CARDS ─── */
+  .ds-class-card {
+    padding: 12px 16px;
+    border: 1px solid var(--hairline);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* ─── HAIRLINES DEMO ─── */
+  .ds-hairlines {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .ds-hairlines div {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 16px;
+  }
+  .hline { border: 0; border-top: 1px solid var(--hairline); margin: 0; }
+  .hline-strong { border: 0; border-top: 1px solid var(--hairline-strong); margin: 0; }
+
+  /* ─── SECTIONS W6 LIST ─── */
+  .ds-sections-list,
+  .ds-templates-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .ds-sections-list li,
+  .ds-templates-list li {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--ink-2);
+    padding: 10px 14px;
+    background: var(--paper-2);
+    border: 1px solid var(--hairline);
+    line-height: 1.4;
+  }
+  .ds-templates-list li code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: transparent;
+    color: var(--ink);
+    margin-right: 8px;
+  }
+
+  /* ─── CODE BLOCK ─── */
+  .ds-code {
+    margin: 0;
+    padding: 20px;
+    background: var(--ink);
+    color: var(--paper);
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 4px;
+  }
+  .ds-code code { color: inherit; font-family: inherit; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .ds-layout { grid-template-columns: 1fr; gap: 32px; }
+    .ds-toc { display: none; }
+  }
 </style>
