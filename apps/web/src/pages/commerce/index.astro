@@ -1,0 +1,166 @@
+---
+export const prerender = true;
+
+// Page SSG · /commerce · Hub commerce (products + subscriptions) Tier 3.2
+
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+import { langFromPath } from '../../lib/i18n';
+
+const entries = await getCollection('commerce');
+const lang = langFromPath(Astro.url.pathname);
+const products = entries.filter((e) => e.data.commerce_type === 'product');
+const subscriptions = entries.filter((e) => e.data.commerce_type === 'subscription');
+---
+<Base
+  title={lang === 'fr' ? "Commerce · Produits & Abonnements IA · Waimia" : "Commerce · Products & Subscriptions AI · Waimia"}
+  description={lang === 'fr' ? "Catalogue Waimia : guides PDF, kits prompts, livre blanc premium, atelier membership, claude cowork. Pour PME/ETI." : "Waimia catalogue: PDF guides, prompt kits, premium whitepaper, atelier membership, claude cowork."}
+>
+  <section class="commerce-index">
+    <div class="wrap-wide">
+      <header class="commerce-index__hd">
+        <Kicker tone="muted">§ Commerce · Waimia</Kicker>
+        <h1 class="commerce-index__h1">
+          {lang === 'fr' ? <>Catalogue <i>complet</i></> : <>Full <i>catalogue</i></>}
+        </h1>
+        <p class="commerce-index__lede">
+          {lang === 'fr'
+            ? "Guides, kits, livres blancs, abonnements. Tout est livré numériquement · paiement Stripe sécurisé · accès immédiat."
+            : "Guides, kits, whitepapers, subscriptions. All delivered digitally · secure Stripe payment · instant access."}
+        </p>
+      </header>
+
+      {products.length > 0 && (
+        <section class="commerce-index__group">
+          <h2 class="commerce-index__h2">{lang === 'fr' ? 'Produits one-shot' : 'One-shot products'}</h2>
+          <ul class="commerce-index__list">
+            {products.map((entry: any) => (
+              <li class="commerce-index__item">
+                <a href={`/commerce/product/${entry.id}`}>
+                  <Kicker tone="accent" size={10}>{entry.data.delivery_format.toUpperCase()}</Kicker>
+                  <h3>{lang === 'fr' ? entry.data.title_fr : entry.data.title_en}</h3>
+                  <p>{lang === 'fr' ? entry.data.description_fr : entry.data.description_en}</p>
+                  <strong class="commerce-index__price">€{entry.data.price_eur}</strong>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {subscriptions.length > 0 && (
+        <section class="commerce-index__group">
+          <h2 class="commerce-index__h2">{lang === 'fr' ? 'Abonnements récurrents' : 'Recurring subscriptions'}</h2>
+          <ul class="commerce-index__list commerce-index__list--dark">
+            {subscriptions.map((entry: any) => (
+              <li class="commerce-index__item">
+                <a href={`/commerce/subscription/${entry.id}`}>
+                  <Kicker tone="accent" size={10}>TIER {entry.data.tier.toUpperCase()}</Kicker>
+                  <h3>{lang === 'fr' ? entry.data.title_fr : entry.data.title_en}</h3>
+                  <p>{lang === 'fr' ? entry.data.description_fr : entry.data.description_en}</p>
+                  <strong class="commerce-index__price">€{entry.data.price_eur_monthly}<span>/{lang === 'fr' ? 'mois' : 'mo'}</span></strong>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .commerce-index {
+    padding-top: calc(var(--spacing-section) + var(--header-height));
+    padding-bottom: var(--spacing-section);
+  }
+  .commerce-index__hd {
+    margin-bottom: clamp(48px, 6vw, 80px);
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 32px;
+  }
+  .commerce-index__h1 {
+    font-family: var(--font-display);
+    font-size: var(--text-h1-hero);
+    line-height: 1.02;
+    color: var(--ink);
+    margin: 24px 0 0;
+  }
+  .commerce-index__h1 i { font-style: italic; color: var(--accent); }
+  .commerce-index__lede {
+    font-family: var(--font-sans);
+    font-size: var(--text-lede);
+    color: var(--ink-2);
+    line-height: 1.5;
+    margin: 24px 0 0;
+    max-width: 60ch;
+  }
+  .commerce-index__h2 {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 48px 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .commerce-index__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--hairline);
+    border-left: 1px solid var(--hairline);
+  }
+  .commerce-index__item {
+    border-right: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .commerce-index__item a {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 32px;
+    text-decoration: none;
+    color: var(--ink);
+    height: 100%;
+    transition: background var(--dur-fast) var(--ease);
+  }
+  .commerce-index__item a:hover {
+    background: var(--paper-2);
+  }
+  .commerce-index__list--dark .commerce-index__item a:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .commerce-index__item h3 {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 1.8vw, 28px);
+    line-height: 1.1;
+    color: inherit;
+    margin: 0;
+  }
+  .commerce-index__item p {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-sm);
+    line-height: 1.5;
+    color: var(--muted);
+    margin: 0;
+    flex: 1;
+  }
+  .commerce-index__price {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 2.4vw, 36px);
+    color: var(--accent);
+    margin-top: auto;
+  }
+  .commerce-index__price span {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--muted);
+  }
+</style>

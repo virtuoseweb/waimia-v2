@@ -34,23 +34,62 @@ faq_en:
 
 import Bi from '../../components/ui/atoms/Bi.astro';
 
-## <Bi en="The shipment" fr="Le chantier" />
+## <Bi en="Context" fr="Le contexte" />
 
 <Bi
-  en="Plateau Inc. runs a B2B SaaS with €18M ARR. Their RevOps team was drowning in manual handoffs between marketing, sales, and finance. Three primary breakdowns were costing money: payment reconciliation took 6 hours/week of manual matching, lead triage queued 127 inbound/month with 48h response delay, and the dunning sequence was fully manual."
-  fr="Plateau Inc. opère un SaaS B2B à 18 M€ d'ARR. Son équipe RevOps suffoquait sous les handoffs manuels entre marketing, ventes, finance. Trois plaies coûtaient de l'argent : réconciliation des paiements à 6 h/semaine en matching manuel, triage de leads avec 127 entrées/mois et 48 h de délai, séquence de dunning entièrement manuelle."
+  en="Plateau Inc. runs a B2B SaaS at €18M ARR, with 47 employees and a 4-person RevOps team managing all cross-team handoffs between marketing, sales, and finance by hand. In January 2026, their Head of RevOps reached out after six months of rapid growth had exposed three structural bottlenecks eating time and money every week."
+  fr="Plateau Inc. opère un SaaS B2B à 18 M€ d'ARR, 47 employés, avec une équipe RevOps de 4 personnes gérant manuellement l'ensemble des flux entre marketing, ventes et finance. En janvier 2026, leur Head of RevOps nous a contactés après six mois de croissance rapide qui avait exposé trois goulots d'étranglement structurels coûtant du temps et de l'argent chaque semaine."
+/>
+
+<Bi
+  en="First bottleneck: payment reconciliation. Six hours per week of manual matching between Stripe and HubSpot, with a 4% error rate generating incorrect dunning messages sent to customers who were fully up to date. The relationship cost was invisible but compounding."
+  fr="Premier goulot : la réconciliation des paiements. Six heures par semaine de matching manuel entre Stripe et HubSpot, avec un taux d'erreur de 4 % qui envoyait des relances erronées à des clients à jour. Le coût relationnel était invisible mais s'accumulait."
+/>
+
+<Bi
+  en="Second: inbound lead triage. 127 inbound per month, sorted by two Account Executives spending 3 hours each per day on intake. Average first-contact delay: 48 hours — in a market where competitors were responding in under 4 hours."
+  fr="Deuxième : le triage des leads entrants. 127 inbound par mois, traités par deux Account Executives qui y consacraient 3 heures par jour chacun. Délai moyen de premier contact : 48 heures — sur un marché où les concurrents répondaient sous 4 heures."
+/>
+
+<Bi
+  en="Third: dunning. The overdue payment sequence was entirely manual. No personalization, no automatic follow-through. Recovery rate: 34% on payments overdue by less than 30 days."
+  fr="Troisième : le dunning. La séquence de relance pour paiements en retard était entièrement manuelle. Aucune personnalisation, aucun suivi automatique. Taux de récupération : 34 % sur les paiements en retard de moins de 30 jours."
+/>
+
+## <Bi en="Audit week" fr="Semaine d'audit" />
+
+<Bi
+  en="Week 1 was a full data flow mapping. We audited the HubSpot ↔ Stripe ↔ Salesforce integrations, identified failure points in each sequence, and measured the real time cost of each manual task. Findings: 28 automatable hours per week with low regression risk. The three bottlenecks accounted for 22 of those 28 hours."
+  fr="La semaine 1 a été une cartographie complète des flux de données. On a audité les intégrations HubSpot ↔ Stripe ↔ Salesforce, identifié les points de rupture dans chaque séquence, et mesuré le coût-temps réel de chaque tâche manuelle. Résultat : 28 heures/semaine automatisables à faible risque. Les trois goulots représentaient 22 de ces 28 heures."
+/>
+
+<Bi
+  en="Data quality audit ran in parallel: 3,200 HubSpot contacts with a 9% duplicate rate, inconsistent deal stages across sales reps, 14 custom fields with no populated values. Automating without cleanup would have amplified the noise. Day 3 was spent on a targeted data hygiene pass before writing a single line of agent code."
+  fr="L'audit qualité données a tourné en parallèle : 3 200 contacts HubSpot avec 9 % de doublons, des deal stages incohérents entre commerciaux, 14 champs personnalisés sans valeur renseignée. Automatiser sans nettoyage préalable aurait amplifié le désordre. Le jour 3 a été consacré à un nettoyage ciblé avant d'écrire la moindre ligne d'agent."
 />
 
 ## <Bi en="What we shipped" fr="Ce qu'on a livré" />
 
-- <Bi en="**Finance reconciliation agent** · Claude Sonnet 4.6 + Stripe MCP + dbt models" fr="**Agent réconciliation finance** · Claude Sonnet 4.6 + MCP Stripe + modèles dbt" />
-- <Bi en="**Triage agent** · Claude Opus 4.7 routing inbound to N1/N2/escalate based on intent + ICP scoring" fr="**Agent triage** · Claude Opus 4.7 routant les inbound N1/N2/escalation sur intent + scoring ICP" />
-- <Bi en="**Dunning agent** · Sonnet 4.6 with HubSpot MCP, generates personalized chase sequences in 4 stages" fr="**Agent dunning** · Sonnet 4.6 avec MCP HubSpot, séquences de relance personnalisées en 4 étapes" />
-- <Bi en="**Audit trail** · all agent actions signed, exportable CSV/JSON, AI Act Art. 12 compliant" fr="**Trace auditable** · toutes les actions agent signées, export CSV/JSON, conforme AI Act Art. 12" />
+- <Bi en="**Finance reconciliation agent** · Claude Sonnet 4.6 + Stripe MCP + dbt models · runs every 4 hours, resolves 97% of discrepancies automatically, flags the remaining 3% for human review with full context" fr="**Agent réconciliation finance** · Claude Sonnet 4.6 + MCP Stripe + modèles dbt · tourne toutes les 4 heures, résout 97 % des divergences automatiquement, signale les 3 % restants pour revue humaine avec contexte complet" />
+- <Bi en="**Triage agent** · Claude Opus 4.7 · scores each inbound against ICP criteria and form content, routes to N1/N2/escalate in 8 seconds, triggers automated first-contact within 1 minute" fr="**Agent triage** · Claude Opus 4.7 · score chaque inbound contre les critères ICP et le contenu formulaire, route N1/N2/escalation en 8 secondes, déclenche le premier contact automatisé en moins d'une minute" />
+- <Bi en="**Dunning agent** · Sonnet 4.6 + HubSpot MCP · personalized 4-stage sequences adapted to customer tenure, amount overdue, and relationship tone" fr="**Agent dunning** · Sonnet 4.6 + MCP HubSpot · séquences personnalisées en 4 étapes adaptées à l'ancienneté client, au montant en retard, et au ton de la relation commerciale" />
+- <Bi en="**Audit trail** · all agent decisions logged, signed, exportable CSV/JSON, AI Act Art. 12 compliant, 30-day lookback" fr="**Trace auditable** · toutes les décisions agent loguées, signées, export CSV/JSON, conforme AI Act Art. 12, rétention 30 jours" />
+
+## <Bi en="Results" fr="Résultats" />
+
+<Bi
+  en="Measured over 8 weeks post-deployment versus the preceding 8 weeks. €2.4M pipeline recovered: deals that would have stalled without accelerated triage and personalized dunning. 22 hours per week freed for the RevOps team — equivalent to 0.55 FTE redirected to strategic work."
+  fr="Mesurés sur 8 semaines post-déploiement, en comparaison avec les 8 semaines précédentes. 2,4 M€ de pipeline récupéré : deals qui auraient stagné sans le triage accéléré et les relances dunning personnalisées. 22 heures/semaine libérées pour l'équipe RevOps — l'équivalent de 0,55 ETP redéployé sur des sujets à valeur."
+/>
+
+<Bi
+  en="Dunning recovery rate: from 34% to 61% on payments overdue less than 30 days. First-contact delay on N1 leads: from 48 hours to under 2 minutes. Payment reconciliation error rate: from 4% to 0.3%. The finance team stopped receiving calls from customers wrongly dunned."
+  fr="Taux de récupération dunning : de 34 % à 61 % sur les paiements en retard de moins de 30 jours. Délai de premier contact N1 : de 48 heures à moins de 2 minutes. Taux d'erreur sur la réconciliation : de 4 % à 0,3 %. L'équipe finance a arrêté de recevoir des appels de clients relancés à tort."
+/>
 
 ## <Bi en="Trajectory" fr="Trajectoire" />
 
 <Bi
-  en="Audit week 1, MVP sprint weeks 2–5, hardening + adoption weeks 6–10. Plateau is now running 14 active agents, with 92% of weekly RevOps tasks fully automated. They moved from Claude Pro to Anthropic API + managed agents in week 8, and are now exploring open-source fallback for finance data residency."
-  fr="Audit semaine 1, sprint MVP semaines 2-5, hardening + adoption semaines 6-10. Plateau exécute aujourd'hui 14 agents actifs, avec 92 % des tâches hebdomadaires RevOps automatisées. Migration de Claude Pro vers API Anthropic + managed agents en semaine 8, exploration en cours d'un fallback open-source pour la résidence des données finance."
+  en="Audit week 1, MVP sprint weeks 2–5, hardening and adoption weeks 6–10. Plateau now runs 14 active agents, with 92% of weekly RevOps tasks fully automated. They migrated from Claude Pro to the Anthropic API with managed agents in week 8, cutting inference costs by 40%. They are currently exploring an open-source fallback for finance data residency to meet contractual requirements from two enterprise clients. Phase 2 covers forecasting automation and automated weekly board memos."
+  fr="Audit semaine 1, sprint MVP semaines 2-5, hardening + adoption semaines 6-10. Plateau exécute aujourd'hui 14 agents actifs, avec 92 % des tâches hebdomadaires RevOps automatisées. Migration de Claude Pro vers API Anthropic + managed agents en semaine 8, réduction des coûts d'inférence de 40 %. Exploration en cours d'un fallback open-source pour la résidence des données finance — deux clients enterprise l'exigent contractuellement. Phase 2 : automatisation du forecasting et génération des mémos board hebdomadaires."
 />

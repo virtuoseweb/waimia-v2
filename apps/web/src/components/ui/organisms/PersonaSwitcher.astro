@@ -4,13 +4,47 @@
  *
  * M4 recadre les chemins visibles en langage PME : acquisition, CRM,
  * productivité et gouvernance, sans jargon technique en surface.
+ * T4.1c : consomme la collection `personas` en build-time.
  */
 
+import { getCollection } from 'astro:content';
 import { langFromPath, localizeHref } from '../../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
 
-const personas = [
+type PathItem = { fr: string; en: string; href: string };
+type PersonaItem = {
+  k: string;
+  label_fr: string;
+  label_en: string;
+  role_fr?: string;
+  role_en?: string;
+  pitch_fr: string;
+  pitch_en: string;
+  paths: PathItem[];
+};
+
+// Liens de navigation par slug — non stockés en collection (appartiennent au site, pas au persona)
+const PATHS_BY_SLUG: Record<string, PathItem[]> = {
+  'ceo-pme-b2b': [
+    { fr: 'Activation IA · 1 semaine', en: 'AI Activation · 1 week', href: '/offres/activation-ia' },
+    { fr: 'Growth System IA · acquisition + CRM', en: 'AI Growth System · acquisition + CRM', href: '/offres/growth-system-ia' },
+    { fr: 'Cas client · ROI mesurés', en: 'Customer cases · measured ROI', href: '/cas' },
+  ],
+  'cto-scale-up': [
+    { fr: 'Infrastructure IA · architecture', en: 'AI Infrastructure · architecture', href: '/offres/infrastructure-ia' },
+    { fr: 'Productivité Opérationnelle IA', en: 'Operational AI Productivity', href: '/offres/productivite-operationnelle-ia' },
+    { fr: 'Cookbooks & tutoriels', en: 'Cookbooks & tutorials', href: '/ressources/cookbooks' },
+  ],
+  'cmo-mid-market': [
+    { fr: 'Acquisition IA · contenu & SEO', en: 'AI Acquisition · content & SEO', href: '/solutions/acquisition-ia' },
+    { fr: 'CRM & relances IA', en: 'CRM & AI follow-ups', href: '/solutions/crm-relances-ia' },
+    { fr: 'Growth Intelligence · données', en: 'Growth Intelligence · data', href: '/offres/growth-intelligence' },
+  ],
+};
+
+// Fallback si la collection personas est vide (backward compat)
+const FALLBACK_PERSONAS: PersonaItem[] = [
   {
     k: 'ceo',
     label_fr: 'CEO PME',
@@ -19,7 +53,7 @@ const personas = [
     pitch_en: 'You want a measured ROI in 6 weeks, not an 18-month roadmap.',
     paths: [
       { fr: 'Activation IA · 1 semaine', en: 'AI Activation · 1 week', href: '/offres/activation-ia' },
-      { fr: "Growth System IA · acquisition + CRM", en: 'AI Growth System · acquisition + CRM', href: '/offres/growth-system-ia' },
+      { fr: 'Growth System IA · acquisition + CRM', en: 'AI Growth System · acquisition + CRM', href: '/offres/growth-system-ia' },
       { fr: 'Cas client · ROI mesurés', en: 'Customer cases · measured ROI', href: '/cas' },
     ],
   },
@@ -42,12 +76,32 @@ const personas = [
     pitch_fr: "Vous voulez connecter les outils, fiabiliser les workflows et garder la main sur l'exploitation.",
     pitch_en: 'You want to connect tools, harden workflows, and keep control of operations.',
     paths: [
-      { fr: "Productivité Opérationnelle IA", en: 'Operational AI', href: '/offres/productivite-operationnelle-ia' },
+      { fr: 'Productivité Opérationnelle IA', en: 'Operational AI', href: '/offres/productivite-operationnelle-ia' },
       { fr: 'CRM & relances IA', en: 'CRM & AI follow-ups', href: '/solutions/crm-relances-ia' },
       { fr: 'Cookbooks & tutoriels', en: 'Cookbooks & tutorials', href: '/ressources/cookbooks' },
     ],
   },
 ];
+
+const collectionEntries = await getCollection('personas');
+
+const personas: PersonaItem[] = collectionEntries.length > 0
+  ? collectionEntries
+      .sort((a, b) => {
+        const dateDiff = a.data.publishedAt.getTime() - b.data.publishedAt.getTime();
+        return dateDiff !== 0 ? dateDiff : a.data.slug.localeCompare(b.data.slug);
+      })
+      .map((entry) => ({
+        k: entry.data.slug,
+        label_fr: entry.data.title_fr,
+        label_en: entry.data.title_en,
+        role_fr: entry.data.role_fr,
+        role_en: entry.data.role_en,
+        pitch_fr: entry.data.description_fr,
+        pitch_en: entry.data.description_en,
+        paths: PATHS_BY_SLUG[entry.data.slug] ?? [],
+      }))
+  : FALLBACK_PERSONAS;
 ---
 <section class="sec sec-paper" aria-labelledby="persona-h2">
   <div class="wrap-wide">
@@ -84,6 +138,9 @@ const personas = [
     <div class="persona-stage">
       {personas.map((p, i) => (
         <article class={'persona-panel' + (i === 0 ? ' is-active' : '')} data-panel={p.k}>
+          {(p.role_fr || p.role_en) && (
+            <p class="persona-role">{lang === 'fr' ? p.role_fr : p.role_en}</p>
+          )}
           <p class="persona-pitch">{lang === 'fr' ? p.pitch_fr : p.pitch_en}</p>
           <ul class="persona-paths">
             {p.paths.map((path, idx) => (
@@ -129,6 +186,7 @@ const personas = [
   .persona-stage{position:relative;min-height:300px}
   .persona-panel{position:absolute;inset:0;opacity:0;transform:translateY(8px);transition:opacity 540ms var(--ease),transform 540ms var(--ease);pointer-events:none;clip-path:inset(0 0 100% 0)}
   .persona-panel.is-active{opacity:1;transform:none;pointer-events:auto;clip-path:inset(0 0 0 0);transition:opacity 720ms var(--ease),transform 720ms var(--ease),clip-path 800ms var(--ease)}
+  .persona-role{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
   .persona-pitch{font-family:var(--font-display);font-style:italic;font-size:clamp(22px,2.6vw,40px);line-height:1.25;color:var(--ink-2);max-width:900px;margin-bottom:clamp(32px,4vw,56px);text-wrap:balance}
   .persona-paths{list-style:none;display:flex;flex-direction:column;gap:0;border-top:1px solid var(--hairline)}
   .persona-paths li{border-bottom:1px solid var(--hairline)}
