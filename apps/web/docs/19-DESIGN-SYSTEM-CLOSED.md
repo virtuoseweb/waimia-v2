@@ -1,6 +1,6 @@
 # 19 — Design System Closed (Phase B · Système fermé atomique)
 
-**Statut** : 🟡 EN COURS · Phase B — Système fermé, propositions Claude pour validation Simon
+**Statut** : ✅ FIGÉ · Phase B — Système fermé validé Simon (2026-05-15)
 **Date** : 2026-05-15
 **Précédent** : `18-DESIGN-SYSTEM-CARTOGRAPHY.md` (Phase A audit exhaustif)
 **Suivant** : `20-DESIGN-SYSTEM-CATALOGUE.md` (Phase C enrichissement /agence/design-system)
@@ -438,16 +438,24 @@ padding-top: calc(var(--spacing-section) + var(--header-height));
 
 ---
 
-## B.9 · Arbitrages Simon attendus
+## B.9 · Arbitrages Simon — TOUS TRANCHÉS ✅
 
-Avant Phase C démarrage, décisions nécessaires :
+| # | Arbitrage | Décision | Date |
+|---|---|---|---|
+| 1 | Hairlines dark | ✅ SUPPRIMER (-2 tokens) | 2026-05-15 |
+| 2 | @theme Tailwind v4 | ✅ CONSERVER (Tailwind utilisé prod) | 2026-05-15 |
+| 3 | Sections accueil variants | ✅ TOUS Tier 2 (variation home autorisée) | 2026-05-15 |
+| 4 | 11 composants 1-import | ✅ TOUS Tier 1 (audit D.4) | 2026-05-15 |
+| 5 | Organisms doublons | ✅ Tier 2 (Hero/ProcessSteps/MetricStrip/CapabilityStrip) | 2026-05-15 |
+| 6 | Sidenote / Timeline editorial | ✅ Tier 2 (usages légitimes mais peu fréquents) | 2026-05-15 |
+| 7 | `.kicker` class vs Kicker atom | ✅ ATOM SEUL (migration progressive en cours) | 2026-05-15 |
 
-1. **Hairlines dark** (§B.1.3) : conserver pour dark mode futur OU supprimer (-2 tokens) ?
-2. **@theme Tailwind v4** (§B.1.19) : utility classes utilisées en prod (Tier 1) OU bloc à supprimer (Tier 3 -10 tokens) ?
-3. **Sections d'accueil variées** (§B.2.1) : tous les variants survivent en Tier 2 OU consolidation vers 3 W6 ?
-4. ~~**11 composants 1-import** (§B.3.4)~~ ✅ **TRANCHÉ 2026-05-15** : audit Phase D.4 → tous Tier 1 (aucune dette)
-5. **Organisms doublons** (§B.3.3) : déprécier Hero/ProcessSteps/MetricStrip/CapabilityStrip OU les garder en Tier 2 ?
-6. **Sidenote, Timeline editorial** (§B.2.5) : Tier 1 ou Tier 2 ?
-7. **`.kicker` class vs `Kicker.astro` atom** (§B.4.2) : unifier vers atom seul ?
+**Phase B officiellement FIGÉE — démarrage Phase C autorisé.**
+
+Système design final : **118 tokens canoniques** (147 → -20%) répartis en :
+
+- Tier 1 : ~100 tokens canoniques + 64 classes utility Tier 1 + 19 sections W6 + 10 atoms + 30 molecules + 8 editorial + 4 motion + 18 templates
+- Tier 2 : 4 organisms doublons (Hero, ProcessSteps, MetricStrip, CapabilityStrip) + variants hero W6 (HeroCentered, HeroFullBleed) + Sidenote + Timeline editorial + 2 spacing aliases W6 (--spacing-section, --spacing-block)
+- Tier 3 : 0 (tous supprimés Phase D.1 + D.5 + arbitrages exec)
 
 Après validation, doc 19 passe en statut ✅ FIGÉ et Phase C peut démarrer (catalogue exposable sur `/agence/design-system`).
