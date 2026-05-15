@@ -45,6 +45,11 @@ export default defineConfig({
     '/ressources/cas/northbound': '/cas/northbound',
     '/ressources/cas/caserne': '/cas/caserne',
     '/ressources/cas/virtuoseos': { status: 301, destination: '/archive' },
+    // W4 2026-05-15 · Tunnel site-web-ia : anciennes URLs → nouvelle architecture collection
+    '/offres/site-web-ia-tunnel': '/offres/site-web-ia/tunnel/1',
+    '/offres/site-web-ia-tunnel/mecanique': '/offres/site-web-ia/tunnel/2',
+    '/offres/site-web-ia-tunnel/preuves': '/offres/site-web-ia/tunnel/3',
+    '/offres/site-web-ia-tunnel/conversion': '/offres/site-web-ia/tunnel/4',
   },
   integrations: [
     react(),

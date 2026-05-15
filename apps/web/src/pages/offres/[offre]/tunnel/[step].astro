@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../../layouts/Base.astro';
+import TunnelStepTemplate from '../../../../components/templates/TunnelStepTemplate.astro';
+import { langFromPath } from '../../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const tunnels = await getCollection('tunnels');
+  return tunnels.map((entry) => ({
+    params: { offre: entry.data.offre_slug, step: String(entry.data.step) },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const lang = langFromPath(Astro.url.pathname);
+const data = entry.data;
+
+const offre_label_map: Record<string, string> = {
+  'site-web-ia': lang === 'fr' ? 'Site IA-first' : 'AI-first Website',
+  'growth-system-ia': lang === 'fr' ? 'Growth System IA' : 'AI Growth System',
+  'activation-ia': lang === 'fr' ? 'Activation IA' : 'AI Activation',
+  'revops': 'RevOps',
+  'application-ia-pme': lang === 'fr' ? 'Application IA PME' : 'AI App for SMBs',
+};
+const offre_label = offre_label_map[data.offre_slug] ?? data.offre_slug;
+---
+
+<Base
+  title={lang === 'fr' ? data.title_fr : data.title_en}
+  description={lang === 'fr' ? data.description_fr : data.description_en}
+>
+  <TunnelStepTemplate
+    offre_slug={data.offre_slug}
+    offre_label={offre_label}
+    step={data.step}
+    progress_total={data.progress_total ?? 4}
+    step_title_fr={data.step_title_fr}
+    step_title_en={data.step_title_en}
+    description_fr={data.description_fr}
+    description_en={data.description_en}
+    next_step={data.next_step}
+    prev_step={data.prev_step}
+    cta_label_fr={data.cta_label_fr}
+    cta_label_en={data.cta_label_en}
+    cta_href={data.cta_href}
+    cta_variant={data.cta_variant ?? 'primary'}
+    lang={lang}
+  >
+    <Content />
+  </TunnelStepTemplate>
+</Base>

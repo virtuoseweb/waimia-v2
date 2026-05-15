@@ -1,0 +1,333 @@
+---
+interface Props {
+  offre_slug: string;
+  offre_label: string;
+  step: number;
+  progress_total: number;
+  step_title_fr: string;
+  step_title_en: string;
+  description_fr: string;
+  description_en: string;
+  next_step?: string;
+  prev_step?: string;
+  cta_label_fr: string;
+  cta_label_en: string;
+  cta_href: string;
+  cta_variant?: 'primary' | 'accent' | 'ghost';
+  lang: 'fr' | 'en';
+}
+
+const {
+  offre_slug,
+  offre_label,
+  step,
+  progress_total,
+  step_title_fr,
+  step_title_en,
+  description_fr,
+  description_en,
+  next_step,
+  prev_step,
+  cta_label_fr,
+  cta_label_en,
+  cta_href,
+  cta_variant = 'primary',
+  lang,
+} = Astro.props;
+
+const step_title = lang === 'fr' ? step_title_fr : step_title_en;
+const description = lang === 'fr' ? description_fr : description_en;
+const cta_label = lang === 'fr' ? cta_label_fr : cta_label_en;
+const kicker_label = lang === 'fr'
+  ? `Tunnel · ${offre_label} · Étape ${step}/${progress_total}`
+  : `Funnel · ${offre_label} · Step ${step}/${progress_total}`;
+const back_href = `/offres/${offre_slug}`;
+
+const padStep = (n: number) => String(n).padStart(2, '0');
+---
+
+<article class="tunnel-template">
+  <section class="tnl-hero wrap-wide">
+    <p class="tnl-kicker">{kicker_label}</p>
+    <div
+      class="tnl-progress"
+      aria-label={lang === 'fr'
+        ? `Progression : étape ${step} sur ${progress_total}`
+        : `Progress: step ${step} of ${progress_total}`}
+    >
+      {Array.from({ length: progress_total }, (_, i) => {
+        const n = i + 1;
+        const active = n === step;
+        return (
+          <span
+            class:list={['tnl-progress__step', active && 'is-active']}
+            aria-current={active ? 'step' : undefined}
+          >
+            [{padStep(n)}]
+          </span>
+        );
+      })}
+    </div>
+    <h1
+      class:list={['tnl-h1 reveal-mask-up', step === 1 ? 'tnl-h1--hero' : 'tnl-h1--section']}
+      set:html={step_title}
+    />
+    <p class="tnl-lede">{description}</p>
+  </section>
+
+  <section class="tnl-body wrap-wide">
+    <slot />
+  </section>
+
+  <footer class="tnl-nav wrap-wide">
+    {prev_step && (
+      <a href={`/offres/${offre_slug}/tunnel/${step - 1}`} class="btn-ghost">
+        {lang === 'fr' ? '← Étape précédente' : '← Previous step'}
+      </a>
+    )}
+    <a href={cta_href} class:list={['btn-cta', `btn-cta--${cta_variant}`]}>
+      {cta_label}
+    </a>
+    <div class="tnl-meta">
+      <span class="tnl-meta__reading">
+        {lang === 'fr' ? 'Temps de lecture&nbsp;: 2 min' : '2 min read'}
+      </span>
+      <a href={back_href} class="tnl-meta__back">
+        {lang === 'fr' ? `← ${offre_label}` : `← ${offre_label}`}
+      </a>
+    </div>
+  </footer>
+</article>
+
+<style>
+/* ── Layout ── */
+.tunnel-template { padding-block: 0; }
+.wrap-wide { max-width: 1200px; margin-inline: auto; padding-inline: var(--gut); }
+
+/* ── Kicker ── */
+.tnl-kicker {
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 1.1vw, 12px);
+  line-height: 1;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--space-6);
+  padding-top: clamp(48px, 8vw, 96px);
+}
+
+/* ── Progress bar ── */
+.tnl-progress {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: var(--space-7);
+}
+.tnl-progress__step {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: .06em;
+  color: var(--muted);
+  padding-inline: 10px;
+  border-right: 1px solid var(--hairline);
+}
+.tnl-progress__step:first-child { padding-left: 0; }
+.tnl-progress__step:last-child { border-right: none; }
+.tnl-progress__step.is-active { color: var(--accent); }
+
+/* ── H1 ── */
+.tnl-h1 {
+  font-family: var(--font-display);
+  letter-spacing: -.02em;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: clamp(24px, 3vw, 40px);
+  max-width: 18ch;
+}
+.tnl-h1--hero { font-size: var(--text-h1-hero); }
+.tnl-h1--section { font-size: var(--text-h2-grand); }
+.tnl-h1 :global(i),
+.tnl-h1 :global(em) {
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* ── Lede ── */
+.tnl-lede {
+  font-family: var(--font-sans);
+  font-size: var(--text-lede);
+  line-height: 1.6;
+  color: var(--ink);
+  max-width: 62ch;
+  margin-bottom: clamp(48px, 7vw, 96px);
+}
+
+/* ── Hero section ── */
+.tnl-hero {
+  padding-bottom: clamp(48px, 6vw, 80px);
+}
+
+/* ── Body ── */
+.tnl-body {
+  padding-block: clamp(48px, 6vw, 80px);
+  border-top: 1px solid var(--hairline);
+}
+.tnl-body :global(h2) {
+  font-family: var(--font-display);
+  font-size: var(--text-h2-section);
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  color: var(--ink);
+  margin-bottom: var(--space-6);
+}
+.tnl-body :global(h3) {
+  font-family: var(--font-display);
+  font-size: var(--text-h3-row);
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: var(--space-5);
+}
+.tnl-body :global(p) {
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.7;
+  color: var(--ink);
+  max-width: 68ch;
+  margin-bottom: var(--space-5);
+}
+.tnl-body :global(strong) { font-weight: 600; }
+.tnl-body :global(em) { font-style: italic; }
+.tnl-body :global(ul) {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.tnl-body :global(ul li) {
+  font-family: var(--font-sans);
+  font-size: clamp(14px, 1.3vw, 16px);
+  color: var(--ink);
+  padding-left: var(--space-6);
+  position: relative;
+  line-height: 1.6;
+}
+.tnl-body :global(ul li::before) {
+  content: '—';
+  position: absolute;
+  left: 0;
+  font-family: var(--font-mono);
+  color: var(--muted);
+  font-size: 11px;
+  top: 3px;
+}
+.tnl-body :global(blockquote) {
+  border-left: 2px solid var(--accent);
+  padding: var(--space-5) var(--space-6);
+  margin: var(--space-7) 0;
+  background: rgba(201,79,46,.04);
+  font-family: var(--font-display);
+  font-size: clamp(16px, 1.8vw, 20px);
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.tnl-body :global(hr) {
+  border: none;
+  border-top: 1px solid var(--hairline);
+  margin-block: var(--space-7);
+}
+.tnl-body :global(table) {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: clamp(13px, 1.2vw, 15px);
+  margin-bottom: var(--space-6);
+}
+.tnl-body :global(th) {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--hairline);
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+}
+.tnl-body :global(td) {
+  color: var(--ink);
+  border-bottom: 1px solid var(--hairline);
+  padding: var(--space-3) var(--space-4);
+  line-height: 1.5;
+}
+
+/* ── Footer nav ── */
+.tnl-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5);
+  padding-block: clamp(48px, 6vw, 80px);
+  border-top: 1px solid var(--hairline);
+}
+.btn-ghost {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+  padding: 12px 24px;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: border-color .2s;
+}
+.btn-ghost:hover { border-color: var(--ink); }
+.btn-cta {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: opacity .2s;
+}
+.btn-cta--primary { background: var(--ink); color: var(--paper); }
+.btn-cta--accent { background: var(--accent); color: var(--paper); }
+.btn-cta--ghost { border: 1px solid var(--hairline); color: var(--ink); background: transparent; }
+.btn-cta:hover { opacity: .85; }
+
+/* ── Meta bar ── */
+.tnl-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  margin-left: auto;
+}
+.tnl-meta__reading,
+.tnl-meta__back {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .06em;
+  text-decoration: none;
+}
+.tnl-meta__back:hover { color: var(--ink); }
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .tnl-progress {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .tnl-progress__step {
+    border-right: none;
+    border-bottom: 1px solid var(--hairline);
+    padding: 4px 0;
+    width: 100%;
+  }
+  .tnl-progress__step:last-child { border-bottom: none; }
+  .tnl-meta { margin-left: 0; width: 100%; }
+}
+</style>
