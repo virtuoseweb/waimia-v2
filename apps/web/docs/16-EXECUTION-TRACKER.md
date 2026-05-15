@@ -23,26 +23,26 @@ Tous les 5 axes stratégiques **VALIDÉS** :
 
 ### TIER 1 · Quick wins (10h) — IMPACT IMMÉDIAT
 
-- [ ] **T1.1** · `output: 'server'` → `'hybrid'` dans `astro.config.mjs`
-- [ ] **T1.2a** · Git commit safety net AVANT delete hardcoded
-- [ ] **T1.2b** · Delete 7 pages `/offres/{activation-ia,application-ia-pme,claude-cowork,growth-intelligence,growth-system-ia,infrastructure-ia,productivite-operationnelle-ia}.astro`
-- [ ] **T1.2c** · Delete 8 pages `/solutions/{acquisition-ia,contenu-seo-geo-ia,crm-relances-ia,finance,fintech,productivite-ia,site-web-ia-pme,support-client-ia}.astro`
-- [ ] **T1.2d** · Delete 2 pages `/technologies/{virtuoseos,claude-models}.astro`
-- [ ] **T1.2e** · Validation 17 URLs rendent toujours 200 après delete (via MDX consumer)
+- [🟡] **T1.1** · `output: 'server'` → `'static'` code écrit et reverti temporairement (TODO[T1.1-activate] commenté). Activation lors du prochain restart dev / Vercel deploy.
+- [✅] **T1.2a** · Git commit safety net AVANT delete hardcoded — `feat(waimia): Wave 1-3 livrées` committed
+- [✅] **T1.2b** · 7 pages `/offres/*.astro` deleted (activation-ia, application-ia-pme, claude-cowork, growth-intelligence, growth-system-ia, infrastructure-ia, productivite-operationnelle-ia)
+- [✅] **T1.2c** · 8 pages `/solutions/*.astro` deleted (acquisition-ia, contenu-seo-geo-ia, crm-relances-ia, finance, fintech, productivite-ia, site-web-ia-pme, support-client-ia)
+- [✅] **T1.2d** · 2 pages `/technologies/*.astro` déjà absentes (W3 worker les avait supprimées)
+- [✅] **T1.2e** · 17/17 URLs HTTP 200 via MDX consumer post-delete validé empiriquement
 - [ ] **T1.3** · Audit Lighthouse sur 5 pages échantillon (home, /offres/growth-system-ia, /atlas, /console, /ecole)
-- [ ] **T1.4** · `BootSplash.tsx` React → CSS animation pure
-- [ ] **T1.5a** · Fonts audit (subsets latin + latin-ext)
-- [ ] **T1.5b** · Fonts preload Instrument Serif 400 (H1 critical)
-- [ ] **T1.5c** · Fonts woff2 only (drop woff fallback si présent)
+- [✅] **T1.4** · `BootSplash.tsx` React supprimé → `BootSplash.astro` CSS pur (animation @keyframes 1720ms, prefers-reduced-motion supporté, −50KB bundle)
+- [🟡] **T1.5a** · Fonts audit fait : Google Fonts CDN + preconnect + preload as="style" + display=swap. Acceptable mais sub-optimal.
+- [ ] **T1.5b** · Self-host Instrument Serif 400 woff2 + preload critical (à faire session next, ~2h)
+- [ ] **T1.5c** · Drop CDN Google Fonts pour Inter Tight + JetBrains Mono (passer self-hosted woff2)
 - [ ] **T1.6a** · Vercel OG endpoint `/api/og.png` créé
 - [ ] **T1.6b** · OG image dynamique sur 4 templates principaux (Hero, Offres, Solutions, Cases)
 - [ ] **T1.7** · Astro `<Image>` audit + migration images statiques restantes vers `astro:assets`
 
 ### TIER 2 · Composable architecture (31h) — DÉBLOQUE TOUT LE RESTE
 
-- [ ] **T2.1a** · Définir 15-20 section schemas Zod dans `src/content.config.ts` (discriminated union)
-- [ ] **T2.1b** · Extract section schemas vers `src/schemas/sections.ts` (séparation concerns)
-- [ ] **T2.1c** · Type `SectionData = z.infer<typeof sectionSchema>` exporté
+- [✅] **T2.1a** · 19 section schemas Zod définis dans `src/schemas/sections.ts` (discriminated union)
+- [✅] **T2.1b** · Extracted vers `src/schemas/sections.ts` (séparation concerns)
+- [✅] **T2.1c** · Type `SectionData`, `SectionType`, `SectionByType<T>` exportés
 - [ ] **T2.2a** · Créer `src/components/sections/HeroSplit.astro`
 - [ ] **T2.2b** · Créer `src/components/sections/HeroCentered.astro`
 - [ ] **T2.2c** · Créer `src/components/sections/HeroFullBleed.astro`
@@ -62,8 +62,8 @@ Tous les 5 axes stratégiques **VALIDÉS** :
 - [ ] **T2.2q** · Créer `src/components/sections/GuaranteeBlock.astro`
 - [ ] **T2.2r** · Créer `src/components/sections/TimelineBlock.astro`
 - [ ] **T2.2s** · Créer `src/components/sections/MediaBlock.astro`
-- [ ] **T2.3a** · Créer `src/components/sections/SectionsRenderer.astro` (mapping type → component)
-- [ ] **T2.3b** · Registry `SECTION_REGISTRY` dans `src/lib/section-registry.ts`
+- [✅] **T2.3a** · `src/components/sections/SectionsRenderer.astro` créé (consomme registry)
+- [✅] **T2.3b** · Registry `SECTION_REGISTRY` dans `src/lib/section-registry.ts` (19 types mappés)
 - [ ] **T2.4a** · Migrer pilote `growth-system-ia.mdx` en `sections[]` array
 - [ ] **T2.4b** · Valider rendu pilote HTTP 200 + visuel équivalent
 - [ ] **T2.4c** · Refactor `OffresDetailTemplate.astro` pour utiliser `SectionsRenderer`

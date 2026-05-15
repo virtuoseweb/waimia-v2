@@ -1,0 +1,88 @@
+---
+/**
+ * BootSplash · cinématique d'entrée 620 ms — version CSS pure (V2 2026-05-15).
+ *
+ * Avant : React island `client:only="react"` (50 KB bundle React inutile pour 10 LoC logic).
+ * Après : composant Astro pur avec animation CSS @keyframes — zéro JS hydration.
+ *
+ * Comportement identique :
+ * - Affichage 1100 ms
+ * - Fade-out 620 ms
+ * - `pointer-events: none` après l'animation (laisse passer les clics)
+ *
+ * Bénéfice : −50 KB bundle initial, hydration cost = 0.
+ */
+
+interface Props {
+  lang?: 'fr' | 'en';
+}
+
+const { lang = 'fr' } = Astro.props;
+const subtitle = lang === 'fr' ? 'Architectes de systèmes agentiques' : 'Architects of agentic systems';
+---
+
+<div class="boot" aria-hidden="true">
+  <div class="boot-inner">
+    <div class="boot-mark">
+      Waim<i>i</i>a<span class="boot-dot">.</span>
+    </div>
+    <div class="boot-sub">{subtitle}</div>
+  </div>
+</div>
+
+<style>
+  .boot {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper);
+    z-index: 200;
+    animation: boot-fade 1720ms forwards;
+    will-change: opacity;
+  }
+
+  /* 1100ms visible → fade 620ms → invisible et non-interactif */
+  @keyframes boot-fade {
+    0% { opacity: 1; pointer-events: auto; }
+    63.95% { opacity: 1; pointer-events: auto; } /* 1100/1720 */
+    99% { opacity: 0; }
+    100% { opacity: 0; pointer-events: none; visibility: hidden; }
+  }
+
+  .boot-mark {
+    font-family: var(--font-display);
+    font-size: clamp(64px, 10vw, 110px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-align: center;
+  }
+
+  .boot-mark i {
+    font-style: italic;
+  }
+
+  .boot-dot {
+    color: var(--accent);
+  }
+
+  .boot-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    margin-top: 16px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .boot {
+      animation: none;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+</style>

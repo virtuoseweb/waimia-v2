@@ -21,11 +21,14 @@ import vercel from '@astrojs/vercel';
 // HTTP non plus. Trade-off net neutre pour ce cas.
 export default defineConfig({
   site: 'https://waimia.com',
-  // V2 2026-05-15 — Migration server → hybrid (T1.1 EXECUTION-TRACKER) :
+  // V2 2026-05-15 — Migration prévue server → static (T1.1 EXECUTION-TRACKER) :
+  // ⚠️ Le passage à `output: 'static'` nécessite un restart dev complet
+  // (HMR ne reload pas les routes statiques). À activer au prochain redémarrage.
   // 95 % du contenu est evergreen. SSG par défaut (`prerender = true`).
   // SSR opt-in via `export const prerender = false` sur API routes (/api/*).
   // ISR à activer page-par-page via Vercel adapter config (Tier 12).
-  output: 'static',
+  // TODO[T1.1-activate]: passer à 'static' au prochain restart dev/build Vercel.
+  output: 'server',
   adapter: vercel(),
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   trailingSlash: 'never',

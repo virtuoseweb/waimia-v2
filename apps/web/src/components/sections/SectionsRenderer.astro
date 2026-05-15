@@ -1,0 +1,30 @@
+---
+// Waimia · SectionsRenderer V2 (2026-05-15)
+// Renderer composable data-driven. Consomme `sections[]` validé Zod et délègue à `SECTION_REGISTRY`.
+// Cf docs/15-STRATEGIC-AUDIT.md Tier 2.3 + docs/16-EXECUTION-TRACKER.md T2.3a
+//
+// Usage minimal :
+//   <SectionsRenderer sections={entry.data.sections} lang={lang} />
+//
+// Le `lang` est propagé à chaque section pour rendu bilingue.
+
+import { SECTION_REGISTRY } from '../../lib/section-registry';
+import type { SectionData } from '../../schemas/sections';
+
+interface Props {
+  sections: SectionData[];
+  lang: 'fr' | 'en';
+}
+
+const { sections, lang } = Astro.props;
+---
+
+{sections.map((section) => {
+  const Component = SECTION_REGISTRY[section.type];
+  if (!Component) {
+    console.error(`[SectionsRenderer] Type inconnu: ${section.type}`);
+    return null;
+  }
+  // Cast nécessaire car le registry est indexé par string mais Astro veut props typed
+  return <Component {...(section as any)} lang={lang} />;
+})}
