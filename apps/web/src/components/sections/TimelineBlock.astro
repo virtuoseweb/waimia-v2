@@ -1,0 +1,78 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+import Kicker from '../ui/atoms/Kicker.astro';
+
+interface Props {
+  data: SectionByType<'timeline-block'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+---
+
+<section class="timeline-block">
+  <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
+  <ol class="timeline-block__list">
+    {data.events.map((ev: (typeof data.events)[number]) => (
+      <li class="timeline-block__event">
+        <Kicker tone="muted" size={10} class="timeline-block__date">{ev.date}</Kicker>
+        <div class="timeline-block__content">
+          <strong class="timeline-block__title">{isFr ? ev.title_fr : ev.title_en}</strong>
+          <p>{isFr ? ev.body_fr : ev.body_en}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .timeline-block {
+    padding-block: var(--spacing-section);
+    border-bottom: 1px solid var(--hairline);
+  }
+  h2 {
+    font-family: var(--font-serif);
+    font-size: var(--text-h2);
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0 0 var(--spacing-block);
+  }
+  h2 :global(i) { font-style: italic; }
+  .timeline-block__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .timeline-block__event {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 32px;
+    padding-block: 24px;
+    border-top: 1px solid var(--hairline);
+  }
+  .timeline-block__event:last-child { border-bottom: 1px solid var(--hairline); }
+  .timeline-block__date { padding-top: 4px; }
+  .timeline-block__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .timeline-block__title {
+    font-family: var(--font-serif);
+    font-size: clamp(16px, 1.6vw, 22px);
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .timeline-block__content p {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 64ch;
+  }
+  @media (max-width: 600px) {
+    .timeline-block__event { grid-template-columns: 1fr; gap: 8px; }
+  }
+</style>

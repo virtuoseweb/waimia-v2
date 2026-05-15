@@ -1,0 +1,69 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+import Kicker from '../ui/atoms/Kicker.astro';
+
+interface Props {
+  data: SectionByType<'guarantee-block'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+---
+
+<section class="guarantee-block">
+  <ul class="guarantee-block__list">
+    {data.guarantees.map((g: (typeof data.guarantees)[number], i: number) => (
+      <li class="guarantee-block__item">
+        <Kicker tone="accent" size={10} class="guarantee-block__num">◉ {String(i + 1).padStart(2, '0')}</Kicker>
+        <div class="guarantee-block__content">
+          <strong class="guarantee-block__title">{isFr ? g.title_fr : g.title_en}</strong>
+          <p>{isFr ? g.body_fr : g.body_en}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .guarantee-block {
+    padding-block: var(--spacing-section);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .guarantee-block__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .guarantee-block__item {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 24px;
+    padding-block: 24px;
+    border-top: 1px solid var(--hairline);
+  }
+  .guarantee-block__item:last-child { border-bottom: 1px solid var(--hairline); }
+  .guarantee-block__num { padding-top: 4px; }
+  .guarantee-block__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .guarantee-block__title {
+    font-family: var(--font-serif);
+    font-size: clamp(18px, 1.8vw, 24px);
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .guarantee-block__content p {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 64ch;
+  }
+  @media (max-width: 600px) {
+    .guarantee-block__item { grid-template-columns: 1fr; }
+  }
+</style>

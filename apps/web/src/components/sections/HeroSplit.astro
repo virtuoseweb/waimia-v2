@@ -1,0 +1,97 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+import Kicker from '../ui/atoms/Kicker.astro';
+import Button from '../ui/atoms/Button.astro';
+
+interface Props {
+  data: SectionByType<'hero-split'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+---
+
+<section class="hero-split">
+  <div class="hero-split__inner">
+    <div class="hero-split__left">
+      {(isFr ? data.kicker_fr : data.kicker_en) && (
+        <Kicker tone="muted">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
+      )}
+      <h1 class="reveal-mask-up" set:html={isFr ? data.h1_fr : data.h1_en} />
+      <p class="reveal reveal-fade">{isFr ? data.lede_fr : data.lede_en}</p>
+      <div class="hero-split__ctas">
+        <Button href={data.cta_primary.href} variant={data.cta_primary.variant as any} size="lg" mag={data.cta_primary.mag ?? 0.18}>
+          {isFr ? data.cta_primary.label_fr : data.cta_primary.label_en}
+        </Button>
+        {data.cta_secondary && (
+          <Button href={data.cta_secondary.href} variant={data.cta_secondary.variant as any} size="md">
+            {isFr ? data.cta_secondary.label_fr : data.cta_secondary.label_en}
+          </Button>
+        )}
+      </div>
+      {(isFr ? data.meta_fr : data.meta_en) && (
+        <Kicker tone="dim" class="hero-split__meta">{isFr ? data.meta_fr : data.meta_en}</Kicker>
+      )}
+    </div>
+    {data.right_block && (
+      <div class="hero-split__right" data-kind={data.right_block.kind}>
+        <div class="hero-split__right-inner" aria-hidden="true">
+          <Kicker tone="dim" size={10}>{data.right_block.kind}</Kicker>
+        </div>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .hero-split {
+    padding-block: var(--spacing-section);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .hero-split__inner {
+    display: grid;
+    grid-template-columns: 58fr 42fr;
+    gap: clamp(32px, 5vw, 80px);
+    align-items: center;
+  }
+  .hero-split__left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-block);
+  }
+  h1 {
+    font-family: var(--font-serif);
+    font-size: var(--text-h1-hero);
+    line-height: 1.02;
+    color: var(--ink);
+    margin: 0;
+  }
+  h1 :global(i) { font-style: italic; }
+  p {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 48ch;
+    margin: 0;
+  }
+  .hero-split__ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .hero-split__meta { margin-top: -8px; }
+  .hero-split__right {
+    border: 1px solid var(--hairline);
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper-2);
+  }
+  @media (max-width: 768px) {
+    .hero-split__inner { grid-template-columns: 1fr; }
+    .hero-split__right { display: none; }
+  }
+</style>

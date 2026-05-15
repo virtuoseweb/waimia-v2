@@ -1,0 +1,73 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+import Kicker from '../ui/atoms/Kicker.astro';
+
+interface Props {
+  data: SectionByType<'social-proof'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+---
+
+<section class="social-proof">
+  {(isFr ? data.kicker_fr : data.kicker_en) && (
+    <Kicker tone="muted" class="social-proof__kicker">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
+  )}
+  {data.marquee ? (
+    <div class="social-proof__marquee-wrap" aria-hidden="true">
+      <ul class="social-proof__marquee">
+        {[...data.logos, ...data.logos].map((l: (typeof data.logos)[number]) => (
+          <li class="social-proof__logo">{l.name}</li>
+        ))}
+      </ul>
+    </div>
+  ) : (
+    <ul class="social-proof__static">
+      {data.logos.map((l: (typeof data.logos)[number]) => (
+        <li class="social-proof__logo">{l.name}</li>
+      ))}
+    </ul>
+  )}
+</section>
+
+<style>
+  .social-proof {
+    padding-block: clamp(32px, 4vw, 56px);
+    border-bottom: 1px solid var(--hairline);
+    overflow: hidden;
+  }
+  .social-proof__kicker { margin-bottom: 24px; }
+  .social-proof__logo {
+    font-family: var(--font-serif);
+    font-size: clamp(14px, 1.2vw, 18px);
+    color: var(--muted);
+    white-space: nowrap;
+    list-style: none;
+    padding-inline: 32px;
+    border-right: 1px solid var(--hairline);
+  }
+  .social-proof__static {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .social-proof__marquee-wrap { position: relative; }
+  .social-proof__marquee {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    animation: marquee 32s linear infinite;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .social-proof__marquee { animation: none; }
+  }
+</style>

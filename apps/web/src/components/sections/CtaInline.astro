@@ -1,0 +1,39 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+import Button from '../ui/atoms/Button.astro';
+
+interface Props {
+  data: SectionByType<'cta-inline'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+---
+
+<div class="cta-inline">
+  <p class="cta-inline__text">{isFr ? data.text_fr : data.text_en}</p>
+  <Button href={data.cta.href} variant={data.cta.variant as any} size="md">
+    {isFr ? data.cta.label_fr : data.cta.label_en}
+  </Button>
+</div>
+
+<style>
+  .cta-inline {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 20px;
+    border: 1px solid var(--hairline);
+    background: var(--paper-2);
+    flex-wrap: wrap;
+  }
+  .cta-inline__text {
+    font-family: var(--font-sans);
+    font-size: var(--text-small);
+    color: var(--ink);
+    margin: 0;
+    flex: 1;
+    min-width: 200px;
+    line-height: 1.5;
+  }
+</style>

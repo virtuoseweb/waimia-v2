@@ -1,0 +1,94 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+import Kicker from '../ui/atoms/Kicker.astro';
+
+interface Props {
+  data: SectionByType<'faq-accordion'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+---
+
+<section class="faq-accordion">
+  <div class="faq-accordion__header">
+    {(isFr ? data.kicker_fr : data.kicker_en) && (
+      <Kicker tone="muted">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
+    )}
+    <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
+  </div>
+  <div class="faq-accordion__list">
+    {data.items.map((item: (typeof data.items)[number], i: number) => (
+      <details class="faq-accordion__item" name="faq">
+        <summary class="faq-accordion__q">
+          <Kicker as="span" tone="accent" size={10} class="faq-accordion__q-label">
+            Q.{String(i + 1).padStart(2, '0')}
+          </Kicker>
+          <span>{isFr ? item.q_fr : item.q_en}</span>
+          <span class="faq-accordion__arrow" aria-hidden="true">↓</span>
+        </summary>
+        <div class="faq-accordion__a">
+          <p>{isFr ? item.a_fr : item.a_en}</p>
+        </div>
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  .faq-accordion {
+    padding-block: var(--spacing-section);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .faq-accordion__header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: var(--spacing-block);
+  }
+  h2 {
+    font-family: var(--font-serif);
+    font-size: var(--text-h2);
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0;
+  }
+  h2 :global(i) { font-style: italic; }
+  .faq-accordion__item { border-top: 1px solid var(--hairline); }
+  .faq-accordion__item:last-child { border-bottom: 1px solid var(--hairline); }
+  .faq-accordion__q {
+    list-style: none;
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    padding-block: 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .faq-accordion__q::-webkit-details-marker { display: none; }
+  .faq-accordion__q-label { flex-shrink: 0; padding-top: 2px; line-height: 1; }
+  .faq-accordion__q span:not(.faq-accordion__q-label):not(.faq-accordion__arrow) {
+    font-family: var(--font-serif);
+    font-size: clamp(16px, 1.6vw, 22px);
+    color: var(--ink);
+    line-height: 1.3;
+    flex: 1;
+  }
+  .faq-accordion__arrow {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--muted);
+    transition: transform .2s;
+    flex-shrink: 0;
+  }
+  details[open] .faq-accordion__arrow { transform: rotate(180deg); }
+  .faq-accordion__a { padding: 0 0 24px 56px; }
+  .faq-accordion__a p {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    color: var(--muted);
+    line-height: 1.7;
+    margin: 0;
+    max-width: 64ch;
+  }
+</style>

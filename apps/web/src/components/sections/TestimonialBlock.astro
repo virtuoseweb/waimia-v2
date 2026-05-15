@@ -1,0 +1,109 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+import Kicker from '../ui/atoms/Kicker.astro';
+
+interface Props {
+  data: SectionByType<'testimonial-block'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+---
+
+<section class="testimonial-block">
+  <div class="testimonial-block__header">
+    {(isFr ? data.kicker_fr : data.kicker_en) && (
+      <Kicker tone="muted">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
+    )}
+    {(isFr ? data.h2_fr : data.h2_en) && (
+      <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
+    )}
+  </div>
+  <ul class="testimonial-block__list" data-layout={data.layout}>
+    {data.testimonials.map((t: (typeof data.testimonials)[number]) => (
+      <li class="testimonial-block__item">
+        <blockquote class="testimonial-block__quote">
+          {isFr ? t.quote_fr : t.quote_en}
+        </blockquote>
+        <footer class="testimonial-block__footer">
+          <Kicker tone="muted" size={10} class="testimonial-block__author">{t.author}</Kicker>
+          <Kicker tone="dim" size={10}>{isFr ? t.role_fr : t.role_en}{t.company ? ` · ${t.company}` : ''}</Kicker>
+        </footer>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .testimonial-block {
+    padding-block: var(--spacing-section);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .testimonial-block__header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: var(--spacing-block);
+  }
+  h2 {
+    font-family: var(--font-serif);
+    font-size: var(--text-h2);
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0;
+  }
+  h2 :global(i) { font-style: italic; }
+  .testimonial-block__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+  }
+  .testimonial-block__list[data-layout="grid-2"] { grid-template-columns: repeat(2, 1fr); }
+  .testimonial-block__list[data-layout="rows"] { grid-template-columns: 1fr; }
+  .testimonial-block__list[data-layout="carousel"] {
+    grid-template-columns: repeat(2, 1fr);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  .testimonial-block__item {
+    padding: clamp(20px, 2.5vw, 40px);
+    border: 1px solid var(--hairline);
+    margin: -1px -1px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    padding-left: clamp(24px, 3vw, 44px);
+    scroll-snap-align: start;
+  }
+  .testimonial-block__item::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 16px;
+    bottom: 16px;
+    width: 2px;
+    background: var(--hairline);
+  }
+  .testimonial-block__quote {
+    font-family: var(--font-serif);
+    font-size: clamp(18px, 2vw, 28px);
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ink);
+    margin: 0;
+  }
+  .testimonial-block__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .testimonial-block__author { color: var(--accent); }
+  @media (max-width: 640px) {
+    .testimonial-block__list[data-layout="grid-2"],
+    .testimonial-block__list[data-layout="carousel"] { grid-template-columns: 1fr; }
+  }
+</style>

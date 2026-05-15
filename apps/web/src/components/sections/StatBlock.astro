@@ -1,0 +1,104 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+
+interface Props {
+  data: SectionByType<'stat-block'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+---
+
+<section class="stat-block">
+  <div class="stat-block__header">
+    {(isFr ? data.h2_fr : data.h2_en) && (
+      <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
+    )}
+    {(isFr ? data.lede_fr : data.lede_en) && (
+      <p class="reveal reveal-fade">{isFr ? data.lede_fr : data.lede_en}</p>
+    )}
+  </div>
+  <ul class="stat-block__grid" data-layout={data.layout}>
+    {data.metrics.map((m: (typeof data.metrics)[number]) => (
+      <li class:list={['stat-block__item', m.emphasis && 'stat-block__item--emphasis']}>
+        <span class="stat-block__value">{m.value}</span>
+        <span class="stat-block__label">{isFr ? m.label_fr : m.label_en}</span>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .stat-block {
+    padding-block: var(--spacing-section);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .stat-block__header {
+    margin-bottom: var(--spacing-block);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  h2 {
+    font-family: var(--font-serif);
+    font-size: var(--text-h2);
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0;
+  }
+  h2 :global(i) { font-style: italic; }
+  p {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 60ch;
+    margin: 0;
+  }
+  .stat-block__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+  }
+  .stat-block__grid[data-layout="grid-3"] { grid-template-columns: repeat(3, 1fr); gap: 0; }
+  .stat-block__grid[data-layout="grid-4"] { grid-template-columns: repeat(4, 1fr); gap: 0; }
+  .stat-block__grid[data-layout="rows-hairlines"] { grid-template-columns: 1fr; }
+  .stat-block__item {
+    padding: 24px 32px;
+    border: 1px solid var(--hairline);
+    margin: -1px -1px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .stat-block__grid[data-layout="rows-hairlines"] .stat-block__item {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 24px;
+    border-left: none;
+    border-right: none;
+    margin: 0;
+    border-top: 1px solid var(--hairline);
+    border-bottom: none;
+  }
+  .stat-block__grid[data-layout="rows-hairlines"] .stat-block__item:last-child {
+    border-bottom: 1px solid var(--hairline);
+  }
+  .stat-block__value {
+    font-family: var(--font-serif);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1;
+    color: var(--accent);
+  }
+  .stat-block__label {
+    font-family: var(--font-sans);
+    font-size: var(--text-small);
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  @media (max-width: 768px) {
+    .stat-block__grid[data-layout="grid-4"] { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

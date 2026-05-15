@@ -1,0 +1,103 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+import Kicker from '../ui/atoms/Kicker.astro';
+
+interface Props {
+  data: SectionByType<'method-timeline'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+---
+
+<section class="method-timeline">
+  <div class="method-timeline__header">
+    {(isFr ? data.kicker_fr : data.kicker_en) && (
+      <Kicker tone="muted">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
+    )}
+    <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
+    {(isFr ? data.lede_fr : data.lede_en) && (
+      <p class="reveal reveal-fade">{isFr ? data.lede_fr : data.lede_en}</p>
+    )}
+  </div>
+  <ol class="method-timeline__list">
+    {data.steps.map((step: (typeof data.steps)[number]) => (
+      <li class="method-timeline__step">
+        <Kicker tone="accent" size={10} class="method-timeline__num">{step.num}</Kicker>
+        <div class="method-timeline__content">
+          <strong class="method-timeline__label">{isFr ? step.label_fr : step.label_en}</strong>
+          <p>{isFr ? step.body_fr : step.body_en}</p>
+          {(isFr ? step.meta_fr : step.meta_en) && (
+            <Kicker tone="dim" size={10}>{isFr ? step.meta_fr : step.meta_en}</Kicker>
+          )}
+          {step.duration_fr && isFr && (
+            <Kicker tone="muted" size={10}>↓ {step.duration_fr}</Kicker>
+          )}
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .method-timeline {
+    padding-block: var(--spacing-section);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .method-timeline__header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: var(--spacing-block);
+    max-width: 64ch;
+  }
+  h2 {
+    font-family: var(--font-serif);
+    font-size: var(--text-h2);
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0;
+  }
+  h2 :global(i) { font-style: italic; }
+  .method-timeline__header p {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .method-timeline__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .method-timeline__step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 24px;
+    padding-block: 28px;
+    border-top: 1px solid var(--hairline);
+  }
+  .method-timeline__step:last-child { border-bottom: 1px solid var(--hairline); }
+  .method-timeline__num { padding-top: 4px; }
+  .method-timeline__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .method-timeline__label {
+    font-family: var(--font-serif);
+    font-size: clamp(18px, 1.8vw, 24px);
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .method-timeline__content p {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 64ch;
+  }
+</style>

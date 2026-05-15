@@ -1,0 +1,73 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+import Kicker from '../ui/atoms/Kicker.astro';
+
+interface Props {
+  data: SectionByType<'proof-bar'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+---
+
+<section class="proof-bar" data-layout={data.layout}>
+  {(isFr ? data.kicker_fr : data.kicker_en) && (
+    <Kicker tone="muted" class="proof-bar__kicker">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
+  )}
+  <ul class="proof-bar__list">
+    {data.metrics.map((m: (typeof data.metrics)[number]) => (
+      <li class:list={['proof-bar__item', m.emphasis && 'proof-bar__item--emphasis']}>
+        <span class="proof-bar__value">{m.value}</span>
+        <span class="proof-bar__label">{isFr ? m.label_fr : m.label_en}</span>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .proof-bar {
+    padding-block: clamp(32px, 4vw, 56px);
+    border-block: 1px solid var(--hairline);
+  }
+  .proof-bar__kicker { margin-bottom: 24px; }
+  .proof-bar__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+  }
+  .proof-bar[data-layout="horizontal"] .proof-bar__list {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+  .proof-bar[data-layout="vertical-stack"] .proof-bar__list { grid-template-columns: 1fr; }
+  .proof-bar__item {
+    padding: clamp(16px, 2vw, 32px);
+    border-right: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .proof-bar__item:last-child { border-right: none; }
+  .proof-bar[data-layout="vertical-stack"] .proof-bar__item {
+    border-right: none;
+    border-bottom: 1px solid var(--hairline);
+    flex-direction: row;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .proof-bar[data-layout="vertical-stack"] .proof-bar__item:last-child { border-bottom: none; }
+  .proof-bar__value {
+    font-family: var(--font-serif);
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1;
+    color: var(--accent);
+  }
+  .proof-bar__label {
+    font-family: var(--font-sans);
+    font-size: var(--text-small);
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+</style>

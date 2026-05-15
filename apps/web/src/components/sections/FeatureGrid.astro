@@ -1,0 +1,90 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+import Kicker from '../ui/atoms/Kicker.astro';
+
+interface Props {
+  data: SectionByType<'feature-grid'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+const cols = data.columns ?? '3';
+---
+
+<section class="feature-grid">
+  <div class="feature-grid__header">
+    {(isFr ? data.kicker_fr : data.kicker_en) && (
+      <Kicker tone="muted">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
+    )}
+    <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
+  </div>
+  <ul class="feature-grid__list" data-cols={cols}>
+    {data.features.map((f: (typeof data.features)[number]) => (
+      <li class="feature-grid__item">
+        {f.icon && (
+          <Kicker tone="accent" size={10} class="feature-grid__icon">▸ {f.icon}</Kicker>
+        )}
+        <strong class="feature-grid__title">{isFr ? f.title_fr : f.title_en}</strong>
+        <p>{isFr ? f.body_fr : f.body_en}</p>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .feature-grid {
+    padding-block: var(--spacing-section);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .feature-grid__header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: var(--spacing-block);
+  }
+  h2 {
+    font-family: var(--font-serif);
+    font-size: var(--text-h2);
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0;
+  }
+  h2 :global(i) { font-style: italic; }
+  .feature-grid__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+  }
+  .feature-grid__list[data-cols="2"] { grid-template-columns: repeat(2, 1fr); }
+  .feature-grid__list[data-cols="3"] { grid-template-columns: repeat(3, 1fr); }
+  .feature-grid__list[data-cols="4"] { grid-template-columns: repeat(4, 1fr); }
+  .feature-grid__item {
+    padding: clamp(20px, 2.5vw, 40px);
+    border: 1px solid var(--hairline);
+    margin: -1px -1px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .feature-grid__icon { margin-bottom: 4px; }
+  .feature-grid__title {
+    font-family: var(--font-serif);
+    font-size: clamp(16px, 1.4vw, 20px);
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .feature-grid__item p {
+    font-family: var(--font-sans);
+    font-size: var(--text-small);
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+  @media (max-width: 768px) {
+    .feature-grid__list[data-cols="3"],
+    .feature-grid__list[data-cols="4"] { grid-template-columns: repeat(2, 1fr); }
+    .feature-grid__list[data-cols="2"] { grid-template-columns: 1fr; }
+  }
+</style>

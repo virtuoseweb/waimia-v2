@@ -1,0 +1,73 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+import Kicker from '../ui/atoms/Kicker.astro';
+import Button from '../ui/atoms/Button.astro';
+
+interface Props {
+  data: SectionByType<'hero-centered'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+---
+
+<section class="hero-centered">
+  <div class="hero-centered__inner">
+    {(isFr ? data.kicker_fr : data.kicker_en) && (
+      <Kicker tone="muted">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
+    )}
+    <h1 class="reveal-mask-up" set:html={isFr ? data.h1_fr : data.h1_en} />
+    <p class="reveal reveal-fade">{isFr ? data.lede_fr : data.lede_en}</p>
+    <div class="hero-centered__ctas">
+      <Button href={data.cta_primary.href} variant={data.cta_primary.variant as any} size="lg" mag={data.cta_primary.mag ?? 0.18}>
+        {isFr ? data.cta_primary.label_fr : data.cta_primary.label_en}
+      </Button>
+      {data.cta_secondary && (
+        <Button href={data.cta_secondary.href} variant={data.cta_secondary.variant as any} size="md">
+          {isFr ? data.cta_secondary.label_fr : data.cta_secondary.label_en}
+        </Button>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-centered {
+    padding-block: var(--spacing-section);
+    border-bottom: 1px solid var(--hairline);
+    text-align: center;
+  }
+  .hero-centered__inner {
+    max-width: 60%;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-block);
+  }
+  h1 {
+    font-family: var(--font-serif);
+    font-size: var(--text-h1-hero);
+    line-height: 1.02;
+    color: var(--ink);
+    margin: 0;
+  }
+  h1 :global(i) { font-style: italic; }
+  p {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 54ch;
+    margin: 0;
+  }
+  .hero-centered__ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  @media (max-width: 768px) {
+    .hero-centered__inner { max-width: 100%; }
+  }
+</style>

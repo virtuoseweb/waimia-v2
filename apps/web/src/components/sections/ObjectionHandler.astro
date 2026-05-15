@@ -1,0 +1,86 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+import Kicker from '../ui/atoms/Kicker.astro';
+
+interface Props {
+  data: SectionByType<'objection-handler'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+const labelA = isFr ? 'Ce que vous pensez' : 'What you think';
+const labelB = isFr ? 'Notre réponse' : 'Our answer';
+---
+
+<section class="objection-handler">
+  <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
+  <div class="objection-handler__table-head">
+    <Kicker tone="muted" size={10}>{labelA}</Kicker>
+    <Kicker tone="muted" size={10}>{labelB}</Kicker>
+  </div>
+  <ul class="objection-handler__list">
+    {data.objections.map((obj: (typeof data.objections)[number]) => (
+      <li class="objection-handler__row">
+        <div class="objection-handler__objection">
+          <p>{isFr ? obj.objection_fr : obj.objection_en}</p>
+        </div>
+        <div class="objection-handler__response">
+          <p>{isFr ? obj.response_fr : obj.response_en}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .objection-handler {
+    padding-block: var(--spacing-section);
+    border-bottom: 1px solid var(--hairline);
+  }
+  h2 {
+    font-family: var(--font-serif);
+    font-size: var(--text-h2);
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0 0 var(--spacing-block);
+  }
+  h2 :global(i) { font-style: italic; }
+  .objection-handler__table-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 12px;
+  }
+  .objection-handler__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .objection-handler__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    border-bottom: 1px solid var(--hairline);
+    padding-block: 24px;
+  }
+  .objection-handler__objection p {
+    font-family: var(--font-serif);
+    font-size: clamp(15px, 1.4vw, 18px);
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .objection-handler__response p {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    color: var(--ink);
+    line-height: 1.6;
+    margin: 0;
+  }
+  @media (max-width: 640px) {
+    .objection-handler__table-head,
+    .objection-handler__row { grid-template-columns: 1fr; }
+  }
+</style>

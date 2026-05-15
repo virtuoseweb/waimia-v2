@@ -1,0 +1,72 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+
+interface Props {
+  data: SectionByType<'media-block'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+const caption = isFr ? data.caption_fr : data.caption_en;
+const alt = isFr ? data.alt_fr : data.alt_en;
+---
+
+<figure class="media-block" data-kind={data.media_kind}>
+  {data.media_kind === 'image' && (
+    <img
+      src={data.src}
+      alt={alt ?? ''}
+      width={data.width}
+      height={data.height}
+      loading="lazy"
+      decoding="async"
+      class="media-block__img"
+    />
+  )}
+  {data.media_kind === 'video' && (
+    <video src={data.src} controls preload="none" class="media-block__video" />
+  )}
+  {data.media_kind === 'embed' && (
+    <iframe src={data.src} class="media-block__embed" loading="lazy" title={alt ?? ''} />
+  )}
+  {data.media_kind === 'svg' && (
+    <div class="media-block__svg-wrap" aria-label={alt ?? ''}>
+      <img src={data.src} alt={alt ?? ''} loading="lazy" />
+    </div>
+  )}
+  {caption && <figcaption class="media-block__caption">{caption}</figcaption>}
+</figure>
+
+<style>
+  .media-block {
+    margin: 0;
+    padding-block: var(--spacing-section);
+    border-bottom: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .media-block__img,
+  .media-block__video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--hairline);
+  }
+  .media-block__embed {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: 1px solid var(--hairline);
+  }
+  .media-block__svg-wrap img {
+    width: 100%;
+    height: auto;
+  }
+  .media-block__caption {
+    font-family: var(--font-sans);
+    font-size: var(--text-small);
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+</style>

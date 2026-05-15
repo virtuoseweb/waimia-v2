@@ -1,0 +1,61 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+import Button from '../ui/atoms/Button.astro';
+
+interface Props {
+  data: SectionByType<'hero-full-bleed'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+---
+
+<section class="hero-fb" data-bg={data.background_kind}>
+  <div class="hero-fb__inner">
+    <h1 class="reveal-mask-up" set:html={isFr ? data.h1_fr : data.h1_en} />
+    {(isFr ? data.lede_fr : data.lede_en) && (
+      <p class="reveal reveal-fade">{isFr ? data.lede_fr : data.lede_en}</p>
+    )}
+    {data.cta_primary && (
+      <Button href={data.cta_primary.href} variant={data.cta_primary.variant as any} size="lg" mag={data.cta_primary.mag ?? 0.18}>
+        {isFr ? data.cta_primary.label_fr : data.cta_primary.label_en}
+      </Button>
+    )}
+  </div>
+</section>
+
+<style>
+  .hero-fb {
+    padding-block: clamp(80px, 14vw, 200px);
+    border-bottom: 1px solid var(--hairline);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-fb[data-bg="ink-paper"] { background: var(--ink); color: var(--paper); }
+  .hero-fb[data-bg="ink-paper"] h1 { color: var(--paper); }
+  .hero-fb[data-bg="ink-paper"] p { color: rgba(246,241,232,.7); }
+  .hero-fb[data-bg="liquid-canvas"],
+  .hero-fb[data-bg="gradient-mesh"],
+  .hero-fb[data-bg="signature-grid"] { background: var(--paper); }
+  .hero-fb__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-block);
+  }
+  h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(60px, 10vw, 180px);
+    line-height: 0.96;
+    color: var(--ink);
+    margin: 0;
+    max-width: 14ch;
+  }
+  h1 :global(i) { font-style: italic; }
+  p {
+    font-family: var(--font-sans);
+    font-size: clamp(16px, 1.4vw, 20px);
+    line-height: 1.6;
+    max-width: 48ch;
+    margin: 0;
+  }
+</style>

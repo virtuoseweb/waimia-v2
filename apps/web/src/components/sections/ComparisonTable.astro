@@ -1,0 +1,95 @@
+---
+import type { SectionByType } from '../../schemas/sections';
+
+interface Props {
+  data: SectionByType<'comparison-table'>;
+  lang: 'fr' | 'en';
+}
+const { data, lang } = Astro.props;
+const isFr = lang === 'fr';
+const headers = isFr ? data.column_headers_fr : data.column_headers_en;
+---
+
+<section class="comparison-table">
+  <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
+  <div class="comparison-table__wrap">
+    <table>
+      <thead>
+        <tr>
+          {headers.map((h: string) => <th>{h}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {data.rows.map((row: (typeof data.rows)[number]) => (
+          <tr>
+            <td class="comparison-table__feature">{isFr ? row.feature_fr : row.feature_en}</td>
+            {row.values.map((v: (typeof row.values)[number]) => (
+              <td class="comparison-table__cell">
+                {typeof v === 'boolean' ? (
+                  <span class:list={['comparison-table__bool', v ? 'comparison-table__bool--yes' : 'comparison-table__bool--no']}>
+                    {v ? '◉' : '◦'}
+                  </span>
+                ) : (
+                  <span>{v}</span>
+                )}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<style>
+  .comparison-table {
+    padding-block: var(--spacing-section);
+    border-bottom: 1px solid var(--hairline);
+  }
+  h2 {
+    font-family: var(--font-serif);
+    font-size: var(--text-h2);
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0 0 var(--spacing-block);
+  }
+  h2 :global(i) { font-style: italic; }
+  .comparison-table__wrap { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: var(--text-small);
+  }
+  thead tr { border-bottom: 1px solid var(--hairline); }
+  th {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 400;
+  }
+  th:first-child { min-width: 200px; }
+  tbody tr {
+    border-bottom: 1px solid var(--hairline);
+    transition: background .15s;
+  }
+  tbody tr:hover { background: rgba(181,71,42,.025); }
+  td {
+    padding: 14px 16px;
+    color: var(--ink);
+    vertical-align: middle;
+  }
+  .comparison-table__feature {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    color: var(--ink);
+  }
+  .comparison-table__cell { text-align: center; }
+  .comparison-table__bool { font-family: var(--font-mono); font-size: 14px; }
+  .comparison-table__bool--yes { color: var(--accent); }
+  .comparison-table__bool--no { color: var(--muted); }
+</style>
