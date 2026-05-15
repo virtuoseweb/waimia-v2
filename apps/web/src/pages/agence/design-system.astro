@@ -36,10 +36,14 @@ import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
 // Sections W6 composable V2 — showcase live §6
 import HeroSplit from '../../components/sections/HeroSplit.astro';
 import HeroCentered from '../../components/sections/HeroCentered.astro';
+import HeroFullBleed from '../../components/sections/HeroFullBleed.astro';
 import ProofBarSection from '../../components/sections/ProofBarSection.astro';
 import StatBlock from '../../components/sections/StatBlock.astro';
+import SocialProof from '../../components/sections/SocialProof.astro';
 import MethodTimeline from '../../components/sections/MethodTimeline.astro';
 import FeatureGrid from '../../components/sections/FeatureGrid.astro';
+import ComparisonTable from '../../components/sections/ComparisonTable.astro';
+import PricingTable from '../../components/sections/PricingTable.astro';
 import FaqAccordion from '../../components/sections/FaqAccordion.astro';
 import TestimonialBlock from '../../components/sections/TestimonialBlock.astro';
 import GuaranteeBlock from '../../components/sections/GuaranteeBlock.astro';
@@ -740,6 +744,74 @@ import CtaFinal from '../../components/sections/CtaFinal.astro';
                   { q_fr: 'Combien de temps prend un projet ?', q_en: 'How long does a project take?', a_fr: 'AI Activation · 1 semaine. Growth System · 6 à 10 semaines.', a_en: 'AI Activation · 1 week. Growth System · 6 to 10 weeks.' },
                   { q_fr: 'Quels sont vos tarifs ?', q_en: 'What are your rates?', a_fr: 'AI Activation à partir de 1 500€. Growth System à partir de 5 000€.', a_en: 'AI Activation starts at €1,500. Growth System starts at €5,000.' },
                   { q_fr: 'Compatible avec notre stack actuelle ?', q_en: 'Compatible with our current stack?', a_fr: 'Oui — HubSpot, Salesforce, Notion, Excel, GA4, etc.', a_en: 'Yes — HubSpot, Salesforce, Notion, Excel, GA4, etc.' },
+                ],
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>HeroFullBleed · type "hero-full-bleed" (bg signature-grid)</Kicker>
+            <div class="ds-section-demo-frame ds-demo-hero">
+              <HeroFullBleed data={{
+                type: 'hero-full-bleed',
+                h1_fr: 'Hero <i>full-bleed</i>',
+                h1_en: 'Full-bleed <i>hero</i>',
+                lede_fr: 'Variant signature pour pages d\'impact maximal.',
+                lede_en: 'Signature variant for max-impact pages.',
+                background_kind: 'signature-grid',
+                cta_primary: { label_fr: 'Action →', label_en: 'Action →', href: '#', variant: 'primary' },
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>SocialProof · type "social-proof" (marquee)</Kicker>
+            <div class="ds-section-demo-frame">
+              <SocialProof data={{
+                type: 'social-proof',
+                kicker_fr: 'Ils ont câblé l\'IA avec Waimia',
+                kicker_en: 'They wired AI with Waimia',
+                logos: [
+                  { name: 'PME Services' }, { name: 'ETI Industrie' }, { name: 'Cabinet Conseil' },
+                  { name: 'Startup B2B' }, { name: 'Agence Marketing' }, { name: 'Cabinet Compta' },
+                ],
+                marquee: true,
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>ComparisonTable · type "comparison-table"</Kicker>
+            <div class="ds-section-demo-frame">
+              <ComparisonTable data={{
+                type: 'comparison-table',
+                h2_fr: 'Comparatif <i>tiers</i>',
+                h2_en: 'Tiers <i>comparison</i>',
+                column_headers_fr: ['Capacité', 'Activation 1 sem.', 'Growth System', 'Sur-mesure'],
+                column_headers_en: ['Capability', 'Activation 1wk', 'Growth System', 'Custom'],
+                rows: [
+                  { feature_fr: 'Audit complet', feature_en: 'Full audit', values: [true, true, true] },
+                  { feature_fr: 'Workflows IA', feature_en: 'AI workflows', values: ['1', '5-8', 'illimité'] },
+                  { feature_fr: 'Formation équipe', feature_en: 'Team training', values: [false, true, true] },
+                  { feature_fr: 'Support 90j', feature_en: '90d support', values: [false, true, true] },
+                ],
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>PricingTable · type "pricing-table" (3 tiers)</Kicker>
+            <div class="ds-section-demo-frame">
+              <PricingTable data={{
+                type: 'pricing-table',
+                kicker_fr: 'Tarifs · démo',
+                kicker_en: 'Pricing · demo',
+                h2_fr: 'Trois <i>paliers</i>',
+                h2_en: 'Three <i>tiers</i>',
+                tiers: [
+                  { name_fr: 'Activation', name_en: 'Activation', price: '€1,500', features_fr: ['1 workflow', 'Audit 5 jours', 'Formation 1 jour'], features_en: ['1 workflow', '5-day audit', '1-day training'], cta: { label_fr: 'Démarrer', label_en: 'Start', href: '#', variant: 'ghost' }, featured: false },
+                  { name_fr: 'Growth', name_en: 'Growth', price: '€5,000', features_fr: ['5-8 workflows', 'Système complet 6-10 sem.', 'Support 90j'], features_en: ['5-8 workflows', 'Full system 6-10wk', '90d support'], cta: { label_fr: 'Choisir', label_en: 'Choose', href: '#', variant: 'primary' }, featured: true },
+                  { name_fr: 'Sur-mesure', name_en: 'Custom', price: 'Devis', features_fr: ['Workflows illimités', 'Architecture dédiée', 'Support 12 mois'], features_en: ['Unlimited workflows', 'Custom architecture', '12mo support'], cta: { label_fr: 'Discuter', label_en: 'Talk', href: '#', variant: 'ghost' }, featured: false },
                 ],
               }} lang="fr" />
             </div>
