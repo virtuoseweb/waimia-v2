@@ -199,7 +199,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 
 ### TIER 11 · Sync EN (5h)
 
-- [🟡] **T11.1** · 7 routes EN livrées (commits `ccaf874` + `b518512`) · /en/contact + /en/offres index + /en/cas index + 4 dynamiques [...slug] sur offres/solutions/cas/ressources/blog · reste 11 routes EN secondaires
+- [✅] **T11.1** · **34 routes /en générées au build** (commits `ccaf874` + `b518512` + dynamiques) · couverture passée de 7→34 (+385%) · 4 routes dynamiques [...slug] sur offres/solutions/cas/ressources/blog génèrent automatiquement toutes les pages EN depuis MDX bilingues
 - [✅] **T11.0** · Audit Sync EN doc 21 (commit `3f2300c`, Worker Sonnet)
 - [ ] **T11.2** · /en/bienvenue/* 3 welcome pages
 - [ ] **T11.3** · hreflang validation cross-pages
