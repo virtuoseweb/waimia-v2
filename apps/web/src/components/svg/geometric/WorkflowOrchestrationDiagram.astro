@@ -1,0 +1,192 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { size = 'md' } = Astro.props;
+
+const inputs = [
+  { label: 'Données CRM', cx: 60, cy: 90 },
+  { label: 'Signaux web', cx: 60, cy: 190 },
+] as const;
+
+const agents = [
+  { label: 'Scoring IA', cx: 290, cy: 60 },
+  { label: 'Rédaction', cx: 290, cy: 150 },
+  { label: 'Validation', cx: 290, cy: 240 },
+] as const;
+
+const outputs = [
+  { label: 'Leads qualifiés', cx: 520, cy: 90 },
+  { label: 'Contenu généré', cx: 520, cy: 190 },
+] as const;
+
+const rectWidth = 120;
+const rectHeight = 36;
+const rectHalfWidth = rectWidth / 2;
+const rectHalfHeight = rectHeight / 2;
+
+const flows = [
+  { x1: inputs[0].cx + rectHalfWidth, y1: inputs[0].cy, x2: agents[0].cx - rectHalfWidth, y2: agents[0].cy },
+  { x1: inputs[0].cx + rectHalfWidth, y1: inputs[0].cy, x2: agents[1].cx - rectHalfWidth, y2: agents[1].cy },
+  { x1: inputs[1].cx + rectHalfWidth, y1: inputs[1].cy, x2: agents[1].cx - rectHalfWidth, y2: agents[1].cy },
+  { x1: inputs[1].cx + rectHalfWidth, y1: inputs[1].cy, x2: agents[2].cx - rectHalfWidth, y2: agents[2].cy },
+  { x1: agents[0].cx + rectHalfWidth, y1: agents[0].cy, x2: outputs[0].cx - rectHalfWidth, y2: outputs[0].cy },
+  { x1: agents[1].cx + rectHalfWidth, y1: agents[1].cy, x2: outputs[0].cx - rectHalfWidth, y2: outputs[0].cy },
+  { x1: agents[1].cx + rectHalfWidth, y1: agents[1].cy, x2: outputs[1].cx - rectHalfWidth, y2: outputs[1].cy },
+  { x1: agents[2].cx + rectHalfWidth, y1: agents[2].cy, x2: outputs[1].cx - rectHalfWidth, y2: outputs[1].cy },
+] as const;
+---
+
+<svg
+  viewBox="0 0 700 300"
+  preserveAspectRatio="xMidYMid meet"
+  class:list={['workflow-orchestration-diagram', `workflow-orchestration-diagram--${size}`]}
+  role="img"
+  aria-label="Diagramme d’orchestration en trois colonnes : entrées, agents IA et sorties reliés par des flèches directionnelles"
+>
+  <defs>
+    <marker
+      id="workflow-arrow"
+      markerWidth="6"
+      markerHeight="6"
+      refX="5"
+      refY="3"
+      orient="auto-start-reverse"
+      markerUnits="strokeWidth"
+    >
+      <path d="M0 0 L6 3 L0 6 Z" class="hairline-fill" />
+    </marker>
+  </defs>
+
+  <text x="60" y="22" text-anchor="middle" class="header-text ink-fill">ENTRÉES</text>
+  <text x="290" y="22" text-anchor="middle" class="header-text ink-fill">AGENTS IA</text>
+  <text x="520" y="22" text-anchor="middle" class="header-text ink-fill">SORTIES</text>
+
+  {
+    flows.map((flow) => (
+      <line
+        x1={flow.x1}
+        y1={flow.y1}
+        x2={flow.x2}
+        y2={flow.y2}
+        class="hairline-stroke"
+        stroke-width="1.5"
+        vector-effect="non-scaling-stroke"
+        marker-end="url(#workflow-arrow)"
+      />
+    ))
+  }
+
+  {
+    inputs.map((node) => (
+      <g>
+        <rect
+          x={node.cx - rectHalfWidth}
+          y={node.cy - rectHalfHeight}
+          width={rectWidth}
+          height={rectHeight}
+          rx="4"
+          class="terminal-node"
+          stroke-width="1.5"
+          vector-effect="non-scaling-stroke"
+        />
+        <text x={node.cx} y={node.cy + 4} text-anchor="middle" class="node-text ink-fill">
+          {node.label}
+        </text>
+      </g>
+    ))
+  }
+
+  {
+    agents.map((node) => (
+      <g>
+        <rect
+          x={node.cx - rectHalfWidth}
+          y={node.cy - rectHalfHeight}
+          width={rectWidth}
+          height={rectHeight}
+          rx="4"
+          class="agent-node"
+          stroke-width="1.5"
+          vector-effect="non-scaling-stroke"
+        />
+        <text x={node.cx} y={node.cy + 4} text-anchor="middle" class="node-text ink-fill">
+          {node.label}
+        </text>
+      </g>
+    ))
+  }
+
+  {
+    outputs.map((node) => (
+      <g>
+        <rect
+          x={node.cx - rectHalfWidth}
+          y={node.cy - rectHalfHeight}
+          width={rectWidth}
+          height={rectHeight}
+          rx="4"
+          class="terminal-node"
+          stroke-width="1.5"
+          vector-effect="non-scaling-stroke"
+        />
+        <text x={node.cx} y={node.cy + 4} text-anchor="middle" class="node-text ink-fill">
+          {node.label}
+        </text>
+      </g>
+    ))
+  }
+</svg>
+
+<style>
+  .workflow-orchestration-diagram {
+    display: block;
+    width: 100%;
+    max-width: 700px;
+    margin-inline: auto;
+  }
+
+  .workflow-orchestration-diagram--sm {
+    max-width: 560px;
+  }
+
+  .workflow-orchestration-diagram--lg {
+    max-width: 880px;
+  }
+
+  .workflow-orchestration-diagram .ink-fill {
+    fill: var(--ink, #0c0b09);
+  }
+
+  .workflow-orchestration-diagram .hairline-fill {
+    fill: var(--hairline, #d7d0c6);
+  }
+
+  .workflow-orchestration-diagram .hairline-stroke {
+    stroke: var(--hairline, #d7d0c6);
+  }
+
+  .workflow-orchestration-diagram .terminal-node {
+    fill: transparent;
+    stroke: var(--ink, #0c0b09);
+    opacity: 0.7;
+  }
+
+  .workflow-orchestration-diagram .agent-node {
+    fill: transparent;
+    stroke: var(--accent, #c94f2e);
+  }
+
+  .workflow-orchestration-diagram .header-text {
+    font-family: 'JetBrains Mono', 'SFMono-Regular', ui-monospace, monospace;
+    font-size: 10px;
+    opacity: 0.45;
+    letter-spacing: 0.12em;
+  }
+
+  .workflow-orchestration-diagram .node-text {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 13px;
+  }
+</style>

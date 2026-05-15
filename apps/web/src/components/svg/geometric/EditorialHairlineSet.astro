@@ -1,0 +1,156 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'dotted-circle' | 'cross' | 'diamond' | 'bracket' | 'asterisk';
+  showLabel?: boolean;
+}
+
+const { size = 'md', variant = 'dotted-circle', showLabel = false } = Astro.props;
+
+const centerX = 100;
+const centerY = 25;
+const armLength = 12;
+const asteriskLines = Array.from({ length: 6 }, (_, index) => {
+  const angle = (Math.PI / 3) * index;
+
+  return {
+    x2: centerX + Math.cos(angle) * armLength,
+    y2: centerY + Math.sin(angle) * armLength,
+  };
+});
+---
+
+<svg
+  viewBox="0 0 200 50"
+  preserveAspectRatio="xMidYMid meet"
+  class:list={['editorial-hairline-set', `editorial-hairline-set--${size}`]}
+  role="img"
+  aria-label={`Ornement éditorial géométrique, variante ${variant}`}
+>
+  {
+    variant === 'dotted-circle' && (
+      <circle
+        cx="100"
+        cy="25"
+        r="14"
+        class="ornament-stroke"
+        stroke-width="1.5"
+        vector-effect="non-scaling-stroke"
+        stroke-dasharray="2 3.5"
+      />
+    )
+  }
+
+  {
+    variant === 'cross' && (
+      <>
+        <line
+          x1="80"
+          y1="25"
+          x2="120"
+          y2="25"
+          class="ornament-stroke"
+          stroke-width="1.5"
+          vector-effect="non-scaling-stroke"
+        />
+        <line
+          x1="100"
+          y1="5"
+          x2="100"
+          y2="45"
+          class="ornament-stroke"
+          stroke-width="1.5"
+          vector-effect="non-scaling-stroke"
+        />
+      </>
+    )
+  }
+
+  {
+    variant === 'diamond' && (
+      <polygon
+        points="100,10 116,25 100,40 84,25"
+        class="ornament-stroke"
+        stroke-width="1"
+        vector-effect="non-scaling-stroke"
+      />
+    )
+  }
+
+  {
+    variant === 'bracket' && (
+      <>
+        <path
+          d="M82 12 V38 M82 12 H90 M82 38 H90"
+          class="ornament-stroke"
+          stroke-width="1.5"
+          vector-effect="non-scaling-stroke"
+        />
+        <path
+          d="M118 12 V38 M110 12 H118 M110 38 H118"
+          class="ornament-stroke"
+          stroke-width="1.5"
+          vector-effect="non-scaling-stroke"
+        />
+      </>
+    )
+  }
+
+  {
+    variant === 'asterisk' && (
+      <>
+        {asteriskLines.map((line) => (
+          <line
+            x1={centerX}
+            y1={centerY}
+            x2={line.x2}
+            y2={line.y2}
+            class="ornament-stroke"
+            stroke-width="1.5"
+            vector-effect="non-scaling-stroke"
+          />
+        ))}
+      </>
+    )
+  }
+
+  {
+    showLabel && (
+      <text x="100" y="46" text-anchor="middle" class="label-text ink-fill">
+        {variant}
+      </text>
+    )
+  }
+</svg>
+
+<style>
+  .editorial-hairline-set {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin-inline: auto;
+  }
+
+  .editorial-hairline-set--sm {
+    max-width: 140px;
+  }
+
+  .editorial-hairline-set--lg {
+    max-width: 260px;
+  }
+
+  .editorial-hairline-set .ink-fill {
+    fill: var(--ink, #0c0b09);
+  }
+
+  .editorial-hairline-set .ornament-stroke {
+    fill: none;
+    stroke: var(--ink, #0c0b09);
+  }
+
+  .editorial-hairline-set .label-text {
+    font-family: 'JetBrains Mono', 'SFMono-Regular', ui-monospace, monospace;
+    font-size: 8px;
+    opacity: 0.4;
+  }
+</style>

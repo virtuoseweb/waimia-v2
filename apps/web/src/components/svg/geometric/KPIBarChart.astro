@@ -1,0 +1,111 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { size = 'md' } = Astro.props;
+
+const bars = [
+  { label: 'Délai réponse', value: '−62%', width: 260, dominant: true, y: 30 },
+  { label: 'Taux conversion', value: '+34%', width: 175, dominant: false, y: 70 },
+  { label: 'Volume traité', value: '×8', width: 225, dominant: false, y: 110 },
+  { label: 'Satisfaction', value: '+18pt', width: 120, dominant: false, y: 150 },
+] as const;
+---
+
+<svg
+  viewBox="0 0 400 200"
+  preserveAspectRatio="xMidYMid meet"
+  class:list={['kpi-bar-chart', `kpi-bar-chart--${size}`]}
+  role="img"
+  aria-label="Barres horizontales de KPI IA comparatifs : délai de réponse moins 62 pour cent, taux de conversion plus 34 pour cent, volume traité multiplié par 8, satisfaction plus 18 points"
+>
+  <line
+    x1="90"
+    y1="18"
+    x2="90"
+    y2="182"
+    class="hairline-stroke"
+    stroke-width="1.5"
+    vector-effect="non-scaling-stroke"
+  />
+
+  {
+    bars.map((bar) => (
+      <g>
+        <text
+          x="82"
+          y={bar.y + 14}
+          text-anchor="end"
+          class="label-text ink-fill"
+        >
+          {bar.label}
+        </text>
+        <rect
+          x="93"
+          y={bar.y}
+          width={bar.width}
+          height="22"
+          rx="2"
+          class:list={[bar.dominant ? 'accent-fill' : 'muted-fill', !bar.dominant && 'muted-bar']}
+        />
+        <text
+          x={93 + bar.width + 12}
+          y={bar.y + 14}
+          text-anchor="start"
+          class:list={['value-text', bar.dominant ? 'accent-fill' : 'ink-fill']}
+        >
+          {bar.value}
+        </text>
+      </g>
+    ))
+  }
+</svg>
+
+<style>
+  .kpi-bar-chart {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin-inline: auto;
+  }
+
+  .kpi-bar-chart--sm {
+    max-width: 320px;
+  }
+
+  .kpi-bar-chart--lg {
+    max-width: 520px;
+  }
+
+  .kpi-bar-chart .ink-fill {
+    fill: var(--ink, #0c0b09);
+  }
+
+  .kpi-bar-chart .accent-fill {
+    fill: var(--accent, #c94f2e);
+  }
+
+  .kpi-bar-chart .muted-fill {
+    fill: var(--muted, #9b9489);
+  }
+
+  .kpi-bar-chart .hairline-stroke {
+    stroke: var(--hairline, #d7d0c6);
+  }
+
+  .kpi-bar-chart .muted-bar {
+    opacity: 0.45;
+  }
+
+  .kpi-bar-chart .label-text {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  .kpi-bar-chart .value-text {
+    font-family: 'JetBrains Mono', 'SFMono-Regular', ui-monospace, monospace;
+    font-size: 11px;
+  }
+ </style>

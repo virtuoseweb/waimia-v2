@@ -1,0 +1,126 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  level?: 0 | 1 | 2 | 3 | 4;
+}
+
+const { size = 'md', level = 2 } = Astro.props;
+
+const nodes = [
+  { x: 40, level: 0, label: 'Inexistant' },
+  { x: 165, level: 1, label: 'Expérimental' },
+  { x: 290, level: 2, label: 'Structuré' },
+  { x: 415, level: 3, label: 'Industrialisé' },
+  { x: 540, level: 4, label: 'Autonome' },
+] as const;
+
+const activeNode = nodes[level];
+const trianglePoints = `${activeNode.x - 5},38 ${activeNode.x + 5},38 ${activeNode.x},46`;
+---
+
+<svg
+  viewBox="0 0 600 100"
+  preserveAspectRatio="xMidYMid meet"
+  class:list={['maturity-scale', `maturity-scale--${size}`]}
+  role="img"
+  aria-label={`Échelle de maturité IA à cinq niveaux, niveau actif ${activeNode.label}`}
+>
+  <line
+    x1="40"
+    y1="50"
+    x2="560"
+    y2="50"
+    class="hairline-stroke"
+    stroke-width="1.5"
+    vector-effect="non-scaling-stroke"
+  />
+
+  <polygon points={trianglePoints} class="accent-fill" />
+
+  {
+    nodes.map((node) => {
+      const isActive = node.level === level;
+
+      return (
+        <g>
+          <text
+            x={node.x}
+            y="28"
+            text-anchor="middle"
+            class="level-text ink-fill"
+          >
+            {`Niv. ${node.level}`}
+          </text>
+          <circle
+            cx={node.x}
+            cy="50"
+            r="8"
+            class:list={['scale-node', isActive ? 'scale-node--active' : 'scale-node--inactive']}
+            stroke-width="1.5"
+            vector-effect="non-scaling-stroke"
+          />
+          <text
+            x={node.x}
+            y="80"
+            text-anchor="middle"
+            class="label-text ink-fill"
+          >
+            {node.label}
+          </text>
+        </g>
+      );
+    })
+  }
+</svg>
+
+<style>
+  .maturity-scale {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    margin-inline: auto;
+  }
+
+  .maturity-scale--sm {
+    max-width: 480px;
+  }
+
+  .maturity-scale--lg {
+    max-width: 760px;
+  }
+
+  .maturity-scale .ink-fill {
+    fill: var(--ink, #0c0b09);
+  }
+
+  .maturity-scale .accent-fill {
+    fill: var(--accent, #c94f2e);
+  }
+
+  .maturity-scale .hairline-stroke {
+    stroke: var(--hairline, #d7d0c6);
+  }
+
+  .maturity-scale .scale-node--active {
+    fill: var(--accent, #c94f2e);
+    stroke: var(--accent, #c94f2e);
+  }
+
+  .maturity-scale .scale-node--inactive {
+    fill: transparent;
+    stroke: var(--ink, #0c0b09);
+    opacity: 0.4;
+  }
+
+  .maturity-scale .level-text {
+    font-family: 'JetBrains Mono', 'SFMono-Regular', ui-monospace, monospace;
+    font-size: 10px;
+    opacity: 0.5;
+  }
+
+  .maturity-scale .label-text {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 12px;
+    font-style: italic;
+  }
+</style>

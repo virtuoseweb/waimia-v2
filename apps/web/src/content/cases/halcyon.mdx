@@ -1,0 +1,85 @@
+---
+title_fr: "Halcyon · 120 h consultant libérées"
+title_en: "Halcyon · 120 consulting hours recovered"
+description_fr: "Cabinet conseil stratégie (28 consultants). Agents de production documentaire en 8 semaines. 120 h libérées, 3 projets livrés dans les délais. Compatible NDA."
+description_en: "Strategy consulting firm, 28 consultants. Document production agents in 8 weeks. 120 hours recovered, 3 projects delivered on time. NDA-friendly."
+slug: "halcyon"
+client: "Halcyon"
+sector_fr: "Conseil en stratégie"
+sector_en: "Strategy consulting"
+duration: "8 wk"
+stack: ["Claude Opus 4.7", "Claude Sonnet 4.6", "Notion MCP", "Google Workspace", "LangSmith"]
+impact_fr: "120 h consultant libérées · 3 projets livrés on-time"
+impact_en: "120 consulting hours recovered · 3 projects delivered on time"
+metrics:
+  - { label_fr: "Heures libérées (Q1 2026)", label_en: "Hours recovered (Q1 2026)", value: "120 h" }
+  - { label_fr: "Projets livrés on-time", label_en: "On-time projects", value: "3/3" }
+  - { label_fr: "Réduction temps livrables", label_en: "Deliverable time reduction", value: "-57%" }
+ndaProtected: false
+featured: false
+publishedAt: 2026-02-20
+updatedAt: 2026-04-05
+author: simon-beros
+faq_fr:
+  - q: "Quels types de livrables ont été automatisés ?"
+    a: "Notes stratégiques de 4-6 pages, mémos de comité exécutif, synthèses terrain hebdomadaires et slides de bilan projet. La structuration et la première rédaction sont générées par agent ; les consultants conservent la révision finale et le jugement stratégique."
+  - q: "Comment l'adoption a-t-elle été gérée ?"
+    a: "Formation équipe en 3 sessions de 2 heures sur 3 semaines. Un consultant 'agent champion' désigné dans chaque équipe projet. Taux d'utilisation mesuré via LangSmith : 87 % des livrables produits via agent dès la semaine 6."
+faq_en:
+  - q: "What types of deliverables were automated?"
+    a: "4-6 page strategy notes, executive committee memos, weekly field synthesis reports, and project wrap-up slides. Structuring and first-draft generation are handled by agent; consultants retain final editing and strategic judgment."
+  - q: "How was adoption managed?"
+    a: "Team training in 3 two-hour sessions over 3 weeks. One agent champion consultant designated per project team to drive adoption. Usage rate measured via LangSmith: 87% of deliverables produced via agent by week 6."
+---
+
+import Bi from '../../components/ui/atoms/Bi.astro';
+
+## <Bi en="Context" fr="Le contexte" />
+
+<Bi
+  en="Halcyon is a 28-consultant strategy firm working with French mid-caps and ETIs across multiple sectors. Their model is intensive: 6 to 8 simultaneous projects, each generating 3 to 5 formal deliverables per month. In Q4 2025, only 3 of their 6 projects met their original delivery deadline. The cause was not analytical capacity — it was document production time."
+  fr="Halcyon est un cabinet de 28 consultants travaillant avec des ETIs et mid-caps françaises, tous secteurs, bureaux Paris et Genève. Leur modèle est intensif : 6 à 8 projets simultanés, chacun générant 3 à 5 livrables formels par mois. Au T4 2025, 3 projets sur 6 n'ont pas tenu leur deadline de livraison. La cause n'était pas la capacité analytique — c'était le temps de production documentaire."
+/>
+
+<Bi
+  en="A time-tracking study run by the managing partner in November 2025 put the figure at 40 to 45% of billable consultant time spent on document production: strategy notes, executive committee memos, weekly field summaries, project slides. The substantive content — the actual thinking — accounted for a fraction of that. The rest was formatting, restructuring, rewriting for audience, and version management across shared drives with no naming conventions."
+  fr="Un relevé de temps réalisé par l'associé gérant en novembre 2025 a chiffré le problème : 40 à 45 % du temps consultant facturable absorbé par la production documentaire. Notes stratégiques, mémos de comité, synthèses terrain hebdomadaires, slides de bilan. Le contenu substantiel — la réflexion réelle — ne représentait qu'une fraction de ce temps. Le reste : mise en forme, restructuration, reformulation pour l'audience, gestion des versions sur des drives partagés sans convention de nommage."
+/>
+
+## <Bi en="Audit" fr="L'audit" />
+
+<Bi
+  en="Week 1 was a qualitative and quantitative audit of the production workflow. We interviewed 8 consultants across 3 active projects, time-stamped 22 deliverables from draft to final version, and mapped the toolchain: Notion for internal docs, Google Slides for client deliverables, email for version control. No shared templates. Each consultant had their own formatting habits."
+  fr="La semaine 1 a été un audit qualitatif et quantitatif du workflow de production. On a interviewé 8 consultants sur 3 projets actifs, chronométré 22 livrables du brouillon à la version finale, et cartographié la chaîne d'outils : Notion pour les docs internes, Google Slides pour les livrables clients, email pour la gestion des versions. Aucun template partagé. Chaque consultant avait ses propres habitudes de mise en forme."
+/>
+
+<Bi
+  en="Findings: average time from raw notes to a validated 4-page strategy note was 4.2 hours. Executive memo: 3.1 hours. Weekly field summary: 1.8 hours. The main friction points were structure (starting from a blank page each time), reformatting for different audiences (same content, three versions), and back-and-forth review cycles with senior consultants. None of these were irreducible tasks."
+  fr="Résultats : le temps moyen d'une note stratégique de 4 pages, du brouillon à la validation, était de 4,2 heures. Mémo exécutif : 3,1 heures. Synthèse terrain hebdomadaire : 1,8 heure. Les frictions principales : la structure (partir d'une page blanche à chaque fois), la reformulation pour différentes audiences (même contenu, trois versions), les cycles de relecture avec les consultants seniors. Aucune de ces tâches n'était incompressible."
+/>
+
+## <Bi en="What we shipped" fr="Ce qu'on a livré" />
+
+- <Bi en="**Strategy note agent** · Claude Opus 4.7 + Notion MCP · generates a structured 4-6 page first draft from raw interview notes and the project brief in under 8 minutes, following Halcyon's house structure" fr="**Agent note stratégique** · Claude Opus 4.7 + Notion MCP · génère un premier jet structuré de 4-6 pages à partir de notes d'entretien brutes et du brief projet en moins de 8 minutes, selon la structure maison Halcyon" />
+- <Bi en="**Memo formatter** · Claude Sonnet 4.6 · adapts the same content to 3 audience formats (executive committee, project sponsor, working team) without rewriting from scratch, in 3 minutes" fr="**Formateur mémo** · Claude Sonnet 4.6 · adapte un même contenu à 3 formats d'audience (comité exécutif, sponsor projet, équipe opérationnelle) sans repartir de zéro, en 3 minutes" />
+- <Bi en="**Weekly summary agent** · Sonnet 4.6 + Google Workspace MCP · aggregates field notes from the week, structures the key signals, outputs a 1-page summary ready for consultant review in under 3 minutes" fr="**Agent synthèse hebdo** · Sonnet 4.6 + MCP Google Workspace · agrège les notes terrain de la semaine, structure les signaux clés, produit une synthèse 1 page prête à relecture en moins de 3 minutes" />
+- <Bi en="**LangSmith observability** · full trace of every agent run, prompt version history, output quality scoring, adoption rate per consultant and per project" fr="**Observabilité LangSmith** · trace complète de chaque run agent, historique des versions de prompts, scoring qualité des outputs, taux d'adoption par consultant et par projet" />
+
+## <Bi en="Results" fr="Résultats" />
+
+<Bi
+  en="Over Q1 2026 (12 weeks post-deployment): 120 consulting hours recovered across 6 active projects. All 3 projects with Q1 delivery deadlines met them — a reversal from the 50% on-time rate of Q4 2025. Average deliverable production time dropped from 3.5 hours to 1.5 hours, a 57% reduction. Consultant satisfaction with the production process went from 4.1 to 7.8 out of 10 in an internal survey."
+  fr="Sur le Q1 2026 (12 semaines post-déploiement) : 120 heures consultant récupérées sur 6 projets actifs. Les 3 projets à deadline Q1 ont tous été livrés à temps — un renversement par rapport au taux de 50 % du T4 2025. Temps moyen de production d'un livrable : de 3,5 heures à 1,5 heure, soit -57 %. La satisfaction consultant sur le processus de production est passée de 4,1 à 7,8 sur 10 en enquête interne."
+/>
+
+<Bi
+  en="The quality surprise: senior consultants initially expected to use the recovered time for more client-facing interactions. In practice, they used it to go deeper on substance — additional interviews, sharper recommendations. Three senior consultants said it was the first time in two years they felt their analytical work reflected what they were actually paid to think about."
+  fr="La surprise qualitative : les consultants seniors s'attendaient à utiliser le temps libéré pour plus d'interactions clients. Dans les faits, ils l'ont utilisé pour approfondir le fond — entretiens supplémentaires, recommandations affinées. Trois consultants seniors ont dit que c'était la première fois depuis deux ans qu'ils sentaient que leur travail analytique reflétait vraiment ce pour quoi ils étaient payés."
+/>
+
+## <Bi en="Trajectory" fr="Trajectoire" />
+
+<Bi
+  en="Halcyon is now extending the system to commercial proposal writing. The target is to halve the time spent on pitches — currently 6 to 8 hours per proposal — by automating structuring and first-draft generation from prior project materials. A retrieval layer over their Notion knowledge base is scoped for Q2 2026. The managing partner is also evaluating agent-assisted competitive benchmarking to support the research phase of new missions."
+  fr="Halcyon étend actuellement le système à la production de propositions commerciales. L'objectif est de réduire de moitié le temps consacré aux pitchs — actuellement 6 à 8 heures par proposition — en automatisant la structuration et la première rédaction à partir des matériaux de projets antérieurs. Une couche de retrieval sur leur base Notion est prévue pour le Q2 2026. L'associé gérant évalue également un agent de veille concurrentielle pour accélérer la phase de cadrage des nouvelles missions."
+/>
