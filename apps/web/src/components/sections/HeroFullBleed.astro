@@ -26,7 +26,8 @@ const isFr = lang === 'fr';
 
 <style>
   .hero-fb {
-    padding-block: clamp(80px, 14vw, 200px);
+    padding-top: calc(clamp(80px, 14vw, 200px) + var(--header-height));
+    padding-bottom: clamp(80px, 14vw, 200px);
     border-bottom: 1px solid var(--hairline);
     position: relative;
     overflow: hidden;

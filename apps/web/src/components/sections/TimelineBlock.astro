@@ -11,6 +11,7 @@ const isFr = lang === 'fr';
 ---
 
 <section class="timeline-block">
+  <div class="wrap-wide">
   <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
   <ol class="timeline-block__list">
     {data.events.map((ev: (typeof data.events)[number]) => (
@@ -23,6 +24,7 @@ const isFr = lang === 'fr';
       </li>
     ))}
   </ol>
+  </div>
 </section>
 
 <style>

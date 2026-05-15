@@ -13,6 +13,7 @@ const labelB = isFr ? 'Notre réponse' : 'Our answer';
 ---
 
 <section class="objection-handler">
+  <div class="wrap-wide">
   <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
   <div class="objection-handler__table-head">
     <Kicker tone="muted" size={10}>{labelA}</Kicker>
@@ -30,6 +31,7 @@ const labelB = isFr ? 'Notre réponse' : 'Our answer';
       </li>
     ))}
   </ul>
+  </div>
 </section>
 
 <style>

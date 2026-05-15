@@ -12,7 +12,9 @@ const isFr = lang === 'fr';
 
 <section class="social-proof">
   {(isFr ? data.kicker_fr : data.kicker_en) && (
-    <Kicker tone="muted" class="social-proof__kicker">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
+    <div class="wrap-wide">
+      <Kicker tone="muted" class="social-proof__kicker">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
+    </div>
   )}
   {data.marquee ? (
     <div class="social-proof__marquee-wrap" aria-hidden="true">
@@ -23,11 +25,13 @@ const isFr = lang === 'fr';
       </ul>
     </div>
   ) : (
-    <ul class="social-proof__static">
-      {data.logos.map((l: (typeof data.logos)[number]) => (
-        <li class="social-proof__logo">{l.name}</li>
-      ))}
-    </ul>
+    <div class="wrap-wide">
+      <ul class="social-proof__static">
+        {data.logos.map((l: (typeof data.logos)[number]) => (
+          <li class="social-proof__logo">{l.name}</li>
+        ))}
+      </ul>
+    </div>
   )}
 </section>
 

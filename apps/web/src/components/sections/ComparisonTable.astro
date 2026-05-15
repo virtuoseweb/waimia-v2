@@ -11,6 +11,7 @@ const headers = isFr ? data.column_headers_fr : data.column_headers_en;
 ---
 
 <section class="comparison-table">
+  <div class="wrap-wide">
   <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
   <div class="comparison-table__wrap">
     <table>
@@ -38,6 +39,7 @@ const headers = isFr ? data.column_headers_fr : data.column_headers_en;
         ))}
       </tbody>
     </table>
+  </div>
   </div>
 </section>
 

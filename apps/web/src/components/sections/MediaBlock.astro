@@ -12,6 +12,7 @@ const alt = isFr ? data.alt_fr : data.alt_en;
 ---
 
 <figure class="media-block" data-kind={data.media_kind}>
+  <div class="wrap-wide">
   {data.media_kind === 'image' && (
     <img
       src={data.src}
@@ -35,6 +36,7 @@ const alt = isFr ? data.alt_fr : data.alt_en;
     </div>
   )}
   {caption && <figcaption class="media-block__caption">{caption}</figcaption>}
+  </div>
 </figure>
 
 <style>

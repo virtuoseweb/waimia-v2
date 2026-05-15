@@ -10,6 +10,7 @@ const isFr = lang === 'fr';
 ---
 
 <section class="stat-block">
+  <div class="wrap-wide">
   <div class="stat-block__header">
     {(isFr ? data.h2_fr : data.h2_en) && (
       <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
@@ -26,6 +27,7 @@ const isFr = lang === 'fr';
       </li>
     ))}
   </ul>
+  </div>
 </section>
 
 <style>

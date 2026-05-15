@@ -12,6 +12,7 @@ const isFr = lang === 'fr';
 ---
 
 <section class="hero-centered">
+  <div class="wrap-wide">
   <div class="hero-centered__inner">
     {(isFr ? data.kicker_fr : data.kicker_en) && (
       <Kicker tone="muted">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
@@ -29,11 +30,13 @@ const isFr = lang === 'fr';
       )}
     </div>
   </div>
+  </div>
 </section>
 
 <style>
   .hero-centered {
-    padding-block: var(--spacing-section);
+    padding-top: calc(var(--spacing-section) + var(--header-height));
+    padding-bottom: var(--spacing-section);
     border-bottom: 1px solid var(--hairline);
     text-align: center;
   }

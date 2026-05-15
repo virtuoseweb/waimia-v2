@@ -11,6 +11,7 @@ const isFr = lang === 'fr';
 ---
 
 <section class="faq-accordion">
+  <div class="wrap-wide">
   <div class="faq-accordion__header">
     {(isFr ? data.kicker_fr : data.kicker_en) && (
       <Kicker tone="muted">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
@@ -32,6 +33,7 @@ const isFr = lang === 'fr';
         </div>
       </details>
     ))}
+  </div>
   </div>
 </section>
 

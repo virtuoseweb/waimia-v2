@@ -10,11 +10,13 @@ const { data, lang } = Astro.props;
 const isFr = lang === 'fr';
 ---
 
-<div class="cta-inline">
-  <p class="cta-inline__text">{isFr ? data.text_fr : data.text_en}</p>
-  <Button href={data.cta.href} variant={data.cta.variant as any} size="md">
-    {isFr ? data.cta.label_fr : data.cta.label_en}
-  </Button>
+<div class="wrap-wide">
+  <div class="cta-inline">
+    <p class="cta-inline__text">{isFr ? data.text_fr : data.text_en}</p>
+    <Button href={data.cta.href} variant={data.cta.variant as any} size="md">
+      {isFr ? data.cta.label_fr : data.cta.label_en}
+    </Button>
+  </div>
 </div>
 
 <style>

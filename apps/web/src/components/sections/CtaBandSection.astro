@@ -11,20 +11,24 @@ const isFr = lang === 'fr';
 ---
 
 <div class="cta-band" data-bg={data.background}>
-  <p class="cta-band__text">{isFr ? data.text_fr : data.text_en}</p>
-  <Button href={data.cta.href} variant={data.cta.variant as any} size="md" mag={data.cta.mag ?? 0.12}>
-    {isFr ? data.cta.label_fr : data.cta.label_en}
-  </Button>
+  <div class="wrap-wide cta-band__inner">
+    <p class="cta-band__text">{isFr ? data.text_fr : data.text_en}</p>
+    <Button href={data.cta.href} variant={data.cta.variant as any} size="md" mag={data.cta.mag ?? 0.12}>
+      {isFr ? data.cta.label_fr : data.cta.label_en}
+    </Button>
+  </div>
 </div>
 
 <style>
   .cta-band {
+    padding-block: 20px;
+    border-block: 1px solid var(--hairline);
+  }
+  .cta-band__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    padding-block: 20px;
-    border-block: 1px solid var(--hairline);
     flex-wrap: wrap;
   }
   .cta-band[data-bg="paper-2"] { background: var(--paper-2); }
