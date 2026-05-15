@@ -62,6 +62,10 @@ interface Props {
   ctaHref?: string;
   /** Label du CTA hero (default "Parler architecture →") */
   ctaLabel?: string;
+  capabilitiesData?: Array<{ name_fr: string; name_en: string; description_fr: string; description_en: string; status: 'active' | 'beta' | 'planned' }>;
+  modelsData?: Array<{ name: string; version: string; use_case_fr: string; use_case_en: string }>;
+  integrationData?: Array<{ num: string; label_fr: string; label_en: string; body_fr: string; body_en: string }>;
+  benchmarksData?: Array<{ value: string; label_fr: string; label_en: string }>;
 }
 
 const {
@@ -75,6 +79,10 @@ const {
   meta = '',
   ctaHref = '/contact',
   ctaLabel = 'Parler architecture →',
+  capabilitiesData,
+  modelsData,
+  integrationData,
+  benchmarksData,
 } = Astro.props;
 
 const lang = langFromPath(Astro.url.pathname);
@@ -123,42 +131,73 @@ const splitBlocks = (html: string, selectorClass: string) =>
     .split(new RegExp(`<[^>]*class=["'][^"']*${selectorClass}[^"']*["'][^>]*>`, 'i'))
     .slice(1);
 
-const capabilities = splitBlocks(capabilitiesHtml, 'cap-card')
-  .map((block) => ({
-    kicker: extract(block, 'cap-ck') || extract(block, 'kicker'),
-    title: extractTag(block, 'h3'),
-    body: extractTag(block, 'p'),
-    value: extract(block, 'cap-v') || extract(block, 'cap-value'),
-  }))
-  .filter((item) => item.title && item.body);
+const capabilities =
+  capabilitiesData && capabilitiesData.length > 0
+    ? capabilitiesData.map((item) => ({
+        kicker: item.status,
+        title: lang === "fr" ? item.name_fr : item.name_en,
+        body: lang === "fr" ? item.description_fr : item.description_en,
+        value: item.status,
+      }))
+    : splitBlocks(capabilitiesHtml, "cap-card")
+        .map((block) => ({
+          kicker: extract(block, "cap-ck") || extract(block, "kicker"),
+          title: extractTag(block, "h3"),
+          body: extractTag(block, "p"),
+          value: extract(block, "cap-v") || extract(block, "cap-value"),
+        }))
+        .filter((item) => item.title && item.body);
 
-const modelRows = Array.from(modelsRowsHtml.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi))
-  .map((rowMatch) =>
-    Array.from((rowMatch[1] ?? '').matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi))
-      .map((cellMatch) => stripHtml(cellMatch[1] ?? ''))
-  )
-  .filter((row) => row.length > 0);
+const modelRows =
+  modelsData && modelsData.length > 0
+    ? modelsData.map((m) => [
+        m.name,
+        m.version,
+        "",
+        "",
+        lang === "fr" ? m.use_case_fr : m.use_case_en,
+      ])
+    : Array.from(modelsRowsHtml.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi))
+        .map((rowMatch) =>
+          Array.from(
+            (rowMatch[1] ?? "").matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi),
+          ).map((cellMatch) => stripHtml(cellMatch[1] ?? "")),
+        )
+        .filter((row) => row.length > 0);
 
-const integrationEvents = splitBlocks(integrationHtml, 'flow-node')
+const integrationEvents = splitBlocks(integrationHtml, "flow-node")
   .map((block) => ({
-    num: extract(block, 'flow-layer').split('·')[0]?.trim(),
-    meta: extract(block, 'flow-layer').split('·').slice(1).join('·').trim(),
-    title: extractTag(block, 'h3'),
-    body: extract(block, 'flow-body') || extractTag(block, 'p'),
-    variant: /flow-node--active/.test(block) ? 'highlight' as const : 'default' as const,
+    num: extract(block, "flow-layer").split("·")[0]?.trim(),
+    meta: extract(block, "flow-layer").split("·").slice(1).join("·").trim(),
+    title: extractTag(block, "h3"),
+    body: extract(block, "flow-body") || extractTag(block, "p"),
+    variant: /flow-node--active/.test(block)
+      ? ("highlight" as const)
+      : ("default" as const),
   }))
   .filter((event) => event.title && event.body);
 
-const placeholderIntegrationEvents = splitBlocks(integrationHtml, 'node')
+const placeholderIntegrationEvents = splitBlocks(integrationHtml, "node")
   .map((block) => ({
-    num: extract(block, 'node-k'),
-    title: extract(block, 'node-l'),
-    body: 'Phase de cadrage architecture Waimia.',
-    variant: 'default' as const,
+    num: extract(block, "node-k"),
+    title: extract(block, "node-l"),
+    body: "Phase de cadrage architecture Waimia.",
+    variant: "default" as const,
   }))
   .filter((event) => event.title);
 
-const timelineEvents = integrationEvents.length > 0 ? integrationEvents : placeholderIntegrationEvents;
+const timelineEvents =
+  integrationData && integrationData.length > 0
+    ? integrationData.map((item) => ({
+        num: item.num,
+        meta: lang === "fr" ? item.label_fr : item.label_en,
+        title: lang === "fr" ? item.label_fr : item.label_en,
+        body: lang === "fr" ? item.body_fr : item.body_en,
+        variant: "default" as const,
+      }))
+    : integrationEvents.length > 0
+      ? integrationEvents
+      : placeholderIntegrationEvents;
 
 const serviceLd = buildService({ name: title, description });
 ---
@@ -222,16 +261,26 @@ const serviceLd = buildService({ name: title, description });
           </div>
           <p class="tech-aside"><slot name="capabilities-aside" /></p>
         </div>
-        <div class="tech-cap-grid reveal-stagger">
+        <div class="tech-cap-table-wrap reveal-stagger">
           {capabilities.length > 0 ? (
-            capabilities.map((item) => (
-              <article class="cap-card">
-                {item.kicker && <div class="cap-ck">{item.kicker}</div>}
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-                {item.value && <KeyMetric value={item.value} label={item.kicker || 'Signature'} size="sm" variant="accent" />}
-              </article>
-            ))
+            <table class="tt-specs">
+              <thead>
+                <tr>
+                  <th scope="col">Capacité</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Statut</th>
+                </tr>
+              </thead>
+              <tbody>
+                {capabilities.map((item) => (
+                  <tr>
+                    <td class="tt-spec-name">{item.title}</td>
+                    <td class="tt-spec-desc">{item.body}</td>
+                    <td class="tt-spec-status">{item.value || item.kicker}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           ) : (
             <Fragment set:html={capabilitiesHtml} />
           )}
@@ -337,7 +386,9 @@ const serviceLd = buildService({ name: title, description });
             </div>
             <p class="tech-aside"><slot name="ecosystem-aside" /></p>
           </div>
-          <div class="tech-eco-grid reveal-stagger" set:html={ecosystemHtml} />
+          <div class="tt-eco-wrap reveal-stagger">
+            <div class="tt-eco-inline" set:html={ecosystemHtml} />
+          </div>
         </div>
       </section>
     )}
@@ -572,65 +623,6 @@ const serviceLd = buildService({ name: title, description });
     font-style: italic;
   }
 
-  /* ───── Capabilities Grid ───── */
-  .tech-cap-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: clamp(20px, 2.5vw, 32px);
-  }
-  .tech-cap-grid :global(.cap-card) {
-    padding: 32px 28px;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 2px;
-    background: var(--paper);
-    box-shadow: inset 0 1px 0 rgba(12,11,9,0.04);
-    transition: background 220ms var(--ease), border-color 220ms var(--ease), box-shadow 220ms var(--ease), transform 220ms var(--ease);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .tech-cap-grid :global(.cap-card:hover) {
-    border-color: var(--hairline-strong, rgba(12,11,9,0.18));
-    box-shadow: inset 0 2px 0 var(--accent);
-    transform: translateY(-2px);
-  }
-  .tech-cap-grid :global(.cap-ck) {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-  .tech-cap-grid :global(.cap-card h3) {
-    font-family: var(--font-display);
-    font-size: clamp(20px, 1.7vw, 24px);
-    line-height: 1.2;
-    margin: 0;
-    font-weight: 400;
-  }
-  .tech-cap-grid :global(.cap-card p) {
-    font-size: 14.5px;
-    line-height: 1.55;
-    color: var(--ink);
-    margin: 0 0 8px;
-    flex: 1;
-  }
-  .tech-cap-grid :global(.cap-v) {
-    font-family: var(--font-display);
-    font-size: clamp(28px, 2.6vw, 36px);
-    color: var(--accent);
-    line-height: 1;
-    font-weight: 400;
-    margin-top: auto;
-  }
-  .tech-cap-grid :global(.key-metric) {
-    margin-top: auto;
-    padding-bottom: 0;
-  }
-  .tech-cap-grid :global(.key-metric-value) {
-    font-size: clamp(30px, 3vw, 44px);
-  }
-
   /* ───── Models Comparison Table ───── */
   .tech-models-table-wrap {
     overflow-x: auto;
@@ -807,47 +799,120 @@ const serviceLd = buildService({ name: title, description });
     margin: 0;
   }
 
-  /* ───── Ecosystem Grid (conditionnel os) ───── */
-  .tech-eco-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: clamp(20px, 2.5vw, 32px);
+  /* ───── Capabilities Specs Table ───── */
+  .tech-cap-table-wrap {
+    overflow-x: auto;
   }
-  .tech-eco-grid :global(.eco-card) {
-    padding: 28px;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-top: 2px solid var(--hairline-strong, rgba(12,11,9,0.18));
-    border-radius: 8px;
-    background: var(--paper);
-    transition: background 220ms var(--ease), border-color 220ms var(--ease);
+  .tt-specs {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: clamp(14px, 1.2vw, 15.5px);
   }
-  .tech-eco-grid :global(.eco-card:hover) {
-    background: var(--paper-2, #EFEBE2);
-    border-color: var(--accent);
-  }
-  .tech-eco-grid :global(.eco-card h3) {
-    font-family: var(--font-display);
-    font-size: 21px;
-    line-height: 1.2;
-    margin: 0 0 10px;
+  .tt-specs thead th {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 0 24px 14px 0;
+    border-bottom: 1px solid var(--hairline, rgba(12,11,9,0.12));
     font-weight: 400;
+    white-space: nowrap;
   }
-  .tech-eco-grid :global(.eco-card p) {
-    font-size: 14px;
+  .tt-specs thead th:last-child { padding-right: 0; text-align: right; }
+  .tt-specs tbody tr {
+    border-bottom: 1px solid var(--hairline, rgba(12,11,9,0.08));
+    transition: background 180ms ease;
+  }
+  .tt-specs tbody tr:last-child { border-bottom: none; }
+  .tt-specs tbody tr:hover { background: rgba(12,11,9,0.02); }
+  .tt-spec-name {
+    font-family: var(--font-display);
+    font-size: clamp(16px, 1.4vw, 18px);
+    font-weight: 400;
+    color: var(--ink);
+    padding: 20px 24px 20px 0;
+    vertical-align: top;
+    white-space: nowrap;
+    width: 22%;
+  }
+  .tt-spec-desc {
+    font-size: clamp(13.5px, 1.1vw, 15px);
     line-height: 1.55;
     color: var(--ink);
-    margin: 0 0 16px;
+    padding: 20px 24px 20px 0;
+    vertical-align: top;
   }
-  .tech-eco-grid :global(.eco-models) {
+  .tt-spec-status {
     font-family: var(--font-mono);
-    font-size: 10.5px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    padding: 20px 0;
+    vertical-align: top;
+    text-align: right;
+    white-space: nowrap;
+    width: 10%;
+  }
+
+  /* ───── Ecosystem Inline List ───── */
+  .tt-eco-wrap {
+    border-top: 1px solid var(--hairline, rgba(12,11,9,0.12));
+    padding-top: clamp(24px, 3vw, 40px);
+  }
+  .tt-eco-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+  .tt-eco-inline :global(.eco-card) {
+    display: inline;
+  }
+  .tt-eco-inline :global(.eco-card h3) {
+    display: inline;
+    font-family: var(--font-display);
+    font-size: clamp(16px, 1.4vw, 18px);
+    font-weight: 400;
+    color: var(--ink);
+    font-style: normal;
+  }
+  .tt-eco-inline :global(.eco-card p) {
+    display: none;
+  }
+  .tt-eco-inline :global(.eco-models) {
+    font-family: var(--font-mono);
+    font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--accent);
-    padding: 6px 10px;
-    background: rgba(201,79,46,0.08);
-    border-radius: 4px;
+    color: var(--muted);
+    margin-left: 6px;
+  }
+  .tt-eco-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 0;
+    font-family: var(--font-mono);
+    font-size: clamp(12px, 1vw, 14px);
+    color: var(--muted);
+  }
+  .tt-eco-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+  }
+  .tt-eco-item + .tt-eco-item::before {
+    content: '·';
     display: inline-block;
+    margin: 0 10px;
+    color: var(--hairline, rgba(12,11,9,0.3));
+  }
+
+  @media (max-width: 700px) {
+    .tt-spec-name { white-space: normal; }
+    .tt-spec-status { text-align: left; padding-left: 0; }
+    .tt-specs thead th:last-child { text-align: left; }
   }
 
   /* ───── CTA final dark ───── */

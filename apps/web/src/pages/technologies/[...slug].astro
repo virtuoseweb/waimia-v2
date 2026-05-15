@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import TechnologiesDetailTemplate from '../../components/templates/TechnologiesDetailTemplate.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('technologies');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const data = entry.data;
+const lang = Astro.url.pathname.startsWith('/en/') ? 'en' : 'fr';
+
+const layerTypeMap: Record<string, 'claude' | 'os' | 'orch'> = {
+  Claude: 'claude',
+  OpenSource: 'os',
+  Frameworks: 'os',
+  Office: 'orch',
+};
+const layerType = layerTypeMap[data.family] ?? 'orch';
+
+const layerLabel = lang === 'fr' ? data.title_fr : data.title_en;
+const titleFirst = lang === 'fr'
+  ? (data.title_fr.split('·')[0]?.trim() ?? data.title_fr)
+  : (data.title_en.split('·')[0]?.trim() ?? data.title_en);
+const layer = lang === 'fr'
+  ? `COUCHE ${titleFirst.toUpperCase()}`
+  : `LAYER ${titleFirst.toUpperCase()}`;
+---
+
+<TechnologiesDetailTemplate
+  title={lang === 'fr' ? data.title_fr : data.title_en}
+  description={lang === 'fr' ? data.description_fr : data.description_en}
+  {layer}
+  {layerLabel}
+  {layerType}
+  showModels={data.models.length > 0}
+  showEcosystem={data.ecosystem.length > 0}
+  capabilitiesData={data.capabilities}
+  modelsData={data.models}
+  integrationData={data.integration_flow}
+  benchmarksData={data.benchmarks}
+>
+  <Content />
+</TechnologiesDetailTemplate>
