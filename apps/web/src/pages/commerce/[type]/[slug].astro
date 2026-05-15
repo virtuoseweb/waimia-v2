@@ -1,0 +1,210 @@
+---
+export const prerender = true;
+
+// Page SSG · /commerce/[type]/[slug] · Consumer MDX collection "commerce" (Tier 3.2)
+// Pattern : discriminated union sur commerce_type · product OR subscription
+// Pattern Astro 6 strict.
+
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import Button from '../../../components/ui/atoms/Button.astro';
+import Breadcrumb from '../../../components/ui/molecules/Breadcrumb.astro';
+import { langFromPath } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('commerce');
+  return entries.map((entry) => ({
+    params: { type: entry.data.commerce_type, slug: entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<'commerce'> };
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
+const data = entry.data;
+const lang = langFromPath(Astro.url.pathname);
+const title = lang === 'fr' ? data.title_fr : data.title_en;
+const description = lang === 'fr' ? data.description_fr : data.description_en;
+const isProduct = data.commerce_type === 'product';
+const isSubscription = data.commerce_type === 'subscription';
+---
+<Base title={`${title} · Commerce · Waimia`} description={description}>
+  <article class="commerce-detail" data-type={data.commerce_type}>
+    <div class="wrap-wide">
+      <Breadcrumb
+        items={[
+          { href: '/commerce', label: lang === 'fr' ? 'Commerce' : 'Commerce' },
+          { href: `/commerce/${data.commerce_type}`, label: data.commerce_type, },
+          { href: `/commerce/${data.commerce_type}/${entry.id}`, label: title, current: true },
+        ]}
+      />
+
+      <header class="commerce-detail__hd">
+        <Kicker tone="accent">§ {data.commerce_type.toUpperCase()} · SKU {data.sku}</Kicker>
+        <h1 class="commerce-detail__title">{title}</h1>
+        <p class="commerce-detail__lede">{description}</p>
+      </header>
+
+      {isProduct && (
+        <section class="commerce-detail__product">
+          <div class="commerce-detail__price-block">
+            <span class="commerce-detail__price">€{data.price_eur}</span>
+            <span class="commerce-detail__format">{data.delivery_format}{data.pages_count ? ` · ${data.pages_count} pages` : ''}{data.duration_minutes ? ` · ${data.duration_minutes} min` : ''}</span>
+          </div>
+          <Button href={data.stripe_payment_link} variant="primary" size="lg" mag={0.18}>
+            {lang === 'fr' ? 'Acheter →' : 'Buy →'}
+          </Button>
+
+          <h2 class="commerce-detail__h2">{lang === 'fr' ? 'Bénéfices' : 'Benefits'}</h2>
+          <ul class="commerce-detail__benefits">
+            {(lang === 'fr' ? data.benefits_fr : data.benefits_en).map((b: string) => <li>{b}</li>)}
+          </ul>
+
+          {data.faq_items.length > 0 && (
+            <>
+              <h2 class="commerce-detail__h2">FAQ</h2>
+              <dl class="commerce-detail__faq">
+                {data.faq_items.map((item: any) => (
+                  <>
+                    <dt>{lang === 'fr' ? item.q_fr : item.q_en}</dt>
+                    <dd>{lang === 'fr' ? item.a_fr : item.a_en}</dd>
+                  </>
+                ))}
+              </dl>
+            </>
+          )}
+        </section>
+      )}
+
+      {isSubscription && (
+        <section class="commerce-detail__subscription">
+          <div class="commerce-detail__price-block">
+            <span class="commerce-detail__price">€{data.price_eur_monthly}<span class="commerce-detail__cycle">/{lang === 'fr' ? 'mois' : 'month'}</span></span>
+            {data.price_eur_yearly && (
+              <span class="commerce-detail__yearly">{lang === 'fr' ? `ou €${data.price_eur_yearly}/an` : `or €${data.price_eur_yearly}/year`}</span>
+            )}
+            <Kicker tone="muted" size={10}>TIER {data.tier.toUpperCase()}</Kicker>
+          </div>
+          <Button href={data.stripe_billing_portal} variant="primary" size="lg" mag={0.18}>
+            {lang === 'fr' ? "S'abonner →" : 'Subscribe →'}
+          </Button>
+
+          <h2 class="commerce-detail__h2">{lang === 'fr' ? 'Inclus' : 'Included'}</h2>
+          <ul class="commerce-detail__benefits">
+            {(lang === 'fr' ? data.includes_fr : data.includes_en).map((i: string) => <li>{i}</li>)}
+          </ul>
+        </section>
+      )}
+
+      <section class="commerce-detail__content">
+        <Content />
+      </section>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .commerce-detail {
+    padding-top: calc(var(--spacing-section) + var(--header-height));
+    padding-bottom: var(--spacing-section);
+  }
+  .commerce-detail__hd {
+    margin: 32px 0 48px;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 32px;
+  }
+  .commerce-detail__title {
+    font-family: var(--font-display);
+    font-size: var(--text-h1-hero);
+    line-height: 1.02;
+    color: var(--ink);
+    margin: 16px 0 0;
+  }
+  .commerce-detail__lede {
+    font-family: var(--font-sans);
+    font-size: var(--text-lede);
+    color: var(--ink-2);
+    line-height: 1.5;
+    margin: 24px 0 0;
+    max-width: 64ch;
+  }
+  .commerce-detail__price-block {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .commerce-detail__price {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 6vw, 80px);
+    line-height: 1;
+    color: var(--accent);
+  }
+  .commerce-detail__cycle {
+    font-family: var(--font-sans);
+    font-size: 18px;
+    color: var(--muted);
+  }
+  .commerce-detail__yearly,
+  .commerce-detail__format {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .commerce-detail__h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-h2-section);
+    color: var(--ink);
+    margin: 48px 0 24px;
+  }
+  .commerce-detail__benefits {
+    list-style: none;
+    margin: 0 0 32px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .commerce-detail__benefits li {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    color: var(--ink-2);
+    padding-left: 24px;
+    position: relative;
+  }
+  .commerce-detail__benefits li::before {
+    content: '▸';
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+  }
+  .commerce-detail__faq dt {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.6vw, 22px);
+    color: var(--ink);
+    margin: 24px 0 8px;
+  }
+  .commerce-detail__faq dd {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    color: var(--ink-2);
+    margin: 0;
+    line-height: 1.6;
+  }
+  .commerce-detail__content {
+    max-width: 72ch;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--hairline);
+  }
+  .commerce-detail__content :global(p) {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    line-height: 1.7;
+    color: var(--ink-2);
+    margin: 0 0 16px;
+  }
+</style>
