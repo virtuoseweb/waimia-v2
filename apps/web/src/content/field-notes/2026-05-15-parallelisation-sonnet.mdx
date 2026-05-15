@@ -1,0 +1,23 @@
+---
+title_fr: "Parallélisation 6 workers Sonnet · field note d'exécution"
+title_en: "Parallelizing 6 Sonnet workers · execution field note"
+description_fr: "Comment livrer 52 commits en une session avec 17 workers Sonnet parallèles : anti-collision par pré-injection schema + git status comme signal."
+description_en: "How to ship 52 commits in one session with 17 parallel Sonnet workers: anti-collision via schema pre-injection + git status as signal."
+slug: "parallelisation-sonnet"
+publishedAt: 2026-05-15
+date: 2026-05-15
+category: "ingenierie"
+tags: ["orchestration", "parallelisation", "sonnet"]
+tag_fr: "NOTE"
+tag_en: "FIELD NOTE"
+---
+
+Pattern stable validé aujourd'hui&nbsp;: 17&nbsp;workers Sonnet lancés en parallèle sur 5 batches successifs, 0&nbsp;collision fichiers, 13/17 DONE markers, 4/17 silent-but-delivered (mode `-p` log vide mais Sonnet bosse).
+
+**Anti-collision** &mdash;&nbsp;quand plusieurs workers touchent `content.config.ts`, Opus pré-injecte les schemas en série avant le lancement parallèle. Les workers ne touchent ensuite que leurs MDX dédiés.
+
+**Signal réel** &mdash;&nbsp;`git status` + `find -newer` + `DONE.md` marker, jamais `wc -l log`. Le mode `-p` Sonnet n'écrit rien dans le log mais bosse en silence.
+
+**Quota** &mdash;&nbsp;Sonnet 5h à 90&nbsp;% en fin de session. Reset 5h. 7j seulement à 6&nbsp;% &mdash;&nbsp;encore beaucoup de marge pour les sessions futures.
+
+52&nbsp;commits, 136&nbsp;fichiers, 23&nbsp;532&nbsp;LoC. Throughput record.
