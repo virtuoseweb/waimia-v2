@@ -37,9 +37,13 @@ import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
 import HeroSplit from '../../components/sections/HeroSplit.astro';
 import HeroCentered from '../../components/sections/HeroCentered.astro';
 import ProofBarSection from '../../components/sections/ProofBarSection.astro';
+import StatBlock from '../../components/sections/StatBlock.astro';
 import MethodTimeline from '../../components/sections/MethodTimeline.astro';
 import FeatureGrid from '../../components/sections/FeatureGrid.astro';
 import FaqAccordion from '../../components/sections/FaqAccordion.astro';
+import TestimonialBlock from '../../components/sections/TestimonialBlock.astro';
+import GuaranteeBlock from '../../components/sections/GuaranteeBlock.astro';
+import CtaInline from '../../components/sections/CtaInline.astro';
 import CtaFinal from '../../components/sections/CtaFinal.astro';
 ---
 
@@ -737,6 +741,69 @@ import CtaFinal from '../../components/sections/CtaFinal.astro';
                   { q_fr: 'Quels sont vos tarifs ?', q_en: 'What are your rates?', a_fr: 'AI Activation à partir de 1 500€. Growth System à partir de 5 000€.', a_en: 'AI Activation starts at €1,500. Growth System starts at €5,000.' },
                   { q_fr: 'Compatible avec notre stack actuelle ?', q_en: 'Compatible with our current stack?', a_fr: 'Oui — HubSpot, Salesforce, Notion, Excel, GA4, etc.', a_en: 'Yes — HubSpot, Salesforce, Notion, Excel, GA4, etc.' },
                 ],
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>StatBlock · type "stat-block" (layout: grid-3)</Kicker>
+            <div class="ds-section-demo-frame">
+              <StatBlock data={{
+                type: 'stat-block',
+                h2_fr: 'Mesures <i>vérifiables</i>',
+                h2_en: '<i>Verifiable</i> measurements',
+                lede_fr: 'Statistiques observées sur 12 mois d\'engagements PME/ETI.',
+                lede_en: 'Stats observed over 12 months of SMB engagements.',
+                metrics: [
+                  { value: '43', label_fr: 'engagements', label_en: 'engagements', emphasis: true },
+                  { value: '€18M+', label_fr: 'pipeline audité', label_en: 'pipeline audited', emphasis: false },
+                  { value: '× 3.7', label_fr: 'ROI moyen 12 mois', label_en: 'avg ROI 12 months', emphasis: false },
+                ],
+                layout: 'grid-3',
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>TestimonialBlock · type "testimonial-block" (layout: grid-2)</Kicker>
+            <div class="ds-section-demo-frame">
+              <TestimonialBlock data={{
+                type: 'testimonial-block',
+                kicker_fr: 'Témoignages · démo',
+                kicker_en: 'Testimonials · demo',
+                h2_fr: 'Ce que disent les <i>clients</i>',
+                h2_en: 'What <i>clients</i> say',
+                testimonials: [
+                  { quote_fr: 'En 5 jours, on a câblé l\'IA dans nos workflows. Premier ROI à 6 semaines.', quote_en: 'In 5 days we wired AI into our workflows. First ROI at 6 weeks.', author: 'Marie L.', role_fr: 'COO', role_en: 'COO', company: 'PME B2B Services' },
+                  { quote_fr: 'Méthodologie carrée. Mesure avant/après. On a su exactement ce qui marchait.', quote_en: 'Solid methodology. Before/after measurement. We knew exactly what worked.', author: 'Thomas R.', role_fr: 'CFO', role_en: 'CFO', company: 'ETI Industrie' },
+                ],
+                layout: 'grid-2',
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>GuaranteeBlock · type "guarantee-block" (3 garanties)</Kicker>
+            <div class="ds-section-demo-frame">
+              <GuaranteeBlock data={{
+                type: 'guarantee-block',
+                guarantees: [
+                  { title_fr: 'Tu peux ramener le système en interne', title_en: 'Bring the system in-house', body_fr: 'Tout est documenté, ouvert, transférable. Pas de boîte noire, pas de lock-in.', body_en: 'Everything documented, open, transferable. No black box, no lock-in.' },
+                  { title_fr: 'ROI mesuré avant après', title_en: 'Measured before/after ROI', body_fr: 'Baseline observée. Métriques cibles définies. Mesure post-déploiement.', body_en: 'Baseline observed. Target metrics defined. Post-deployment measurement.' },
+                  { title_fr: 'Sortie sous 4 semaines si non-fit', title_en: 'Exit within 4 weeks if no-fit', body_fr: 'Si l\'audit révèle un non-match, on sort propre — pas de tunnel de plusieurs mois.', body_en: 'If audit reveals no-match, we exit clean — no months-long tunnel.' },
+                ],
+              }} lang="fr" />
+            </div>
+          </div>
+
+          <div class="ds-section-demo">
+            <Kicker tone="muted" size={10}>CtaInline · type "cta-inline" (CTA discret)</Kicker>
+            <div class="ds-section-demo-frame">
+              <CtaInline data={{
+                type: 'cta-inline',
+                text_fr: 'Tu veux pousser un projet pilote en 1 semaine ?',
+                text_en: 'Want to push a pilot project in 1 week?',
+                cta: { label_fr: 'Réserver →', label_en: 'Book →', href: '/contact', variant: 'primary' },
               }} lang="fr" />
             </div>
           </div>
