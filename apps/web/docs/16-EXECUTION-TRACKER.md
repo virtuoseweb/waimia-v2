@@ -71,13 +71,13 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 
 - [✅] **T3.1a** · Schema `courses` discriminated union créé (commit `8d0ebd1`, Worker Sonnet) · 4 variants formation/parcours/atelier/certification dans `src/content.config.ts:206-313`
 - [✅] **T3.1b** · Migrer 3 MDX formations → `content/ecole/courses/*` avec `course_type: 'formation'` (commit `b518512`, Worker Sonnet) · 3 MDX migrés : automatiser-relances-crm-en-4-heures · prompter-claude-pour-les-non-tech · intro-ia-pme-b2b
-- [ ] **T3.1c** · Créer template polymorphe `CourseDetailTemplate.astro` (gère 4 types)
-- [ ] **T3.1d** · Route `/ecole/[type]/[slug].astro` unifiée
+- [✅] **T3.1c** · `CourseDetailTemplate.astro` polymorphe créé (commit `6fe901a`, Worker H Sonnet) · switch sur course_type
+- [✅] **T3.1d** · Route `/ecole/[type]/[slug].astro` unifiée (commit `ccaf874`, Worker Sonnet) · 3 routes générées au build
 - [ ] **T3.1e** · Update mega-menu pour pointer `/ecole/[type]/[slug]`
 - [ ] **T3.1f** · Supprimer collections `formations`, `parcours`, `ateliers` du content.config.ts
-- [ ] **T3.2a** · Créer schema `commerce` discriminated union (`commerce_type: product | subscription`)
-- [ ] **T3.2b** · Créer templates `CommerceHubTemplate` + `CommerceDetailTemplate`
-- [ ] **T3.2c** · Route `/commerce/[type]/[slug].astro` ou garder `/produits` + `/abonnements`
+- [✅] **T3.2a** · Schema `commerce` discriminated union créé (commit `249facd`, Opus pré-injection) · 2 variants product/subscription
+- [🟡] **T3.2b** · Routes /commerce/index + /commerce/[type]/[slug] créées (commits `06c58ac` + `2e00f81`, Opus) · pas de template Hub séparé (route index inline)
+- [✅] **T3.2c** · Route `/commerce/[type]/[slug]` polymorphe + 5 MDX pilot (commit `ccaf874` + `06c58ac`) · 6 routes générées
 - [ ] **T3.2d** · Migrer 12 MDX produits/abonnements
 - [ ] **T3.2e** · Supprimer collections `produits`, `abonnements`
 - [ ] **T3.3a** · Étendre `blog.type` enum avec `'field-note'` et `'veille-ia'`
@@ -90,7 +90,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 
 - [✅] **T4.1a** · Schema `personas` créé (commit avec pré-injection Opus 2026-05-15) · 14 champs bilingues + sectors array
 - [✅] **T4.1b** · 3 personas exemples créés (commit `b518512`, Worker Sonnet) : ceo-pme-b2b · cto-scale-up · cmo-mid-market
-- [ ] **T4.1c** · Migrer `PersonaSwitcher` pour consommer la collection
+- [✅] **T4.1c** · `PersonaSwitcher.astro` migré pour consommer collection personas (commit `2e00f81`, Worker Sonnet) · backward compatible
 - [✅] **T4.1d** · Routes `/ressources/personas/[slug]` + `/ressources/personas` index créées (commit `250fd49`) · 4 routes générées
 - [✅] **T4.2a** · Schema `brandVoice` singleton créé (commit pré-injection Opus 2026-05-15) · doctrine + tone + forbidden/preferred words + sample phrases + typography rules · bilingue
 - [✅] **T4.2b** · `src/content/brand-voice/doctrine.mdx` créé (commit `b518512`, Worker Sonnet) · doctrine V5-V7 + tone + forbidden/preferred words + sample phrases + typography rules
@@ -175,7 +175,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [ ] **T9.2** · 20 articles cluster (formation/notes/avis/post × 800-1500 mots)
 - [ ] **T9.3** · 4 cookbooks techniques (×10-14 pages)
 - [ ] **T9.4** · 40-50 field notes (×300-500 mots) — pipeline éditorial Simon
-- [ ] **T9.5** · 4 cas clients narrés (Plateau enrich + Halcyon + Northbound + Caserne)
+- [🟡] **T9.5** · 2/4 cas narrés enrichis (commits `2e00f81` + `abdafad`, Worker Sonnet) · plateau.mdx (+48 lignes) · halcyon.mdx (créé 85 lignes) · reste northbound + caserne
 - [ ] **T9.6** · 2 livres blancs (AI Act readiness migré + Growth System Playbook nouveau)
 - [ ] **T9.7** · 16 tunnels MDX restants (4 × 4 offres : growth-system, activation-ia, revops, application-ia-pme)
 - [ ] **T9.8** · 6 produits MDX (audit-guide, kit-prompts, livre-blanc-premium, masterclass-replay, workbook, starter-pack)
@@ -184,7 +184,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 
 ### TIER 10 · SVG custom (10h)
 
-- [ ] **T10.1** · `WorkflowOrchestrationDiagram.astro`
+- [✅] **T10.1** · `WorkflowOrchestrationDiagram.astro` créé (commit `abdafad`, Worker T10 batch2)
 - [ ] **T10.2** · `TunnelProgressDiagram.astro`
 - [ ] **T10.3** · `TaxonomyGraphDiagram.astro`
 - [ ] **T10.4** · `ArchiveTimelineDiagram.astro`
