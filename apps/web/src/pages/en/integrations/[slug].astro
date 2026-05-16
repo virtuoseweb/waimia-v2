@@ -1,0 +1,115 @@
+---
+export const prerender = true;
+
+// Page SSG · /en/integrations/[slug] · Waimia integration detail (T5.2)
+
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import Breadcrumb from '../../../components/ui/molecules/Breadcrumb.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('integrations');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<'integrations'> };
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
+const data = entry.data;
+
+const description = data.description_en;
+const useCases = data.use_cases_en;
+const pricingNote = data.pricing_note_en;
+const metaDesc = data.seo?.meta_description_en ?? description.slice(0, 160);
+
+const connectionLabels: Record<string, { fr: string; en: string }> = {
+  native: { fr: 'Connexion native', en: 'Native connection' },
+  api: { fr: 'Via API', en: 'Via API' },
+  'zapier-make': { fr: 'Via Make / Zapier', en: 'Via Make / Zapier' },
+  manual: { fr: 'Configuration manuelle', en: 'Manual configuration' },
+};
+const connectionLabel = connectionLabels[data.native_or_via_api];
+---
+<Base
+  title={`${data.tool_name} · Waimia Integration`}
+  description={metaDesc}
+>
+  <article class="integration-detail">
+    <div class="wrap-wide">
+      <Breadcrumb
+        items={[
+          { href: '/en/integrations', label: 'Integrations' },
+          { href: `/en/integrations/${entry.id}`, label: data.tool_name, current: true },
+        ]}
+      />
+
+      <header class="integration-detail__hd">
+        <div class="integration-detail__logo">
+          {data.logo_url ? (
+            <img src={data.logo_url} alt={data.tool_name} width="64" height="64" />
+          ) : (
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+              <rect width="64" height="64" rx="14" fill="#F3F4F6" />
+              <text x="32" y="42" text-anchor="middle" font-size="28" font-family="system-ui, sans-serif" fill="#6B7280">
+                {data.tool_name.charAt(0).toUpperCase()}
+              </text>
+            </svg>
+          )}
+        </div>
+        <Kicker tone="accent">§ {data.category.toUpperCase()}</Kicker>
+        <h1 class="integration-detail__title">{data.tool_name}</h1>
+        <p class="integration-detail__vendor">{data.vendor}</p>
+        <span class="integration-detail__badge">{connectionLabel.en}</span>
+      </header>
+
+      <section class="integration-detail__body">
+        <p class="integration-detail__desc">{description}</p>
+
+        <Kicker tone="muted">§ Use cases</Kicker>
+        <ul class="integration-detail__usecases">
+          {useCases.map((uc: string) => <li>{uc}</li>)}
+        </ul>
+
+        {pricingNote && (
+          <>
+            <Kicker tone="muted">§ Pricing</Kicker>
+            <p class="integration-detail__pricing">{pricingNote}</p>
+          </>
+        )}
+
+        <div class="integration-detail__content">
+          <Content />
+        </div>
+
+        <div class="integration-detail__cta">
+          <a href="/en/contact" class="btn btn--primary">Discuss an integration</a>
+        </div>
+      </section>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .integration-detail {
+    padding-top: calc(var(--spacing-section, 4rem) + var(--header-height, 64px));
+    padding-bottom: var(--spacing-section, 4rem);
+  }
+  .integration-detail__hd { margin-bottom: 2.5rem; }
+  .integration-detail__logo { margin-bottom: 1rem; }
+  .integration-detail__title { font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.1; margin: 0.25rem 0; }
+  .integration-detail__vendor { color: var(--color-muted, #6B7280); margin: 0.25rem 0 0.75rem; }
+  .integration-detail__badge {
+    display: inline-block; font-size: 0.8rem; background: var(--color-surface, #F9FAFB);
+    border: 1px solid var(--color-border, #e5e7eb); border-radius: 4px;
+    padding: 0.125rem 0.625rem; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .integration-detail__body { max-width: 72ch; }
+  .integration-detail__desc { font-size: 1.125rem; line-height: 1.6; margin-bottom: 2rem; }
+  .integration-detail__usecases { list-style: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; line-height: 1.7; }
+  .integration-detail__pricing { font-size: 0.9rem; color: var(--color-muted, #6B7280); margin-bottom: 1.5rem; }
+  .integration-detail__cta { margin-top: 3rem; }
+</style>

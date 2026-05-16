@@ -1,0 +1,141 @@
+---
+export const prerender = true;
+
+// Page SSG · /en/integrations · Waimia integrations index (T5.2)
+
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+
+const allIntegrations = await getCollection('integrations');
+const lang = 'en' as const;
+const sortedIntegrations = [...allIntegrations].sort((a, b) =>
+  a.data.tool_name.localeCompare(b.data.tool_name, lang),
+);
+
+const categoryLabels: Record<string, { fr: string; en: string }> = {
+  crm: { fr: 'CRM', en: 'CRM' },
+  data: { fr: 'Data', en: 'Data' },
+  automation: { fr: 'Automatisation', en: 'Automation' },
+  analytics: { fr: 'Analytics', en: 'Analytics' },
+  communication: { fr: 'Communication', en: 'Communication' },
+  productivity: { fr: 'Productivité', en: 'Productivity' },
+  'ai-platform': { fr: 'Plateforme IA', en: 'AI Platform' },
+  commerce: { fr: 'Commerce', en: 'Commerce' },
+  hosting: { fr: 'Hébergement', en: 'Hosting' },
+  autre: { fr: 'Autre', en: 'Other' },
+};
+---
+<Base
+  title="Integrations · Connected tools · Waimia"
+  description="Connect your business tools to Waimia: HubSpot, Salesforce, Notion, Slack, Make, Zapier, and more."
+>
+  <section class="integrations-index">
+    <div class="wrap-wide">
+      <header class="integrations-index__hd">
+        <Kicker tone="muted">§ Integrations</Kicker>
+        <h1 class="integrations-index__title">
+          {allIntegrations.length} <i>integrations</i> available
+        </h1>
+        <p class="integrations-index__lede">
+          Connect your existing tools to Waimia AI workflows. Native sync, API, or via Make/Zapier.
+        </p>
+      </header>
+
+      <nav class="integrations-index__filters" aria-label="Filter by category">
+        <button class="filter-btn active" data-filter="all">All</button>
+        {Object.entries(categoryLabels).map(([cat, labels]) => (
+          <button class="filter-btn" data-filter={cat}>
+            {labels.en}
+          </button>
+        ))}
+      </nav>
+
+      <div class="integrations-index__grid">
+        {sortedIntegrations.map((entry) => (
+          <article class="integrations-index__card" data-category={entry.data.category}>
+            <a href={`/en/integrations/${entry.id}`} class="integrations-index__card-link">
+              <div class="integrations-index__logo">
+                {entry.data.logo_url
+                  ? (
+                    <img src={entry.data.logo_url} alt={entry.data.tool_name} width="48" height="48" loading="lazy" />
+                  ) : (
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                      <rect width="48" height="48" rx="10" fill="#F3F4F6" />
+                      <text x="24" y="30" text-anchor="middle" font-size="20" font-family="system-ui, sans-serif" fill="#6B7280">
+                        {entry.data.tool_name.charAt(0).toUpperCase()}
+                      </text>
+                    </svg>
+                  )}
+              </div>
+              <div class="integrations-index__info">
+                <span class="integrations-index__name">{entry.data.tool_name}</span>
+                <span class="integrations-index__vendor">{entry.data.vendor}</span>
+                <span class="integrations-index__usecase">{entry.data.use_cases_en[0]}</span>
+              </div>
+              <span class="integrations-index__cat-badge">
+                {categoryLabels[entry.data.category]?.en ?? entry.data.category}
+              </span>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const buttons = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.integrations-index__card');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter ?? 'all';
+      buttons.forEach((button) => button.classList.remove('active'));
+      btn.classList.add('active');
+      cards.forEach((card) => {
+        card.style.display = filter === 'all' || card.dataset.category === filter ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+<style>
+  .integrations-index {
+    padding-top: calc(var(--spacing-section, 4rem) + var(--header-height, 64px));
+    padding-bottom: var(--spacing-section, 4rem);
+  }
+  .integrations-index__hd { margin-bottom: 2rem; }
+  .integrations-index__title { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; margin: 0.5rem 0 1rem; }
+  .integrations-index__lede { font-size: 1.125rem; color: var(--color-muted, #6B7280); max-width: 60ch; }
+  .integrations-index__filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+  .filter-btn {
+    padding: 0.375rem 1rem; border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 999px; background: transparent; cursor: pointer;
+    font-size: 0.875rem; transition: background 0.15s, color 0.15s;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--color-ink, #111); color: var(--color-bg, #fff); border-color: transparent;
+  }
+  .integrations-index__grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem;
+  }
+  .integrations-index__card {
+    border: 1px solid var(--color-border, #e5e7eb); border-radius: 12px;
+    overflow: hidden; transition: box-shadow 0.15s;
+  }
+  .integrations-index__card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+  .integrations-index__card-link {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    padding: 1.25rem; text-decoration: none; color: inherit; height: 100%;
+  }
+  .integrations-index__logo { margin-bottom: 0.25rem; }
+  .integrations-index__name { font-weight: 600; font-size: 1rem; }
+  .integrations-index__vendor { font-size: 0.8rem; color: var(--color-muted, #6B7280); }
+  .integrations-index__usecase { font-size: 0.875rem; line-height: 1.4; color: var(--color-muted, #6B7280); flex: 1; }
+  .integrations-index__cat-badge {
+    margin-top: auto; align-self: flex-start; font-size: 0.75rem;
+    background: var(--color-surface, #F9FAFB); border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 4px; padding: 0.125rem 0.5rem; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+</style>
