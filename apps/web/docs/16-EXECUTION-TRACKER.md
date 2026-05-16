@@ -80,7 +80,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [✅] **T3.2c** · Route `/commerce/[type]/[slug]` polymorphe + 5 MDX pilot (commit `ccaf874` + `06c58ac`) · 6 routes générées
 - [ ] **T3.2d** · Migrer 12 MDX produits/abonnements
 - [ ] **T3.2e** · Supprimer collections `produits`, `abonnements`
-- [ ] **T3.3a** · Étendre `blog.type` enum avec `'field-note'` et `'veille-ia'`
+- [✅] **T3.3a** · `blog.type` enum étendu avec `'field-note'` et `'veille-ia'` (commit `8f4af71`, Opus pre-hook)
 - [ ] **T3.3b** · Migrer 1 MDX `field-notes` → `blog/type:field-note`
 - [ ] **T3.3c** · Migrer 1 MDX `veille-ia` → `blog/type:veille-ia`
 - [ ] **T3.3d** · Supprimer collections `fieldNotes`, `veilleIA`
@@ -204,8 +204,8 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [✅] **T11.0** · Audit Sync EN doc 21 (commit `3f2300c`, Worker Sonnet)
 - [ ] **T11.2** · /en/bienvenue/* 3 welcome pages
 - [✅] **T11.2b** · 5 routes EN secondaires miroir FR (commit `e7f07bd`, Worker Sonnet) · /en/agence/{about,methode} + /en/ressources/index + /en/solutions/index + /en/technologies/index
-- [ ] **T11.3** · hreflang validation cross-pages
-- [ ] **T11.4** · /sitemap-en.xml validation
+- [🟡] **T11.3** · hreflang validation partielle (commit pending, Opus) · Base.astro injecte 3 hreflang/page mais ~58% FR sans miroir EN · cf docs/25-HREFLANG-SITEMAP-AUDIT.md
+- [🟡] **T11.4** · sitemap unique mêlé FR+EN (223 URLs · 78 paires) · sitemap-en.xml séparé non implémenté · cf docs/25-HREFLANG-SITEMAP-AUDIT.md
 
 ### TIER 12 · ISR + Performance finale (3h)
 
@@ -225,7 +225,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [ ] **T13.3** · Lighthouse 5 pages échantillon (perf, a11y, SEO, best practices)
 - [ ] **T13.4** · Schema.org validator sur Article/Service/FAQPage/Product/Course/BreadcrumbList
 - [✅] **T13.5** · Audit liens cross-collection (commit `e0a1b63`, Worker Sonnet) · docs/23-CROSS-COLLECTION-AUDIT.md · 3 hrefs 404 prod identifiés P0 + 1 slug glossary orphelin (workflow-ia ×2)
-- [ ] **T13.6** · Hreflang FR/EN consistency
+- [✅] **T13.6** · Hreflang FR/EN systématique via Base.astro:81-83 (commit pending, Opus) · 3 hreflang/page (fr-FR + en-US + x-default) · cf docs/25-HREFLANG-SITEMAP-AUDIT.md
 - [ ] **T13.7** · Triangulation visuelle screenshots échantillon (Simon valide)
 - [ ] **T13.8** · Update doc 12 statuses avec ✅ final
 - [ ] **T13.9** · Commit + push final → Vercel deploy preview
