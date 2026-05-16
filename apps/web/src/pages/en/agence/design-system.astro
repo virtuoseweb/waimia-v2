@@ -1,0 +1,697 @@
+---
+// Page · /en/agence/design-system · Waimia design system showcase — EN mirror
+export const prerender = true;
+
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import ChapterLabel from '../../../components/ui/atoms/ChapterLabel.astro';
+import Button from '../../../components/ui/atoms/Button.astro';
+import SectionHeader from '../../../components/ui/molecules/SectionHeader.astro';
+import NewsletterSignup from '../../../components/ui/molecules/NewsletterSignup.astro';
+import PainPointInline from '../../../components/ui/molecules/PainPointInline.astro';
+import ShareButtons from '../../../components/ui/molecules/ShareButtons.astro';
+import HeroSplit from '../../../components/sections/HeroSplit.astro';
+import HeroCentered from '../../../components/sections/HeroCentered.astro';
+import FeatureGrid from '../../../components/sections/FeatureGrid.astro';
+import CtaFinal from '../../../components/sections/CtaFinal.astro';
+---
+
+<Base
+  title="Design System · Waimia Catalogue · Tokens · Components · Sections"
+  description="English mirror of the Waimia closed design system: tokens, atoms, molecules, composable W6 sections and motion primitives."
+  noindex
+>
+  <section class="ds-hd">
+    <div class="wrap-wide">
+      <Kicker class="ds-kicker">§ Design System · Waimia Catalogue · v2026.05</Kicker>
+      <h1 class="ds-h1">Pick, don’t <i>invent</i>.</h1>
+      <p class="ds-lede">
+        English mirror of the Waimia closed design system. Use existing tokens and components first,
+        then assemble W6 sections instead of creating a new pattern from scratch.
+      </p>
+      <p class="ds-meta">
+        Source pages: <code>/agence/design-system</code> and <code>src/components/sections/</code>
+      </p>
+    </div>
+  </section>
+
+  <div class="ds-layout">
+    <aside class="ds-toc">
+      <div class="ds-toc-inner">
+        <Kicker class="ds-toc-label">§ Table of contents</Kicker>
+        <ol class="ds-toc-list">
+          <li><a href="#tokens">1. Tokens</a></li>
+          <li><a href="#classes">2. Utility classes</a></li>
+          <li><a href="#atoms">3. Atoms</a></li>
+          <li><a href="#molecules">4. Molecules</a></li>
+          <li><a href="#organisms">5. Organisms</a></li>
+          <li><a href="#sections">6. W6 sections</a></li>
+          <li><a href="#animations">7. Animations</a></li>
+          <li><a href="#editorial">8. Editorial</a></li>
+          <li><a href="#motion">9. Motion</a></li>
+          <li><a href="#templates">10. Templates</a></li>
+        </ol>
+      </div>
+    </aside>
+
+    <div class="ds-content">
+      <section id="tokens" class="ds-section">
+        <ChapterLabel num="01" title="Tokens" />
+        <p class="ds-section-lede">
+          Canonical foundations exposed through CSS variables. The English mirror keeps the surface short:
+          color, typography and spacing are enough to understand the system’s hierarchy.
+        </p>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Color palette</h3>
+          <div class="ds-swatch-grid">
+            <div class="ds-swatch-card">
+              <span class="ds-swatch" style="background:var(--paper)"></span>
+              <div class="ds-swatch-info">
+                <code>--paper</code>
+                <span class="ds-swatch-role">default page background</span>
+              </div>
+            </div>
+            <div class="ds-swatch-card">
+              <span class="ds-swatch" style="background:var(--paper-2)"></span>
+              <div class="ds-swatch-info">
+                <code>--paper-2</code>
+                <span class="ds-swatch-role">raised surfaces</span>
+              </div>
+            </div>
+            <div class="ds-swatch-card">
+              <span class="ds-swatch" style="background:var(--ink)"></span>
+              <div class="ds-swatch-info">
+                <code>--ink</code>
+                <span class="ds-swatch-role">primary text and strong CTA</span>
+              </div>
+            </div>
+            <div class="ds-swatch-card">
+              <span class="ds-swatch" style="background:var(--accent)"></span>
+              <div class="ds-swatch-info">
+                <code>--accent</code>
+                <span class="ds-swatch-role">editorial emphasis</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Type stack</h3>
+          <div class="ds-type-stacks">
+            <div class="ds-type-row">
+              <strong style="font-family:var(--font-display);font-size:34px;font-weight:400">Instrument Serif</strong>
+              <p class="ds-help">Display headlines, contrast, editorial pacing.</p>
+            </div>
+            <div class="ds-type-row">
+              <strong style="font-family:var(--font-sans);font-size:18px;font-weight:600">Inter Tight</strong>
+              <p class="ds-help">UI text, body copy, functional density.</p>
+            </div>
+            <div class="ds-type-row">
+              <strong style="font-family:var(--font-mono);font-size:13px;font-weight:500">JetBrains Mono</strong>
+              <p class="ds-help">Labels, system notes, metadata and code snippets.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="classes" class="ds-section">
+        <ChapterLabel num="02" title="Utility Classes" />
+        <p class="ds-section-lede">
+          Existing utility layer already covers reveal patterns, hairlines and button classes. Reuse first,
+          extend only when a new primitive is justified.
+        </p>
+        <ul class="ds-z-list">
+          <li><code>.reveal-fade</code>, <code>.reveal-up</code>, <code>.clip-up</code>, <code>.blur-in</code> for scroll entry.</li>
+          <li><code>.btn</code> plus variant classes for direct HTML usage when no Astro component is needed.</li>
+          <li><code>.hline</code> and <code>.hline-strong</code> for quiet editorial separation.</li>
+        </ul>
+      </section>
+
+      <section id="atoms" class="ds-section">
+        <ChapterLabel num="03" title="Atoms" />
+        <p class="ds-section-lede">
+          Smallest reusable pieces. The EN page keeps the core demos: kicker rhythm, chapter labels, buttons
+          and raw form fields aligned on the same tokens.
+        </p>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Kicker + ChapterLabel</h3>
+          <div class="ds-row" style="gap:16px;align-items:center;flex-wrap:wrap">
+            <Kicker>§ MUTED LABEL</Kicker>
+            <Kicker tone="accent">§ ACCENT LABEL</Kicker>
+          </div>
+          <div style="margin-top:20px">
+            <ChapterLabel num="III · 2.1" title="Act III — The delivery layer" />
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Button variants</h3>
+          <div class="ds-row" style="gap:12px">
+            <Button href="/en/contact" variant="primary">Primary</Button>
+            <Button href="/en/contact" variant="ghost">Ghost</Button>
+            <Button href="/en/contact" variant="accent">Accent</Button>
+            <Button href="#atoms" variant="link">Link →</Button>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Form elements (raw HTML · DS tokens)</h3>
+          <div class="ds-form-group">
+            <label class="ds-label" for="en-ds-input-text">Text input</label>
+            <input id="en-ds-input-text" class="ds-input" type="text" placeholder="Agent cockpit name" />
+          </div>
+          <div class="ds-form-group">
+            <label class="ds-label" for="en-ds-textarea">Textarea</label>
+            <textarea id="en-ds-textarea" class="ds-textarea" rows="4" placeholder="Describe the operational constraint to fix."></textarea>
+          </div>
+          <div class="ds-form-group">
+            <label class="ds-label" for="en-ds-select">Select</label>
+            <select id="en-ds-select" class="ds-select">
+              <option>Select a severity level</option>
+              <option>Critical</option>
+              <option>High</option>
+              <option>Medium</option>
+            </select>
+          </div>
+          <div class="ds-form-group">
+            <span class="ds-label">Checkbox</span>
+            <label class="ds-check-group">
+              <input class="ds-check" type="checkbox" checked />
+              <span>Enable run monitoring</span>
+            </label>
+          </div>
+          <div class="ds-form-group">
+            <span class="ds-label">Radio</span>
+            <label class="ds-check-group">
+              <input class="ds-check" type="radio" name="en-ds-audit-mode" checked />
+              <span>Light audit</span>
+            </label>
+            <label class="ds-check-group">
+              <input class="ds-check" type="radio" name="en-ds-audit-mode" />
+              <span>Full audit</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section id="molecules" class="ds-section">
+        <ChapterLabel num="04" title="Molecules" />
+        <p class="ds-section-lede">
+          Functional compositions used repeatedly across sales, editorial and diagnostic pages.
+        </p>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">SectionHeader</h3>
+          <SectionHeader roman="IV" label="Act IV — The operating layer" id="en-ds-demo-header">
+            <Fragment slot="heading">Four <i>operational</i> surfaces, one system.</Fragment>
+            <Fragment slot="aside">Enough structure to ship, enough room to adapt.</Fragment>
+          </SectionHeader>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">NewsletterSignup · card + inline</h3>
+          <div class="ds-row" style="gap:24px;flex-wrap:wrap">
+            <div style="flex:1 1 320px;min-width:280px">
+              <NewsletterSignup variant="card" lang="en" />
+            </div>
+            <div style="flex:1 1 320px;min-width:280px;display:flex;align-items:center;padding:24px;border:1px solid var(--hairline);background:var(--paper-2)">
+              <NewsletterSignup variant="inline" lang="en" />
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">PainPointInline · two severities</h3>
+          <PainPointInline
+            pain="Paid acquisition keeps generating leads, but no one qualifies them before the next business day."
+            solution="Attach a triage agent that scores, enriches and routes each lead into the right pipeline in minutes."
+            severity="critical"
+          />
+          <PainPointInline
+            pain="Content teams publish every week without a reliable loop back to commercial outcomes."
+            solution="Add lightweight CRM instrumentation so every editorial push is tied to business signals that matter."
+            severity="high"
+          />
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">ShareButtons</h3>
+          <ShareButtons url="/en/agence/design-system" title="Waimia Design System" lang="en" />
+        </div>
+      </section>
+
+      <section id="organisms" class="ds-section">
+        <ChapterLabel num="05" title="Organisms" />
+        <p class="ds-section-lede">
+          Legacy or page-specific assemblies remain useful, but they are no longer the preferred default for new pages.
+          W6 sections below are the main composition target.
+        </p>
+      </section>
+
+      <section id="sections" class="ds-section">
+        <ChapterLabel num="06" title="W6 Sections" />
+        <p class="ds-section-lede">
+          Composable page sections used to build offer pages, trust pages and landing flows. The mirror keeps five concrete examples in English.
+        </p>
+
+        <div class="ds-section-demo ds-demo-hero">
+          <Kicker tone="muted" size={10}>HeroSplit</Kicker>
+          <div class="ds-section-demo-frame">
+            <HeroSplit
+              data={{
+                type: 'hero-split',
+                kicker_fr: 'unused',
+                kicker_en: '§ Agentic consulting + delivery',
+                h1_fr: 'unused',
+                h1_en: 'Turn a <i>marketing bottleneck</i> into an operating system.',
+                lede_fr: 'unused',
+                lede_en: 'Diagnosis, agent design, integration and supervision in one execution path.',
+                meta_fr: 'unused',
+                meta_en: 'One team. One stack. One accountable delivery thread.',
+                cta_primary: { label_fr: 'unused', label_en: 'Book a working session →', href: '/en/contact', variant: 'primary', mag: 0.18 },
+                cta_secondary: { label_fr: 'unused', label_en: 'Read the method', href: '/en/agence/methode', variant: 'ghost' },
+                right_block: { kind: 'command-center' },
+              }}
+              lang="en"
+            />
+          </div>
+        </div>
+
+        <div class="ds-section-demo ds-demo-hero">
+          <Kicker tone="muted" size={10}>HeroCentered</Kicker>
+          <div class="ds-section-demo-frame">
+            <HeroCentered
+              data={{
+                type: 'hero-centered',
+                kicker_fr: 'unused',
+                kicker_en: '§ English mirror',
+                h1_fr: 'unused',
+                h1_en: 'Closed systems make <i>faster pages</i>.',
+                lede_fr: 'unused',
+                lede_en: 'A constrained library beats improvised layout decisions when the goal is repeatable quality.',
+                cta_primary: { label_fr: 'unused', label_en: 'Browse prompts →', href: '/en/agence/prompts', variant: 'accent', mag: 0.18 },
+                cta_secondary: { label_fr: 'unused', label_en: 'See agency profile', href: '/en/agence/about', variant: 'ghost' },
+              }}
+              lang="en"
+            />
+          </div>
+        </div>
+
+        <div class="ds-section-demo">
+          <Kicker tone="muted" size={10}>FeatureGrid · 3 columns</Kicker>
+          <div class="ds-section-demo-frame">
+            <FeatureGrid
+              data={{
+                type: 'feature-grid',
+                kicker_fr: 'unused',
+                kicker_en: '§ Delivery loop',
+                h2_fr: 'unused',
+                h2_en: 'Three <i>execution layers</i>.',
+                columns: '3',
+                features: [
+                  { icon: '01', title_fr: 'unused', title_en: 'Signal capture', body_fr: 'unused', body_en: 'Forms, CRM and inboxes feed a clean operational queue.' },
+                  { icon: '02', title_fr: 'unused', title_en: 'Agent action', body_fr: 'unused', body_en: 'Scoring, enrichment and drafting happen with visible guardrails.' },
+                  { icon: '03', title_fr: 'unused', title_en: 'Human review', body_fr: 'unused', body_en: 'A human stays accountable on the irreversible decisions.' },
+                ],
+              }}
+              lang="en"
+            />
+          </div>
+        </div>
+
+        <div class="ds-section-demo">
+          <Kicker tone="muted" size={10}>FeatureGrid · 2 columns</Kicker>
+          <div class="ds-section-demo-frame">
+            <FeatureGrid
+              data={{
+                type: 'feature-grid',
+                kicker_fr: 'unused',
+                kicker_en: '§ Why it holds',
+                h2_fr: 'unused',
+                h2_en: 'Two <i>structural constraints</i>.',
+                columns: '2',
+                features: [
+                  { icon: 'A', title_fr: 'unused', title_en: 'Small primitive set', body_fr: 'unused', body_en: 'Fewer blocks means fewer edge cases and stronger visual consistency.' },
+                  { icon: 'B', title_fr: 'unused', title_en: 'Strict naming', body_fr: 'unused', body_en: 'Components stay searchable and handoff remains predictable across sessions.' },
+                ],
+              }}
+              lang="en"
+            />
+          </div>
+        </div>
+
+        <div class="ds-section-demo">
+          <Kicker tone="muted" size={10}>CtaFinal</Kicker>
+          <div class="ds-section-demo-frame">
+            <CtaFinal
+              data={{
+                type: 'cta-final',
+                h2_fr: 'unused',
+                h2_en: 'Need a <i>faster baseline</i>?',
+                body_fr: 'unused',
+                body_en: 'Start from the closed system, then tune the page where the business constraint is real.',
+                cta_primary: { label_fr: 'unused', label_en: 'Book a diagnostic →', href: '/en/contact', variant: 'primary', mag: 0.18 },
+                cta_secondary: { label_fr: 'unused', label_en: 'Back to the French source', href: '/agence/design-system', variant: 'ghost' },
+                background: 'paper',
+              }}
+              lang="en"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section id="animations" class="ds-section">
+        <ChapterLabel num="07" title="Animations" />
+        <p class="ds-section-lede">
+          Existing reveal classes and magnetic hover are part of the system surface and should be demonstrated explicitly.
+        </p>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Scroll reveal classes</h3>
+          <div class="ds-anim-demo">
+            <div class="ds-anim-box reveal-fade" data-reveal="reveal-fade">.reveal-fade</div>
+            <div class="ds-anim-box reveal-up" data-reveal="reveal-up">.reveal-up</div>
+            <div class="ds-anim-box clip-up" data-reveal="clip-up">.clip-up</div>
+            <div class="ds-anim-box blur-in" data-reveal="blur-in">.blur-in</div>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Magnetic hover</h3>
+          <div class="ds-row" style="gap:12px">
+            <a href="#animations" class="btn btn-primary btn-lg" data-mag="0.18">Button · data-mag="0.18"</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="editorial" class="ds-section">
+        <ChapterLabel num="08" title="Editorial" />
+        <p class="ds-section-lede">
+          Editorial atoms remain available for essays, case studies and white papers: callouts, pull quotes,
+          drop caps, key metrics and styled tables.
+        </p>
+      </section>
+
+      <section id="motion" class="ds-section">
+        <ChapterLabel num="09" title="Motion" />
+        <p class="ds-section-lede">
+          Heavier motion components stay reserved for signature pages such as home, console and atlas.
+        </p>
+      </section>
+
+      <section id="templates" class="ds-section">
+        <ChapterLabel num="10" title="Templates" />
+        <p class="ds-section-lede">
+          English routes already consume dedicated templates. Use the closed system to feed them instead of branching the visual language.
+        </p>
+        <ul class="ds-templates-list">
+          <li><code>Agency pages</code> → <a href="/en/agence/about" class="ds-link">/en/agence/about</a></li>
+          <li><code>Method page</code> → <a href="/en/agence/methode" class="ds-link">/en/agence/methode</a></li>
+          <li><code>Prompt library</code> → <a href="/en/agence/prompts" class="ds-link">/en/agence/prompts</a></li>
+          <li><code>Offers hub</code> → <a href="/en/offres" class="ds-link">/en/offres</a></li>
+          <li><code>Solutions hub</code> → <a href="/en/solutions" class="ds-link">/en/solutions</a></li>
+          <li><code>Contact</code> → <a href="/en/contact" class="ds-link">/en/contact</a></li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .ds-hd {
+    padding-top: calc(var(--spacing-section, 96px) + var(--header-height));
+    padding-bottom: clamp(40px, 5vw, 72px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  :global(.ds-kicker) { display: block; margin-bottom: 24px; }
+  .ds-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 9vw, 156px);
+    line-height: 0.94;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+    color: var(--ink);
+  }
+  .ds-h1 i { font-style: italic; color: var(--accent); }
+  .ds-lede {
+    font-family: var(--font-sans);
+    font-size: clamp(18px, 1.8vw, 24px);
+    color: var(--ink-2);
+    margin: 32px 0 0;
+    max-width: 720px;
+    line-height: 1.5;
+  }
+  .ds-meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: .06em;
+    color: var(--muted);
+    margin: 24px 0 0;
+  }
+  .ds-meta code {
+    background: var(--paper-2);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .ds-layout {
+    max-width: var(--wrap-wide);
+    margin: 0 auto;
+    padding: clamp(48px, 6vw, 80px) var(--gut);
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: clamp(40px, 5vw, 80px);
+  }
+  .ds-toc-inner {
+    position: sticky;
+    top: calc(var(--header-height) + 24px);
+  }
+  :global(.ds-toc-label) { display: block; margin-bottom: 16px; }
+  .ds-toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid var(--hairline);
+  }
+  .ds-toc-list li {
+    padding: 6px 0 6px 16px;
+    border-left: 1px solid transparent;
+    margin-left: -1px;
+  }
+  .ds-toc-list li:hover { border-left-color: var(--accent); }
+  .ds-toc-list a {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--ink-2);
+    text-decoration: none;
+    line-height: 1.4;
+  }
+  .ds-toc-list a:hover { color: var(--accent); }
+
+  .ds-content { min-width: 0; }
+  .ds-section {
+    margin-bottom: clamp(80px, 8vw, 120px);
+    scroll-margin-top: calc(var(--header-height) + 32px);
+  }
+  .ds-section-lede {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    color: var(--ink-2);
+    line-height: 1.6;
+    max-width: 64ch;
+    margin: 16px 0 32px;
+  }
+  .ds-subsection { margin: 40px 0; }
+  .ds-h3 {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 16px;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 8px;
+  }
+  .ds-help {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 8px 0 0;
+    max-width: 64ch;
+  }
+  .ds-link {
+    color: var(--accent);
+    border-bottom: 1px solid currentColor;
+    text-decoration: none;
+  }
+  .ds-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .ds-swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .ds-swatch-card {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--hairline);
+    background: var(--paper);
+  }
+  .ds-swatch {
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--hairline);
+    flex-shrink: 0;
+  }
+  .ds-swatch-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .ds-swatch-info code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink);
+  }
+  .ds-swatch-role {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .ds-type-stacks {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: 16px 0 32px;
+    padding: 24px;
+    background: var(--paper-2);
+    border: 1px solid var(--hairline);
+  }
+  .ds-type-row {
+    padding-block: 8px;
+    border-bottom: 1px dashed var(--hairline);
+  }
+  .ds-type-row:last-child { border-bottom: none; }
+
+  .ds-z-list,
+  .ds-templates-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+  }
+  .ds-z-list li,
+  .ds-templates-list li {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--ink-2);
+    padding: 10px 14px;
+    background: var(--paper-2);
+    border: 1px solid var(--hairline);
+    line-height: 1.5;
+  }
+  .ds-z-list code,
+  .ds-templates-list code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink);
+  }
+
+  .ds-section-demo {
+    margin: 32px 0;
+    padding: 0;
+  }
+  .ds-section-demo > :global(.u-kicker) { margin-bottom: 12px; display: block; }
+  .ds-section-demo-frame {
+    border: 1px dashed var(--hairline-strong);
+    background: var(--paper);
+    position: relative;
+    isolation: isolate;
+  }
+  .ds-section-demo-frame::before {
+    content: 'DEMO';
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: var(--muted-2);
+    z-index: 2;
+  }
+  .ds-demo-hero :global(.hero-split),
+  .ds-demo-hero :global(.hero-centered) {
+    padding-top: var(--spacing-section) !important;
+  }
+
+  .ds-input, .ds-select, .ds-textarea {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 10px 12px;
+    border: 1px solid var(--hairline-strong);
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 2px;
+    width: 100%;
+    max-width: 320px;
+  }
+  .ds-input:focus, .ds-select:focus, .ds-textarea:focus {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+  .ds-label {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .ds-form-group { margin-bottom: 20px; }
+  .ds-check-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .ds-check { width: 16px; height: 16px; accent-color: var(--ink); }
+
+  .ds-anim-demo {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .ds-anim-box {
+    background: var(--paper-2);
+    border: 1px solid var(--hairline);
+    padding: 40px 24px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 900px) {
+    .ds-layout { grid-template-columns: 1fr; gap: 32px; }
+    .ds-toc { display: none; }
+  }
+</style>

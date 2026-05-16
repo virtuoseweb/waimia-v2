@@ -15,9 +15,10 @@
 //   4. MOLECULES (30 — sélection)
 //   5. ORGANISMS (25 — Tier 2 dérivés autorisés)
 //   6. SECTIONS W6 composable V2 (19 — Tier 1 cible)
-//   7. EDITORIAL (8)
-//   8. MOTION (4)
-//   9. TEMPLATES (18 preview links)
+//   7. ANIMATIONS (scroll-reveal + magnetic)
+//   8. EDITORIAL (8)
+//   9. MOTION (4)
+//   10. TEMPLATES (18 preview links)
 
 export const prerender = true;
 
@@ -29,6 +30,9 @@ import PillCTA from '../../components/ui/atoms/PillCTA.astro';
 import TerminalCTA from '../../components/ui/atoms/TerminalCTA.astro';
 import Bi from '../../components/ui/atoms/Bi.astro';
 import SectionHeader from '../../components/ui/molecules/SectionHeader.astro';
+import NewsletterSignup from '../../components/ui/molecules/NewsletterSignup.astro';
+import PainPointInline from '../../components/ui/molecules/PainPointInline.astro';
+import ShareButtons from '../../components/ui/molecules/ShareButtons.astro';
 import StatRow from '../../components/ui/molecules/StatRow.astro';
 import TechPillRow from '../../components/ui/molecules/TechPillRow.astro';
 import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
@@ -89,9 +93,10 @@ import CtaFinal from '../../components/sections/CtaFinal.astro';
           <li><a href="#molecules">4. Molecules</a></li>
           <li><a href="#organisms">5. Organisms (Tier 2)</a></li>
           <li><a href="#sections">6. Sections W6 (Tier 1)</a></li>
-          <li><a href="#editorial">7. Editorial</a></li>
-          <li><a href="#motion">8. Motion</a></li>
-          <li><a href="#templates">9. Templates</a></li>
+          <li><a href="#animations">7. Animations</a></li>
+          <li><a href="#editorial">8. Editorial</a></li>
+          <li><a href="#motion">9. Motion</a></li>
+          <li><a href="#templates">10. Templates</a></li>
         </ol>
       </div>
     </aside>
@@ -476,6 +481,45 @@ import CtaFinal from '../../components/sections/CtaFinal.astro';
         </div>
 
         <div class="ds-subsection">
+          <h3 class="ds-h3">Form elements (raw HTML · tokens DS)</h3>
+          <div class="ds-form-group">
+            <label class="ds-label" for="ds-input-text">Input text</label>
+            <input id="ds-input-text" class="ds-input" type="text" placeholder="Nom du workflow IA" />
+          </div>
+          <div class="ds-form-group">
+            <label class="ds-label" for="ds-textarea">Textarea</label>
+            <textarea id="ds-textarea" class="ds-textarea" rows="4" placeholder="Décrivez la contrainte métier à résoudre."></textarea>
+          </div>
+          <div class="ds-form-group">
+            <label class="ds-label" for="ds-select">Select</label>
+            <select id="ds-select" class="ds-select">
+              <option>Choisir un niveau de criticité</option>
+              <option>Critique</option>
+              <option>Élevé</option>
+              <option>Modéré</option>
+            </select>
+          </div>
+          <div class="ds-form-group">
+            <span class="ds-label">Checkbox</span>
+            <label class="ds-check-group">
+              <input class="ds-check" type="checkbox" checked />
+              <span>Activer le suivi d’exécution</span>
+            </label>
+          </div>
+          <div class="ds-form-group">
+            <span class="ds-label">Radio</span>
+            <label class="ds-check-group">
+              <input class="ds-check" type="radio" name="ds-audit-mode" checked />
+              <span>Audit léger</span>
+            </label>
+            <label class="ds-check-group">
+              <input class="ds-check" type="radio" name="ds-audit-mode" />
+              <span>Audit complet</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
           <h3 class="ds-h3">PillCTA</h3>
           <div class="ds-row" style="gap:12px">
             <PillCTA href="#" variant="accent">Pill accent</PillCTA>
@@ -561,8 +605,39 @@ import CtaFinal from '../../components/sections/CtaFinal.astro';
         </div>
 
         <div class="ds-subsection">
-          <h3 class="ds-h3">Molecules non-démo (26)</h3>
-          <p class="ds-help">Voir <code>src/components/ui/molecules/</code> pour : AsymmetricServiceRow, AuthorByline, AuthorCard, Breadcrumb, CalEmbed, EditorialCaseCard, EditorialWriteRow, FitColumns, MastheadRow, MetricStrip, NewsletterSignup, PagePill, PricingTier, ProcessSteps, ProofBand, RelatedByCluster, ServiceCatalogRow, ShareButtons, TableOfContents, TagPills, TaxonomyMenu, TerminalMockup, TerminalTable, TunnelNav.</p>
+          <h3 class="ds-h3">NewsletterSignup · variant card + inline</h3>
+          <div class="ds-row" style="gap:24px;flex-wrap:wrap">
+            <div style="flex:1 1 320px;min-width:280px">
+              <NewsletterSignup variant="card" lang="fr" />
+            </div>
+            <div style="flex:1 1 320px;min-width:280px;display:flex;align-items:center;padding:24px;border:1px solid var(--hairline);background:var(--paper-2)">
+              <NewsletterSignup variant="inline" lang="fr" />
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">PainPointInline · 2 exemples de severity</h3>
+          <PainPointInline
+            pain="Les formulaires marketing collectent des leads mais personne ne les qualifie avant J+3."
+            solution="Brancher un agent de pré-qualification qui score, enrichit et pousse les opportunités dans le bon pipe en moins de 5 minutes."
+            severity="critical"
+          />
+          <PainPointInline
+            pain="Les équipes contenu publient sans boucle de mesure claire sur la reprise commerciale."
+            solution="Ajouter une instrumentation éditoriale légère avec feedback CRM pour relier chaque publication aux signaux business utiles."
+            severity="medium"
+          />
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">ShareButtons</h3>
+          <ShareButtons url="/agence/design-system" title="Design System Waimia" lang="fr" />
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Molecules non-démo (23)</h3>
+          <p class="ds-help">Voir <code>src/components/ui/molecules/</code> pour : AsymmetricServiceRow, AuthorByline, AuthorCard, Breadcrumb, CalEmbed, EditorialCaseCard, EditorialWriteRow, FitColumns, MastheadRow, MetricStrip, PagePill, PricingTier, ProcessSteps, ProofBand, RelatedByCluster, ServiceCatalogRow, TableOfContents, TagPills, TaxonomyMenu, TerminalMockup, TerminalTable, TunnelNav.</p>
         </div>
       </section>
 
@@ -960,9 +1035,35 @@ import CtaFinal from '../../components/sections/CtaFinal.astro';
         </div>
       </section>
 
-      {/* ───────────── 7. EDITORIAL ───────────── */}
+      {/* ───────────── 7. ANIMATIONS ───────────── */}
+      <section id="animations" class="ds-section">
+        <ChapterLabel num="07" title="Animations (scroll-reveal + magnetic)" />
+        <p class="ds-section-lede">
+          Démos live des classes reveal existantes et du magnetic hover global via <code>data-mag</code>.
+          Source : <code>src/styles/scroll-reveal.css</code> + script inline de <code>Base.astro</code>.
+        </p>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Reveal classes</h3>
+          <div class="ds-anim-demo">
+            <div class="ds-anim-box reveal-fade" data-reveal="reveal-fade">.reveal-fade</div>
+            <div class="ds-anim-box reveal-up" data-reveal="reveal-up">.reveal-up</div>
+            <div class="ds-anim-box clip-up" data-reveal="clip-up">.clip-up</div>
+            <div class="ds-anim-box blur-in" data-reveal="blur-in">.blur-in</div>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <h3 class="ds-h3">Magnetic hover</h3>
+          <div class="ds-row" style="gap:12px">
+            <a href="#animations" class="btn btn-primary btn-lg" data-mag="0.18">Button · data-mag="0.18"</a>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────── 8. EDITORIAL ───────────── */}
       <section id="editorial" class="ds-section">
-        <ChapterLabel num="07" title="Editorial (8)" />
+        <ChapterLabel num="08" title="Editorial (8)" />
         <p class="ds-section-lede">
           Atomes éditoriaux pour MDX content (essais, livres-blancs, cas clients). Cf
           <code>src/components/editorial/</code>.
@@ -979,9 +1080,9 @@ import CtaFinal from '../../components/sections/CtaFinal.astro';
         </ul>
       </section>
 
-      {/* ───────────── 8. MOTION ───────────── */}
+      {/* ───────────── 9. MOTION ───────────── */}
       <section id="motion" class="ds-section">
-        <ChapterLabel num="08" title="Motion (4)" />
+        <ChapterLabel num="09" title="Motion (4)" />
         <p class="ds-section-lede">
           Composants motion lourds — réservés pages signature (home, console, atlas).
           Cf <code>src/components/motion/</code>.
@@ -994,9 +1095,9 @@ import CtaFinal from '../../components/sections/CtaFinal.astro';
         </ul>
       </section>
 
-      {/* ───────────── 9. TEMPLATES ───────────── */}
+      {/* ───────────── 10. TEMPLATES ───────────── */}
       <section id="templates" class="ds-section">
-        <ChapterLabel num="09" title="Templates (18 — preview links)" />
+        <ChapterLabel num="10" title="Templates (18 — preview links)" />
         <p class="ds-section-lede">
           Templates pour collections content. Cf <code>src/components/templates/</code>. Preview live ci-dessous.
         </p>
@@ -1350,6 +1451,62 @@ import CtaFinal from '../../components/sections/CtaFinal.astro';
   }
   .hline { border: 0; border-top: 1px solid var(--hairline); margin: 0; }
   .hline-strong { border: 0; border-top: 1px solid var(--hairline-strong); margin: 0; }
+
+  /* Form elements */
+  .ds-input, .ds-select, .ds-textarea {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 10px 12px;
+    border: 1px solid var(--hairline-strong);
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 2px;
+    width: 100%;
+    max-width: 320px;
+  }
+  .ds-input:focus, .ds-select:focus, .ds-textarea:focus {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+  .ds-label {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .ds-form-group { margin-bottom: 20px; }
+  .ds-check-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .ds-check { width: 16px; height: 16px; accent-color: var(--ink); }
+
+  /* Animation demo boxes */
+  .ds-anim-demo {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .ds-anim-box {
+    background: var(--paper-2);
+    border: 1px solid var(--hairline);
+    padding: 40px 24px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
 
   /* ─── SECTIONS W6 LIST ─── */
   .ds-sections-list,

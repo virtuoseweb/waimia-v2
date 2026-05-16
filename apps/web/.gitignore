@@ -1,2 +1,6 @@
 .vercel
 .env*.local
+
+# Playwright/Browser screenshots & MCP cache
+.playwright-mcp/
+design-system-*.png
