@@ -35,7 +35,7 @@ Tous les 5 axes stratégiques **VALIDÉS** :
 - [ ] **T1.5b** · Self-host Instrument Serif 400 woff2 + preload critical (à faire session next, ~2h)
 - [ ] **T1.5c** · Drop CDN Google Fonts pour Inter Tight + JetBrains Mono (passer self-hosted woff2)
 - [✅] **T1.6a** · Vercel OG endpoint `/api/og.png` créé (commit `6b31564`, Worker Sonnet) · SVG-raw fallback (@vercel/og non installé) · query params title/kicker/author · Cache-Control immutable
-- [ ] **T1.6b** · OG image dynamique sur 4 templates principaux (Hero, Offres, Solutions, Cases) · suite à T1.6a
+- [✅] **T1.6b** · OG image dynamique intégrée au Base layout (commit `4fa5088`) · couvre TOUTES les pages héritant Base.astro (Hero/Offres/Solutions/Cases/Essay/Cookbook/etc.) via fallback automatique vers `/api/og.png?title=...&kicker=...` si `ogImage` prop non fourni
 - [ ] **T1.7** · Astro `<Image>` audit + migration images statiques restantes vers `astro:assets`
 
 ### TIER 2 · Composable architecture (31h) — DÉBLOQUE TOUT LE RESTE
@@ -108,7 +108,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 ### TIER 5 · SEO programmatique (30h)
 
 - [✅] **T5.1a** · Schema `glossary` créé (commit pré-injection Opus 2026-05-15) · 5 catégories enum (ia-technique/ia-business/data/workflow/gouvernance) · SEO meta intégré
-- [🟡] **T5.1b** · 5/50 termes glossaire IA rédigés (commit `b518512`, Worker Sonnet) · agent-ia · rag · prompt-engineering · roi-ia · gouvernance-ia · pattern frontmatter figé pour ajout incrémental
+- [🟡] **T5.1b** · ~31/50 termes glossaire IA rédigés (commits `b518512` + `6280fda`, Workers Sonnet) · +16 termes batch 3 (ai-readiness, context-window, tokens-llm, function-calling, gdpr-ia, etc.) · pattern frontmatter figé
 - [✅] **T5.1c** · Routes `/glossaire/[slug]` + `/glossaire` index créées (commit `fc8539e`) · 6 routes générées
 - [ ] **T5.2a** · Créer schema `integrations` (tool_name, vendor, category, use_cases, native_or_via_api)
 - [ ] **T5.2b** · Rédiger 20 integrations (HubSpot, Salesforce, Pipedrive, Notion, Make, Zapier, etc.)
@@ -126,7 +126,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 ### TIER 6 · Conversion infrastructure (26h)
 
 - [ ] **T6.1a** · A/B testing infrastructure Edge Config Vercel
-- [ ] **T6.1b** · Middleware Astro pour assignation variant cookie
+- [✅] **T6.1b** · Middleware Astro variant cookie (commit `499a347`, Worker Sonnet) · src/middleware.ts + src/env.d.ts (Astro.locals.variant)
 - [ ] **T6.1c** · Schema sections : `sections_variant_b?` optionnel
 - [ ] **T6.2a** · Composant `<QuizMultiStep />` (React island justifié)
 - [ ] **T6.2b** · Collection `quizzes` (questions, scoring, redirect_logic_by_score)
@@ -134,6 +134,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [ ] **T6.3a** · Collection `forms` (fields, validation, esp_webhook, redirect)
 - [ ] **T6.3b** · Composant `<LeadMagnetGated />` (form prefab + magnet trigger)
 - [ ] **T6.3c** · Wire 3 forms : audit-booking · livre-blanc · newsletter
+- [✅] **T6.3d** · NewsletterSignup form enrichi (commit `499a347`, Worker Sonnet) · regex EMAIL_RE + erreur inline + honeypot website sr-only + cookie waimia_newsletter_signed + alert() banni
 - [ ] **T6.4a** · Collection `proof-points` (datapoints réutilisables)
 - [ ] **T6.4b** · Composant `<ProofPointInline />` + `<ProofPointHero />`
 - [ ] **T6.4c** · Migrer 4 proof-points existants (+12h/sem, 4× ROI, etc.)
@@ -171,13 +172,13 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 
 ### TIER 9 · Contenu amorçage (30-50h)
 
-- [ ] **T9.1** · 5 articles pillar essai (1 par cluster × 3000 mots)
+- [🟡] **T9.1** · 1/5 articles pillar essai (commit `3d1718e`, Worker Sonnet) · essai-pillar-ia-pme-2026 (~3000 mots, cluster pilotage) · reste 4 (acquisition, contenu-seo-geo, productivite, gouvernance)
 - [ ] **T9.2** · 20 articles cluster (formation/notes/avis/post × 800-1500 mots)
 - [ ] **T9.3** · 4 cookbooks techniques (×10-14 pages)
 - [ ] **T9.4** · 40-50 field notes (×300-500 mots) — pipeline éditorial Simon
-- [🟡] **T9.5** · 2/4 cas narrés enrichis (commits `2e00f81` + `abdafad`, Worker Sonnet) · plateau.mdx (+48 lignes) · halcyon.mdx (créé 85 lignes) · reste northbound + caserne
+- [✅] **T9.5** · 4/4 cas narrés enrichis (commits `2e00f81` + `abdafad` + `3d1718e`, Workers Sonnet) · plateau + halcyon + northbound + caserne
 - [ ] **T9.6** · 2 livres blancs (AI Act readiness migré + Growth System Playbook nouveau)
-- [🟡] **T9.7** · 4/16 tunnels MDX livrés (commit `6b31564`, Worker Sonnet) · growth-system-{1-4} · reste 12 (activation-ia + revops + application-ia-pme × 4)
+- [🟡] **T9.7** · 8/16 tunnels MDX livrés (commits `6b31564` + `3d1718e`, Workers Sonnet) · growth-system-{1-4} + activation-ia-{1-4} · reste 8 (revops + application-ia-pme × 4)
 - [ ] **T9.8** · 6 produits MDX (audit-guide, kit-prompts, livre-blanc-premium, masterclass-replay, workbook, starter-pack)
 - [ ] **T9.9** · 6 abonnements MDX (hosting Vercel, maintenance, monitoring, content production, CRM, support premium)
 - [ ] **T9.10** · 8 entrées école : 5 formations + 2 parcours + 1 atelier (3/5 formations déjà livrées)
@@ -202,6 +203,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [✅] **T11.1** · **34 routes /en générées au build** (commits `ccaf874` + `b518512` + dynamiques) · couverture passée de 7→34 (+385%) · 4 routes dynamiques [...slug] sur offres/solutions/cas/ressources/blog génèrent automatiquement toutes les pages EN depuis MDX bilingues
 - [✅] **T11.0** · Audit Sync EN doc 21 (commit `3f2300c`, Worker Sonnet)
 - [ ] **T11.2** · /en/bienvenue/* 3 welcome pages
+- [✅] **T11.2b** · 5 routes EN secondaires miroir FR (commit `e7f07bd`, Worker Sonnet) · /en/agence/{about,methode} + /en/ressources/index + /en/solutions/index + /en/technologies/index
 - [ ] **T11.3** · hreflang validation cross-pages
 - [ ] **T11.4** · /sitemap-en.xml validation
 
@@ -222,7 +224,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [✅] **T13.2** · `pnpm build` succès complet validé 10+ fois cette session (5-6s à chaque check)
 - [ ] **T13.3** · Lighthouse 5 pages échantillon (perf, a11y, SEO, best practices)
 - [ ] **T13.4** · Schema.org validator sur Article/Service/FAQPage/Product/Course/BreadcrumbList
-- [ ] **T13.5** · Liens cross-collection sans 404
+- [✅] **T13.5** · Audit liens cross-collection (commit `e0a1b63`, Worker Sonnet) · docs/23-CROSS-COLLECTION-AUDIT.md · 3 hrefs 404 prod identifiés P0 + 1 slug glossary orphelin (workflow-ia ×2)
 - [ ] **T13.6** · Hreflang FR/EN consistency
 - [ ] **T13.7** · Triangulation visuelle screenshots échantillon (Simon valide)
 - [ ] **T13.8** · Update doc 12 statuses avec ✅ final
