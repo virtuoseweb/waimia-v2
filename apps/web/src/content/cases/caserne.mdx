@@ -1,0 +1,85 @@
+---
+title_fr: "Caserne Industries · 4 goulots identifiés en 48 h"
+title_en: "Caserne Industries · 4 bottlenecks surfaced in 48 h"
+description_fr: "Industriel 3 sites, 300 collaborateurs. Audit des flux d'information inter-sites en 48 heures. 4 goulots documentés, plan d'action le lendemain, −35 % de délais estimés."
+description_en: "Manufacturer across 3 sites, 300 staff. Information flow audit across sites in 48 hours. 4 bottlenecks documented, action plan next day, −35% estimated inter-site delays."
+slug: "caserne"
+client: "Caserne Industries"
+sector_fr: "Industrie manufacturière"
+sector_en: "Manufacturing"
+duration: "2 d"
+stack: ["Claude Opus 4.7", "Revue documentaire", "Entretiens structurés"]
+impact_fr: "4 goulots documentés · −35 % délais inter-sites estimés · plan d'action sous 24 h"
+impact_en: "4 bottlenecks surfaced · −35% inter-site delays estimated · action plan in 24 h"
+metrics:
+  - { label_fr: "Goulots identifiés et documentés", label_en: "Bottlenecks identified and documented", value: "4" }
+  - { label_fr: "Délai livraison plan d'action", label_en: "Action plan delivery", value: "24 h" }
+  - { label_fr: "Réduction délais inter-sites (estimée)", label_en: "Inter-site delay reduction (estimated)", value: "−35 %" }
+ndaProtected: false
+featured: false
+publishedAt: 2026-01-10
+updatedAt: 2026-04-05
+author: simon-beros
+faq_fr:
+  - q: "L'audit couvre-t-il aussi la mise en œuvre du plan d'action ?"
+    a: "L'audit Waimia identifie, documente et priorise les goulots, puis livre un plan d'action avec propriétaires et dates cibles. La mise en œuvre relève des équipes internes, avec un accompagnement optionnel. Pour Caserne Industries, l'implémentation a été menée en autonomie par le Directeur des Opérations."
+  - q: "Comment la réduction de 35 % a-t-elle été estimée ?"
+    a: "Estimation prospective sur 6 semaines post-implémentation : taux de complétude des remises de quart avant/après standardisation, délais d'escalade avant/après refonte du circuit à 2 étapes, durée des réunions de coordination avant/après restructuration en calls site-spécifiques."
+faq_en:
+  - q: "Does the audit also cover action plan implementation?"
+    a: "The Waimia audit identifies, documents, and prioritizes bottlenecks, then delivers an action plan with owners and target dates. Implementation is led by internal teams, with optional ongoing support. For Caserne Industries, implementation was run autonomously by the Operations Director."
+  - q: "How was the 35% reduction estimated?"
+    a: "Forward-looking estimate measured over 6 weeks post-implementation: shift handoff completion rates before/after standardization, escalation delays before/after redesign to a 2-step circuit, coordination meeting time before/after restructuring into site-specific calls."
+---
+
+import Bi from '../../components/ui/atoms/Bi.astro';
+
+## <Bi en="Context" fr="Le contexte" />
+
+<Bi
+  en="Caserne Industries runs 3 manufacturing sites — Rouen, Mulhouse, and Bordeaux — with 80 to 120 people per site and combined revenue of €28M. At the time of the engagement, Operations Director Rémi B. had been tracking a pattern he could not fully account for: projects delivered on time at one site and delayed at another for unclear reasons, handoffs that missed their windows regularly, and coordination meetings consuming 6 to 8 hours per week per site manager without resolving the underlying friction."
+  fr="Caserne Industries opère 3 sites de production — Rouen, Mulhouse et Bordeaux — avec 80 à 120 personnes par site et un chiffre d'affaires combiné de 28 M€. Au moment de la mission, le Directeur des Opérations Rémi B. suivait un pattern qu'il n'arrivait pas à expliquer : projets livrés dans les temps sur un site, en retard sur un autre sans cause évidente, remises de travail qui rataient régulièrement leurs fenêtres, réunions de coordination qui absorbaient 6 à 8 heures par semaine par responsable de site sans résoudre la friction de fond."
+/>
+
+<Bi
+  en="His working hypothesis was a resource problem: not enough operators on the highest-criticality lines. He was within a week of launching a recruitment plan for 12 additional operators when a board contact suggested a prior diagnostic. The brief to Waimia was direct: before adding headcount, map what is actually happening between these three sites."
+  fr="Son hypothèse de travail était un problème de ressources : pas assez d'opérateurs sur les lignes à criticité maximale. Il était à une semaine de lancer un plan de recrutement de 12 opérateurs supplémentaires quand un contact au conseil d'administration a suggéré un diagnostic préalable. La commande adressée à Waimia était directe : avant d'ajouter des effectifs, cartographier ce qui se passe réellement entre ces trois sites."
+/>
+
+## <Bi en="Audit" fr="L'audit" />
+
+<Bi
+  en="The audit ran over 2 days on-site, structured in three layers. First: structured interviews with the 3 site managers and 6 line supervisors — what breaks, when, between whom, and what information is missing when it does. Second: a systematic review of shift handoff logs, internal messaging records, and coordination meeting minutes from the previous quarter. Third: a physical walkthrough of inter-site communication touchpoints — shift reports as actually produced, escalation paths as actually used, tools in effective practice versus stated procedure."
+  fr="L'audit s'est déroulé sur 2 jours on-site, structuré en trois couches. D'abord : des entretiens structurés avec les 3 responsables de site et 6 superviseurs de ligne — qu'est-ce qui déraille, quand, entre qui, et quelle information manque à ce moment. Ensuite : une revue systématique des journaux de remise de quart, des historiques de messagerie interne et des comptes rendus de réunions de coordination du trimestre précédent. Enfin : un parcours physique des points de contact inter-sites — rapports de quart tels que produits réellement, circuits d'escalade tels qu'utilisés effectivement, outils en pratique réelle versus procédure déclarée."
+/>
+
+<Bi
+  en="Four structural bottlenecks emerged — none of them a resource deficit. First: shift-end handoff reports were written in inconsistent formats across the three sites, meaning the incoming shift at a receiving site could not act on them without a follow-up call. Second: the escalation path for cross-site production anomalies ran through five steps requiring approval from two managers before reaching the person who could actually resolve the issue — adding a 3 to 4-hour lag each time. Third: production planning updates were sent by email at irregular intervals, creating a 4 to 6-hour lag between a change at one site and its integration into adjacent site schedules. Fourth: the 90-minute weekly coordination meeting included all three sites simultaneously, but 70% of its content was relevant to only one of the three — the other two were effectively held hostage."
+  fr="Quatre goulots structurels ont émergé — aucun d'eux n'est un déficit de ressources. Premier : les rapports de fin de quart étaient rédigés dans des formats incohérents entre les trois sites, empêchant l'équipe entrante du site destinataire d'agir dessus sans appel de suivi. Deuxième : le circuit d'escalade pour les anomalies inter-sites comportait cinq étapes et nécessitait la validation de deux responsables avant d'atteindre la personne capable de résoudre le problème — soit 3 à 4 heures de délai à chaque fois. Troisième : les mises à jour du planning de production étaient envoyées par email à intervalles irréguliers, créant un délai de 4 à 6 heures entre un changement sur un site et son intégration dans les plannings des sites adjacents. Quatrième : la réunion de coordination hebdomadaire de 90 minutes réunissait les trois sites simultanément, alors que 70 % du contenu n'était pertinent que pour un seul des trois — les deux autres étaient en pratique pris en otage."
+/>
+
+## <Bi en="What we delivered" fr="Ce qu'on a livré" />
+
+- <Bi en="**Audit report** · 4 bottlenecks documented with root cause analysis, severity rating, estimated weekly hours lost per site, and recommended corrective action — delivered as a working document with named owners, not as a slide deck" fr="**Rapport d'audit** · 4 goulots documentés avec analyse des causes, cotation de gravité, estimation des heures perdues par semaine et par site, et action corrective recommandée — livré comme document de travail avec propriétaires nommés, pas comme présentation" />
+- <Bi en="**Action plan within 24 hours** · 12 specific actions, each with an owner, a target date, and an effort-to-impact score — no waiting for a steering committee validation cycle" fr="**Plan d'action sous 24 heures** · 12 actions précises, chacune avec un propriétaire, une date cible et un score effort/impact — sans attendre un cycle de validation en comité de pilotage" />
+- <Bi en="**Standardized shift handoff template** · single format co-designed with site managers on day 2 of the audit, rolled out before the next shift cycle, validated by all three site managers in the same session" fr="**Template de remise de quart standardisé** · format unique co-conçu avec les responsables de site lors du jour 2 de l'audit, déployé avant le cycle de quart suivant, validé par les trois responsables dans la même session" />
+- <Bi en="**Escalation path redesign** · from 5 steps and 2 approval layers to 2 steps and a designated cross-site production anomaly owner, with a 30-minute resolution SLA" fr="**Refonte du circuit d'escalade** · de 5 étapes et 2 couches de validation à 2 étapes et un propriétaire désigné pour les anomalies inter-sites, avec un SLA de résolution à 30 minutes" />
+
+## <Bi en="Results" fr="Résultats" />
+
+<Bi
+  en="Measured over the 6 weeks following action plan implementation. Inter-site coordination delays fell by an estimated 35%, assessed via shift handoff completion rates and cross-site escalation resolution times. The 90-minute weekly coordination meeting was restructured into three 20-minute site-specific calls and one 30-minute cross-site summary. Net time saving: 3 hours per week per site manager — 9 hours per week across the three sites."
+  fr="Mesurés sur les 6 semaines suivant la mise en œuvre du plan d'action. Les délais de coordination inter-sites ont reculé de 35 % estimés, évalués sur les taux de complétude des remises de quart et les délais de résolution des escalades inter-sites. La réunion de coordination hebdomadaire de 90 minutes a été restructurée en trois calls site-spécifiques de 20 minutes et un bilan inter-sites de 30 minutes. Gain net : 3 heures par semaine par responsable de site — soit 9 heures par semaine sur l'ensemble des trois sites."
+/>
+
+<Bi
+  en="The recruitment plan for 12 additional operators was put on hold. Three months post-audit, output throughput on the Rouen–Mulhouse corridor — the highest-friction pair — had recovered to its quarterly target without adding headcount. The root cause was never a people problem. It was an information circulation problem that looked like a people problem from the outside."
+  fr="Le plan de recrutement des 12 opérateurs supplémentaires a été mis en attente. Trois mois post-audit, le débit de production sur le corridor Rouen–Mulhouse — la paire la plus chargée en friction — avait retrouvé son objectif trimestriel sans ajout d'effectifs. La cause racine n'était jamais un problème de personnel. C'était un problème de circulation de l'information qui ressemblait à un problème de personnel vu de l'extérieur."
+/>
+
+## <Bi en="Trajectory" fr="Trajectoire" />
+
+<Bi
+  en="Caserne Industries is evaluating a structured information layer to automate daily production planning synchronization between the three sites — replacing the current email-based process with a shared dashboard updated in real time from each site's ERP. Waimia is scoping a lightweight integration between the three planning systems and a Claude-powered morning digest that surfaces cross-site conflicts and exceptions before the first shift. The target: near-zero manual coordination time for routine synchronization, with human attention reserved for genuine anomalies. The prerequisite is an ERP data export standardization project the infrastructure team is running in parallel — estimated completion Q2 2026."
+  fr="Caserne Industries évalue une couche d'information structurée pour automatiser la synchronisation quotidienne du planning de production entre les trois sites — en remplaçant le processus actuel par email par un tableau de bord partagé mis à jour en temps réel depuis l'ERP de chaque site. Waimia cadre une intégration légère entre les trois systèmes de planification et un digest matinal alimenté par Claude qui remonte les conflits inter-sites et les exceptions avant la première prise de poste. L'objectif : quasi-zéro temps de coordination manuelle pour la synchronisation routine, l'attention humaine réservée aux vraies anomalies. Le prérequis est un projet de standardisation des exports ERP mené en parallèle par l'équipe infrastructure — achèvement estimé T2 2026."
+/>

@@ -1,0 +1,84 @@
+---
+title_fr: "Northbound Capital · −2 jours de clôture mensuelle"
+title_en: "Northbound Capital · −2 days on monthly close"
+description_fr: "Société de gestion d'actifs, 20 collaborateurs. Assistant IA sur la clôture mensuelle en 5 jours ouvrés. 80 % des questions traitées automatiquement. Compatible NDA."
+description_en: "Asset management firm, 20 staff. AI assistant on monthly close in 5 business days. 80% of close questions handled automatically. NDA-friendly."
+slug: "northbound"
+client: "Northbound Capital"
+sector_fr: "Gestion d'actifs"
+sector_en: "Asset management"
+duration: "1 wk"
+stack: ["Claude Sonnet 4.6", "Notion MCP", "Excel"]
+impact_fr: "−2 j de charge mensuelle · 80 % questions clôture traitées automatiquement"
+impact_en: "−2 days monthly workload · 80% close questions handled automatically"
+metrics:
+  - { label_fr: "Questions de clôture traitées automatiquement", label_en: "Closing questions handled automatically", value: "80 %" }
+  - { label_fr: "Jours de charge récupérés par mois", label_en: "Days recovered per month", value: "−2 j" }
+  - { label_fr: "Time-to-production", label_en: "Time-to-production", value: "5 j" }
+ndaProtected: false
+featured: false
+publishedAt: 2026-02-20
+updatedAt: 2026-04-05
+author: simon-beros
+faq_fr:
+  - q: "Quels outils existants ont été conservés ?"
+    a: "Tous. L'assistant s'appuie sur Notion (base de connaissance finance) et les fichiers Excel de clôture via export structuré. Aucun changement d'outil, aucune migration de données, aucun abonnement SaaS additionnel requis."
+  - q: "Comment les 80 % de taux de traitement automatique ont-ils été mesurés ?"
+    a: "Sur 3 clôtures consécutives post-déploiement. 42 questions récurrentes identifiées en audit, 34 traitées via assistant avec validation CFO en moins de 4 minutes, 8 escaladées en revue manuelle. Mesure : taux de réponse sans intervention directe CFO sur le fond."
+faq_en:
+  - q: "Which existing tools were kept?"
+    a: "All of them. The assistant draws on Notion (finance knowledge base) and close Excel files via structured export. No tool change, no data migration, no additional SaaS subscription required."
+  - q: "How was the 80% automatic handling rate measured?"
+    a: "Over 3 consecutive post-deployment closes. 42 recurring questions identified in audit, 34 handled via assistant with CFO validation in under 4 minutes, 8 escalated to manual review. Measurement: response rate requiring no direct CFO involvement on the substance."
+---
+
+import Bi from '../../components/ui/atoms/Bi.astro';
+
+## <Bi en="Context" fr="Le contexte" />
+
+<Bi
+  en="Northbound Capital manages €340M in assets across four strategies with a 20-person team. Finance is a 3-person function: one CFO and two analysts. Every month, the close cycle runs for 5 to 6 business days — during which the CFO fields the same recurring questions from portfolio managers, the CEO, and external auditors: budget variance explanations, cut-off adjustments, provisions commentary, and standard regulatory disclosures. None of them unusual. None of them easy to delegate without context."
+  fr="Northbound Capital gère 340 M€ d'encours sur quatre stratégies avec 20 personnes. La fonction finance est composée de 3 personnes : une CFO et deux analystes. Chaque mois, la clôture court sur 5 à 6 jours ouvrés — pendant lesquels la CFO répond aux mêmes questions récurrentes des gérants de portefeuille, du DG et des auditeurs externes : explications d'écarts budgétaires, ajustements de coupure, commentaires de provisions, déclarations réglementaires types. Aucune n'est anodine. Aucune ne se délègue facilement sans contexte."
+/>
+
+<Bi
+  en="The constraint Sophie M. set from the first call: no new tools, no stack change, no data migration. The team ran on Excel and Notion. That was not going to change. The question was whether a well-designed assistant could plug into what already existed — without a 6-month integration project — and reliably absorb the bulk of this monthly question load."
+  fr="La contrainte que Sophie M. a posée dès le premier appel : aucun nouvel outil, aucun changement de stack, aucune migration de données. L'équipe tournait sur Excel et Notion. Ce n'était pas négociable. La question était de savoir si un assistant bien conçu pouvait se greffer sur l'existant — sans projet d'intégration de 6 mois — et absorber de façon fiable l'essentiel de cette charge de questions mensuelle."
+/>
+
+## <Bi en="Audit" fr="L'audit" />
+
+<Bi
+  en="Day 1 was a structured review of close archives from the previous 6 months. We pulled every question thread from email and Notion, categorized them, and measured average response effort per category. Findings: 42 recurring questions per close, grouped into 4 categories — budget variance explanations (18), cut-off and accrual items (9), narrative commentary for board and regulatory reporting (11), ad hoc validation requests (4). Together, these 42 questions consumed an estimated 16 hours of CFO time per monthly close."
+  fr="Le jour 1 a été une revue structurée des archives de clôture des 6 derniers mois. On a extrait toutes les threads de questions depuis les emails et Notion, les a catégorisées, et mesuré l'effort de réponse moyen par catégorie. Résultat : 42 questions récurrentes par clôture, réparties en 4 catégories — explications d'écarts budgétaires (18), éléments de coupure et provisions (9), commentaires narratifs pour le reporting board et régulateur (11), demandes de validation ponctuelles (4). Ensemble, ces 42 questions consommaient environ 16 heures CFO par clôture mensuelle."
+/>
+
+<Bi
+  en="The diagnosis was clear: the bottleneck wasn't data access — the numbers were in Excel and the context was in Notion, both maintained and up to date. The bottleneck was the CFO's time required to retrieve the right figure, place it in context, and draft a well-framed one-paragraph response. That work was repeatable, format-consistent across months, and predictable in scope. A well-calibrated assistant could handle it reliably."
+  fr="Le diagnostic était clair : le goulot n'était pas l'accès aux données — les chiffres étaient dans Excel et le contexte dans Notion, les deux maintenus et à jour. Le goulot, c'était le temps CFO nécessaire pour trouver le bon chiffre, le contextualiser, et rédiger une réponse bien cadrée en un paragraphe. Ce travail était répétable, cohérent d'un mois sur l'autre, prévisible dans sa portée. Un assistant bien calibré pouvait s'en charger de façon fiable."
+/>
+
+## <Bi en="What we shipped" fr="Ce qu'on a livré" />
+
+- <Bi en="**Finance close assistant** · Claude Sonnet 4.6 + Notion MCP + structured Excel import · answers the 4 question categories from live Notion data and close workbooks, drafts responses in the CFO's voice and notation conventions, ready for review and send in under 4 minutes" fr="**Assistant de clôture finance** · Claude Sonnet 4.6 + Notion MCP + import Excel structuré · répond aux 4 catégories de questions depuis les données Notion live et les fichiers de clôture, rédige dans la voix et les conventions de notation de la CFO, prêt à valider et envoyer en moins de 4 minutes" />
+- <Bi en="**Calibration week integrated into deployment** · first 5 business days used as live calibration: 6 responses reviewed and corrected by the CFO, integrated as annotated examples into the system prompt, output quality rated 8.4/10 by week 2" fr="**Semaine de calibration intégrée au déploiement** · les 5 premiers jours ouvrés utilisés comme calibration live : 6 réponses relues et corrigées par la CFO, intégrées comme exemples annotés dans le prompt système, qualité output notée 8,4/10 en semaine 2" />
+- <Bi en="**Zero new infrastructure** · the assistant runs as an embedded Notion workflow, with no additional hosting, no API keys to manage by the finance team, no SaaS subscription added to the stack" fr="**Zéro nouvelle infrastructure** · l'assistant tourne comme workflow embarqué dans Notion, sans hébergement supplémentaire, sans clés API à gérer côté équipe finance, sans abonnement SaaS ajouté à la stack" />
+
+## <Bi en="Results" fr="Résultats" />
+
+<Bi
+  en="Measured over the first 3 closes post-deployment. 80% of the 42 recurring questions — 34 out of 42 — handled automatically: the CFO validates the drafted response and sends. Average time per question: from 23 minutes to under 4 minutes. Two full working days per month freed. Over 12 months, that is 24 days of CFO time redirected to portfolio analysis, investor relations, and regulatory projects that had been consistently deferred."
+  fr="Mesurés sur les 3 premières clôtures post-déploiement. 80 % des 42 questions récurrentes — 34 sur 42 — traitées automatiquement : la CFO valide le brouillon de réponse et envoie. Temps moyen par question : de 23 minutes à moins de 4 minutes. Deux jours ouvrés complets libérés par mois. Sur 12 mois, c'est 24 jours de temps CFO redirigés vers l'analyse de portefeuille, les relations investisseurs, et les chantiers réglementaires systématiquement reportés."
+/>
+
+<Bi
+  en="An unexpected secondary effect: the assistant's responses improved consistency across closes. Before, the same variance could be framed differently depending on the CFO's available headspace at the time. Now, the language is stable, conventions applied uniformly. Auditors have independently commented on the quality improvement of the commentary packages — without knowing the cause."
+  fr="Un effet secondaire inattendu : les réponses de l'assistant ont amélioré la cohérence des clôtures. Avant, le même écart pouvait être cadré différemment selon la disponibilité mentale du moment. Maintenant, le langage est stable, les conventions appliquées uniformément. Les auditeurs ont spontanément souligné l'amélioration qualitative des packages de commentaires — sans en connaître la cause."
+/>
+
+## <Bi en="Trajectory" fr="Trajectoire" />
+
+<Bi
+  en="Northbound is extending the assistant to quarterly board reporting — a 4-page narrative document currently requiring 12 hours of CFO time. The target: first draft generated in under 20 minutes from close workbooks and prior quarters' materials, with the CFO's review focused on strategic framing rather than document construction. A second workstream is evaluating direct structured export from the accounting system to remove the last manual step — Excel file preparation before close. Timeline: Q3 2026. If the board reporting extension performs as expected, the firm will have fully automated the narrative production layer of its reporting cycle."
+  fr="Northbound étend l'assistant au reporting board trimestriel — un document narratif de 4 pages actuellement en 12 heures CFO. L'objectif : premier jet généré en moins de 20 minutes à partir des fichiers de clôture et des documents des trimestres précédents, la revue CFO concentrée sur le cadrage stratégique plutôt que sur la construction du document. Un second chantier évalue un export structuré direct depuis le système comptable pour supprimer la dernière étape manuelle — la préparation des fichiers Excel avant clôture. Calendrier : T3 2026. Si l'extension reporting board performe comme attendu, le cabinet aura entièrement automatisé la couche de production narrative de son cycle de reporting."
+/>
