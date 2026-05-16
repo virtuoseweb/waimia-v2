@@ -1,0 +1,180 @@
+---
+// Page · /en/agence/about · About Waimia — EN mirror
+export const prerender = true;
+
+import UtilityTemplate from '../../../components/templates/UtilityTemplate.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+---
+<UtilityTemplate
+  title="The Agency · Why Waimia · Agentic Systems Architects"
+  description="A boutique AI agency, bilingual, founded between Paris and Geneva. We ship agents that execute — not presentations that spin in committee."
+  kicker="§ The Agency"
+  align="left"
+>
+  <Fragment slot="headline">
+    A boutique AI agency. <i>Bilingual</i>, by choice.
+  </Fragment>
+  <Fragment slot="lede">
+    No offshore chain. No PowerPoint model. A lean team that ships code on Tuesdays and reads the pipeline on Fridays.
+  </Fragment>
+
+  <Fragment slot="body">
+    <div class="about-grid reveal-stagger">
+      {/* Story · 60 % */}
+      <article class="about-prose">
+        <Kicker tone="" class="about-kicker">§ 01 · Origin</Kicker>
+        <h2>An agency born from a <i>construction site frustration</i>.</h2>
+        <p>Waimia was born in 2024 from a repeated observation: most AI projects deliver demos, not products. A POC passes through committee. An agent shines in the showroom then stalls in June. A consultant leaves with their SharePoint and leaves the internal team to fend for themselves.</p>
+        <p>Our angle is the opposite. We <i>deliver</i>. We sign. We remain reachable at 3 a.m. if the agent goes down. We learn by doing — not by gathering committees to talk about AI.</p>
+
+        <Kicker tone="" class="about-kicker">§ 02 · Stance</Kicker>
+        <h2>What we <i>refuse</i>.</h2>
+        <ul>
+          <li>AI theater — purple-glass, circuit-brain, floating hexagons.</li>
+          <li>Six-month scoping workshops with no signed deliverable.</li>
+          <li>Pitch decks that promise the impossible and hide model limitations.</li>
+          <li>Non-auditable agents that turn SaaS into a black box.</li>
+          <li>Proprietary no-code wrappers that make clients dependent for life.</li>
+        </ul>
+
+        <Kicker tone="" class="about-kicker">§ 03 · Method</Kicker>
+        <h2>Four <i>deliverables</i>, never more.</h2>
+        <p>Every Waimia engagement produces four canonical deliverables: a map of the existing system, an execution operating procedure, a replayable audit trail, a named on-call human. Not 72 slides, not an 18-month PowerPoint roadmap.</p>
+      </article>
+
+      {/* Aside · facts */}
+      <aside class="about-aside">
+        <Kicker class="about-aside-k">Key facts</Kicker>
+        <dl class="about-facts">
+          <div><dt>Founded</dt><dd>2024 · Paris</dd></div>
+          <div><dt>Co-founders</dt><dd>Simon Beros (CEO) + technical team</dd></div>
+          <div><dt>Offices</dt><dd>Paris (FR) · Geneva (CH)</dd></div>
+          <div><dt>Team</dt><dd>10 people · 100% seniors</dd></div>
+          <div><dt>Clients</dt><dd>B2B SaaS · EU Fintech · Industry · Healthcare</dd></div>
+          <div><dt>Partnerships</dt><dd>Anthropic · Francenum Activator</dd></div>
+          <div><dt>Languages</dt><dd>French + English (strict parity)</dd></div>
+          <div><dt>2025 volumes</dt><dd>43 engagements · €18M+ audited pipeline</dd></div>
+        </dl>
+      </aside>
+    </div>
+
+    {/* ── FINAL CTA ── */}
+    <div class="about-cta reveal">
+      <span class="about-cta-eyebrow">§ Work with us</span>
+      <h2 class="about-cta-h2">Forty-five minutes<br/>to see if it's <i>the right fit</i>.</h2>
+      <a href="/en/contact" class="about-cta-btn">Start a diagnostic →</a>
+    </div>
+  </Fragment>
+</UtilityTemplate>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: clamp(40px, 6vw, 80px);
+    max-width: 1200px;
+  }
+  .about-prose {
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    max-width: 720px;
+  }
+  :global(.about-kicker) { display: block; margin: clamp(40px, 5vw, 64px) 0 12px; }
+  :global(.about-prose > *:first-child) { margin-top: 0; }
+  .about-prose h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    margin: 0 0 18px;
+    text-wrap: balance;
+  }
+  .about-prose h2 i { font-style: italic; color: var(--accent); }
+  .about-prose p { margin: 0 0 1.2em; }
+  .about-prose ul { margin: 0 0 1.4em 1.4em; }
+  .about-prose ul li { margin-bottom: 0.5em; }
+  .about-prose i { font-style: italic; }
+
+  .about-aside {
+    border-left: 1px solid var(--hairline);
+    padding-left: clamp(20px, 3vw, 40px);
+    align-self: start;
+    position: sticky;
+    top: 100px;
+  }
+  :global(.about-aside-k) { display: block; margin-bottom: 18px; }
+  .about-facts {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .about-facts > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .about-facts > div:last-child { border-bottom: none; }
+  .about-facts dt {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .about-facts dd {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .about-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--hairline); padding-top: 32px; position: static; }
+  }
+
+  .about-cta {
+    border-top: 1px solid var(--hairline);
+    padding-top: clamp(48px, 6vw, 80px);
+    margin-top: clamp(64px, 8vw, 100px);
+  }
+  .about-cta-eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .about-cta-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4.5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0 0 36px;
+  }
+  .about-cta-h2 i { font-style: italic; color: inherit; }
+  .about-cta-btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 16px 36px;
+    border: 1px solid var(--ink);
+    transition: background 220ms var(--ease), border-color 220ms var(--ease);
+    text-decoration: none;
+  }
+  .about-cta-btn:hover { background: var(--accent); border-color: var(--accent); }
+</style>

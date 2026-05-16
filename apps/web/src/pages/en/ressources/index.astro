@@ -1,0 +1,399 @@
+---
+// Page · /en/ressources · Resources Hub landing — EN mirror
+export const prerender = true;
+
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import CtaBand from '../../../components/ui/organisms/CtaBand.astro';
+import RelatedCards from '../../../components/ui/molecules/RelatedCards.astro';
+import Button from '../../../components/ui/atoms/Button.astro';
+import { buildCollectionPage } from '../../../lib/seo/schema-builder';
+
+const collectionLd = buildCollectionPage(
+  'Waimia Resources',
+  'Editorial hub: blog, cookbooks, white papers, AI watch, tools, case studies.',
+  ['Blog', 'Cookbooks', 'White Papers', 'AI Watch', 'Tools', 'Case Studies'],
+);
+
+const tools = [
+  { kicker: 'WHITE PAPER · 01', title_en: 'AI Act Readiness',
+    lead_en: 'Compliance dossier · downloadable →',
+    href: '/ressources/livres-blancs/ai-act-readiness' },
+  { kicker: 'ESSAY · 02', title_en: 'Brain Circuit',
+    lead_en: 'How operational AI rewires the company →',
+    href: '/ressources/blog/brain-circuit' },
+  { kicker: 'WATCH · 03', title_en: 'AI Watch · weekly',
+    lead_en: 'Signed Waimia briefs, no noise →',
+    href: '/ressources/veille-ia' },
+];
+
+const cookbookCards = [
+  { kicker: 'COOKBOOK · 01', title_en: 'Claude Skills tutorial',
+    lead_en: 'Build a skill from scratch · 30 min →',
+    href: '/ressources/cookbooks/claude-skills-tutorial' },
+  { kicker: 'COOKBOOK · 02', title_en: 'MCP server deploy',
+    lead_en: 'Custom MCP server · prod-ready →',
+    href: '/ressources/cookbooks/mcp-server-deploy' },
+  { kicker: 'COOKBOOK · 03', title_en: 'Claude Cowork rollout',
+    lead_en: '14-day light rollout →',
+    href: '/ressources/cookbooks/claude-cowork-rollout' },
+];
+
+const caseCards = [
+  { num: '01', kicker: 'CASE · B2B SAAS', title: 'Plateau',
+    sub: '+€2.4M pipeline recovered',
+    lead: 'RevOps rebuild · 10 weeks · Claude + HubSpot + dbt.',
+    href: '/ressources/cas/plateau' },
+  { num: '02', kicker: 'CASE · HEALTH TECH', title: 'Halcyon Health',
+    sub: '−38% triage time',
+    lead: 'Assisted triage · 6 weeks · Claude + Snowflake.',
+    href: '/ressources/cas/halcyon' },
+  { num: '03', kicker: 'CASE · EU FINTECH', title: 'Northbound',
+    sub: '×3.1 SQL conversion',
+    lead: 'Lead qualification · 14 weeks · Claude + Segment + dbt.',
+    href: '/ressources/cas/northbound' },
+  { num: '04', kicker: 'CASE · FR INDUSTRY', title: 'Caserne',
+    sub: '1,200 h/year recovered',
+    lead: 'Documentary RAG · 8 weeks · Claude + RAG + SAP.',
+    href: '/ressources/cas/caserne' },
+  { num: '05', kicker: 'CASE · INTERNAL', title: 'VirtuoseOS',
+    sub: 'The OS under every delivery',
+    lead: 'Waimia internal blueprint · ongoing · Claude + open-source + multi-agent.',
+    href: '/ressources/cas/virtuoseos' },
+];
+
+const blogCards = [
+  { kicker: 'BLOG · 01', title_en: 'Brain Circuit',
+    lead_en: 'Long read · cognitive architecture →',
+    href: '/ressources/blog/brain-circuit' },
+];
+
+const whitePaperCards = [
+  { kicker: 'WHITE PAPER · 01', title_en: 'AI Act Readiness',
+    lead_en: 'EU compliance · 47 criteria checklist →',
+    href: '/ressources/livres-blancs/ai-act-readiness' },
+];
+---
+<Base
+  title="Resources · Cases, blog, cookbooks, tools · Waimia"
+  description="All Waimia resources — NDA-protected client cases, field notes, method cookbooks, TCO/ROI/AI Act calculators."
+  jsonLd={collectionLd}
+>
+  {/* MASTHEAD */}
+  <section class="hub-mast">
+    <div class="wrap-wide">
+      <Kicker class="hub-kicker">§ Hub · Resources</Kicker>
+      <h1 class="hub-h1 reveal-mask-up">Everything we <i>publish</i>.</h1>
+      <p class="hub-lede">
+        Measurable cases, field notes, method cookbooks, free calculators. No SEO padding. Everything is reviewed, signed, and NDA-protected when relevant.
+      </p>
+    </div>
+  </section>
+
+  {/* FEATURED TOOLS */}
+  <section class="hub-tools">
+    <div class="wrap-wide">
+      <Kicker tone="accent" class="hub-tools-k">§ Reads · three free entries, no sign-up</Kicker>
+      <h2 class="hub-tools-h2">Three <i>reads</i>. No commercial funnel.</h2>
+      <RelatedCards cards={tools.map(t => ({ ...t, title_fr: t.title_en, lead_fr: t.lead_en }))} />
+    </div>
+  </section>
+
+  {/* CASE STUDIES · 5 cards to real sub-pages */}
+  <section class="hub-cases-detail">
+    <div class="wrap-wide">
+      <Kicker tone="accent" class="hub-cd-k">§ Case studies · 5 signed dossiers</Kicker>
+      <h2 class="hub-cd-h2">Five <i>engagements</i>. All measured.</h2>
+      <p class="hub-cd-lead">
+        No advertising testimonials — every case is read, validated and signed by the client. Four external clients plus our internal blueprint.
+      </p>
+      <ol class="hub-cd-list reveal-stagger">
+        {caseCards.map((c) => (
+          <li class="hub-cd-row">
+            <a class="hub-cd-link" href={c.href}>
+              <span class="hub-cd-num">{c.num}</span>
+              <span class="hub-cd-body">
+                <span class="hub-cd-kicker">{c.kicker}</span>
+                <span class="hub-cd-title">{c.title} <i>· {c.sub}</i></span>
+                <span class="hub-cd-text">{c.lead}</span>
+              </span>
+              <span class="hub-cd-arr" aria-hidden>→</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* COOKBOOKS · 3 cards to real sub-pages */}
+  <section class="hub-cookbooks">
+    <div class="wrap-wide">
+      <Kicker tone="accent" class="hub-cookbooks-k">§ Cookbooks · 3 signed recipes</Kicker>
+      <h2 class="hub-cookbooks-h2">The <i>recipes</i> we apply in every engagement.</h2>
+      <RelatedCards cards={cookbookCards.map(c => ({ ...c, title_fr: c.title_en, lead_fr: c.lead_en }))} />
+      <div class="hub-cookbooks-cta">
+        <Button href="/ressources/cookbooks" variant="ghost" size="lg">All cookbooks →</Button>
+      </div>
+    </div>
+  </section>
+
+  {/* BLOG + WHITE PAPERS · detailed pages */}
+  <section class="hub-blog-lb">
+    <div class="wrap-wide hub-blog-lb-grid reveal-stagger">
+      <div>
+        <Kicker tone="accent" class="hub-blog-k">§ Blog · long reads</Kicker>
+        <h2 class="hub-blog-h2">One <i>note</i> at a time.</h2>
+        <p class="hub-blog-lead">
+          No editorial calendar. We publish when we genuinely have something to say.
+        </p>
+        <RelatedCards cards={blogCards.map(c => ({ ...c, title_fr: c.title_en, lead_fr: c.lead_en }))} />
+        <div class="hub-blog-cta">
+          <Button href="/ressources/blog" variant="ghost" size="md">All articles →</Button>
+        </div>
+      </div>
+      <div>
+        <Kicker tone="accent" class="hub-lb-k">§ White papers · PDF documents</Kicker>
+        <h2 class="hub-lb-h2">One <i>document</i> per topic.</h2>
+        <p class="hub-lb-lead">
+          Downloadable without a form. Cited by our clients in board meetings.
+        </p>
+        <RelatedCards cards={whitePaperCards.map(c => ({ ...c, title_fr: c.title_en, lead_fr: c.lead_en }))} />
+        <div class="hub-lb-cta">
+          <Button href="/ressources/livres-blancs" variant="ghost" size="md">All white papers →</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* NEWSLETTER BAND */}
+  <section class="hub-nl">
+    <div class="wrap-wide hub-nl-wrap">
+      <div>
+        <Kicker tone="accent" class="hub-nl-k">§ Newsletter · once a month</Kicker>
+        <h2 class="hub-nl-h2">One <i>essay</i> a month. Never a promotion.</h2>
+        <p class="hub-nl-lead">
+          Long reads, concrete cases, practical recipes. Unsubscribe in 1 click, GDPR-compliant.
+        </p>
+      </div>
+      <form class="hub-nl-form" method="post" action="/api/newsletter">
+        <label for="nl-email" class="sr-only">Professional email</label>
+        <input id="nl-email" name="email" type="email" required placeholder="firstname@company.com" autocomplete="email" aria-describedby="nl-hint" />
+        <Button as="button" type="submit" variant="primary" size="md">Subscribe →</Button>
+      </form>
+      <p class="nl-hint" id="nl-hint">
+        No spam · Unsubscribe anytime
+        {' · '}
+        <a href="/en/legal/privacy">Privacy policy</a>
+      </p>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .hub-mast { padding: 140px 32px clamp(40px, 5vw, 72px); }
+  :global(.hub-kicker) { display: block; margin-bottom: 24px; }
+  .hub-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 11vw, 180px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .hub-h1 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-lede {
+    font-family: var(--font-sans);
+    font-size: clamp(20px, 2.2vw, 28px);
+    color: var(--ink-2);
+    margin: 32px 0 0;
+    max-width: 760px;
+    line-height: 1.4;
+  }
+
+  .hub-tools,
+  .hub-cookbooks { padding: clamp(80px, 10vw, 120px) 32px; }
+  :global(.hub-tools-k),
+  :global(.hub-cookbooks-k) { display: block; margin-bottom: 18px; }
+  .hub-tools-h2,
+  .hub-cookbooks-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 0.96;
+    letter-spacing: -0.024em;
+    margin: 0 0 clamp(40px, 5vw, 72px);
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hub-tools-h2 :global(i),
+  .hub-cookbooks-h2 :global(i) { font-style: italic; color: var(--accent); }
+
+  .hub-cookbooks { background: var(--paper-2); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  .hub-cookbooks-cta { margin-top: clamp(28px, 3vw, 44px); }
+
+  .hub-cases-detail { padding: clamp(80px, 10vw, 120px) 32px; }
+  :global(.hub-cd-k) { display: block; margin-bottom: 18px; }
+  .hub-cd-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 0.96;
+    letter-spacing: -0.024em;
+    margin: 0 0 24px;
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hub-cd-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-cd-lead {
+    font-family: var(--font-sans);
+    font-size: clamp(17px, 1.8vw, 22px);
+    color: var(--muted);
+    max-width: 760px;
+    margin: 0 0 clamp(40px, 5vw, 64px);
+    line-height: 1.45;
+  }
+  .hub-cd-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--ink);
+  }
+  .hub-cd-row { border-bottom: 1px solid var(--hairline); }
+  .hub-cd-link {
+    display: grid;
+    grid-template-columns: 80px 1fr 60px;
+    gap: clamp(20px, 3vw, 40px);
+    padding: clamp(24px, 2.5vw, 36px) 0;
+    align-items: start;
+    color: inherit;
+    transition: background 240ms var(--ease);
+  }
+  .hub-cd-link:hover { background: rgba(0, 0, 0, 0.02); }
+  .hub-cd-num {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 0.9;
+    color: var(--accent);
+    font-style: italic;
+  }
+  .hub-cd-body { display: flex; flex-direction: column; gap: 6px; }
+  .hub-cd-kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+  }
+  .hub-cd-title {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.6vw, 36px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    text-wrap: balance;
+  }
+  .hub-cd-title :global(i) { font-style: italic; color: var(--muted); font-size: 0.7em; }
+  .hub-cd-text {
+    font-size: clamp(13px, 1.3vw, 15px);
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 720px;
+    text-wrap: pretty;
+  }
+  .hub-cd-arr {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    color: var(--accent);
+    align-self: center;
+    text-align: right;
+  }
+  @media (max-width: 700px) {
+    .hub-cd-link { grid-template-columns: 48px 1fr; }
+    .hub-cd-arr { display: none; }
+  }
+
+  .hub-blog-lb { padding: clamp(80px, 10vw, 120px) 32px; border-top: 1px solid var(--hairline); }
+  .hub-blog-lb-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 5vw, 80px);
+  }
+  :global(.hub-blog-k),
+  :global(.hub-lb-k) { display: block; margin-bottom: 14px; }
+  .hub-blog-h2,
+  .hub-lb-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.022em;
+    margin: 0 0 18px;
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hub-blog-h2 :global(i),
+  .hub-lb-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-blog-lead,
+  .hub-lb-lead {
+    font-family: var(--font-sans);
+    font-size: clamp(15px, 1.6vw, 18px);
+    color: var(--muted);
+    margin: 0 0 28px;
+    line-height: 1.45;
+  }
+  .hub-blog-cta,
+  .hub-lb-cta { margin-top: clamp(20px, 2.5vw, 32px); }
+  @media (max-width: 800px) {
+    .hub-blog-lb-grid { grid-template-columns: 1fr; }
+  }
+
+  .hub-nl { padding: clamp(80px, 10vw, 120px) 32px; background: var(--ink); color: var(--paper); }
+  .hub-nl-wrap { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(40px, 6vw, 80px); align-items: center; }
+  :global(.hub-nl-k) { display: block; margin-bottom: 18px; }
+  .hub-nl-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.024em;
+    color: var(--paper);
+    margin: 0 0 18px;
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .hub-nl-h2 :global(i) { font-style: italic; color: var(--accent); }
+  .hub-nl-lead {
+    font-size: 15px;
+    line-height: 1.55;
+    color: rgba(246, 241, 232, 0.7);
+    max-width: 520px;
+    margin: 0;
+  }
+  .hub-nl-form {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .hub-nl-form input {
+    flex: 1;
+    min-width: 240px;
+    padding: 14px 18px;
+    background: rgba(246, 241, 232, 0.08);
+    border: 1px solid rgba(246, 241, 232, 0.2);
+    border-radius: 2px;
+    color: var(--paper);
+    font-family: var(--font-display);
+    font-size: 16px;
+  }
+  .hub-nl-form input:focus { outline: none; border-color: var(--accent); }
+  .nl-hint {
+    font-size: 13px;
+    color: rgba(246, 241, 232, 0.5);
+    margin: 10px 0 0;
+    line-height: 1.5;
+  }
+  .nl-hint a { color: rgba(246, 241, 232, 0.7); text-decoration: underline; }
+  .nl-hint a:hover { color: var(--paper); }
+
+  @media (max-width: 800px) {
+    .hub-nl-wrap { grid-template-columns: 1fr; }
+  }
+</style>

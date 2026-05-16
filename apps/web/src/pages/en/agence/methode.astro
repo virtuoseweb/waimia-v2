@@ -1,0 +1,164 @@
+---
+// Page · /en/agence/methode · Waimia Method · Process Intelligence — EN mirror
+export const prerender = true;
+
+import UtilityTemplate from '../../../components/templates/UtilityTemplate.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import Timeline from '../../../components/editorial/Timeline.astro';
+import MethodeProcessDiagram from '../../../components/svg/geometric/MethodeProcessDiagram.astro';
+
+const phases = [
+  {
+    n: '01',
+    label: 'Mapping',
+    body: "We look at your business. Not your presentations. Your real workflows, your real tools, your real bottlenecks. Tuesday we observe, Friday we quantify.",
+  },
+  {
+    n: '02',
+    label: 'Prioritisation',
+    body: "We rank workflows by ROI. Not by technical sophistication. The quick win goes first. The rest — we plan.",
+  },
+  {
+    n: '03',
+    label: 'Wiring',
+    body: "We wire AI agents into your existing tools — Excel, HubSpot, Outlook, your ERP. No migration. No heavy rebuild. We connect what works.",
+  },
+  {
+    n: '04',
+    label: 'Measurement',
+    body: "Every workflow has its before/after metric. If it measures nothing, it doesn't exist. Friday, we read the numbers.",
+  },
+  {
+    n: '05',
+    label: 'Handover',
+    body: "You take over. Documentation, operating procedure, training. No black box, no lock-in. You can fire us.",
+  },
+];
+
+const timelineEvents = phases.map(p => ({
+  num: p.n,
+  title: p.label,
+  body: p.body,
+}));
+---
+<UtilityTemplate
+  title="Our Method · Process Intelligence · Waimia"
+  description="Five phases. Audit, prioritisation, wiring, measurement, handover. No slideshow. No POC. Tuesday we wire, Friday we measure."
+  kicker="§ Our method · Process Intelligence"
+  align="left"
+  showCta={true}
+>
+  <Fragment slot="headline">Five <i>phases</i>. No <i>slideshow</i>.</Fragment>
+  <Fragment slot="lede">
+    We have a method. We write it. We measure it. We correct it. Not a cabinet secret — a protocol that can be replayed.
+  </Fragment>
+
+  <Fragment slot="body">
+    {/* ── PHASES via Timeline ── */}
+    <Timeline events={timelineEvents} numbered={true} />
+
+    {/* ── DIAGRAM ── */}
+    <div class="meth-diagram reveal">
+      <MethodeProcessDiagram />
+    </div>
+
+    {/* ── MENTION VIRTUOSEOS ── */}
+    <div class="meth-os reveal">
+      <Kicker class="meth-os-kicker">§ Under the hood</Kicker>
+      <h2 class="meth-os-h2">VirtuoseOS · the <i>framework</i> we built for this.</h2>
+      <p class="meth-os-body">
+        Five years of wiring AI systems for SMBs taught us one thing: without a shared framework, every engagement restarts from zero. VirtuoseOS is our multi-workspace kernel — a system that orchestrates agents, audits actions and keeps the trail.
+      </p>
+      <p class="meth-os-body">
+        You don't have to buy it. You don't have to see it. It runs under every Waimia engagement. That's all.
+      </p>
+    </div>
+
+    {/* ── CTA INLINE ── */}
+    <div class="meth-cta reveal">
+      <h2 class="meth-cta-h2">Five phases. Forty-five minutes to start.</h2>
+      <a href="/en/contact" class="meth-cta-btn" data-mag="0.15">Start →</a>
+    </div>
+  </Fragment>
+</UtilityTemplate>
+
+<style>
+  /* ── Section VirtuoseOS ── */
+  .meth-os {
+    background: var(--paper-2);
+    border: 1px solid var(--hairline);
+    padding: clamp(36px, 4.5vw, 64px);
+    margin-bottom: clamp(72px, 9vw, 120px);
+  }
+
+  :global(.meth-os-kicker) { display: block; margin-bottom: 20px; }
+
+  .meth-os-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 52px);
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    line-height: 1.05;
+    margin: 0 0 28px;
+    text-wrap: balance;
+  }
+  .meth-os-h2 :global(i) { font-style: italic; color: var(--accent); }
+
+  .meth-os-body {
+    font-family: var(--font-sans);
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0 0 14px;
+    max-width: 680px;
+  }
+  .meth-os-body:last-child { margin-bottom: 0; }
+
+  /* ── Final CTA ── */
+  .meth-cta {
+    text-align: left;
+    border-top: 1px solid var(--hairline);
+    padding-top: clamp(48px, 6vw, 72px);
+    display: flex;
+    align-items: center;
+    gap: clamp(28px, 4vw, 56px);
+    flex-wrap: wrap;
+  }
+
+  .meth-cta-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 52px);
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    line-height: 1.1;
+    margin: 0;
+    flex: 1 1 360px;
+    text-wrap: balance;
+  }
+
+  .meth-cta-btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 16px 36px;
+    border: 1px solid var(--ink);
+    transition: background 220ms var(--ease), border-color 220ms var(--ease);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .meth-cta-btn:hover { background: var(--accent); border-color: var(--accent); }
+
+  @media (max-width: 700px) {
+    .meth-os { padding-inline: 24px; }
+    .meth-cta { flex-direction: column; align-items: flex-start; }
+  }
+
+  .meth-diagram {
+    margin: clamp(48px, 6vw, 80px) 0;
+    max-width: 900px;
+  }
+</style>
