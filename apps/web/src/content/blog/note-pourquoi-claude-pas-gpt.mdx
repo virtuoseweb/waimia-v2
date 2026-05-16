@@ -1,0 +1,239 @@
+---
+title_fr: "Pourquoi on choisit Claude plutôt que GPT pour nos clients PME"
+title_en: "Why we choose Claude over GPT for our SMB clients"
+description_fr: "Notre position documentée sur Claude vs GPT : raisonnement, prix, sécurité et ce que ça change concrètement pour une PME."
+description_en: "Our documented stance on Claude vs GPT: reasoning, pricing, safety and what it means in practice for an SMB."
+slug: note-pourquoi-claude-pas-gpt
+publishedAt: 2026-05-16
+editorialType: "Note"
+type: notes
+author: simon-beros
+category: pilotage
+tags:
+  - claude
+  - llm-comparaison
+  - doctrine-ia
+readingTime: 5
+relatedSolutions: []
+relatedOffres: []
+relatedCases: []
+relatedPosts: []
+---
+
+On nous pose cette question en boucle : « Pourquoi vous partez sur Claude alors que tout le monde dit ChatGPT ? » La réponse courte, c'est que nous ne choisissons pas un logo. Nous choisissons un comportement de modèle dans un contexte PME : workflows longs, documents hétérogènes, contraintes de coût, exigences de traçabilité et faible tolérance aux réponses instables.
+
+Au 16 mai 2026, il n'existe pas de modèle parfait. Il existe des compromis. Notre doctrine n'est donc pas « Claude est meilleur partout ». Elle est plus simple : pour la majorité des cas d'usage opérationnels que nous déployons chez des PME, Claude Sonnet reste le meilleur point d'équilibre entre qualité de raisonnement, stabilité et gouvernance.
+
+## Raisonnement et cohérence de réponse
+
+Le premier sujet n'est pas la créativité. Ce n'est pas non plus la « vibe » du chatbot. C'est la cohérence quand on lui demande un travail en plusieurs étapes.
+
+Dans la vraie vie PME, un agent IA ne répond pas à une seule question isolée. Il doit :
+
+- lire un brief commercial ;
+- extraire les contraintes métier ;
+- reformuler une sortie dans un format exploitable ;
+- parfois appeler un outil ou résumer un document long ;
+- rester aligné d'un bout à l'autre de la tâche.
+
+C'est là que Claude gagne le plus souvent chez nous. Sur les tâches longues, avec contexte dense et instruction multi-étapes, Claude dérive moins souvent en milieu de parcours. Il coupe moins les coins. Il invente moins une réponse « plausible » quand la consigne demandait un raisonnement rigoureux.
+
+Cette différence n'apparaît pas toujours sur une démo de trente secondes. Elle apparaît quand vous enchaînez cinquante traitements par jour sur des cas semi-structurés : réponses à des leads, préparation de notes de rendez-vous, pré-qualification de demandes entrantes, synthèses de comptes rendus ou génération de livrables internes.
+
+Nous le voyons surtout sur trois types de tâches :
+
+- les prompts longs avec hiérarchie d'instructions ;
+- les sorties structurées qui demandent de ne rien oublier ;
+- les contextes métier où le modèle doit tenir sa ligne sans se laisser distraire par du bruit.
+
+Claude 3.7 Sonnet a aussi introduit un mode de raisonnement étendu qu'Anthropic continue de référencer. Ce n'est pas magique, mais sur des tâches complexes, ce supplément de temps de calcul produit souvent une réponse plus propre que la stratégie « répondre vite et corriger après ».
+
+## Prix réel des API en 2026
+
+Le deuxième sujet, c'est le coût. Pas le coût marketing. Le coût réel par million de tokens, donc le coût de production.
+
+Au 16 mai 2026, les pages officielles affichent les tarifs suivants :
+
+- Claude Sonnet 3.7 : 3 $/MTok en entrée, 15 $/MTok en sortie ;
+- Claude Haiku 3.5 : 0,80 $/MTok en entrée, 4 $/MTok en sortie ;
+- GPT-4o : 2,50 $/MTok en entrée, 10 $/MTok en sortie ;
+- GPT-4o mini : 0,15 $/MTok en entrée, 0,60 $/MTok en sortie.
+
+Si on s'arrêtait là, le verdict serait évident : GPT-4o est moins cher que Sonnet, et GPT-4o mini écrase tout le monde sur le prix. Sauf qu'une PME ne paie pas seulement des tokens. Elle paie aussi :
+
+- le nombre de relances nécessaires pour obtenir une bonne réponse ;
+- le temps humain passé à corriger ;
+- les erreurs silencieuses qui polluent le CRM ou la base documentaire ;
+- la latence organisationnelle créée par un modèle moins fiable.
+
+Un modèle à 20 % moins cher mais qui demande 40 % de vérifications en plus n'est pas moins cher. Il déplace la facture vers l'équipe.
+
+Dans nos déploiements, le bon arbitrage ressemble souvent à ça :
+
+- Haiku ou GPT-4o mini pour les tâches volumétriques simples ;
+- Sonnet pour les tâches métier à fort enjeu de qualité ;
+- GPT-4o quand l'écosystème OpenAI apporte un avantage produit ou d'intégration.
+
+Autrement dit : nous optimisons le coût total de possession, pas uniquement la ligne « input/output tokens ».
+
+## Sécurité et RGPD
+
+Le troisième sujet est décisif dès qu'on parle d'entreprise : que deviennent les données ?
+
+Anthropic a clarifié sa position commerciale. Son centre d'aide, mis à jour le 16 mars 2026, indique que pour Claude for Work et l'API, le client est le contrôleur, Anthropic agit comme processeur, et les données ne servent pas à entraîner les modèles sauf opt-in explicite au Development Partner Program.
+
+Sur le plan contractuel, le DPA Anthropic est intégré aux Commercial Terms. La page légale publique précise que le DPA est en vigueur depuis le 24 février 2025, qu'il incorpore les Standard Contractual Clauses de l'UE, et qu'Anthropic traite les données clients selon les instructions documentées du client. Pour une PME européenne, ce n'est pas une baguette magique RGPD. C'est le minimum sérieux qu'on attend d'un fournisseur exploitable.
+
+Concrètement, cela change trois choses :
+
+- on peut documenter un cadre contractuel crédible ;
+- on peut justifier les transferts hors UE avec SCC ;
+- on peut construire une politique interne de minimisation et de journalisation cohérente.
+
+Ce que nous ne disons jamais : « C'est RGPD donc c'est sans sujet. » Faux. Le sujet reste réel. Mais il devient gouvernable.
+
+## Les cas où on choisit GPT quand même
+
+Notre position n'est pas religieuse. Il y a des cas où nous choisissons GPT.
+
+Premier cas : quand le client est déjà profondément outillé dans l'écosystème OpenAI et que l'intégration native fait gagner du temps produit. Si le besoin repose fortement sur des briques OpenAI spécifiques, lutter contre cet avantage n'a pas de sens.
+
+Deuxième cas : quand le client enterprise veut absolument passer par Azure AI pour des raisons de gouvernance, de procurement ou d'alignement SI. Dans ce contexte, l'enjeu n'est plus « quel modèle a la meilleure plume ? » mais « quelle stack franchit le comité achat, la DSI et la sécurité sans bloquer le projet pendant trois mois ? »
+
+Troisième cas : sur certaines tâches très courtes, très standardisées, où GPT-4o ou GPT-4o mini donnent un niveau suffisant à meilleur prix.
+
+Notre règle est simple :
+
+- si la qualité de raisonnement est critique, Claude part favori ;
+- si l'intégration plateforme domine, GPT peut gagner ;
+- si le coût unitaire prime sur tout le reste, les petits modèles GPT restent très agressifs.
+
+## Notre recommandation par défaut
+
+Par défaut, pour une PME qui déploie ses premiers workflows IA sérieux, nous recommandons Claude Sonnet comme modèle principal, avec un petit modèle moins cher pour les sous-tâches répétitives.
+
+Pourquoi ? Parce qu'une PME n'a pas besoin du modèle le plus connu. Elle a besoin du modèle qui :
+
+- tient des instructions longues ;
+- casse moins la chaîne de travail ;
+- se défend mieux en audit de gouvernance ;
+- permet de facturer un livrable fiable plutôt qu'un prototype impressionnant.
+
+Notre doctrine actuelle est donc la suivante :
+
+- Claude Sonnet pour le cerveau principal ;
+- Haiku pour le pré-traitement économique côté Anthropic ;
+- GPT quand l'écosystème OpenAI apporte un avantage décisif ;
+- jamais de choix « tribal » entre fournisseurs.
+
+Le vrai sujet n'est pas Claude contre GPT. Le vrai sujet, c'est quelle architecture produit le meilleur ratio entre qualité, risque et coût pour une PME réelle. Aujourd'hui, sur ce terrain-là, Claude gagne le plus souvent.
+
+---
+
+We get this question constantly: “Why do you default to Claude when everyone says ChatGPT?” The short answer is that we do not choose a logo. We choose model behavior in an SMB environment: long workflows, messy documents, cost constraints, traceability requirements, and low tolerance for unstable answers.
+
+As of May 16, 2026, there is no perfect model. There are tradeoffs. So our doctrine is not “Claude is better at everything.” It is simpler: for most operational use cases we deploy in SMBs, Claude Sonnet remains the best balance between reasoning quality, stability, and governance.
+
+## Reasoning quality and response consistency
+
+The first issue is not creativity. It is not chatbot personality either. It is consistency when the model is asked to do real multi-step work.
+
+In real SMB operations, an AI agent does not answer one isolated question. It has to:
+
+- read a sales brief;
+- extract business constraints;
+- reformulate output into an actionable format;
+- sometimes call a tool or summarize a long document;
+- stay aligned from start to finish.
+
+That is where Claude tends to win for us. On long tasks with dense context and multi-step instructions, Claude drifts less often halfway through the job. It takes fewer shortcuts. It is less likely to generate a merely plausible answer when the prompt actually required disciplined reasoning.
+
+You do not always see that difference in a thirty-second demo. You see it when you run fifty semi-structured tasks a day: lead replies, meeting prep notes, inbound qualification, synthesis of internal memos, or first-draft operational deliverables.
+
+We mostly notice the gap on three families of work:
+
+- long prompts with layered instructions;
+- structured outputs where missing one constraint creates downstream problems;
+- noisy business contexts where the model has to hold the line.
+
+Claude 3.7 Sonnet also introduced extended thinking, a capability Anthropic still documents. It is not magic, but on harder tasks that extra compute budget often produces cleaner work than a “respond fast and fix later” pattern.
+
+## Real API pricing in 2026
+
+The second issue is cost. Not marketing cost. Real production cost per million tokens.
+
+As of May 16, 2026, the official pricing pages show:
+
+- Claude Sonnet 3.7: $3/MTok input, $15/MTok output;
+- Claude Haiku 3.5: $0.80/MTok input, $4/MTok output;
+- GPT-4o: $2.50/MTok input, $10/MTok output;
+- GPT-4o mini: $0.15/MTok input, $0.60/MTok output.
+
+If you stop there, the answer seems obvious: GPT-4o is cheaper than Sonnet, and GPT-4o mini crushes everyone on raw price. But an SMB does not only pay for tokens. It also pays for:
+
+- the number of retries required to get a usable answer;
+- the human time spent reviewing and fixing output;
+- silent errors that contaminate a CRM or a document pipeline;
+- organizational latency caused by a less reliable model.
+
+A model that is 20% cheaper but requires 40% more checking is not cheaper. It simply moves the cost into the team.
+
+In our deployments, the practical split usually looks like this:
+
+- Haiku or GPT-4o mini for simple high-volume tasks;
+- Sonnet for business tasks where quality matters;
+- GPT-4o when the OpenAI ecosystem creates a clear product or integration advantage.
+
+In other words, we optimize total cost of ownership, not just the input/output token line.
+
+## Safety and GDPR posture
+
+The third issue becomes decisive as soon as a company is involved: what happens to the data?
+
+Anthropic has made its commercial position fairly explicit. Its help center, updated on March 16, 2026, states that for Claude for Work and the API, the customer is the controller, Anthropic acts as processor, and data is not used to train models unless the customer explicitly opts in to the Development Partner Program.
+
+Contractually, Anthropic's DPA is incorporated into its Commercial Terms. The public legal page states that the DPA has been effective since February 24, 2025, includes EU Standard Contractual Clauses, and frames Anthropic's processing around the customer's documented instructions. For a European SMB, that is not a magic GDPR shield. It is the serious baseline you expect from a provider you can actually deploy.
+
+In practice, that changes three things:
+
+- you can document a credible contractual framework;
+- you can justify international transfers with SCCs;
+- you can design an internal policy around minimization and logging.
+
+What we never say is: “It is GDPR-compliant, so there is no issue.” That would be sloppy. The issue remains real. It simply becomes governable.
+
+## The cases where we still choose GPT
+
+Our position is not ideological. There are cases where we choose GPT.
+
+First case: the client is already heavily invested in the OpenAI ecosystem and native integration saves real product time. If the workflow depends on specific OpenAI building blocks, fighting that advantage is pointless.
+
+Second case: an enterprise client wants Azure AI for governance, procurement, or IT alignment reasons. In that context, the main question is no longer “which model writes better?” but “which stack clears procurement, security, and IT without delaying the project by three months?”
+
+Third case: short, highly standardized tasks where GPT-4o or GPT-4o mini deliver sufficient quality at a better unit price.
+
+Our rule is straightforward:
+
+- if reasoning quality is critical, Claude starts ahead;
+- if platform integration dominates, GPT may win;
+- if unit economics dominate everything else, the smaller GPT models remain very aggressive.
+
+## Our default recommendation
+
+By default, for an SMB deploying its first serious AI workflows, we recommend Claude Sonnet as the primary model, with a cheaper small model for repetitive subtasks.
+
+Why? Because an SMB does not need the most famous model. It needs the model that:
+
+- holds long instructions;
+- breaks the workflow less often;
+- stands up better in governance review;
+- lets you bill a reliable deliverable instead of a flashy prototype.
+
+Our current doctrine is therefore:
+
+- Claude Sonnet for the main reasoning layer;
+- Haiku for low-cost preprocessing on the Anthropic side;
+- GPT when the OpenAI ecosystem brings a decisive advantage;
+- never a tribal vendor choice.
+
+The real question is not Claude versus GPT. The real question is which architecture gives an SMB the best ratio between quality, risk, and cost. Right now, in most of our client work, Claude wins that comparison more often.

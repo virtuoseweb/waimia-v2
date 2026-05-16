@@ -1,0 +1,281 @@
+---
+title_fr: "3 erreurs de prompt engineering qu'on voit chez toutes les PME"
+title_en: "3 prompt engineering mistakes we see at every SMB"
+description_fr: "Les 3 patterns d'erreur les plus fréquents en prompt engineering chez les PME, avec exemples avant/après."
+description_en: "The 3 most common prompt engineering error patterns at SMBs, with before/after examples."
+slug: note-3-erreurs-prompt-engineering
+publishedAt: 2026-05-16
+editorialType: "Note"
+type: notes
+author: simon-beros
+category: productivite
+tags:
+  - prompt-engineering
+  - llm
+  - bonnes-pratiques
+readingTime: 4
+relatedSolutions: []
+relatedOffres: []
+relatedCases: []
+relatedPosts: []
+---
+
+Le problème n'est presque jamais « le modèle est nul ». Le problème, c'est que l'instruction envoyée au modèle ressemble à une note vocale mal transcrite : trop longue, mal structurée, sans exemple et sans sortie attendue. Les PME pensent au contenu du prompt. Elles pensent rarement à son architecture.
+
+Quand un prompt échoue, on accuse souvent le fournisseur, le prix du modèle ou « l'IA en général ». Dans la majorité des cas, la panne est plus basique : la machine n'a pas reçu un cahier des charges exploitable. Trois erreurs reviennent partout.
+
+## Erreur 1 : trop de contexte non structuré
+
+Le pattern classique, c'est le prompt bavard. On jette tout dans le même bloc : historique client, objectif, frustration du dirigeant, copier-coller du site, contraintes de ton, idées de CTA, exceptions, et parfois même des morceaux de conversation Slack.
+
+Le résultat ? Le modèle reçoit de la matière, mais pas de hiérarchie. Il doit deviner ce qui est central, secondaire, obligatoire ou juste informatif.
+
+Exemple avant :
+
+```text
+On est une PME industrielle, on fait de l'usinage, on veut relancer nos prospects
+salon, notre ton est pro mais pas froid, il faut parler de notre qualité, de notre
+réactivité, du fait qu'on travaille déjà avec de grands comptes, éviter le ton
+marketing, proposer un mail qui convertit et pas trop long, on veut aussi mettre
+en avant notre bureau d'études, nos délais, et le fait qu'on peut faire du sur-mesure.
+```
+
+Exemple après :
+
+```text
+Rôle : copywriter B2B pour PME industrielle.
+Objectif : rédiger un e-mail de relance après salon.
+Contexte utile :
+- Offre : usinage sur mesure + bureau d'études
+- Positionnement : réactif, précis, sans ton marketing
+- Preuve : références grands comptes
+Contraintes :
+- 120 mots max
+- 1 objet + 1 corps d'e-mail
+- CTA discret vers un appel de 15 min
+```
+
+Le deuxième prompt n'est pas « plus intelligent ». Il est juste structuré. Il réduit la charge d'interprétation.
+
+## Erreur 2 : zéro exemple alors qu'il faut du few-shot
+
+Beaucoup d'équipes demandent au modèle un rendu très spécifique sans lui montrer un seul exemple de rendu acceptable. C'est du zero-shot là où un simple few-shot aurait réglé 80 % du problème.
+
+Un modèle comprend mieux un niveau de qualité quand on lui montre la forme attendue. C'est vrai pour un e-mail commercial, une note de synthèse, une qualification de lead ou un compte rendu.
+
+Exemple avant :
+
+```text
+Classe ce lead en chaud, tiède ou froid et explique pourquoi.
+```
+
+Exemple après :
+
+```text
+Classe chaque lead en chaud, tiède ou froid.
+
+Exemple 1
+Entrée : "Entreprise de 80 salariés, demande une démo dans 2 semaines, budget validé"
+Sortie :
+- Score : chaud
+- Raison : intention explicite, budget identifié, échéance proche
+
+Exemple 2
+Entrée : "Étudiant qui veut juste comprendre le marché"
+Sortie :
+- Score : froid
+- Raison : pas d'intention d'achat, pas de contexte entreprise
+
+Maintenant traite ce lead :
+```
+
+Le few-shot ne sert pas à « donner la réponse ». Il sert à calibrer la grille de lecture. Dans la pratique, nous obtenons souvent des sorties deux à trois fois plus stables avec deux exemples bien choisis qu'avec un prompt abstrait plus long.
+
+## Erreur 3 : aucun format de sortie explicite
+
+Troisième erreur, et probablement la plus coûteuse en production : demander une bonne réponse sans imposer une forme de sortie. Le modèle répond alors comme un stagiaire brillant sans template : parfois bon, souvent variable, rarement directement exploitable.
+
+Si la sortie doit alimenter un CRM, un tableur, un workflow n8n, une base SQL ou une revue humaine rapide, le format n'est pas un détail. C'est le produit final.
+
+Exemple avant :
+
+```text
+Analyse cet appel commercial et donne les points importants.
+```
+
+Exemple après :
+
+```text
+Analyse cet appel commercial.
+Format de sortie obligatoire :
+- Résumé : 3 phrases max
+- Objections : liste à puces
+- Urgence : faible / moyenne / forte
+- Prochaine action recommandée : 1 phrase
+- Risque d'hallucination : faible / moyen / élevé
+Ne produis rien en dehors de ce format.
+```
+
+Avec ce simple cadrage, on passe d'une réponse « intéressante » à une réponse exploitable. Et c'est tout le sujet en entreprise.
+
+## La règle des 3 : contexte minimal, exemples, format
+
+Notre template interne est volontairement sobre. Il tient en trois blocs :
+
+- contexte minimal utile ;
+- un ou deux exemples si la tâche est spécifique ;
+- format de sortie obligatoire.
+
+Nous l'écrivons souvent ainsi :
+
+```text
+Rôle :
+Objectif :
+Contexte utile :
+Contraintes :
+
+Exemple(s) :
+
+Format de sortie :
+```
+
+Ce pattern évite deux extrêmes :
+
+- le prompt roman de 600 mots ;
+- le prompt paresseux de 12 mots.
+
+Il force surtout une discipline utile côté entreprise. Pour écrire un bon prompt, il faut clarifier l'objectif, choisir les bons signaux et définir ce que veut dire « réussi ». Autrement dit, le prompt engineering sérieux n'est pas de la magie linguistique. C'est du design d'instruction.
+
+Notre position est tranchée : dans une PME, le gain ne vient pas d'un prompt « génial ». Il vient d'un prompt sobre, testable et branchable sur un workflow réel. Si vous ne devez retenir qu'une règle, gardez celle-ci : moins de contexte, mais mieux structuré ; au moins un exemple quand le rendu est spécifique ; toujours un format de sortie quand la réponse doit vivre dans un système.
+
+---
+
+The problem is almost never “the model is bad.” The problem is that the instruction sent to the model looks like a badly transcribed voice note: too long, poorly structured, no examples, no expected output. SMBs think about prompt content. They rarely think about prompt architecture.
+
+When a prompt fails, teams often blame the vendor, the model price, or “AI in general.” Most of the time the failure is more basic: the machine never received an actionable brief. Three mistakes keep showing up everywhere.
+
+## Mistake 1: too much unstructured context
+
+The classic pattern is the verbose prompt. Everything gets dumped into one block: client history, objective, leadership frustration, pasted website copy, tone constraints, CTA ideas, exceptions, and sometimes Slack fragments on top.
+
+The result is simple: the model gets material, but no hierarchy. It has to guess what is central, secondary, mandatory, or just nice to know.
+
+Before:
+
+```text
+We are an industrial SMB, we do machining, we want to follow up with trade show
+prospects, our tone should be professional but not cold, we need to mention quality,
+responsiveness, the fact that we already work with large accounts, avoid sounding
+too marketing-heavy, propose an email that converts and is not too long, and also
+highlight our design office, our lead times, and our custom work.
+```
+
+After:
+
+```text
+Role: B2B copywriter for an industrial SMB.
+Goal: write a post-event follow-up email.
+Useful context:
+- Offer: custom machining + design office
+- Positioning: responsive, precise, non-marketing tone
+- Proof: existing large-account references
+Constraints:
+- Max 120 words
+- 1 subject line + 1 email body
+- Soft CTA to a 15-minute call
+```
+
+The second prompt is not “smarter.” It is simply structured. It reduces interpretation load.
+
+## Mistake 2: no examples where few-shot would solve it
+
+Many teams ask for a very specific output without showing a single acceptable example. That is zero-shot prompting in situations where a simple few-shot setup would fix most of the variance.
+
+A model understands quality more reliably when you show what acceptable output looks like. That applies to sales emails, summaries, lead scoring, meeting notes, or internal briefs.
+
+Before:
+
+```text
+Classify this lead as hot, warm, or cold and explain why.
+```
+
+After:
+
+```text
+Classify each lead as hot, warm, or cold.
+
+Example 1
+Input: "80-employee company, asks for a demo in 2 weeks, budget already approved"
+Output:
+- Score: hot
+- Reason: explicit intent, budget identified, near-term timeline
+
+Example 2
+Input: "Student trying to understand the market"
+Output:
+- Score: cold
+- Reason: no buying intent, no company context
+
+Now process this lead:
+```
+
+Few-shot prompting is not about giving away the answer. It is about calibrating the decision frame. In practice, we often get output that is two to three times more stable with two good examples than with a longer abstract instruction.
+
+## Mistake 3: no explicit output format
+
+The third mistake, and probably the most expensive one in production, is asking for a good answer without forcing a delivery format. The model then replies like a brilliant intern with no template: sometimes good, often inconsistent, rarely plug-and-play.
+
+If the output has to feed a CRM, a spreadsheet, an n8n workflow, a SQL table, or a quick human review, the format is not a detail. It is the product.
+
+Before:
+
+```text
+Analyze this sales call and give me the key points.
+```
+
+After:
+
+```text
+Analyze this sales call.
+Mandatory output format:
+- Summary: max 3 sentences
+- Objections: bullet list
+- Urgency: low / medium / high
+- Recommended next action: 1 sentence
+- Hallucination risk: low / medium / high
+Do not output anything outside this format.
+```
+
+With that small constraint, you move from an “interesting” answer to a usable answer. That is the entire point in a business environment.
+
+## The rule of 3: minimal context, examples, format
+
+Our internal template is intentionally plain. It has three blocks:
+
+- minimal useful context;
+- one or two examples if the task is specific;
+- mandatory output format.
+
+We usually write it like this:
+
+```text
+Role:
+Goal:
+Useful context:
+Constraints:
+
+Example(s):
+
+Output format:
+```
+
+This pattern avoids both extremes:
+
+- the 600-word prompt novel;
+- the lazy 12-word prompt.
+
+More importantly, it forces useful discipline on the business side. To write a good prompt, you must clarify the goal, choose the relevant signals, and define what success actually means. Serious prompt engineering is not linguistic magic. It is instruction design.
+
+Our position is clear: in an SMB, the win does not come from a “genius prompt.” It comes from a prompt that is sober, testable, and connected to a real workflow. If you remember one rule, keep this one: less context, but structured; at least one example when the output is specific; always a required output format when the answer has to live inside a system.
+
+One last discipline matters: prompt testing should happen on a small batch of real cases, not on the one example that made the author feel smart. We usually test five to ten inputs, compare variance, and ask a blunt question: can this output be used without manual reformatting? If the answer is no, the prompt is not ready. Good prompt engineering is not about sounding clever. It is about producing stable, boringly usable output.

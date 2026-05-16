@@ -1,0 +1,194 @@
+---
+title_fr: "Notre avis sur Claude 3.7 Sonnet : ce qu'il fait mieux, ce qu'il ne règle pas"
+title_en: "Our take on Claude 3.7 Sonnet: what it does better, what it doesn't fix"
+description_fr: "Prise de position Waimia sur Claude 3.7 Sonnet après utilisation intensive : forces, limites et comparaison vs Haiku et Opus."
+description_en: "Waimia's position on Claude 3.7 Sonnet after intensive use: strengths, limits and comparison vs Haiku and Opus."
+slug: avis-claude-3-7-sonnet
+publishedAt: 2026-05-16
+editorialType: "Review"
+type: avis
+author: simon-beros
+category: productivite
+tags:
+  - claude
+  - llm-review
+  - sonnet
+  - benchmark
+readingTime: 5
+relatedSolutions: []
+relatedOffres: []
+relatedCases: []
+relatedPosts: []
+---
+
+Nous avons une opinion tranchée sur les modèles pour une raison simple : nous ne les testons pas pour faire des threads LinkedIn. Nous les utilisons dans des workflows qui coûtent de l'argent, prennent du temps humain et finissent chez des clients. Quand vous facturez à la requête, ou plus exactement au résultat produit par la requête, vous développez vite moins d'affection pour le discours marketing.
+
+Claude 3.7 Sonnet a été, pour nous, un vrai palier. Pas parce qu'il serait infaillible. Pas parce qu'il aurait « résolu » l'IA générative. Mais parce qu'il a amélioré trois choses qui comptent vraiment en production : la tenue des raisonnements longs, la cohérence sur contexte dense et la qualité sur les tâches de code ou de transformation structurée.
+
+## Ce que Sonnet 3.7 fait mieux
+
+Le progrès le plus visible, c'est la qualité de raisonnement sur les tâches longues. Claude 3.7 Sonnet reste l'un des modèles que nous préférons quand un prompt demande :
+
+- plusieurs étapes explicites ;
+- un arbitrage entre contraintes contradictoires ;
+- une sortie qui doit rester stable d'un bout à l'autre ;
+- un minimum de propreté sur du code ou du pseudo-code.
+
+Le mode de raisonnement étendu y joue un rôle réel. Il ne faut pas le mythifier. Il ne transforme pas un mauvais prompt en bonne architecture. En revanche, sur les tâches complexes, il réduit assez souvent les réponses précipitées et les faux raccourcis.
+
+Sur le code, Sonnet 3.7 a aussi montré un bon équilibre. Il n'est pas toujours le plus agressif dans la proposition. Mais il est souvent plus discipliné dans la lecture de consignes longues et dans le respect d'un cadre existant. Pour un usage d'agence, c'est précieux. Nous préférons un modèle qui modifie juste ce qu'il faut à un modèle spectaculaire qui réécrit trop.
+
+Enfin, sur le contexte long, Sonnet 3.7 tient mieux sa ligne que beaucoup de concurrents de sa génération. C'est une qualité sous-estimée. En production, la moitié du travail consiste à ne pas perdre le fil.
+
+## Haiku vs Sonnet vs Opus
+
+Chez Anthropic, nous raisonnons rarement en termes de « meilleur modèle absolu ». Nous raisonnons par place dans la chaîne.
+
+Haiku sert bien pour :
+
+- la classification simple ;
+- l'extraction légère ;
+- les tâches volumétriques à faible enjeu ;
+- les sous-étapes où le coût unitaire prime.
+
+Sonnet sert bien pour :
+
+- le cœur du raisonnement métier ;
+- la rédaction structurée ;
+- le code d'intégration ;
+- les workflows agentiques qui doivent rester cohérents.
+
+Opus, lui, a du sens quand :
+
+- l'enjeu de précision est élevé ;
+- le budget supporte un modèle plus cher ;
+- la tâche est réellement difficile et pas juste mal définie.
+
+Le point important est économique. Au 16 mai 2026, la page de prix Anthropic affiche encore Sonnet 3.7 en modèle déprécié à 3 $/MTok en entrée et 15 $/MTok en sortie. Haiku 3.5 est à 0,80 $/4 $. Opus 4.1 est à 15 $/75 $. Le saut de qualité entre Haiku et Sonnet nous paraît souvent justifier la hausse de prix. Le saut entre Sonnet et Opus, lui, ne se justifie que sur une minorité de workflows.
+
+Donc notre hiérarchie terrain est simple :
+
+- Haiku pour l'économie ;
+- Sonnet pour la production standard sérieuse ;
+- Opus pour les cas rares où la qualité maximale vaut vraiment la facture.
+
+## Les limites identifiées
+
+Il serait malhonnête de vendre Sonnet 3.7 comme un modèle « réglé ». Il a encore des limites nettes.
+
+Première limite : les hallucinations n'ont pas disparu, surtout sur des données niche, locales ou mal cadrées. Sonnet 3.7 peut rester très convaincant tout en étant factuellement à côté. Dès qu'on touche au juridique, au médical, à la donnée métier critique ou à des bases peu standardisées, la vérification reste non négociable.
+
+Deuxième limite : la latence du raisonnement étendu. Plus le modèle réfléchit, plus le temps de réponse grimpe. Pour un usage synchrone face client, il faut arbitrer entre profondeur et fluidité. Tout ne mérite pas du thinking.
+
+Troisième limite : il demande toujours une bonne architecture de prompt et d'outillage. Un modèle plus intelligent ne compense pas une chaîne mal conçue. Si vous lui donnez un prompt flou, une base sale et aucune règle de sortie, vous obtiendrez un chaos légèrement plus sophistiqué.
+
+## Notre verdict
+
+Notre verdict est net : Claude 3.7 Sonnet a été, et reste encore en 2026, un des meilleurs modèles « de travail » pour PME et équipes produit. Pas le moins cher. Pas le plus prestigieux sur le papier. Mais l'un des plus utiles quand on valorise la cohérence plus que l'effet waouh.
+
+Nous le recommandons surtout pour :
+
+- les copilotes internes ;
+- la génération de livrables structurés ;
+- les agents avec contexte métier dense ;
+- les tâches de code, d'analyse ou de synthèse où l'erreur coûte plus qu'un surcoût token modéré.
+
+Nous recommandons Haiku quand la volumétrie écrase tout. Nous sortons Opus quand le problème est réellement difficile. Mais si l'on devait choisir un modèle pivot pour une stack de production sobre, Sonnet 3.7 resterait très haut dans la liste.
+
+Dans la pratique, le pattern d'usage le plus sain ressemble souvent à ceci :
+
+- Haiku nettoie, classe ou pré-filtre ;
+- Sonnet porte le raisonnement, la rédaction et la synthèse ;
+- l'humain revoit les cas sensibles, les écarts et les sorties à impact.
+
+Ce point est plus important qu'il n'y paraît. Beaucoup d'équipes comparent les modèles comme s'il fallait désigner un vainqueur unique. En production, le meilleur modèle est souvent celui qui occupe la bonne place dans une chaîne bien pensée. Sonnet 3.7 garde cet avantage : il s'intègre très bien comme modèle central, sans exiger autour de lui une mécanique absurde pour compenser ses faiblesses.
+
+Ce qu'il fait mieux : raisonner proprement et tenir le contexte. Ce qu'il ne règle pas : la nécessité de vérifier, cadrer et architecturer. C'est précisément pour cela que nous l'aimons : il améliore la chaîne sans vous faire croire que la chaîne n'existe plus.
+
+---
+
+We have a strong opinion on models for one simple reason: we do not test them to write social posts. We use them inside workflows that cost money, consume human time, and end up in front of clients. Once you bill around requests, or more accurately around the outcomes produced by those requests, you become much less sentimental about vendor messaging.
+
+Claude 3.7 Sonnet was a real step up for us. Not because it is flawless. Not because it “solved” generative AI. But because it improved three things that matter in production: long-form reasoning, consistency on dense context, and reliability on code or structured transformation work.
+
+## What Sonnet 3.7 does better
+
+The most visible improvement is reasoning quality on longer tasks. Claude 3.7 Sonnet remains one of our preferred models when a prompt requires:
+
+- several explicit steps;
+- tradeoffs between competing constraints;
+- an output that stays stable from start to finish;
+- disciplined code or pseudo-code generation.
+
+Extended thinking matters here. It should not be romanticized. It does not turn a bad prompt into a good system design. But on harder tasks it does reduce rushed answers and false shortcuts often enough to matter.
+
+On code, Sonnet 3.7 also hit a strong balance. It is not always the most aggressive model in terms of proposing changes. But it is often more disciplined when reading long instructions and staying inside an existing framework. For agency work, that matters. We prefer a model that changes exactly what is needed over a flashy model that rewrites too much.
+
+Finally, on long context, Sonnet 3.7 holds its line better than many peers of its generation. That quality is underrated. In production, half the job is simply not losing the thread.
+
+## Haiku vs Sonnet vs Opus
+
+Inside Anthropic's lineup, we almost never think in terms of “best model overall.” We think in terms of position in the chain.
+
+Haiku works well for:
+
+- simple classification;
+- light extraction;
+- high-volume low-stakes tasks;
+- subtasks where unit cost dominates.
+
+Sonnet works well for:
+
+- core business reasoning;
+- structured writing;
+- integration code;
+- agentic workflows that must remain coherent.
+
+Opus makes sense when:
+
+- precision stakes are high;
+- the budget supports a more expensive model;
+- the task is genuinely hard rather than merely poorly specified.
+
+The economic point matters. As of May 16, 2026, Anthropic's pricing page still lists deprecated Sonnet 3.7 at $3/MTok input and $15/MTok output. Haiku 3.5 is $0.80/$4. Opus 4.1 is $15/$75. In our experience, the jump from Haiku to Sonnet often justifies the cost increase. The jump from Sonnet to Opus only justifies itself on a minority of workflows.
+
+So our field hierarchy is simple:
+
+- Haiku for economics;
+- Sonnet for serious default production work;
+- Opus for rarer cases where maximum quality is actually worth the bill.
+
+## The limits we still see
+
+It would be dishonest to describe Sonnet 3.7 as “solved.” It still has clear limits.
+
+First, hallucinations are still there, especially on niche, local, or poorly framed data. Sonnet 3.7 can remain very convincing while being factually wrong. As soon as the task touches legal, medical, critical business data, or weakly standardized sources, verification remains non-negotiable.
+
+Second, extended-thinking latency is real. The more the model thinks, the slower the answer. In synchronous user-facing contexts, you need to choose between depth and flow. Not every request deserves thinking mode.
+
+Third, it still requires good prompt and tooling architecture. A smarter model does not compensate for a badly designed chain. If you feed it a vague prompt, dirty source data, and no output contract, you will get slightly more sophisticated chaos.
+
+## Our verdict
+
+Our verdict is direct: Claude 3.7 Sonnet was, and in 2026 still remains, one of the best working models for SMBs and product teams. Not the cheapest. Not the most prestigious on paper. But one of the most useful when you value coherence more than spectacle.
+
+We recommend it mainly for:
+
+- internal copilots;
+- structured deliverable generation;
+- agents operating on dense business context;
+- code, analysis, or synthesis tasks where the cost of error is higher than a moderate token premium.
+
+We recommend Haiku when volume dominates everything. We bring in Opus when the problem is genuinely difficult. But if we had to choose one pivot model for a pragmatic production stack, Sonnet 3.7 would still sit very high on the list.
+
+In practice, the healthiest usage pattern usually looks like this:
+
+- Haiku cleans, classifies, or pre-filters;
+- Sonnet handles reasoning, writing, and synthesis;
+- a human reviews the sensitive cases or high-impact outputs.
+
+That matters more than raw benchmark obsession. Many teams compare models as if they had to crown one universal winner. In production, the best model is often the one that occupies the right place inside a well-designed chain. Sonnet 3.7 earns that place unusually often.
+
+One more point explains our bias: Sonnet is rarely the model that forces the most compensating architecture around it. We do not need as many patches, retries, or defensive prompt tricks to keep it useful on long tasks. That does not make it perfect. It makes it cheaper to supervise. For agencies and SMB teams, that operational calm is worth more than a flashy benchmark headline over time in daily production.
+
+What it does better: reason cleanly and hold context. What it does not fix: the need to verify, constrain, and architect the workflow. That is precisely why we value it. It improves the chain without pretending the chain no longer matters.
