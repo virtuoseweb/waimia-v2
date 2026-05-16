@@ -1341,6 +1341,34 @@ const proofPoints = defineCollection({
 });
 
 // ═════════════════════════════════════════════════════════════════
+// Tier 6 · guarantees (promesses contractuelles Waimia) — T6.5
+// ═════════════════════════════════════════════════════════════════
+
+const guarantees = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/guarantees' }),
+  schema: z.object({
+    slug: z.string().regex(/^[a-z0-9-]+$/),
+    label_fr: z.string().min(2).max(100),
+    label_en: z.string().min(2).max(100),
+    promise_fr: z.string().min(20).max(280),
+    promise_en: z.string().min(20).max(280),
+    detail_fr: z.string().optional(),
+    detail_en: z.string().optional(),
+    icon: z.string().optional(),
+    category: z.enum([
+      'remboursement',
+      'delai',
+      'qualite',
+      'rgpd',
+      'support',
+      'autre',
+    ]),
+    related_offres: z.array(z.string()).default([]),
+    publishedAt: z.coerce.date(),
+  }),
+});
+
+// ═════════════════════════════════════════════════════════════════
 
 export const collections = {
   // V1 existantes
@@ -1382,4 +1410,6 @@ export const collections = {
   // Tier 5 + Tier 6 pre-hook batch 8 (2026-05-16)
   comparisons,
   proofPoints,
+  // Tier 6 pre-hook batch 9 (2026-05-16)
+  guarantees,
 };

@@ -52,8 +52,8 @@ Tous les 5 axes stratégiques **VALIDÉS** :
 - [✅] **T2.4e** · 14 sections W6 audit (commit `4539a00`, Worker Sonnet) · 12/14 déjà conformes · HeroFullBleed.astro patché (wrap-wide ajouté) · GuaranteeBlock.astro bugfix </div> fermant manquant
 - [✅] **T2.4f** · Padding-top calc(--spacing-section + --header-height) déjà présent sur HeroCentered.astro:38 + HeroFullBleed.astro:31 (commits précédents) · clear sticky header garanti
 - [🟡] **T2.4c** · Migration `OffresDetailTemplate` vers SectionsRenderer reportée session next (schemas offres à étendre avec sections optional)
-- [ ] **T2.5a** · Créer `/agence/design-system` page enrichie avec showcase sections
-- [ ] **T2.5b** · 1 example per section variant dans le showcase
+- [✅] **T2.5a** · /agence/design-system enrichi (commit `8344596`, Worker Sonnet) · NewsletterSignup live + PainPointInline + ShareButtons + Form elements + section Animations + EN miroir créé
+- [✅] **T2.5b** · Showcase déjà couvrait 19 sections W6 · +3 molecules (Newsletter, PainPoint, Share) + form elements + 5 animations live (commit `8344596`)
 
 ### 🛡️ Garde-fou anti-répétition (mandat Simon 2026-05-15)
 
@@ -113,9 +113,9 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [✅] **T5.2a** · Schema integrations (commit `a480b10`, Opus pre-hook) · category enum 10
 - [✅] **T5.2b** · 20 integrations livrées (commit `042d484`, Worker Sonnet) · CRM/automation/productivity/data/AI/commerce/analytics/hosting/communication
 - [✅] **T5.2c** · Routes /integrations/[slug] + index FR+EN livrées (commit `f2f65e5`, Worker Sonnet)
-- [ ] **T5.3a** · Créer schema `comparisons` (slug_a, slug_b, dimension_comparison_array)
-- [ ] **T5.3b** · Rédiger 10 comparaisons (claude-vs-gpt, n8n-vs-make, etc.)
-- [ ] **T5.3c** · Route `/comparer/[slug-a]-vs-[slug-b].astro`
+- [✅] **T5.3a** · Schema comparisons (commit `ac1ae81`, Opus pre-hook) · slug regex {a}-vs-{b} + dimensions min 3
+- [✅] **T5.3b** · 10 comparaisons livrées (commit `26c0263`, Worker Sonnet) · AI/automation/CRM/hosting/productivity/analytics
+- [✅] **T5.3c** · Routes /comparer/[slug] + index FR+EN (commit `26c0263`, Worker Sonnet)
 - [ ] **T5.4a** · Route `/ressources/tag/[slug].astro` (cross-collection filter)
 - [ ] **T5.4b** · Route `/ressources/auteur/[slug].astro`
 - [ ] **T5.4c** · Route `/ressources/archive/[YYYY-MM].astro`
