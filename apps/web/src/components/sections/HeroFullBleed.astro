@@ -11,6 +11,7 @@ const isFr = lang === 'fr';
 ---
 
 <section class="hero-fb" data-bg={data.background_kind}>
+  <div class="wrap-wide">
   <div class="hero-fb__inner">
     <h1 class="reveal-mask-up" set:html={isFr ? data.h1_fr : data.h1_en} />
     {(isFr ? data.lede_fr : data.lede_en) && (
@@ -21,6 +22,7 @@ const isFr = lang === 'fr';
         {isFr ? data.cta_primary.label_fr : data.cta_primary.label_en}
       </Button>
     )}
+  </div>
   </div>
 </section>
 
