@@ -1,0 +1,157 @@
+---
+title_fr: "La stack technique Waimia"
+title_en: "The Waimia technical stack"
+slug: "tooling-stack-waimia"
+summary_fr: "Waimia construit sur Astro + Vercel en frontend, Anthropic Claude pour les agents IA, Stripe pour les paiements, et un ensemble d'outils open source pour l'analytique et l'automatisation. Chaque outil est choisi pour sa fiabilité et son API."
+summary_en: "Waimia builds on Astro + Vercel for frontend, Anthropic Claude for AI agents, Stripe for payments, and a set of open source tools for analytics and automation. Each tool is chosen for its reliability and API."
+category: tooling
+tags: [astro, vercel, anthropic, stripe, stack-technique]
+embedding_ready: true
+publishedAt: 2026-05-16
+---
+
+## Philosophie de sélection : API-first, pas de lock-in inutile
+
+La **stack technique Waimia** n'est pas construite pour cocher des cases de modernité. Elle suit une logique simple : choisir des briques fiables, documentées, pilotables par API, et remplaçables si le contexte change. Le critère principal n'est pas la popularité d'un outil, mais sa capacité à s'intégrer proprement dans un système réel.
+
+Cette philosophie produit quelques règles de sélection :
+
+- **API-first** : un bon outil doit pouvoir être piloté sans clics manuels permanents.
+- **faible dépendance** : éviter les plateformes qui capturent trop de logique métier.
+- **lisibilité** : logs, webhooks, événements et erreurs doivent être exploitables.
+- **interopérabilité** : la stack doit dialoguer avec le CRM, les formulaires, les documents et les agents.
+
+Le verrou à éviter est moins technique que stratégique : si un outil empêche de faire évoluer le système, il ralentit le business.
+
+## Frontend & déploiement
+
+Pour le frontend, Waimia s'appuie sur **Astro**, **MDX** et **Vercel**.
+
+### Astro
+
+Astro convient bien à un site éditorial dense :
+
+- rendu rapide ;
+- pages statiques ou hybrides selon le besoin ;
+- bonne séparation entre contenu et rendu ;
+- intégration propre avec les collections de contenu.
+
+Dans la logique Waimia, Astro sert aussi de base à une architecture **headless** modulaire : le contenu est structuré, les templates sont réutilisables, et les pages peuvent évoluer sans repartir de zéro.
+
+### MDX
+
+Le **MDX** permet de maintenir un contenu riche tout en gardant un format lisible. C'est utile pour :
+
+- les offres ;
+- les études de cas ;
+- le glossaire ;
+- la base de connaissance ;
+- les contenus prêts pour le chunking RAG.
+
+Le MDX offre un bon compromis entre expressivité éditoriale et structure exploitable par des scripts, des parseurs ou des pipelines d'indexation.
+
+### Vercel
+
+**Vercel** est utilisé pour le déploiement et l'exploitation web rapide :
+
+- previews ;
+- déploiements fréquents ;
+- gestion simple du frontend ;
+- intégration naturelle avec un flux de publication court.
+
+Le choix n'est pas idéologique. Il est pragmatique : un site marketing et documentaire doit pouvoir évoluer vite, sans friction d'infra disproportionnée.
+
+## IA & agents
+
+Pour la couche IA, Waimia privilégie **Anthropic Claude** et les architectures de récupération contrôlée.
+
+### Anthropic Claude
+
+Claude est utilisé comme socle pour les agents et assistants métier lorsque le besoin demande :
+
+- une bonne tenue instructionnelle ;
+- des sorties longues et structurées ;
+- une interaction fiable avec des workflows guidés ;
+- une capacité à rester cadré sur des règles métier explicites.
+
+Le choix d'un modèle n'a de sens que s'il s'insère dans un système. Un bon agent n'est pas « juste un prompt ». C'est un flux avec entrées, garde-fous, validations, logs et métriques.
+
+### RAG et base documentaire
+
+Quand le contexte métier doit être injecté, Waimia s'appuie sur des approches **[RAG](/glossaire/rag)** :
+
+- indexation par [embeddings](/glossaire/embeddings) ;
+- recherche vectorielle ;
+- contextualisation contrôlée ;
+- séparation claire entre connaissance source et génération.
+
+Cette approche évite de surcharger le prompt avec du contexte instable et permet de maintenir des bases documentaires vivantes.
+
+## Paiements & abonnements
+
+Pour la facturation, Waimia s'appuie sur **Stripe**.
+
+### Pourquoi Stripe
+
+Stripe est utile pour plusieurs raisons pratiques :
+
+- API robuste ;
+- gestion claire des paiements ;
+- webhooks fiables ;
+- bon support des logiques d'abonnement ou de facturation événementielle.
+
+### Ce que la couche paiement doit gérer
+
+Dans une logique de services IA ou de cockpit client, la couche paiement doit pouvoir dialoguer avec le reste du système :
+
+- activation d'un accès ;
+- changement de plan ;
+- journalisation d'un événement ;
+- synchronisation avec le CRM ou le support.
+
+Le choix de Stripe répond donc moins à une préférence de marque qu'à une exigence d'orchestration.
+
+## Analytique & monitoring
+
+Waimia privilégie une analytique orientée décision, pas un empilement de dashboards.
+
+### Ce qu'on suit côté web
+
+- trafic qualifié ;
+- profondeur de lecture ;
+- conversion vers prise de contact ;
+- performance des pages d'offre ou de contenu.
+
+### Ce qu'on suit côté agents
+
+- latence ;
+- [cost-per-task](/glossaire/cost-per-task) ;
+- taux d'automatisation ;
+- taux d'escalade ;
+- erreurs métier récurrentes ;
+- [KPI IA](/glossaire/kpi-ia) liés au résultat business.
+
+### Le rôle des logs
+
+Le monitoring ne sert pas seulement à déboguer. Il sert à gouverner :
+
+- savoir ce que le système a fait ;
+- comprendre pourquoi il a échoué ;
+- comparer coût et utilité ;
+- décider s'il faut corriger, étendre ou arrêter.
+
+## Ce qu'on évite et pourquoi
+
+La stack Waimia évite trois catégories d'outils.
+
+### Les plateformes opaques
+
+Si un outil exécute beaucoup, mais expose mal ses événements, ses erreurs ou ses données, il devient difficile à piloter. C'est incompatible avec une promesse de système mesuré.
+
+### Les lock-ins inutiles
+
+Un outil qui capte le contenu, la logique et la diffusion au même endroit peut sembler confortable au départ. Il rend ensuite toute évolution plus coûteuse. Waimia préfère des briques plus sobres, mais mieux articulées.
+
+### Les surcouches prématurées
+
+Enfin, on évite d'ajouter un orchestrateur, une base vectorielle ou une couche d'observabilité « parce que ça fait sérieux ». Chaque outil doit répondre à un besoin réel. Tant qu'un système tient avec moins de surface technique, moins reste mieux.

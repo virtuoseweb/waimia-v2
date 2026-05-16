@@ -1,0 +1,112 @@
+---
+title_fr: "Doctrine Composable V2 — architecture modulaire du contenu Waimia"
+title_en: "Composable V2 Doctrine — Waimia's modular content architecture"
+slug: "doctrine-composable-v2"
+summary_fr: "Waimia bâtit son site sur une architecture Composable V2 : 19 sections réutilisables, un CMS headless Astro, et une logique data-driven qui sépare le contenu de la présentation pour un max de flexibilité éditoriale."
+summary_en: "Waimia builds its site on a Composable V2 architecture: 19 reusable sections, a headless Astro CMS, and a data-driven logic that separates content from presentation for maximum editorial flexibility."
+category: doctrine
+tags: [composable, astro, headless-cms, sections, architecture]
+embedding_ready: true
+publishedAt: 2026-05-16
+---
+
+## Pourquoi « Composable » ?
+
+La doctrine **Composable V2** part d'un constat simple : un site qui grandit vite devient difficile à maintenir si chaque page mélange contenu, logique de rendu et choix de structure. À court terme, cela semble rapide. À moyen terme, cela ralentit tout : l'édition, la réutilisation, l'internationalisation et l'automatisation.
+
+Chez Waimia, « composable » signifie qu'une page n'est plus un bloc artisanal isolé. C'est une composition de sections finies, typées et réutilisables. Le contenu reste dans des entrées MDX structurées. Le rendu est délégué à un catalogue fermé de composants. Le schéma fait l'arbitrage entre les deux.
+
+Cette séparation est particulièrement utile dans un contexte IA. Un agent peut produire ou transformer du contenu de manière fiable s'il sait quelles structures existent. En revanche, s'il peut inventer librement des composants, il dérive vite. La doctrine Composable V2 réduit cette surface d'erreur.
+
+## Les 19 sections W6 : principes de conception
+
+Le dépôt Waimia documente explicitement **19 sections W6** comme cible Tier 1. Elles couvrent les besoins récurrents d'un site éditorial et commercial sans ouvrir un catalogue infini. Le point important n'est pas le nombre lui-même, mais la discipline de fermeture : on préfère un inventaire clair à une forêt de variantes improvisées.
+
+### Ce que couvre le catalogue
+
+Les 19 sections recensées dans le design system couvrent notamment :
+
+- les heroes ;
+- les barres de preuve ;
+- les timelines de méthode ;
+- les grilles de bénéfices ;
+- les comparatifs ;
+- les blocs média ;
+- les tableaux tarifaires ;
+- les FAQ ;
+- les témoignages ;
+- les CTA finaux et intermédiaires.
+
+### Les règles de conception
+
+Chaque section suit les mêmes principes :
+
+- une responsabilité éditoriale précise ;
+- un schéma de données lisible ;
+- un rendu stable ;
+- peu de variantes, mais des variantes utiles ;
+- une containerisation cohérente pour éviter les décalages visuels.
+
+L'intérêt est double. D'une part, l'équipe édite plus vite. D'autre part, les futures transformations automatisées restent contrôlées, parce que le système sait exactement quels blocs il est autorisé à assembler.
+
+## Modular content : séparer données et rendu
+
+Le coeur de la doctrine Composable V2 est la séparation entre **données**, **schéma** et **rendu**.
+
+### Données
+
+Le contenu vit dans des fichiers structurés, souvent MDX. On y trouve les textes, les chiffres, les listes, les CTA, parfois les métriques. Le contenu décrit l'intention, pas la mécanique de rendu.
+
+### Schéma
+
+Le schéma valide la forme autorisée. Dans la stack Waimia, cela passe par des contrats stricts qui empêchent un contenu invalide d'entrer silencieusement dans la chaîne. Un champ absent, un identifiant faux ou une structure mal formée doit casser tôt, pas après publication.
+
+### Rendu
+
+Le rendu passe par un composant générique, typiquement `SectionsRenderer`, qui lit un tableau de sections puis délègue à chaque composant enregistré. Le catalogue est fermé. Une section inconnue ne doit pas être tolérée comme si de rien n'était.
+
+Cette approche ressemble à un **CMS headless** très cadré : le contenu est portable, la présentation est centralisée, et la relation entre les deux reste contrôlée. C'est aussi un bon terrain pour du [RAG](/glossaire/rag) ou pour des workflows d'édition assistée, parce que le contenu devient plus facile à indexer, chunker et réassembler.
+
+## Avantages éditoriaux concrets
+
+La doctrine n'a d'intérêt que si elle améliore le travail réel. Sur ce point, les bénéfices sont très concrets.
+
+### Réutilisation sans copier-coller
+
+Quand une preuve sociale, un comparatif ou une séquence de méthode fonctionne, on peut la réemployer sur plusieurs pages sans dupliquer une page entière. On réutilise le bloc, pas la dette.
+
+### Édition plus rapide
+
+L'équipe sait à l'avance quelles structures sont disponibles. Cela évite les débats de mise en page à chaque nouveau contenu. Le temps gagné peut être réinvesti dans la densité du fond, pas dans la mécanique du gabarit.
+
+### Cohérence de ton et de structure
+
+Un site de marque souffre souvent d'une hétérogénéité silencieuse : une page longue, une page creuse, trois styles de hero, cinq modèles de CTA. Avec un catalogue fermé, la cohérence devient un effet de système, pas un effort de mémoire.
+
+### Préparation RAG et automation
+
+Un contenu modulaire, bien balisé, se prête mieux à l'indexation par [embeddings](/glossaire/embeddings) qu'un assemblage irrégulier de blocs libres. Les chunks sont plus propres, les sections sont autonomes, et la structure logique aide à retrouver l'information utile.
+
+### Migration progressive
+
+Un autre avantage, souvent sous-estimé, est la migration sans casse. Waimia a déjà documenté l'adoption Composable V2 comme une migration en couches, pas comme une réécriture totale. On peut migrer page par page, section par section, en gardant un critère simple : le rendu prod reste correct ou non.
+
+## Limites et arbitrages
+
+Une architecture composable bien menée apporte de la souplesse. Mal menée, elle produit l'effet inverse : un système trop abstrait, difficile à éditer, avec des schémas qui changent trop souvent. Il faut donc assumer quelques arbitrages.
+
+### Tout ne doit pas devenir section
+
+Si chaque détail visuel devient un type de section, on recrée la complexité qu'on prétend éviter. La bonne discipline consiste à garder un catalogue serré et à n'ajouter un nouveau bloc que s'il couvre un usage récurrent.
+
+### La flexibilité n'est pas infinie
+
+Une équipe éditoriale ne peut pas tout demander au rendu si elle veut conserver la cohérence du système. Certains désirs ponctuels doivent être refusés ou absorbés dans une variante existante. C'est un arbitrage sain.
+
+### Le schéma doit rester stable
+
+Un schéma qui bouge en permanence ruine la promesse du composable. On réécrit alors le contenu plusieurs fois, et les gains disparaissent. Il vaut mieux figer un contrat imparfait mais durable que perfectionner l'abstraction tous les quinze jours.
+
+### Le rendu doit rester lisible
+
+Dernier point : une architecture modulaire ne justifie pas une expérience froide ou mécanique. La doctrine Composable V2 sépare le fond de la forme, mais elle ne retire pas la responsabilité éditoriale. Une page doit rester lisible, hiérarchisée et incarnée. Le système organise le contenu ; il ne pense pas à la place de l'auteur.

@@ -1,0 +1,179 @@
+---
+title_fr: "Mesurer le ROI d'un projet IA : métriques et méthode"
+title_en: "Measuring the ROI of an AI project: metrics and method"
+slug: "ia-strategy-roi-mesure"
+summary_fr: "Le ROI d'un projet IA se mesure sur 3 axes : coût par tâche automatisée, temps économisé par collaborateur, et revenus nouveaux générés. Sans baseline avant déploiement, il est impossible de prouver la valeur créée."
+summary_en: "The ROI of an AI project is measured on 3 axes: cost per automated task, time saved per employee, and new revenue generated. Without a pre-deployment baseline, it is impossible to prove the value created."
+category: ia-strategy
+tags: [roi-ia, kpi-ia, mesure, cost-per-task, time-saved]
+embedding_ready: true
+publishedAt: 2026-05-16
+---
+
+## Le problème du ROI IA : sans baseline, pas de preuve
+
+Le **ROI d'un projet IA** est souvent mal mesuré pour une raison triviale : on commence à observer après avoir déployé. À ce moment-là, tout devient flou. Les équipes ont déjà changé leurs habitudes, les volumes ont bougé, et chacun reconstruit le passé à sa manière.
+
+La règle de base est simple : **sans baseline, pas de preuve**. Il faut documenter l'état initial avant tout pilote. Sinon, le projet dépend d'une perception, pas d'un fait.
+
+Le cadre Waimia repose sur trois axes principaux :
+
+- le **coût par tâche** ;
+- le **temps récupéré** ;
+- le **revenu additionnel**.
+
+Ces trois axes couvrent l'essentiel d'un projet IA en PME. Ils peuvent ensuite être complétés par des métriques de qualité ou de risque, mais ils forment le noyau dur de la démonstration.
+
+## Axe 1 · Cost-per-task
+
+Le premier axe est le **[cost-per-task](/glossaire/cost-per-task)**. Il répond à une question très concrète : combien coûte l'exécution d'une tâche avant et après automatisation ?
+
+### Ce qu'on compare
+
+Avant automatisation, on estime :
+
+- temps humain mobilisé ;
+- coût horaire chargé ;
+- éventuelles reprises ou validations ;
+- outils nécessaires à l'exécution.
+
+Après automatisation, on regarde :
+
+- coût modèle ou API ;
+- infrastructure éventuelle ;
+- temps humain de supervision ;
+- erreurs ou escalades.
+
+### Pourquoi cette métrique est utile
+
+Le cost-per-task a trois qualités :
+
+- il est compréhensible par le métier ;
+- il force à regarder le coût complet, pas seulement les tokens ;
+- il permet de comparer un workflow IA à un workflow manuel sans rester dans l'abstraction.
+
+### Ce qu'il ne faut pas oublier
+
+Une tâche « automatisée » mais relue longuement par un humain n'est pas vraiment automatisée. Le coût de supervision doit être intégré, sinon le gain est artificiellement gonflé.
+
+## Axe 2 · Time-saved
+
+Le deuxième axe mesure le **temps économisé par collaborateur et par mois**. C'est souvent la métrique la plus parlante pour une PME, à condition de la calculer sérieusement.
+
+### Ce qu'on cherche à mesurer
+
+- nombre de tâches concernées ;
+- temps moyen avant ;
+- temps moyen après ;
+- temps récupéré sur une semaine ou un mois ;
+- réallocation effective de ce temps.
+
+### Pourquoi ce n'est pas juste une métrique de confort
+
+Le temps récupéré ne vaut pas grand-chose s'il ne sert à rien. Il faut donc regarder où il est réinvesti :
+
+- traitement plus rapide ;
+- suivi commercial plus dense ;
+- capacité de production accrue ;
+- réduction d'un goulot d'étranglement.
+
+Dans certains cas, le bénéfice principal n'est pas une baisse de coût immédiate, mais une hausse de capacité sans recrutement additionnel. C'est une forme de ROI, à condition qu'elle soit documentée honnêtement.
+
+### Attention aux gains « fantômes »
+
+Beaucoup d'équipes surestiment le time-saved en additionnant des micro-gains théoriques. Waimia préfère partir d'un échantillon concret, sur un volume réel, plutôt que d'additionner des promesses minute par minute.
+
+## Axe 3 · Revenue uplift
+
+Le troisième axe mesure le **revenu additionnel** généré par le système. C'est souvent le plus intéressant, mais aussi le plus difficile à attribuer.
+
+### Les cas où cet axe est pertinent
+
+- qualification plus rapide des leads ;
+- meilleure réactivité commerciale ;
+- réduction du délai de réponse ;
+- relances plus systématiques ;
+- upsell ou cross-sell mieux instrumentés.
+
+### Ce qu'on peut suivre
+
+- nouveaux leads traités ;
+- taux de conversion avant/après ;
+- pipeline influencé ;
+- valeur moyenne créée par séquence ;
+- réduction du temps entre signal et action.
+
+### Ce qu'il faut éviter
+
+Il faut éviter d'attribuer au système IA tout revenu observé après déploiement. L'attribution doit rester prudente. Si trois variables ont changé en même temps, le bon réflexe est de le dire au lieu de forcer une causalité trop propre.
+
+## Comment établir la baseline avant déploiement
+
+La baseline se construit avant le pilote, pas après. Elle peut rester légère, mais elle doit être explicite.
+
+### Le minimum à documenter
+
+- volume traité sur une période représentative ;
+- temps moyen par tâche ;
+- coût humain estimé ;
+- taux d'erreur ou de reprise ;
+- impact business existant, s'il est mesurable.
+
+### Comment la collecter
+
+Selon le contexte, on combine :
+
+- exports d'outils ;
+- observation terrain ;
+- mesure sur échantillon ;
+- interviews des équipes ;
+- estimation validée par le sponsor métier.
+
+Le but n'est pas une précision comptable absolue. Le but est une base suffisamment solide pour comparer avant/après sans romaniser l'évolution.
+
+## Le rapport de valeur mensuel : format recommandé
+
+Une fois le système lancé, Waimia recommande un **rapport de valeur mensuel** très lisible.
+
+### Structure recommandée
+
+- volume traité ;
+- taux d'automatisation ;
+- [KPI IA](/glossaire/kpi-ia) de qualité ;
+- cost-per-task ;
+- temps économisé ;
+- uplift business observé ;
+- incidents, dérives ou points de vigilance ;
+- décision du mois suivant : corriger, étendre, stabiliser.
+
+### Pourquoi un format court
+
+Un rapport trop long ne sera pas lu. Un rapport court force à distinguer :
+
+- ce qui prouve la valeur ;
+- ce qui doit être amélioré ;
+- ce qui n'est pas encore démontré.
+
+## Erreurs de mesure fréquentes
+
+### Mesurer trop tard
+
+Erreur numéro un : commencer le suivi après le déploiement. À ce moment-là, la comparaison devient fragile.
+
+### Confondre adoption et valeur
+
+Un outil utilisé tous les jours n'a pas forcément un fort [ROI IA](/glossaire/roi-ia). L'usage n'est qu'un signal intermédiaire.
+
+### Oublier les coûts invisibles
+
+Supervision, maintenance, correction des prompts, nettoyage des données : ces coûts doivent entrer dans l'équation.
+
+### Suivre trop d'indicateurs
+
+Un tableau de bord chargé donne une impression de pilotage, mais brouille souvent la décision. Trois à cinq métriques solides valent mieux que quinze métriques approximatives.
+
+### Attribuer trop vite
+
+Quand une amélioration business suit un déploiement IA, la tentation est grande d'attribuer tout le mérite au système. Une mesure sérieuse reste prudente, documente les autres variables et assume l'incertitude quand elle existe.
+
+La méthode de mesure du ROI IA doit donc rester simple, mais rigoureuse. Le projet n'a pas besoin d'un tableau complexe. Il a besoin d'une preuve défendable.
