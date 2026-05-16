@@ -1266,6 +1266,81 @@ const knowledgeBase = defineCollection({
 });
 
 // ═════════════════════════════════════════════════════════════════
+// Tier 5 · comparisons (versus-pages SEO programmatique) — T5.3
+// ═════════════════════════════════════════════════════════════════
+
+const comparisons = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/comparisons' }),
+  schema: z.object({
+    slug: z.string().regex(/^[a-z0-9-]+-vs-[a-z0-9-]+$/),
+    slug_a: z.string(),
+    slug_b: z.string(),
+    name_a: z.string().min(1),
+    name_b: z.string().min(1),
+    category: z.enum([
+      'ai-platform',
+      'crm',
+      'automation',
+      'analytics',
+      'hosting',
+      'productivity',
+      'autre',
+    ]),
+    dimensions: z
+      .array(
+        z.object({
+          name_fr: z.string(),
+          name_en: z.string(),
+          a_fr: z.string(),
+          a_en: z.string(),
+          b_fr: z.string(),
+          b_en: z.string(),
+          winner: z.enum(['a', 'b', 'tie']).optional(),
+        }),
+      )
+      .min(3),
+    verdict_fr: z.string().min(40).max(400),
+    verdict_en: z.string().min(40).max(400),
+    use_case_recommendation_fr: z.string().optional(),
+    use_case_recommendation_en: z.string().optional(),
+    publishedAt: z.coerce.date(),
+    seo: z.object({
+      meta_description_fr: z.string().max(160),
+      meta_description_en: z.string().max(160),
+    }).optional(),
+  }),
+});
+
+// ═════════════════════════════════════════════════════════════════
+// Tier 6 · proof-points (datapoints réutilisables sections) — T6.4
+// ═════════════════════════════════════════════════════════════════
+
+const proofPoints = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/proof-points' }),
+  schema: z.object({
+    slug: z.string().regex(/^[a-z0-9-]+$/),
+    value: z.string().min(1),
+    label_fr: z.string().min(2).max(120),
+    label_en: z.string().min(2).max(120),
+    source_fr: z.string().optional(),
+    source_en: z.string().optional(),
+    source_url: z.string().optional(),
+    category: z.enum([
+      'roi',
+      'time',
+      'volume',
+      'quality',
+      'cost',
+      'adoption',
+      'autre',
+    ]),
+    related_cases: z.array(z.string()).default([]),
+    related_offres: z.array(z.string()).default([]),
+    publishedAt: z.coerce.date(),
+  }),
+});
+
+// ═════════════════════════════════════════════════════════════════
 
 export const collections = {
   // V1 existantes
@@ -1304,4 +1379,7 @@ export const collections = {
   painPoints,
   integrations,
   knowledgeBase,
+  // Tier 5 + Tier 6 pre-hook batch 8 (2026-05-16)
+  comparisons,
+  proofPoints,
 };

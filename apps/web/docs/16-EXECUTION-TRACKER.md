@@ -49,8 +49,8 @@ Tous les 5 axes stratégiques **VALIDÉS** :
 - [✅] **T2.4a** · Page pilote `/test-composable` créée avec 5 sections inline (HeroSplit + ProofBar + MethodTimeline + FeatureGrid + CtaFinal) — preuve end-to-end fonctionnelle
 - [✅] **T2.4b** · HTTP 200 sur `/test-composable` validé + signature "composable system Waimia" trouvée dans HTML rendu
 - [✅] **T2.4d** · **Fixes visuels post-validation Playwright (2026-05-15)** — 3 bugs systémiques détectés et patchés : (1) tokens fantômes `--spacing-section`/`--spacing-block` ajoutés dans `tokens.css:160-162` (padding silencieux à 0 avant fix), (2) container `.wrap-wide` ajouté dans 5 sections (HeroSplit, ProofBar, MethodTimeline, FeatureGrid, CtaFinal), (3) HeroSplit `padding-top: calc(--spacing-section + --header-height)` pour clear sticky header — preuve `/Users/simonberos/test-composable-final.png` H1 entièrement visible
-- [ ] **T2.4e** · Patcher container `.wrap-wide` dans les 14 sections W6 restantes (HeroCentered, HeroFullBleed, StatBlock, SocialProof, ComparisonTable, TimelineBlock, MediaBlock, PricingTable, FaqAccordion, ObjectionHandler, CtaBand, CtaInline, TestimonialBlock, GuaranteeBlock) — pattern : wrap entre `<section>` et premier `<div>` interne
-- [ ] **T2.4f** · Ajouter `padding-top: calc(--spacing-section + --header-height)` aux 2 autres heros W6 (HeroCentered, HeroFullBleed) puisqu'ils peuvent être première section d'une page
+- [✅] **T2.4e** · 14 sections W6 audit (commit `4539a00`, Worker Sonnet) · 12/14 déjà conformes · HeroFullBleed.astro patché (wrap-wide ajouté) · GuaranteeBlock.astro bugfix </div> fermant manquant
+- [✅] **T2.4f** · Padding-top calc(--spacing-section + --header-height) déjà présent sur HeroCentered.astro:38 + HeroFullBleed.astro:31 (commits précédents) · clear sticky header garanti
 - [🟡] **T2.4c** · Migration `OffresDetailTemplate` vers SectionsRenderer reportée session next (schemas offres à étendre avec sections optional)
 - [ ] **T2.5a** · Créer `/agence/design-system` page enrichie avec showcase sections
 - [ ] **T2.5b** · 1 example per section variant dans le showcase
@@ -81,8 +81,8 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [ ] **T3.2d** · Migrer 12 MDX produits/abonnements
 - [ ] **T3.2e** · Supprimer collections `produits`, `abonnements`
 - [✅] **T3.3a** · `blog.type` enum étendu avec `'field-note'` et `'veille-ia'` (commit `8f4af71`, Opus pre-hook)
-- [ ] **T3.3b** · Migrer 1 MDX `field-notes` → `blog/type:field-note`
-- [ ] **T3.3c** · Migrer 1 MDX `veille-ia` → `blog/type:veille-ia`
+- [✅] **T3.3b** · 1 MDX migré (commit `c8ad9de`, Worker Sonnet) · migrated-fieldnote-composable-adoption.mdx avec type:"field-note"
+- [✅] **T3.3c** · 1 MDX migré (commit `c8ad9de`, Worker Sonnet) · migrated-veille-gpt-4o-vision-update.mdx avec type:"veille-ia"
 - [ ] **T3.3d** · Supprimer collections `fieldNotes`, `veilleIA`
 - [ ] **T3.4** · Renommer `solutions` → `usecases` (collection + routes + mega-menu)
 
@@ -98,9 +98,9 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [ ] **T4.3a** · Créer schema `prompts` (name, purpose, system_prompt, variables, sample_output)
 - [ ] **T4.3b** · Créer 5 prompts initiaux : audit-écran, copywriting-offre, persona-deduction, brand-checker, schema-generator
 - [ ] **T4.3c** · Page `/agence/prompts` (interne ou public si décidé)
-- [ ] **T4.4a** · Créer schema `pain-points` (slug, pain, severity, affected_personas, affected_secteurs, solution)
-- [ ] **T4.4b** · Créer 12-15 pain-points cross-référencés personas × secteurs
-- [ ] **T4.4c** · Composant `<PainPointInline />` réutilisable
+- [✅] **T4.4a** · Schema pain-points créé (commit `a480b10`, Opus pre-hook) · slug + pain_fr/en + severity enum + affected_personas/secteurs + solution_fr/en + cross-refs
+- [✅] **T4.4b** · 12 pain-points livrés (commit `8c960fe`, Worker Sonnet) · 4 categories (Productivité/Acquisition/Pilotage/Gouvernance) · severity critical×4 high×5 medium×2
+- [✅] **T4.4c** · PainPointInline.astro créé (commit `8c960fe`, Worker Sonnet) · src/components/ui/molecules/PainPointInline.astro
 - [ ] **T4.5a** · Créer structure `src/content/knowledge-base/` (MDX RAG-ready)
 - [ ] **T4.5b** · Rédiger 10 entrées KB : méthode 4 piliers · doctrine V5-V7 · principes design · etc.
 - [ ] **T4.5c** · Indexation embeddings (option future) — placeholder pour Pinecone/pgvector
