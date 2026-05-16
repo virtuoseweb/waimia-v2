@@ -1136,6 +1136,136 @@ const glossary = defineCollection({
 });
 
 // ═════════════════════════════════════════════════════════════════
+// Tier 4 · prompts (bibliothèque AI internal/public) — T4.3
+// ═════════════════════════════════════════════════════════════════
+
+const prompts = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/prompts' }),
+  schema: z.object({
+    name_fr: z.string().min(1),
+    name_en: z.string().min(1),
+    slug: z.string().regex(/^[a-z0-9-]+$/),
+    purpose_fr: z.string().min(40).max(280),
+    purpose_en: z.string().min(40).max(280),
+    system_prompt_fr: z.string().min(20),
+    system_prompt_en: z.string().min(20),
+    variables: z
+      .array(
+        z.object({
+          name: z.string(),
+          label_fr: z.string(),
+          label_en: z.string(),
+          required: z.boolean().default(true),
+        }),
+      )
+      .default([]),
+    sample_output_fr: z.string().optional(),
+    sample_output_en: z.string().optional(),
+    category: z.enum([
+      'audit',
+      'copywriting',
+      'persona',
+      'brand',
+      'schema',
+      'diagnostic',
+      'autre',
+    ]),
+    visibility: z.enum(['internal', 'public']).default('internal'),
+    publishedAt: z.coerce.date(),
+    seo: z.object({
+      meta_description_fr: z.string().max(160),
+      meta_description_en: z.string().max(160),
+    }).optional(),
+  }),
+});
+
+// ═════════════════════════════════════════════════════════════════
+// Tier 4 · pain-points (catalogue cross-référencé personas × secteurs) — T4.4
+// ═════════════════════════════════════════════════════════════════
+
+const painPoints = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/pain-points' }),
+  schema: z.object({
+    slug: z.string().regex(/^[a-z0-9-]+$/),
+    pain_fr: z.string().min(20).max(280),
+    pain_en: z.string().min(20).max(280),
+    severity: z.enum(['critical', 'high', 'medium', 'low']),
+    affected_personas: z.array(z.string()).default([]),
+    affected_secteurs: z.array(z.string()).default([]),
+    solution_fr: z.string().min(20),
+    solution_en: z.string().min(20),
+    related_offres: z.array(z.string()).default([]),
+    related_solutions: z.array(z.string()).default([]),
+    publishedAt: z.coerce.date(),
+  }),
+});
+
+// ═════════════════════════════════════════════════════════════════
+// Tier 5 · integrations (outils tiers connectables Waimia) — T5.2
+// ═════════════════════════════════════════════════════════════════
+
+const integrations = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/integrations' }),
+  schema: z.object({
+    tool_name: z.string().min(1),
+    slug: z.string().regex(/^[a-z0-9-]+$/),
+    vendor: z.string().min(1),
+    category: z.enum([
+      'crm',
+      'data',
+      'automation',
+      'analytics',
+      'communication',
+      'productivity',
+      'ai-platform',
+      'commerce',
+      'hosting',
+      'autre',
+    ]),
+    use_cases_fr: z.array(z.string()).min(1),
+    use_cases_en: z.array(z.string()).min(1),
+    native_or_via_api: z.enum(['native', 'api', 'zapier-make', 'manual']),
+    logo_url: z.string().optional(),
+    description_fr: z.string().min(40).max(400),
+    description_en: z.string().min(40).max(400),
+    pricing_note_fr: z.string().optional(),
+    pricing_note_en: z.string().optional(),
+    publishedAt: z.coerce.date(),
+    seo: z.object({
+      meta_description_fr: z.string().max(160),
+      meta_description_en: z.string().max(160),
+    }).optional(),
+  }),
+});
+
+// ═════════════════════════════════════════════════════════════════
+// Tier 4 · knowledge-base (RAG-ready chunks pour agents) — T4.5
+// ═════════════════════════════════════════════════════════════════
+
+const knowledgeBase = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/knowledge-base' }),
+  schema: z.object({
+    title_fr: z.string().min(1),
+    title_en: z.string().min(1),
+    slug: z.string().regex(/^[a-z0-9-]+$/),
+    summary_fr: z.string().min(40).max(280),
+    summary_en: z.string().min(40).max(280),
+    category: z.enum([
+      'methode',
+      'doctrine',
+      'design',
+      'ia-strategy',
+      'culture',
+      'process',
+      'tooling',
+    ]),
+    tags: z.array(z.string().regex(/^[a-z0-9-]+$/)).default([]),
+    embedding_ready: z.boolean().default(true),
+    publishedAt: z.coerce.date(),
+  }),
+});
+
+// ═════════════════════════════════════════════════════════════════
 
 export const collections = {
   // V1 existantes
@@ -1169,4 +1299,9 @@ export const collections = {
   glossary,
   testimonials,
   commerce,
+  // Tier 4 AI-first + Tier 5 (2026-05-16)
+  prompts,
+  painPoints,
+  integrations,
+  knowledgeBase,
 };
