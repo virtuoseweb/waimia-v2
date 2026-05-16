@@ -1,0 +1,159 @@
+---
+/**
+ * Molécule · PainPointInline · affichage éditorial d'un pain-point avec sa solution.
+ *
+ * Props : pain + solution (strings préfabriqués FR ou EN côté appelant),
+ *         severity (enum critique → low), slug optionnel pour lien deep.
+ *
+ * Layout : icône severity à gauche · séparateur hairline · pain (body) | solution (body).
+ * Hover : underline fin 1px sur le pain text si slug fourni.
+ */
+
+type Severity = 'critical' | 'high' | 'medium' | 'low';
+
+interface Props {
+  /** Énoncé du problème (string déjà traduit côté appelant) */
+  pain: string;
+  /** Solution associée (string déjà traduit côté appelant) */
+  solution: string;
+  /** Niveau de criticité · détermine l'icône et la couleur du tag */
+  severity: Severity;
+  /** Slug optionnel · active le lien et le hover-underline */
+  slug?: string;
+  /** Classes additionnelles sur le conteneur */
+  class?: string;
+}
+
+const { pain, solution, severity, slug, class: extraClass = '' } = Astro.props;
+
+const SEVERITY_ICON: Record<Severity, string> = {
+  critical: '◆',
+  high:     '▲',
+  medium:   '●',
+  low:      '○',
+};
+
+const SEVERITY_LABEL: Record<Severity, string> = {
+  critical: 'Critique',
+  high:     'Élevé',
+  medium:   'Modéré',
+  low:      'Faible',
+};
+
+const icon  = SEVERITY_ICON[severity];
+const label = SEVERITY_LABEL[severity];
+const Tag   = slug ? 'a' : 'div';
+---
+
+<div class={`pp-inline pp-inline--${severity} ${extraClass}`.trim()}>
+  <!-- Icône + tag severity -->
+  <div class="pp-inline__icon" aria-hidden="true">
+    <span class="pp-inline__glyph">{icon}</span>
+    <code class="pp-inline__tag">{label}</code>
+  </div>
+
+  <!-- Contenu -->
+  <div class="pp-inline__body">
+    <Tag
+      class={`pp-inline__pain${slug ? ' pp-inline__pain--linked' : ''}`}
+      href={slug ? `/pain-points/${slug}` : undefined}
+    >
+      {pain}
+    </Tag>
+    <p class="pp-inline__solution">{solution}</p>
+  </div>
+</div>
+
+<style>
+  .pp-inline {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--hairline);
+    padding-block: 20px;
+  }
+  .pp-inline:first-child { border-top: 1px solid var(--hairline); }
+
+  /* ── Icône colonne gauche ── */
+  .pp-inline__icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding-top: 2px;
+  }
+
+  .pp-inline__glyph {
+    font-size: 13px;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  /* severity → couleur glyph */
+  .pp-inline--critical .pp-inline__glyph { color: #C94F2E; }
+  .pp-inline--high     .pp-inline__glyph { color: var(--ink-2); }
+  .pp-inline--medium   .pp-inline__glyph { color: var(--muted); }
+  .pp-inline--low      .pp-inline__glyph { color: var(--muted-2); }
+
+  .pp-inline__tag {
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    writing-mode: vertical-lr;
+    rotate: 180deg;
+    color: var(--muted-2);
+    background: none;
+    border: none;
+    padding: 0;
+    user-select: none;
+  }
+
+  /* ── Corps ── */
+  .pp-inline__body {
+    padding-left: 16px;
+    border-left: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pp-inline__pain {
+    font-family: var(--font-sans);
+    font-size: clamp(13.5px, 1vw + 12px, 15px);
+    line-height: 1.55;
+    color: var(--ink);
+    font-weight: 500;
+    text-decoration: none;
+    display: block;
+  }
+
+  .pp-inline__pain--linked {
+    cursor: pointer;
+  }
+  .pp-inline__pain--linked:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+
+  .pp-inline__solution {
+    font-family: var(--font-sans);
+    font-size: clamp(12.5px, 0.9vw + 11px, 13.5px);
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  @media (max-width: 480px) {
+    .pp-inline {
+      grid-template-columns: 36px 1fr;
+    }
+    .pp-inline__body {
+      padding-left: 12px;
+    }
+    .pp-inline__tag {
+      display: none;
+    }
+  }
+</style>
