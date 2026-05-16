@@ -1,0 +1,43 @@
+---
+term_fr: "Function Calling"
+term_en: "Function Calling"
+slug: "function-calling"
+definition_fr: "Capacité d'un LLM à analyser une requête utilisateur et à décider d'invoquer une fonction prédéfinie — API, outil, base de données — en retournant ses paramètres sous forme structurée (JSON), plutôt qu'une réponse textuelle libre."
+definition_en: "Ability of a LLM to analyze a user request and decide to invoke a predefined function — API, tool, database — by returning its parameters in structured form (JSON), rather than a free-text response."
+short_explanation_fr: "Le function calling permet au LLM de déclencher des actions réelles : envoyer un email, interroger une base de données, lancer un paiement, via des outils définis par le développeur."
+short_explanation_en: "Function calling allows the LLM to trigger real actions: send an email, query a database, initiate a payment, via developer-defined tools."
+examples_fr:
+  - "Un assistant de vente interrogé sur le stock disponible invoque automatiquement la fonction get_inventory(product_id) pour retourner des données en temps réel plutôt qu'une réponse approximative."
+  - "Un chatbot RH utilise le function calling pour appeler create_leave_request(employee_id, dates) et enregistrer directement une demande de congé dans le SIRH."
+  - "Un agent de comptabilité identifie les factures à relancer et invoque send_reminder_email(invoice_id, amount, due_date) sans intervention manuelle."
+examples_en:
+  - "A sales assistant asked about available stock automatically invokes get_inventory(product_id) to return real-time data rather than an approximate response."
+  - "An HR chatbot uses function calling to call create_leave_request(employee_id, dates) and directly record a leave request in the HRIS."
+  - "An accounting agent identifies invoices to chase and invokes send_reminder_email(invoice_id, amount, due_date) without manual intervention."
+related_terms:
+  - "agent-ia"
+  - "agentic-workflow"
+  - "mcp-model-context-protocol"
+  - "system-prompt"
+category: "ia-technique"
+publishedAt: 2026-05-16
+seo:
+  meta_description_fr: "Function calling LLM : comment les modèles IA déclenchent des actions réelles. Définition, fonctionnement, cas d usage pour vos process."
+  meta_description_en: "LLM function calling: how AI models trigger real actions. Definition, how it works and use cases to automate your business processes."
+---
+
+## Le function calling : de la génération de texte à l'action réelle
+
+Le **function calling** est la technologie qui transforme un LLM d'un générateur de texte en un orchestrateur d'actions. Sans cette capacité, un modèle de langage ne peut que décrire ce qu'il ferait ; avec elle, il peut le faire réellement.
+
+### Comment ça fonctionne
+
+Le développeur définit un catalogue de fonctions disponibles, chacune décrite par son nom, ses paramètres et leur type. Quand l'utilisateur formule une requête, le modèle analyse si une des fonctions disponibles permet d'y répondre. Si oui, il retourne un JSON structuré avec le nom de la fonction et les valeurs des paramètres à utiliser.
+
+L'application reçoit ce JSON, exécute réellement la fonction (appel API, requête SQL, envoi email) et retourne le résultat au modèle, qui peut alors formuler une réponse finale pour l'utilisateur.
+
+### Pourquoi c'est structurant pour les agents
+
+Le function calling est le mécanisme fondamental qui donne aux agents IA leur capacité d'action. Combiné au Model Context Protocol (MCP), il permet de standardiser l'exposition des outils et de les réutiliser entre différents agents et applications.
+
+La robustesse d'un workflow agent dépend directement de la qualité des descriptions de fonctions : un paramètre mal décrit génère des invocations incorrectes que le modèle ne peut pas auto-corriger.

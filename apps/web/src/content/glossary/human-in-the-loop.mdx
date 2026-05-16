@@ -1,0 +1,45 @@
+---
+term_fr: "Human-in-the-loop"
+term_en: "Human-in-the-loop"
+slug: "human-in-the-loop"
+definition_fr: "Architecture de workflow IA dans laquelle un opérateur humain intervient à des points de contrôle définis pour valider, corriger ou approuver les décisions du système avant qu'elles ne soient exécutées, combinant l'efficacité de l'automatisation avec la supervision humaine là où le risque le justifie."
+definition_en: "AI workflow architecture in which a human operator intervenes at defined checkpoints to validate, correct or approve system decisions before they are executed, combining automation efficiency with human supervision where risk justifies it."
+short_explanation_fr: "Le human-in-the-loop intègre un point de validation humaine dans un workflow IA automatisé, pour les décisions à fort enjeu ou à risque d'erreur significatif."
+short_explanation_en: "Human-in-the-loop integrates a human validation checkpoint in an automated AI workflow, for high-stakes decisions or those with significant error risk."
+examples_fr:
+  - "Un agent de traitement de sinistres génère une proposition de remboursement, mais tout dossier dépassant 5 000 € requiert une validation par un expert sinistres avant envoi au client."
+  - "Un assistant de rédaction de propositions commerciales soumet un premier jet au commercial responsable, qui l'approuve ou l'ajuste avant envoi — économisant 80 % du temps de rédaction."
+  - "Un système de détection de fraude bancaire bloque automatiquement les transactions suspectes sous 100 € mais escalade les cas entre 100 € et 10 000 € à un analyste humain."
+examples_en:
+  - "A claims processing agent generates a reimbursement proposal, but any file exceeding €5,000 requires validation by a claims expert before sending to the customer."
+  - "A commercial proposal writing assistant submits a first draft to the responsible sales rep, who approves or adjusts it before sending — saving 80% of writing time."
+  - "A banking fraud detection system automatically blocks suspicious transactions under €100 but escalates cases between €100 and €10,000 to a human analyst."
+related_terms:
+  - "autonomous-agent"
+  - "agentic-workflow"
+  - "gouvernance-ia"
+  - "pilot-vs-prod"
+category: "workflow"
+publishedAt: 2026-05-16
+seo:
+  meta_description_fr: "Human-in-the-loop : intégrer la supervision humaine dans vos workflows IA. Quand et comment positionner les points de contrôle humains pour des."
+  meta_description_en: "Human-in-the-loop: integrating human supervision into your AI workflows. When and how to position human checkpoints for reliable automation."
+---
+
+## Human-in-the-loop : l'art de combiner IA et jugement humain
+
+Le **human-in-the-loop** (HITL) n'est pas un aveu de faiblesse de l'IA : c'est une architecture de déploiement responsable qui optimise le placement du jugement humain là où il apporte le plus de valeur.
+
+### Où positionner les points de contrôle humains ?
+
+La règle de conception : réserver la supervision humaine aux décisions où le coût d'une erreur de l'IA dépasse le coût du temps humain mobilisé.
+
+**Décisions à haut risque** : actions irréversibles (envoi de communications, transactions financières, modifications contractuelles), décisions à fort impact sur un tiers (remboursements, licenciements, diagnostics médicaux).
+
+**Zones d'incertitude** : requêtes que le modèle identifie comme ambiguës (score de confiance bas), cas hors distribution du domaine d'entraînement, situations impliquant plusieurs parties avec des intérêts contradictoires.
+
+**Apprentissage actif** : en phase initiale d'un déploiement, un HITL systématique sur un échantillon permet d'identifier les erreurs récurrentes et d'améliorer les prompts en continu.
+
+### Évolution vers l'autonomie progressive
+
+Un workflow bien conçu commence avec un HITL large (validation humaine fréquente), mesure le taux d'erreur et de désaccord humain/IA, puis réduit progressivement les points de contrôle au fur et à mesure que la fiabilité du système est prouvée. L'objectif n'est pas l'autonomie totale mais l'autonomie appropriée au niveau de risque réel.

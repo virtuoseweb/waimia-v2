@@ -1,0 +1,51 @@
+---
+term_fr: "Prompt système"
+term_en: "System Prompt"
+slug: "system-prompt"
+definition_fr: "Instructions initiales fournies au LLM avant toute interaction utilisateur, définissant son rôle, ses règles de comportement, ses limites et son contexte opérationnel. Le prompt système est invisible pour l'utilisateur final mais conditionne entièrement la qualité et la cohérence des réponses."
+definition_en: "Initial instructions provided to the LLM before any user interaction, defining its role, behavioral rules, limits, and operational context. The system prompt is invisible to the end user but entirely determines the quality and consistency of responses."
+short_explanation_fr: "Le prompt système est la « constitution » du LLM : il définit qui il est, ce qu'il peut faire et comment il se comporte dans tous les cas."
+short_explanation_en: "The system prompt is the LLM's 'constitution': it defines who it is, what it can do, and how it behaves in all situations."
+examples_fr:
+  - "Un agent de support client reçoit un prompt système précisant sa base de connaissances, le ton à employer (professionnel et bienveillant), et les sujets à refuser de traiter (informations concurrentielles, juridiques)."
+  - "Un assistant de rédaction contient dans son prompt système les guidelines de marque : vocabulaire interdit, longueur cible des réponses, format de sortie attendu (Markdown, JSON)."
+  - "Un agent commercial dispose d'un prompt système incluant le catalogue produit, la grille tarifaire et les conditions d'escalade vers un humain quand le montant dépasse un seuil."
+examples_en:
+  - "A customer support agent receives a system prompt specifying its knowledge base, tone to use (professional and caring), and topics to refuse (competitive, legal information)."
+  - "A writing assistant contains brand guidelines in its system prompt: forbidden vocabulary, target response length, expected output format (Markdown, JSON)."
+  - "A sales agent has a system prompt including the product catalog, pricing grid, and escalation conditions to a human when the amount exceeds a threshold."
+related_terms:
+  - "prompt-engineering"
+  - "prompt-injection"
+  - "agent-ia"
+  - "temperature-llm"
+category: "ia-technique"
+publishedAt: 2026-05-16
+seo:
+  meta_description_fr: "Prompt système : définition et bonnes pratiques pour piloter vos agents IA. Comment écrire un system prompt robuste pour la production."
+  meta_description_en: "System prompt: definition and best practices for steering AI agents. How to write a robust system prompt for production consistency."
+---
+
+## Le prompt système : l'ADN de votre agent IA
+
+Le **prompt système** (ou *system prompt*) est l'instruction fondatrice de tout agent ou assistant basé sur un LLM. Il est écrit une fois par le développeur ou le concepteur du workflow, et s'applique à chaque interaction sans être visible de l'utilisateur.
+
+### Que mettre dans un prompt système efficace ?
+
+Un prompt système bien construit répond à six questions :
+
+**Qui est-il ?** Rôle et personnalité : « Tu es l'assistant commercial de [Entreprise], spécialisé dans les solutions logicielles pour PME. »
+
+**Que sait-il ?** Contexte opérationnel : catalogue produit, base de connaissances, données d'entreprise pertinentes.
+
+**Comment répond-il ?** Format de sortie attendu : longueur, structure (listes, JSON, Markdown), niveau de langage.
+
+**Que peut-il faire ?** Outils disponibles et quand les utiliser.
+
+**Que ne peut-il pas faire ?** Limites explicites : sujets interdits, données confidentielles à ne pas divulguer, cas à escalader vers un humain.
+
+**Comment gère-t-il l'incertitude ?** Instructions pour les cas ambigus plutôt que de laisser le modèle improviser.
+
+### Sécurité et maintenance
+
+Le prompt système est une cible pour les attaques de *prompt injection* : un utilisateur malveillant peut tenter d'injecter des instructions contradictoires pour contourner les règles définies. Des techniques de détection et de cloisonnement permettent de renforcer la robustesse des déploiements en production.

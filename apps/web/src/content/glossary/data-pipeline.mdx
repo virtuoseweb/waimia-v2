@@ -1,0 +1,48 @@
+---
+term_fr: "Pipeline de données"
+term_en: "Data Pipeline"
+slug: "data-pipeline"
+definition_fr: "Ensemble automatisé d'étapes qui collectent, transforment, valident et acheminent des données depuis leurs sources vers leur destination finale — base de données, entrepôt analytique ou système IA — en maintenant leur qualité et leur fraîcheur tout au long du processus."
+definition_en: "Automated set of steps that collect, transform, validate, and route data from their sources to their final destination — database, analytics warehouse, or AI system — while maintaining their quality and freshness throughout the process."
+short_explanation_fr: "Un pipeline de données est la chaîne logistique des données : collecte, nettoyage, transformation et livraison automatisées vers les systèmes qui en ont besoin."
+short_explanation_en: "A data pipeline is the data logistics chain: automated collection, cleaning, transformation, and delivery to the systems that need it."
+examples_fr:
+  - "Un pipeline qui extrait les nouvelles commandes du CRM toutes les 15 minutes, les enrichit avec des données de solvabilité et les charge dans un entrepôt analytique pour le reporting quotidien."
+  - "Le pipeline d'alimentation d'une base vectorielle RAG : extraction des documents PDF, découpage en chunks, calcul des embeddings et indexation — relancé automatiquement quand un nouveau document est déposé."
+  - "Un pipeline de nettoyage de données clients qui standardise les formats de numéros de téléphone, détecte les doublons et anonymise les PII avant injection dans un LLM de classification."
+examples_en:
+  - "A pipeline extracting new CRM orders every 15 minutes, enriching them with creditworthiness data, and loading them into an analytics warehouse for daily reporting."
+  - "The feed pipeline of a RAG vector database: PDF document extraction, chunking, embedding calculation and indexing — automatically restarted when a new document is deposited."
+  - "A customer data cleaning pipeline that standardizes phone number formats, detects duplicates, and anonymizes PII before injection into a classification LLM."
+related_terms:
+  - "data-quality"
+  - "rag"
+  - "embeddings"
+  - "pii-anonymization"
+  - "data-mesh"
+category: "data"
+publishedAt: 2026-05-16
+seo:
+  meta_description_fr: "Pipeline de données : définition et rôle dans les projets IA. Concevoir un pipeline fiable pour alimenter agents et modèles."
+  meta_description_en: "Data pipeline: definition and role in AI projects. How to design a reliable pipeline to feed your agents and models with quality data."
+---
+
+## Le pipeline de données : fondation invisible des projets IA
+
+Un **pipeline de données** fiable est la condition sine qua non de tout projet IA opérationnel. Un LLM ou un agent aussi sophistiqué soit-il ne peut produire de valeur qu'avec des données fraîches, propres et correctement structurées.
+
+### Les cinq étapes d'un pipeline standard
+
+**1. Ingestion** : collecte des données depuis leurs sources hétérogènes — APIs tierces, bases de données, fichiers, flux temps réel. C'est l'étape la plus fragile car elle dépend de systèmes externes.
+
+**2. Transformation** : normalisation des formats, conversion des types, enrichissement via des sources complémentaires. Un pipeline bien conçu applique des règles de transformation documentées et testables.
+
+**3. Validation** : contrôle de qualité automatisé — détection des valeurs manquantes, vérification des contraintes métier, alertes sur les anomalies statistiques (dérives de distribution, volumes anormaux).
+
+**4. Stockage** : persistance dans la destination finale selon le cas d'usage : base relationnelle pour les données structurées, base vectorielle pour le RAG, data lake pour l'analytique.
+
+**5. Orchestration** : planification des exécutions, gestion des dépendances entre étapes, reprise sur erreur et monitoring. Des outils comme Airflow, Prefect ou des solutions cloud simplifient cette couche.
+
+### Pipelines IA vs pipelines analytiques
+
+Les pipelines qui alimentent des systèmes IA ont des contraintes spécifiques : fraîcheur des données (un agent ne peut pas raisonner sur des données obsolètes), format de chunking pour le RAG, et respect des règles de confidentialité qui s'appliquent avant toute injection dans un LLM.

@@ -1,0 +1,45 @@
+---
+term_fr: "Data Mesh"
+term_en: "Data Mesh"
+slug: "data-mesh"
+definition_fr: "Architecture de gestion des données qui décentralise la responsabilité des données vers les équipes métier productrices, en les traitant comme des produits autonomes avec des interfaces standardisées — en opposition aux entrepôts de données centralisés gérés par une unique équipe technique."
+definition_en: "Data management architecture that decentralizes data ownership to the business teams that produce them, treating data as autonomous products with standardized interfaces — as opposed to centralized data warehouses managed by a single technical team."
+short_explanation_fr: "Le data mesh remet la propriété des données aux équipes métier qui les produisent, chacune exposant ses données comme un produit accessible et documenté."
+short_explanation_en: "Data mesh returns data ownership to the business teams that produce it, with each team exposing their data as an accessible, documented product."
+examples_fr:
+  - "L'équipe commerciale devient propriétaire du domaine « données clients », publie une API standardisée que l'équipe marketing et les agents IA peuvent consommer sans passer par la DSI."
+  - "Dans une PME de 50 personnes adoptant le data mesh : 4 domaines (Finance, Commercial, Production, RH) chacun avec un responsable données et un catalogue documenté, remplaçant une base centralisée non maintenue."
+  - "Un agent IA de reporting peut interroger directement le produit-données « commandes » de l'équipe logistique plutôt que d'attendre un export mensuel de l'ERP."
+examples_en:
+  - "The sales team becomes owner of the 'customer data' domain, publishing a standardized API that the marketing team and AI agents can consume without going through IT."
+  - "In a 50-person SMB adopting data mesh: 4 domains (Finance, Sales, Production, HR) each with a data owner and documented catalog, replacing an unmaintained centralized database."
+  - "An AI reporting agent can directly query the logistics team's 'orders' data product rather than waiting for a monthly ERP export."
+related_terms:
+  - "data-pipeline"
+  - "data-quality"
+  - "gouvernance-ia"
+  - "rag"
+category: "data"
+publishedAt: 2026-05-16
+seo:
+  meta_description_fr: "Data mesh : l architecture de données décentralisée. Propriété, produits-données, gouvernance fédérée pour projets IA PME."
+  meta_description_en: "Data mesh: the decentralized data architecture explained for SMBs. Data ownership, data products, and federated governance for reliable AI projects."
+---
+
+## Data mesh : repenser la propriété des données à l'ère de l'IA
+
+Le **data mesh** est une réponse architecturale aux limites des entrepôts de données centralisés : lenteur de livraison, goulot d'étranglement sur l'équipe technique centrale, données décontextualisées loin des équipes qui les comprennent vraiment.
+
+### Les quatre principes fondateurs
+
+**Propriété décentralisée par domaine** : chaque équipe métier est responsable des données qu'elle génère. L'équipe commerciale gère les données clients, la finance les données transactionnelles, la RH les données collaborateurs. Cette proximité améliore la qualité et la pertinence des données.
+
+**Données comme produit** : chaque domaine expose ses données via une interface documentée, avec des SLA de fraîcheur et de qualité, exactement comme un produit logiciel. Les consommateurs (autres équipes, agents IA) savent ce qu'ils peuvent attendre.
+
+**Infrastructure en libre-service** : une plateforme centrale fournit les outils communs (stockage, pipelines, catalogues) que les équipes utilisent en autonomie, sans dépendre d'une équipe centrale pour chaque évolution.
+
+**Gouvernance fédérée** : des standards communs (formats, sécurité, conformité RGPD) s'appliquent à tous les domaines, mais leur implémentation reste décentralisée.
+
+### Pertinence pour les projets IA
+
+Dans un contexte de déploiement d'agents IA, le data mesh simplifie l'alimentation des systèmes : plutôt qu'un pipeline centralisé fragile, chaque agent consomme directement les produits-données des domaines concernés, avec des garanties de fraîcheur et de qualité portées par les équipes productrices.

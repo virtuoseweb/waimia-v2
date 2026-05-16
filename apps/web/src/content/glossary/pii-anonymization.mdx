@@ -1,0 +1,47 @@
+---
+term_fr: "Anonymisation des données personnelles (PII)"
+term_en: "PII Anonymization"
+slug: "pii-anonymization"
+definition_fr: "Processus de transformation irréversible des informations personnellement identifiables (PII — noms, emails, numéros de téléphone, adresses IP) afin qu'elles ne puissent plus être rattachées à un individu, permettant leur traitement par des systèmes IA sans violation des réglementations sur la vie privée."
+definition_en: "Irreversible transformation process of personally identifiable information (PII — names, emails, phone numbers, IP addresses) so they can no longer be linked to an individual, enabling their processing by AI systems without violating privacy regulations."
+short_explanation_fr: "Anonymiser les PII consiste à supprimer ou masquer irréversiblement toute information permettant d'identifier une personne, avant de l'envoyer à un LLM ou de la stocker dans une base vectorielle."
+short_explanation_en: "Anonymizing PII means irreversibly removing or masking any information that could identify a person, before sending it to a LLM or storing it in a vector database."
+examples_fr:
+  - "Avant d'envoyer des emails clients à un LLM pour classification, remplacer automatiquement noms, emails et téléphones par des tokens neutres : 'Jean Dupont' → 'CLIENT_001'."
+  - "Un pipeline RAG d'analyse de contrats anonymise les noms de sociétés et signataires avant indexation, permettant au modèle de raisonner sur la structure juridique sans exposer de données confidentielles."
+  - "La pseudonymisation (réversible avec une clé) permet de corréler des analyses IA avec les personnes réelles en interne, sans exposer les données identifiantes aux fournisseurs de LLM externes."
+examples_en:
+  - "Before sending customer emails to a LLM for classification, automatically replace names, emails, and phone numbers with neutral tokens: 'John Smith' → 'CLIENT_001'."
+  - "A contract analysis RAG pipeline anonymizes company names and signatories before indexing, enabling the model to reason about legal structure without exposing confidential data."
+  - "Pseudonymization (reversible with a key) allows correlating AI analyses with real individuals internally, without exposing identifying data to external LLM providers."
+related_terms:
+  - "gdpr-ia"
+  - "data-pipeline"
+  - "data-quality"
+  - "gouvernance-ia"
+category: "data"
+publishedAt: 2026-05-16
+seo:
+  meta_description_fr: "Anonymisation PII et IA : comment protéger les données personnelles avant de les traiter avec un LLM. RGPD, pseudonymisation et bonnes pratiques."
+  meta_description_en: "PII anonymization and AI: how to protect personal data before processing with a LLM. GDPR, pseudonymization and best practices."
+---
+
+## Anonymisation des PII : condition préalable à l'IA responsable
+
+L'**anonymisation des données personnelles** (PII pour *Personally Identifiable Information*) est une obligation réglementaire et une nécessité opérationnelle pour tout projet IA qui traite des données de personnes physiques. Envoyer des données non anonymisées à un LLM externe constitue une violation potentielle du RGPD et expose l'entreprise à des risques de confidentialité significatifs.
+
+### PII directes vs PII indirectes
+
+**PII directes** : identifiants uniques sans ambiguïté — nom complet, numéro de sécurité sociale, adresse email, numéro de téléphone, numéro de carte bancaire, adresse IP. Toujours à anonymiser avant envoi externe.
+
+**PII indirectes** : combinaisons d'informations qui permettent une ré-identification — code postal + date de naissance + sexe peuvent suffire à identifier une personne dans une petite commune. La directive RGPD s'applique à ces combinaisons.
+
+### Anonymisation vs pseudonymisation
+
+L'**anonymisation** est irréversible : une fois traitée, l'information ne peut plus être rattachée à une personne. Elle libère les données des obligations RGPD mais perd la capacité de corrélation.
+
+La **pseudonymisation** remplace les identifiants par des tokens, avec une clé de correspondance conservée séparément. Elle reste soumise au RGPD mais permet des analyses corrélées et une traçabilité interne. C'est souvent le meilleur compromis pour les workflows IA en entreprise.
+
+### Intégration dans un pipeline IA
+
+L'anonymisation doit intervenir **avant** toute étape d'envoi à un LLM externe, toute indexation dans une base vectorielle, et tout stockage dans un système tiers. Des outils automatisés (Microsoft Presidio, AWS Comprehend, Faker) permettent d'industrialiser ce processus.

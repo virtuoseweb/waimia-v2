@@ -1,0 +1,46 @@
+---
+term_fr: "Pilot vs Production IA"
+term_en: "AI Pilot vs Production"
+slug: "pilot-vs-prod"
+definition_fr: "Distinction entre la phase pilote d'un projet IA (environnement contrôlé, volume limité, supervision renforcée) et la mise en production réelle (intégration aux systèmes critiques, volume opérationnel, autonomie élargie). Le passage de l'un à l'autre requiert des critères explicites de validation."
+definition_en: "Distinction between the pilot phase of an AI project (controlled environment, limited volume, enhanced supervision) and actual production deployment (integration with critical systems, operational volume, expanded autonomy). The transition requires explicit validation criteria."
+short_explanation_fr: "Un pilote IA qui fonctionne en sandbox ne prédit pas sa performance en production. Le passage nécessite une validation formelle sur des données réelles à volume représentatif."
+short_explanation_en: "An AI pilot that works in a sandbox does not predict its production performance. The transition requires formal validation on real data at representative volume."
+examples_fr:
+  - "Un agent de qualification de leads testé sur 50 leads/semaine en pilote peut révéler des failles critiques à 2 000 leads/semaine en production : latence, cas limites non anticipés, coûts tokens sous-estimés."
+  - "La phase pilote d'un chatbot de support valide le taux de satisfaction sur un sous-ensemble d'utilisateurs volontaires ; la production expose à des requêtes agressives, multilangues et hors-scope non testées."
+  - "Un critère de passage Pilot→Prod formalisé : taux d'automatisation >80 %, taux d'erreur <2 % sur 500 transactions, coût par tâche <0.08 €, validation juridique RGPD complétée."
+examples_en:
+  - "A lead qualification agent tested on 50 leads/week in pilot can reveal critical flaws at 2,000 leads/week in production: latency, unanticipated edge cases, underestimated token costs."
+  - "A support chatbot pilot validates satisfaction rates on a subset of volunteer users; production exposes it to aggressive, multilingual, and out-of-scope requests not tested in pilot."
+  - "A formalized Pilot→Prod transition criterion: automation rate >80%, error rate <2% on 500 transactions, cost per task <€0.08, full GDPR legal validation completed."
+related_terms:
+  - "ai-readiness"
+  - "kpi-ia"
+  - "tco-ia"
+  - "human-in-the-loop"
+  - "gouvernance-ia"
+category: "ia-business"
+publishedAt: 2026-05-16
+seo:
+  meta_description_fr: "Pilot vs production IA : comment réussir le passage d'un pilote à un déploiement réel ? Critères de validation, risques et checklist pour PME."
+  meta_description_en: "AI pilot vs production: how to successfully transition from a pilot to a real deployment? Validation criteria, risks and checklist for SMBs."
+---
+
+## Du pilote à la production : le gouffre que personne n'anticipe
+
+Le **fossé pilot-production** est la première cause d'échec des projets IA en PME. Un pilote réussi dans un environnement maîtrisé ne garantit pas une mise en production fiable. Les conditions changent : volume, diversité des entrées, pression temporelle, intégrations réelles, et attentes des utilisateurs finaux.
+
+### Ce que le pilote ne révèle pas
+
+**La charge réelle** : un modèle rapide à 10 requêtes simultanées peut devenir lent et coûteux à 500 requêtes/heure. Les temps de réponse et les coûts de tokens doivent être projetés sur le volume opérationnel réel.
+
+**Les cas limites long tail** : les 5 % de requêtes atypiques qui ne se manifestent qu'à fort volume — requêtes ambiguës, multilangues, contradictoires, ou tentatives de contournement des règles.
+
+**Les dépendances systèmes** : l'intégration au CRM, ERP ou SIRH révèle des problèmes de latence, de format de données et de droits d'accès invisibles en sandbox.
+
+**La résistance au changement** : les utilisateurs pilotes sont souvent motivés et indulgents. Les utilisateurs en production sont exigeants et peu tolérants aux erreurs.
+
+### La checklist de passage Pilot→Prod
+
+Un passage responsable impose des critères quantifiés : seuil minimal de taux d'automatisation, coût par tâche cible atteint, validation de sécurité et de conformité RGPD, plan de supervision humaine documenté, et processus de rollback défini en cas de défaillance.

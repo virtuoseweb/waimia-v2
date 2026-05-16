@@ -1,0 +1,43 @@
+---
+term_fr: "Tokens LLM"
+term_en: "LLM Tokens"
+slug: "tokens-llm"
+definition_fr: "Unités de base utilisées par les modèles de langage pour traiter le texte : chaque token correspond approximativement à 3/4 d'un mot en anglais ou à un caractère en logographique. Les LLM facturent leur usage et mesurent leurs limites en tokens, pas en mots."
+definition_en: "Basic units used by language models to process text: each token corresponds approximately to 3/4 of an English word or to a character in logographic scripts. LLMs bill their usage and measure their limits in tokens, not words."
+short_explanation_fr: "Un token est le fragment minimal de texte qu'un LLM comprend. 1 000 tokens ≈ 750 mots. C'est l'unité de mesure des coûts et des limites de contexte."
+short_explanation_en: "A token is the minimal text fragment a LLM understands. 1,000 tokens ≈ 750 words. It's the unit for measuring costs and context limits."
+examples_fr:
+  - "Un contrat de 10 pages (~5 000 mots) représente environ 6 700 tokens, soit environ 0,07 € à analyser avec GPT-4o."
+  - "Un email de prospection de 200 mots consomme ~270 tokens en entrée + ~300 tokens en réponse, soit un coût de 0,005 € par email généré."
+  - "Un agent qui traite 1 000 tickets de support par mois peut consommer 2 à 5 millions de tokens — poste budgétaire à anticiper dans le TCO."
+examples_en:
+  - "A 10-page contract (~5,000 words) represents approximately 6,700 tokens, costing about €0.07 to analyze with GPT-4o."
+  - "A 200-word prospecting email consumes ~270 input tokens + ~300 output tokens, at a cost of €0.005 per generated email."
+  - "An agent processing 1,000 support tickets per month can consume 2 to 5 million tokens — a budget item to anticipate in TCO."
+related_terms:
+  - "context-window"
+  - "tco-ia"
+  - "llm-large-language-model"
+  - "kpi-ia"
+category: "ia-technique"
+publishedAt: 2026-05-16
+seo:
+  meta_description_fr: "Tokens LLM : définition, calcul, impact sur les coûts IA. Maîtriser son budget d automatisation et éviter les mauvaises surprises."
+  meta_description_en: "LLM tokens: definition, calculation and cost impact. Understanding tokens to control your AI budget and avoid unexpected expenses."
+---
+
+## Qu'est-ce qu'un token dans un LLM ?
+
+Un **token** est la plus petite unité de texte qu'un modèle de langage traite. Contrairement à un mot, un token peut être un fragment de mot, une ponctuation ou un espace. En pratique, 100 tokens correspondent à environ 75 mots en français.
+
+### Pourquoi les tokens sont-ils importants ?
+
+Les tokens définissent deux paramètres critiques pour tout projet IA :
+
+**Le coût** : les API de LLM facturent séparément les tokens d'entrée (le texte envoyé au modèle) et les tokens de sortie (la réponse générée). Les tokens de sortie coûtent généralement 3 à 5 fois plus cher que les tokens d'entrée. Un audit de consommation de tokens avant mise en production évite les dérapages budgétaires.
+
+**La limite de contexte** : chaque modèle a une fenêtre de contexte maximale (exprimée en tokens). Au-delà, le modèle perd les informations les plus anciennes ou rejette la requête. Cette contrainte conditionne l'architecture des agents qui traitent de longs documents.
+
+### Comment optimiser sa consommation ?
+
+Compresser les prompts système, utiliser du caching quand la même instruction est répétée, et tronquer intelligemment les documents longs sont les trois leviers principaux pour réduire les coûts sans dégrader la qualité des réponses.

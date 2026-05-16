@@ -1,0 +1,52 @@
+---
+term_fr: "KPI IA"
+term_en: "AI KPI"
+slug: "kpi-ia"
+definition_fr: "Indicateurs clés de performance spécifiques aux projets d'intelligence artificielle, permettant de mesurer l'efficacité opérationnelle, la qualité des sorties, les coûts d'exploitation et l'impact business d'un système IA en production."
+definition_en: "Key performance indicators specific to artificial intelligence projects, enabling measurement of operational efficiency, output quality, operating costs, and business impact of an AI system in production."
+short_explanation_fr: "Les KPI IA mesurent ce qui compte vraiment : taux d'automatisation réel, qualité des réponses, coût par tâche et ROI — pas seulement la satisfaction subjective des utilisateurs."
+short_explanation_en: "AI KPIs measure what truly matters: real automation rate, response quality, cost per task, and ROI — not just subjective user satisfaction."
+examples_fr:
+  - "Taux d'automatisation complète : pourcentage de tâches traitées de bout en bout sans intervention humaine. Cible : >85 % pour un agent de qualification de leads mature."
+  - "Coût par tâche automatisée : total des tokens + infrastructure / nombre de tâches traitées. Permet de comparer l'IA à un coût d'exécution manuel."
+  - "Taux de dérive (drift rate) : pourcentage de réponses classifiées hors-spec par l'évaluation automatique. Signal d'alerte pour une mise à jour de prompt ou un fine-tuning nécessaire."
+examples_en:
+  - "Full automation rate: percentage of tasks processed end-to-end without human intervention. Target: >85% for a mature lead qualification agent."
+  - "Cost per automated task: total tokens + infrastructure / number of tasks processed. Allows comparing AI to a manual execution cost."
+  - "Drift rate: percentage of responses classified as out-of-spec by automatic evaluation. Warning signal for a prompt update or fine-tuning need."
+related_terms:
+  - "roi-ia"
+  - "tco-ia"
+  - "cost-per-task"
+  - "gouvernance-ia"
+category: "ia-business"
+publishedAt: 2026-05-16
+seo:
+  meta_description_fr: "KPI IA : quels indicateurs suivre pour mesurer la performance de vos projets IA. Taux d automatisation, qualité, coûts, ROI expliqués."
+  meta_description_en: "AI KPIs: which indicators to track to measure the performance of your artificial intelligence projects? Automation rate, quality, costs and ROI explained."
+---
+
+## Les KPI qui mesurent vraiment la performance IA
+
+Un projet IA sans **KPI IA** définis est un projet sans cap. La mesure de la performance d'un système IA diffère fondamentalement de celle d'un logiciel traditionnel : le comportement est probabiliste, la qualité se dégrade dans le temps, et l'impact business est souvent indirect.
+
+### La pyramide des KPI IA
+
+**Niveau 1 — Qualité technique** : métriques qui évaluent le comportement du modèle lui-même.
+- *Précision* : les réponses correctes / total des réponses (évaluation par échantillonnage humain ou LLM-as-judge)
+- *Taux d'hallucination* : réponses factuellement incorrectes détectées
+- *Latence P95* : temps de réponse du 95e percentile, indicateur de robustesse
+
+**Niveau 2 — Efficacité opérationnelle** : métriques qui mesurent l'utilité du workflow.
+- *Taux d'automatisation complète* : tâches résolues sans intervention humaine
+- *Taux d'escalade* : tâches renvoyées à un humain (trop élevé = agent mal calibré)
+- *Coût par tâche* : rapport coûts d'exploitation / volume traité
+
+**Niveau 3 — Impact business** : métriques qui justifient l'investissement.
+- *Temps libéré par collaborateur*
+- *Délai de traitement moyen* avant vs après
+- *Satisfaction client* sur les interactions augmentées par l'IA
+
+### Tableau de bord minimal recommandé
+
+Pour une PME qui déploie son premier agent, trois KPI suffisent en phase initiale : taux d'automatisation, coût par tâche et taux d'escalade. L'outillage peut être aussi simple qu'un tableur alimenté hebdomadairement.

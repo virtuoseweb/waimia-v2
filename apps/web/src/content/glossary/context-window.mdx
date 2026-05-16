@@ -1,0 +1,52 @@
+---
+term_fr: "Fenêtre de contexte"
+term_en: "Context Window"
+slug: "context-window"
+definition_fr: "Quantité maximale de texte (exprimée en tokens) qu'un modèle de langage peut traiter simultanément lors d'une requête : elle inclut le prompt système, l'historique de conversation, les documents injectés et la réponse générée."
+definition_en: "Maximum amount of text (expressed in tokens) that a language model can process simultaneously during a request: it includes the system prompt, conversation history, injected documents, and the generated response."
+short_explanation_fr: "La fenêtre de contexte est la mémoire de travail du LLM : tout ce qui y entre est visible au modèle. Au-delà, l'information est perdue ou tronquée."
+short_explanation_en: "The context window is the LLM's working memory: everything within it is visible to the model. Beyond that limit, information is lost or truncated."
+examples_fr:
+  - "GPT-4o dispose d'une fenêtre de 128 000 tokens (~96 000 mots), suffisante pour analyser un rapport annuel complet en une seule requête."
+  - "Un agent de support qui accumule un long historique de conversation risque de dépasser sa fenêtre : les premières interactions disparaissent et le modèle « oublie » le contexte initial."
+  - "Une architecture RAG permet de contourner la limite de contexte en ne chargeant que les passages pertinents d'une base de connaissance, plutôt que l'intégralité des documents."
+examples_en:
+  - "GPT-4o has a 128,000 token window (~96,000 words), enough to analyze a complete annual report in a single request."
+  - "A support agent accumulating a long conversation history risks exceeding its window: early interactions disappear and the model 'forgets' the initial context."
+  - "A RAG architecture bypasses context limits by loading only relevant passages from a knowledge base, rather than all documents."
+related_terms:
+  - "tokens-llm"
+  - "rag"
+  - "llm-large-language-model"
+  - "system-prompt"
+category: "ia-technique"
+publishedAt: 2026-05-16
+seo:
+  meta_description_fr: "Fenêtre de contexte LLM : définition et impact sur la conception d'agents IA. Comment gérer les limites de contexte pour des workflows fiables en production."
+  meta_description_en: "LLM context window: definition and impact on AI agent design. How to manage context limits for reliable production workflows."
+---
+
+## Comprendre la fenêtre de contexte d'un LLM
+
+La **fenêtre de contexte** détermine ce qu'un modèle de langage « voit » lors d'une requête. Elle est le principal facteur limitant pour les applications qui manipulent de longs documents ou maintiennent des conversations étendues.
+
+### Ce que contient la fenêtre
+
+La fenêtre de contexte accueille simultanément :
+
+- **Le prompt système** : les instructions permanentes qui définissent le rôle et les règles du modèle
+- **L'historique de conversation** : tous les échanges précédents dans la session
+- **Les documents injectés** : fichiers, extraits de base de données, résultats de recherche
+- **La réponse générée** : les tokens produits par le modèle en sortie
+
+### Implications pour l'architecture
+
+Quand la fenêtre est pleine, le modèle ne peut pas recevoir de nouvelles informations sans supprimer les anciennes. Les stratégies pour gérer cette contrainte incluent :
+
+**Le résumé progressif** : compresser l'historique de conversation en un résumé compact toutes les N interactions.
+
+**Le RAG dynamique** : ne charger dans le contexte que les passages pertinents, récupérés par recherche vectorielle.
+
+**Le découpage de tâches** : traiter un long document par morceaux successifs plutôt qu'en une seule requête.
+
+La taille de la fenêtre de contexte a considérablement augmenté ces deux dernières années, passant de 4 000 à plus de 1 million de tokens pour certains modèles spécialisés.
