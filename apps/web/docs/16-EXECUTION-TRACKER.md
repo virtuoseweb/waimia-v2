@@ -78,7 +78,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [✅] **T3.2a** · Schema `commerce` discriminated union créé (commit `249facd`, Opus pré-injection) · 2 variants product/subscription
 - [🟡] **T3.2b** · Routes /commerce/index + /commerce/[type]/[slug] créées (commits `06c58ac` + `2e00f81`, Opus) · pas de template Hub séparé (route index inline)
 - [✅] **T3.2c** · Route `/commerce/[type]/[slug]` polymorphe + 5 MDX pilot (commit `ccaf874` + `06c58ac`) · 6 routes générées
-- [ ] **T3.2d** · Migrer 12 MDX produits/abonnements
+- [✅] **T3.2d** · 10 MDX commerce ajoutés (commit `0d388eb`, Worker Sonnet) · 6 products + 4 subscriptions · collection commerce passée à 15 MDX (vs 5 initial)
 - [ ] **T3.2e** · Supprimer collections `produits`, `abonnements`
 - [✅] **T3.3a** · `blog.type` enum étendu avec `'field-note'` et `'veille-ia'` (commit `8f4af71`, Opus pre-hook)
 - [✅] **T3.3b** · 1 MDX migré (commit `c8ad9de`, Worker Sonnet) · migrated-fieldnote-composable-adoption.mdx avec type:"field-note"
@@ -112,7 +112,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [✅] **T5.1c** · Routes `/glossaire/[slug]` + `/glossaire` index créées (commit `fc8539e`) · 6 routes générées
 - [✅] **T5.2a** · Schema integrations (commit `a480b10`, Opus pre-hook) · category enum 10
 - [✅] **T5.2b** · 20 integrations livrées (commit `042d484`, Worker Sonnet) · CRM/automation/productivity/data/AI/commerce/analytics/hosting/communication
-- [🟡] **T5.2c** · Worker T5.2 a livré 20 MDX · routes /integrations/[slug] + index en cours de livraison
+- [✅] **T5.2c** · Routes /integrations/[slug] + index FR+EN livrées (commit `f2f65e5`, Worker Sonnet)
 - [ ] **T5.3a** · Créer schema `comparisons` (slug_a, slug_b, dimension_comparison_array)
 - [ ] **T5.3b** · Rédiger 10 comparaisons (claude-vs-gpt, n8n-vs-make, etc.)
 - [ ] **T5.3c** · Route `/comparer/[slug-a]-vs-[slug-b].astro`
@@ -135,9 +135,9 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [ ] **T6.3b** · Composant `<LeadMagnetGated />` (form prefab + magnet trigger)
 - [ ] **T6.3c** · Wire 3 forms : audit-booking · livre-blanc · newsletter
 - [✅] **T6.3d** · NewsletterSignup form enrichi (commit `499a347`, Worker Sonnet) · regex EMAIL_RE + erreur inline + honeypot website sr-only + cookie waimia_newsletter_signed + alert() banni
-- [ ] **T6.4a** · Collection `proof-points` (datapoints réutilisables)
-- [ ] **T6.4b** · Composant `<ProofPointInline />` + `<ProofPointHero />`
-- [ ] **T6.4c** · Migrer 4 proof-points existants (+12h/sem, 4× ROI, etc.)
+- [✅] **T6.4a** · Schema proof-points + collection livrés (commit `ac1ae81`, Opus pre-hook) · 7 categories enum
+- [✅] **T6.4b** · ProofPointInline.astro livré (commit `a5c3c51`, Worker Sonnet) · variants inline + card (ProofPointHero non livré · à faire si besoin)
+- [✅] **T6.4c** · 15 proof-points livrés (commit `a5c3c51`, Worker Sonnet) · ROI×3 + Time×3 + Volume×2 + Quality×2 + Cost×2 + Adoption×3
 - [ ] **T6.5a** · Collection `guarantees` (promesses contractuelles)
 - [ ] **T6.5b** · Composant `<GuaranteeBadge />` réutilisable
 - [ ] **T6.5c** · 5 guarantees initiales (45 min audit, 100% remboursement 30j, etc.)
@@ -178,7 +178,7 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [ ] **T9.4** · 40-50 field notes (×300-500 mots) — pipeline éditorial Simon
 - [✅] **T9.5** · 4/4 cas narrés enrichis (commits `2e00f81` + `abdafad` + `3d1718e`, Workers Sonnet) · plateau + halcyon + northbound + caserne
 - [ ] **T9.6** · 2 livres blancs (AI Act readiness migré + Growth System Playbook nouveau)
-- [🟡] **T9.7** · 8/16 tunnels MDX livrés (commits `6b31564` + `3d1718e`, Workers Sonnet) · growth-system-{1-4} + activation-ia-{1-4} · reste 8 (revops + application-ia-pme × 4)
+- [✅] **T9.7** · 16/16 tunnels MDX livrés (commits `6b31564` + `3d1718e` + `5599347`, Workers Sonnet) · growth-system + activation-ia + revops + application-ia-pme × 4 chacun
 - [ ] **T9.8** · 6 produits MDX (audit-guide, kit-prompts, livre-blanc-premium, masterclass-replay, workbook, starter-pack)
 - [ ] **T9.9** · 6 abonnements MDX (hosting Vercel, maintenance, monitoring, content production, CRM, support premium)
 - [ ] **T9.10** · 8 entrées école : 5 formations + 2 parcours + 1 atelier (3/5 formations déjà livrées)

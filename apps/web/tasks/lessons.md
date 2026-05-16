@@ -1,5 +1,25 @@
 # Lessons
 
+## T6.4 — Proof points inline
+
+- Pour la collection `proofPoints`, garder le nom de fichier MDX strictement aligné sur le `slug` frontmatter permet d’utiliser `getEntry('proofPoints', slug)` sans couche de mapping supplémentaire dans les composants éditoriaux.
+- Quand une mission impose un body MDX vide, fermer le frontmatter immédiatement après `publishedAt` évite d’introduire du contenu parasite ou des sauts de section involontaires.
+
+## T5.2 — Collection integrations
+
+- La collection `integrations` du Tier 5 duplique volontairement le slug en frontmatter et en nom de fichier ; pour les routes Astro, garder `entry.id` pour `getStaticPaths()` et les hrefs tant que les fichiers restent plats dans `src/content/integrations/`.
+- Le snippet d’index fourni pour `/integrations` déclare un `byCategory` non rendu ; le supprimer ou le remplacer par un tri explicite évite de laisser du frontmatter mort dans les pages Astro.
+
+## T4.5 — Knowledge-Base RAG-ready
+
+- Pour une collection `knowledge-base` destinée au RAG, chaque `##` doit pouvoir vivre seul : éviter les ouvertures dépendantes d'une conclusion globale et expliciter les métriques ou phases dans la section elle-même.
+- Quand une mission impose un frontmatter « exact », valider hors build les longueurs de `summary` et les volumes de body avec un script local avant livraison ; c'est plus fiable qu'un contrôle visuel sur 10 MDX.
+
+## T4.3 — Bibliothèque prompts
+
+- Pour la collection `prompts`, tous les champs texte longs du frontmatter (`purpose_*`, `system_prompt_*`, `sample_output_*`) doivent rester en YAML bloc (`|` ou `>-`) ; les versions quoted sur une ligne cassent vite la lisibilité et la vérification manuelle.
+- Tant qu’aucune route détail `/agence/prompts/[slug]` n’existe, l’index doit rendre des cartes non cliquables plutôt que fabriquer des liens morts depuis la bibliothèque.
+
 ## V9-D-FR — Copywriting FR éditorial
 
 - Quand une mission demande de préserver les bodies MDX, limiter les changements content collections aux champs explicitement cités (`title_fr`, `description_fr`, `lead_fr`) et ne pas corriger les `<Bi fr=...>` ni les FAQ frontmatter hors périmètre.

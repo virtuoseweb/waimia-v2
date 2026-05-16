@@ -1,5 +1,48 @@
 # Todo
 
+## T6.4 — 15 proof-points MDX + composant inline
+
+- [x] Lire les règles, leçons, todo et vérifier le schéma `proofPoints`
+- [x] Créer les 15 fichiers MDX dans `src/content/proof-points/`
+- [x] Respecter les frontmatters exacts avec body vide pour chaque entrée
+- [x] Créer `src/components/ui/molecules/ProofPointInline.astro` avec le contenu exact demandé
+- [x] Créer le marker `/tmp/codex-missions/tier6-4-proof-points/DONE.md`
+- [x] Vérifier hors build les fichiers créés et le composant
+- [x] Ne pas lancer `astro check`, `npm run build` ni `git` conformément à la consigne
+
+## T5.2 — 20 integrations MDX + pages /integrations
+
+- [x] Lire les règles, leçons, todo, schéma `integrations` et patterns `glossaire`
+- [x] Créer les 20 fichiers MDX demandés dans `src/content/integrations/`
+- [x] Respecter les frontmatters exacts, slugs kebab-case, `publishedAt: 2026-05-16` et `tool_name`
+- [x] Créer `src/pages/integrations/index.astro` et `src/pages/integrations/[slug].astro`
+- [x] Créer `src/pages/en/integrations/index.astro` et `src/pages/en/integrations/[slug].astro`
+- [x] Vérifier hors build les comptes de fichiers et contraintes de longueurs frontmatter
+- [x] Créer le marker `/tmp/codex-missions/tier5-2-integrations/DONE.md`
+- [ ] Validation orchestrateur : `astro check`, `npm run build`, `tsc` et `git` non lancés par consigne
+
+## T4.5 — Knowledge-Base RAG-ready
+
+- [x] Lire les règles, le schéma `knowledge-base`, `tasks/todo.md` et `tasks/lessons.md`
+- [x] Vérifier le schéma `knowledge-base` dans `src/content.config.ts`
+- [x] Créer les 10 entrées MDX demandées dans `src/content/knowledge-base/`
+- [x] Respecter les frontmatters exacts, tags kebab-case et summaries 40-280 caractères
+- [x] Rédiger les bodies en français avec sections chunk-friendly et liens `/glossaire/*` pertinents
+- [x] Vérifier hors build les volumes de texte et le nombre de lignes par fichier
+- [x] Ne pas lancer `astro check`, `npm run build`, `tsc`, ni modifier `src/content.config.ts`
+- [x] Créer le marker `/tmp/codex-missions/tier4-5-knowledgebase/DONE.md`
+
+## T4.3 — 5 prompts MDX + pages /agence/prompts
+
+- [x] Lire les règles, leçons, todo et le pattern `src/pages/glossaire/index.astro`
+- [x] Créer 5 fichiers MDX bilingues dans `src/content/prompts/`
+- [x] Respecter les contraintes YAML multilignes, slugs, visibility et SEO
+- [x] Créer `src/pages/agence/prompts.astro` et `src/pages/en/agence/prompts.astro`
+- [x] Créer le marker `/tmp/codex-missions/tier4-3-prompts/DONE.md`
+- [ ] Validation orchestrateur : `astro check`, `npm run build` et `git` non lancés par consigne
+- [ ] Éventuelle suite : créer les routes détail prompt si la bibliothèque doit devenir navigable
+- [ ] Éventuelle suite : brancher un filtre visibility/category si le volume dépasse 10 prompts
+
 ## V9-D-FR — Copywriting FR natif
 
 - [x] Lire les règles, leçons et todo avant modification
