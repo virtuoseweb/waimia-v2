@@ -25,6 +25,8 @@ const lang = propLang ?? langFromPath(Astro.url.pathname);
     </>
   )}
   <form class="nl-form" novalidate data-nl-form>
+    {/* Honeypot anti-spam — invisible, ne doit pas être rempli par un humain */}
+    <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="sr-only">
     <div class="nl-row">
       <label for={`nl-email-${variant}`} class="sr-only">Email</label>
       <input
@@ -34,13 +36,14 @@ const lang = propLang ?? langFromPath(Astro.url.pathname);
         required
         autocomplete="email"
         placeholder={lang === 'fr' ? 'votre@email.com' : 'your@email.com'}
-        aria-describedby={`nl-hint-${variant}`}
+        aria-describedby={`nl-error-${variant} nl-hint-${variant}`}
         class="nl-input"
       />
       <button type="submit" class="nl-btn" data-mag="0.15">
         {lang === 'fr' ? "S'abonner" : 'Subscribe'}
       </button>
     </div>
+    <p id={`nl-error-${variant}`} class="nl-error" aria-live="assertive" hidden data-nl-error></p>
     <p id={`nl-hint-${variant}`} class="nl-hint">
       {lang === 'fr' ? 'Sans spam · Désinscription en 1 clic' : 'No spam · Unsubscribe anytime'}
     </p>
@@ -104,6 +107,14 @@ const lang = propLang ?? langFromPath(Astro.url.pathname);
   }
   .nl-input:focus{border-color:var(--ink)}
   .nl-input::placeholder{color:var(--muted)}
+  .nl-input--error{border-color:#c0392b}
+  .nl-error{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:#c0392b;
+    letter-spacing:.06em;
+    margin:0;
+  }
   .nl-btn{
     padding:12px 24px;
     background:var(--ink);
@@ -137,29 +148,66 @@ const lang = propLang ?? langFromPath(Astro.url.pathname);
 
 <script is:inline>
 (function () {
-  document.querySelectorAll('[data-nl-form]').forEach(function (form) {
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function bindForm(form) {
     if (form.dataset.nlBound) return;
     form.dataset.nlBound = '1';
+
+    var section = form.closest('[data-nl-lang]');
+    var lang = section ? section.dataset.nlLang : 'fr';
+    var emailInput = form.querySelector('input[name="email"]');
+    var honeypot = form.querySelector('input[name="website"]');
+    var errorEl = form.querySelector('[data-nl-error]');
+    var btn = form.querySelector('.nl-btn');
+
+    function showError(msg) {
+      if (!errorEl) return;
+      errorEl.textContent = msg;
+      errorEl.removeAttribute('hidden');
+      if (emailInput) emailInput.classList.add('nl-input--error');
+    }
+
+    function clearError() {
+      if (!errorEl) return;
+      errorEl.setAttribute('hidden', '');
+      errorEl.textContent = '';
+      if (emailInput) emailInput.classList.remove('nl-input--error');
+    }
+
+    if (emailInput) {
+      emailInput.addEventListener('input', clearError);
+      emailInput.addEventListener('focus', clearError);
+    }
+
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
-      var section = form.closest('[data-nl-lang]');
-      var lang = section ? section.dataset.nlLang : 'fr';
-      var emailInput = form.querySelector('input[name="email"]');
+      clearError();
+
       var email = emailInput ? emailInput.value.trim() : '';
-      if (!email || !email.includes('@')) {
+      if (!email || !EMAIL_RE.test(email)) {
+        showError(lang === 'fr' ? 'Adresse email invalide.' : 'Invalid email address.');
         if (emailInput) emailInput.focus();
         return;
       }
-      var btn = form.querySelector('.nl-btn');
+
       if (btn) btn.disabled = true;
+
+      var payload = {
+        email: email,
+        lang: lang,
+        website: honeypot ? honeypot.value : '',
+      };
+
       try {
         var res = await fetch('/api/newsletter', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email, lang: lang }),
+          body: JSON.stringify(payload),
         });
         var data = await res.json();
         if (data.ok) {
+          document.cookie = 'waimia_newsletter_signed=true; path=/; max-age=31536000; SameSite=Lax';
           form.style.display = 'none';
           var confirm = section && section.querySelector('[data-nl-confirm]');
           if (confirm) confirm.removeAttribute('hidden');
@@ -167,19 +215,22 @@ const lang = propLang ?? langFromPath(Astro.url.pathname);
             setTimeout(function () { window.location.href = data.redirect; }, 1200);
           }
         } else {
-          alert(lang === 'fr' ? 'Erreur, veuillez réessayer.' : 'Error, please try again.');
+          showError(data.error || (lang === 'fr' ? 'Erreur, veuillez réessayer.' : 'Error, please try again.'));
           if (btn) btn.disabled = false;
         }
       } catch (_) {
-        alert(lang === 'fr' ? 'Erreur réseau, veuillez réessayer.' : 'Network error, please try again.');
+        showError(lang === 'fr' ? 'Erreur réseau, veuillez réessayer.' : 'Network error, please try again.');
         if (btn) btn.disabled = false;
       }
     });
-  });
+  }
+
+  document.querySelectorAll('[data-nl-form]').forEach(bindForm);
 
   document.addEventListener('astro:page-load', function () {
     document.querySelectorAll('[data-nl-form]').forEach(function (form) {
       delete form.dataset.nlBound;
+      bindForm(form);
     });
   });
 })();

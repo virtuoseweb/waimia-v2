@@ -56,6 +56,7 @@ const CORS_HEADERS = {
 const NewsletterSchema = z.object({
   email: z.string().email(),
   lang: z.enum(["fr", "en"]).optional().default("fr"),
+  website: z.string().optional(),
 });
 
 // Workaround bug @astrojs/vercel@10 (POST exclu du bundle). Cf known-issues #1.
@@ -88,7 +89,11 @@ export const ALL: APIRoute = async ({ request }) => {
       { status: 400, headers: CORS_HEADERS },
     );
   }
-  const { email, lang } = parsed.data;
+  const { email, lang, website } = parsed.data;
+  // Honeypot : un bot a rempli le champ caché → faux succès silencieux
+  if (website) {
+    return Response.json({ ok: true }, { status: 200, headers: CORS_HEADERS });
+  }
   const { firstName } = rawPayload as Record<string, string>;
 
   try {
