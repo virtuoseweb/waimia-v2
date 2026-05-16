@@ -1,0 +1,35 @@
+---
+title_fr: "Adopter le composable V2 sans casser sa prod · field note"
+title_en: "Adopting composable V2 without breaking prod · field note"
+description_fr: "Comment migrer progressivement vers SectionsRenderer en préservant les pages existantes — le pattern back-compat avec branche conditionnelle."
+description_en: "How to progressively migrate to SectionsRenderer while preserving existing pages — the back-compat pattern with conditional branch."
+slug: migrated-fieldnote-composable-adoption
+publishedAt: 2026-05-15
+type: "field-note"
+editorialType: "Field Note"
+author: simon-beros
+contributors: []
+category: pilotage
+tags:
+  - composable
+  - architecture
+  - back-compat
+excerpt_fr: "Le pattern back-compat pour migrer vers SectionsRenderer page par page, sans bloquer la production."
+excerpt_en: "The back-compat pattern to migrate toward SectionsRenderer page by page, without blocking production."
+relatedPosts: []
+relatedSolutions: []
+relatedOffres: []
+relatedCases: []
+relatedSecteurs: []
+sources: []
+---
+
+Migration vers `SectionsRenderer` testée en prod aujourd'hui sur `/offres/composable-pilot`. Pattern retenu&nbsp;:
+
+```ts
+const useComposable = Array.isArray(data.sections) && data.sections.length > 0;
+```
+
+Si `sections` est défini dans le frontmatter MDX → SectionsRenderer. Sinon → template traditionnel. Compatibilité backward&nbsp;100&nbsp;%, migration page-par-page, zéro casse.
+
+Leçon&nbsp;: ne pas remplacer, ajouter une branche. Le code applicatif évolue sans dette technique.
