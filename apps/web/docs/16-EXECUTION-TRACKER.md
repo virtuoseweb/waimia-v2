@@ -95,14 +95,14 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [✅] **T4.2a** · Schema `brandVoice` singleton créé (commit pré-injection Opus 2026-05-15) · doctrine + tone + forbidden/preferred words + sample phrases + typography rules · bilingue
 - [✅] **T4.2b** · `src/content/brand-voice/doctrine.mdx` créé (commit `b518512`, Worker Sonnet) · doctrine V5-V7 + tone + forbidden/preferred words + sample phrases + typography rules
 - [ ] **T4.2c** · Linter custom : warn si MDX utilise `forbidden_words`
-- [ ] **T4.3a** · Créer schema `prompts` (name, purpose, system_prompt, variables, sample_output)
-- [ ] **T4.3b** · Créer 5 prompts initiaux : audit-écran, copywriting-offre, persona-deduction, brand-checker, schema-generator
-- [ ] **T4.3c** · Page `/agence/prompts` (interne ou public si décidé)
+- [✅] **T4.3a** · Schema prompts créé (commit `a480b10`, Opus pre-hook) · 7 catégories + visibility
+- [✅] **T4.3b** · 5 prompts livrés (commit `0cf4793`, Worker Sonnet) · audit-ecran (580+ mots) · copywriting-offre · persona-deduction · brand-checker · schema-generator
+- [✅] **T4.3c** · Pages /agence/prompts FR + EN (commit `0cf4793`, Worker Sonnet) · grouped by category · 188 lignes chacune
 - [✅] **T4.4a** · Schema pain-points créé (commit `a480b10`, Opus pre-hook) · slug + pain_fr/en + severity enum + affected_personas/secteurs + solution_fr/en + cross-refs
 - [✅] **T4.4b** · 12 pain-points livrés (commit `8c960fe`, Worker Sonnet) · 4 categories (Productivité/Acquisition/Pilotage/Gouvernance) · severity critical×4 high×5 medium×2
 - [✅] **T4.4c** · PainPointInline.astro créé (commit `8c960fe`, Worker Sonnet) · src/components/ui/molecules/PainPointInline.astro
-- [ ] **T4.5a** · Créer structure `src/content/knowledge-base/` (MDX RAG-ready)
-- [ ] **T4.5b** · Rédiger 10 entrées KB : méthode 4 piliers · doctrine V5-V7 · principes design · etc.
+- [✅] **T4.5a** · Schema knowledge-base + dir (commit `a480b10`, Opus pre-hook) · 7 categories
+- [✅] **T4.5b** · 10 entrées KB livrées (commit `904c817`, Worker Sonnet) · methode/doctrine/design/ia-strategy/culture/process/tooling · 600-1200 mots chacune
 - [ ] **T4.5c** · Indexation embeddings (option future) — placeholder pour Pinecone/pgvector
 
 ### TIER 5 · SEO programmatique (30h)
@@ -110,9 +110,9 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [✅] **T5.1a** · Schema `glossary` créé (commit pré-injection Opus 2026-05-15) · 5 catégories enum (ia-technique/ia-business/data/workflow/gouvernance) · SEO meta intégré
 - [🟡] **T5.1b** · ~31/50 termes glossaire IA rédigés (commits `b518512` + `6280fda`, Workers Sonnet) · +16 termes batch 3 (ai-readiness, context-window, tokens-llm, function-calling, gdpr-ia, etc.) · pattern frontmatter figé
 - [✅] **T5.1c** · Routes `/glossaire/[slug]` + `/glossaire` index créées (commit `fc8539e`) · 6 routes générées
-- [ ] **T5.2a** · Créer schema `integrations` (tool_name, vendor, category, use_cases, native_or_via_api)
-- [ ] **T5.2b** · Rédiger 20 integrations (HubSpot, Salesforce, Pipedrive, Notion, Make, Zapier, etc.)
-- [ ] **T5.2c** · Route `/integrations/[slug].astro` + index `/integrations/`
+- [✅] **T5.2a** · Schema integrations (commit `a480b10`, Opus pre-hook) · category enum 10
+- [✅] **T5.2b** · 20 integrations livrées (commit `042d484`, Worker Sonnet) · CRM/automation/productivity/data/AI/commerce/analytics/hosting/communication
+- [🟡] **T5.2c** · Worker T5.2 a livré 20 MDX · routes /integrations/[slug] + index en cours de livraison
 - [ ] **T5.3a** · Créer schema `comparisons` (slug_a, slug_b, dimension_comparison_array)
 - [ ] **T5.3b** · Rédiger 10 comparaisons (claude-vs-gpt, n8n-vs-make, etc.)
 - [ ] **T5.3c** · Route `/comparer/[slug-a]-vs-[slug-b].astro`
