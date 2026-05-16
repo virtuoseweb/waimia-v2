@@ -1,0 +1,157 @@
+---
+/**
+ * Molécule · ProofPointInline · affichage éditorial d'un proof-point chiffré.
+ *
+ * Props : slug (charge via getEntry) OU value + label + category directs.
+ * Priorité props directs > slug.
+ * Variant inline (horizontal hairline) ou card (vertical border-box).
+ */
+
+import { getEntry } from 'astro:content';
+
+type Category = 'roi' | 'time' | 'volume' | 'quality' | 'cost' | 'adoption' | 'autre';
+
+interface Props {
+  slug?: string;
+  value?: string;
+  label?: string;
+  category?: Category;
+  source?: string;
+  variant?: 'inline' | 'card';
+  class?: string;
+}
+
+const {
+  slug,
+  value: valueProp,
+  label: labelProp,
+  category: catProp,
+  source,
+  variant = 'inline',
+  class: extraClass = '',
+} = Astro.props;
+
+let value = valueProp;
+let label = labelProp;
+let category = catProp;
+
+if (slug && (!value || !label)) {
+  const entry = await getEntry('proofPoints', slug);
+  if (entry) {
+    value  = value    ?? entry.data.value;
+    label  = label    ?? entry.data.label_fr;
+    category = category ?? entry.data.category as Category;
+  }
+}
+
+const CATEGORY_COLOR: Record<string, string> = {
+  roi:      '#2E7D32',
+  time:     '#1565C0',
+  volume:   '#6A1B9A',
+  quality:  '#E65100',
+  cost:     '#C62828',
+  adoption: '#00695C',
+  autre:    'var(--muted)',
+};
+const dotColor = CATEGORY_COLOR[category ?? 'autre'] ?? 'var(--muted)';
+---
+
+{variant === 'inline' ? (
+  <div class={`proof-inline ${extraClass}`.trim()}>
+    <span class="proof-inline__value">{value}</span>
+    <div class="proof-inline__right">
+      <span class="proof-inline__dot" style={`background:${dotColor}`} aria-hidden="true"></span>
+      <span class="proof-inline__label">{label}</span>
+      {source && <em class="proof-inline__source">{source}</em>}
+    </div>
+  </div>
+) : (
+  <div class={`proof-card ${extraClass}`.trim()}>
+    <span class="proof-card__value">{value}</span>
+    <p class="proof-card__label">{label}</p>
+    {source && <em class="proof-card__source">{source}</em>}
+    {category && (
+      <span class="proof-card__cat" style={`color:${dotColor}`}>{category}</span>
+    )}
+  </div>
+)}
+
+<style>
+  /* ── Variant inline ── */
+  .proof-inline {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding-block: 16px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .proof-inline:first-child {
+    border-top: 1px solid var(--hairline);
+  }
+  .proof-inline__value {
+    font-family: var(--font-serif);
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1;
+    color: var(--ink);
+    font-weight: 400;
+    flex-shrink: 0;
+  }
+  .proof-inline__right {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .proof-inline__dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .proof-inline__label {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .proof-inline__source {
+    font-size: 12px;
+    color: var(--muted-2);
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  /* ── Variant card ── */
+  .proof-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px;
+    border: 1px solid var(--hairline);
+  }
+  .proof-card__value {
+    font-family: var(--font-serif);
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1;
+    color: var(--ink);
+    font-weight: 400;
+  }
+  .proof-card__label {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.4;
+  }
+  .proof-card__source {
+    font-size: 12px;
+    color: var(--muted-2);
+    font-style: italic;
+  }
+  .proof-card__cat {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+</style>
