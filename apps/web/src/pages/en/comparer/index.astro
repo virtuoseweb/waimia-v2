@@ -1,0 +1,93 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import { langFromPath } from '../../../lib/i18n';
+
+const allComparisons = await getCollection('comparisons');
+const lang = langFromPath(Astro.url.pathname);
+const rootPrefix = lang === 'fr' ? '' : '/en';
+
+const categoryLabels: Record<string, { fr: string; en: string }> = {
+  'ai-platform': { fr: 'Plateforme IA', en: 'AI Platform' },
+  crm: { fr: 'CRM', en: 'CRM' },
+  automation: { fr: 'Automatisation', en: 'Automation' },
+  analytics: { fr: 'Analytics', en: 'Analytics' },
+  hosting: { fr: 'Hebergement', en: 'Hosting' },
+  productivity: { fr: 'Productivite', en: 'Productivity' },
+  autre: { fr: 'Autre', en: 'Other' },
+};
+
+const grouped = allComparisons.reduce((acc, entry) => {
+  const cat = entry.data.category;
+  if (!acc[cat]) acc[cat] = [];
+  acc[cat].push(entry);
+  return acc;
+}, {} as Record<string, typeof allComparisons>);
+---
+<Base
+  title={lang === 'fr' ? 'Comparaisons outils · Choisir le bon logiciel · Waimia' : 'Tool comparisons · Choose the right software · Waimia'}
+  description={lang === 'fr'
+    ? "Comparaisons objectives d outils : CRM, automation, IA, analytics, hebergement."
+    : 'Objective tool comparisons: CRM, automation, AI, analytics, hosting.'}
+>
+  <section class="comparisons-index">
+    <div class="wrap-wide">
+      <header class="comparisons-index__hd">
+        <Kicker tone="muted">§ {lang === 'fr' ? 'Comparaisons' : 'Comparisons'}</Kicker>
+        <h1 class="comparisons-index__title">
+          {lang === 'fr'
+            ? <>{allComparisons.length} <i>comparaisons</i> detaillees</>
+            : <>{allComparisons.length} <i>detailed</i> comparisons</>}
+        </h1>
+        <p class="comparisons-index__lede">
+          {lang === 'fr'
+            ? 'Guides de choix objectifs pour selectionner les bons logiciels.'
+            : 'Objective selection guides to choose the right software.'}
+        </p>
+      </header>
+
+      {Object.entries(grouped).map(([cat, entries]) => (
+        <div class="comparisons-index__group">
+          <h2 class="comparisons-index__group-title">
+            {lang === 'fr' ? categoryLabels[cat]?.fr : categoryLabels[cat]?.en}
+          </h2>
+          <ul class="comparisons-index__grid">
+            {entries.map((entry) => (
+              <li class="comparisons-index__card">
+                <a href={`${rootPrefix}/comparer/${entry.data.slug}`} class="comparisons-index__link">
+                  <span class="comparisons-index__names">
+                    <strong>{entry.data.name_a}</strong>
+                    <span class="comparisons-index__vs">vs</span>
+                    <strong>{entry.data.name_b}</strong>
+                  </span>
+                  <p class="comparisons-index__verdict">
+                    {lang === 'fr' ? entry.data.verdict_fr : entry.data.verdict_en}
+                  </p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+.comparisons-index { padding: 4rem 0 6rem; }
+.comparisons-index__hd { margin-bottom: 3rem; }
+.comparisons-index__title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin: 0.5rem 0; }
+.comparisons-index__lede { color: var(--color-muted, #6b7280); max-width: 60ch; }
+.comparisons-index__group { margin-bottom: 3rem; }
+.comparisons-index__group-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; border-bottom: 1px solid var(--color-border, #e5e7eb); padding-bottom: 0.5rem; }
+.comparisons-index__grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+.comparisons-index__card { border: 1px solid var(--color-border, #e5e7eb); border-radius: 8px; transition: border-color 0.2s; }
+.comparisons-index__card:hover { border-color: var(--color-accent, #111); }
+.comparisons-index__link { display: block; padding: 1.25rem; text-decoration: none; color: inherit; }
+.comparisons-index__names { display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; margin-bottom: 0.5rem; }
+.comparisons-index__vs { color: var(--color-muted, #9ca3af); font-size: 0.8rem; font-weight: 500; }
+.comparisons-index__verdict { font-size: 0.875rem; color: var(--color-muted, #6b7280); margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+</style>

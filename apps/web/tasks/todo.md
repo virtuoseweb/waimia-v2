@@ -1,5 +1,29 @@
 # Todo
 
+## T5.3 — 10 comparisons MDX + pages /comparer
+
+- [x] Lire les regles, lecons, todo, schema `comparisons` et patterns `integrations`
+- [x] Creer les 10 fichiers MDX demandes dans `src/content/comparisons/`
+- [x] Respecter les frontmatters exacts, slugs `*-vs-*`, dimensions 4 a 6 et `publishedAt: 2026-05-16`
+- [x] Verifier hors build les longueurs de `verdict_fr/en` et `seo.meta_description_fr/en`
+- [x] Creer `src/pages/comparer/index.astro` et `src/pages/comparer/[slug].astro`
+- [x] Creer `src/pages/en/comparer/index.astro` et `src/pages/en/comparer/[slug].astro`
+- [x] Ajuster les hrefs miroir EN avec prefixe `/en` pour garder des routes navigables
+- [x] Creer le marker `/tmp/codex-missions/tier5-3-comparisons/DONE.md`
+- [x] Validation orchestrateur : `astro check`, `npm run build`, `tsc` et `git` non lances par consigne
+
+## T2.5 — Design system FR enrichi + miroir EN
+
+- [x] Lire `AGENTS.md`, `tasks/todo.md`, `tasks/lessons.md` et les règles utiles avant patch
+- [x] Vérifier les imports réels, `Base.astro` et les props des composants ciblés
+- [x] Enrichir `src/pages/agence/design-system.astro` avec la démo raw form, les démos live molecules et la section `#animations`
+- [x] Mettre à jour le TOC FR et renuméroter `ChapterLabel` editorial / motion / templates
+- [x] Créer `src/pages/en/agence/design-system.astro` en miroir EN compact avec imports relatifs réels
+- [x] Vérifier en navigateur FR et EN via Playwright avec captures full-page et console sans erreur
+- [x] Vérifier avec `npm run build`
+- [ ] `npm run check` reste bloqué par des erreurs hors périmètre déjà présentes (`SectionsRenderer`, `section-registry`, `LeadMagnetTemplate`)
+- [x] Créer le marker `/tmp/codex-missions/tier2-5-design-showcase/DONE.md`
+
 ## T6.4 — 15 proof-points MDX + composant inline
 
 - [x] Lire les règles, leçons, todo et vérifier le schéma `proofPoints`

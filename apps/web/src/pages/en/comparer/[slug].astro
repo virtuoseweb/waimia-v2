@@ -1,0 +1,153 @@
+---
+export const prerender = true;
+
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Kicker from '../../../components/ui/atoms/Kicker.astro';
+import Breadcrumb from '../../../components/ui/molecules/Breadcrumb.astro';
+import { langFromPath } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('comparisons');
+  return entries.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<'comparisons'> };
+const { entry } = Astro.props as Props;
+const data = entry.data;
+const lang = langFromPath(Astro.url.pathname);
+const rootPrefix = lang === 'fr' ? '' : '/en';
+
+const verdict = lang === 'fr' ? data.verdict_fr : data.verdict_en;
+const useCase = lang === 'fr' ? data.use_case_recommendation_fr : data.use_case_recommendation_en;
+const metaDesc = data.seo
+  ? (lang === 'fr' ? data.seo.meta_description_fr : data.seo.meta_description_en)
+  : verdict.slice(0, 160);
+
+const categoryLabels: Record<string, { fr: string; en: string }> = {
+  'ai-platform': { fr: 'Plateforme IA', en: 'AI Platform' },
+  crm: { fr: 'CRM', en: 'CRM' },
+  automation: { fr: 'Automatisation', en: 'Automation' },
+  analytics: { fr: 'Analytics', en: 'Analytics' },
+  hosting: { fr: 'Hebergement', en: 'Hosting' },
+  productivity: { fr: 'Productivite', en: 'Productivity' },
+  autre: { fr: 'Autre', en: 'Other' },
+};
+const categoryLabel = categoryLabels[data.category];
+---
+<Base
+  title={lang === 'fr'
+    ? `${data.name_a} vs ${data.name_b} · Comparaison complete · Waimia`
+    : `${data.name_a} vs ${data.name_b} · Full comparison · Waimia`}
+  description={metaDesc}
+>
+  <article class="comparison-detail">
+    <div class="wrap-wide">
+      <Breadcrumb
+        items={[
+          { href: `${rootPrefix}/comparer`, label: lang === 'fr' ? 'Comparaisons' : 'Comparisons' },
+          { href: `${rootPrefix}/comparer/${data.slug}`, label: `${data.name_a} vs ${data.name_b}`, current: true },
+        ]}
+      />
+
+      <header class="comparison-detail__hd">
+        <Kicker tone="accent">
+          § {lang === 'fr' ? categoryLabel.fr : categoryLabel.en}
+        </Kicker>
+        <h1 class="comparison-detail__title">
+          {data.name_a} <span class="comparison-detail__vs">vs</span> {data.name_b}
+        </h1>
+        <p class="comparison-detail__intro">
+          {lang === 'fr'
+            ? `Comparaison objective de ${data.name_a} et ${data.name_b} selon les dimensions cles.`
+            : `Objective comparison of ${data.name_a} and ${data.name_b} across key dimensions.`}
+        </p>
+      </header>
+
+      <section class="comparison-detail__table-section">
+        <h2 class="comparison-detail__section-title">
+          {lang === 'fr' ? 'Tableau comparatif' : 'Comparison table'}
+        </h2>
+        <div class="comparison-detail__table-wrap">
+          <table class="comparison-detail__table">
+            <thead>
+              <tr>
+                <th>{lang === 'fr' ? 'Dimension' : 'Dimension'}</th>
+                <th>{data.name_a}</th>
+                <th>{data.name_b}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.dimensions.map((dim) => (
+                <tr>
+                  <td class="comparison-detail__dim-name">
+                    {lang === 'fr' ? dim.name_fr : dim.name_en}
+                  </td>
+                  <td class:list={['comparison-detail__cell', { 'comparison-detail__cell--winner': dim.winner === 'a' }]}>
+                    {lang === 'fr' ? dim.a_fr : dim.a_en}
+                    {dim.winner === 'a' && <span class="comparison-detail__badge">&#10003;</span>}
+                  </td>
+                  <td class:list={['comparison-detail__cell', { 'comparison-detail__cell--winner': dim.winner === 'b' }]}>
+                    {lang === 'fr' ? dim.b_fr : dim.b_en}
+                    {dim.winner === 'b' && <span class="comparison-detail__badge">&#10003;</span>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="comparison-detail__verdict">
+        <h2 class="comparison-detail__section-title">
+          {lang === 'fr' ? 'Verdict' : 'Verdict'}
+        </h2>
+        <p class="comparison-detail__verdict-text">{verdict}</p>
+        {useCase && (
+          <div class="comparison-detail__usecase">
+            <strong>{lang === 'fr' ? 'Recommandation :' : 'Recommendation:'}</strong>
+            {' '}{useCase}
+          </div>
+        )}
+      </section>
+
+      <section class="comparison-detail__cta">
+        <p class="comparison-detail__cta-text">
+          {lang === 'fr'
+            ? 'Besoin daide pour choisir la solution adaptee a votre contexte ?'
+            : 'Need help choosing the right solution for your context?'}
+        </p>
+        <a href={`${rootPrefix}/contact`} class="btn btn--primary">
+          {lang === 'fr' ? 'Discuter de votre choix' : 'Discuss your choice'}
+        </a>
+      </section>
+    </div>
+  </article>
+</Base>
+
+<style>
+.comparison-detail { padding: 3rem 0 6rem; }
+.comparison-detail__hd { margin-bottom: 2.5rem; }
+.comparison-detail__title { font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 700; margin: 0.5rem 0; }
+.comparison-detail__vs { color: var(--color-muted, #9ca3af); font-weight: 400; }
+.comparison-detail__intro { color: var(--color-muted, #6b7280); max-width: 65ch; margin-top: 0.75rem; }
+.comparison-detail__section-title { font-size: 1.25rem; font-weight: 600; margin: 2rem 0 1rem; }
+.comparison-detail__table-wrap { overflow-x: auto; }
+.comparison-detail__table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.comparison-detail__table thead th { background: var(--color-surface, #f9fafb); padding: 0.75rem 1rem; text-align: left; font-weight: 600; border-bottom: 2px solid var(--color-border, #e5e7eb); }
+.comparison-detail__table tbody td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--color-border, #e5e7eb); vertical-align: top; }
+.comparison-detail__dim-name { font-weight: 500; color: var(--color-muted, #374151); min-width: 140px; }
+.comparison-detail__cell--winner { background: var(--color-success-subtle, #f0fdf4); font-weight: 500; }
+.comparison-detail__badge { display: inline-block; margin-left: 0.35rem; color: var(--color-success, #16a34a); font-size: 0.75rem; }
+.comparison-detail__verdict { margin-top: 2rem; }
+.comparison-detail__verdict-text { font-size: 1.05rem; line-height: 1.7; max-width: 70ch; }
+.comparison-detail__usecase { margin-top: 1rem; padding: 1rem 1.25rem; background: var(--color-surface, #f9fafb); border-left: 3px solid var(--color-accent, #111); border-radius: 0 4px 4px 0; font-size: 0.95rem; line-height: 1.6; }
+.comparison-detail__cta { margin-top: 3rem; padding: 2rem; background: var(--color-surface, #f9fafb); border-radius: 8px; text-align: center; }
+.comparison-detail__cta-text { margin: 0 0 1.25rem; font-size: 1.05rem; }
+.btn { display: inline-block; padding: 0.75rem 1.75rem; border-radius: 6px; font-weight: 600; text-decoration: none; transition: opacity 0.2s; }
+.btn--primary { background: #111; color: #fff; }
+.btn--primary:hover { opacity: 0.85; }
+</style>
