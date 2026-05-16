@@ -1,0 +1,188 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Kicker from '../../components/ui/atoms/Kicker.astro';
+
+const entries = await getCollection('prompts');
+const lang = 'fr';
+
+const sorted = entries.sort(
+  (a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime(),
+);
+
+const byCategory = sorted.reduce((acc, entry) => {
+  const cat = entry.data.category;
+  acc[cat] ??= [];
+  acc[cat].push(entry);
+  return acc;
+}, {} as Record<string, typeof entries>);
+
+const categoryLabels = {
+  audit: 'Audit UI',
+  copywriting: 'Copywriting',
+  persona: 'Persona',
+  brand: 'Brand voice',
+  schema: 'Schéma',
+  diagnostic: 'Diagnostic',
+  autre: 'Autre',
+} as const;
+
+const visibilityLabels = {
+  internal: 'Interne',
+  public: 'Public',
+} as const;
+
+const categoryOrder = ['audit', 'copywriting', 'persona', 'brand', 'schema', 'diagnostic', 'autre'] as const;
+
+const truncate = (value: string, max = 120) =>
+  value.length > max ? `${value.slice(0, max).trimEnd()}...` : value;
+---
+<Base
+  title={lang === 'fr' ? 'Prompts IA · Bibliothèque agence · Waimia' : 'AI Prompts · Agency Library · Waimia'}
+  description={lang === 'fr'
+    ? 'Bibliothèque Waimia de prompts IA : audit UI, copywriting, persona, brand voice et génération de schémas Astro/Zod.'
+    : 'Waimia AI prompt library: UI audit, copywriting, persona, brand voice, and Astro/Zod schema generation.'}
+>
+  <section class="prompts-index">
+    <div class="wrap-wide">
+      <header class="prompts-index__hd">
+        <Kicker tone="muted">§ Bibliothèque · Prompts IA</Kicker>
+        <h1 class="prompts-index__h1">
+          {lang === 'fr' ? <>Bibliothèque <i>prompts</i> IA</> : <>AI <i>prompts</i> library</>}
+        </h1>
+        <p class="prompts-index__lede">
+          {lang === 'fr'
+            ? `${entries.length} prompts disponibles. Prompts internes et publics pour auditer, écrire, cadrer et structurer plus vite.`
+            : `${entries.length} prompts available. Internal and public prompts to audit, write, frame, and structure faster.`}
+        </p>
+      </header>
+
+      {categoryOrder
+        .filter((category) => byCategory[category]?.length)
+        .map((category) => (
+          <section class="prompts-index__cat">
+            <h2 class="prompts-index__cat-title">
+              {categoryLabels[category] ?? category}
+            </h2>
+            <div class="prompts-index__grid">
+              {byCategory[category].map((entry) => (
+                <article class="prompts-index__card">
+                  <div class="prompts-index__card-meta">
+                    <span class="prompts-index__badge prompts-index__badge--category">
+                      {categoryLabels[entry.data.category] ?? entry.data.category}
+                    </span>
+                    <span class="prompts-index__badge prompts-index__badge--visibility">
+                      {visibilityLabels[entry.data.visibility]}
+                    </span>
+                  </div>
+                  <h3 class="prompts-index__card-title">{entry.data.name_fr}</h3>
+                  <p class="prompts-index__card-body">{truncate(entry.data.purpose_fr)}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .prompts-index {
+    padding-top: calc(var(--spacing-section) + var(--header-height));
+    padding-bottom: var(--spacing-section);
+  }
+  .prompts-index__hd {
+    margin-bottom: clamp(48px, 6vw, 80px);
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 32px;
+  }
+  .prompts-index__h1 {
+    margin: 24px 0 0;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: var(--text-h1-hero);
+    line-height: 1.02;
+  }
+  .prompts-index__h1 i {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .prompts-index__lede {
+    margin: 24px 0 0;
+    max-width: 64ch;
+    color: var(--ink-2);
+    font-family: var(--font-sans);
+    font-size: var(--text-lede);
+    line-height: 1.5;
+  }
+  .prompts-index__cat {
+    margin-bottom: 64px;
+  }
+  .prompts-index__cat-title {
+    margin: 0 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--hairline);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .prompts-index__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .prompts-index__card {
+    min-height: 100%;
+    border: 1px solid var(--hairline);
+    background: var(--color-paper, var(--paper));
+    padding: 20px;
+    transition:
+      background var(--dur-fast) var(--ease),
+      border-color var(--dur-fast) var(--ease),
+      transform var(--dur-fast) var(--ease);
+  }
+  .prompts-index__card:hover {
+    background: var(--paper-2);
+    transform: translateY(-2px);
+  }
+  .prompts-index__card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .prompts-index__badge {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--hairline);
+    padding: 4px 8px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .prompts-index__card-title {
+    margin: 0 0 10px;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2vw, 28px);
+    line-height: 1.15;
+  }
+  .prompts-index__card-body {
+    margin: 0;
+    color: var(--ink-2);
+    font-family: var(--font-sans);
+    font-size: var(--text-body-sm);
+    line-height: 1.6;
+  }
+  @media (max-width: 900px) {
+    .prompts-index__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
