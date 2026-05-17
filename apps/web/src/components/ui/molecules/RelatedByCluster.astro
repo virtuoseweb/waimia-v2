@@ -1,5 +1,9 @@
 ---
+// RelatedByCluster · data-loader par cluster · délègue le rendu à RelatedCards
+// Logique : getCollection(blog + cookbooks + livresBlancs) filtré par cluster,
+// tri par date desc, slice(limit), puis mappage vers RelatedCards.Card.
 import { getCollection } from 'astro:content';
+import RelatedCards from './RelatedCards.astro';
 
 interface Props {
   cluster?: string;
@@ -64,68 +68,41 @@ const all: Item[] = [
   .slice(0, limit);
 
 if (all.length === 0) return null;
+
+const cards = all.map((it) => ({
+  kicker: it.type.toUpperCase(),
+  title_fr: it.data.title_fr,
+  title_en: it.data.title_fr,
+  lead_fr: '',
+  lead_en: '',
+  href: it.href,
+}));
 ---
 
-<aside class="rel-cluster">
-  <div class="rel-kicker">§ Continuer dans ce cluster</div>
-  <ul>
-    {
-      all.map((it) => (
-        <li>
-          <a href={it.href}>
-            <span class="rel-type">{it.type}</span>
-            <span class="rel-title">{it.data.title_fr}</span>
-          </a>
-        </li>
-      ))
-    }
-  </ul>
-  <a href={`/ressources/silo/${cluster}`} class="rel-cta"
-    >Voir le silo complet →</a
-  >
-</aside>
+<div class="rel-cluster-wrap">
+  <p class="rel-cluster-label">§ Continuer dans ce cluster</p>
+  <RelatedCards {cards} />
+  <a href={`/ressources/silo/${cluster}`} class="rel-cluster-cta">Voir le silo complet →</a>
+</div>
 
 <style>
-  .rel-cluster {
-    padding: 32px;
-    background: var(--paper-2, #EFEBE2);
-    border-radius: 16px;
-    margin: 48px 0;
-  }
-  .rel-kicker {
+  .rel-cluster-wrap { margin: 48px 0; }
+  .rel-cluster-label {
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: .12em;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: 16px;
+    margin: 0 0 16px;
   }
-  .rel-cluster ul { list-style: none; padding: 0; margin: 0 0 20px; }
-  .rel-cluster li { border-bottom: 1px solid rgba(0,0,0,.08); }
-  .rel-cluster li:last-child { border-bottom: 0; }
-  .rel-cluster a {
-    display: grid;
-    grid-template-columns: 100px 1fr;
-    gap: 16px;
-    padding: 14px 0;
-    color: var(--ink);
-    text-decoration: none;
-    align-items: baseline;
-  }
-  .rel-cluster a:hover { color: var(--accent); }
-  .rel-type {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-  .rel-title { font-family: var(--font-display); font-size: 15px; line-height: 1.4; }
-  .rel-cta {
+  .rel-cluster-cta {
+    display: inline-block;
+    margin-top: 20px;
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: .1em;
     color: var(--accent);
     text-decoration: none;
   }
+  .rel-cluster-cta:hover { text-decoration: underline; }
 </style>

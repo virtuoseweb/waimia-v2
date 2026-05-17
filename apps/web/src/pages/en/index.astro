@@ -27,14 +27,13 @@ import SixServices         from '../../components/ui/organisms/SixServices.astro
 import Pyramid             from '../../components/ui/organisms/Pyramid.astro';
 import Departments         from '../../components/ui/organisms/Departments.astro';
 import Cases               from '../../components/ui/organisms/Cases.astro';
-import FAQ                 from '../../components/seo/FAQ.astro';
+import FaqAccordion        from '../../components/sections/FaqAccordion.astro';
 import FieldNotes          from '../../components/ui/organisms/FieldNotes.astro';
 import BookSession         from '../../components/ui/organisms/BookSession.astro';
 import FooterMarquee       from '../../components/ui/organisms/FooterMarquee.astro';
 import SectionTransition   from '../../components/ui/atoms/SectionTransition.astro';
 
 import { CLIENT_LOGOS } from '../../data/sitemap';
-import { faqPage } from '../../lib/seo';
 import { buildOrganization } from '../../lib/seo/schema-builder';
 
 const socialProofData = {
@@ -82,7 +81,7 @@ const faqItems = [
 <Base
   title="Waimia · AI Systems for SMBs · Acquisition · CRM · Content · Web · Brand"
   description="We wire AI into SMB tools: acquisition, CRM, content, website, analytics, brand. AI Activation · 1 week, AI Growth System, Operational Productivity. Paris · Geneva."
-  jsonLd={[faqPage(faqItems), buildOrganization()]}
+  jsonLd={[buildOrganization()]}
 >
   <BootSplash lang="en" />
 
@@ -129,8 +128,8 @@ const faqItems = [
 
   <SectionTransition phrase="Before wiring, we clarify." />
 
-  {/* 10 — FAQ · 8 SMB-first questions (CMS, brand, AI Act included) */}
-  <FAQ
+  {/* 10 — FaqAccordion · 8 SMB-first questions (CMS, brand, AI Act included) */}
+  <FaqAccordion
     items={faqItems}
     heading="Frequently asked questions"
     intro="Eight straight answers — no slides, no jargon. The kind we send by email before the first call."

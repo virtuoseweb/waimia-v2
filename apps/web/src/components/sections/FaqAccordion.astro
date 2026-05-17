@@ -1,41 +1,85 @@
 ---
+// FaqAccordion · section W6 · accordéon canonique FAQ
+// Pivot du dispositif GEO/AIO. Cf docs/02-geo-aio-strategy.md
+//
+// Deux modes d'usage :
+//   1. CMS  : <FaqAccordion data={section} lang="fr" />
+//   2. Direct: <FaqAccordion items={[{q,a}]} heading="..." intro="..." />
+//
+// Génère JSON-LD FAQPage dans les deux modes (dispositif GEO/AIO).
 import type { SectionByType } from '../../schemas/sections';
 import Kicker from '../ui/atoms/Kicker.astro';
+import JsonLd from '../seo/JsonLd.astro';
+import { faqPage } from '../../lib/seo';
 
-interface Props {
+interface SimpleItem { q: string; a: string }
+
+interface DirectProps {
+  items: SimpleItem[];
+  heading?: string;
+  intro?: string;
+}
+
+interface CmsProps {
   data: SectionByType<'faq-accordion'>;
   lang: 'fr' | 'en';
 }
-const { data, lang } = Astro.props;
-const isFr = lang === 'fr';
+
+type Props = DirectProps | CmsProps;
+
+let normalizedItems: SimpleItem[];
+let heading: string;
+let kicker: string | undefined;
+let intro: string | undefined;
+
+if ('data' in Astro.props) {
+  const { data, lang } = Astro.props as CmsProps;
+  const isFr = lang === 'fr';
+  normalizedItems = data.items.map((it: (typeof data.items)[number]) => ({
+    q: isFr ? it.q_fr : it.q_en,
+    a: isFr ? it.a_fr : it.a_en,
+  }));
+  heading = isFr ? data.h2_fr : data.h2_en;
+  kicker = isFr ? data.kicker_fr : data.kicker_en;
+  intro = undefined;
+} else {
+  const { items, heading: h, intro: i } = Astro.props as DirectProps;
+  normalizedItems = items;
+  heading = h ?? 'Questions fréquentes';
+  kicker = undefined;
+  intro = i;
+}
 ---
 
 <section class="faq-accordion">
   <div class="wrap-wide">
   <div class="faq-accordion__header">
-    {(isFr ? data.kicker_fr : data.kicker_en) && (
-      <Kicker tone="muted">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
+    {kicker && (
+      <Kicker tone="muted">{kicker}</Kicker>
     )}
-    <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
+    <h2 set:html={heading} />
+    {intro && <p class="faq-accordion__intro">{intro}</p>}
   </div>
   <div class="faq-accordion__list">
-    {data.items.map((item: (typeof data.items)[number], i: number) => (
+    {normalizedItems.map((item, i) => (
       <details class="faq-accordion__item" name="faq">
         <summary class="faq-accordion__q">
           <Kicker as="span" tone="accent" size={10} class="faq-accordion__q-label">
             Q.{String(i + 1).padStart(2, '0')}
           </Kicker>
-          <span>{isFr ? item.q_fr : item.q_en}</span>
+          <span>{item.q}</span>
           <span class="faq-accordion__arrow" aria-hidden="true">↓</span>
         </summary>
         <div class="faq-accordion__a">
-          <p>{isFr ? item.a_fr : item.a_en}</p>
+          <p>{item.a}</p>
         </div>
       </details>
     ))}
   </div>
   </div>
 </section>
+
+<JsonLd data={faqPage(normalizedItems)} />
 
 <style>
   .faq-accordion {
@@ -56,6 +100,15 @@ const isFr = lang === 'fr';
     margin: 0;
   }
   h2 :global(i) { font-style: italic; }
+  .faq-accordion__intro {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 64ch;
+    text-wrap: pretty;
+  }
   .faq-accordion__item { border-top: 1px solid var(--hairline); }
   .faq-accordion__item:last-child { border-bottom: 1px solid var(--hairline); }
   .faq-accordion__q {

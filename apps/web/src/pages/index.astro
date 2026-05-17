@@ -27,14 +27,13 @@ import SixServices         from '../components/ui/organisms/SixServices.astro';
 import Pyramid             from '../components/ui/organisms/Pyramid.astro';
 import Departments         from '../components/ui/organisms/Departments.astro';
 import Cases               from '../components/ui/organisms/Cases.astro';
-import FAQ                 from '../components/seo/FAQ.astro';
+import FaqAccordion        from '../components/sections/FaqAccordion.astro';
 import FieldNotes          from '../components/ui/organisms/FieldNotes.astro';
 import BookSession         from '../components/ui/organisms/BookSession.astro';
 import FooterMarquee       from '../components/ui/organisms/FooterMarquee.astro';
 import SectionTransition   from '../components/ui/atoms/SectionTransition.astro';
 
 import { CLIENT_LOGOS } from '../data/sitemap';
-import { faqPage } from '../lib/seo';
 import { buildOrganization } from '../lib/seo/schema-builder';
 
 const socialProofData = {
@@ -82,7 +81,7 @@ const faqItems = [
 <Base
   title="Waimia · Systèmes IA pour PME et ETI · Acquisition · CRM · Pilotage"
   description="On câble l'IA dans les outils des PME : acquisition, CRM, relances, pilotage. Activation en 1 semaine, Growth System IA, Productivité Opérationnelle. Paris · Genève."
-  jsonLd={[faqPage(faqItems), buildOrganization()]}
+  jsonLd={[buildOrganization()]}
 >
   {/* Splash · respiration cinématique 1.1s · CSS-only depuis V2 2026-05-15 (zéro JS bundle) */}
   <BootSplash lang="fr" />
@@ -130,8 +129,8 @@ const faqItems = [
 
   <SectionTransition phrase="Avant de câbler, on clarifie." />
 
-  {/* 10 — FAQ · 8 questions PME-first (CMS, brand, AI Act inclus) */}
-  <FAQ
+  {/* 10 — FaqAccordion · 8 questions PME-first (CMS, brand, AI Act inclus) */}
+  <FaqAccordion
     items={faqItems}
     heading="Questions fréquentes"
     intro="Huit réponses nettes — pas des slides, pas du jargon. Ce qu'on écrit par mail avant de se parler."
