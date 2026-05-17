@@ -12,6 +12,7 @@ import CookiesBanner from '../components/ui/organisms/CookiesBanner.astro';
 import CursorDot from '../components/ui/atoms/CursorDot.astro';
 import ProgressBar from '../components/ui/atoms/ProgressBar.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
+import { SEO } from 'astro-seo';
 import { organization, website } from '../lib/seo';
 import { langFromPath, alternateHref, hasBilingualMirror, HREFLANG } from '../lib/i18n';
 import { ClientRouter } from 'astro:transitions';
@@ -90,9 +91,39 @@ const additionalLd = additionalJsonLd
     <meta name="color-scheme" content="light" />
     <meta name="format-detection" content="telephone=no" />
 
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    <SEO
+      title={title}
+      description={description}
+      noindex={noindex}
+      openGraph={{
+        basic: {
+          title: title,
+          type: 'website',
+          image: finalOgImage,
+          url: canonicalUrl,
+        },
+        optional: {
+          description: description,
+          siteName: 'Waimia',
+          locale: lang === 'fr' ? 'fr_FR' : 'en_US',
+        },
+        image: {
+          url: finalOgImage,
+          width: 1200,
+          height: 630,
+          type: 'image/png',
+          alt: title,
+        },
+      }}
+      twitter={{
+        card: 'summary_large_image',
+        site: '@waimia_ai',
+        title: title,
+        description: description,
+        image: finalOgImage,
+        imageAlt: title,
+      }}
+    />
 
     {/* Hreflang · pivot SEO bilingue */}
     <link rel="canonical" href={canonicalUrl} />
@@ -100,23 +131,6 @@ const additionalLd = additionalJsonLd
     {altUrl && <link rel="alternate" hreflang={HREFLANG[lang === 'fr' ? 'en' : 'fr']} href={altUrl} />}
     <link rel="alternate" hreflang="x-default" href={`${siteUrl}/`} />
 
-    {/* Open Graph + Twitter */}
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content={HREFLANG[lang]} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={finalOgImage} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:site_name" content="Waimia" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={finalOgImage} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/png" />
-    <meta name="twitter:image:alt" content={title} />
-    <meta name="twitter:site" content="@waimia_ai" />
 
     {/* Favicons + PWA manifest */}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

@@ -5,6 +5,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import vercel from '@astrojs/vercel';
+import robotsTxt from 'astro-robots-txt';
 
 // Waimia · Astro 6 config · Static-first + API routes SSR via Vercel Functions
 // - output: 'static' : 100 % SSG par défaut, fichiers CDN immuables (T1.1 activé 2026-05-17)
@@ -81,6 +82,22 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/bienvenue/') &&
         !page.includes('/agence/design-system'),
+    }),
+    robotsTxt({
+      policy: [
+        { userAgent: '*', allow: '/', disallow: ['/admin/', '/api/'] },
+        { userAgent: 'GPTBot', allow: '/' },
+        { userAgent: 'ClaudeBot', allow: '/' },
+        { userAgent: 'anthropic-ai', allow: '/' },
+        { userAgent: 'PerplexityBot', allow: '/' },
+        { userAgent: 'Perplexity-User', allow: '/' },
+        { userAgent: 'Google-Extended', allow: '/' },
+        { userAgent: 'CCBot', allow: '/' },
+        { userAgent: 'cohere-ai', allow: '/' },
+        { userAgent: 'Bytespider', allow: '/' },
+      ],
+      sitemap: 'https://waimia.com/sitemap-index.xml',
+      host: 'waimia.com',
     }),
   ],
   // Cast `as any` parce que tailwindcss/vite et Astro embarquent leur propre
