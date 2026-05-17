@@ -8,15 +8,12 @@
 //
 // Cf docs/07-component-patterns.md · Pattern 2 (Astro + <script> interne)
 
-import { PRIMARY_NAV, type MegaMenu, type SimpleNav } from '../../data/sitemap';
+import { MEGA_MENU } from '../../data/mega-menu';
 import { langFromPath, alternateHref, t } from '../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
 const altHref = alternateHref(Astro.url.pathname, lang);
 const ctaHref = lang === 'fr' ? '/contact' : '/en/contact';
-
-// Cast utilitaire pour différencier mega-menus (cols) et simple links
-const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
 ---
 <header class="hdr" data-open="" id="hdr">
   <div class="hdr-inner">
@@ -27,24 +24,18 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
 
     {/* Nav · 5 boutons (4 mega + 1 simple) */}
     <nav class="hdr-nav" aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'}>
-      {PRIMARY_NAV.map((item) => isMega(item) ? (
-        <div class="hdr-nav-item" data-nav-item={item.key}>
+      {MEGA_MENU.map((item) => (
+        <div class="hdr-nav-item" data-nav-item={item.parent}>
           <button
             class="hdr-nav-trigger"
-            data-mega-trigger={item.key}
+            data-mega-trigger={item.parent}
             aria-expanded="false"
             aria-haspopup="true"
-            aria-controls={`mega-${item.key}`}
+            aria-controls={`mega-${item.parent}`}
           >
             <span>{t(item.label, lang)}</span>
             <span class="caret" aria-hidden>▾</span>
           </button>
-        </div>
-      ) : (
-        <div class="hdr-nav-item">
-          <a class="hdr-nav-trigger" href={item.href}>
-            <span>{t(item.label, lang)}</span>
-          </a>
         </div>
       ))}
     </nav>
@@ -68,23 +59,23 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
 </header>
 
 {/* Mega panels · un par mega-menu · cachés par défaut, révélés par data-open du header */}
-{PRIMARY_NAV.filter(isMega).map((item) => {
-  const cols = item.cols.length === 2 ? '2' : item.cols.length === 4 ? '4' : '3';
+{MEGA_MENU.map((item) => {
+  const cols = item.columns.length === 2 ? '2' : item.columns.length === 4 ? '4' : '3';
   return (
-    <div class="mega" data-mega-panel={item.key} id={`mega-${item.key}`} aria-hidden="true">
+    <div class="mega" data-mega-panel={item.parent} id={`mega-${item.parent}`} aria-hidden="true">
       <div class="mega-inner" data-cols={cols}>
-        {item.cols.map((col) => (
+        {item.columns.map((col) => (
           <div class="mega-col">
             <div class="mega-col-hd">
-              <div class="k">{t(col.kicker, lang)}</div>
-              <div class="t">{t(col.label, lang)}</div>
+              {col.kicker && <div class="k">{t(col.kicker, lang)}</div>}
+              <div class="t">{t(col.title, lang)}</div>
             </div>
             <ul>
-              {col.items.map((sub) => (
+              {col.links.map((sub) => (
                 <li>
                   <a class="mega-link" href={sub.href}>
                     <span class="t">{t(sub.label, lang)}</span>
-                    {sub.lead && <span class="sub">{t(sub.lead, lang)}</span>}
+                    {sub.description && <span class="sub">{t(sub.description, lang)}</span>}
                   </a>
                 </li>
               ))}
@@ -104,10 +95,12 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
         )}
       </div>
       <div class="mega-bottom">
-        <span>{t(item.lead, lang)}</span>
-        <a href={item.href}>
-          {lang === 'fr' ? `Voir le hub ${t(item.label, lang)} →` : `See the ${t(item.label, lang)} hub →`}
-        </a>
+        {item.lead && <span>{t(item.lead, lang)}</span>}
+        {item.parentHref && (
+          <a href={item.parentHref}>
+            {lang === 'fr' ? `Voir le hub ${t(item.label, lang)} →` : `See the ${t(item.label, lang)} hub →`}
+          </a>
+        )}
       </div>
     </div>
   );
@@ -123,20 +116,20 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
     <button class="m-sheet-close" data-mobile-close aria-label={lang === 'fr' ? 'Fermer' : 'Close'}>×</button>
   </div>
   <div class="m-sheet-body">
-    {PRIMARY_NAV.map((item, idx) => isMega(item) ? (
-      <div class="m-sheet-acc" data-acc={item.key}>
-        <button class="m-sheet-acc-head" data-acc-trigger={item.key} aria-expanded="false" aria-controls={`m-acc-body-${item.key}`}>
+    {MEGA_MENU.map((item, idx) => (
+      <div class="m-sheet-acc" data-acc={item.parent}>
+        <button class="m-sheet-acc-head" data-acc-trigger={item.parent} aria-expanded="false" aria-controls={`m-acc-body-${item.parent}`}>
           <span class="num">0{idx + 1}</span>
           <span class="ttl">{t(item.label, lang)}</span>
           <span class="plus" aria-hidden="true">+</span>
         </button>
-        <div class="m-sheet-acc-body" id={`m-acc-body-${item.key}`}>
+        <div class="m-sheet-acc-body" id={`m-acc-body-${item.parent}`}>
           <div class="m-sheet-acc-inner">
-            {item.cols.map((col) => (
+            {item.columns.map((col) => (
               <div class="m-sheet-acc-col">
-                <div class="k">{t(col.kicker, lang)}</div>
-                <div class="t">{t(col.label, lang)}</div>
-                {col.items.map((sub) => (
+                {col.kicker && <div class="k">{t(col.kicker, lang)}</div>}
+                <div class="t">{t(col.title, lang)}</div>
+                {col.links.map((sub) => (
                   <a href={sub.href}>{t(sub.label, lang)}</a>
                 ))}
               </div>
@@ -144,8 +137,6 @@ const isMega = (n: MegaMenu | SimpleNav): n is MegaMenu => !('simple' in n);
           </div>
         </div>
       </div>
-    ) : (
-      <a class="m-sheet-simple" href={item.href}>{t(item.label, lang)}</a>
     ))}
   </div>
   <div class="m-sheet-end">
