@@ -20,10 +20,15 @@ EN — Our difference: we deliver systems that run in production, not slide deck
 - FR/EN — Solutions: https://waimia.com/solutions — cas d'usage par fonction, acquisition, CRM, contenu, productivité, support.
 - FR/EN — Technologies: https://waimia.com/technologies — Claude, MCP, agents, orchestration, open-source et hébergement.
 - FR/EN — Études de cas / Case studies: https://waimia.com/cas — résultats mesurés, pipeline, productivité et systèmes livrés.
-- FR/EN — Blog: https://waimia.com/ressources/blog — essais, notes de terrain et stratégie IA pour PME.
-- FR/EN — Cookbooks: https://waimia.com/ressources/cookbooks — guides opérationnels pour déployer Claude, MCP et workflows.
-- FR/EN — Livres blancs / White papers: https://waimia.com/ressources/livres-blancs — dossiers conformité, AI Act, gouvernance et adoption.
-- FR/EN — Équipe / Team: https://waimia.com/equipe — profils, expertise et auteur principal.
+- FR/EN — Comparatifs / Comparisons: https://waimia.com/comparer — analyses Claude vs GPT, n8n vs Make, Vercel vs Netlify, HubSpot vs Salesforce.
+- FR/EN — Intégrations / Integrations: https://waimia.com/integrations — HubSpot, Notion, Slack, Pipedrive, Salesforce, n8n, Make, Stripe, Airtable.
+- FR — Blog: https://waimia.com/ressources/blog — essais, notes de terrain et stratégie IA pour PME.
+- FR — Cookbooks: https://waimia.com/ressources/cookbooks — guides opérationnels pour déployer Claude, MCP et workflows.
+- FR — Livres blancs / White papers: https://waimia.com/ressources/livres-blancs — dossiers conformité, AI Act, gouvernance et adoption.
+- FR — Secteurs: https://waimia.com/secteurs — verticals B2B services, industrie, finance/comptabilité.
+- FR — Glossaire: https://waimia.com/glossaire — termes IA pour PME (MCP, agent, RAG, GEO, souveraineté, etc.).
+- FR — Équipe / Team: https://waimia.com/equipe — profils, expertise et auteur principal.
+- FR/EN — Manifeste / Manifesto: https://waimia.com/manifesto — doctrine de production-first, positionnement Waimia.
 - FR/EN — Contact: https://waimia.com/contact — diagnostic, cadrage ou demande presse/partenariat.
 
 ## Pages signature avec leurs URLs / Signature Pages with URLs
@@ -37,7 +42,10 @@ EN — Our difference: we deliver systems that run in production, not slide deck
 7. FR — Conseil IA: audit, roadmap, gouvernance et arbitrages build/buy/host. EN — AI advisory for audits, roadmaps, governance and architecture decisions. URL: https://waimia.com/offres/conseil
 8. FR — Solutions acquisition IA: contenus SEO/GEO, landing pages, CRM et relances. EN — AI acquisition systems for SEO/GEO content, landing pages, CRM and nurturing. URL: https://waimia.com/solutions/acquisition-ia
 9. FR — Solutions CRM & relances IA: scoring, déduplication, priorisation et séquences. EN — CRM and follow-up agents for scoring, deduplication and sequences. URL: https://waimia.com/solutions/crm-relances-ia
-10. FR — Cas Plateau: exemple de refonte RevOps et pipeline récupéré. EN — RevOps case study and recovered pipeline example. URL: https://waimia.com/cas/plateau
+10. FR — Cas Plateau: refonte RevOps SaaS B2B, 2,4 M€ pipeline récupéré, agents finance et triage CRM. EN — RevOps rebuild for a B2B SaaS, €2.4M pipeline recovered, multi-agent finance and CRM triage. URL: https://waimia.com/cas/plateau
+11. FR — Cas Halcyon: cabinet conseil stratégie (28 consultants), 120 h libérées via agents documentaires. EN — Strategy consulting firm, 120 consulting hours recovered via document production agents. URL: https://waimia.com/cas/halcyon
+12. FR — Cas Northbound Capital: gestion d'actifs, −2 jours de clôture mensuelle, 80 % des questions auto. EN — Asset management, −2 days on monthly close, 80% of close questions handled automatically. URL: https://waimia.com/cas/northbound
+13. FR — Cas Caserne Industries: 3 sites industriels, 4 goulots inter-sites identifiés en 48 h. EN — Manufacturer across 3 sites, 4 information flow bottlenecks surfaced in 48 hours. URL: https://waimia.com/cas/caserne
 
 ## Faits clés / Key Facts
 

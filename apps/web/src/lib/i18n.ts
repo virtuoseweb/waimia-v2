@@ -37,6 +37,40 @@ export function alternateHref(pathname: string, currentLang: Lang): string {
  */
 export const HREFLANG: Record<Lang, string> = { fr: 'fr-FR', en: 'en-US' };
 
+// Pages statiques FR qui n'ont pas de miroir EN (→ pas de hreflang en-US à émettre).
+const FR_ONLY_STATIC = new Set([
+  '/offres/conseil', '/offres/revops', '/offres/site-web-ia',
+  '/offres/site-web-ia-landing', '/offres/audit-maturite-ia',
+  '/agence/careers', '/agence/docs', '/agence/governance', '/agence/trust-center',
+  '/ressources/blog', '/ressources/blog/brain-circuit', '/ressources/academy',
+  '/ressources/changelog',
+  '/ressources/cookbooks', '/ressources/cookbooks/claude-cowork-rollout',
+  '/ressources/cookbooks/claude-skills-tutorial', '/ressources/cookbooks/mcp-server-deploy',
+  '/ressources/livres-blancs', '/ressources/livres-blancs/ai-act-readiness',
+  '/ressources/field-notes',
+  '/glossaire', '/secteurs', '/secteurs/finance-compta',
+  '/secteurs/industrie', '/secteurs/services-b2b',
+  '/equipe', '/archive', '/ecole', '/commerce',
+]);
+
+// Préfixes de routes FR-only (contenu dynamique sans équivalent EN).
+const FR_ONLY_PREFIXES = [
+  '/glossaire/', '/secteurs/',
+  '/ressources/cookbooks/', '/ressources/livres-blancs/', '/ressources/field-notes/',
+  '/ressources/personas/', '/ressources/testimonials/', '/ressources/veille-ia/',
+  '/ressources/categorie/', '/ressources/outils/', '/ressources/silo/', '/ressources/tag/',
+  '/equipe/', '/ecole/', '/commerce/',
+];
+
+/**
+ * Retourne `true` si la page à `pathname` a un miroir anglais.
+ * Utilisé pour n'émettre `hreflang="en-US"` que sur les pages effectivement traduites.
+ */
+export function hasBilingualMirror(pathname: string): boolean {
+  if (FR_ONLY_STATIC.has(pathname)) return false;
+  return !FR_ONLY_PREFIXES.some((p) => pathname.startsWith(p));
+}
+
 /**
  * Tire la chaîne dans la bonne langue depuis un objet { en, fr }.
  */

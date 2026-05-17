@@ -13,7 +13,7 @@ import CursorDot from '../components/ui/atoms/CursorDot.astro';
 import ProgressBar from '../components/ui/atoms/ProgressBar.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import { organization, website } from '../lib/seo';
-import { langFromPath, alternateHref, HREFLANG } from '../lib/i18n';
+import { langFromPath, alternateHref, hasBilingualMirror, HREFLANG } from '../lib/i18n';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
@@ -29,6 +29,12 @@ interface Props {
   noindex?: boolean;
   /** Override canonical (sinon dérivé du chemin) */
   canonical?: string;
+  /** Surcharge ou supprime le lien hreflang alternatif.
+   * - `undefined` : calculé automatiquement (via hasBilingualMirror)
+   * - `string` : URL miroir explicite
+   * - `false` : page FR-only, aucune balise en-US émise
+   */
+  alternate?: string | false;
   /** Couleur thème navigateur */
   themeColor?: string;
 }
@@ -41,13 +47,26 @@ const {
   ogImage,
   noindex = false,
   canonical,
+  alternate,
   themeColor = '#F6F1E8',
 } = Astro.props;
 
 const lang = langFromPath(Astro.url.pathname);
-const altPath = alternateHref(Astro.url.pathname, lang);
 const siteUrl = 'https://waimia.com';
 const canonicalUrl = canonical ?? `${siteUrl}${Astro.url.pathname}`;
+
+// altUrl : URL du miroir linguistique pour hreflang.
+// - alternate===false → page FR-only, pas de hreflang alternatif
+// - alternate (string) → URL explicite fournie par la page
+// - sinon → hasBilingualMirror décide d'après la liste FR_ONLY
+const altUrl: string | null = (() => {
+  if (alternate === false) return null;
+  if (typeof alternate === 'string') {
+    return alternate.startsWith('http') ? alternate : `${siteUrl}${alternate}`;
+  }
+  if (!hasBilingualMirror(Astro.url.pathname)) return null;
+  return `${siteUrl}${alternateHref(Astro.url.pathname, lang)}`;
+})();
 
 // T1.6b · OG image dynamique via /api/og.png si pas d'image fournie
 // Utilise title + kicker dérivé de la description (first sentence) pour le rendu SVG
@@ -55,7 +74,6 @@ const ogTitle = encodeURIComponent(title.split('·')[0].trim().substring(0, 80))
 const ogKicker = encodeURIComponent(lang === 'fr' ? '§ Waimia' : '§ Waimia');
 const dynamicOgUrl = `${siteUrl}/api/og.png?title=${ogTitle}&kicker=${ogKicker}`;
 const finalOgImage = ogImage ?? dynamicOgUrl;
-const altUrl = `${siteUrl}${altPath}`;
 
 const baseLd = [organization(), website(lang)];
 const pageLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
@@ -79,7 +97,7 @@ const additionalLd = additionalJsonLd
     {/* Hreflang · pivot SEO bilingue */}
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang={HREFLANG[lang]} href={canonicalUrl} />
-    <link rel="alternate" hreflang={HREFLANG[lang === 'fr' ? 'en' : 'fr']} href={altUrl} />
+    {altUrl && <link rel="alternate" hreflang={HREFLANG[lang === 'fr' ? 'en' : 'fr']} href={altUrl} />}
     <link rel="alternate" hreflang="x-default" href={`${siteUrl}/`} />
 
     {/* Open Graph + Twitter */}
