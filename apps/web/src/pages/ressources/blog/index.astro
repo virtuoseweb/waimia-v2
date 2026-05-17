@@ -2,19 +2,22 @@
 // Page · /ressources/blog · Index notes & essais
 export const prerender = true;
 
-// Source : waimia-handoff2 / writing-index.html
-//
-// Composé de · ListIndexTemplate (variant writing-index) + EditorialWriteRow
-
+import { getCollection } from 'astro:content';
 import ListIndexTemplate from '../../../components/templates/ListIndexTemplate.astro';
 import EditorialWriteRow from '../../../components/ui/molecules/EditorialWriteRow.astro';
-import { FIELD_NOTES } from '../../../data/sitemap';
-import { langFromPath, t } from '../../../lib/i18n';
+import { langFromPath } from '../../../lib/i18n';
 
 const lang = langFromPath(Astro.url.pathname);
 
-// Mappage spécifique vers /ressources/blog/<slug> · 1 essai live (brain-circuit) + autres en stub
-const slugFor = (idx: number) => idx === 0 ? '/ressources/blog/brain-circuit' : '/ressources/blog';
+const allBlog = await getCollection('blog');
+const sortedBlog = [...allBlog].sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
+
+const formatDate = (d: Date) => {
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  return `${mm}.${d.getFullYear()}`;
+};
 ---
 <ListIndexTemplate
   title="Notes & essais · Waimia"
@@ -30,14 +33,14 @@ const slugFor = (idx: number) => idx === 0 ? '/ressources/blog/brain-circuit' : 
 
   <Fragment slot="list">
     <div class="blog-list">
-      {FIELD_NOTES.map((note, i) => (
+      {sortedBlog.map((entry) => (
         <EditorialWriteRow
-          date={note.date}
-          tag={t(note.tag, lang)}
-          href={slugFor(i)}
+          date={formatDate(entry.data.publishedAt)}
+          tag={(entry.data.editorialType ?? entry.data.type ?? 'NOTE').toUpperCase()}
+          href={`/ressources/blog/${entry.id}`}
           tone="paper"
         >
-          {t(note.text, lang)}
+          {lang === 'fr' ? entry.data.title_fr : entry.data.title_en}
         </EditorialWriteRow>
       ))}
     </div>

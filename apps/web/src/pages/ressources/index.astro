@@ -7,6 +7,7 @@ export const prerender = true;
 // Composition directe d'organismes existants : masthead + Featured tool +
 // Cases + WritingNotes (blog) + Cookbooks + Newsletter band + CtaBand.
 
+import { getCollection } from 'astro:content';
 import { actions, isInputError } from 'astro:actions';
 import Base from '../../layouts/Base.astro';
 import Kicker from '../../components/ui/atoms/Kicker.astro';
@@ -38,64 +39,89 @@ const collectionLd = buildCollectionPage(
   ['Blog', 'Cookbooks', 'Livres blancs', 'Veille IA', 'Outils', 'Cas clients'],
 );
 
+const [allBlog, allCases, allCookbooks, allLivresBlancs] = await Promise.all([
+  getCollection('blog'),
+  getCollection('cases'),
+  getCollection('cookbooks'),
+  getCollection('livresBlancs'),
+]);
+
+const byDate = (
+  a: { data: { publishedAt: Date } },
+  b: { data: { publishedAt: Date } },
+) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime();
+
+const sortedBlog = [...allBlog].sort(byDate);
+const sortedCases = [...allCases].sort(byDate);
+const sortedCookbooks = [...allCookbooks].sort(byDate);
+const sortedLivresBlancs = [...allLivresBlancs].sort(byDate);
+
+// Trois lectures vedettes : livre blanc le plus récent · blog le plus récent · veille-ia
+const _lb0 = sortedLivresBlancs[0];
+const _b0 = sortedBlog[0];
 const tools = [
-  { kicker: 'LIVRE BLANC · 01', title_fr: "Préparation à l'AI Act", title_en: 'AI Act Readiness',
-    lead_fr: 'Dossier conformité · téléchargeable →', lead_en: 'Compliance dossier · downloadable →',
-    href: '/ressources/livres-blancs/ai-act-readiness' },
-  { kicker: 'ESSAI · 02', title_fr: 'Brain circuit', title_en: 'Brain circuit',
-    lead_fr: "Comment l'IA opérationnelle recâble l'entreprise →", lead_en: 'How operational AI rewires the company →',
-    href: '/ressources/blog/brain-circuit' },
-  { kicker: 'VEILLE · 03', title_fr: 'Veille IA · hebdo', title_en: 'AI watch · weekly',
-    lead_fr: 'Synthèses signées Waimia, sans bruit →', lead_en: 'Signed Waimia briefs, no noise →',
-    href: '/ressources/veille-ia' },
+  ...(_lb0 ? [{
+    kicker: 'LIVRE BLANC · 01',
+    title_fr: _lb0.data.title_fr,
+    title_en: _lb0.data.title_en,
+    lead_fr: `${_lb0.data.pages} pages · téléchargeable →`,
+    lead_en: `${_lb0.data.pages} pages · downloadable →`,
+    href: `/ressources/livres-blancs/${_lb0.id}`,
+  }] : []),
+  ...(_b0 ? [{
+    kicker: `${(_b0.data.editorialType ?? 'ESSAI').toUpperCase()} · 02`,
+    title_fr: _b0.data.title_fr,
+    title_en: _b0.data.title_en,
+    lead_fr: `${_b0.data.description_fr} →`,
+    lead_en: `${_b0.data.description_en} →`,
+    href: `/ressources/blog/${_b0.id}`,
+  }] : []),
+  {
+    kicker: 'VEILLE · 03',
+    title_fr: 'Veille IA · hebdo',
+    title_en: 'AI watch · weekly',
+    lead_fr: 'Synthèses signées Waimia, sans bruit →',
+    lead_en: 'Signed Waimia briefs, no noise →',
+    href: '/ressources/veille-ia',
+  },
 ];
 
-const cookbookCards = [
-  { kicker: 'COOKBOOK · 01', title_fr: 'Claude Skills · tutoriel', title_en: 'Claude Skills tutorial',
-    lead_fr: 'Construire un skill from scratch · 30 min →', lead_en: 'Build a skill from scratch · 30 min →',
-    href: '/ressources/cookbooks/claude-skills-tutorial' },
-  { kicker: 'COOKBOOK · 02', title_fr: 'MCP Server · déploiement', title_en: 'MCP server deploy',
-    lead_fr: 'Serveur MCP custom · prod-ready →', lead_en: 'Custom MCP server · prod-ready →',
-    href: '/ressources/cookbooks/mcp-server-deploy' },
-  { kicker: 'COOKBOOK · 03', title_fr: 'Claude Cowork · rollout', title_en: 'Claude Cowork rollout',
-    lead_fr: 'Déploiement light en 14 jours →', lead_en: '14-day light rollout →',
-    href: '/ressources/cookbooks/claude-cowork-rollout' },
-];
+const cookbookCards = sortedCookbooks.map((c, i) => ({
+  kicker: `COOKBOOK · ${String(i + 1).padStart(2, '0')}`,
+  title_fr: c.data.title_fr,
+  title_en: c.data.title_en,
+  lead_fr: `${c.data.description_fr} →`,
+  lead_en: `${c.data.description_en} →`,
+  href: `/ressources/cookbooks/${c.id}`,
+}));
 
-const caseCards = [
-  { num: '01', kicker: 'CAS · SAAS B2B', title_fr: 'Plateau',
-    sub_fr: '+2,4 M€ pipeline récupéré',
-    lead_fr: 'RevOps rebuild · 10 semaines · Claude + HubSpot + dbt.',
-    href: '/ressources/cas/plateau' },
-  { num: '02', kicker: 'CAS · SANTÉ-TECH', title_fr: 'Halcyon Health',
-    sub_fr: '−38% temps de triage',
-    lead_fr: 'Triage assisté · 6 semaines · Claude + Snowflake.',
-    href: '/ressources/cas/halcyon' },
-  { num: '03', kicker: 'CAS · FINTECH EU', title_fr: 'Northbound',
-    sub_fr: '×3,1 conversion SQL',
-    lead_fr: 'Lead qualification · 14 semaines · Claude + Segment + dbt.',
-    href: '/ressources/cas/northbound' },
-  { num: '04', kicker: 'CAS · INDUSTRIE FR', title_fr: 'Caserne',
-    sub_fr: '1 200 h/an récupérées',
-    lead_fr: 'RAG documentaire · 8 semaines · Claude + RAG + SAP.',
-    href: '/ressources/cas/caserne' },
-  { num: '05', kicker: 'CAS · INTERNE', title_fr: 'VirtuoseOS',
-    sub_fr: 'L\'OS sous chaque livraison',
-    lead_fr: 'Blueprint interne Waimia · ongoing · Claude + open-source + multi-agent.',
-    href: '/ressources/cas/virtuoseos' },
-];
+// hrefs corrigés : /cas/{slug} (pas /ressources/cas/)
+const caseCards = sortedCases.map((c, i) => ({
+  num: String(i + 1).padStart(2, '0'),
+  kicker: `CAS · ${c.data.sector_fr.toUpperCase()}`,
+  title_fr: c.data.client,
+  sub_fr: c.data.impact_fr,
+  lead_fr: c.data.description_fr,
+  href: `/cas/${c.id}`,
+}));
 
-const blogCards = [
-  { kicker: 'BLOG · 01', title_fr: 'Brain Circuit', title_en: 'Brain Circuit',
-    lead_fr: 'Note longue · architecture cognitive →', lead_en: 'Long read · cognitive architecture →',
-    href: '/ressources/blog/brain-circuit' },
-];
+const blogCards = sortedBlog.slice(0, 3).map((b, i) => ({
+  kicker: `BLOG · ${String(i + 1).padStart(2, '0')}`,
+  title_fr: b.data.title_fr,
+  title_en: b.data.title_en,
+  lead_fr: `${b.data.description_fr} →`,
+  lead_en: `${b.data.description_en} →`,
+  href: `/ressources/blog/${b.id}`,
+}));
 
-const livresBlancsCards = [
-  { kicker: 'LIVRE BLANC · 01', title_fr: 'AI Act Readiness', title_en: 'AI Act Readiness',
-    lead_fr: 'Conformité européenne · checklist 47 critères →', lead_en: 'EU compliance · 47 criteria checklist →',
-    href: '/ressources/livres-blancs/ai-act-readiness' },
-];
+const livresBlancsCards = sortedLivresBlancs.map((lb, i) => ({
+  kicker: `LIVRE BLANC · ${String(i + 1).padStart(2, '0')}`,
+  title_fr: lb.data.title_fr,
+  title_en: lb.data.title_en,
+  lead_fr: `${lb.data.description_fr} →`,
+  lead_en: `${lb.data.description_en} →`,
+  href: `/ressources/livres-blancs/${lb.id}`,
+}));
 
 const ctaData = {
   type: 'cta-final' as const,
