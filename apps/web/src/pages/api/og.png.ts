@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { Resvg } from "@resvg/resvg-js";
 
 export const prerender = false;
 
@@ -71,9 +72,14 @@ export const GET: APIRoute = async ({ url }) => {
   <text fill="#8B7355" x="1120" y="590" font-size="20" font-family="Georgia, serif" text-anchor="end">Waimia</text>
 </svg>`;
 
-  return new Response(svg, {
+  const resvg = new Resvg(svg, {
+    fitTo: { mode: "width", value: 1200 },
+  });
+  const pngBuffer = new Uint8Array(resvg.render().asPng());
+
+  return new Response(pngBuffer, {
     headers: {
-      "Content-Type": "image/svg+xml",
+      "Content-Type": "image/png",
       "Cache-Control": "public, max-age=31536000, immutable",
     },
   });

@@ -13,7 +13,7 @@ export function organization() {
     '@type': 'Organization',
     name: ORG_NAME,
     url: SITE_URL,
-    logo: `${SITE_URL}/og/waimia-logo.png`,
+    logo: `${SITE_URL}/og/logo.svg`,
     description: "Agence IA experte de l'écosystème Claude. Architectes de systèmes agentiques.",
     foundingDate: '2024',
     address: [
@@ -90,7 +90,7 @@ export function article(opts: {
     author: opts.authorName
       ? { '@type': 'Person', name: opts.authorName }
       : { '@type': 'Organization', name: ORG_NAME },
-    publisher: { '@type': 'Organization', name: ORG_NAME, logo: { '@type': 'ImageObject', url: `${SITE_URL}/og/waimia-logo.png` } },
+    publisher: { '@type': 'Organization', name: ORG_NAME, logo: { '@type': 'ImageObject', url: `${SITE_URL}/og/logo.svg` } },
   };
 }
 

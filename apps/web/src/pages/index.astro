@@ -34,7 +34,6 @@ import FooterMarquee       from '../components/ui/organisms/FooterMarquee.astro'
 import SectionTransition   from '../components/ui/atoms/SectionTransition.astro';
 
 import { CLIENT_LOGOS, CAPABILITY_MAP, HERO_METRICS } from '../data/sitemap';
-import { buildOrganization } from '../lib/seo/schema-builder';
 
 const proofBarData = {
   type: 'proof-bar' as const,
@@ -110,7 +109,6 @@ const faqItems = [
 <Base
   title="Waimia · Systèmes IA pour PME et ETI · Acquisition · CRM · Pilotage"
   description="On câble l'IA dans les outils des PME : acquisition, CRM, relances, pilotage. Activation en 1 semaine, Growth System IA, Productivité Opérationnelle. Paris · Genève."
-  jsonLd={[buildOrganization()]}
 >
   {/* Splash · respiration cinématique 1.1s · CSS-only depuis V2 2026-05-15 (zéro JS bundle) */}
   <BootSplash lang="fr" />

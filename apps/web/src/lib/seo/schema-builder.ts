@@ -76,7 +76,7 @@ function buildOrganization() {
     '@id': `${SITE_URL}/#organization`,
     name: 'Waimia',
     url: SITE_URL,
-    logo: `${SITE_URL}/og/default.png`,
+    logo: `${SITE_URL}/og/logo.svg`,
     sameAs: ['https://www.linkedin.com/company/waimia'],
   };
 }
@@ -224,7 +224,7 @@ function buildArticle(
         '@type': 'Organization',
         '@id': `${SITE_URL}/#organization`,
         name: 'Waimia',
-        logo: { '@type': 'ImageObject', url: `${SITE_URL}/og/default.png` },
+        logo: { '@type': 'ImageObject', url: `${SITE_URL}/og/logo.svg` },
       },
     ...(input.mainEntityOfPage
       ? {

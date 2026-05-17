@@ -27,6 +27,7 @@
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/vercel": "^10.0.5",
     "@calcom/embed-react": "^1.5.3",
+    "@resvg/resvg-js": "^2.6.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@upstash/ratelimit": "^2.0.8",
