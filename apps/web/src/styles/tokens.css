@@ -1,8 +1,8 @@
 /* Waimia · tokens.css
    Source de vérité des tokens DS · @theme expose à Tailwind v4
    Ne pas inventer de token ici — toujours synchroniser avec docs/00-design-system-mapping.md
-   Note · Google Fonts chargées via <link> dans Base.astro (preload + stylesheet) pour éviter
-   la chaîne @import CSS → découverte tardive → gain LCP 200-400ms. */
+   Note · Polices self-hosted via @font-face dans fonts.css (woff2 latin + latin-ext).
+   Preload des 3 fonts critiques dans Base.astro · 0 requête CDN tiers. */
 
 /* ─── BASE TOKENS ─── */
 :root {

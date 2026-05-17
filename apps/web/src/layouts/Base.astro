@@ -100,16 +100,11 @@ const additionalLd = additionalJsonLd
     <link rel="alternate icon" href="/favicon.ico" />
     <link rel="manifest" href="/manifest.json" />
 
-    {/* Google Fonts · stratégie 3 couches pour LCP optimal :
-        1. preconnect : DNS + TLS anticipés sur les 2 origines
-        2. preload as="style" : browser démarre le fetch dès le parse HTML
-           avant de voir le <link rel="stylesheet"> (découverte ~200-400ms plus tôt)
-        3. stylesheet : chargement standard, parallèle au CSS bundle Astro
-        L'@import url() a été retiré de tokens.css — chaîne CSS → découverte tardive éliminée. */}
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" />
+    {/* Polices self-hosted · Mission 03 perf · @font-face dans src/styles/fonts.css
+        woff2 latin + latin-ext, servi depuis /public/fonts/ → 0 requête CDN tiers */}
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/instrument-serif-regular.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-tight-regular.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/jetbrains-mono-regular.woff2" crossorigin />
 
     {/* JSON-LD baseline (Organization + WebSite) + custom blocks */}
     <JsonLd data={[...baseLd, ...pageLd, ...additionalLd]} />

@@ -3,6 +3,7 @@
    Tempo contemplatif (reveals 1400ms). Tout token = tokens.css. */
 
 @import "tailwindcss";
+@import "./fonts.css";
 @import "./tokens.css";
 
 /* ─── BASE ─── */
