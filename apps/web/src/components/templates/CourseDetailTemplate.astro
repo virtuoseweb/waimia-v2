@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
 import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
+import { buildCourseSchema, buildBreadcrumbList } from '../../lib/seo/schema-builder';
 
 interface Props {
   entry: CollectionEntry<'courses'>;
@@ -99,13 +100,24 @@ const atelierDate = ad?.scheduled_at
       weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
     })
   : null;
+
+const SITE_URL = 'https://waimia.com';
+const jsonLd = [
+  buildCourseSchema(entry, lang),
+  buildBreadcrumbList([
+    { name: fr ? 'Accueil' : 'Home', url: fr ? SITE_URL : `${SITE_URL}/en` },
+    { name: fr ? 'École' : 'Academy', url: fr ? `${SITE_URL}/ecole` : `${SITE_URL}/en/ecole` },
+    { name: typeLabel },
+    { name: title },
+  ]),
+];
 ---
 
-<Base title={title} description={description}>
+<Base title={title} description={description} jsonLd={jsonLd}>
   <article class="course-detail" data-type={data.course_type}>
     <div class="wrap-wide">
 
-      <Breadcrumb items={crumbs} lang={lang} />
+      <Breadcrumb items={crumbs} lang={lang} noJsonLd />
 
       <!-- ── HERO ────────────────────────────────────────────────────────── -->
       <header class="course-detail__hd">

@@ -11,6 +11,7 @@ import Kicker from '../../../components/ui/atoms/Kicker.astro';
 import Button from '../../../components/ui/atoms/Button.astro';
 import Breadcrumb from '../../../components/ui/molecules/Breadcrumb.astro';
 import { langFromPath } from '../../../lib/i18n';
+import { buildProductSchema, buildBreadcrumbList } from '../../../lib/seo/schema-builder';
 
 export async function getStaticPaths() {
   const entries = await getCollection('commerce');
@@ -29,15 +30,27 @@ const title = lang === 'fr' ? data.title_fr : data.title_en;
 const description = lang === 'fr' ? data.description_fr : data.description_en;
 const isProduct = data.commerce_type === 'product';
 const isSubscription = data.commerce_type === 'subscription';
+
+const SITE_URL = 'https://waimia.com';
+const jsonLd = [
+  buildProductSchema(entry, lang),
+  buildBreadcrumbList([
+    { name: lang === 'fr' ? 'Accueil' : 'Home', url: SITE_URL },
+    { name: 'Commerce', url: `${SITE_URL}/commerce` },
+    { name: data.commerce_type, url: `${SITE_URL}/commerce/${data.commerce_type}` },
+    { name: title },
+  ]),
+];
 ---
-<Base title={`${title} · Commerce · Waimia`} description={description}>
+<Base title={`${title} · Commerce · Waimia`} description={description} jsonLd={jsonLd}>
   <article class="commerce-detail" data-type={data.commerce_type}>
     <div class="wrap-wide">
       <Breadcrumb
+        noJsonLd
         items={[
           { href: '/commerce', label: lang === 'fr' ? 'Commerce' : 'Commerce' },
-          { href: `/commerce/${data.commerce_type}`, label: data.commerce_type, },
-          { href: `/commerce/${data.commerce_type}/${entry.id}`, label: title, current: true },
+          { href: `/commerce/${data.commerce_type}`, label: data.commerce_type },
+          { href: `/commerce/${data.commerce_type}/${entry.id}`, label: title },
         ]}
       />
 

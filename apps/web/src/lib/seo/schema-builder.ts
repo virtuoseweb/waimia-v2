@@ -403,6 +403,107 @@ function buildCollectionPageSchema(name: string, description: string) {
   return buildCollectionPage(name, description);
 }
 
+function buildCourseSchema(entry: any, lang: Lang): JsonLdObject {
+  const d = entry.data;
+  const title = lang === 'fr' ? d.title_fr : d.title_en;
+  const description = lang === 'fr' ? d.description_fr : d.description_en;
+
+  const provider = { '@type': 'Organization', name: 'Waimia', url: SITE_URL };
+
+  if (d.course_type === 'atelier') {
+    const ad = d;
+    return withContext({
+      '@type': 'Event',
+      name: title,
+      description,
+      organizer: provider,
+      location: ad.format === 'live-online'
+        ? { '@type': 'VirtualLocation' }
+        : { '@type': 'Place', name: `Live ${ad.format.replace('live-', '')}` },
+      ...(ad.scheduled_at ? { startDate: new Date(ad.scheduled_at).toISOString() } : {}),
+      eventAttendanceMode: ad.format === 'live-online'
+        ? 'https://schema.org/OnlineEventAttendanceMode'
+        : 'https://schema.org/OfflineEventAttendanceMode',
+      ...(ad.pricing_eur != null ? {
+        offers: { '@type': 'Offer', price: ad.pricing_eur, priceCurrency: 'EUR' },
+      } : {}),
+      ...(ad.seats_remaining != null ? { remainingAttendeeCapacity: ad.seats_remaining } : {}),
+    });
+  }
+
+  const levelField = d.course_type === 'certification' ? d.certification_level : d.level;
+  const durationHours = d.duration_hours;
+  const pricing = d.course_type === 'formation'
+    ? (d.pricing?.one_time_eur ?? d.pricing?.subscription_eur)
+    : d.pricing_eur;
+
+  return withContext({
+    '@type': 'Course',
+    name: title,
+    description,
+    provider,
+    ...(levelField ? { educationalLevel: levelField } : {}),
+    ...(durationHours ? { timeRequired: `PT${durationHours}H` } : {}),
+    ...(pricing != null ? {
+      offers: { '@type': 'Offer', price: pricing, priceCurrency: 'EUR' },
+    } : {}),
+  });
+}
+
+function buildProductSchema(entry: any, lang: Lang): JsonLdObject {
+  const d = entry.data;
+  const name = lang === 'fr' ? d.title_fr : d.title_en;
+  const description = lang === 'fr' ? d.description_fr : d.description_en;
+
+  if (d.commerce_type === 'product') {
+    return withContext({
+      '@type': 'Product',
+      name,
+      description,
+      sku: d.sku,
+      offers: {
+        '@type': 'Offer',
+        price: d.price_eur,
+        priceCurrency: 'EUR',
+        availability: 'https://schema.org/InStock',
+        url: `${SITE_URL}/commerce/product/${entry.id}`,
+      },
+    });
+  }
+
+  const priceSpecs: JsonLdObject[] = [
+    {
+      '@type': 'UnitPriceSpecification',
+      price: d.price_eur_monthly,
+      priceCurrency: 'EUR',
+      billingIncrement: 1,
+      unitCode: 'MON',
+    },
+  ];
+  if (d.price_eur_yearly) {
+    priceSpecs.push({
+      '@type': 'UnitPriceSpecification',
+      price: d.price_eur_yearly,
+      priceCurrency: 'EUR',
+      billingIncrement: 1,
+      unitCode: 'ANN',
+    });
+  }
+
+  return withContext({
+    '@type': 'Service',
+    name,
+    description,
+    provider: { '@type': 'Organization', name: 'Waimia', url: SITE_URL },
+    offers: {
+      '@type': 'Offer',
+      price: d.price_eur_monthly,
+      priceCurrency: 'EUR',
+      priceSpecification: priceSpecs,
+    },
+  });
+}
+
 export function buildSchemaForPage(
   entry: any,
   collection: string,
@@ -574,6 +675,32 @@ export function buildSchemaForPage(
       break;
     }
 
+    case 'courses': {
+      schemas.push(buildCourseSchema(entry, lang));
+      schemas.push(
+        buildBreadcrumbList([
+          { name: lang === 'fr' ? 'Accueil' : 'Home', url: SITE_URL },
+          { name: lang === 'fr' ? 'École' : 'Academy', url: `${SITE_URL}/ecole` },
+          { name: d.course_type },
+          { name: lang === 'fr' ? d.title_fr : d.title_en },
+        ]),
+      );
+      break;
+    }
+
+    case 'commerce': {
+      schemas.push(buildProductSchema(entry, lang));
+      schemas.push(
+        buildBreadcrumbList([
+          { name: lang === 'fr' ? 'Accueil' : 'Home', url: SITE_URL },
+          { name: 'Commerce', url: `${SITE_URL}/commerce` },
+          { name: d.commerce_type, url: `${SITE_URL}/commerce/${d.commerce_type}` },
+          { name: lang === 'fr' ? d.title_fr : d.title_en },
+        ]),
+      );
+      break;
+    }
+
     default:
       schemas.push(
         buildBreadcrumbList([
@@ -591,10 +718,12 @@ export {
   buildArticle,
   buildCollectionPage,
   buildCollectionPageSchema,
+  buildCourseSchema,
   buildHowTo,
   buildOrganization,
   buildOffer,
   buildPersonFromAuthor,
+  buildProductSchema,
   buildFAQPage,
   buildService,
 };

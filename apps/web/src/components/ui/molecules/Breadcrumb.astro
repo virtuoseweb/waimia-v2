@@ -6,8 +6,9 @@ interface Crumb {
 interface Props {
   items: Crumb[];
   lang?: 'fr' | 'en';
+  noJsonLd?: boolean;
 }
-const { items, lang = 'fr' } = Astro.props;
+const { items, lang = 'fr', noJsonLd = false } = Astro.props;
 ---
 <nav class="breadcrumb" aria-label={lang === 'fr' ? "Fil d'Ariane" : 'Breadcrumb'}>
   <ol>
@@ -23,7 +24,7 @@ const { items, lang = 'fr' } = Astro.props;
   </ol>
 </nav>
 
-<script type="application/ld+json" set:html={JSON.stringify({
+{!noJsonLd && <script type="application/ld+json" set:html={JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: items.map((c, i) => ({
@@ -32,7 +33,7 @@ const { items, lang = 'fr' } = Astro.props;
     name: c.label,
     ...(c.href ? { item: `https://waimia.com${c.href}` } : {}),
   })),
-})} />
+})} />}
 
 <style>
   .breadcrumb {
