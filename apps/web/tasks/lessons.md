@@ -1,5 +1,16 @@
 # Lessons
 
+## Batch H — Legacy templates + dead code elimination
+
+- `src/pages/ecole/cours/[slug].astro` lisait déjà la collection `courses` ; la migration vers `CourseDetailTemplate` ne demande que le contrat canonique `entry + lang + slot`, sans wrapper `Base` supplémentaire puisque le template l'embarque déjà.
+- Pour qualifier un composant supprimable dans `src/`, distinguer consommateurs runtime (imports / balises Astro) et simples mentions textuelles dans le showcase ou les commentaires ; `MetricStrip` n'avait plus d'usage direct mais restait cité hors périmètre.
+- En shell Zsh, toujours protéger les chemins contenant `[...]` dans `sed`, `git diff` ou équivalent pour éviter l'expansion de glob.
+
+## T6.5 — Guarantees MDX Waimia
+
+- Pour la collection `guarantees`, garder le nom de fichier MDX strictement aligne sur le `slug` frontmatter simplifie les usages futurs de `getEntry()` et evite toute couche de mapping editoriale.
+- Quand une mission propose des exemples de `related_offres` mais demande de verifier les vrais slugs du depot, prendre les slugs reels de `src/content/offres/*.mdx` avant redaction pour eviter une erreur Zod evitable.
+
 ## T9.2 — Articles blog bilingues
 
 - Quand une mission impose un frontmatter « exact » avec de nouvelles valeurs éditoriales, vérifier tout de suite le schéma `blog` : ici `editorialType` n'acceptait pas `Note` ni `Review`, donc il fallait étendre l'enum avant de laisser l'orchestrateur valider.

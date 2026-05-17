@@ -2,8 +2,8 @@
 export const prerender = true;
 
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-import Base from '../../../layouts/Base.astro';
-import FormationDetailTemplate from '../../../components/templates/FormationDetailTemplate.astro';
+import CourseDetailTemplate from '../../../components/templates/CourseDetailTemplate.astro';
+import { langFromPath } from '../../../lib/i18n';
 
 export async function getStaticPaths() {
   const allCourses = await getCollection('courses');
@@ -17,14 +17,8 @@ export async function getStaticPaths() {
 type Props = { entry: CollectionEntry<'courses'> };
 const { entry } = Astro.props as Props;
 const { Content } = await render(entry);
-const data = entry.data;
-const lang = Astro.url.pathname.startsWith('/en/') ? 'en' : 'fr';
+const lang = langFromPath(Astro.url.pathname);
 ---
-<Base
-  title={lang === 'fr' ? data.title_fr : data.title_en}
-  description={lang === 'fr' ? data.description_fr : data.description_en}
->
-  <FormationDetailTemplate {data} {lang}>
-    <Content />
-  </FormationDetailTemplate>
-</Base>
+<CourseDetailTemplate entry={entry} lang={lang}>
+  <Content />
+</CourseDetailTemplate>

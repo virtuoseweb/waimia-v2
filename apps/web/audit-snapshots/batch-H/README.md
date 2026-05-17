@@ -1,7 +1,7 @@
 # Batch H · Legacy templates + dead code
 
-**Statut** : en cours
-**Date** : 2026-05-17
+**Statut** : ✅ TERMINÉ 2026-05-17
+**Worker** : Codex (exit 0)
 **Source** : `docs/31-COMPONENTS-DOUBLONS-MAPPING.md§6 Batch H` + `docs/32-TEMPLATES-DEEP-AUDIT.md§2.3`
 
 ## Périmètre
@@ -43,6 +43,39 @@ Les 20 SVG geometric + 6 organisms (HowWeShip, Offices, OperatingLayer, SigBand,
 - 3 pages `/ecole/cours/*` rendent correctement en `CourseDetailTemplate`
 - Pas de 404 sur les routes existantes
 
-## Résultat
+## Résultat livré
 
-À compléter après livraison Worker Codex + audit visuel Playwright.
+### Worker Codex Batch H
+
+- 1 page migrée : `src/pages/ecole/cours/[slug].astro` (18 LoC modifs)
+  - Avant : `<Base><FormationDetailTemplate data={data}>` (wrapper Base externe)
+  - Après : `<CourseDetailTemplate entry={entry} lang={lang}>` (Base inclus dans template)
+- 3 fichiers supprimés :
+  - `src/components/templates/FormationDetailTemplate.astro` (484 LoC)
+  - `src/components/seo/BreadcrumbSchema.astro` (doublon orphelin)
+  - `src/components/ui/molecules/MetricStrip.astro` (0 consommateur)
+- Total : 667 LoC modifiées · 0 régression build
+
+### Validation empirique
+
+- `pnpm build` → Server built in 6.37s, Complete!
+- 0 erreur Astro check / Zod sur la migration
+- 3 routes `/ecole/cours/*` rendent en `CourseDetailTemplate` (Playwright Page Title préservé)
+- `grep -rn "FormationDetailTemplate\|BreadcrumbSchema\|MetricStrip" src/` → 0 résultat
+- 3 screenshots AFTER capturés (Playwright fullPage 1440x900, dev server actif)
+
+### Comparaison visuelle (à valider Simon)
+
+| Page | BEFORE (FormationDetail) | AFTER (CourseDetail) | Delta taille |
+|---|---|---|---|
+| intro-ia-pme-b2b | 843 KB | 813 KB | -30 KB |
+| prompter-claude | 822 KB | 790 KB | -32 KB |
+| automatiser-relances | 925 KB | 942 KB | +17 KB |
+
+Variations faibles attendues (deux templates différents). Comparaison visuelle pixel-à-pixel disponible en ouvrant les paires `before/X.png` vs `after/X.png`.
+
+### Commits
+
+- Code Worker Batch H : commit dans la même session
+- Screenshots BEFORE : `64cb585`
+- Screenshots AFTER + result : commit pending

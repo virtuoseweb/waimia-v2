@@ -1,5 +1,26 @@
 # Todo
 
+## Batch H — Legacy templates + dead code elimination
+
+- [x] Lire `AGENTS.md`, `CLAUDE.md`, `tasks/todo.md`, `tasks/lessons.md` et les docs Batch H avant intervention
+- [x] Migrer `src/pages/ecole/cours/[slug].astro` vers `CourseDetailTemplate` en conservant la route legacy et le filtre `course_type === 'formation'`
+- [x] Supprimer `src/components/templates/FormationDetailTemplate.astro` après bascule du consommateur unique
+- [x] Supprimer `src/components/seo/BreadcrumbSchema.astro` après vérification d'absence de consommateur direct
+- [x] Supprimer `src/components/ui/molecules/MetricStrip.astro` après vérification d'absence de consommateur direct
+- [x] Créer le marker `/tmp/codex-missions/waimia-batch-H/DONE.md`
+- [x] Ne pas lancer `pnpm build`, `astro check`, `tsc`, `pnpm dev`, `git add`, `git commit` ni `git push`, conformément à la mission
+- [ ] Hors périmètre Batch H : nettoyer les mentions textuelles legacy restantes (`MetricStrip`, `FormationDetailTemplate`) dans le showcase design system et les commentaires de `Hero.astro` si un grep littéral à zéro devient requis
+
+## T6.5 — 5 guarantees MDX Waimia
+
+- [x] Lire les regles, lecons, todo et verifier le schema `guarantees`
+- [x] Verifier les vrais slugs `offres` avant de renseigner `related_offres`
+- [x] Creer les 5 fichiers MDX demandes dans `src/content/guarantees/`
+- [x] Respecter les frontmatters exacts, `publishedAt: 2026-05-17` et le body strictement vide
+- [x] Verifier hors build le parse YAML, les longueurs Zod, les categories et le body vide
+- [x] Creer le marker `/tmp/codex-missions/waimia-batch9-guarantees/A-DONE.md`
+- [x] Ne pas lancer `pnpm build`, `astro check`, `tsc` ni `git` conformement a la consigne
+
 ## T9.2 — 6 articles blog « notes » + « avis »
 
 - [x] Lire le pattern frontmatter, les leçons et le suivi local avant rédaction
