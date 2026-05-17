@@ -1,0 +1,45 @@
+---
+// Page · /bienvenue/commande · Welcome post-achat produit commerce (one-shot)
+export const prerender = true;
+
+import WelcomeTemplate from '../../components/templates/WelcomeTemplate.astro';
+
+const nextSteps = [
+  {
+    num: '01',
+    title_fr: 'Votre lien de téléchargement est dans votre email',
+    title_en: 'Your download link is in your inbox',
+    body_fr: "Email de confirmation envoyé depuis bonjour@waimia.fr — inclut le lien permanent vers votre achat. Si absent après 2 minutes, vérifiez les spams.",
+    body_en: 'Confirmation email sent from bonjour@waimia.fr — includes your permanent download link. If missing after 2 minutes, check spam.',
+  },
+  {
+    num: '02',
+    title_fr: 'Accès permanent à votre espace client',
+    title_en: 'Permanent access to your client space',
+    body_fr: "Votre achat est attaché à votre email. Si vous rachètez ou avez besoin d'un duplicata, contactez-nous — on renvoie en moins de 4 h.",
+    body_en: 'Your purchase is tied to your email. If you need a duplicate, contact us — we resend within 4 hours.',
+    ctaLabel: 'Contacter l\'équipe →',
+    ctaHref: '/contact',
+  },
+  {
+    num: '03',
+    title_fr: 'Une question après lecture ?',
+    title_en: 'A question after reading?',
+    body_fr: "Vous pouvez réserver 30 minutes pour aller plus loin sur le contenu — applicable au prix d'une éventuelle mission.",
+    body_en: 'You can book 30 minutes to go deeper on the content — applicable against a potential engagement.',
+    ctaLabel: 'Réserver 30 min →',
+    ctaHref: '/contact',
+  },
+];
+---
+<WelcomeTemplate
+  title="Bienvenue · Commande confirmée · Waimia"
+  description="Votre achat est confirmé. Le lien de téléchargement arrive par email sous 2 minutes."
+  kicker="§ Commerce · Confirmation"
+  nextSteps={nextSteps}
+>
+  <Fragment slot="headline">Commande <i>confirmée</i>.</Fragment>
+  <Fragment slot="lede">
+    Paiement sécurisé Stripe. Lien permanent dans votre email. Accès immédiat.
+  </Fragment>
+</WelcomeTemplate>

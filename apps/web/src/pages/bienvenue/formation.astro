@@ -1,0 +1,45 @@
+---
+// Page · /bienvenue/formation · Welcome post-inscription cours Écoles Waimia
+export const prerender = true;
+
+import WelcomeTemplate from '../../components/templates/WelcomeTemplate.astro';
+
+const nextSteps = [
+  {
+    num: '01',
+    title_fr: 'Votre accès au cours est confirmé',
+    title_en: 'Your course access is confirmed',
+    body_fr: "Email de confirmation envoyé depuis bonjour@waimia.fr — inclut le lien d'accès direct. Si absent après 2 minutes, vérifiez les spams ou contactez-nous.",
+    body_en: 'Confirmation email sent from bonjour@waimia.fr — includes your direct access link. If missing after 2 minutes, check spam or contact us.',
+  },
+  {
+    num: '02',
+    title_fr: 'Préparez votre environnement de travail',
+    title_en: 'Set up your working environment',
+    body_fr: "Les prérequis techniques du cours sont listés dans l'introduction (10 minutes de setup). On vous recommande de les installer avant la première séance.",
+    body_en: 'Technical prerequisites are listed in the introduction (10-minute setup). We recommend installing them before your first session.',
+    ctaLabel: 'Voir les cours →',
+    ctaHref: '/ecole',
+  },
+  {
+    num: '03',
+    title_fr: 'Une question sur le contenu ?',
+    title_en: 'A question about the content?',
+    body_fr: "Chaque cours a un canal de support dédié. Si vous avez un doute sur un prérequis ou un cas pratique, contactez-nous — réponse sous 24 h ouvrées.",
+    body_en: 'Each course has a dedicated support channel. If you have a question about a prerequisite or exercise, contact us — response within 24 business hours.',
+    ctaLabel: 'Contacter l\'équipe →',
+    ctaHref: '/contact',
+  },
+];
+---
+<WelcomeTemplate
+  title="Bienvenue · Inscription confirmée · Écoles Waimia"
+  description="Votre inscription au cours est confirmée. Accès immédiat — email de confirmation en route."
+  kicker="§ Formation · Confirmation"
+  nextSteps={nextSteps}
+>
+  <Fragment slot="headline">Inscription <i>confirmée</i>.</Fragment>
+  <Fragment slot="lede">
+    Accès immédiat au cours. Support dédié inclus. Aucun prérequis théorique — on part du cas pratique.
+  </Fragment>
+</WelcomeTemplate>

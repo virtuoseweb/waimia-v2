@@ -47,6 +47,10 @@ const { title, description, kickerFr, kickerEn, revisedAt, version, sections } =
 
 const lang = langFromPath(Astro.url.pathname);
 const isFr = lang === 'fr';
+
+const revisedLabel = revisedAt
+  ? new Date(revisedAt).toLocaleDateString(isFr ? 'fr-FR' : 'en-GB', { month: 'long', year: 'numeric' })
+  : null;
 const ctaData = {
   type: 'cta-band',
   text_fr: `${kickerFr} relisible, arbitrable et exploitable côté équipe.`,
@@ -75,13 +79,18 @@ const ctaData = {
       <Kicker class="trust-kicker"><Bi fr={kickerFr} en={kickerEn} /></Kicker>
       <h1 class="trust-h1 reveal"><slot name="headline" /></h1>
       <p class="trust-lede reveal"><slot name="lede" /></p>
-      <div class="trust-meta">
-        <Bi fr="Dernière révision" en="Last revised" /> ·
-        <time datetime={revisedAt}>{revisedAt}</time>
-        {version && <><span aria-hidden> · </span><span>{version}</span></>}
-      </div>
+      {revisedLabel && (
+        <div class="trust-meta">
+          <Bi fr="Dernière révision" en="Last revised" /> ·
+          <time datetime={revisedAt}>{revisedLabel}</time>
+          {version && <><span aria-hidden> · </span><span>{version}</span></>}
+        </div>
+      )}
       <footer class="trust-legal-footer">
-        <Bi fr="Document" en="Document" /> — <slot name="footer-legal" />{version && <><span aria-hidden="true"> · </span><span class="trust-footer-version">{version}</span></>}
+        {version
+          ? <><Bi fr="Document interne" en="Internal document" /> <span class="trust-footer-version">— {version}</span></>
+          : <><slot name="footer-legal"><Bi fr="Document interne" en="Internal document" /></slot></>
+        }
       </footer>
     </div>
   </section>

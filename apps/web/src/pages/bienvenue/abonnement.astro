@@ -1,0 +1,45 @@
+---
+// Page · /bienvenue/abonnement · Welcome post-souscription abonnement (récurrent Stripe)
+export const prerender = true;
+
+import WelcomeTemplate from '../../components/templates/WelcomeTemplate.astro';
+
+const nextSteps = [
+  {
+    num: '01',
+    title_fr: 'Email de bienvenue membre en route',
+    title_en: 'Member welcome email on its way',
+    body_fr: "Vous recevrez dans les 2 minutes un email depuis bonjour@waimia.fr avec vos accès, le détail de votre abonnement et le lien vers votre espace membre.",
+    body_en: 'Within 2 minutes you will receive an email from bonjour@waimia.fr with your access, subscription details, and link to your member space.',
+  },
+  {
+    num: '02',
+    title_fr: 'Votre renouvellement est automatique',
+    title_en: 'Your renewal is automatic',
+    body_fr: "Prélèvement automatique sur votre moyen de paiement Stripe. Résiliation en 1 clic depuis le portail client — sans engagement, sans pénalité, sans SDR.",
+    body_en: 'Automatic charge on your Stripe payment method. Cancel in 1 click from the customer portal — no commitment, no penalty, no SDR.',
+    ctaLabel: 'Gérer mon abonnement →',
+    ctaHref: '/mon-compte',
+  },
+  {
+    num: '03',
+    title_fr: 'Découvrez le contenu membre',
+    title_en: 'Explore member content',
+    body_fr: "Vos avantages sont actifs maintenant. Accédez aux ressources réservées membres : essais avancés, cas clients complets, sessions cowork.",
+    body_en: 'Your benefits are active now. Access member-only resources: in-depth essays, full client cases, cowork sessions.',
+    ctaLabel: 'Accéder aux ressources →',
+    ctaHref: '/ressources',
+  },
+];
+---
+<WelcomeTemplate
+  title="Bienvenue · Abonnement activé · Waimia"
+  description="Votre abonnement est actif. Email de confirmation en route — accès immédiat aux ressources membres."
+  kicker="§ Abonnement · Confirmation"
+  nextSteps={nextSteps}
+>
+  <Fragment slot="headline">Abonnement <i>activé</i>.</Fragment>
+  <Fragment slot="lede">
+    Accès immédiat. Résiliation en 1 clic, sans engagement ni relance.
+  </Fragment>
+</WelcomeTemplate>
