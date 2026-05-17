@@ -7,14 +7,27 @@ export const prerender = true;
 // Composition directe d'organismes existants : masthead + Featured tool +
 // Cases + WritingNotes (blog) + Cookbooks + Newsletter band + CtaBand.
 
+import { actions, isInputError } from 'astro:actions';
 import Base from '../../layouts/Base.astro';
 import Kicker from '../../components/ui/atoms/Kicker.astro';
 import CtaBand from '../../components/ui/organisms/CtaBand.astro';
 import RelatedCards from '../../components/ui/molecules/RelatedCards.astro';
 import Button from '../../components/ui/atoms/Button.astro';
 import Bi from '../../components/ui/atoms/Bi.astro';
+import FormErrors from '../../components/ui/atoms/FormErrors.astro';
 import { langFromPath } from '../../lib/i18n';
 import { buildCollectionPage } from '../../lib/seo/schema-builder';
+
+const nlResult = Astro.getActionResult(actions.newsletter);
+
+if (nlResult && !nlResult.error && nlResult.data?.redirect) {
+  return Astro.redirect(nlResult.data.redirect);
+}
+
+const nlInputErrors = isInputError(nlResult?.error) ? nlResult.error.fields : {};
+const nlOtherError = nlResult?.error && !isInputError(nlResult.error)
+  ? nlResult.error.message
+  : undefined;
 
 const lang = langFromPath(Astro.url.pathname);
 
@@ -184,10 +197,17 @@ const livresBlancsCards = [
           Notes longues, cas concrets, recettes pratiques. Désabonnement en 1 clic, RGPD-compliant.
         </p>
       </div>
-      <form class="hub-nl-form" method="post" action="/api/newsletter">
+      <form class="hub-nl-form" method="POST" action={actions.newsletter} data-enhanced novalidate>
+        <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden">
+          <label for="nl-hp">Ne pas remplir</label>
+          <input type="text" id="nl-hp" name="_hp" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="hidden" name="lang" value={lang} />
         <label for="nl-email" class="sr-only">Email professionnel</label>
         <input id="nl-email" name="email" type="email" required placeholder="prénom@entreprise.com" autocomplete="email" aria-describedby="nl-hint" />
         <Button as="button" type="submit" variant="primary" size="md">S'abonner →</Button>
+        <FormErrors errors={nlInputErrors} id="nl-errors" />
+        {nlOtherError && <p class="form-error-global" role="alert">{nlOtherError}</p>}
       </form>
       <p class="nl-hint" id="nl-hint">
         <Bi fr="Sans spam · Désinscription en 1 clic" en="No spam · Unsubscribe anytime" />
@@ -408,3 +428,34 @@ const livresBlancsCards = [
     .hub-nl-wrap { grid-template-columns: 1fr; }
   }
 </style>
+
+<script>
+  import { actions } from 'astro:actions';
+  import { navigate } from 'astro:transitions/client';
+
+  document.querySelectorAll<HTMLFormElement>('form[data-enhanced]').forEach((form) => {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      if (submitBtn) submitBtn.disabled = true;
+
+      const formData = new FormData(form);
+      const actionPath = form.getAttribute('action');
+      if (!actionPath) return;
+
+      try {
+        const res = await fetch(actionPath, { method: 'POST', body: formData, headers: { Accept: 'application/json' } });
+        const json = await res.json();
+        if (res.ok && json?.data?.redirect) {
+          navigate(json.data.redirect);
+          return;
+        }
+        form.removeEventListener('submit', () => {});
+        form.submit();
+      } catch {
+        if (submitBtn) submitBtn.disabled = false;
+        form.submit();
+      }
+    });
+  });
+</script>

@@ -2,14 +2,23 @@
 // Page · /contact · Form RDV
 export const prerender = true;
 
-// Source : waimia-handoff2 / contact.html
-//
-// Composé de · UtilityTemplate (centered) · slot body avec form
-
+import { actions, isInputError } from 'astro:actions';
 import UtilityTemplate from '../components/templates/UtilityTemplate.astro';
 import Button from '../components/ui/atoms/Button.astro';
 import CalEmbed from '../components/ui/molecules/CalEmbed.astro';
 import Kicker from '../components/ui/atoms/Kicker.astro';
+import FormErrors from '../components/ui/atoms/FormErrors.astro';
+
+const result = Astro.getActionResult(actions.contact);
+
+if (result && !result.error && result.data?.redirect) {
+  return Astro.redirect(result.data.redirect);
+}
+
+const inputErrors = isInputError(result?.error) ? result.error.fields : {};
+const otherError = result?.error && !isInputError(result.error)
+  ? result.error.message
+  : undefined;
 
 const contactLd = {
   '@context': 'https://schema.org',
@@ -47,7 +56,12 @@ const contactLd = {
   <Fragment slot="body">
     <div class="contact-grid">
       {/* Form */}
-      <form class="contact-form" method="post" action="/api/contact" name="contact">
+      <form class="contact-form" method="POST" action={actions.contact} name="contact" data-enhanced novalidate>
+        <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden">
+          <label for="contact-hp">Ne pas remplir</label>
+          <input type="text" id="contact-hp" name="_hp" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="hidden" name="lang" value="fr" />
         <div class="form-row">
           <label for="company"><span>Entreprise</span><span aria-hidden>*</span></label>
           <input id="company" name="company" type="text" required autocomplete="organization" />
@@ -68,7 +82,8 @@ const contactLd = {
           <label for="brief"><span>Le problème en 3 phrases</span><span aria-hidden>*</span></label>
           <textarea id="brief" name="brief" rows="4" required></textarea>
         </div>
-        <div aria-live="polite" aria-atomic="true" class="form-errors" id="contact-errors"></div>
+        <FormErrors errors={inputErrors} id="contact-errors" />
+        {otherError && <p class="form-error-global" role="alert">{otherError}</p>}
         <Button as="button" type="submit" variant="primary" size="lg">Réserver 45 min →</Button>
       </form>
 
@@ -228,3 +243,34 @@ const contactLd = {
     .contact-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--hairline); padding-top: 32px; }
   }
 </style>
+
+<script>
+  import { actions } from 'astro:actions';
+  import { navigate } from 'astro:transitions/client';
+
+  document.querySelectorAll<HTMLFormElement>('form[data-enhanced]').forEach((form) => {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      if (submitBtn) submitBtn.disabled = true;
+
+      const formData = new FormData(form);
+      const actionPath = form.getAttribute('action');
+      if (!actionPath) return;
+
+      try {
+        const res = await fetch(actionPath, { method: 'POST', body: formData, headers: { Accept: 'application/json' } });
+        const json = await res.json();
+        if (res.ok && json?.data?.redirect) {
+          navigate(json.data.redirect);
+          return;
+        }
+        form.removeEventListener('submit', () => {});
+        form.submit();
+      } catch {
+        if (submitBtn) submitBtn.disabled = false;
+        form.submit();
+      }
+    });
+  });
+</script>
