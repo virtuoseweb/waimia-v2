@@ -21,7 +21,7 @@ import ScrollProgress from '../../components/ui/atoms/ScrollProgress.astro';
 import Hero                from '../../components/ui/organisms/Hero.astro';
 import ProofBar            from '../../components/ui/organisms/ProofBar.astro';
 import SocialProof         from '../../components/sections/SocialProof.astro';
-import CapabilityStrip     from '../../components/ui/organisms/CapabilityStrip.astro';
+import FeatureGrid         from '../../components/sections/FeatureGrid.astro';
 import SystemArchitecture  from '../../components/ui/organisms/SystemArchitecture.astro';
 import SixServices         from '../../components/ui/organisms/SixServices.astro';
 import Pyramid             from '../../components/ui/organisms/Pyramid.astro';
@@ -33,13 +33,29 @@ import BookSession         from '../../components/ui/organisms/BookSession.astro
 import FooterMarquee       from '../../components/ui/organisms/FooterMarquee.astro';
 import SectionTransition   from '../../components/ui/atoms/SectionTransition.astro';
 
-import { CLIENT_LOGOS } from '../../data/sitemap';
+import { CLIENT_LOGOS, CAPABILITY_MAP } from '../../data/sitemap';
 import { buildOrganization } from '../../lib/seo/schema-builder';
 
 const socialProofData = {
   type: 'social-proof' as const,
   logos: CLIENT_LOGOS.map((name) => ({ name })),
   marquee: true,
+};
+
+const featureGridData = {
+  type: 'feature-grid' as const,
+  kicker_fr: '8 PILIERS · UN SEUL SYSTÈME',
+  kicker_en: '8 PILLARS · ONE SYSTEM',
+  h2_fr: "Du <i>canal</i> à <i>l'action</i>. Marketing, sales, contenu, web — alignés.",
+  h2_en: 'From <i>channel</i> to <i>action</i>. Marketing, sales, content, web — aligned.',
+  columns: '4' as const,
+  features: CAPABILITY_MAP.map((cat) => ({
+    icon: cat.k,
+    title_fr: cat.label.fr,
+    title_en: cat.label.en,
+    body_fr: cat.lead.fr,
+    body_en: cat.lead.en,
+  })),
 };
 
 // FAQ SMB-first · 8 questions (V5: + CMS, + brand consistency)
@@ -98,8 +114,8 @@ const faqItems = [
 
   <SectionTransition phrase="The numbers don't come from a single tool. They come from a connected system." />
 
-  {/* 04 — CapabilityStrip · 8 pillars of Waimia's full scope */}
-  <CapabilityStrip />
+  {/* 04 — FeatureGrid · 8 pillars of Waimia's full scope */}
+  <FeatureGrid data={featureGridData} lang="en" />
 
   <SectionTransition phrase="Every channel becomes useful when it runs through a common architecture." />
 

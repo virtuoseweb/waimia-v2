@@ -21,7 +21,7 @@ import ScrollProgress from '../components/ui/atoms/ScrollProgress.astro';
 import Hero                from '../components/ui/organisms/Hero.astro';
 import ProofBar            from '../components/ui/organisms/ProofBar.astro';
 import SocialProof         from '../components/sections/SocialProof.astro';
-import CapabilityStrip     from '../components/ui/organisms/CapabilityStrip.astro';
+import FeatureGrid         from '../components/sections/FeatureGrid.astro';
 import SystemArchitecture  from '../components/ui/organisms/SystemArchitecture.astro';
 import SixServices         from '../components/ui/organisms/SixServices.astro';
 import Pyramid             from '../components/ui/organisms/Pyramid.astro';
@@ -33,13 +33,29 @@ import BookSession         from '../components/ui/organisms/BookSession.astro';
 import FooterMarquee       from '../components/ui/organisms/FooterMarquee.astro';
 import SectionTransition   from '../components/ui/atoms/SectionTransition.astro';
 
-import { CLIENT_LOGOS } from '../data/sitemap';
+import { CLIENT_LOGOS, CAPABILITY_MAP } from '../data/sitemap';
 import { buildOrganization } from '../lib/seo/schema-builder';
 
 const socialProofData = {
   type: 'social-proof' as const,
   logos: CLIENT_LOGOS.map((name) => ({ name })),
   marquee: true,
+};
+
+const featureGridData = {
+  type: 'feature-grid' as const,
+  kicker_fr: '8 PILIERS · UN SEUL SYSTÈME',
+  kicker_en: '8 PILLARS · ONE SYSTEM',
+  h2_fr: "Du <i>canal</i> à <i>l'action</i>. Marketing, sales, contenu, web — alignés.",
+  h2_en: 'From <i>channel</i> to <i>action</i>. Marketing, sales, content, web — aligned.',
+  columns: '4' as const,
+  features: CAPABILITY_MAP.map((cat) => ({
+    icon: cat.k,
+    title_fr: cat.label.fr,
+    title_en: cat.label.en,
+    body_fr: cat.lead.fr,
+    body_en: cat.lead.en,
+  })),
 };
 
 // FAQ PME-first · 8 questions scannables (V5 : + CMS · + brand consistency)
@@ -99,8 +115,8 @@ const faqItems = [
 
   <SectionTransition phrase="Les chiffres ne viennent pas d'un outil isolé. Ils viennent d'un système connecté." />
 
-  {/* 04 — CapabilityStrip · 8 piliers du scope Waimia complet (V5) */}
-  <CapabilityStrip />
+  {/* 04 — FeatureGrid · 8 piliers du scope Waimia complet */}
+  <FeatureGrid data={featureGridData} lang="fr" />
 
   <SectionTransition phrase="Tous les canaux deviennent utiles lorsqu'ils passent par une architecture commune." />
 
