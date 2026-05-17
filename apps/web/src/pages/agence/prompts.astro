@@ -142,12 +142,11 @@ const truncate = (value: string, max = 120) =>
     padding: 20px;
     transition:
       background var(--dur-fast) var(--ease),
-      border-color var(--dur-fast) var(--ease),
-      transform var(--dur-fast) var(--ease);
+      border-color var(--dur-fast) var(--ease);
   }
   .prompts-index__card:hover {
     background: var(--paper-2);
-    transform: translateY(-2px);
+    border-color: var(--hairline-strong);
   }
   .prompts-index__card-meta {
     display: flex;
