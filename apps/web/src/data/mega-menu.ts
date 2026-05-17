@@ -1,6 +1,6 @@
-// Waimia · structure mega-menu V2 (2026-05-17)
-// Ressources garde sa structure V2 dédiée.
-// Les autres sections sont mappées depuis sitemap.ts pour conserver le contenu legacy inchangé.
+// Waimia · structure mega-menu V3 simplifiée (2026-05-17)
+// Ressources et Agence sont explicitement définies ici.
+// Les autres sections restent mappées depuis sitemap.ts pour conserver le contenu validé.
 
 import type { Lang } from '../lib/i18n';
 import {
@@ -89,8 +89,6 @@ function mapLegacySection(section: LegacyMegaMenu): MegaMenuSection {
   };
 }
 
-const ECOLE_HUB_HREF = '/ecole';
-
 const RESSOURCES: MegaMenuSection = {
   parent: 'ressources',
   label: MM_RESOURCES.label,
@@ -102,43 +100,11 @@ const RESSOURCES: MegaMenuSection = {
       title: { fr: 'Lectures', en: 'Reading' },
       links: [
         {
-          label: { fr: 'Blog · Formation', en: 'Blog · Training' },
-          href: '/ressources/blog/formation',
+          label: { fr: 'Blog', en: 'Blog' },
+          href: '/ressources/blog',
           description: {
-            fr: 'Tutoriels structurés pour monter en compétence.',
-            en: 'Structured tutorials to level up.',
-          },
-        },
-        {
-          label: { fr: 'Blog · Essai', en: 'Blog · Essay' },
-          href: '/ressources/blog/essai',
-          description: {
-            fr: 'Analyses long format type Stratechery.',
-            en: 'Long-form analyses, Stratechery-style.',
-          },
-        },
-        {
-          label: { fr: 'Blog · Notes', en: 'Blog · Notes' },
-          href: '/ressources/blog/notes',
-          description: {
-            fr: 'Observations courtes du terrain.',
-            en: 'Short field observations.',
-          },
-        },
-        {
-          label: { fr: 'Blog · Avis', en: 'Blog · Opinions' },
-          href: '/ressources/blog/avis',
-          description: {
-            fr: 'Prises de position assumées.',
-            en: 'Owned opinions.',
-          },
-        },
-        {
-          label: { fr: 'Blog · Post', en: 'Blog · Posts' },
-          href: '/ressources/blog/post',
-          description: {
-            fr: 'Réflexions générales courtes.',
-            en: 'Short general reflections.',
+            fr: 'Insights business pour PME B2B.',
+            en: 'Business insights for B2B SMBs.',
           },
         },
         {
@@ -147,6 +113,22 @@ const RESSOURCES: MegaMenuSection = {
           description: {
             fr: 'Analyses approfondies téléchargeables.',
             en: 'Deep downloadable analyses.',
+          },
+        },
+        {
+          label: { fr: 'Veille IA', en: 'AI watch' },
+          href: '/ressources/veille-ia',
+          description: {
+            fr: 'Mouvements marché analysés.',
+            en: 'Analyzed market moves.',
+          },
+        },
+        {
+          label: { fr: 'Newsletter', en: 'Newsletter' },
+          href: '/ressources/newsletter',
+          description: {
+            fr: 'Archives des éditions envoyées.',
+            en: 'Archive of sent editions.',
           },
         },
       ],
@@ -176,14 +158,6 @@ const RESSOURCES: MegaMenuSection = {
           },
         },
         {
-          label: { fr: 'Veille IA', en: 'AI watch' },
-          href: '/ressources/veille-ia',
-          description: {
-            fr: 'Mouvements marché analysés.',
-            en: 'Market movements analyzed.',
-          },
-        },
-        {
           label: { fr: 'Cas clients', en: 'Case studies' },
           href: '/cas',
           description: {
@@ -191,71 +165,10 @@ const RESSOURCES: MegaMenuSection = {
             en: 'Measured results in the clear.',
           },
         },
-        {
-          label: { fr: 'Newsletter', en: 'Newsletter' },
-          href: '/ressources/newsletter',
-          description: {
-            fr: 'Archives des éditions envoyées.',
-            en: 'Past issues archive.',
-          },
-        },
       ],
       footer: {
         label: { fr: 'Catalogue outils →', en: 'Tools catalog →' },
         href: '/ressources/outils',
-      },
-    },
-    {
-      kicker: { fr: 'APPRENDRE', en: 'LEARN' },
-      title: { fr: 'Apprendre', en: 'Learn' },
-      tint: '#C94F2E',
-      links: [
-        {
-          label: { fr: 'École Waimia', en: 'Waimia School' },
-          href: ECOLE_HUB_HREF,
-          description: {
-            fr: 'Formations, parcours et certifications.',
-            en: 'Courses, paths and certifications.',
-          },
-          badge: { fr: 'Nouveau', en: 'New' },
-          featured: true,
-        },
-        {
-          label: { fr: 'Parcours', en: 'Learning paths' },
-          href: ECOLE_HUB_HREF,
-          description: {
-            fr: 'Séquences multi-semaines.',
-            en: 'Multi-week sequences.',
-          },
-        },
-        {
-          label: { fr: 'Cours', en: 'Courses' },
-          href: ECOLE_HUB_HREF,
-          description: {
-            fr: 'Unités de formation indépendantes.',
-            en: 'Independent training units.',
-          },
-        },
-        {
-          label: { fr: 'Ateliers live', en: 'Live workshops' },
-          href: ECOLE_HUB_HREF,
-          description: {
-            fr: 'Sessions ponctuelles encadrées.',
-            en: 'Scheduled supervised sessions.',
-          },
-        },
-        {
-          label: { fr: 'Field notes', en: 'Field notes' },
-          href: '/ressources/blog/notes',
-          description: {
-            fr: 'Le journal de bord Waimia.',
-            en: 'The Waimia logbook.',
-          },
-        },
-      ],
-      footer: {
-        label: { fr: 'Programme école →', en: 'School program →' },
-        href: ECOLE_HUB_HREF,
       },
     },
   ],
@@ -265,7 +178,124 @@ const RESSOURCES: MegaMenuSection = {
 const SOLUTIONS = mapLegacySection(MM_SOLUTIONS);
 const OFFRES = mapLegacySection(MM_OFFRES);
 const CAS = mapLegacySection(MM_CASES_NEW);
-const AGENCE = mapLegacySection(MM_AGENCY_NEW);
+const AGENCE: MegaMenuSection = {
+  parent: 'agence',
+  label: MM_AGENCY_NEW.label,
+  parentHref: MM_AGENCY_NEW.href,
+  lead: MM_AGENCY_NEW.lead,
+  columns: [
+    {
+      kicker: { fr: "L'ÉQUIPE", en: 'THE TEAM' },
+      title: { fr: 'Qui nous sommes', en: 'Who we are' },
+      links: [
+        {
+          label: { fr: 'À propos de Waimia', en: 'About Waimia' },
+          href: '/agence/about',
+        },
+        {
+          label: { fr: 'Notre méthode · Process Intelligence', en: 'Our method · Process Intelligence' },
+          href: '/agence/methode',
+          description: {
+            fr: 'Audit, déploiement, mesure — pas de PowerPoint.',
+            en: 'Audit, deployment, measurement — no PowerPoint.',
+          },
+          featured: true,
+        },
+        {
+          label: { fr: 'École Waimia', en: 'Waimia School' },
+          href: '/ecole',
+          description: {
+            fr: 'Formations IA pour vos équipes.',
+            en: 'AI training for your teams.',
+          },
+          featured: true,
+        },
+        {
+          label: { fr: 'Carrières', en: 'Careers' },
+          href: '/agence/careers',
+        },
+        {
+          label: { fr: 'Simon Beros · CV Founder', en: 'Simon Beros · Founder CV' },
+          href: '/equipe/simon-beros',
+          description: {
+            fr: 'Architecture systèmes agentiques.',
+            en: 'Agentic systems architecture.',
+          },
+        },
+      ],
+    },
+    {
+      kicker: { fr: 'CONFIANCE', en: 'TRUST' },
+      title: { fr: 'Garanties & légal', en: 'Guarantees & legal' },
+      links: [
+        {
+          label: { fr: 'Trust Center', en: 'Trust Center' },
+          href: '/agence/trust-center',
+          description: {
+            fr: 'AI Act, RGPD, ISO — tous les contrôles en clair.',
+            en: 'AI Act, GDPR, ISO — all controls in plain text.',
+          },
+        },
+        {
+          label: { fr: 'Gouvernance', en: 'Governance' },
+          href: '/agence/governance',
+          description: {
+            fr: 'Comité ethics IA + whistleblowing.',
+            en: 'AI ethics committee + whistleblowing.',
+          },
+        },
+        {
+          label: { fr: 'Design System', en: 'Design System' },
+          href: '/agence/design-system',
+          description: {
+            fr: 'Catalogue visible des tokens, composants et patterns.',
+            en: 'Visible catalog of tokens, components, and patterns.',
+          },
+        },
+        {
+          label: { fr: 'Documentation', en: 'Documentation' },
+          href: '/agence/docs',
+          description: {
+            fr: 'Notre stack, nos intégrations, notre méthode.',
+            en: 'Our stack, integrations, and method.',
+          },
+        },
+      ],
+    },
+    {
+      kicker: { fr: 'CONTACT', en: 'CONTACT' },
+      title: { fr: 'Discutons', en: "Let's talk" },
+      links: [
+        {
+          label: { fr: 'Réserver un audit', en: 'Book an audit' },
+          href: '/contact',
+          description: {
+            fr: 'Cadrage gratuit, audit honnête, ou rien.',
+            en: 'Free scoping, honest audit, or nothing.',
+          },
+          featured: true,
+        },
+        {
+          label: { fr: 'Espace client', en: 'Client space' },
+          href: '/bienvenue/contact',
+          description: {
+            fr: 'Point d’entrée de suivi et coordination Waimia.',
+            en: 'Entry point for Waimia follow-up and coordination.',
+          },
+        },
+        {
+          label: { fr: 'Newsletter', en: 'Newsletter' },
+          href: '/ressources/newsletter',
+          description: {
+            fr: 'Recevoir les analyses et annonces Waimia.',
+            en: 'Receive Waimia analysis and announcements.',
+          },
+        },
+      ],
+    },
+  ],
+  featured: MM_AGENCY_NEW.featured ? mapLegacyFeatured(MM_AGENCY_NEW.featured) : undefined,
+};
 
 export const MEGA_MENU: MegaMenuSection[] = [
   SOLUTIONS,
