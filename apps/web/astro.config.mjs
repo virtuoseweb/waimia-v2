@@ -6,9 +6,9 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import vercel from '@astrojs/vercel';
 
-// Waimia · Astro 6 config · SSR pour API routes Resend
-// - output: 'server' : tout SSR par défaut, sera caché edge par Vercel
-// - adapter: vercel() · Vercel Functions on-demand pour /api/*
+// Waimia · Astro 6 config · Static-first + API routes SSR via Vercel Functions
+// - output: 'static' : 100 % SSG par défaut, fichiers CDN immuables (T1.1 activé 2026-05-17)
+// - adapter: vercel() · Vercel Functions on-demand pour /api/* (prerender=false)
 // - i18n: FR default at /, EN at /en/* — content-routed for proper SEO/GEO
 // - Tailwind v4 CSS-first
 // - Sitemap auto-generated with hreflang
@@ -17,28 +17,27 @@ import vercel from '@astrojs/vercel';
 // via virtual paths Vite (`?astro&type=script&index=0&lang.ts` → 500). Notre
 // Header.astro contourne via `<script is:inline>` (cf commentaire Header).
 // En build/prod, ce comportement est identique : `is:inline` produit du JS
-// embed dans le HTML SSR (~3KB), pas de bundle supplémentaire mais pas de hop
+// embed dans le HTML statique (~3KB), pas de bundle supplémentaire mais pas de hop
 // HTTP non plus. Trade-off net neutre pour ce cas.
 export default defineConfig({
   site: 'https://waimia.com',
-  // V2 2026-05-15 — Migration prévue server → static (T1.1 EXECUTION-TRACKER) :
-  // ⚠️ Le passage à `output: 'static'` nécessite un restart dev complet
-  // (HMR ne reload pas les routes statiques). À activer au prochain redémarrage.
-  // 95 % du contenu est evergreen. SSG par défaut (`prerender = true`).
-  // SSR opt-in via `export const prerender = false` sur API routes (/api/*).
-  // ISR à activer page-par-page via Vercel adapter config (Tier 12).
-  // TODO[T1.1-activate]: passer à 'static' au prochain restart dev/build Vercel.
-  output: 'server',
-  // T12 ISR — Vercel Incremental Static Regeneration
-  // Applique l'ISR aux routes SSR (prerender=false) non exclues.
-  // Les pages SSG (prerender=true) ne sont PAS affectées — elles restent des fichiers statiques CDN.
-  // Activation page-par-page : supprimer `prerender=true` + adapter getStaticPaths → SSR pattern.
-  // cf /tmp/codex-missions/tier12-isr-perf/DONE.md pour le guide complet.
+  // T1.1 activé 2026-05-17 — output static (95 % contenu evergreen → fichiers CDN immuables)
+  // SSR opt-in via `export const prerender = false` sur les routes dynamiques.
+  // Exceptions SSR justifiées (prerender=false) :
+  //   · /api/healthcheck — healthcheck Vercel, données live (timestamp + sha)
+  //   · /api/og.png     — génération OG image dynamique par titre/kicker (query params)
+  // Toutes les autres pages déclarent explicitement `prerender = true` → SSG garanti.
+  output: 'static',
+  // ISR Vercel — conservé pour les futures routes SSR (prerender=false) non exclues.
+  // En mode static, les pages SSG (prerender=true) sont déjà des fichiers CDN ; l'ISR
+  // ne s'applique qu'aux routes prerender=false absentes de la liste exclude.
+  // API routes actuelles : toutes dans exclude → toujours fresh, jamais cachées ISR.
+  // cf /tmp/codex-missions/tier12-isr-perf/DONE.md pour le guide ISR complet (Tier 12).
   adapter: vercel({
     isr: {
-      expiration: 3600, // TTL par défaut 1h — override possible via Cache-Control s-maxage
-      bypassToken: process.env.ISR_BYPASS_TOKEN, // secret Vercel env var (optionnel, pour preview bypass)
-      // API routes : toujours fresh (forms, webhooks, données live) — jamais cachées par ISR
+      expiration: 3600, // TTL par défaut 1h pour les futures routes SSR cachables
+      bypassToken: process.env.ISR_BYPASS_TOKEN, // secret Vercel env var (preview bypass)
+      // API routes exclues de l'ISR : données live, webhooks, forms — toujours fresh
       exclude: ['/api/contact', '/api/newsletter', '/api/academy', '/api/devis', '/api/lead-magnet', '/api/healthcheck'],
     },
   }),
@@ -87,11 +86,11 @@ export default defineConfig({
   // Cast `as any` parce que tailwindcss/vite et Astro embarquent leur propre
   // version de Vite — TS détecte un mismatch nominal mais runtime OK.
   //
-  // ssr.noExternal : force le bundling SSR de packages spécifiques. Sans ça,
-  // resend / @react-email/components ont des exports ESM/CJS qui plantaient
-  // silencieusement le bundle Astro (404 sur toutes /api/* en prod post-bascule
-  // monorepo, validé empiriquement le 2026-04-27 via /api/healthcheck OK).
-  // En forçant noExternal, Vite inline ces deps dans entry.mjs proprement.
+  // ssr.noExternal : force le bundling SSR pour les routes prerender=false (/api/*).
+  // Resend + @react-email ont des exports ESM/CJS incompatibles sans bundling explicite ;
+  // ce flag s'applique uniquement aux Vercel Functions générées (prerender=false),
+  // pas aux pages SSG. Conservé pour les futures API routes qui consommeront Resend.
+  // (validé empiriquement le 2026-04-27 via /api/healthcheck OK post-bascule monorepo)
   vite: {
     plugins: [/** @type {any} */ (tailwindcss())],
     ssr: {

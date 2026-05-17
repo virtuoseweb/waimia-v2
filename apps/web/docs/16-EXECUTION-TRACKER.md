@@ -23,7 +23,7 @@ Tous les 5 axes stratégiques **VALIDÉS** :
 
 ### TIER 1 · Quick wins (10h) — IMPACT IMMÉDIAT
 
-- [🟡] **T1.1** · `output: 'server'` → `'static'` code écrit et reverti temporairement (TODO[T1.1-activate] commenté). Activation lors du prochain restart dev / Vercel deploy.
+- [✅] **T1.1** · `output: 'static'` activé 2026-05-17 (session-03, Mission-01). 109 pages SSG immuables CDN, 2 API routes SSR conservées (`/api/healthcheck` + `/api/og.png` avec `prerender=false`).
 - [✅] **T1.2a** · Git commit safety net AVANT delete hardcoded — `feat(waimia): Wave 1-3 livrées` committed
 - [✅] **T1.2b** · 7 pages `/offres/*.astro` deleted (activation-ia, application-ia-pme, claude-cowork, growth-intelligence, growth-system-ia, infrastructure-ia, productivite-operationnelle-ia)
 - [✅] **T1.2c** · 8 pages `/solutions/*.astro` deleted (acquisition-ia, contenu-seo-geo-ia, crm-relances-ia, finance, fintech, productivite-ia, site-web-ia-pme, support-client-ia)
