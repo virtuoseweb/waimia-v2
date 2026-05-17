@@ -7,7 +7,7 @@
 
 ---
 
-## État Phase 1 Design — 8/9 batchs livrés
+## État Phase 1 Design — 9/9 batchs livrés ✅✅
 
 | Batch | Statut | Commit | Description |
 |---|---|---|---|
@@ -19,7 +19,17 @@
 | C | ✅ | `40bc0fa` (`feat/phase-1-design`) | CapabilityStrip → FeatureGrid (home FR/EN) |
 | A | ✅ | `b5eb607` (`feat/phase-1-design`) | Hero.astro @home-only lock |
 | B | ✅ | `d9950d2` (`feat/phase-1-design`) | ProofBar → ProofBarSection (home + ServiceDetail + DetailMenu) |
-| **E** | ⏳ | Brief prêt `/tmp/codex-missions/waimia-batch-E/mission-strict.md` | CtaBand → CtaFinal/CtaBandSection/CtaInline (8 templates Phase E1) — à faire session suivante |
+| E (Phase E1) | ✅ | `31974f9` (`feat/phase-1-design`) | CtaBand → CtaFinal/CtaBandSection (8 templates : TrustLegal/CaseStudy/ServiceDetail/ListIndex/Hub/DetailMenu/Essay/Utility) · CtaBand legacy préservé Phase E2/E3 |
+
+## Phase E2/E3 reste pour session suivante
+
+`CtaBand.astro` toujours actif sur **~19 consommateurs** hors templates (hubs FR/EN, secteurs, atlas, ressources, pages directes). Audit empirique + migration progressive à faire :
+
+```bash
+grep -rln "import.*CtaBand\b\|<CtaBand\b" apps/web/src/pages
+```
+
+Décider page par page : `<CtaFinal>` (fin de page) ou `<CtaBandSection>` (bande intermédiaire). Suppression `CtaBand.astro` quand 0 consommateur.
 
 ## Reprise session suivante
 
