@@ -105,7 +105,8 @@ const lang = propLang ?? langFromPath(Astro.url.pathname);
     transition:border-color 220ms ease;
     outline:none;
   }
-  .nl-input:focus{border-color:var(--ink)}
+  .nl-input:focus{border-color:var(--ink);outline:none}
+  .nl-input:focus-visible{border-color:var(--ink);outline:2px solid var(--ink);outline-offset:2px}
   .nl-input::placeholder{color:var(--muted)}
   .nl-input--error{border-color:#c0392b}
   .nl-error{

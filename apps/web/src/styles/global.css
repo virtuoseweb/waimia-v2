@@ -243,7 +243,7 @@ pre {
 }
 .btn-accent {
   background: var(--accent);
-  color: var(--paper);
+  color: #fff; /* #F6F1E8 donne 4.09:1 sur accent — #fff monte à 4.57:1 ✅ AA */
 }
 .btn-accent:hover {
   background: var(--accent-2);
@@ -1540,6 +1540,21 @@ a:not([class]):hover,
   }
   .marquee .track {
     animation: none;
+  }
+  /* Liens prose · animation background-size non triviale */
+  a:not([class]),
+  .prose a,
+  .editorial-body a,
+  .case-body a {
+    transition: none !important;
+  }
+  /* Mobile menu + mega menu · slideIn/fadeIn omis */
+  .m-sheet {
+    transition: none !important;
+  }
+  .mega,
+  .mega-scrim {
+    transition: none !important;
   }
 }
 
