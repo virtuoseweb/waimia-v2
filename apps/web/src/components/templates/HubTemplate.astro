@@ -7,7 +7,7 @@
 //  - hub-development.html (à venir)
 //
 // Squelette : Masthead + Manifesto pull + Service catalog list + Fit columns
-//             + Related cases + CTABand
+//             + Related cases + CTA final
 //
 // Mode Slots (Astro recommande) — chaque slot ouvre un point d'extension.
 // Les pages utilisatrices peuvent :
@@ -16,7 +16,7 @@
 //
 // Composé de · Kicker, Bi, ChapterLabel (atoms) · KeyMetric, Callout,
 //              DropCap, PullQuote (editorial) · FitColumns, RelatedCards
-//              (molecules) · CtaBand (organism).
+//              (molecules) · CtaFinal (section).
 
 import Base from '../../layouts/Base.astro';
 import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
@@ -25,12 +25,13 @@ import Kicker from '../ui/atoms/Kicker.astro';
 import ChapterLabel from '../ui/atoms/ChapterLabel.astro';
 import FitColumns from '../ui/molecules/FitColumns.astro';
 import RelatedCards from '../ui/molecules/RelatedCards.astro';
-import CtaBand from '../ui/organisms/CtaBand.astro';
+import CtaFinal from '../sections/CtaFinal.astro';
 import Callout from '../editorial/Callout.astro';
 import KeyMetric from '../editorial/KeyMetric.astro';
 import DropCap from '../editorial/DropCap.astro';
 import PullQuote from '../editorial/PullQuote.astro';
-import { langFromPath } from '../../lib/i18n';
+import { langFromPath, localizeHref } from '../../lib/i18n';
+import type { SectionByType } from '../../schemas/sections';
 
 interface Stat {
   k: string;
@@ -88,6 +89,27 @@ const parentLabel = isTech
 const parentHref = isTech
   ? (isFr ? '/technologies' : '/en/technologies')
   : (isFr ? '/offres' : '/en/offres');
+const hubLabel = title.split(' · ')[0];
+const ctaData = {
+  type: 'cta-final',
+  h2_fr: 'Prêt à faire tenir ce <i>pilier</i> dans le réel ?',
+  h2_en: 'Ready to make this <i>pillar</i> hold in the real world?',
+  body_fr: `On part de ${hubLabel}, on tranche le bon périmètre et on cadre un premier chantier livrable sans théâtre.`,
+  body_en: `We start from ${hubLabel}, cut the right scope, and frame a first shippable engagement without theatre.`,
+  cta_primary: {
+    label_fr: 'Réserver un audit →',
+    label_en: 'Book an audit →',
+    href: localizeHref('/contact', lang),
+    variant: 'primary',
+  },
+  cta_secondary: {
+    label_fr: isTech ? 'Voir les technologies →' : 'Voir les offres →',
+    label_en: isTech ? 'See technologies →' : 'See services →',
+    href: parentHref,
+    variant: 'ghost',
+  },
+  background: 'paper',
+} satisfies SectionByType<'cta-final'>;
 ---
 <Base title={title} description={description}>
   <Breadcrumb
@@ -205,7 +227,7 @@ const parentHref = isTech
     </div>
   </section>
 
-  <CtaBand />
+  <CtaFinal data={ctaData} lang={lang} />
 </Base>
 
 <style>

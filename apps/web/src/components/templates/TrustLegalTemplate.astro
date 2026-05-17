@@ -9,7 +9,7 @@
 // Squelette · masthead minimaliste + TOC sticky gauche + sections H2/H3 empilées
 // + footer signataires/dates revision.
 //
-// Composé de · Bi (atom) · Kicker (atom) · CtaBand (organism)
+// Composé de · Bi (atom) · Kicker (atom) · CtaBandSection (section)
 //
 // Décision · TOC sticky gauche : pattern visuel récurrent dans handoff2 trust-center.
 // Pas extrait en molécule — usage 1× par page (le TOC est généré depuis les sections
@@ -19,8 +19,9 @@ import Base from '../../layouts/Base.astro';
 import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
 import Bi from '../ui/atoms/Bi.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
-import CtaBand from '../ui/organisms/CtaBand.astro';
-import { langFromPath } from '../../lib/i18n';
+import CtaBandSection from '../sections/CtaBandSection.astro';
+import type { SectionByType } from '../../schemas/sections';
+import { langFromPath, localizeHref } from '../../lib/i18n';
 
 interface Section {
   /** Anchor id (slug) */
@@ -46,6 +47,18 @@ const { title, description, kickerFr, kickerEn, revisedAt, version, sections } =
 
 const lang = langFromPath(Astro.url.pathname);
 const isFr = lang === 'fr';
+const ctaData = {
+  type: 'cta-band',
+  text_fr: `${kickerFr} relisible, arbitrable et exploitable côté équipe.`,
+  text_en: `${kickerEn} you can review, arbitrate, and operationalize with your team.`,
+  cta: {
+    label_fr: 'Réserver un audit →',
+    label_en: 'Book an audit →',
+    href: localizeHref('/contact', lang),
+    variant: 'primary',
+  },
+  background: 'paper-2',
+} satisfies SectionByType<'cta-band'>;
 ---
 <Base title={title} description={description}>
   <Breadcrumb
@@ -98,7 +111,7 @@ const isFr = lang === 'fr';
     </div>
   </div>
 
-  <CtaBand />
+  <CtaBandSection data={ctaData} lang={lang} />
 </Base>
 
 <style>

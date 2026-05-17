@@ -6,22 +6,23 @@
 //  - (autres cas seront stubs jusqu'à contenu validé)
 //
 // Squelette : Masthead + Spec bar + Context + Approach (steps) + Proof band
-//             + Tech stack + Related + CTABand
+//             + Tech stack + Related + CTA final
 //
 // Composé de · Bi, Kicker, ChapterLabel atoms · ProcessSteps, ProofBand,
-//              TechPillRow, RelatedCards molecules · CtaBand organism.
+//              TechPillRow, RelatedCards molecules · CtaFinal section.
 
 import Base from '../../layouts/Base.astro';
 import Bi from '../ui/atoms/Bi.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
-import { langFromPath } from '../../lib/i18n';
+import { langFromPath, localizeHref } from '../../lib/i18n';
 import ChapterLabel from '../ui/atoms/ChapterLabel.astro';
 import MethodTimeline from '../sections/MethodTimeline.astro';
 import ProofBand from '../ui/molecules/ProofBand.astro';
 import TechPillRow from '../ui/molecules/TechPillRow.astro';
-import CtaBand from '../ui/organisms/CtaBand.astro';
+import CtaFinal from '../sections/CtaFinal.astro';
 import KeyMetric from '../editorial/KeyMetric.astro';
 import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
+import type { SectionByType } from '../../schemas/sections';
 
 interface SpecItem {
   label_fr: string;
@@ -92,6 +93,27 @@ const pageTransitionId = Astro.url.pathname
   .replace(/[^a-z0-9]+/gi, '-')
   .replace(/^-|-$/g, '') || 'home';
 const cardTransitionId = transitionSlug ?? pageTransitionId;
+const caseLabel = caseTitle ?? title.split(' · ')[0];
+const ctaData = {
+  type: 'cta-final',
+  h2_fr: 'Votre prochain <i>cas</i> doit produire quoi ?',
+  h2_en: 'What should your next <i>case</i> actually produce?',
+  body_fr: `Si ${caseLabel} ressemble à votre contexte, on cadre le vôtre en 45 minutes et on vous dit vite si le terrain est opérable.`,
+  body_en: `If ${caseLabel} looks like your context, we can frame yours in 45 minutes and tell you quickly whether the field is operationally viable.`,
+  cta_primary: {
+    label_fr: 'Réserver un audit →',
+    label_en: 'Book an audit →',
+    href: localizeHref('/contact', lang),
+    variant: 'primary',
+  },
+  cta_secondary: {
+    label_fr: 'Voir les offres →',
+    label_en: 'See services →',
+    href: localizeHref('/offres', lang),
+    variant: 'ghost',
+  },
+  background: 'paper',
+} satisfies SectionByType<'cta-final'>;
 ---
 <Base title={title} description={description}>
   <Breadcrumb
@@ -249,7 +271,7 @@ const cardTransitionId = transitionSlug ?? pageTransitionId;
     </div>
   </section>
 
-  <CtaBand />
+  <CtaFinal data={ctaData} lang={lang} />
   <slot name="body-end" />
 </Base>
 

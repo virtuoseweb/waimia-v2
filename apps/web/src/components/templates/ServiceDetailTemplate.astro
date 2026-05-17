@@ -18,12 +18,13 @@ import Base from '../../layouts/Base.astro';
 import Bi from '../ui/atoms/Bi.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
 import MethodTimeline from '../sections/MethodTimeline.astro';
-import { langFromPath } from '../../lib/i18n';
+import { langFromPath, localizeHref } from '../../lib/i18n';
 import ProofBand from '../ui/molecules/ProofBand.astro';
 import TechPillRow from '../ui/molecules/TechPillRow.astro';
 import RelatedCards from '../ui/molecules/RelatedCards.astro';
-import CtaBand from '../ui/organisms/CtaBand.astro';
+import CtaFinal from '../sections/CtaFinal.astro';
 import ProofBarSection from '../sections/ProofBarSection.astro';
+import type { SectionByType } from '../../schemas/sections';
 
 interface Stat {
   k: string;
@@ -83,6 +84,48 @@ const {
 } = Astro.props;
 const lang = langFromPath(Astro.url.pathname);
 const hasProof = proofQuoteFr && proofQuoteEn && proofMetrics;
+const serviceLabel = title.split(' · ')[0];
+const collectionHref = Astro.url.pathname.includes('/technologies/')
+  ? localizeHref('/technologies', lang)
+  : Astro.url.pathname.includes('/solutions/')
+  ? localizeHref('/solutions', lang)
+  : Astro.url.pathname.includes('/agence/')
+  ? localizeHref('/agence', lang)
+  : localizeHref('/offres', lang);
+const collectionLabelFr = Astro.url.pathname.includes('/technologies/')
+  ? 'Voir les technologies →'
+  : Astro.url.pathname.includes('/solutions/')
+  ? 'Voir les solutions →'
+  : Astro.url.pathname.includes('/agence/')
+  ? "Voir l'agence →"
+  : 'Voir les offres →';
+const collectionLabelEn = Astro.url.pathname.includes('/technologies/')
+  ? 'See technologies →'
+  : Astro.url.pathname.includes('/solutions/')
+  ? 'See solutions →'
+  : Astro.url.pathname.includes('/agence/')
+  ? 'See the agency →'
+  : 'See services →';
+const ctaData = {
+  type: 'cta-final',
+  h2_fr: 'Prêt à rendre ce <i>chantier</i> opérable ?',
+  h2_en: 'Ready to make this <i>engagement</i> operational?',
+  body_fr: `On part de ${serviceLabel} et on vous dit vite si le sujet mérite un sprint, un audit ou un non ferme.`,
+  body_en: `We start from ${serviceLabel} and tell you quickly whether the topic deserves a sprint, an audit, or a firm no.`,
+  cta_primary: {
+    label_fr: 'Réserver un audit →',
+    label_en: 'Book an audit →',
+    href: localizeHref('/contact', lang),
+    variant: 'primary',
+  },
+  cta_secondary: {
+    label_fr: collectionLabelFr,
+    label_en: collectionLabelEn,
+    href: collectionHref,
+    variant: 'ghost',
+  },
+  background: 'paper',
+} satisfies SectionByType<'cta-final'>;
 ---
 <Base title={title} description={description}>
   {/* MASTHEAD */}
@@ -184,7 +227,7 @@ const hasProof = proofQuoteFr && proofQuoteEn && proofMetrics;
     </div>
   </section>
 
-  <CtaBand />
+  <CtaFinal data={ctaData} lang={lang} />
 </Base>
 
 <style>

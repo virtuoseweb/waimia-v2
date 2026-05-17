@@ -16,13 +16,15 @@ import Bi from '../ui/atoms/Bi.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
 import RelatedCards from '../ui/molecules/RelatedCards.astro';
 import AuthorCard from '../ui/molecules/AuthorCard.astro';
-import CtaBand from '../ui/organisms/CtaBand.astro';
+import CtaBandSection from '../sections/CtaBandSection.astro';
 import { buildArticle } from '../../lib/seo/schema-builder';
 import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
 import TableOfContents from '../ui/molecules/TableOfContents.astro';
 import ShareButtons from '../ui/molecules/ShareButtons.astro';
 import RelatedByCluster from '../ui/molecules/RelatedByCluster.astro';
 import TagPills from '../ui/molecules/TagPills.astro';
+import type { SectionByType } from '../../schemas/sections';
+import { localizeHref } from '../../lib/i18n';
 
 interface RelatedCard {
   kicker: string;
@@ -112,6 +114,18 @@ const absoluteImage = image
   ? (image.startsWith('http') ? image : `${siteUrl}${image}`)
   : `${siteUrl}/og/default.png`;
 const articleSection = category ?? kicker.replace(/^§\s*/, '').split('·')[0]?.trim();
+const ctaData = {
+  type: 'cta-band',
+  text_fr: `Si ${articleSection} touche votre équipe, on le traduit en plan d'action opérable plutôt qu'en débat abstrait.`,
+  text_en: `If ${articleSection} matters to your team, we turn it into an operational plan instead of an abstract debate.`,
+  cta: {
+    label_fr: 'Réserver un audit →',
+    label_en: 'Book an audit →',
+    href: localizeHref('/contact', lang),
+    variant: 'primary',
+  },
+  background: 'paper-2',
+} satisfies SectionByType<'cta-band'>;
 
 // JSON-LD Article schema · GEO/AIO indexable par crawlers LLM
 const articleLd = buildArticle({
@@ -265,7 +279,7 @@ const articleLd = buildArticle({
     </footer>
   </article>
 
-  <CtaBand />
+  <CtaBandSection data={ctaData} lang={lang} />
 </Base>
 
 <script>

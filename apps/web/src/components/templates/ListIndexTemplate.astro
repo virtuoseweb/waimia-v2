@@ -14,7 +14,9 @@
 
 import Base from '../../layouts/Base.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
-import CtaBand from '../ui/organisms/CtaBand.astro';
+import CtaBandSection from '../sections/CtaBandSection.astro';
+import type { SectionByType } from '../../schemas/sections';
+import { langFromPath, localizeHref } from '../../lib/i18n';
 
 interface Props {
   title: string;
@@ -23,6 +25,20 @@ interface Props {
   kicker: string;
 }
 const { title, description, kicker } = Astro.props;
+const lang = langFromPath(Astro.url.pathname);
+const listLabel = title.split(' · ')[0];
+const ctaData = {
+  type: 'cta-band',
+  text_fr: `Après ${listLabel}, passons à votre cas réel et à votre premier livrable utile.`,
+  text_en: `After ${listLabel}, let us move to your real use case and your first useful deliverable.`,
+  cta: {
+    label_fr: 'Réserver un audit →',
+    label_en: 'Book an audit →',
+    href: localizeHref('/contact', lang),
+    variant: 'primary',
+  },
+  background: 'paper-2',
+} satisfies SectionByType<'cta-band'>;
 ---
 <Base title={title} description={description}>
   {/* MASTHEAD */}
@@ -47,7 +63,7 @@ const { title, description, kicker } = Astro.props;
     </div>
   </section>
 
-  <CtaBand />
+  <CtaBandSection data={ctaData} lang={lang} />
 </Base>
 
 <style>

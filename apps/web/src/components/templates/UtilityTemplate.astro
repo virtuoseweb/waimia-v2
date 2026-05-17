@@ -13,13 +13,14 @@
 // (h1 + lede + body + CTA optionnel). Prop `align` (centered / left) pour les
 // variations visuelles. Le slot `body` accepte n'importe quel JSX riche.
 //
-// Composé de · Bi (atom) · Kicker (atom) · CtaBand (organism · optionnel)
+// Composé de · Bi (atom) · Kicker (atom) · CtaFinal (section · optionnelle)
 
 import Base from '../../layouts/Base.astro';
 import Breadcrumb from '../ui/molecules/Breadcrumb.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
-import CtaBand from '../ui/organisms/CtaBand.astro';
-import { langFromPath } from '../../lib/i18n';
+import CtaFinal from '../sections/CtaFinal.astro';
+import type { SectionByType } from '../../schemas/sections';
+import { langFromPath, localizeHref } from '../../lib/i18n';
 
 interface Crumb {
   label: string;
@@ -33,7 +34,7 @@ interface Props {
   kicker?: string;
   /** Alignement masthead · `left` (défaut, narrative) ou `centered` (action focus) */
   align?: 'left' | 'centered';
-  /** Afficher CtaBand en fin de page · défaut true */
+  /** Afficher le CTA final en fin de page · défaut true */
   showCta?: boolean;
   /** Breadcrumb items (optionnel) · si absent, deduit du pathname */
   breadcrumb?: Crumb[];
@@ -43,6 +44,49 @@ interface Props {
 const { title, description, kicker, align = 'left', showCta = true, breadcrumb, jsonLd } = Astro.props as Props;
 
 const lang = langFromPath(Astro.url.pathname);
+const isContactPage = Astro.url.pathname === '/contact' || Astro.url.pathname === '/en/contact';
+const utilityLabel = title.split(' · ')[0];
+const ctaData: SectionByType<'cta-final'> = isContactPage
+  ? {
+      type: 'cta-final',
+      h2_fr: 'Besoin d'un <i>cadre</i> avant de réserver ?',
+      h2_en: 'Need a <i>framework</i> before booking?',
+      body_fr: 'Commencez par le périmètre, la méthode et les formats d\'intervention. Ensuite seulement, on ouvre un créneau utile.',
+      body_en: 'Start with scope, method, and engagement formats. Then, and only then, we open a useful slot.',
+      cta_primary: {
+        label_fr: 'Voir les offres →',
+        label_en: 'See services →',
+        href: localizeHref('/offres', lang),
+        variant: 'primary',
+      },
+      cta_secondary: {
+        label_fr: 'Voir la méthode →',
+        label_en: 'See the method →',
+        href: localizeHref('/agence/methode', lang),
+        variant: 'ghost',
+      },
+      background: 'paper',
+    }
+  : {
+      type: 'cta-final',
+      h2_fr: 'Prêt à passer du <i>texte</i> au terrain ?',
+      h2_en: 'Ready to move from <i>text</i> to the field?',
+      body_fr: `${utilityLabel} clarifié. Reste à cadrer le chantier, le bon niveau d'engagement et le premier livrable utile.`,
+      body_en: `${utilityLabel} clarified. Now it is about framing the engagement, the right level of involvement, and the first useful deliverable.`,
+      cta_primary: {
+        label_fr: 'Réserver un audit →',
+        label_en: 'Book an audit →',
+        href: localizeHref('/contact', lang),
+        variant: 'primary',
+      },
+      cta_secondary: {
+        label_fr: 'Voir les offres →',
+        label_en: 'See services →',
+        href: localizeHref('/offres', lang),
+        variant: 'ghost',
+      },
+      background: 'paper',
+    };
 
 // Auto-deduction breadcrumb si non fourni (segments URL → labels capitalises)
 const autoCrumbs: Crumb[] = breadcrumb ?? (() => {
@@ -76,7 +120,7 @@ const autoCrumbs: Crumb[] = breadcrumb ?? (() => {
   </section>
 
   {/* CTA optionnel en bas */}
-  {showCta && <CtaBand />}
+  {showCta && <CtaFinal data={ctaData} lang={lang} />}
 </Base>
 
 <style>
