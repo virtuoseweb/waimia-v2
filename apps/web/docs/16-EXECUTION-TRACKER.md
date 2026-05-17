@@ -138,9 +138,9 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [✅] **T6.4a** · Schema proof-points + collection livrés (commit `ac1ae81`, Opus pre-hook) · 7 categories enum
 - [✅] **T6.4b** · ProofPointInline.astro livré (commit `a5c3c51`, Worker Sonnet) · variants inline + card (ProofPointHero non livré · à faire si besoin)
 - [✅] **T6.4c** · 15 proof-points livrés (commit `a5c3c51`, Worker Sonnet) · ROI×3 + Time×3 + Volume×2 + Quality×2 + Cost×2 + Adoption×3
-- [ ] **T6.5a** · Collection `guarantees` (promesses contractuelles)
-- [ ] **T6.5b** · Composant `<GuaranteeBadge />` réutilisable
-- [ ] **T6.5c** · 5 guarantees initiales (45 min audit, 100% remboursement 30j, etc.)
+- [✅] **T6.5a** · Schema `guarantees` (commit `dfdb1ee`, Opus pre-hook batch 9) · 6 categories enum + bilingue label/promise/detail
+- [✅] **T6.5b** · `GuaranteeBadge.astro` livré (commit `c68acd3`, Worker Sonnet batch 9) · variants badge/card · 9 props · bilingue FR/EN · 6 couleurs catégorie · pattern miroir ProofPointInline
+- [✅] **T6.5c** · 5 guarantees livrées (commit `c68acd3`, Worker Codex + fix Sonnet) · delai (audit 45min) · remboursement (100pct 30j) · qualite (livrable 72h) · rgpd (UE+DPA) · support (email 4h)
 - [ ] **T6.6** · Email sequences ESP integration (Resend ou ConvertKit ou Mailerlite)
 
 ### TIER 7 · Templates restants Wave 6-12 (40h)
@@ -230,6 +230,56 @@ Capitalisation : [feedback_waimia_w6_sections_layout_pitfalls.md](file:///Users/
 - [ ] **T13.8** · Update doc 12 statuses avec ✅ final
 - [ ] **T13.9** · Commit + push final → Vercel deploy preview
 - [ ] **T13.10** · Validation Vercel preview HTTP 200 sur 50+ URLs échantillon
+
+### TIER 14 · Closure Audit — Lock infra + DS (insérée 2026-05-17)
+
+**Mandat Simon 2026-05-17** :
+> _« centraliser tous les composants utilisés du site, tout converti correctement en SSG / préparer l'ISR. Aucun SSR sauf fonction minimale Vercel pour API/contact/pages dynamiques. Design system doit plus être libre mais déterminé et fix »_
+> _« cadre déterministe et fix · contrat parfait suivant meilleures pratiques · web, accessibilité, performance, design, style, SEO/GEO »_
+
+Bloque l'avancée du tracker T6.6 / T7 / T9 jusqu'à validation des 5 axes ci-dessous.
+
+#### Axe 1 · Stack TanStack — verdict immédiat
+
+- [✅] **T14.1a** · Audit dépendance TanStack (commit `c68acd3` audit Opus) · 0 résultat `grep "@tanstack\|tanstack"` package.json + src/ → **non utilisé**
+- [ ] **T14.1b** · Doc décision : `apps/web/docs/29-STACK-DECISION.md` · justifie Astro 6 vs TanStack Start (tableau comparatif + cas d'usage Waimia)
+
+#### Axe 2 · SSG/SSR/ISR — investigation + migration
+
+- [✅] **T14.2a** · Audit prerender empirique (commit `c68acd3` audit Opus) · 119 pages prerender=true · 7 API routes server · `output: 'server'` actuel · 1 blocker `[...slug].astro`
+- [✅] **T14.2b** · Investigation cause racine crash `[...slug] + prerender=true` (commit `c68acd3` audit Opus) · Rolldown 1.0.0-rc.17 `tsconfigPaths Missing field` + Vite/Tailwind 4 · commit fautif `86c01a9` · dpl_4kh6QP1 ERROR
+- [ ] **T14.2c** · Test reverse du REVERT avec versions actuelles · vérifier si bug fixé upstream
+- [ ] **T14.2d** · Si bug persiste : strategy alternative (séparer catch-all en pages explicites OU upgrade Rolldown OU désactiver tsconfigPaths)
+- [ ] **T14.2e** · Migration `output: 'server'` → `output: 'static'` · inverser le défaut, SSR opt-in
+- [ ] **T14.2f** · Audit pages restantes sans prerender · décision SSG/ISR/SSR pour chacune
+- [ ] **T14.2g** · ISR config hubs collection-driven (TTL 1h) · /ressources/index, /blog, /cookbooks, etc.
+- [ ] **T14.2h** · Build + Vercel preview · valider 0 régression sur 119 pages
+
+#### Axe 3 · Design System closure — contrat déterministe
+
+- [ ] **T14.3a** · Cartographie complète composants `find src/components -name "*.astro"` · 147 composants à classer atoms/molecules/organisms/sections/templates
+- [ ] **T14.3b** · Diff showcase `/agence/design-system` (1588 lignes) vs cartographie · identifier les gaps
+- [ ] **T14.3c** · `apps/web/docs/28-DESIGN-SYSTEM-CONTRACT.md` · contrat déterministe (7 axes : structure, props, styles, accessibilité, performance, SEO/GEO, versioning)
+- [ ] **T14.3d** · Compléter showcase avec composants manquants identifiés en T14.3b (FR + EN miroir)
+- [ ] **T14.3e** · Marquer chaque composant **stable / WIP / deprecated** dans showcase + doc 19
+- [ ] **T14.3f** · Sections « globales » vs « locales » : règle de promotion (≥ 2 utilisations + même intent → global)
+- [ ] **T14.3g** · Audit props/islands : `client:load|idle|visible` justifié sur chaque island
+- [ ] **T14.3h** · Tests visuels Playwright snapshots des composants critiques (régression DS)
+
+#### Axe 4 · Cohérence CSS — tokens vs hardcoded
+
+- [ ] **T14.4a** · Audit grep `style="..."` inline sur composants · liste candidats refactor
+- [ ] **T14.4b** · Audit valeurs hardcoded `[0-9]+px` et `#[0-9a-fA-F]{6}` · ratio tokens vs hardcoded
+- [ ] **T14.4c** · `apps/web/docs/30-CSS-COHERENCE-AUDIT.md` · rapport gap + plan
+- [ ] **T14.4d** · Fix worker Sonnet : refactor fichiers en violation vers `var(--token)`
+
+#### Axe 5 · Centralisation composants templates + home
+
+- [ ] **T14.5a** · Lister composants utilisés dans `src/pages/index.astro` (home) + 12 templates
+- [ ] **T14.5b** · Mapper chaque composant à sa section showcase
+- [ ] **T14.5c** · Compléter le showcase avec les manquants (intersection T14.3b + T14.5a)
+- [ ] **T14.5d** · Verrouiller règle : tout nouveau composant introduit dans le repo **doit** être dans le showcase et la doc 19 avant merge
+- [ ] **T14.5e** · Hook pre-commit ou CI check qui refuse un commit de composant non showcasé
 
 ---
 
