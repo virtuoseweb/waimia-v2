@@ -38,8 +38,8 @@ export default defineConfig({
     isr: {
       expiration: 3600, // TTL par défaut 1h — override possible via Cache-Control s-maxage
       bypassToken: process.env.ISR_BYPASS_TOKEN, // secret Vercel env var (optionnel, pour preview bypass)
-      // API routes : toujours fresh (forms, webhooks, données live) — jamais cachées par ISR
-      exclude: ['/api/contact', '/api/newsletter', '/api/academy', '/api/devis', '/api/lead-magnet', '/api/healthcheck'],
+      // Endpoints internes Astro Actions (_actions/*) + utilitaires API = jamais cachés
+      exclude: ['/_actions/*', '/api/healthcheck', '/api/og.png'],
     },
   }),
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },

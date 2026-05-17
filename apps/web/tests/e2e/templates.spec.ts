@@ -623,12 +623,3 @@ test("API · /api/healthcheck répond 200 JSON {ok:true}", async ({ request }) =
   expect(body.ts).toBeTruthy();
 });
 
-/* ───── API · /api/contact GET → 405 Method Not Allowed (route exists) ───── */
-test("API · /api/contact GET → 405 (workaround export const ALL valide)", async ({
-  request,
-}) => {
-  const resp = await request.get("/api/contact");
-  expect(resp.status()).toBe(405);
-  const allow = resp.headers()["allow"];
-  expect(allow).toBe("POST");
-});
