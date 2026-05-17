@@ -164,6 +164,8 @@ const ctaHref = lang === 'fr' ? '/contact' : '/en/contact';
   const hdrEl = document.getElementById('hdr');
   if (hdrEl) {
     const hdr = hdrEl;
+    if (hdr.dataset.headerBound === '1') return;
+    hdr.dataset.headerBound = '1';
     const triggers = Array.from(document.querySelectorAll('[data-mega-trigger]'));
     const panels   = Array.from(document.querySelectorAll('[data-mega-panel]'));
     const navItems = Array.from(document.querySelectorAll('[data-nav-item]'));
@@ -172,10 +174,12 @@ const ctaHref = lang === 'fr' ? '/contact' : '/en/contact';
     const sheet      = document.querySelector('[data-mobile-sheet]');
     const closeSheet = document.querySelector('[data-mobile-close]');
     const navRoot    = document.querySelector('.hdr-nav');
+    const bodySiblings = Array.from(document.body.children).filter((el) => el !== sheet);
 
     // ─── 2. State ────────────────────────────────────────────────────────
     let closeTimer = null;
     let openKey = '';
+    let lastSheetTrigger = null;
 
     const triggerByKey = new Map(triggers.map((t) => [t.getAttribute('data-mega-trigger') || '', t]));
     const panelByKey   = new Map(panels.map((p) => [p.getAttribute('data-mega-panel') || '', p]));
@@ -189,24 +193,38 @@ const ctaHref = lang === 'fr' ? '/contact' : '/en/contact';
     }
 
     // ─── 3. Open / close mega panel ──────────────────────────────────────
+    function setPanelState(panel, isOpen) {
+      panel.classList.toggle('is-open', isOpen);
+      panel.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+      if (isOpen) {
+        panel.removeAttribute('inert');
+      } else {
+        panel.setAttribute('inert', '');
+      }
+    }
+
     function setOpen(nextKey) {
       clearCloseTimer();
       if (nextKey === openKey) return;
 
       if (openKey) {
         const t = triggerByKey.get(openKey); if (t) t.setAttribute('aria-expanded', 'false');
-        const p = panelByKey.get(openKey); if (p) { p.setAttribute('aria-hidden', 'true'); p.classList.remove('is-open'); }
+        const p = panelByKey.get(openKey); if (p) setPanelState(p, false);
         const n = navItemByKey.get(openKey); if (n) n.classList.remove('is-open');
       }
       if (nextKey) {
         const t = triggerByKey.get(nextKey); if (t) t.setAttribute('aria-expanded', 'true');
-        const p = panelByKey.get(nextKey); if (p) { p.setAttribute('aria-hidden', 'false'); p.classList.add('is-open'); }
+        const p = panelByKey.get(nextKey); if (p) setPanelState(p, true);
         const n = navItemByKey.get(nextKey); if (n) n.classList.add('is-open');
       }
 
       openKey = nextKey;
       hdr.setAttribute('data-open', nextKey);
       if (scrim) scrim.classList.toggle('is-open', Boolean(nextKey));
+    }
+
+    for (const panel of panels) {
+      setPanelState(panel, false);
     }
 
     function scheduleClose() {
@@ -278,11 +296,40 @@ const ctaHref = lang === 'fr' ? '/contact' : '/en/contact';
     onScroll();
 
     // ─── 7. Mobile sheet ────────────────────────────────────────────────
+    function setOutsideSheetInert(isOpen) {
+      for (const el of bodySiblings) {
+        if (isOpen) {
+          el.setAttribute('inert', '');
+        } else {
+          el.removeAttribute('inert');
+        }
+      }
+    }
+
     function setSheetOpen(open) {
-      if (sheet) { sheet.classList.toggle('is-open', open); sheet.setAttribute('aria-hidden', open ? 'false' : 'true'); }
+      if (sheet) {
+        sheet.classList.toggle('is-open', open);
+        sheet.setAttribute('aria-hidden', open ? 'false' : 'true');
+        if (open) {
+          sheet.removeAttribute('inert');
+        } else {
+          sheet.setAttribute('inert', '');
+        }
+      }
+      setOutsideSheetInert(open);
       if (burger) { burger.classList.toggle('is-open', open); burger.setAttribute('aria-expanded', open ? 'true' : 'false'); }
       document.body.style.overflow = open ? 'hidden' : '';
+      if (open) {
+        lastSheetTrigger = document.activeElement instanceof HTMLElement ? document.activeElement : burger;
+        requestAnimationFrame(() => {
+          const firstFocusable = sheet && sheet.querySelector('button, a[href]');
+          if (firstFocusable instanceof HTMLElement) firstFocusable.focus();
+        });
+      } else if (lastSheetTrigger instanceof HTMLElement) {
+        requestAnimationFrame(() => lastSheetTrigger.focus());
+      }
     }
+    if (sheet) sheet.setAttribute('inert', '');
     if (burger) burger.addEventListener('click', () => {
       setSheetOpen(!(sheet && sheet.classList.contains('is-open')));
     });
@@ -290,6 +337,7 @@ const ctaHref = lang === 'fr' ? '/contact' : '/en/contact';
 
     window.addEventListener('pagehide', () => {
       document.body.style.overflow = '';
+      setOutsideSheetInert(false);
     });
 
     for (const tr of document.querySelectorAll('[data-acc-trigger]')) {
