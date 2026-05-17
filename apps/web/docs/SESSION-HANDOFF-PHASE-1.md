@@ -7,7 +7,7 @@
 
 ---
 
-## État Phase 1 Design — 7/9 batchs livrés
+## État Phase 1 Design — 8/9 batchs livrés
 
 | Batch | Statut | Commit | Description |
 |---|---|---|---|
@@ -18,8 +18,8 @@
 | G | ✅ | `bac7d5b` (`feat/phase-1-design`) | FAQ→FaqAccordion + RelatedByCluster délégation + PricingTier @internal |
 | C | ✅ | `40bc0fa` (`feat/phase-1-design`) | CapabilityStrip → FeatureGrid (home FR/EN) |
 | A | ✅ | `b5eb607` (`feat/phase-1-design`) | Hero.astro @home-only lock |
-| **B** | 🔄 | Worker Sonnet `br5x3buy3` en cours | ProofBar/StatRow/MetricStrip → ProofBarSection/StatBlock |
-| **E** | ⏳ | Brief prêt | CtaBand → CtaFinal/CtaBandSection/CtaInline (8 templates Phase E1) |
+| B | ✅ | `d9950d2` (`feat/phase-1-design`) | ProofBar → ProofBarSection (home + ServiceDetail + DetailMenu) |
+| **E** | ⏳ | Brief prêt `/tmp/codex-missions/waimia-batch-E/mission-strict.md` | CtaBand → CtaFinal/CtaBandSection/CtaInline (8 templates Phase E1) — à faire session suivante |
 
 ## Reprise session suivante
 
