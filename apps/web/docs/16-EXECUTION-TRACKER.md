@@ -257,14 +257,17 @@ Bloque l'avancée du tracker T6.6 / T7 / T9 jusqu'à validation des 5 axes ci-de
 
 #### Axe 3 · Design System closure — contrat déterministe
 
-- [ ] **T14.3a** · Cartographie complète composants `find src/components -name "*.astro"` · 147 composants à classer atoms/molecules/organisms/sections/templates
-- [ ] **T14.3b** · Diff showcase `/agence/design-system` (1588 lignes) vs cartographie · identifier les gaps
-- [ ] **T14.3c** · `apps/web/docs/28-DESIGN-SYSTEM-CONTRACT.md` · contrat déterministe (7 axes : structure, props, styles, accessibilité, performance, SEO/GEO, versioning)
-- [ ] **T14.3d** · Compléter showcase avec composants manquants identifiés en T14.3b (FR + EN miroir)
-- [ ] **T14.3e** · Marquer chaque composant **stable / WIP / deprecated** dans showcase + doc 19
-- [ ] **T14.3f** · Sections « globales » vs « locales » : règle de promotion (≥ 2 utilisations + même intent → global)
+- [✅] **T14.3a** · Cartographie complète composants livrée (commit `0cfdd21`, Worker 1 Codex) · `docs/31-COMPONENTS-DOUBLONS-MAPPING.md` · 147 composants + 4 React islands · 7 doublons majeurs + 6 mineurs + 32 dead code + 8 batches élimination ordonnés
+- [✅] **T14.3a-T** · Audit profond 19 templates livré (commit `0cfdd21`, Worker 2 Codex) · `docs/32-TEMPLATES-DEEP-AUDIT.md` · 4 doublons templates + 2 à éliminer + 3 à rationaliser + **19/19 sections W6 sous-adoptées en prod**
+- [✅] **T14.3a-P** · Audit pages taxonomie livré (commit `0cfdd21`, Worker 3 Sonnet) · `docs/33-PAGES-TAXONOMY-AUDIT.md` · 110 pages analysées · 9 drifts + 7 pépites sous-utilisées + 10 batches A-J
+- [ ] **T14.3b** · Diff showcase `/agence/design-system` vs cartographie · gaps identifiés dans doc 31§3, à exposer Phase 1 exécution
+- [✅] **T14.3c** · Contrat formel `apps/web/docs/28-DESIGN-SYSTEM-CONTRACT.md` livré (commit pending, Worker 4 Codex) · **8 axes** (Structure, Props, Styles, A11y RGAA+WCAG, Perf Core Web Vitals stricts, SEO/GEO, Style, Telemetry) · workflow modification + CI check spec · références précises vers docs 17/18/19/20/29/31/32/33
+- [ ] **T14.3d** · Compléter showcase avec composants manquants (FR + EN miroir) — déclencher après Batch H/F/D
+- [ ] **T14.3e** · Marquer chaque composant **stable / WIP / deprecated** dans showcase + doc 19 — statuts déjà proposés dans doc 31
+- [✅] **T14.3f** · Règle promotion figée (doc 28§1) · « dès la 1ère utilisation si intent dépasse page locale »
 - [ ] **T14.3g** · Audit props/islands : `client:load|idle|visible` justifié sur chaque island
 - [ ] **T14.3h** · Tests visuels Playwright snapshots des composants critiques (régression DS)
+- [✅] **T14.4-J** · Batch J priorité absolue · 4 tokens CSS fantômes fix (commit `90d77d6`, Worker 5 Sonnet) · `global.css` 4 lignes · rupture typo h1/h2/h3/code restaurée toutes pages
 
 #### Axe 4 · Cohérence CSS — tokens vs hardcoded
 
