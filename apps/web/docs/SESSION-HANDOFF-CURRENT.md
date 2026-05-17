@@ -1,53 +1,25 @@
-# Session Handoff · Current
+# Handoff état session 2026-05-17 (usage 92% ALERTE)
 
-**Auteur** : Codex (GPT-5)  
-**Date** : 2026-05-17  
-**Branche de référence** : `feat/phase-1-design`
+## Branches actives
+- feat/phase-1-design : SEO M01 + tout Phase 1 + Session-02 A11y + Session-03 Perf (4d5d906 + M02 SEO en cours bvshk5xuu)
+- feat/phase-5-drifts : Session-05 Drifts CLÔTURÉE 3/3 (81b27e7)
+- feat/phase-6-pages : Session-06 Pages CLÔTURÉE 3/3 (d62e5c7)
 
----
+## Worker actif
+- SEO M02 hreflang/sitemap/llmstxt sur main branche (btvsh5xuu)
 
-## Statut courant
+## Sessions livrées cette session (2026-05-17)
+- Session-01 Phase 1 Design : 9/9 batchs (J/H/F/D/G/C/A/B/E E1+E2+E3) ✅
+- Session-02 A11y : 3/3 missions (M01 inert+guard, M02 landmarks/focus/ARIA, M03 contrast WCAG+motion+forms) ✅
+- Session-03 Perf : 3/3 missions (M01 output static, M02 route matrix, M03 fonts self-host) ✅
+- Session-04 SEO/GEO : M01 schema ✅ · M02 en cours · M03 OG validator restant
+- Session-05 Drifts : 3/3 missions (secteurs legacy, ressources hub, cas/ statiques) ✅
+- Session-06 Pages : 3/3 missions (about+methode, trust+welcomes, agence rest) ✅
 
-- **Phase 1 Design** : ✅ terminée (`9/9` batchs livrés)
-- **Document maître courant** : `docs/35-MASTER-PLAN-SITE-READY.md`
-- **Handoff source historique** : `docs/SESSION-HANDOFF-PHASE-1.md`
-- **Prochaine session à exécuter** : `session-02-a11y`
-
-## Priorité immédiate
-
-Le chantier ne doit plus repartir en exploration diffuse. La priorité est maintenant :
-
-1. lancer `session-02-a11y` ;
-2. enchaîner `session-03-performance-static` ;
-3. garder le cap vers « Site Ready » défini dans `docs/35`.
-
-## Références obligatoires avant reprise
-
-1. `docs/35-MASTER-PLAN-SITE-READY.md`
-2. `docs/SESSION-HANDOFF-PHASE-1.md`
-3. `docs/16-EXECUTION-TRACKER.md`
-4. `tasks/todo.md`
-5. `tasks/lessons.md`
-
-## Session suivante
-
-### `session-02-a11y`
-
-- Dossier briefs : `/tmp/codex-missions/sessions/session-02-a11y/`
-- Objectif : fermer le backlog RGAA/WCAG prioritaire sur les pages critiques avant toute optimisation perf/SEO.
-- Critère de fermeture :
-  - backlog A11y priorisé avec preuves ;
-  - corrections clavier/focus/landmarks/forms critiques livrées ;
-  - aucune régression flagrante sur home, offres, contact, navigation.
-
-## Règle de continuité
-
-Toute session future doit :
-
-- mettre à jour ce fichier en fin de session ;
-- cocher l’avancement correspondant dans `docs/35` si le périmètre est clos ;
-- préparer la session suivante avant de conclure.
-
----
-
-*Handoff courant créé par Codex pour remplacer l’absence de `docs/SESSION-HANDOFF-CURRENT.md` et stabiliser la reprise inter-sessions.*
+## Sessions restantes (jusqu'à "Site Ready")
+- Session-04 M02/M03 SEO (en cours/à finir)
+- Session-07 Conversion infra (M01 forms-typed-botid, M02 quiz-ab, M03 stripe-esp) — risque collision autre agent contact forms
+- Session-08 Content pillar (placeholder)
+- Session-09 Page audits Simon-grade 14 axes (placeholder)
+- Session-10 QA lock CI (placeholder)
+- Phase merge : feat/phase-{5,6}-* + feat/phase-1-design → main quand autre agent fini
