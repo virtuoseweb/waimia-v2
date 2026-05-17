@@ -242,7 +242,7 @@ Bloque l'avancée du tracker T6.6 / T7 / T9 jusqu'à validation des 5 axes ci-de
 #### Axe 1 · Stack TanStack — verdict immédiat
 
 - [✅] **T14.1a** · Audit dépendance TanStack (commit `c68acd3` audit Opus) · 0 résultat `grep "@tanstack\|tanstack"` package.json + src/ → **non utilisé**
-- [ ] **T14.1b** · Doc décision : `apps/web/docs/29-STACK-DECISION.md` · justifie Astro 6 vs TanStack Start (tableau comparatif + cas d'usage Waimia)
+- [✅] **T14.1b** · Doc décision `apps/web/docs/29-STACK-DECISION.md` créée (commit pending, Opus) · 11 critères comparatifs Astro 6 vs TanStack Start · verdict : Astro reste canonique · cas où TanStack serait justifié documenté · sujet clos
 
 #### Axe 2 · SSG/SSR/ISR — investigation + migration
 
