@@ -16,7 +16,7 @@ import Bi from '../ui/atoms/Bi.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
 import { langFromPath } from '../../lib/i18n';
 import ChapterLabel from '../ui/atoms/ChapterLabel.astro';
-import ProcessSteps from '../ui/molecules/ProcessSteps.astro';
+import MethodTimeline from '../sections/MethodTimeline.astro';
 import ProofBand from '../ui/molecules/ProofBand.astro';
 import TechPillRow from '../ui/molecules/TechPillRow.astro';
 import CtaBand from '../ui/organisms/CtaBand.astro';
@@ -153,7 +153,23 @@ const cardTransitionId = transitionSlug ?? pageTransitionId;
         <h2 class="case-section-h2"><slot name="approach-headline" /></h2>
         <p class="case-section-aside"><slot name="approach-aside" /></p>
       </header>
-      <ProcessSteps steps={steps} />
+      <MethodTimeline
+        data={{
+          type: 'method-timeline',
+          h2_fr: '',
+          h2_en: '',
+          steps: steps.map((s) => ({
+            num: s.sn,
+            label_fr: s.title_fr,
+            label_en: s.title_en,
+            body_fr: s.body_fr,
+            body_en: s.body_en,
+            meta_fr: s.kicker_fr || undefined,
+            meta_en: s.kicker_en || undefined,
+          })),
+        }}
+        lang={lang}
+      />
     </div>
   </section>
 

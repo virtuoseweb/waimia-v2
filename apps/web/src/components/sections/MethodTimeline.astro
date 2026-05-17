@@ -12,15 +12,19 @@ const isFr = lang === 'fr';
 
 <section class="method-timeline">
   <div class="wrap-wide">
+  {(data.kicker_fr || data.kicker_en || data.h2_fr || data.h2_en || data.lede_fr || data.lede_en) && (
   <div class="method-timeline__header">
     {(isFr ? data.kicker_fr : data.kicker_en) && (
       <Kicker tone="muted">{isFr ? data.kicker_fr : data.kicker_en}</Kicker>
     )}
-    <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
+    {(isFr ? data.h2_fr : data.h2_en) && (
+      <h2 set:html={isFr ? data.h2_fr : data.h2_en} />
+    )}
     {(isFr ? data.lede_fr : data.lede_en) && (
       <p class="reveal reveal-fade">{isFr ? data.lede_fr : data.lede_en}</p>
     )}
   </div>
+  )}
   <ol class="method-timeline__list">
     {data.steps.map((step: (typeof data.steps)[number]) => (
       <li class="method-timeline__step">

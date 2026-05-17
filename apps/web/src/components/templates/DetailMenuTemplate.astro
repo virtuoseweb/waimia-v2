@@ -16,7 +16,8 @@ import Base from '../../layouts/Base.astro';
 import Bi from '../ui/atoms/Bi.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
 import StatRow from '../ui/molecules/StatRow.astro';
-import ProcessSteps from '../ui/molecules/ProcessSteps.astro';
+import MethodTimeline from '../sections/MethodTimeline.astro';
+import { langFromPath } from '../../lib/i18n';
 import ProofBand from '../ui/molecules/ProofBand.astro';
 import TechPillRow from '../ui/molecules/TechPillRow.astro';
 import RelatedCards from '../ui/molecules/RelatedCards.astro';
@@ -56,6 +57,7 @@ const {
   proofQuoteFr, proofQuoteEn, proofAttrFr, proofAttrEn, proofMetrics,
   techPills, relatedCards,
 } = Astro.props as Props;
+const lang = langFromPath(Astro.url.pathname);
 ---
 <Base title={title} description={description}>
   {/* HERO · masthead avec parent kicker + numéro */}
@@ -89,7 +91,23 @@ const {
         </div>
         <p class="dt-section-aside"><slot name="approach-aside" /></p>
       </header>
-      <ProcessSteps steps={steps} />
+      <MethodTimeline
+        data={{
+          type: 'method-timeline',
+          h2_fr: '',
+          h2_en: '',
+          steps: steps.map((s) => ({
+            num: s.sn,
+            label_fr: s.title_fr,
+            label_en: s.title_en,
+            body_fr: s.body_fr,
+            body_en: s.body_en,
+            meta_fr: s.kicker_fr || undefined,
+            meta_en: s.kicker_en || undefined,
+          })),
+        }}
+        lang={lang}
+      />
     </div>
   </section>
 
