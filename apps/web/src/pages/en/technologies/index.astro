@@ -4,10 +4,11 @@ export const prerender = true;
 
 import Base from '../../../layouts/Base.astro';
 import Kicker from '../../../components/ui/atoms/Kicker.astro';
-import TrustMarquee from '../../../components/ui/organisms/TrustMarquee.astro';
+import SocialProof from '../../../components/sections/SocialProof.astro';
 import CtaBand from '../../../components/ui/organisms/CtaBand.astro';
 import RelatedCards from '../../../components/ui/molecules/RelatedCards.astro';
 import TechPillRow from '../../../components/ui/molecules/TechPillRow.astro';
+import { CLIENT_LOGOS } from '../../../data/sitemap';
 
 const stackLayers = [
   { num: '01', title: 'Claude · cognition',
@@ -64,6 +65,12 @@ const transitionIdFromHref = (href: string) =>
     .replace(/\/$/, '')
     .replace(/[^a-z0-9]+/gi, '-')
     .replace(/^-|-$/g, '') || 'home';
+
+const socialProofData = {
+  type: 'social-proof' as const,
+  logos: CLIENT_LOGOS.map((name) => ({ name })),
+  marquee: true,
+};
 ---
 <Base
   title="Technologies · Claude + open-source + VirtuoseOS · Waimia"
@@ -81,7 +88,7 @@ const transitionIdFromHref = (href: string) =>
   </section>
 
   {/* PARTNER BAND */}
-  <TrustMarquee />
+  <SocialProof data={socialProofData} lang="en" />
 
   {/* 3 STACK LAYERS */}
   <section class="hub-layers">
