@@ -2,22 +2,13 @@
 // Page · /ressources/academy · Diagnostic IA gratuit (form interactif)
 export const prerender = true;
 
-import { actions, isInputError } from 'astro:actions';
+// Source : waimia-handoff2 / academy-diagnostic.html
+//
+// Composé de · UtilityTemplate (centered) · slot body avec questionnaire 12 questions
+
 import UtilityTemplate from '../../components/templates/UtilityTemplate.astro';
 import Button from '../../components/ui/atoms/Button.astro';
 import Kicker from '../../components/ui/atoms/Kicker.astro';
-import FormErrors from '../../components/ui/atoms/FormErrors.astro';
-
-const result = Astro.getActionResult(actions.academy);
-
-if (result && !result.error && result.data?.redirect) {
-  return Astro.redirect(result.data.redirect);
-}
-
-const inputErrors = isInputError(result?.error) ? result.error.fields : {};
-const otherError = result?.error && !isInputError(result.error)
-  ? result.error.message
-  : undefined;
 ---
 <UtilityTemplate
   title="Diagnostic IA gratuit · 12 questions · Waimia Academy"
@@ -33,12 +24,7 @@ const otherError = result?.error && !isInputError(result.error)
   </Fragment>
 
   <Fragment slot="body">
-    <form class="acad-form" method="POST" action={actions.academy} name="academy" data-enhanced novalidate>
-        <div aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden">
-          <label for="academy-hp">Ne pas remplir</label>
-          <input type="text" id="academy-hp" name="_hp" tabindex="-1" autocomplete="off" />
-        </div>
-        <input type="hidden" name="lang" value="fr" />
+    <form class="acad-form" method="post" action="/api/academy" name="academy">
       <Kicker tone="accent" class="acad-section-k">§ 01 · Données</Kicker>
       <fieldset>
         <legend>Q1 · Vos données métier sont-elles centralisées ?</legend>
@@ -87,8 +73,6 @@ const otherError = result?.error && !isInputError(result.error)
         <label><input type="radio" name="q6" value="3" /> Astreinte 24/7 avec SLA réveil &lt; 15 min</label>
       </fieldset>
 
-      <FormErrors errors={inputErrors} id="academy-errors" />
-      {otherError && <p class="form-error-global" role="alert">{otherError}</p>}
       <div class="acad-cta">
         <Button as="button" type="submit" variant="primary" size="lg" mag={0.18}>
           Voir mon scorecard →
@@ -118,34 +102,3 @@ const otherError = result?.error && !isInputError(result.error)
   .acad-skip summary { cursor: pointer; font-family: var(--font-mono); letter-spacing: 0.06em; padding: 8px 0; }
   .acad-skip a { color: var(--accent); border-bottom: 1px solid currentColor; }
 </style>
-
-<script>
-  import { actions } from 'astro:actions';
-  import { navigate } from 'astro:transitions/client';
-
-  document.querySelectorAll<HTMLFormElement>('form[data-enhanced]').forEach((form) => {
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
-      if (submitBtn) submitBtn.disabled = true;
-
-      const formData = new FormData(form);
-      const actionPath = form.getAttribute('action');
-      if (!actionPath) return;
-
-      try {
-        const res = await fetch(actionPath, { method: 'POST', body: formData, headers: { Accept: 'application/json' } });
-        const json = await res.json();
-        if (res.ok && json?.data?.redirect) {
-          navigate(json.data.redirect);
-          return;
-        }
-        form.removeEventListener('submit', () => {});
-        form.submit();
-      } catch {
-        if (submitBtn) submitBtn.disabled = false;
-        form.submit();
-      }
-    });
-  });
-</script>
