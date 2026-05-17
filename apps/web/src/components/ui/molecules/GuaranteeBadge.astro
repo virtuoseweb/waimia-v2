@@ -1,0 +1,223 @@
+---
+/**
+ * Molécule · GuaranteeBadge · affichage d'une promesse contractuelle Waimia.
+ *
+ * Props : slug (charge via getEntry) OU label + promise directs.
+ * Priorité props directs > slug.
+ * Variant badge (horizontal compact) ou card (vertical détaillé).
+ * Bilingue FR/EN via prop lang.
+ */
+
+import { getEntry } from 'astro:content';
+
+export type Category =
+  | 'remboursement'
+  | 'delai'
+  | 'qualite'
+  | 'rgpd'
+  | 'support'
+  | 'autre';
+
+export interface Props {
+  slug?: string;
+  label?: string;
+  promise?: string;
+  detail?: string;
+  category?: Category;
+  icon?: string;
+  variant?: 'badge' | 'card';
+  lang?: 'fr' | 'en';
+  class?: string;
+}
+
+const {
+  slug,
+  label: labelProp,
+  promise: promiseProp,
+  detail: detailProp,
+  category: catProp,
+  icon: iconProp,
+  variant = 'badge',
+  lang = 'fr',
+  class: extraClass = '',
+} = Astro.props;
+
+let label = labelProp;
+let promise = promiseProp;
+let detail = detailProp;
+let category = catProp;
+let icon = iconProp;
+
+if (slug && (!label || !promise)) {
+  const entry = await getEntry('guarantees', slug);
+  if (entry) {
+    label    = label    ?? (lang === 'en' ? entry.data.label_en   : entry.data.label_fr);
+    promise  = promise  ?? (lang === 'en' ? entry.data.promise_en : entry.data.promise_fr);
+    detail   = detail   ?? (lang === 'en' ? entry.data.detail_en  : entry.data.detail_fr);
+    category = category ?? entry.data.category as Category;
+    icon     = icon     ?? entry.data.icon;
+  }
+}
+
+if (!label) {
+  return null;
+}
+
+const CATEGORY_COLOR: Record<string, string> = {
+  remboursement: '#C62828',
+  delai:         '#1565C0',
+  qualite:       '#E65100',
+  rgpd:          '#2E7D32',
+  support:       '#6A1B9A',
+  autre:         'var(--muted)',
+};
+
+const dotColor = CATEGORY_COLOR[category ?? 'autre'] ?? 'var(--muted)';
+---
+
+{variant === 'badge' ? (
+  <div
+    class={`guarantee-badge ${extraClass}`.trim()}
+    role="note"
+    aria-label={label}
+  >
+    {icon ? (
+      <span class="guarantee-badge__icon" style={`color:${dotColor}`} aria-hidden="true">{icon}</span>
+    ) : (
+      <span class="guarantee-badge__dot" style={`background:${dotColor}`} aria-hidden="true"></span>
+    )}
+    <span class="guarantee-badge__label">{label}</span>
+  </div>
+) : (
+  <div
+    class={`guarantee-card ${extraClass}`.trim()}
+    role="note"
+    aria-label={label}
+  >
+    <div class="guarantee-card__header">
+      {icon ? (
+        <span class="guarantee-card__icon" style={`color:${dotColor}`} aria-hidden="true">{icon}</span>
+      ) : (
+        <span class="guarantee-card__dot" style={`background:${dotColor}`} aria-hidden="true"></span>
+      )}
+      <span class="guarantee-card__label">{label}</span>
+    </div>
+    {promise && <p class="guarantee-card__promise">{promise}</p>}
+    {detail && <p class="guarantee-card__detail">{detail}</p>}
+    {category && (
+      <span class="guarantee-card__cat" style={`color:${dotColor}`}>
+        {category}
+      </span>
+    )}
+  </div>
+)}
+
+<style>
+  /* ── Variant badge ── */
+  .guarantee-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs, 6px);
+    padding: var(--spacing-xs, 6px) var(--spacing-sm, 10px);
+    border: 1px solid var(--border-hairline, var(--hairline, #e5e5e5));
+    border-radius: var(--radius-sm, 4px);
+    background: transparent;
+    transition: border-color 0.15s ease;
+    cursor: default;
+  }
+
+  .guarantee-badge:hover {
+    border-color: color-mix(in srgb, var(--border-hairline, #e5e5e5) 70%, currentColor 30%);
+  }
+
+  @media (max-width: 640px) {
+    .guarantee-badge {
+      display: flex;
+      width: 100%;
+    }
+  }
+
+  .guarantee-badge__dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .guarantee-badge__icon {
+    font-size: var(--text-sm, 14px);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .guarantee-badge__label {
+    font-family: var(--font-sans, sans-serif);
+    font-size: var(--text-sm, 14px);
+    color: var(--text-primary, var(--ink, #111));
+    line-height: 1.3;
+  }
+
+  /* ── Variant card ── */
+  .guarantee-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm, 10px);
+    padding: var(--spacing-md, 20px);
+    border: 1px solid var(--border-hairline, var(--hairline, #e5e5e5));
+    border-radius: var(--radius-sm, 4px);
+    background: var(--bg-elevated, transparent);
+  }
+
+  .guarantee-card__header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs, 6px);
+  }
+
+  .guarantee-card__dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .guarantee-card__icon {
+    font-size: var(--text-base, 16px);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .guarantee-card__label {
+    font-family: var(--font-serif, serif);
+    font-size: var(--text-base, 16px);
+    color: var(--text-primary, var(--ink, #111));
+    line-height: 1.3;
+    font-weight: 400;
+  }
+
+  .guarantee-card__promise {
+    font-family: var(--font-sans, sans-serif);
+    font-size: var(--text-sm, 14px);
+    color: var(--text-muted, var(--muted, #666));
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .guarantee-card__detail {
+    font-family: var(--font-sans, sans-serif);
+    font-size: var(--text-xs, 12px);
+    color: var(--text-muted, var(--muted, #666));
+    line-height: 1.5;
+    margin: 0;
+    font-style: italic;
+  }
+
+  .guarantee-card__cat {
+    font-family: var(--font-mono, monospace);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+</style>
