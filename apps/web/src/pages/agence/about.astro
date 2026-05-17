@@ -2,12 +2,9 @@
 // Page · /agence/about · À propos
 export const prerender = true;
 
-// Source : waimia-handoff2 / about.html
-//
-// Composé de · UtilityTemplate (left-aligned) · slot body avec story narrative
-
 import UtilityTemplate from '../../components/templates/UtilityTemplate.astro';
 import Kicker from '../../components/ui/atoms/Kicker.astro';
+import PortraitSimon from '../../components/svg/sumie/PortraitSimon.astro';
 ---
 <UtilityTemplate
   title="L'Agence · Pourquoi Waimia · Architectes de systèmes agentiques"
@@ -19,46 +16,75 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
     Une agence IA boutique. <i>Francophone</i>, par choix.
   </Fragment>
   <Fragment slot="lede">
-    Pas de chaîne offshore. Pas de modèle PowerPoint. Une équipe courte qui livre du code en français le mardi et mesure le pipeline le vendredi.
+    Pas de chaîne offshore. Une équipe courte qui livre du code le mardi et mesure le pipeline le vendredi.
   </Fragment>
 
   <Fragment slot="body">
     <div class="about-grid reveal-stagger">
-      {/* Story · 60 % */}
+
+      {/* ── Colonne gauche · Narrative 60 % ── */}
       <article class="about-prose">
+
         <Kicker tone="" class="about-kicker">§ 01 · Origine</Kicker>
         <h2>Une agence née d'une <i>frustration</i> de chantier.</h2>
-        <p>Waimia est née en 2024 d'une observation répétée : la plupart des projets IA livrent des démos, pas des produits. Un POC passe en comité. Un agent brille en showroom puis cale en juin. Un consultant repart avec son SharePoint et laisse l'équipe interne se débrouiller.</p>
-        <p>Notre angle est l'inverse. On <i>livre</i>. On signe. On reste joignables à 3 h du matin si l'agent tombe. On apprend en faisant — pas en réunissant des comités pour parler d'IA.</p>
+        <p>Waimia est née en 2024 d'une observation répétée&nbsp;: la plupart des projets IA livrent des démos, pas des produits. Un POC passe en comité, brille en showroom, puis cale en juin.</p>
+        <p>Notre angle est l'inverse. On <i>livre</i>. On signe. On reste joignables si l'agent tombe. On apprend en faisant — pas en réunissant des comités.</p>
 
         <Kicker tone="" class="about-kicker">§ 02 · Stance</Kicker>
         <h2>Ce que nous <i>refusons</i>.</h2>
         <ul>
           <li>Le théâtre IA — purple-glass, cerveau-circuit, hexagones flottants.</li>
-          <li>Les ateliers de cadrage de 6 mois sans livrable signé.</li>
+          <li>Les ateliers de cadrage sans livrable signé.</li>
           <li>Les pitch decks qui promettent l'impossible et cachent les limites des modèles.</li>
           <li>Les agents non-auditables qui transforment le SaaS en boîte noire.</li>
-          <li>L'enveloppe no-code propriétaire qui rend le client dépendant à vie.</li>
         </ul>
 
         <Kicker tone="" class="about-kicker">§ 03 · Méthode</Kicker>
         <h2>Quatre <i>livrables</i>, jamais un de plus.</h2>
-        <p>Chaque mission Waimia produit quatre livrables canoniques : un schéma de l'existant, un mode opératoire d'exécution, une trace d'audit rejouable, un humain d'astreinte nommé. Ni 72 slides, ni feuille de route PowerPoint à 18 mois.</p>
+        <p>Chaque mission produit&nbsp;: un schéma de l'existant, un mode opératoire d'exécution, une trace d'audit rejouable, un humain d'astreinte nommé. Ni slides, ni feuille de route à 18 mois.</p>
+
+        <Kicker tone="" class="about-kicker">§ 04 · Équipe</Kicker>
+        <h2>Des <i>humains</i> derrière chaque mission.</h2>
+        <p>Dix personnes, toutes seniors, toutes nommées. Simon Beros pilote l'architecture. Chaque client connaît son interlocuteur direct — pas un account manager rotatif.</p>
+
       </article>
 
-      {/* Aside · facts */}
+      {/* ── Colonne droite · Preuve 40 % sticky ── */}
       <aside class="about-aside">
+
         <Kicker class="about-aside-k">Faits clés</Kicker>
         <dl class="about-facts">
           <div><dt>Fondée</dt><dd>2024 · Paris</dd></div>
-          <div><dt>Co-fondateurs</dt><dd>Simon Beros (CEO) + équipe technique</dd></div>
+          <div><dt>Fondateur</dt><dd>Simon Beros (CEO)</dd></div>
           <div><dt>Bureaux</dt><dd>Paris (FR) · Genève (CH)</dd></div>
           <div><dt>Équipe</dt><dd>10 personnes · 100 % seniors</dd></div>
           <div><dt>Clients</dt><dd>SaaS B2B · Fintech UE · Industrie · Santé</dd></div>
           <div><dt>Partenariats</dt><dd>Anthropic · Activateur Francenum</dd></div>
-          <div><dt>Langues</dt><dd>Français + anglais (parité stricte)</dd></div>
           <div><dt>Volumes 2025</dt><dd>43 missions · €18M+ pipeline audité</dd></div>
+          <div><dt>Langues</dt><dd>Français + anglais (parité stricte)</dd></div>
         </dl>
+
+        {/* Stats massifs */}
+        <div class="about-stats" aria-label="Chiffres clés">
+          <div class="about-stat">
+            <span class="about-stat-n">43</span>
+            <span class="about-stat-l">missions actives</span>
+          </div>
+          <div class="about-stat">
+            <span class="about-stat-n">€18M+</span>
+            <span class="about-stat-l">pipeline audité</span>
+          </div>
+          <div class="about-stat">
+            <span class="about-stat-n">100%</span>
+            <span class="about-stat-l">profils seniors</span>
+          </div>
+        </div>
+
+        {/* Portrait décoratif */}
+        <div class="about-portrait" aria-hidden="true">
+          <PortraitSimon />
+        </div>
+
       </aside>
     </div>
 
@@ -66,42 +92,48 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
     <div class="about-cta reveal">
       <span class="about-cta-eyebrow">§ Travailler avec nous</span>
       <h2 class="about-cta-h2">Quarante-cinq minutes<br/>pour voir si c'est <i>le bon format</i>.</h2>
-      <a href="/contact" class="about-cta-btn">Démarrer un diagnostic →</a>
+      <div class="about-cta-btns">
+        <a href="/contact" class="about-cta-btn about-cta-btn--primary">Démarrer un diagnostic →</a>
+        <a href="/agence/methode" class="about-cta-btn about-cta-btn--ghost">Voir la méthode</a>
+      </div>
     </div>
   </Fragment>
 </UtilityTemplate>
 
 <style>
+  /* ── Grid 60/40 ── */
   .about-grid {
     display: grid;
-    grid-template-columns: 1.6fr 1fr;
+    grid-template-columns: 1.55fr 1fr;
     gap: clamp(40px, 6vw, 80px);
     max-width: 1200px;
   }
+
+  /* ── Prose ── */
   .about-prose {
     font-family: var(--font-sans);
     font-size: 17px;
     line-height: 1.65;
     color: var(--ink-2);
-    max-width: 720px;
   }
-  :global(.about-kicker) { display: block; margin: clamp(40px, 5vw, 64px) 0 12px; }
+  :global(.about-kicker) { display: block; margin: clamp(48px, 5vw, 64px) 0 12px; }
   :global(.about-prose > *:first-child) { margin-top: 0; }
   .about-prose h2 {
     font-family: var(--font-display);
-    font-size: clamp(28px, 3.5vw, 44px);
+    font-size: clamp(26px, 3vw, 40px);
     line-height: 1.1;
     letter-spacing: -0.02em;
     font-weight: 400;
-    margin: 0 0 18px;
+    margin: 0 0 16px;
     text-wrap: balance;
   }
   .about-prose h2 i { font-style: italic; color: var(--accent); }
-  .about-prose p { margin: 0 0 1.2em; }
-  .about-prose ul { margin: 0 0 1.4em 1.4em; }
-  .about-prose ul li { margin-bottom: 0.5em; }
+  .about-prose p { margin: 0 0 1.1em; }
+  .about-prose ul { margin: 0 0 1.2em 1.4em; }
+  .about-prose ul li { margin-bottom: 0.45em; }
   .about-prose i { font-style: italic; }
 
+  /* ── Aside sticky ── */
   .about-aside {
     border-left: 1px solid var(--hairline);
     padding-left: clamp(20px, 3vw, 40px);
@@ -110,11 +142,13 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
     top: 100px;
   }
   :global(.about-aside-k) { display: block; margin-bottom: 18px; }
+
+  /* Facts dl */
   .about-facts {
-    margin: 0;
+    margin: 0 0 40px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
   }
   .about-facts > div {
     display: flex;
@@ -126,23 +160,71 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
   .about-facts > div:last-child { border-bottom: none; }
   .about-facts dt {
     font-family: var(--font-mono);
-    font-size: 10.5px;
+    font-size: 10px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--muted);
   }
   .about-facts dd {
     font-family: var(--font-sans);
-    font-size: 16px;
+    font-size: 15px;
     margin: 0;
     line-height: 1.4;
   }
 
-  @media (max-width: 900px) {
-    .about-grid { grid-template-columns: 1fr; }
-    .about-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--hairline); padding-top: 32px; position: static; }
+  /* Stats bloc */
+  .about-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-top: 1px solid var(--hairline);
+    padding-top: 28px;
+    margin-bottom: 36px;
+  }
+  .about-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .about-stat-n {
+    font-family: var(--font-display);
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: -0.03em;
+  }
+  .about-stat-l {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    color: var(--muted);
   }
 
+  /* Portrait */
+  .about-portrait {
+    opacity: 0.6;
+    max-width: 180px;
+    margin-top: 24px;
+  }
+  .about-portrait :global(svg) { width: 100%; height: auto; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .about-aside {
+      border-left: none;
+      padding-left: 0;
+      border-top: 1px solid var(--hairline);
+      padding-top: 32px;
+      position: static;
+    }
+    .about-stats { flex-direction: row; flex-wrap: wrap; gap: 24px; }
+    .about-portrait { display: none; }
+  }
+
+  /* ── CTA final ── */
   .about-cta {
     border-top: 1px solid var(--hairline);
     padding-top: clamp(48px, 6vw, 80px);
@@ -164,21 +246,35 @@ import Kicker from '../../components/ui/atoms/Kicker.astro';
     letter-spacing: -0.025em;
     font-weight: 400;
     text-wrap: balance;
-    margin: 0 0 36px;
+    margin: 0 0 40px;
   }
   .about-cta-h2 i { font-style: italic; color: inherit; }
+  .about-cta-btns {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
   .about-cta-btn {
     display: inline-block;
     font-family: var(--font-mono);
     font-size: 13px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--paper);
-    background: var(--ink);
     padding: 16px 36px;
     border: 1px solid var(--ink);
-    transition: background 220ms var(--ease), border-color 220ms var(--ease);
+    transition: background 220ms var(--ease), border-color 220ms var(--ease), color 220ms var(--ease);
     text-decoration: none;
+    white-space: nowrap;
   }
-  .about-cta-btn:hover { background: var(--accent); border-color: var(--accent); }
+  .about-cta-btn--primary {
+    color: var(--paper);
+    background: var(--ink);
+  }
+  .about-cta-btn--primary:hover { background: var(--accent); border-color: var(--accent); }
+  .about-cta-btn--ghost {
+    color: var(--ink);
+    background: transparent;
+  }
+  .about-cta-btn--ghost:hover { background: var(--ink); color: var(--paper); }
 </style>

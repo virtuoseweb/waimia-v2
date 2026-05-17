@@ -2,10 +2,6 @@
 // Page · /agence/methode · Méthode Waimia · Process Intelligence
 export const prerender = true;
 
-//
-// Documente comment Waimia travaille — pas un produit, pas un OS marketing.
-// VirtuoseOS y apparaît comme framework interne, pas comme proposition commerciale.
-
 import UtilityTemplate from '../../components/templates/UtilityTemplate.astro';
 import Kicker from '../../components/ui/atoms/Kicker.astro';
 import Timeline from '../../components/editorial/Timeline.astro';
@@ -15,27 +11,27 @@ const phases = [
   {
     n: '01',
     label_fr: 'Cartographie',
-    body_fr: "On regarde votre métier. Pas vos présentations. Vos vrais workflows, vos vrais outils, vos vrais bouchons. Le mardi on observe, le vendredi on chiffre.",
+    body_fr: "On regarde votre métier — pas vos présentations. Vos vrais workflows, vos vrais bouchons. Le mardi on observe, le vendredi on chiffre.",
   },
   {
     n: '02',
     label_fr: 'Priorisation',
-    body_fr: "On classe les workflows par ROI. Pas par sophistication technique. Le gain rapide passe en premier. Le reste — on planifie.",
+    body_fr: "On classe les workflows par ROI, pas par sophistication technique. Le gain rapide passe en premier.",
   },
   {
     n: '03',
     label_fr: 'Câblage',
-    body_fr: "On câble les agents IA dans vos outils existants — Excel, HubSpot, Outlook, votre ERP. Pas de migration. Pas de refonte lourde. On connecte ce qui marche.",
+    body_fr: "On câble les agents IA dans vos outils existants — Excel, HubSpot, Outlook, votre ERP. Pas de migration. On connecte ce qui marche.",
   },
   {
     n: '04',
     label_fr: 'Mesure',
-    body_fr: "Chaque workflow a sa métrique avant/après. Si ça ne mesure rien, ça n'existe pas. Le vendredi, on lit les chiffres.",
+    body_fr: "Chaque workflow a sa métrique avant/après. Si ça ne mesure rien, ça n'existe pas.",
   },
   {
     n: '05',
     label_fr: 'Passation',
-    body_fr: "Vous prenez la main. Documentation, mode opératoire, formation. Pas de boîte noire, pas de captivité. Vous pouvez nous virer.",
+    body_fr: "Vous prenez la main. Documentation, mode opératoire, formation. Pas de boîte noire — vous pouvez nous virer.",
   },
 ];
 
@@ -47,17 +43,18 @@ const timelineEvents = phases.map(p => ({
 ---
 <UtilityTemplate
   title="Notre méthode · Process Intelligence · Waimia"
-  description="Cinq phases. Audit, priorisation, câblage, mesure, passation. Pas de diaporama. Pas de POC. Le mardi on câble, le vendredi on mesure."
+  description="Cinq phases. Audit, priorisation, câblage, mesure, passation. Pas de diaporama. Le mardi on câble, le vendredi on mesure."
   kicker="§ Notre méthode · Process Intelligence"
   align="left"
   showCta={true}
 >
   <Fragment slot="headline">Cinq <i>phases</i>. Pas de <i>diaporama</i>.</Fragment>
   <Fragment slot="lede">
-    On a une méthode. On l'écrit. On la mesure. On la corrige. Pas un secret de cabinet — un protocole que l'on peut rejouer.
+    On documente, on mesure, on corrige. Un protocole rejouable — pas un cabinet.
   </Fragment>
 
   <Fragment slot="body">
+
     {/* ── PHASES via Timeline ── */}
     <Timeline events={timelineEvents} numbered={true} />
 
@@ -66,55 +63,119 @@ const timelineEvents = phases.map(p => ({
       <MethodeProcessDiagram />
     </div>
 
+    {/* ── GARANTIES ── */}
+    <div class="meth-garanties reveal">
+      <Kicker class="meth-garanties-kicker">§ Engagements</Kicker>
+      <div class="meth-garanties-grid">
+        <div class="meth-garantie">
+          <p class="meth-garantie-title">Auditabilité totale</p>
+          <p class="meth-garantie-body">Chaque action d'agent est tracée, rejouable, exportable. Vous lisez ce qui s'est passé — sans nous demander.</p>
+        </div>
+        <div class="meth-garantie">
+          <p class="meth-garantie-title">Zéro dépendance propriétaire</p>
+          <p class="meth-garantie-body">Aucun lock-in. Les workflows tournent sur vos outils existants. Vous pouvez nous virer demain — le système continue.</p>
+        </div>
+        <div class="meth-garantie">
+          <p class="meth-garantie-title">Humain d'astreinte nommé</p>
+          <p class="meth-garantie-body">Pas un chatbot de support. Un nom, un numéro, une responsabilité claire. Joignable si quelque chose tombe.</p>
+        </div>
+      </div>
+    </div>
+
     {/* ── MENTION VIRTUOSEOS ── */}
     <div class="meth-os reveal">
       <Kicker class="meth-os-kicker">§ Sous le capot</Kicker>
       <h2 class="meth-os-h2">VirtuoseOS · le <i>cadre</i> qu'on a construit pour ça.</h2>
       <p class="meth-os-body">
-        Cinq ans à câbler des systèmes IA pour PME nous ont appris une chose : sans cadre commun, chaque mission redémarre à zéro. VirtuoseOS est notre noyau multi-workspace — un système qui orchestre les agents, audite les actions et garde la trace.
+        Cinq ans à câbler des systèmes IA nous ont appris que sans cadre commun, chaque mission redémarre à zéro. VirtuoseOS est notre noyau d'orchestration — il audite les actions, garde la trace, coordonne les agents.
       </p>
       <p class="meth-os-body">
-        Vous n'avez pas à l'acheter. Vous n'avez pas à le voir. Il tourne sous chaque mission Waimia. C'est tout.
+        Vous n'avez pas à l'acheter. Il tourne sous chaque mission Waimia. C'est tout.
       </p>
     </div>
 
     {/* ── CTA INLINE ── */}
     <div class="meth-cta reveal">
       <h2 class="meth-cta-h2">Cinq phases. Quarante-cinq minutes pour démarrer.</h2>
-      <a href="/contact" class="meth-cta-btn" data-mag="0.15">Démarrer →</a>
+      <div class="meth-cta-btns">
+        <a href="/contact" class="meth-cta-btn meth-cta-btn--primary">Démarrer →</a>
+        <a href="/offres" class="meth-cta-btn meth-cta-btn--ghost">Voir les offres</a>
+      </div>
     </div>
+
   </Fragment>
 </UtilityTemplate>
 
 <style>
-  /* ── Section VirtuoseOS ── */
+  /* ── Diagram ── */
+  .meth-diagram {
+    margin: clamp(48px, 6vw, 80px) 0;
+    max-width: 900px;
+  }
+
+  /* ── Garanties ── */
+  .meth-garanties {
+    margin: clamp(64px, 8vw, 100px) 0 clamp(48px, 6vw, 80px);
+  }
+  :global(.meth-garanties-kicker) { display: block; margin-bottom: 28px; }
+  .meth-garanties-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--hairline);
+  }
+  .meth-garantie {
+    padding: clamp(28px, 3.5vw, 48px);
+    border-right: 1px solid var(--hairline);
+  }
+  .meth-garantie:last-child { border-right: none; }
+  .meth-garantie-title {
+    font-family: var(--font-display);
+    font-size: clamp(17px, 1.8vw, 22px);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+  .meth-garantie-body {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--muted);
+    margin: 0;
+  }
+  @media (max-width: 768px) {
+    .meth-garanties-grid { grid-template-columns: 1fr; }
+    .meth-garantie { border-right: none; border-bottom: 1px solid var(--hairline); }
+    .meth-garantie:last-child { border-bottom: none; }
+  }
+
+  /* ── VirtuoseOS ── */
   .meth-os {
     background: var(--paper-2);
     border: 1px solid var(--hairline);
-    padding: clamp(36px, 4.5vw, 64px);
+    padding: clamp(32px, 4vw, 56px);
     margin-bottom: clamp(72px, 9vw, 120px);
+    max-width: 800px;
   }
-
   :global(.meth-os-kicker) { display: block; margin-bottom: 20px; }
-
   .meth-os-h2 {
     font-family: var(--font-display);
-    font-size: clamp(28px, 3.5vw, 52px);
+    font-size: clamp(24px, 2.8vw, 44px);
     font-weight: 400;
     letter-spacing: -0.022em;
     line-height: 1.05;
-    margin: 0 0 28px;
+    margin: 0 0 24px;
     text-wrap: balance;
   }
   .meth-os-h2 :global(i) { font-style: italic; color: var(--accent); }
-
   .meth-os-body {
     font-family: var(--font-sans);
     color: var(--muted);
     font-size: 15px;
-    line-height: 1.7;
-    margin: 0 0 14px;
-    max-width: 680px;
+    line-height: 1.65;
+    margin: 0 0 12px;
+    max-width: 640px;
   }
   .meth-os-body:last-child { margin-bottom: 0; }
 
@@ -128,7 +189,6 @@ const timelineEvents = phases.map(p => ({
     gap: clamp(28px, 4vw, 56px);
     flex-wrap: wrap;
   }
-
   .meth-cta-h2 {
     font-family: var(--font-display);
     font-size: clamp(28px, 3.5vw, 52px);
@@ -139,30 +199,39 @@ const timelineEvents = phases.map(p => ({
     flex: 1 1 360px;
     text-wrap: balance;
   }
-
+  .meth-cta-btns {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-shrink: 0;
+  }
   .meth-cta-btn {
     display: inline-block;
     font-family: var(--font-mono);
     font-size: 13px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--paper);
-    background: var(--ink);
     padding: 16px 36px;
     border: 1px solid var(--ink);
-    transition: background 220ms var(--ease), border-color 220ms var(--ease);
+    transition: background 220ms var(--ease), border-color 220ms var(--ease), color 220ms var(--ease);
     text-decoration: none;
     white-space: nowrap;
   }
-  .meth-cta-btn:hover { background: var(--accent); border-color: var(--accent); }
+  .meth-cta-btn--primary {
+    color: var(--paper);
+    background: var(--ink);
+  }
+  .meth-cta-btn--primary:hover { background: var(--accent); border-color: var(--accent); }
+  .meth-cta-btn--ghost {
+    color: var(--ink);
+    background: transparent;
+  }
+  .meth-cta-btn--ghost:hover { background: var(--ink); color: var(--paper); }
 
   @media (max-width: 700px) {
     .meth-os { padding-inline: 24px; }
     .meth-cta { flex-direction: column; align-items: flex-start; }
-  }
-
-  .meth-diagram {
-    margin: clamp(48px, 6vw, 80px) 0;
-    max-width: 900px;
+    .meth-cta-btns { flex-direction: column; align-items: flex-start; }
   }
 </style>
