@@ -128,7 +128,7 @@ const additionalLd = additionalJsonLd
     <ProgressBar />
     <CursorDot />
     <Header />
-    <main id="main">
+    <main id="main" tabindex="-1">
       <slot />
     </main>
     <Footer />
@@ -220,3 +220,10 @@ const additionalLd = additionalJsonLd
     </script>
   </body>
 </html>
+
+<style>
+  main[id="main"]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 6px;
+  }
+</style>

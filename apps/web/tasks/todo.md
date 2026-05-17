@@ -7,7 +7,7 @@
 - [x] Créer `docs/SESSION-HANDOFF-CURRENT.md` pour stabiliser la reprise sur la prochaine session
 - [x] Créer l’arborescence `/tmp/codex-missions/sessions/` avec briefs prêts pour `session-02` à `session-07` et placeholders `session-08` à `session-10`
 - [x] Créer le marker `/tmp/codex-missions/waimia-master-plan/DONE.md`
-- [ ] Exécuter `session-02-a11y` en suivant `docs/35-MASTER-PLAN-SITE-READY.md` et `docs/SESSION-HANDOFF-CURRENT.md`
+- [x] Exécuter `session-02-a11y` en suivant `docs/35-MASTER-PLAN-SITE-READY.md` et `docs/SESSION-HANDOFF-CURRENT.md`
 
 ## Batch H — Legacy templates + dead code elimination
 

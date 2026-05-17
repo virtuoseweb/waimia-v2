@@ -11,12 +11,15 @@ const { items, lang = 'fr' } = Astro.props;
 ---
 <nav class="breadcrumb" aria-label={lang === 'fr' ? "Fil d'Ariane" : 'Breadcrumb'}>
   <ol>
-    {items.map((c, i) => (
+    {items.map((c, i) => {
+      const isCurrent = i === items.length - 1;
+      return (
       <li>
-        {c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+        {!isCurrent && c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
         {i < items.length - 1 && <span class="sep" aria-hidden>/</span>}
       </li>
-    ))}
+      );
+    })}
   </ol>
 </nav>
 
@@ -58,6 +61,16 @@ const { items, lang = 'fr' } = Astro.props;
   .breadcrumb a:hover {
     color: var(--accent);
     border-bottom-color: var(--accent);
+  }
+  .breadcrumb a:focus-visible {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  .breadcrumb [aria-current="page"] {
+    color: var(--ink);
   }
   .breadcrumb .sep {
     color: var(--hairline-strong);

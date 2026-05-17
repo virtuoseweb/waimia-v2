@@ -4,6 +4,8 @@
 
 - Pour une mission de planification multi-sessions sur Waimia, croiser `docs/16-EXECUTION-TRACKER.md` avec `docs/SESSION-HANDOFF-PHASE-1.md` avant de planifier : le tracker garde 94 tâches ouvertes, mais le handoff clôt déjà 9/9 batchs Phase 1 Design ; sinon on risque de réouvrir des chantiers déjà fermés.
 - Si `docs/SESSION-HANDOFF-CURRENT.md` n’existe pas, le créer explicitement dans la même session que le plan maître ; sans ce relais, la continuité entre sessions reste dépendante d’un handoff historique figé et le prochain agent repart en exploration.
+- Pour le header Waimia, cacher un mega menu ou le sheet mobile uniquement en CSS ne suffit pas : il faut synchroniser `aria-hidden` et `inert`, puis rendre le focus au trigger sur `Escape` pour conserver un parcours clavier continu.
+- Dans `Breadcrumb.astro`, forcer le dernier item en `aria-current="page"` même si un `href` est fourni évite de rendre la page courante cliquable et stabilise le contrat d’accessibilité côté templates.
 
 ## Batch H — Legacy templates + dead code elimination
 
