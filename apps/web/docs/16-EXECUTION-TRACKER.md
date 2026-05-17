@@ -248,9 +248,9 @@ Bloque l'avancée du tracker T6.6 / T7 / T9 jusqu'à validation des 5 axes ci-de
 
 - [✅] **T14.2a** · Audit prerender empirique (commit `c68acd3` audit Opus) · 119 pages prerender=true · 7 API routes server · `output: 'server'` actuel · 1 blocker `[...slug].astro`
 - [✅] **T14.2b** · Investigation cause racine crash `[...slug] + prerender=true` (commit `c68acd3` audit Opus) · Rolldown 1.0.0-rc.17 `tsconfigPaths Missing field` + Vite/Tailwind 4 · commit fautif `86c01a9` · dpl_4kh6QP1 ERROR
-- [ ] **T14.2c** · Test reverse du REVERT avec versions actuelles · vérifier si bug fixé upstream
-- [ ] **T14.2d** · Si bug persiste : strategy alternative (séparer catch-all en pages explicites OU upgrade Rolldown OU désactiver tsconfigPaths)
-- [ ] **T14.2e** · Migration `output: 'server'` → `output: 'static'` · inverser le défaut, SSR opt-in
+- [✅] **T14.2c** · Test reverse REVERT 2026-05-17 (Opus direct) · `prerender = true` ajouté sur `[...slug].astro` · `pnpm build → Server built in 6.01s, Complete!` ✅ · **Bug Rolldown FIXÉ upstream** dans Astro 6.1.9 / Vercel 10.0.5 / Tailwind 4.2.4 · Warning non-bloquant `Astro.request.headers` sur pages prerender (à traiter Phase 3 optim)
+- [~] **T14.2d** · Strategy alternative · **OBSOLÈTE** car T14.2c a réussi (bug fixé upstream, pas de fix workaround nécessaire)
+- [ ] **T14.2e** · Migration `output: 'server'` → `output: 'static'` · DÉBLOQUÉ par T14.2c · à exécuter **après Phase 1 Design** (mandat Simon : design parfait avant optimisation)
 - [ ] **T14.2f** · Audit pages restantes sans prerender · décision SSG/ISR/SSR pour chacune
 - [ ] **T14.2g** · ISR config hubs collection-driven (TTL 1h) · /ressources/index, /blog, /cookbooks, etc.
 - [ ] **T14.2h** · Build + Vercel preview · valider 0 régression sur 119 pages

@@ -10,10 +10,12 @@
 //   /technologies/<slug> → TechnologiesDetailTemplate (placeholder)
 //   *                    → Stub minimal (hubs, autres routes)
 //
-// REVERT : tentative `export const prerender = true;` causait un crash
-// Vite/Tailwind 4 + Rolldown 1.0.0-rc.17 (bug `tsconfigPaths` Missing field).
-// Build Vercel ERROR sur dpl_4kh6QP1 (commit 86c01a9). Investigation 404
-// API routes à reprendre avec une autre approche.
+// TEST 2026-05-17 (Axe 2 T14.2c) : reverse du REVERT pour vérifier
+// si le bug Rolldown 1.0.0-rc.17 / Vite / Tailwind 4 / tsconfigPaths
+// est fixé upstream (commit fautif `86c01a9`, dpl_4kh6QP1).
+// → Si crash : revert immédiat + doc cause précise.
+// → Si OK : migration SSG globale débloquée (T14.2e).
+export const prerender = true;
 
 import Base from '../layouts/Base.astro';
 import Stub from '../components/ui/organisms/Stub.astro';
