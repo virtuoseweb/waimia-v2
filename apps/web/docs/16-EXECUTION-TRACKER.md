@@ -268,6 +268,9 @@ Bloque l'avancée du tracker T6.6 / T7 / T9 jusqu'à validation des 5 axes ci-de
 - [ ] **T14.3g** · Audit props/islands : `client:load|idle|visible` justifié sur chaque island
 - [ ] **T14.3h** · Tests visuels Playwright snapshots des composants critiques (régression DS)
 - [✅] **T14.4-J** · Batch J priorité absolue · 4 tokens CSS fantômes fix (commit `90d77d6`, Worker 5 Sonnet) · `global.css` 4 lignes · rupture typo h1/h2/h3/code restaurée toutes pages
+- [✅] **T14.4-H** · Batch H legacy templates + dead code (commit `4e65af0`, Worker Codex) · 3 éliminations chirurgicales (FormationDetail 484 LoC + BreadcrumbSchema + MetricStrip) + migration `/ecole/cours/[slug]` vers CourseDetailTemplate · 667 LoC modifiées · audit visuel before/after versionné
+- [✅] **T14.4-F** · Batch F ProcessSteps → MethodTimeline (commit `83e8098`, Worker Sonnet fallback Codex limit) · 3 templates migrés (CaseStudy/ServiceDetail/DetailMenu) + MethodTimeline header conditionnel · ProcessSteps 124 LoC supprimé · audit visuel before/after versionné
+- [✅] **T14.5-Verdicts** · 5 doublons ambigus tranchés selon contrat doc 28 (commit `64cb585`, doc 34-AMBIGUS-VERDICTS-OPUS) · ProofBand Tier 2 WIP · Related 2 rôles distincts · PricingTier @internal · 3 timelines scopes distincts · Hero variants Tier 2 licites
 
 #### Axe 4 · Cohérence CSS — tokens vs hardcoded
 
