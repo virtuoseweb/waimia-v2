@@ -5,9 +5,10 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import EcoleHubTemplate from '../../components/templates/EcoleHubTemplate.astro';
 
-const formations = await getCollection('formations');
-const parcoursCollection = await getCollection('parcours').catch(() => []);
-const ateliersCollection = await getCollection('ateliers').catch(() => []);
+const allCourses = await getCollection('courses');
+const formations = allCourses.filter((c) => c.data.course_type === 'formation');
+const parcoursCollection = allCourses.filter((c) => c.data.course_type === 'parcours');
+const ateliersCollection = allCourses.filter((c) => c.data.course_type === 'atelier');
 const lang = Astro.url.pathname.startsWith('/en/') ? 'en' : 'fr';
 
 const title = lang === 'fr'

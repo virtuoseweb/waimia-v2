@@ -1,5 +1,26 @@
 # Todo
 
+## T9.2 — 6 articles blog « notes » + « avis »
+
+- [x] Lire le pattern frontmatter, les leçons et le suivi local avant rédaction
+- [x] Vérifier le schéma `blog` et étendre `editorialType` pour accepter `Note` et `Review`
+- [x] Créer les 6 fichiers MDX bilingues demandés dans `src/content/blog/`
+- [x] Respecter les frontmatters exacts demandés, les slugs, `publishedAt: 2026-05-16` et les catégories
+- [x] Vérifier hors build les longueurs `description_fr` et `description_en` (< 160) pour chaque fichier
+- [x] Vérifier hors build la présence du séparateur bilingue `---` et les volumes FR/EN de chaque article
+- [x] Créer le marker `/tmp/codex-missions/tier9-2-blog-notes/DONE.md`
+- [x] Ne pas lancer `npm run build`, `astro check`, `tsc` ni `git`, conformément à la mission
+
+## T2.5 — Design System showcase enrichi + miroir EN
+
+- [x] Audit existant `src/pages/agence/design-system.astro` (1431 lignes, 19 sections W6 déjà présentes)
+- [x] Identifier lacunes : NewsletterSignup, PainPointInline, ShareButtons, inputs, animations, miroir EN
+- [x] Mission Codex : enrichir FR (+157 lignes → 1588) + créer EN (26 KB)
+- [x] Vérification imports (zéro manquant FR et EN)
+- [x] Section #animations ajoutée (reveal-fade, reveal-up, clip-up, blur-in, magnetic)
+- [x] Renumérotation ChapterLabel (Editorial 08, Motion 09, Templates 10)
+- [x] Miroir EN créé : `src/pages/en/agence/design-system.astro`
+
 ## T5.3 — 10 comparisons MDX + pages /comparer
 
 - [x] Lire les regles, lecons, todo, schema `comparisons` et patterns `integrations`

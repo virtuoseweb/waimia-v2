@@ -693,100 +693,7 @@ const welcomePages = defineCollection({
   }),
 });
 
-// ─── École : Formations (cours unitaires) ───
-const formations = defineCollection({
-  loader: glob({ pattern: '**/*.mdx', base: './src/content/ecole/formations' }),
-  schema: z.object({
-    ...baseFields,
-    ...taxonomyFields,
-    format: z.enum(['video', 'texte', 'live', 'mixte', 'sprint']),
-    duration_hours: z.number().positive(),
-    level: z.enum(['debutant', 'intermediaire', 'avance', 'expert']),
-    prerequisites_fr: z.array(z.string()).default([]),
-    prerequisites_en: z.array(z.string()).default([]),
-    learning_objectives_fr: z.array(z.string()).min(3).max(8),
-    learning_objectives_en: z.array(z.string()).min(3).max(8),
-    modules: z
-      .array(
-        z.object({
-          num: z.string(),
-          title_fr: z.string(),
-          title_en: z.string(),
-          duration_minutes: z.number().int().positive(),
-          type: z.enum(['lecture', 'exercice', 'projet', 'evaluation']),
-        }),
-      )
-      .min(3),
-    instructor: reference('authors'),
-    pricing: z
-      .object({
-        currency: z.literal('EUR'),
-        one_time_eur: z.number().int().nonnegative().optional(),
-        subscription_eur: z.number().int().nonnegative().optional(),
-        stripe_payment_link: z.string().url().optional(),
-      })
-      .optional(),
-    next_session_at: z.coerce.date().optional(),
-    seats_total: z.number().int().positive().optional(),
-    seats_remaining: z.number().int().nonnegative().optional(),
-    certification: z.boolean().default(false),
-    related_offres: z.array(z.string()).default([]),
-  }),
-});
-
-// ─── École : Parcours (séquences de cours) ───
-const parcours = defineCollection({
-  loader: glob({ pattern: '**/*.mdx', base: './src/content/ecole/parcours' }),
-  schema: z.object({
-    ...baseFields,
-    ...taxonomyFields,
-    duration_weeks: z.number().int().positive(),
-    total_hours: z.number().positive(),
-    level: z.enum(['debutant', 'intermediaire', 'avance', 'expert']),
-    target_audience: z.array(
-      z.enum([
-        'ceo',
-        'cto',
-        'cmo',
-        'cso',
-        'cfo',
-        'marketing-manager',
-        'sales-manager',
-        'product-manager',
-        'developer',
-        'designer',
-        'consultant',
-      ]),
-    ),
-    courses: z.array(z.string()).min(2),
-    outcomes_fr: z.array(z.string()).min(3),
-    outcomes_en: z.array(z.string()).min(3),
-    pricing_eur: z.number().int().positive(),
-    stripe_payment_link: z.string().url().optional(),
-    certification: z.boolean().default(true),
-  }),
-});
-
-// ─── École : Ateliers (live ponctuels) ───
-const ateliers = defineCollection({
-  loader: glob({ pattern: '**/*.mdx', base: './src/content/ecole/ateliers' }),
-  schema: z.object({
-    ...baseFields,
-    ...taxonomyFields,
-    scheduled_at: z.coerce.date(),
-    duration_hours: z.number().positive(),
-    format: z.enum(['live-online', 'live-paris', 'live-geneve', 'replay-only']),
-    seats_total: z.number().int().positive(),
-    seats_remaining: z.number().int().nonnegative(),
-    instructor: reference('authors'),
-    pricing_eur: z.number().int().nonnegative().default(0),
-    stripe_payment_link: z.string().url().optional(),
-    replay_available: z.boolean().default(true),
-    recording_url: z.string().url().optional(),
-  }),
-});
-
-// ─── École : Courses · discriminated union (T3.1a — ajout progressif, ne remplace pas formations/parcours/ateliers) ───
+// ─── École : Courses · discriminated union (T3.1a + T3.1f — remplace formations/parcours/ateliers) ───
 const courses = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/ecole/courses' }),
   schema: z.discriminatedUnion('course_type', [
@@ -1388,9 +1295,6 @@ export const collections = {
   // V2 nouvelles (2026-05-15)
   tunnels,
   welcomePages,
-  formations,
-  parcours,
-  ateliers,
   courses,
   produits,
   abonnements,

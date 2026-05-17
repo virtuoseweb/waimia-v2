@@ -6,14 +6,15 @@ import Base from '../../../layouts/Base.astro';
 import FormationDetailTemplate from '../../../components/templates/FormationDetailTemplate.astro';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('formations');
+  const allCourses = await getCollection('courses');
+  const entries = allCourses.filter((c) => c.data.course_type === 'formation');
   return entries.map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
   }));
 }
 
-type Props = { entry: CollectionEntry<'formations'> };
+type Props = { entry: CollectionEntry<'courses'> };
 const { entry } = Astro.props as Props;
 const { Content } = await render(entry);
 const data = entry.data;

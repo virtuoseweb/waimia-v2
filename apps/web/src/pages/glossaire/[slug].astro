@@ -35,9 +35,11 @@ const examples = lang === 'fr' ? data.examples_fr : data.examples_en;
   <article class="glossary-detail">
     <div class="wrap-wide">
       <Breadcrumb
+        lang={lang}
         items={[
-          { href: '/glossaire', label: lang === 'fr' ? 'Glossaire' : 'Glossary' },
-          { href: `/glossaire/${entry.id}`, label: term, current: true },
+          { label: lang === 'fr' ? 'Accueil' : 'Home', href: lang === 'fr' ? '/' : '/en' },
+          { label: lang === 'fr' ? 'Glossaire' : 'Glossary', href: lang === 'fr' ? '/glossaire' : '/en/glossaire' },
+          { label: term },
         ]}
       />
 

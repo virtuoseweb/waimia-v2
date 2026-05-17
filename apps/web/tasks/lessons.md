@@ -1,5 +1,21 @@
 # Lessons
 
+## T9.2 — Articles blog bilingues
+
+- Quand une mission impose un frontmatter « exact » avec de nouvelles valeurs éditoriales, vérifier tout de suite le schéma `blog` : ici `editorialType` n'acceptait pas `Note` ni `Review`, donc il fallait étendre l'enum avant de laisser l'orchestrateur valider.
+- Pour des MDX bilingues avec volume cible par langue, compter séparément les mots FR et EN après le séparateur `---` ; un contrôle visuel suffit rarement à repérer qu'une version EN reste juste sous le plancher.
+
+## T5.3 — Comparisons collection + routes /comparer
+
+- Pour un miroir EN `src/pages/en/...` derive dun snippet FR, il faut adapter les imports relatifs et prefixer les hrefs en `/en`, meme si la logique de langue reste partagee via `langFromPath`.
+- Sur une collection MDX a frontmatter tres contraint, un parse YAML local via Node avant livraison permet de verifier vite les longueurs SEO, les verdicts et le nombre de dimensions sans lancer le build.
+
+## T2.5 — Design system showcase FR/EN
+
+- Pour un miroir EN de design system Astro, un fichier plus court reste acceptable s’il conserve la même navigation logique, des imports strictement réels et au moins un échantillon valide des composants et sections stratégiques.
+- Quand une mission demande une démo motion « réelle », montrer explicitement `data-mag="0.18"` dans le markup et des classes reveal existantes évite de laisser la preuve cachée derrière un prop ou un composant intermédiaire.
+- `npm run build` peut passer alors que `astro check` reste rouge pour des erreurs typées historiques hors périmètre ; documenter précisément les fichiers bloquants évite de confondre dette existante et régression du patch courant.
+
 ## T6.4 — Proof points inline
 
 - Pour la collection `proofPoints`, garder le nom de fichier MDX strictement aligné sur le `slug` frontmatter permet d’utiliser `getEntry('proofPoints', slug)` sans couche de mapping supplémentaire dans les composants éditoriaux.
