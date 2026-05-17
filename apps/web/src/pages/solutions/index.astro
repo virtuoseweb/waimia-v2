@@ -7,7 +7,8 @@ export const prerender = true;
 import Base from '../../layouts/Base.astro';
 import Kicker from '../../components/ui/atoms/Kicker.astro';
 import Cases from '../../components/ui/organisms/Cases.astro';
-import CtaBand from '../../components/ui/organisms/CtaBand.astro';
+import type { SectionByType } from '../../schemas/sections';
+import CtaFinal from '../../components/sections/CtaFinal.astro';
 
 const horizontalSolutions = [
   { num: '01', kicker: 'PROBLÈME · ACQUISITION',
@@ -44,6 +45,17 @@ const transitionIdFromHref = (href: string) =>
     .replace(/\/$/, '')
     .replace(/[^a-z0-9]+/gi, '-')
     .replace(/^-|-$/g, '') || 'home';
+
+const ctaData = {
+  type: 'cta-final' as const,
+  h2_fr: 'Prêt à livrer un <em>agent</em>,<br />pas un slide deck ?',
+  h2_en: 'Ready to ship an <em>agent</em>,<br />not a slide deck?',
+  body_fr: 'Audit IA en 5 jours. Premier agent en production en 4 semaines. ROI mesuré, jamais estimé.',
+  body_en: 'AI audit in 5 days. First agent in production in 4 weeks. Measured ROI, never estimated.',
+  cta_primary: { label_fr: 'Réserver un audit →', label_en: 'Book an audit →', href: '/contact', variant: 'primary' as const },
+  cta_secondary: { label_fr: 'Voir la pyramide →', label_en: 'See the pyramid →', href: '/offres', variant: 'ghost' as const },
+  background: 'paper' as const,
+} satisfies SectionByType<'cta-final'>;
 ---
 <Base
   title="Solutions · 5 cas d'usage business · Waimia"
@@ -105,7 +117,7 @@ const transitionIdFromHref = (href: string) =>
   </section>
 
   <Cases />
-  <CtaBand />
+  <CtaFinal data={ctaData} lang="fr" />
 </Base>
 
 <style>

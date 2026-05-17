@@ -1,5 +1,10 @@
 # Lessons
 
+## Master Plan « Site Ready »
+
+- Pour une mission de planification multi-sessions sur Waimia, croiser `docs/16-EXECUTION-TRACKER.md` avec `docs/SESSION-HANDOFF-PHASE-1.md` avant de planifier : le tracker garde 94 tâches ouvertes, mais le handoff clôt déjà 9/9 batchs Phase 1 Design ; sinon on risque de réouvrir des chantiers déjà fermés.
+- Si `docs/SESSION-HANDOFF-CURRENT.md` n’existe pas, le créer explicitement dans la même session que le plan maître ; sans ce relais, la continuité entre sessions reste dépendante d’un handoff historique figé et le prochain agent repart en exploration.
+
 ## Batch H — Legacy templates + dead code elimination
 
 - `src/pages/ecole/cours/[slug].astro` lisait déjà la collection `courses` ; la migration vers `CourseDetailTemplate` ne demande que le contrat canonique `entry + lang + slot`, sans wrapper `Base` supplémentaire puisque le template l'embarque déjà.

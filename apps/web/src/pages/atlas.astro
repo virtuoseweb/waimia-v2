@@ -10,7 +10,8 @@ import AtlasGrid       from '../components/ui/organisms/AtlasGrid.astro';
 import PersonaSwitcher from '../components/ui/organisms/PersonaSwitcher.astro';
 import Cases           from '../components/ui/organisms/Cases.astro';
 import FieldNotes      from '../components/ui/organisms/FieldNotes.astro';
-import CtaBand         from '../components/ui/organisms/CtaBand.astro';
+import type { SectionByType } from '../schemas/sections';
+import CtaFinal from '../components/sections/CtaFinal.astro';
 import AtlasConnections from '../components/motion/AtlasConnections.astro';
 
 import { langFromPath, localizeHref } from '../lib/i18n';
@@ -29,6 +30,17 @@ const pillars = lang === 'fr'
       { num: '03', label: 'Orchestration',   desc: 'Wire AI agents into existing tools.',                 deliverable: 'Live workflows · monitoring' },
       { num: '04', label: 'Sovereignty',     desc: 'Retain ownership of the AI layer.',                   deliverable: 'Code · data · runbook transferred' },
     ];
+
+const ctaData = {
+  type: 'cta-final' as const,
+  h2_fr: 'Prêt à livrer un <em>agent</em>,<br />pas un slide deck ?',
+  h2_en: 'Ready to ship an <em>agent</em>,<br />not a slide deck?',
+  body_fr: 'Audit IA en 5 jours. Premier agent en production en 4 semaines. ROI mesuré, jamais estimé.',
+  body_en: 'AI audit in 5 days. First agent in production in 4 weeks. Measured ROI, never estimated.',
+  cta_primary: { label_fr: 'Réserver un audit →', label_en: 'Book an audit →', href: localizeHref('/contact', lang), variant: 'primary' as const },
+  cta_secondary: { label_fr: 'Voir la pyramide →', label_en: 'See the pyramid →', href: localizeHref('/offres', lang), variant: 'ghost' as const },
+  background: 'paper' as const,
+} satisfies SectionByType<'cta-final'>;
 ---
 <Base
   title={lang === 'fr' ? "Waimia · Atlas — quatre portes d'entrée" : 'Waimia · Atlas — four entry doors'}
@@ -121,7 +133,7 @@ const pillars = lang === 'fr'
   <PersonaSwitcher />
   <Cases />
   <FieldNotes />
-  <CtaBand />
+  <CtaFinal data={ctaData} lang={lang} />
 </Base>
 
 <style>
