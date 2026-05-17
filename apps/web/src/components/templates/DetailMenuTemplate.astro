@@ -15,7 +15,7 @@
 import Base from '../../layouts/Base.astro';
 import Bi from '../ui/atoms/Bi.astro';
 import Kicker from '../ui/atoms/Kicker.astro';
-import StatRow from '../ui/molecules/StatRow.astro';
+import ProofBarSection from '../sections/ProofBarSection.astro';
 import MethodTimeline from '../sections/MethodTimeline.astro';
 import { langFromPath } from '../../lib/i18n';
 import ProofBand from '../ui/molecules/ProofBand.astro';
@@ -76,7 +76,14 @@ const lang = langFromPath(Astro.url.pathname);
       <Kicker tone="accent" class="dt-section-k">§ 02 · <Bi fr="Le problème" en="The problem" /></Kicker>
       <p class="dt-problem-text"><slot name="problem" /></p>
       <div class="dt-problem-stats">
-        <StatRow stats={annotation} />
+        <ProofBarSection
+          data={{
+            type: 'proof-bar',
+            layout: 'horizontal',
+            metrics: annotation.map((s) => ({ value: s.k, label_fr: s.label_fr, label_en: s.label_en, emphasis: false })),
+          }}
+          lang={lang}
+        />
       </div>
     </div>
   </section>

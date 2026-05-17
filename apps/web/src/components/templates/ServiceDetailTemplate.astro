@@ -23,7 +23,7 @@ import ProofBand from '../ui/molecules/ProofBand.astro';
 import TechPillRow from '../ui/molecules/TechPillRow.astro';
 import RelatedCards from '../ui/molecules/RelatedCards.astro';
 import CtaBand from '../ui/organisms/CtaBand.astro';
-import StatRow from '../ui/molecules/StatRow.astro';
+import ProofBarSection from '../sections/ProofBarSection.astro';
 
 interface Stat {
   k: string;
@@ -101,7 +101,14 @@ const hasProof = proofQuoteFr && proofQuoteEn && proofMetrics;
       <p class="svc-problem-text"><slot name="problem" /></p>
       {problemStats && (
         <div class="svc-problem-stats">
-          <StatRow stats={problemStats} />
+          <ProofBarSection
+            data={{
+              type: 'proof-bar',
+              layout: 'horizontal',
+              metrics: problemStats.map((s) => ({ value: s.k, label_fr: s.label_fr, label_en: s.label_en, emphasis: false })),
+            }}
+            lang={lang}
+          />
         </div>
       )}
     </div>

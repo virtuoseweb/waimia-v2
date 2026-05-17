@@ -19,7 +19,7 @@ import BootSplash from '../components/motion/BootSplash.astro';
 import ScrollProgress from '../components/ui/atoms/ScrollProgress.astro';
 
 import Hero                from '../components/ui/organisms/Hero.astro';
-import ProofBar            from '../components/ui/organisms/ProofBar.astro';
+import ProofBarSection     from '../components/sections/ProofBarSection.astro';
 import SocialProof         from '../components/sections/SocialProof.astro';
 import FeatureGrid         from '../components/sections/FeatureGrid.astro';
 import SystemArchitecture  from '../components/ui/organisms/SystemArchitecture.astro';
@@ -33,8 +33,21 @@ import BookSession         from '../components/ui/organisms/BookSession.astro';
 import FooterMarquee       from '../components/ui/organisms/FooterMarquee.astro';
 import SectionTransition   from '../components/ui/atoms/SectionTransition.astro';
 
-import { CLIENT_LOGOS, CAPABILITY_MAP } from '../data/sitemap';
+import { CLIENT_LOGOS, CAPABILITY_MAP, HERO_METRICS } from '../data/sitemap';
 import { buildOrganization } from '../lib/seo/schema-builder';
+
+const proofBarData = {
+  type: 'proof-bar' as const,
+  layout: 'horizontal' as const,
+  kicker_fr: '§ 02 · PREUVES',
+  kicker_en: '§ 02 · PROOFS',
+  metrics: HERO_METRICS.map((m) => ({
+    value: m.n,
+    label_fr: m.label.fr,
+    label_en: m.label.en,
+    emphasis: false,
+  })),
+};
 
 const socialProofData = {
   type: 'social-proof' as const,
@@ -105,8 +118,8 @@ const faqItems = [
   {/* 01 — Hero · promesse + mini-map 6 territoires + CTAs (V7 §12) */}
   <Hero />
 
-  {/* 02 — ProofBar · 4 metrics canoniques + disclamer anonymisé (V7 §13) */}
-  <ProofBar />
+  {/* 02 — ProofBarSection · 4 metrics canoniques (V7 §13) */}
+  <ProofBarSection data={proofBarData} lang="fr" />
 
   <SectionTransition phrase="Promesse vérifiable, pas discours." />
 
